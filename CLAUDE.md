@@ -1,0 +1,41 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Structure
+
+This is a C# .NET 9.0 library project for libz3 wrapper functionality. The project structure follows standard .NET conventions:
+
+- `z3lib.sln` - Visual Studio solution file containing the main library and test projects
+- `z3lib/` - Main library project directory
+  - `z3lib.csproj` - Project file targeting .NET 9.0 with nullable reference types enabled
+  - `NativeMethods.cs` - P/Invoke declarations and dynamic library loading for Z3 C API
+- `tests/` - Test project directory
+  - `tests.csproj` - NUnit test project
+  - `NativeMethodsTests.cs` - Tests for P/Invoke functionality
+- `PLAN.md` - Implementation plan for the Z3 wrapper
+
+## Build Commands
+
+The project uses the standard .NET CLI commands:
+
+- `dotnet build` - Build the library
+- `dotnet build --configuration Release` - Build in release mode
+- `dotnet clean` - Clean build artifacts
+- `dotnet test` - Run tests (requires libz3 to be available)
+
+## Naming Conventions
+
+The project follows these C# naming conventions:
+
+- **Fields**: camelCase (e.g., `libraryHandle`, `FunctionPointers`)
+- **Methods**: PascalCase with Z3 prefix (e.g., `Z3MkConfig`, `Z3DelContext`)
+- **Parameters**: camelCase (e.g., `paramId`, `paramValue`)
+- **Delegate Types**: PascalCase with Z3 prefix and Delegate suffix (e.g., `Z3MkConfigDelegate`)
+
+## Development Notes
+
+- The project targets .NET 9.0 with implicit usings and nullable reference types enabled
+- This is a wrapper library for libz3 (Microsoft Z3 theorem prover)
+- Uses dynamic library loading via `NativeMethods.LoadLibrary()` to specify libz3 path at runtime
+- All Z3 C API functions are wrapped with proper C# naming conventions
