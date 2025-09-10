@@ -42,3 +42,13 @@ The project follows these C# naming conventions:
 - This is a wrapper library for libz3 (Microsoft Z3 theorem prover)
 - Uses dynamic library loading via `NativeMethods.LoadLibrary()` to specify libz3 path at runtime
 - All Z3 C API functions are wrapped with proper C# naming conventions
+
+## Memory Management
+
+- **Z3Context** uses reference-counted context (`Z3_mk_context_rc`) which automatically manages memory
+- **Z3Expr classes** do NOT implement IDisposable - expressions are automatically managed by the context
+- Expressions are cleaned up automatically when:
+  - They go out of scope in C#
+  - The context is disposed  
+  - Z3's automatic reference counting determines they're no longer needed
+- Only dispose Z3Context explicitly - expressions handle themselves

@@ -25,6 +25,32 @@ public static class NativeMethods
         LoadFunction("Z3_mk_context_rc");
         LoadFunction("Z3_del_context");
         LoadFunction("Z3_update_param_value");
+        LoadFunction("Z3_inc_ref");
+        LoadFunction("Z3_dec_ref");
+        
+        // Sort functions
+        LoadFunction("Z3_mk_bool_sort");
+        LoadFunction("Z3_mk_int_sort");
+        LoadFunction("Z3_mk_real_sort");
+        
+        // Expression functions
+        LoadFunction("Z3_mk_const");
+        LoadFunction("Z3_mk_string_symbol");
+        LoadFunction("Z3_mk_true");
+        LoadFunction("Z3_mk_false");
+        LoadFunction("Z3_mk_eq");
+        LoadFunction("Z3_mk_and");
+        LoadFunction("Z3_mk_or");
+        LoadFunction("Z3_mk_not");
+        LoadFunction("Z3_mk_add");
+        LoadFunction("Z3_mk_sub");
+        LoadFunction("Z3_mk_mul");
+        LoadFunction("Z3_mk_div");
+        LoadFunction("Z3_mk_lt");
+        LoadFunction("Z3_mk_le");
+        LoadFunction("Z3_mk_gt");
+        LoadFunction("Z3_mk_ge");
+        LoadFunction("Z3_mk_numeral");
     }
 
     private static void LoadFunction(string functionName)
@@ -85,10 +111,192 @@ public static class NativeMethods
         func(ctx, paramId, paramValue);
     }
 
+    public static void Z3IncRef(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_inc_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3IncRefDelegate>(funcPtr);
+        func(ctx, ast);
+    }
+
+    public static void Z3DecRef(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_dec_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3DecRefDelegate>(funcPtr);
+        func(ctx, ast);
+    }
+
+    // Sort functions
+    public static IntPtr Z3MkBoolSort(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bool_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBoolSortDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    public static IntPtr Z3MkIntSort(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_int_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkIntSortDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    public static IntPtr Z3MkRealSort(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_real_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkRealSortDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    // Expression functions
+    public static IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_const");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkConstDelegate>(funcPtr);
+        return func(ctx, symbol, sort);
+    }
+
+    public static IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_string_symbol");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkStringSymbolDelegate>(funcPtr);
+        return func(ctx, str);
+    }
+
+    public static IntPtr Z3MkTrue(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_true");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkTrueDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    public static IntPtr Z3MkFalse(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_false");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkFalseDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    public static IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_eq");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkEqDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_and");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkAndDelegate>(funcPtr);
+        return func(ctx, numArgs, args);
+    }
+
+    public static IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_or");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkOrDelegate>(funcPtr);
+        return func(ctx, numArgs, args);
+    }
+
+    public static IntPtr Z3MkNot(IntPtr ctx, IntPtr arg)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_not");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkNotDelegate>(funcPtr);
+        return func(ctx, arg);
+    }
+
+    public static IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_add");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkAddDelegate>(funcPtr);
+        return func(ctx, numArgs, args);
+    }
+
+    public static IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_sub");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSubDelegate>(funcPtr);
+        return func(ctx, numArgs, args);
+    }
+
+    public static IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_mul");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkMulDelegate>(funcPtr);
+        return func(ctx, numArgs, args);
+    }
+
+    public static IntPtr Z3MkDiv(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_div");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkDivDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkLt(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_lt");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkLtDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkLe(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_le");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkLeDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkGt(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_gt");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkGtDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkGe(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_ge");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkGeDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_numeral");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkNumeralDelegate>(funcPtr);
+        return func(ctx, numeral, sort);
+    }
+
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextRcDelegate(IntPtr cfg);
     private delegate void Z3DelContextDelegate(IntPtr ctx);
     private delegate void Z3UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
+    private delegate void Z3IncRefDelegate(IntPtr ctx, IntPtr ast);
+    private delegate void Z3DecRefDelegate(IntPtr ctx, IntPtr ast);
+    
+    // Sort delegates
+    private delegate IntPtr Z3MkBoolSortDelegate(IntPtr ctx);
+    private delegate IntPtr Z3MkIntSortDelegate(IntPtr ctx);
+    private delegate IntPtr Z3MkRealSortDelegate(IntPtr ctx);
+    
+    // Expression delegates
+    private delegate IntPtr Z3MkConstDelegate(IntPtr ctx, IntPtr symbol, IntPtr sort);
+    private delegate IntPtr Z3MkStringSymbolDelegate(IntPtr ctx, IntPtr str);
+    private delegate IntPtr Z3MkTrueDelegate(IntPtr ctx);
+    private delegate IntPtr Z3MkFalseDelegate(IntPtr ctx);
+    private delegate IntPtr Z3MkEqDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkAndDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr Z3MkOrDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr Z3MkNotDelegate(IntPtr ctx, IntPtr arg);
+    private delegate IntPtr Z3MkAddDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr Z3MkSubDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr Z3MkMulDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr Z3MkDivDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkLtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkLeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkGeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
 }

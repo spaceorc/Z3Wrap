@@ -2,11 +2,12 @@ using System.Runtime.InteropServices;
 
 namespace z3lib;
 
-public class Z3Context : IDisposable
+public partial class Z3Context : IDisposable
 {
     private IntPtr configHandle;
     private IntPtr contextHandle;
     private bool disposed;
+    private readonly HashSet<IntPtr> trackedExpressions = new();
 
     public Z3Context()
     {
@@ -60,6 +61,13 @@ public class Z3Context : IDisposable
         }
     }
 
+    private void TrackExpression(IntPtr handle)
+    {
+        ThrowIfDisposed();
+        NativeMethods.Z3IncRef(contextHandle, handle);
+        trackedExpressions.Add(handle);
+    }
+
     private void ThrowIfDisposed()
     {
         if (disposed)
@@ -72,6 +80,13 @@ public class Z3Context : IDisposable
         {
             if (contextHandle != IntPtr.Zero)
             {
+                // Clean up all tracked expressions first
+                foreach (var exprHandle in trackedExpressions)
+                {
+                    NativeMethods.Z3DecRef(contextHandle, exprHandle);
+                }
+                trackedExpressions.Clear();
+
                 NativeMethods.Z3DelContext(contextHandle);
                 contextHandle = IntPtr.Zero;
             }
