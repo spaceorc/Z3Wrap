@@ -15,7 +15,7 @@ public class NativeMethodsTests
     {
         var config = NativeMethods.Z3MkConfig();
         Assert.That(config, Is.Not.EqualTo(IntPtr.Zero));
-        
+
         NativeMethods.Z3DelConfig(config);
         Assert.Pass();
     }
@@ -25,10 +25,10 @@ public class NativeMethodsTests
     {
         var config = NativeMethods.Z3MkConfig();
         Assert.That(config, Is.Not.EqualTo(IntPtr.Zero));
-        
+
         var context = NativeMethods.Z3MkContext(config);
         Assert.That(context, Is.Not.EqualTo(IntPtr.Zero));
-        
+
         NativeMethods.Z3DelContext(context);
         NativeMethods.Z3DelConfig(config);
         Assert.Pass();
@@ -39,10 +39,10 @@ public class NativeMethodsTests
     {
         var config = NativeMethods.Z3MkConfig();
         Assert.That(config, Is.Not.EqualTo(IntPtr.Zero));
-        
+
         var context = NativeMethods.Z3MkContextRc(config);
         Assert.That(context, Is.Not.EqualTo(IntPtr.Zero));
-        
+
         NativeMethods.Z3DelContext(context);
         NativeMethods.Z3DelConfig(config);
         Assert.Pass();

@@ -28,10 +28,13 @@ The project uses the standard .NET CLI commands:
 
 The project follows these C# naming conventions:
 
-- **Fields**: camelCase (e.g., `libraryHandle`, `FunctionPointers`)
-- **Methods**: PascalCase with Z3 prefix (e.g., `Z3MkConfig`, `Z3DelContext`)
-- **Parameters**: camelCase (e.g., `paramId`, `paramValue`)
+- **Private Fields**: camelCase without underscores (e.g., `libraryHandle`, `contextHandle`, `disposed`)
+- **Public Properties**: PascalCase (e.g., `Handle`)
+- **Methods**: PascalCase with Z3 prefix for native methods (e.g., `Z3MkConfig`, `Z3DelContext`)
+- **Parameters**: camelCase (e.g., `paramId`, `paramValue`)  
+- **Local Variables**: camelCase (e.g., `paramNamePtr`, `paramValuePtr`)
 - **Delegate Types**: PascalCase with Z3 prefix and Delegate suffix (e.g., `Z3MkConfigDelegate`)
+- **Classes**: PascalCase with Z3 prefix (e.g., `Z3Context`)
 
 ## Development Notes
 
