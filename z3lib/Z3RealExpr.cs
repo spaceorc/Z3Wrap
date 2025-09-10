@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices;
-using System.Globalization;
-
 namespace z3lib;
 
 public class Z3RealExpr : Z3Expr
@@ -9,75 +6,21 @@ public class Z3RealExpr : Z3Expr
     {
     }
 
-    public static Z3RealExpr operator +(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkAdd(left, right);
-    }
-
-    public static Z3RealExpr operator -(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkSub(left, right);
-    }
-
-    public static Z3RealExpr operator *(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkMul(left, right);
-    }
-
-    public static Z3RealExpr operator /(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkDiv(left, right);
-    }
-
-    public static Z3BoolExpr operator <(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkLt(left, right);
-    }
-
-    public static Z3BoolExpr operator <=(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkLe(left, right);
-    }
-
-    public static Z3BoolExpr operator >(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkGt(left, right);
-    }
-
-    public static Z3BoolExpr operator >=(Z3RealExpr left, Z3RealExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        
-
-        return left.context.MkGe(left, right);
-    }
+    public static Z3RealExpr operator +(Z3RealExpr left, Z3RealExpr right) => left.Context.MkAdd(left, right);
+    public static Z3RealExpr operator -(Z3RealExpr left, Z3RealExpr right) => left.Context.MkSub(left, right);
+    public static Z3RealExpr operator *(Z3RealExpr left, Z3RealExpr right) => left.Context.MkMul(left, right);
+    public static Z3RealExpr operator /(Z3RealExpr left, Z3RealExpr right) => left.Context.MkDiv(left, right);
+    public static Z3BoolExpr operator <(Z3RealExpr left, Z3RealExpr right) => left.Context.MkLt(left, right);
+    public static Z3BoolExpr operator <=(Z3RealExpr left, Z3RealExpr right) => left.Context.MkLe(left, right);
+    public static Z3BoolExpr operator >(Z3RealExpr left, Z3RealExpr right) => left.Context.MkGt(left, right);
+    public static Z3BoolExpr operator >=(Z3RealExpr left, Z3RealExpr right) => left.Context.MkGe(left, right);
+    
+    public Z3RealExpr Add(Z3RealExpr other) => this + other;
+    public Z3RealExpr Sub(Z3RealExpr other) => this - other;
+    public Z3RealExpr Mul(Z3RealExpr other) => this * other;
+    public Z3RealExpr Div(Z3RealExpr other) => this / other;
+    public Z3BoolExpr Lt(Z3RealExpr other) => this < other;
+    public Z3BoolExpr Le(Z3RealExpr other) => this <= other;
+    public Z3BoolExpr Gt(Z3RealExpr other) => this > other;
+    public Z3BoolExpr Ge(Z3RealExpr other) => this >= other;
 }

@@ -1,13 +1,11 @@
-using System.Runtime.InteropServices;
-
 namespace z3lib;
 
 public partial class Z3Context : IDisposable
 {
+    private readonly HashSet<IntPtr> trackedExpressions = new();
     private IntPtr configHandle;
     private IntPtr contextHandle;
     private bool disposed;
-    private readonly HashSet<IntPtr> trackedExpressions = new();
 
     public Z3Context()
     {
@@ -47,18 +45,9 @@ public partial class Z3Context : IDisposable
     {
         ThrowIfDisposed();
 
-        var paramNamePtr = Marshal.StringToHGlobalAnsi(paramName);
-        var paramValuePtr = Marshal.StringToHGlobalAnsi(paramValue);
-
-        try
-        {
-            NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
-        }
-        finally
-        {
-            Marshal.FreeHGlobal(paramNamePtr);
-            Marshal.FreeHGlobal(paramValuePtr);
-        }
+        using var paramNamePtr = new AnsiStringPtr(paramName);
+        using var paramValuePtr = new AnsiStringPtr(paramValue);
+        NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
     private void TrackExpression(IntPtr handle)
@@ -82,9 +71,8 @@ public partial class Z3Context : IDisposable
             {
                 // Clean up all tracked expressions first
                 foreach (var exprHandle in trackedExpressions)
-                {
                     NativeMethods.Z3DecRef(contextHandle, exprHandle);
-                }
+
                 trackedExpressions.Clear();
 
                 NativeMethods.Z3DelContext(contextHandle);

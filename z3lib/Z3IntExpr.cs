@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 namespace z3lib;
 
 public class Z3IntExpr : Z3Expr
@@ -8,59 +6,21 @@ public class Z3IntExpr : Z3Expr
     {
     }
 
-    public static Z3IntExpr operator +(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkAdd(left, right);
-    }
-
-    public static Z3IntExpr operator -(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkSub(left, right);
-    }
-
-    public static Z3IntExpr operator *(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkMul(left, right);
-    }
-
-    public static Z3IntExpr operator /(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkDiv(left, right);
-    }
-
-    public static Z3BoolExpr operator <(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkLt(left, right);
-    }
-
-    public static Z3BoolExpr operator <=(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkLe(left, right);
-    }
-
-    public static Z3BoolExpr operator >(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkGt(left, right);
-    }
-
-    public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right)
-    {
-        if (left is null) throw new ArgumentNullException(nameof(left));
-        if (right is null) throw new ArgumentNullException(nameof(right));
-        return left.context.MkGe(left, right);
-    }
+    public static Z3IntExpr operator +(Z3IntExpr left, Z3IntExpr right) => left.Context.MkAdd(left, right);
+    public static Z3IntExpr operator -(Z3IntExpr left, Z3IntExpr right) => left.Context.MkSub(left, right);
+    public static Z3IntExpr operator *(Z3IntExpr left, Z3IntExpr right) => left.Context.MkMul(left, right);
+    public static Z3IntExpr operator /(Z3IntExpr left, Z3IntExpr right) => left.Context.MkDiv(left, right);
+    public static Z3BoolExpr operator <(Z3IntExpr left, Z3IntExpr right) => left.Context.MkLt(left, right);
+    public static Z3BoolExpr operator <=(Z3IntExpr left, Z3IntExpr right) => left.Context.MkLe(left, right);
+    public static Z3BoolExpr operator >(Z3IntExpr left, Z3IntExpr right) => left.Context.MkGt(left, right);
+    public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right) => left.Context.MkGe(left, right);
+    
+    public Z3IntExpr Add(Z3IntExpr other) => this + other;
+    public Z3IntExpr Sub(Z3IntExpr other) => this - other;
+    public Z3IntExpr Mul(Z3IntExpr other) => this * other;
+    public Z3IntExpr Div(Z3IntExpr other) => this / other;
+    public Z3BoolExpr Lt(Z3IntExpr other) => this < other;
+    public Z3BoolExpr Le(Z3IntExpr other) => this <= other;
+    public Z3BoolExpr Gt(Z3IntExpr other) => this > other;
+    public Z3BoolExpr Ge(Z3IntExpr other) => this >= other;
 }
