@@ -2,7 +2,7 @@ namespace z3lib;
 
 public partial class Z3Context : IDisposable
 {
-    private readonly HashSet<IntPtr> trackedExpressions = new();
+    private readonly HashSet<IntPtr> trackedExpressions = [];
     private IntPtr configHandle;
     private IntPtr contextHandle;
     private bool disposed;
@@ -37,7 +37,7 @@ public partial class Z3Context : IDisposable
 
     public void Dispose()
     {
-        Dispose(true);
+        DisposeCore();
         GC.SuppressFinalize(this);
     }
 
@@ -63,34 +63,34 @@ public partial class Z3Context : IDisposable
             throw new ObjectDisposedException(nameof(Z3Context));
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void DisposeCore()
     {
-        if (!disposed)
+        if (disposed)
+            return;
+        
+        if (contextHandle != IntPtr.Zero)
         {
-            if (contextHandle != IntPtr.Zero)
-            {
-                // Clean up all tracked expressions first
-                foreach (var exprHandle in trackedExpressions)
-                    NativeMethods.Z3DecRef(contextHandle, exprHandle);
+            // Clean up all tracked expressions first
+            foreach (var exprHandle in trackedExpressions)
+                NativeMethods.Z3DecRef(contextHandle, exprHandle);
 
-                trackedExpressions.Clear();
+            trackedExpressions.Clear();
 
-                NativeMethods.Z3DelContext(contextHandle);
-                contextHandle = IntPtr.Zero;
-            }
-
-            if (configHandle != IntPtr.Zero)
-            {
-                NativeMethods.Z3DelConfig(configHandle);
-                configHandle = IntPtr.Zero;
-            }
-
-            disposed = true;
+            NativeMethods.Z3DelContext(contextHandle);
+            contextHandle = IntPtr.Zero;
         }
+
+        if (configHandle != IntPtr.Zero)
+        {
+            NativeMethods.Z3DelConfig(configHandle);
+            configHandle = IntPtr.Zero;
+        }
+
+        disposed = true;
     }
 
     ~Z3Context()
     {
-        Dispose(false);
+        DisposeCore();
     }
 }
