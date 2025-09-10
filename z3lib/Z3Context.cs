@@ -50,7 +50,7 @@ public partial class Z3Context : IDisposable
         NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
-    private void TrackExpression(IntPtr handle)
+    internal void TrackExpression(IntPtr handle)
     {
         ThrowIfDisposed();
         NativeMethods.Z3IncRef(contextHandle, handle);

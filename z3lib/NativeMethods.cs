@@ -51,6 +51,26 @@ public static class NativeMethods
         LoadFunction("Z3_mk_gt");
         LoadFunction("Z3_mk_ge");
         LoadFunction("Z3_mk_numeral");
+        
+        // Solver functions
+        LoadFunction("Z3_mk_solver");
+        LoadFunction("Z3_mk_simple_solver");
+        LoadFunction("Z3_solver_inc_ref");
+        LoadFunction("Z3_solver_dec_ref");
+        LoadFunction("Z3_solver_assert");
+        LoadFunction("Z3_solver_check");
+        LoadFunction("Z3_solver_push");
+        LoadFunction("Z3_solver_pop");
+        LoadFunction("Z3_solver_get_model");
+        LoadFunction("Z3_solver_get_reason_unknown");
+        
+        // Model functions
+        LoadFunction("Z3_model_inc_ref");
+        LoadFunction("Z3_model_dec_ref");
+        LoadFunction("Z3_model_eval");
+        LoadFunction("Z3_get_numeral_string");
+        LoadFunction("Z3_get_numeral_int");
+        LoadFunction("Z3_ast_to_string");
     }
 
     private static void LoadFunction(string functionName)
@@ -267,6 +287,120 @@ public static class NativeMethods
         return func(ctx, numeral, sort);
     }
 
+    // Solver functions
+    public static IntPtr Z3MkSolver(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_solver");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSolverDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    public static IntPtr Z3MkSimpleSolver(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_simple_solver");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSimpleSolverDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    public static void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_inc_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverIncRefDelegate>(funcPtr);
+        func(ctx, solver);
+    }
+
+    public static void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_dec_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverDecRefDelegate>(funcPtr);
+        func(ctx, solver);
+    }
+
+    public static void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr formula)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_assert");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverAssertDelegate>(funcPtr);
+        func(ctx, solver, formula);
+    }
+
+    public static int Z3SolverCheck(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_check");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverCheckDelegate>(funcPtr);
+        return func(ctx, solver);
+    }
+
+    public static void Z3SolverPush(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_push");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverPushDelegate>(funcPtr);
+        func(ctx, solver);
+    }
+
+    public static void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_pop");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverPopDelegate>(funcPtr);
+        func(ctx, solver, numScopes);
+    }
+
+    public static IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_get_model");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverGetModelDelegate>(funcPtr);
+        return func(ctx, solver);
+    }
+
+    public static IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_get_reason_unknown");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverGetReasonUnknownDelegate>(funcPtr);
+        return func(ctx, solver);
+    }
+
+    // Model functions
+    public static void Z3ModelIncRef(IntPtr ctx, IntPtr model)
+    {
+        var funcPtr = GetFunctionPointer("Z3_model_inc_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelIncRefDelegate>(funcPtr);
+        func(ctx, model);
+    }
+
+    public static void Z3ModelDecRef(IntPtr ctx, IntPtr model)
+    {
+        var funcPtr = GetFunctionPointer("Z3_model_dec_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelDecRefDelegate>(funcPtr);
+        func(ctx, model);
+    }
+
+    public static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    {
+        var funcPtr = GetFunctionPointer("Z3_model_eval");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
+        return func(ctx, model, expr, modelCompletion, out result);
+    }
+
+    public static IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    public static bool Z3GetNumeralInt(IntPtr ctx, IntPtr ast, out int value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_numeral_int");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralIntDelegate>(funcPtr);
+        return func(ctx, ast, out value);
+    }
+
+    public static IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_ast_to_string");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3AstToStringDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextDelegate(IntPtr cfg);
@@ -299,4 +433,24 @@ public static class NativeMethods
     private delegate IntPtr Z3MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkGeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
+    
+    // Solver delegates
+    private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);
+    private delegate IntPtr Z3MkSimpleSolverDelegate(IntPtr ctx);
+    private delegate void Z3SolverIncRefDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void Z3SolverDecRefDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void Z3SolverAssertDelegate(IntPtr ctx, IntPtr solver, IntPtr formula);
+    private delegate int Z3SolverCheckDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void Z3SolverPushDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void Z3SolverPopDelegate(IntPtr ctx, IntPtr solver, uint numScopes);
+    private delegate IntPtr Z3SolverGetModelDelegate(IntPtr ctx, IntPtr solver);
+    private delegate IntPtr Z3SolverGetReasonUnknownDelegate(IntPtr ctx, IntPtr solver);
+    
+    // Model delegates
+    private delegate void Z3ModelIncRefDelegate(IntPtr ctx, IntPtr model);
+    private delegate void Z3ModelDecRefDelegate(IntPtr ctx, IntPtr model);
+    private delegate bool Z3ModelEvalDelegate(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result);
+    private delegate IntPtr Z3GetNumeralStringDelegate(IntPtr ctx, IntPtr ast);
+    private delegate bool Z3GetNumeralIntDelegate(IntPtr ctx, IntPtr ast, out int value);
+    private delegate IntPtr Z3AstToStringDelegate(IntPtr ctx, IntPtr ast);
 }

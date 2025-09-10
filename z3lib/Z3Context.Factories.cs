@@ -209,4 +209,15 @@ public partial class Z3Context
         TrackExpression(resultHandle);
         return new Z3BoolExpr(this, resultHandle);
     }
+
+    // Solver factory methods
+    public Z3Solver MkSolver()
+    {
+        return new Z3Solver(this, false);
+    }
+
+    public Z3Solver MkSimpleSolver()
+    {
+        return new Z3Solver(this, true);
+    }
 }
