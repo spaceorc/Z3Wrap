@@ -1,4 +1,4 @@
-namespace z3lib;
+namespace Z3Wrap;
 
 public abstract class Z3Expr(Z3Context context, IntPtr handle)
 {

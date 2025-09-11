@@ -1,4 +1,4 @@
-namespace z3lib.Tests.ContextExtensionsTests;
+namespace Z3Wrap.Tests.ContextExtensionsTests;
 
 [TestFixture]
 public class NumericOperatorsTests

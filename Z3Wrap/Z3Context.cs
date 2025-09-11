@@ -1,4 +1,4 @@
-namespace z3lib;
+namespace Z3Wrap;
 
 public class Z3Context : IDisposable
 {

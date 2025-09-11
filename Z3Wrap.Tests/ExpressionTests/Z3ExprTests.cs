@@ -1,4 +1,4 @@
-namespace z3lib.Tests.ExpressionTests;
+namespace Z3Wrap.Tests.ExpressionTests;
 
 [TestFixture]
 public class Z3ExprTests

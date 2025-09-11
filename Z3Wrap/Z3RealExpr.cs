@@ -1,4 +1,4 @@
-namespace z3lib;
+namespace Z3Wrap;
 
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
 public sealed class Z3RealExpr : Z3Expr

@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace z3lib;
+namespace Z3Wrap;
 
 public sealed class Z3Model
 {

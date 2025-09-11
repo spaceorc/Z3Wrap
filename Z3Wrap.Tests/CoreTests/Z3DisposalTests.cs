@@ -1,4 +1,4 @@
-namespace z3lib.Tests.CoreTests;
+namespace Z3Wrap.Tests.CoreTests;
 
 public class Z3DisposalTests
 {

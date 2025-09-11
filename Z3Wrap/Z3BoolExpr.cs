@@ -1,4 +1,4 @@
-namespace z3lib;
+namespace Z3Wrap;
 
 public sealed class Z3BoolExpr : Z3Expr
 {
