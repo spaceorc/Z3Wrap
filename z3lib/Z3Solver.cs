@@ -45,6 +45,15 @@ public sealed class Z3Solver : IDisposable
         NativeMethods.Z3SolverAssert(context.Handle, solverHandle, constraint.Handle);
     }
 
+    public void Reset()
+    {
+        ThrowIfDisposed();
+        InvalidateModel(); // Model no longer valid after reset
+        
+        NativeMethods.Z3SolverReset(context.Handle, solverHandle);
+        lastCheckResult = null;
+    }
+
     public Z3Status Check()
     {
         ThrowIfDisposed();

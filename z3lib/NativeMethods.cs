@@ -21,7 +21,6 @@ public static class NativeMethods
         // Load function pointers
         LoadFunction("Z3_mk_config");
         LoadFunction("Z3_del_config");
-        LoadFunction("Z3_mk_context");
         LoadFunction("Z3_mk_context_rc");
         LoadFunction("Z3_del_context");
         LoadFunction("Z3_update_param_value");
@@ -71,6 +70,7 @@ public static class NativeMethods
         LoadFunction("Z3_solver_check");
         LoadFunction("Z3_solver_push");
         LoadFunction("Z3_solver_pop");
+        LoadFunction("Z3_solver_reset");
         LoadFunction("Z3_solver_get_model");
         LoadFunction("Z3_solver_get_reason_unknown");
         
@@ -116,13 +116,6 @@ public static class NativeMethods
         var funcPtr = GetFunctionPointer("Z3_del_config");
         var func = Marshal.GetDelegateForFunctionPointer<Z3DelConfigDelegate>(funcPtr);
         func(cfg);
-    }
-
-    public static IntPtr Z3MkContext(IntPtr cfg)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_context");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkContextDelegate>(funcPtr);
-        return func(cfg);
     }
 
     public static IntPtr Z3MkContextRc(IntPtr cfg)
@@ -403,6 +396,13 @@ public static class NativeMethods
         func(ctx, solver, numScopes);
     }
 
+    public static void Z3SolverReset(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_reset");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverResetDelegate>(funcPtr);
+        func(ctx, solver);
+    }
+
     public static IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_model");
@@ -497,7 +497,6 @@ public static class NativeMethods
 
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
-    private delegate IntPtr Z3MkContextDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextRcDelegate(IntPtr cfg);
     private delegate void Z3DelContextDelegate(IntPtr ctx);
     private delegate void Z3UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
@@ -547,6 +546,7 @@ public static class NativeMethods
     private delegate int Z3SolverCheckDelegate(IntPtr ctx, IntPtr solver);
     private delegate void Z3SolverPushDelegate(IntPtr ctx, IntPtr solver);
     private delegate void Z3SolverPopDelegate(IntPtr ctx, IntPtr solver, uint numScopes);
+    private delegate void Z3SolverResetDelegate(IntPtr ctx, IntPtr solver);
     private delegate IntPtr Z3SolverGetModelDelegate(IntPtr ctx, IntPtr solver);
     private delegate IntPtr Z3SolverGetReasonUnknownDelegate(IntPtr ctx, IntPtr solver);
     

@@ -1,6 +1,28 @@
-[Oo]bj
-[Bb]in
-.idea
+# Build results
+[Oo]bj/
+[Bb]in/
+
+# Test results
+TestResults/
+tests/TestResults/
+
+# Coverage reports  
+coverage-reports/
+
+# IDEs
+.idea/
+.vscode/
+.vs/
 *.user
+*.suo
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Config
 NuGet.config
+
+# Temporary files
+*.tmp
+*~

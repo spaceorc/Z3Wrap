@@ -1,6 +1,4 @@
-using z3lib;
-
-namespace tests;
+namespace z3lib.Tests;
 
 [SetUpFixture]
 public class GlobalSetup

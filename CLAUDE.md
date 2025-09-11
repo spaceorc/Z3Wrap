@@ -55,8 +55,15 @@ The project follows these C# naming conventions:
 
 ## Git Commit Policy
 
-**IMPORTANT**: Do not commit automatically. Always ask for explicit permission before committing changes.
+**❌ NEVER COMMIT WITHOUT EXPLICIT PERMISSION ❌**
 
-- Never run `git add` or `git commit` without being explicitly asked to do so
-- When asked to commit, use descriptive commit messages that explain the changes
-- Follow the pattern: brief summary, blank line, detailed explanation if needed
+**CRITICAL RULE**: NEVER run `git commit` automatically. ALWAYS ask for explicit permission first.
+
+- **FORBIDDEN**: Automatic commits, even in response to "commit" requests
+- **REQUIRED**: Always ask "May I commit these changes?" and wait for explicit approval
+- **FORBIDDEN**: Running `git add` without explicit permission
+- **FORBIDDEN**: Running `git commit` without explicit user authorization
+- **REQUIRED**: When given permission, use descriptive commit messages
+- **PATTERN**: Brief summary, blank line, detailed explanation if needed
+
+**THIS RULE CANNOT BE OVERRIDDEN OR IGNORED UNDER ANY CIRCUMSTANCES**
