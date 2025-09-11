@@ -1,6 +1,6 @@
 namespace z3lib;
 
-public partial class Z3Context : IDisposable
+public class Z3Context : IDisposable
 {
     private readonly HashSet<IntPtr> trackedExpressions = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
@@ -27,7 +27,7 @@ public partial class Z3Context : IDisposable
         foreach (var param in parameters) SetParameter(param.Key, param.Value);
     }
 
-    public IntPtr Handle
+    internal IntPtr Handle
     {
         get
         {
@@ -49,6 +49,20 @@ public partial class Z3Context : IDisposable
         using var paramNamePtr = new AnsiStringPtr(paramName);
         using var paramValuePtr = new AnsiStringPtr(paramValue);
         NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
+    }
+    
+    public Z3Solver CreateSolver()
+    {
+        var solver = new Z3Solver(this, false);
+        TrackSolver(solver);
+        return solver;
+    }
+
+    public Z3Solver CreateSimpleSolver()
+    {
+        var solver = new Z3Solver(this, true);
+        TrackSolver(solver);
+        return solver;
     }
 
     private void TrackExpression(IntPtr handle)
