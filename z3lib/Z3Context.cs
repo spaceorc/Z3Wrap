@@ -51,20 +51,20 @@ public partial class Z3Context : IDisposable
         NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
-    internal void TrackExpression(IntPtr handle)
+    private void TrackExpression(IntPtr handle)
     {
         ThrowIfDisposed();
         NativeMethods.Z3IncRef(contextHandle, handle);
         trackedExpressions.Add(handle);
     }
 
-    internal void TrackSolver(Z3Solver solver)
+    private void TrackSolver(Z3Solver solver)
     {
         ThrowIfDisposed();
         trackedSolvers.Add(solver);
     }
 
-    internal void UntrackSolver(Z3Solver solver)
+    private void UntrackSolver(Z3Solver solver)
     {
         trackedSolvers.Remove(solver);
     }
@@ -72,15 +72,13 @@ public partial class Z3Context : IDisposable
     internal void DisposeSolver(Z3Solver solver)
     {
         if (disposed)
-            return; // Context is already disposed, nothing to do
+            return;
 
         UntrackSolver(solver);
         
         var solverHandle = solver.InternalHandle;
         if (solverHandle != IntPtr.Zero)
-        {
             NativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
-        }
         
         solver.InternalDispose();
     }
@@ -106,11 +104,7 @@ public partial class Z3Context : IDisposable
         };
     }
 
-    internal void ThrowIfDisposed()
-    {
-        if (disposed)
-            throw new ObjectDisposedException(nameof(Z3Context));
-    }
+    internal void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
 
     private void DisposeCore()
     {
