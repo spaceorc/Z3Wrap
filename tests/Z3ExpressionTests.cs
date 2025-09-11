@@ -17,6 +17,19 @@ public class Z3ExpressionTests
     }
 
     [Test]
+    public void CanCreateBooleanFromBool()
+    {
+        using var context = new Z3Context();
+        var trueExpr = context.Bool(true);
+        var falseExpr = context.Bool(false);
+
+        Assert.That(trueExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(falseExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(trueExpr.Context, Is.SameAs(context));
+        Assert.That(falseExpr.Context, Is.SameAs(context));
+    }
+
+    [Test]
     public void CanCreateIntegerConstants()
     {
         using var context = new Z3Context();
