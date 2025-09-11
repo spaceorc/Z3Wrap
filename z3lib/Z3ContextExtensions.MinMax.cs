@@ -16,9 +16,4 @@ public static partial class Z3ContextExtensions
     public static Z3RealExpr Min(this Z3Context context, double left, Z3RealExpr right) => context.Min(context.Real(left), right);
     public static Z3RealExpr Max(this Z3Context context, Z3RealExpr left, double right) => context.Max(left, context.Real(right));
     public static Z3RealExpr Max(this Z3Context context, double left, Z3RealExpr right) => context.Max(context.Real(left), right);
-
-    public static Z3RealExpr Min(this Z3Context context, Z3RealExpr left, int right) => context.Min(left, context.Real(right));
-    public static Z3RealExpr Min(this Z3Context context, int left, Z3RealExpr right) => context.Min(context.Real(left), right);
-    public static Z3RealExpr Max(this Z3Context context, Z3RealExpr left, int right) => context.Max(left, context.Real(right));
-    public static Z3RealExpr Max(this Z3Context context, int left, Z3RealExpr right) => context.Max(context.Real(left), right);
 }

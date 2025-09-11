@@ -369,6 +369,37 @@ The library uses a modular extension method pattern for clean separation of conc
 - **Consistent patterns** - All extensions follow same `this Z3Context context` pattern
 - **IntelliSense friendly** - Grouped methods appear organized in IDE
 
+### Recent Code Organization Improvements ✅
+
+**Redundant Overload Cleanup (January 2025)**
+- **Removed 63 redundant `int` overloads** from Z3RealExpr operations - C#'s implicit `int` to `double` conversion makes these unnecessary
+- **Z3RealExpr.cs**: Removed 24 redundant operator overloads and 15 redundant method overloads for `int` parameters
+- **Extension methods**: Removed 24 redundant `int` overloads across Z3ContextExtensions.* files
+- **Verified with tests**: All 136 tests still pass - implicit conversion works perfectly
+- **Benefits**: Cleaner API surface, less maintenance, leverages C# type system properly
+
+**Logical Method Grouping Pattern ✅**
+Applied consistent organizational pattern across all files grouping methods by parameter/return types:
+
+1. **Same-type to same-type operations** (e.g., Z3IntExpr ↔ Z3IntExpr)
+2. **Same-type to bool operations** (e.g., Z3IntExpr → Z3BoolExpr comparisons) 
+3. **Mixed-type to same-type operations** (e.g., Z3RealExpr ↔ double)
+4. **Mixed-type to bool operations** (e.g., Z3RealExpr + double → Z3BoolExpr comparisons)
+5. **Unary operations** (UnaryMinus, Abs)
+
+**Files Updated:**
+- **Z3RealExpr.cs** - Reordered 16 methods into logical groups
+- **Z3IntExpr.cs** - Reordered 24 methods into logical groups  
+- **Z3ContextExtensions.NumericOperators.cs** - Complete reorganization by type groups
+- **Z3ContextExtensions.Equality.cs** - Grouped by parameter types
+- **Z3ContextExtensions.Comparison.cs** - Grouped by parameter types
+
+**Benefits:**
+- **Consistent organization** - Same pattern across all files
+- **Better readability** - Related methods grouped together
+- **Easier maintenance** - Logical structure makes changes easier
+- **IntelliSense improvements** - Methods appear in logical order
+
 ## Test Suite Excellence ✅
 - **GlobalSetup.cs** - One-time libz3 loading for all tests (eliminates redundant setup)
 - **Z3ContextTests.cs** - Context lifecycle and parameter management

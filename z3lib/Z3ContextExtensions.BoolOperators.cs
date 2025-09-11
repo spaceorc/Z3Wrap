@@ -39,11 +39,10 @@ public static partial class Z3ContextExtensions
         var resultHandle = NativeMethods.Z3MkIff(context.Handle, left.Handle, right.Handle);
         return context.WrapBoolExpr(resultHandle);
     }
-    
+
     public static T Ite<T>(this Z3Context context, Z3BoolExpr condition, T thenExpr, T elseExpr) where T : Z3Expr
     {
-        var resultHandle = NativeMethods.Z3MkIte(context.Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
-        return (T)context.WrapExpr(resultHandle);
+        return (T)context.Ite(condition, (Z3Expr)thenExpr, elseExpr);
     }
 
     public static Z3Expr Ite(this Z3Context context, Z3BoolExpr condition, Z3Expr thenExpr, Z3Expr elseExpr)
