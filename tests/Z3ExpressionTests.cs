@@ -204,7 +204,7 @@ public class Z3ExpressionTests
         var fiveStr = five.ToString();
         var constraintStr = constraint.ToString();
 
-        Assert.That(xStr, Is.Not.Null.And.Not.Empty);
+        Assert.That(xStr, Is.EqualTo("x"));
         Assert.That(fiveStr, Is.Not.Null.And.Not.Empty);
         Assert.That(constraintStr, Is.Not.Null.And.Not.Empty);
     }
@@ -224,5 +224,106 @@ public class Z3ExpressionTests
 
         Assert.That(xStr, Is.EqualTo("<disposed>"));
         Assert.That(fiveStr, Is.EqualTo("<disposed>"));
+    }
+
+    [Test]
+    public void ToStringWorksOnDifferentExpressionTypes()
+    {
+        using var context = new Z3Context();
+        
+        // Test different primitive types
+        var intConst = context.MkIntConst("x");
+        var intValue = context.MkInt(42);
+        var realConst = context.MkRealConst("y");
+        var realValue = context.MkReal(3.14);
+        var boolConst = context.MkBoolConst("p");
+        var boolTrue = context.MkTrue();
+        var boolFalse = context.MkFalse();
+
+        // Test specific known values where possible
+        Assert.That(intConst.ToString(), Is.EqualTo("x"));
+        Assert.That(intValue.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(realConst.ToString(), Is.EqualTo("y"));
+        Assert.That(realValue.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(boolConst.ToString(), Is.EqualTo("p"));
+        Assert.That(boolTrue.ToString(), Is.EqualTo("true"));
+        Assert.That(boolFalse.ToString(), Is.EqualTo("false"));
+    }
+
+    [Test]
+    public void ToStringWorksOnComplexExpressions()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        var p = context.MkBoolConst("p");
+        var q = context.MkBoolConst("q");
+
+        // Test arithmetic expressions
+        var add = x + y;
+        var sub = x - y;
+        var mul = x * y;
+        var div = x / y;
+        
+        // Test comparison expressions
+        var eq = x == y;
+        var lt = x < y;
+        var gt = x > y;
+        var le = x <= y;
+        var ge = x >= y;
+        
+        // Test boolean expressions
+        var and = p & q;
+        var or = p | q;
+        var not = !p;
+
+        // All complex expressions should have valid string representations
+        Assert.That(add.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(sub.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(mul.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(div.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(eq.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(lt.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(gt.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(le.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(ge.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(and.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(or.ToString(), Is.Not.Null.And.Not.Empty);
+        Assert.That(not.ToString(), Is.Not.Null.And.Not.Empty);
+    }
+
+    [Test]
+    public void ToStringHandlesNestedComplexExpressions()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        var z = context.MkIntConst("z");
+
+        // Deeply nested expression: ((x + y) * z) > ((x - y) / z)
+        var nested = ((x + y) * z) > ((x - y) / z);
+
+        // Should handle complex nesting without issues
+        var result = nested.ToString();
+        Assert.That(result, Is.Not.Null.And.Not.Empty);
+        Assert.That(result, Does.Not.Contain("<error>"));
+        Assert.That(result, Does.Not.Contain("<invalid>"));
+        Assert.That(result, Does.Not.Contain("<disposed>"));
+    }
+
+    [Test]
+    public void ToStringConsistentResults()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        
+        // Multiple calls to ToString should return the same result
+        var first = x.ToString();
+        var second = x.ToString();
+        var third = x.ToString();
+        
+        Assert.That(first, Is.EqualTo(second));
+        Assert.That(second, Is.EqualTo(third));
+        Assert.That(first, Is.Not.Null.And.Not.Empty);
     }
 }

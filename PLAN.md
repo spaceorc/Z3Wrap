@@ -21,16 +21,17 @@
 - ✅ **Z3Context** - Context management with centralized expression tracking
 - ✅ **Expression Types**: Z3BoolExpr, Z3IntExpr, Z3RealExpr with operator overloading
 - ✅ **Factory Pattern** - Context-based expression creation (`context.MkInt(5)`, `context.MkBoolConst("p")`)
-- ✅ **Memory Management** - Centralized reference counting and cleanup
+- ✅ **Memory Management** - Hierarchical disposal with context managing all object lifetimes
 - ✅ **Modern C# Patterns** - Nullable reference types, `using var`, expression-bodied members
 
 ### Phase 2: Core Solving Capability (COMPLETED ✅)
-1. ✅ **Z3Solver** - Full solver implementation with reference counting
+1. ✅ **Z3Solver** - Full solver implementation with hierarchical disposal
    - ✅ Solver P/Invoke methods: `Z3_mk_solver`, `Z3_solver_assert`, `Z3_solver_check`
    - ✅ Solver reference counting: `Z3_solver_inc_ref`, `Z3_solver_dec_ref`
    - ✅ Constraint stack: `Z3_solver_push`, `Z3_solver_pop`
    - ✅ Simple solver support: `context.MkSimpleSolver()`
    - ✅ GetReasonUnknown() for diagnostic information
+   - ✅ Hierarchical disposal: Context tracks and disposes all solvers
 
 2. ✅ **Z3Status Enum** - Solver result enumeration
    ```csharp
@@ -69,6 +70,53 @@ Add common mathematical operations:
 ### Phase 7: Quantifiers (Advanced)
 - **ForAll/Exists** - Quantified expressions
 - Variable binding and substitution
+
+## Hierarchical Disposal System ✅
+
+The library implements a sophisticated parent-child disposal pattern where the Z3Context manages all object lifetimes:
+
+### Design Principles
+- **Context is the parent** - Tracks all created solvers in `HashSet<Z3Solver> trackedSolvers`
+- **Children delegate to parent** - Solver.Dispose() calls `context.DisposeSolver(this)`
+- **Parent manages native resources** - Context handles Z3 reference counting (`Z3_solver_dec_ref`)
+- **Automatic cleanup** - Context disposal automatically disposes all tracked children
+- **Double disposal safety** - All objects can be safely disposed multiple times
+
+### Implementation Details
+```csharp
+// Context tracks all solvers
+private readonly HashSet<Z3Solver> trackedSolvers = [];
+
+// Solver delegates disposal to context
+public void Dispose()
+{
+    if (disposed) return;
+    if (!isBeingDisposedByContext)
+    {
+        context.DisposeSolver(this); // Delegate to parent
+    }
+    disposed = true;
+}
+
+// Context handles all native resource cleanup
+internal void DisposeSolver(Z3Solver solver)
+{
+    if (disposed) return; // Context already disposed
+    UntrackSolver(solver);
+    var solverHandle = solver.InternalHandle;
+    if (solverHandle != IntPtr.Zero)
+    {
+        NativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
+    }
+    solver.InternalDispose();
+}
+```
+
+### Benefits
+- **Memory safety** - No leaked Z3 objects, proper reference counting
+- **Exception safety** - Context disposal works even if children throw
+- **Natural usage** - Users can dispose objects in any order without issues
+- **Comprehensive testing** - 16 disposal tests covering all scenarios
 
 ## Current Usage Pattern (FULLY WORKING!)
 ```csharp
@@ -115,19 +163,20 @@ solver.Pop(); // Back to previous state
 
 ## Architecture Decisions Made
 - ✅ **Centralized factory pattern** - All expressions created through context
-- ✅ **Centralized memory management** - Context tracks all expressions
+- ✅ **Hierarchical disposal system** - Context manages all object lifetimes, children delegate to parent
 - ✅ **Modern C# patterns** - Nullable types, `using var`, expression-bodied members
-- ✅ **Simplified dispose pattern** - No unused parameters
+- ✅ **Simplified dispose pattern** - No unused parameters, clean delegation
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
 - ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `==`, `!=`, `<`, `>`, `<=`, `>=`)
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
-- ✅ **Comprehensive test coverage** - 47 tests across 5 organized test files with global setup
+- ✅ **Comprehensive test coverage** - 49 tests across 5 organized test files with global setup
 
 ## Test Suite Excellence ✅
-- **GlobalSetup.cs** - One-time libz3 loading for all tests
+- **GlobalSetup.cs** - One-time libz3 loading for all tests (eliminates redundant setup)
 - **Z3ContextTests.cs** - Context lifecycle and parameter management
-- **Z3ExpressionTests.cs** - Expression creation, operators, and ToString() behavior  
+- **Z3ExpressionTests.cs** - Expression creation, operators, and resilient ToString() behavior  
 - **Z3SolverTests.cs** - Solver functionality, push/pop, diagnostics
-- **Z3DisposalTests.cs** - Comprehensive disposal and cleanup scenarios
+- **Z3DisposalTests.cs** - Comprehensive hierarchical disposal scenarios
 - **Z3SimpleTest.cs** - Edge cases and specific constraint scenarios
 - **Modern syntax** - Uses `using var` and clean patterns throughout
+- **49 comprehensive tests** - Full coverage of library functionality and edge cases

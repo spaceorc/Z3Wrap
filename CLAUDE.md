@@ -52,3 +52,11 @@ The project follows these C# naming conventions:
   - The context is disposed  
   - Z3's automatic reference counting determines they're no longer needed
 - Only dispose Z3Context explicitly - expressions handle themselves
+
+## Git Commit Policy
+
+**IMPORTANT**: Do not commit automatically. Always ask for explicit permission before committing changes.
+
+- Never run `git add` or `git commit` without being explicitly asked to do so
+- When asked to commit, use descriptive commit messages that explain the changes
+- Follow the pattern: brief summary, blank line, detailed explanation if needed
