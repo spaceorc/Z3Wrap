@@ -6,7 +6,7 @@
 echo "🧪 Running tests with coverage collection..."
 
 # Clean previous coverage data
-rm -rf tests/TestResults coverage-reports
+rm -rf Z3Wrap.Tests/TestResults coverage-reports
 
 # Run tests with code coverage collection
 dotnet test --collect:"XPlat Code Coverage" --logger:"console;verbosity=minimal"
@@ -20,7 +20,7 @@ echo "📊 Generating coverage report..."
 
 # Generate HTML coverage report
 reportgenerator \
-    -reports:"tests/TestResults/*/coverage.cobertura.xml" \
+    -reports:"Z3Wrap.Tests/TestResults/*/coverage.cobertura.xml" \
     -targetdir:"coverage-reports" \
     -reporttypes:"Html;TextSummary;Badges" \
     -title:"Z3 Library Coverage Report"

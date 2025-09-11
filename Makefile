@@ -53,7 +53,7 @@ coverage-open: coverage ## Run coverage and open HTML report (macOS)
 clean: ## Clean build artifacts
 	@echo "$(BLUE)Cleaning build artifacts...$(NC)"
 	dotnet clean
-	rm -rf tests/TestResults coverage-reports
+	rm -rf Z3Wrap.Tests/TestResults coverage-reports
 
 restore: ## Restore NuGet packages
 	@echo "$(BLUE)Restoring packages...$(NC)"
