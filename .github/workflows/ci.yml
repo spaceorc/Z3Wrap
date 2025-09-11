@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Install Z3
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libz3-4
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Test with coverage
+      run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --logger trx --results-directory ./TestResults
+      
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      
+    - name: Generate coverage report
+      run: |
+        reportgenerator \
+          -reports:"./TestResults/*/coverage.cobertura.xml" \
+          -targetdir:"coverage-reports" \
+          -reporttypes:"Html;TextSummary;Cobertura" \
+          -filefilters:"-*.GlobalAssemblyInfo.cs"
+          
+    - name: Display coverage summary
+      run: cat coverage-reports/Summary.txt
+      
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage-reports/Cobertura.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        
+    - name: Upload coverage report as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage-reports/
+        
+    - name: Check minimum coverage
+      run: |
+        # Extract line coverage percentage from summary
+        COVERAGE=$(grep -oP 'Line coverage: \K[0-9.]+' coverage-reports/Summary.txt || echo "0")
+        echo "Current coverage: ${COVERAGE}%"
+        
+        # Set minimum coverage threshold (adjust as needed)
+        MIN_COVERAGE=80
+        
+        # Compare coverage (using bc for floating point comparison)
+        if (( $(echo "$COVERAGE >= $MIN_COVERAGE" | bc -l) )); then
+          echo "✅ Coverage check passed: ${COVERAGE}% >= ${MIN_COVERAGE}%"
+        else
+          echo "❌ Coverage check failed: ${COVERAGE}% < ${MIN_COVERAGE}%"
+          exit 1
+        fi

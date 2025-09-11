@@ -11,6 +11,7 @@ A modern C# wrapper for Microsoft's Z3 theorem prover, providing a clean and int
 - **Memory Management** - Hierarchical disposal system with automatic resource cleanup
 - **Model Extraction** - Extract satisfying assignments with convenient value extraction methods
 - **Cross-Platform** - Works on Windows, macOS, and Linux with dynamic library loading
+- **Zero Configuration** - Automatically discovers and loads Z3 library on first use
 
 ## Quick Start
 
@@ -28,10 +29,37 @@ dotnet build
 dotnet test
 ```
 
+### Z3 Library Setup
+
+Z3Wrap automatically discovers and loads the Z3 library on first use. No manual setup required if Z3 is installed in standard locations:
+
+**Install Z3:**
+```bash
+# macOS (Homebrew)
+brew install z3
+
+# Ubuntu/Debian
+sudo apt-get install libz3-4
+
+# Windows (via releases)
+# Download from https://github.com/Z3Prover/z3/releases
+```
+
+**Manual Loading (if needed):**
+```csharp
+// Explicit path (optional)
+NativeMethods.LoadLibrary("/custom/path/libz3.so");
+
+// Automatic discovery (default behavior)
+NativeMethods.LoadLibraryAuto();
+```
+
 ### Basic Usage
 
+Z3Wrap works out of the box with zero configuration:
+
 ```csharp
-using var context = new Z3Context();
+using var context = new Z3Context(); // Automatically loads Z3 on first use
 
 // Create variables
 var x = context.MkIntConst("x");
@@ -226,12 +254,15 @@ Current coverage: **86.9% line coverage** with comprehensive testing of all core
 ## Requirements
 
 - **.NET 9.0** or later
-- **libz3** - Z3 native library must be available at runtime
-  - Windows: `libz3.dll` or `z3.dll`
-  - macOS: `libz3.dylib` or `z3.dylib`  
-  - Linux: `libz3.so` or `z3.so`
+- **Z3 Library** - Microsoft Z3 theorem prover
+  - **Automatic discovery** - Z3Wrap automatically finds Z3 in standard locations:
+    - Windows: `libz3.dll`, `z3.dll` in Program Files or current directory
+    - macOS: `libz3.dylib` via Homebrew (`/opt/homebrew/opt/z3/lib/`, `/usr/local/opt/z3/lib/`)
+    - Linux: `libz3.so` via package managers (`/usr/lib/`, `/usr/lib64/`, etc.)
+  - **Manual loading** - Custom paths supported via `NativeMethods.LoadLibrary(path)`
+  - **Zero configuration** - Works out of the box with standard Z3 installations
 
-The library uses dynamic loading to locate Z3 at runtime, so you can specify custom paths if needed.
+Install Z3 using your platform's package manager or download from [Z3 releases](https://github.com/Z3Prover/z3/releases).
 
 ## License
 

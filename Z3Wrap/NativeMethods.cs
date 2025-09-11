@@ -4,102 +4,209 @@ namespace Z3Wrap;
 
 public static class NativeMethods
 {
-    private static IntPtr libraryHandle;
+    private static Dictionary<string, IntPtr>? loadedFunctionPointers;
 
-    private static readonly Dictionary<string, IntPtr> FunctionPointers = new();
-
+    // Public API Methods
+    /// <summary>
+    /// Loads the Z3 library from the specified path.
+    /// </summary>
+    /// <param name="libraryPath">The path to the Z3 library file.</param>
+    /// <exception cref="DllNotFoundException">Thrown when the library cannot be found at the specified path.</exception>
+    /// <exception cref="BadImageFormatException">Thrown when the library is not a valid native library.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when required Z3 functions cannot be loaded from the library.</exception>
     public static void LoadLibrary(string libraryPath)
     {
-        if (libraryHandle != IntPtr.Zero)
-        {
-            NativeLibrary.Free(libraryHandle);
-            FunctionPointers.Clear();
-        }
+        if (loadedFunctionPointers != null)
+            return; // Already loaded
 
-        libraryHandle = NativeLibrary.Load(libraryPath);
-
-        // Load function pointers
-        LoadFunction("Z3_mk_config");
-        LoadFunction("Z3_del_config");
-        LoadFunction("Z3_mk_context_rc");
-        LoadFunction("Z3_del_context");
-        LoadFunction("Z3_update_param_value");
-        LoadFunction("Z3_inc_ref");
-        LoadFunction("Z3_dec_ref");
-        
-        // Sort functions
-        LoadFunction("Z3_mk_bool_sort");
-        LoadFunction("Z3_mk_int_sort");
-        LoadFunction("Z3_mk_real_sort");
-        
-        // Expression functions
-        LoadFunction("Z3_mk_const");
-        LoadFunction("Z3_mk_string_symbol");
-        LoadFunction("Z3_mk_true");
-        LoadFunction("Z3_mk_false");
-        LoadFunction("Z3_mk_eq");
-        LoadFunction("Z3_mk_and");
-        LoadFunction("Z3_mk_or");
-        LoadFunction("Z3_mk_not");
-        LoadFunction("Z3_mk_add");
-        LoadFunction("Z3_mk_sub");
-        LoadFunction("Z3_mk_mul");
-        LoadFunction("Z3_mk_div");
-        LoadFunction("Z3_mk_lt");
-        LoadFunction("Z3_mk_le");
-        LoadFunction("Z3_mk_gt");
-        LoadFunction("Z3_mk_ge");
-        LoadFunction("Z3_mk_numeral");
-        
-        // Extended boolean operations
-        LoadFunction("Z3_mk_implies");
-        LoadFunction("Z3_mk_iff");
-        LoadFunction("Z3_mk_xor");
-        
-        // Extended arithmetic operations
-        LoadFunction("Z3_mk_mod");
-        LoadFunction("Z3_mk_unary_minus");
-        LoadFunction("Z3_mk_ite");
-        
-        // Solver functions
-        LoadFunction("Z3_mk_solver");
-        LoadFunction("Z3_mk_simple_solver");
-        LoadFunction("Z3_solver_inc_ref");
-        LoadFunction("Z3_solver_dec_ref");
-        LoadFunction("Z3_solver_assert");
-        LoadFunction("Z3_solver_check");
-        LoadFunction("Z3_solver_push");
-        LoadFunction("Z3_solver_pop");
-        LoadFunction("Z3_solver_reset");
-        LoadFunction("Z3_solver_get_model");
-        LoadFunction("Z3_solver_get_reason_unknown");
-        
-        // Model functions
-        LoadFunction("Z3_model_inc_ref");
-        LoadFunction("Z3_model_dec_ref");
-        LoadFunction("Z3_model_to_string");
-        LoadFunction("Z3_ast_to_string");
-        LoadFunction("Z3_model_eval");
-        LoadFunction("Z3_get_numeral_string");
-        LoadFunction("Z3_get_numeral_int");
-        LoadFunction("Z3_get_bool_value");
-        LoadFunction("Z3_is_numeral_ast");
-        LoadFunction("Z3_get_sort");
-        LoadFunction("Z3_get_sort_kind");
+        loadedFunctionPointers = LoadLibraryInternal(libraryPath);
     }
 
-    private static void LoadFunction(string functionName)
+    /// <summary>
+    /// Automatically discovers and loads the Z3 library for the current platform.
+    /// Searches common installation paths for each platform.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when library cannot be found or loaded.</exception>
+    public static void LoadLibraryAuto()
     {
-        if (libraryHandle == IntPtr.Zero)
-            throw new InvalidOperationException("Library not loaded. Call LoadLibrary first.");
-
-        var functionPtr = NativeLibrary.GetExport(libraryHandle, functionName);
-        FunctionPointers[functionName] = functionPtr;
+        if (loadedFunctionPointers != null)
+            return; // Already loaded
+            
+        var searchPaths = GetPlatformSearchPaths();
+        
+        foreach (var path in searchPaths)
+        {
+            if (File.Exists(path))
+            {
+                try
+                {
+                    loadedFunctionPointers = LoadLibraryInternal(path);
+                    return; // Success
+                }
+                catch
+                {
+                    // Try next path if this one fails
+                }
+            }
+        }
+        
+        throw new InvalidOperationException(
+            "Could not automatically locate Z3 library. " +
+            "Please ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly.");
     }
 
+    // Internal Library Loading
+    private static Dictionary<string, IntPtr> LoadLibraryInternal(string libraryPath)
+    {
+        var handle = NativeLibrary.Load(libraryPath);
+        var functionPointers = new Dictionary<string, IntPtr>();
+        
+        try
+        {
+            // Load all function pointers
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_config");
+            LoadFunctionInternal(handle, functionPointers, "Z3_del_config");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_context_rc");
+            LoadFunctionInternal(handle, functionPointers, "Z3_del_context");
+            LoadFunctionInternal(handle, functionPointers, "Z3_update_param_value");
+            LoadFunctionInternal(handle, functionPointers, "Z3_inc_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_dec_ref");
+            
+            // Sort functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bool_sort");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int_sort");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_real_sort");
+            
+            // Expression functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_const");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_string_symbol");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_true");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_false");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_eq");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_and");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_or");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_not");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_add");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_sub");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_mul");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_div");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_lt");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_le");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_gt");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_ge");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_numeral");
+            
+            // Extended boolean operations
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_implies");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_iff");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_xor");
+            
+            // Extended arithmetic operations
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_mod");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_unary_minus");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_ite");
+            
+            // Solver functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_solver");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_simple_solver");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_inc_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_dec_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_assert");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_check");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_push");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_pop");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_reset");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_reason_unknown");
+            
+            // Model functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_model_inc_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_model_dec_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_model_to_string");
+            LoadFunctionInternal(handle, functionPointers, "Z3_ast_to_string");
+            LoadFunctionInternal(handle, functionPointers, "Z3_model_eval");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_numeral_string");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_numeral_int");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_bool_value");
+            LoadFunctionInternal(handle, functionPointers, "Z3_is_numeral_ast");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
+            
+            // Once all functions are loaded successfully, we can return the pointers
+            // The library handle is no longer needed - function pointers keep the library loaded
+            return functionPointers;
+        }
+        catch
+        {
+            // If anything fails, clean up the loaded library
+            NativeLibrary.Free(handle);
+            throw;
+        }
+    }
+    
+    private static void LoadFunctionInternal(IntPtr libraryHandle, Dictionary<string, IntPtr> functionPointers, string functionName)
+    {
+        var functionPtr = NativeLibrary.GetExport(libraryHandle, functionName);
+        functionPointers[functionName] = functionPtr;
+    }
+
+    private static string[] GetPlatformSearchPaths()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return
+            [
+                "libz3.dll",
+                "z3.dll",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Z3", "bin", "libz3.dll"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Z3", "bin", "z3.dll"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Z3", "bin", "libz3.dll"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Z3", "bin", "z3.dll"),
+            ];
+        }
+        
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return
+            [
+                "libz3.dylib",
+                "z3.dylib",
+                "/opt/homebrew/opt/z3/lib/libz3.dylib",  // Apple Silicon Homebrew
+                "/usr/local/opt/z3/lib/libz3.dylib",     // Intel Homebrew
+                "/opt/homebrew/lib/libz3.dylib",
+                "/usr/local/lib/libz3.dylib",
+                "/usr/lib/libz3.dylib",
+                "/System/Library/Frameworks/libz3.dylib",
+            ];
+        }
+        
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return
+            [
+                "libz3.so",
+                "z3.so",
+                "/usr/lib/x86_64-linux-gnu/libz3.so",    // Ubuntu/Debian
+                "/usr/lib/libz3.so",                     // General Linux
+                "/usr/lib64/libz3.so",                   // 64-bit systems
+                "/usr/local/lib/libz3.so",               // User installations
+                "/opt/z3/lib/libz3.so",                  // Custom installations
+                "/snap/z3/current/lib/libz3.so",         // Snap packages
+            ];
+        }
+        
+        // Fallback for other platforms
+        return ["libz3.so", "libz3.dylib", "libz3.dll", "z3.so", "z3.dylib", "z3.dll"];
+    }
+
+    // Function Pointer Management
     private static IntPtr GetFunctionPointer(string functionName)
     {
-        if (!FunctionPointers.TryGetValue(functionName, out var ptr))
+        // Ensure library is loaded before trying to get function pointer
+        if (loadedFunctionPointers == null) 
+            LoadLibraryAuto();
+        
+        if (!loadedFunctionPointers!.TryGetValue(functionName, out var ptr))
             throw new InvalidOperationException($"Function {functionName} not loaded.");
         return ptr;
     }
