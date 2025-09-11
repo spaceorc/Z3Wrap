@@ -62,11 +62,11 @@ Z3Wrap works out of the box with zero configuration:
 using var context = new Z3Context(); // Automatically loads Z3 on first use
 
 // Create variables
-var x = context.MkIntConst("x");
-var y = context.MkIntConst("y");
+var x = context.IntConst("x");
+var y = context.IntConst("y");
 
 // Create solver and add constraints
-using var solver = context.MkSolver();
+using var solver = context.CreateSolver();
 solver.Assert(x > 0);
 solver.Assert(y > 0);
 solver.Assert(x + y == 10);
@@ -86,9 +86,9 @@ if (solver.Check() == Z3Status.Satisfiable)
 ### Boolean Logic
 
 ```csharp
-var p = context.MkBoolConst("p");
-var q = context.MkBoolConst("q");
-var r = context.MkBoolConst("r");
+var p = context.BoolConst("p");
+var q = context.BoolConst("q");
+var r = context.BoolConst("r");
 
 // Logical operators
 solver.Assert(p & q);           // AND
@@ -102,8 +102,8 @@ solver.Assert(q.Iff(r));        // If-and-only-if
 ### Extended Arithmetic
 
 ```csharp
-var x = context.MkIntConst("x");
-var y = context.MkIntConst("y");
+var x = context.IntConst("x");
+var y = context.IntConst("y");
 
 // Arithmetic with operators
 solver.Assert(x % 2 == 0);      // x is even
@@ -129,8 +129,8 @@ var conditional = context.MkIte<Z3IntExpr>(x > y, x, y);  // Maximum of x and y
 ### Real Numbers
 
 ```csharp
-var a = context.MkRealConst("a");
-var b = context.MkRealConst("b");
+var a = context.RealConst("a");
+var b = context.RealConst("b");
 
 solver.Assert(a + b == 3.14);
 solver.Assert(a * a + b * b <= 1.0);  // Inside unit circle
@@ -165,7 +165,7 @@ Z3Wrap uses a hierarchical disposal pattern where the `Z3Context` manages all ob
 
 ```csharp
 using var context = new Z3Context();  // Will dispose all children
-using var solver = context.MkSolver();  // Optional - context will dispose anyway
+using var solver = context.CreateSolver();  // Optional - context will dispose anyway
 // Expressions don't need disposal - managed by context
 ```
 
