@@ -18,4 +18,22 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     }
 
     public override int GetHashCode() => handle.GetHashCode();
+
+    public override string ToString()
+    {
+        try
+        {
+            Context.ThrowIfDisposed();
+            var stringPtr = NativeMethods.Z3AstToString(Context.Handle, Handle);
+            return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(stringPtr) ?? "<invalid>";
+        }
+        catch (ObjectDisposedException)
+        {
+            return "<disposed>";
+        }
+        catch
+        {
+            return "<error>";
+        }
+    }
 }

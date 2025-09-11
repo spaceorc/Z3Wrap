@@ -57,7 +57,7 @@ public partial class Z3Context : IDisposable
         trackedExpressions.Add(handle);
     }
 
-    private void ThrowIfDisposed()
+    internal void ThrowIfDisposed()
     {
         if (disposed)
             throw new ObjectDisposedException(nameof(Z3Context));

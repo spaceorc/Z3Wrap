@@ -4,11 +4,6 @@ namespace tests;
 
 public class Z3SimpleTest
 {
-    [OneTimeSetUp]
-    public void Setup()
-    {
-        NativeMethods.LoadLibrary("/opt/homebrew/opt/z3/lib/libz3.dylib");
-    }
 
     [Test]
     public void SimpleArithmeticUnsatisfiable()

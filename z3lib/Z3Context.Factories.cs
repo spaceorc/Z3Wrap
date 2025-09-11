@@ -59,6 +59,16 @@ public partial class Z3Context
         return new Z3BoolExpr(this, handle);
     }
 
+    public Z3BoolExpr MkBoolConst(string name)
+    {
+        using var namePtr = new AnsiStringPtr(name);
+        var sortHandle = NativeMethods.Z3MkBoolSort(Handle);
+        var symbolHandle = NativeMethods.Z3MkStringSymbol(Handle, namePtr);
+        var handle = NativeMethods.Z3MkConst(Handle, symbolHandle, sortHandle);
+        TrackExpression(handle);
+        return new Z3BoolExpr(this, handle);
+    }
+
     // Arithmetic operators
     public Z3IntExpr MkAdd(Z3IntExpr left, Z3IntExpr right)
     {
