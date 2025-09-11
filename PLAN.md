@@ -339,7 +339,7 @@ solver.Pop(); // Back to previous state
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
 - ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, unary `-`) and logical operators (`&`, `|`, `^`, `!`)
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
-- ✅ **Comprehensive test coverage** - 137 tests across 10 organized test files with global setup
+- ✅ **Comprehensive test coverage** - 136 tests across 10 organized test files with global setup
 - ✅ **Sealed classes** - All concrete classes properly sealed for performance and design clarity
 - ✅ **Minimal codebase** - No unused methods, fields, or delegates - everything serves a purpose
 - ✅ **Consistent patterns** - Operators call helper methods, helper methods call context functions
@@ -357,7 +357,8 @@ solver.Pop(); // Back to previous state
 - **Z3ModelLifetimeTests.cs** - Model ownership and lifetime management testing
 - **Z3ModelValueExtractionTests.cs** - Model value extraction with comprehensive edge cases
 - **Z3ExtendedOperationsTests.cs** - Extended boolean and arithmetic operations plus if-then-else and min/max (43 tests)
+- **Clean test practices** - Silent tests with proper assertions, no console output, duplicate tests removed
 - **Z3MixedTypeOperatorTests.cs** - Mixed-type arithmetic operations
 - **Z3SimpleTest.cs** - Edge cases and specific constraint scenarios
 - **Modern syntax** - Uses `using var` and clean patterns throughout
-- **137 comprehensive tests** - Full coverage of library functionality and edge cases
+- **136 comprehensive tests** - Full coverage of library functionality and edge cases

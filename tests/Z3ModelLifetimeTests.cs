@@ -8,13 +8,13 @@ public class Z3ModelLifetimeTests
     public void ModelCreationAndBasicUse()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        solver.Assert(x + y == context.MkInt(10));
-        solver.Assert(x > context.MkInt(0));
-        solver.Assert(y > context.MkInt(0));
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        solver.Assert(x + y == context.Int(10));
+        solver.Assert(x > context.Int(0));
+        solver.Assert(y > context.Int(0));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -33,10 +33,10 @@ public class Z3ModelLifetimeTests
     public void ModelInvalidatedAfterSolverDisposal()
     {
         var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(5));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(5));
         
         solver.Check();
         var model = solver.GetModel();
@@ -60,10 +60,10 @@ public class Z3ModelLifetimeTests
     public void ModelInvalidatedAfterContextDisposal()
     {
         var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(42));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(42));
         
         solver.Check();
         var model = solver.GetModel();
@@ -83,10 +83,10 @@ public class Z3ModelLifetimeTests
     public void ModelInvalidatedAfterNewAssertion()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x > context.MkInt(0));
+        var x = context.IntConst("x");
+        solver.Assert(x > context.Int(0));
         
         solver.Check();
         var firstModel = solver.GetModel();
@@ -95,7 +95,7 @@ public class Z3ModelLifetimeTests
         Assert.That(firstModel.ToString(), Is.Not.Null.And.Not.Empty);
         
         // Add new assertion - should invalidate first model
-        solver.Assert(x < context.MkInt(100));
+        solver.Assert(x < context.Int(100));
         
         // First model should now be invalidated
         Assert.That(firstModel.ToString(), Is.EqualTo("<invalidated>"));
@@ -114,10 +114,10 @@ public class Z3ModelLifetimeTests
     public void ModelInvalidatedAfterPushPop()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(10));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(10));
         
         solver.Check();
         var modelBeforePush = solver.GetModel();
@@ -127,7 +127,7 @@ public class Z3ModelLifetimeTests
         solver.Push();
         Assert.That(modelBeforePush.ToString(), Is.EqualTo("<invalidated>"));
         
-        solver.Assert(x > context.MkInt(5));
+        solver.Assert(x > context.Int(5));
         solver.Check();
         var modelAfterPush = solver.GetModel();
         Assert.That(modelAfterPush.ToString(), Is.Not.Null.And.Not.Empty);
@@ -147,11 +147,11 @@ public class Z3ModelLifetimeTests
         // Create multiple solvers with models
         for (int i = 0; i < 5; i++)
         {
-            var solver = context.MkSolver();
+            var solver = context.CreateSolver();
             solvers.Add(solver);
             
-            var x = context.MkIntConst($"x{i}");
-            solver.Assert(x == context.MkInt(i));
+            var x = context.IntConst($"x{i}");
+            solver.Assert(x == context.Int(i));
             solver.Check();
             
             var model = solver.GetModel();
@@ -187,10 +187,10 @@ public class Z3ModelLifetimeTests
     public void MultipleGetModelCallsReturnSameInstance()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(123));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(123));
         
         solver.Check();
         
@@ -208,12 +208,12 @@ public class Z3ModelLifetimeTests
     public void GetModelThrowsWhenNotSatisfiable()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
         // Create unsatisfiable constraints
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(1));
-        solver.Assert(x == context.MkInt(2)); // Contradiction
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(1));
+        solver.Assert(x == context.Int(2)); // Contradiction
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Unsatisfiable));
@@ -230,18 +230,18 @@ public class Z3ModelLifetimeTests
         // Set very low timeout to force unknown result
         context.SetParameter("timeout", "1");
         
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
         // Create a complex constraint that might timeout
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var z = context.MkIntConst("z");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var z = context.IntConst("z");
         
         // Add complex constraints
         for (int i = 0; i < 50; i++)
         {
-            var xi = context.MkIntConst($"x{i}");
-            solver.Assert((x * y * z + xi) == context.MkInt(i * 17 + 13));
+            var xi = context.IntConst($"x{i}");
+            solver.Assert((x * y * z + xi) == context.Int(i * 17 + 13));
         }
         
         var result = solver.Check();
@@ -265,10 +265,10 @@ public class Z3ModelLifetimeTests
     public void GetModelThrowsWithoutCheck()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(5));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(5));
         
         // Don't call Check()
         var ex = Assert.Throws<InvalidOperationException>(() => solver.GetModel());
@@ -284,13 +284,13 @@ public class Z3ModelLifetimeTests
         // Create many solvers with models
         for (int i = 0; i < 20; i++)
         {
-            var solver = context.MkSolver();
-            var x = context.MkIntConst($"x{i}");
-            var y = context.MkIntConst($"y{i}");
+            var solver = context.CreateSolver();
+            var x = context.IntConst($"x{i}");
+            var y = context.IntConst($"y{i}");
             
-            solver.Assert(x + y == context.MkInt(i * 2));
-            solver.Assert(x > context.MkInt(0));
-            solver.Assert(y > context.MkInt(0));
+            solver.Assert(x + y == context.Int(i * 2));
+            solver.Assert(x > context.Int(0));
+            solver.Assert(y > context.Int(0));
             
             if (solver.Check() == Z3Status.Satisfiable)
             {
@@ -338,10 +338,10 @@ public class Z3ModelLifetimeTests
     public void ModelHandleValidityAfterInvalidation()
     {
         var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(999));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(999));
         solver.Check();
         
         var model = solver.GetModel();
@@ -350,7 +350,7 @@ public class Z3ModelLifetimeTests
         Assert.DoesNotThrow(() => _ = model.Handle);
         
         // Invalidate by adding assertion
-        solver.Assert(x > context.MkInt(0));
+        solver.Assert(x > context.Int(0));
         
         // Handle should throw after invalidation
         var ex = Assert.Throws<ObjectDisposedException>(() => _ = model.Handle);
@@ -364,10 +364,10 @@ public class Z3ModelLifetimeTests
     public void ModelToStringNeverThrows()
     {
         var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(777));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(777));
         solver.Check();
         
         var model = solver.GetModel();
@@ -376,7 +376,7 @@ public class Z3ModelLifetimeTests
         Assert.DoesNotThrow(() => model.ToString());
         
         // ToString should still work after invalidation
-        solver.Assert(x > context.MkInt(0));
+        solver.Assert(x > context.Int(0));
         Assert.DoesNotThrow(() => model.ToString());
         Assert.That(model.ToString(), Is.EqualTo("<invalidated>"));
         

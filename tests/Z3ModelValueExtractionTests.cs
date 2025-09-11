@@ -8,10 +8,10 @@ public class Z3ModelValueExtractionTests
     public void EvaluateIntegerExpression()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(42));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(42));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -27,9 +27,9 @@ public class Z3ModelValueExtractionTests
     public void EvaluateBooleanExpression()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var p = context.MkBoolConst("p");
+        var p = context.BoolConst("p");
         solver.Assert(p);
         
         var result = solver.Check();
@@ -46,10 +46,10 @@ public class Z3ModelValueExtractionTests
     public void EvaluateRealExpression()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var z = context.MkRealConst("z");
-        solver.Assert(z == context.MkReal(3.14));
+        var z = context.RealConst("z");
+        solver.Assert(z == context.Real(3.14));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -65,10 +65,10 @@ public class Z3ModelValueExtractionTests
     public void GetIntValue()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(123));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(123));
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
@@ -82,9 +82,9 @@ public class Z3ModelValueExtractionTests
     public void GetBoolValue_True()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var p = context.MkBoolConst("p");
+        var p = context.BoolConst("p");
         solver.Assert(p);
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -99,10 +99,10 @@ public class Z3ModelValueExtractionTests
     public void GetBoolValue_False()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var p = context.MkBoolConst("p");
-        solver.Assert(p == context.MkFalse());
+        var p = context.BoolConst("p");
+        solver.Assert(p == context.False());
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
@@ -116,10 +116,10 @@ public class Z3ModelValueExtractionTests
     public void GetRealValueAsString()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var z = context.MkRealConst("z");
-        solver.Assert(z == context.MkReal(2.718));
+        var z = context.RealConst("z");
+        solver.Assert(z == context.Real(2.718));
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
@@ -133,12 +133,12 @@ public class Z3ModelValueExtractionTests
     public void GetIntValue_ComplexExpression()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        solver.Assert(x + y == context.MkInt(15));
-        solver.Assert(x - y == context.MkInt(5));
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        solver.Assert(x + y == context.Int(15));
+        solver.Assert(x - y == context.Int(5));
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
@@ -156,10 +156,10 @@ public class Z3ModelValueExtractionTests
     public void GetBoolValue_ComplexExpression()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         solver.Assert(p | q);
         solver.Assert(!p);
         
@@ -178,11 +178,11 @@ public class Z3ModelValueExtractionTests
     public void EvaluateWithModelCompletion_True()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        solver.Assert(x == context.MkInt(10));
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        solver.Assert(x == context.Int(10));
         // y is not constrained, should get a value with model completion
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -200,11 +200,11 @@ public class Z3ModelValueExtractionTests
     public void EvaluateWithModelCompletion_False()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        solver.Assert(x == context.MkInt(10));
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        solver.Assert(x == context.Int(10));
         // y is not constrained
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -222,14 +222,14 @@ public class Z3ModelValueExtractionTests
     public void GetIntValue_ThrowsOnNonConstant()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         var sum = x + y; // This is not a constant
         
-        solver.Assert(x == context.MkInt(5));
-        solver.Assert(y == context.MkInt(10));
+        solver.Assert(x == context.Int(5));
+        solver.Assert(y == context.Int(10));
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
@@ -252,22 +252,22 @@ public class Z3ModelValueExtractionTests
     public void EvaluateInvalidatedModel_ThrowsException()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(5));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(5));
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         
         // Invalidate model by changing solver state
-        solver.Assert(x == context.MkInt(10)); // Contradiction
+        solver.Assert(x == context.Int(10)); // Contradiction
         
         // Should throw on invalidated model
         Assert.Throws<ObjectDisposedException>(() => model.Evaluate(x));
         Assert.Throws<ObjectDisposedException>(() => model.GetIntValue(x));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.MkBoolConst("p")));
-        Assert.Throws<ObjectDisposedException>(() => model.GetRealValueAsString(context.MkRealConst("z")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetRealValueAsString(context.RealConst("z")));
     }
     
 }

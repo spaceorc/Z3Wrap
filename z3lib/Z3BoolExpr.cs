@@ -11,13 +11,13 @@ public sealed class Z3BoolExpr : Z3Expr
     public static Z3BoolExpr operator ^(Z3BoolExpr left, Z3BoolExpr right) => left.Xor(right);
     public static Z3BoolExpr operator !(Z3BoolExpr expr) => expr.Not();
 
-    public Z3BoolExpr And(Z3BoolExpr other) => Context.MkAnd(this, other);
-    public Z3BoolExpr Or(Z3BoolExpr other) => Context.MkOr(this, other);
-    public Z3BoolExpr Not() => Context.MkNot(this);
+    public Z3BoolExpr And(Z3BoolExpr other) => Context.And(this, other);
+    public Z3BoolExpr Or(Z3BoolExpr other) => Context.Or(this, other);
+    public Z3BoolExpr Not() => Context.Not(this);
     
-    public Z3BoolExpr Implies(Z3BoolExpr other) => Context.MkImplies(this, other);
-    public Z3BoolExpr Iff(Z3BoolExpr other) => Context.MkIff(this, other);
-    public Z3BoolExpr Xor(Z3BoolExpr other) => Context.MkXor(this, other);
+    public Z3BoolExpr Implies(Z3BoolExpr other) => Context.Implies(this, other);
+    public Z3BoolExpr Iff(Z3BoolExpr other) => Context.Iff(this, other);
+    public Z3BoolExpr Xor(Z3BoolExpr other) => Context.Xor(this, other);
     
-    public T If<T>(T thenExpr, T elseExpr) where T : Z3Expr => Context.MkIte(this, thenExpr, elseExpr);
+    public T If<T>(T thenExpr, T elseExpr) where T : Z3Expr => Context.Ite(this, thenExpr, elseExpr);
 }

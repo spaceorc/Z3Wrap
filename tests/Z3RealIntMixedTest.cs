@@ -8,9 +8,9 @@ public class Z3RealIntMixedTest
     public void RealExpr_ComparisonWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // This should work: myRealExpr < 10
         solver.Assert(x < 10);  // int constant with real expression
@@ -24,9 +24,9 @@ public class Z3RealIntMixedTest
     public void RealExpr_EqualityWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test equality with int: x == 7 instead of x == 7.0
         solver.Assert(x == 7);
@@ -41,9 +41,9 @@ public class Z3RealIntMixedTest
     public void RealExpr_ArithmeticWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test arithmetic with int: x + 3 == 10, so x should be 7
         solver.Assert(x + 3 == 10);
@@ -59,9 +59,9 @@ public class Z3RealIntMixedTest
     public void RealExpr_ReversedArithmeticWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test reversed arithmetic: 15 - x == 10, so x should be 5
         solver.Assert(15 - x == 10);

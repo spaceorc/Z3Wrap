@@ -9,8 +9,8 @@ public class Z3ExpressionTests
     public void CanCreateBooleanConstants()
     {
         using var context = new Z3Context();
-        var trueExpr = context.MkTrue();
-        var falseExpr = context.MkFalse();
+        var trueExpr = context.True();
+        var falseExpr = context.False();
 
         Assert.That(trueExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(falseExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -20,8 +20,8 @@ public class Z3ExpressionTests
     public void CanCreateIntegerConstants()
     {
         using var context = new Z3Context();
-        var five = context.MkInt(5);
-        var negTen = context.MkInt(-10);
+        var five = context.Int(5);
+        var negTen = context.Int(-10);
 
         Assert.That(five.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(negTen.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -31,8 +31,8 @@ public class Z3ExpressionTests
     public void CanCreateIntegerVariables()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
 
         Assert.That(x.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(y.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -42,8 +42,8 @@ public class Z3ExpressionTests
     public void CanCreateRealConstants()
     {
         using var context = new Z3Context();
-        var pi = context.MkReal(3.14159);
-        var half = context.MkReal(0.5);
+        var pi = context.Real(3.14159);
+        var half = context.Real(0.5);
 
         Assert.That(pi.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(half.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -53,8 +53,8 @@ public class Z3ExpressionTests
     public void CanCreateRealVariables()
     {
         using var context = new Z3Context();
-        var x = context.MkRealConst("x");
-        var y = context.MkRealConst("y");
+        var x = context.RealConst("x");
+        var y = context.RealConst("y");
 
         Assert.That(x.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(y.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -64,8 +64,8 @@ public class Z3ExpressionTests
     public void CanUseBooleanOperators()
     {
         using var context = new Z3Context();
-        var p = context.MkTrue();
-        var q = context.MkFalse();
+        var p = context.True();
+        var q = context.False();
 
         var andExpr = p & q;
         var orExpr = p | q;
@@ -80,8 +80,8 @@ public class Z3ExpressionTests
     public void CanUseIntegerArithmeticOperators()
     {
         using var context = new Z3Context();
-        var five = context.MkInt(5);
-        var three = context.MkInt(3);
+        var five = context.Int(5);
+        var three = context.Int(3);
 
         var sum = five + three;
         var diff = five - three;
@@ -98,8 +98,8 @@ public class Z3ExpressionTests
     public void CanUseIntegerComparisonOperators()
     {
         using var context = new Z3Context();
-        var five = context.MkInt(5);
-        var three = context.MkInt(3);
+        var five = context.Int(5);
+        var three = context.Int(3);
 
         var lt = five < three;
         var le = five <= three;
@@ -118,8 +118,8 @@ public class Z3ExpressionTests
     public void CanUseRealArithmeticOperators()
     {
         using var context = new Z3Context();
-        var pi = context.MkReal(3.14);
-        var two = context.MkReal(2.0);
+        var pi = context.Real(3.14);
+        var two = context.Real(2.0);
 
         var sum = pi + two;
         var diff = pi - two;
@@ -136,8 +136,8 @@ public class Z3ExpressionTests
     public void CanUseRealComparisonOperators()
     {
         using var context = new Z3Context();
-        var pi = context.MkReal(3.14);
-        var two = context.MkReal(2.0);
+        var pi = context.Real(3.14);
+        var two = context.Real(2.0);
 
         var lt = pi < two;
         var le = pi <= two;
@@ -156,9 +156,9 @@ public class Z3ExpressionTests
     public void CanCreateComplexExpressions()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var ten = context.MkInt(10);
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var ten = context.Int(10);
 
         // (x + y) == 10
         var constraint = (x + y) == ten;
@@ -170,8 +170,8 @@ public class Z3ExpressionTests
     public void CanUseInequalityOperator()
     {
         using var context = new Z3Context();
-        var five = context.MkInt(5);
-        var three = context.MkInt(3);
+        var five = context.Int(5);
+        var three = context.Int(3);
 
         var notEqual = five != three;
         var alsoNotEqual = !(five == three);
@@ -184,8 +184,8 @@ public class Z3ExpressionTests
     public void CanCreateBooleanVariables()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
 
         Assert.That(p.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(q.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -195,8 +195,8 @@ public class Z3ExpressionTests
     public void ToStringReturnsValidRepresentation()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var five = context.MkInt(5);
+        var x = context.IntConst("x");
+        var five = context.Int(5);
         var constraint = x == five;
 
         // ToString should work without throwing and return non-empty string
@@ -213,8 +213,8 @@ public class Z3ExpressionTests
     public void ToStringWorksWhenContextDisposed()
     {
         var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var five = context.MkInt(5);
+        var x = context.IntConst("x");
+        var five = context.Int(5);
         
         context.Dispose();
 
@@ -232,13 +232,13 @@ public class Z3ExpressionTests
         using var context = new Z3Context();
         
         // Test different primitive types
-        var intConst = context.MkIntConst("x");
-        var intValue = context.MkInt(42);
-        var realConst = context.MkRealConst("y");
-        var realValue = context.MkReal(3.14);
-        var boolConst = context.MkBoolConst("p");
-        var boolTrue = context.MkTrue();
-        var boolFalse = context.MkFalse();
+        var intConst = context.IntConst("x");
+        var intValue = context.Int(42);
+        var realConst = context.RealConst("y");
+        var realValue = context.Real(3.14);
+        var boolConst = context.BoolConst("p");
+        var boolTrue = context.True();
+        var boolFalse = context.False();
 
         // Test specific known values where possible
         Assert.That(intConst.ToString(), Is.EqualTo("x"));
@@ -254,10 +254,10 @@ public class Z3ExpressionTests
     public void ToStringWorksOnComplexExpressions()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
 
         // Test arithmetic expressions
         var add = x + y;
@@ -296,9 +296,9 @@ public class Z3ExpressionTests
     public void ToStringHandlesNestedComplexExpressions()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var z = context.MkIntConst("z");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var z = context.IntConst("z");
 
         // Deeply nested expression: ((x + y) * z) > ((x - y) / z)
         var nested = ((x + y) * z) > ((x - y) / z);
@@ -315,7 +315,7 @@ public class Z3ExpressionTests
     public void ToStringConsistentResults()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Multiple calls to ToString should return the same result
         var first = x.ToString();

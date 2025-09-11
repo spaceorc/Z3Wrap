@@ -8,9 +8,9 @@ public class Z3MixedTypeOperatorTests
     public void IntExpr_EqualityWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test x == 42 instead of x == context.MkInt(42)
         solver.Assert(x == 42);
@@ -24,9 +24,9 @@ public class Z3MixedTypeOperatorTests
     public void IntExpr_InequalityWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test x != 42
         solver.Assert(x != 42);
@@ -41,9 +41,9 @@ public class Z3MixedTypeOperatorTests
     public void IntExpr_ArithmeticWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test mixed arithmetic: x + 5 == 15, so x should be 10
         solver.Assert(x + 5 == 15);
@@ -58,9 +58,9 @@ public class Z3MixedTypeOperatorTests
     public void IntExpr_ReversedArithmetic()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test reversed operations: 20 - x == 15, so x should be 5
         solver.Assert(20 - x == 15);
@@ -75,9 +75,9 @@ public class Z3MixedTypeOperatorTests
     public void IntExpr_ComparisonWithInt()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test comparisons with integers
         solver.Assert(x > 10);  // x > 10
@@ -95,9 +95,9 @@ public class Z3MixedTypeOperatorTests
     public void RealExpr_EqualityWithDouble()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test x == 3.14 instead of x == context.MkReal(3.14)
         solver.Assert(x == 3.14);
@@ -112,9 +112,9 @@ public class Z3MixedTypeOperatorTests
     public void RealExpr_ArithmeticWithDouble()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test mixed arithmetic: x * 2.0 == 10.0, so x should be 5.0
         solver.Assert(x * 2.0 == 10.0);
@@ -130,9 +130,9 @@ public class Z3MixedTypeOperatorTests
     public void RealExpr_ReversedArithmetic()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test reversed operations: 7.5 - x == 2.5, so x should be 5.0
         solver.Assert(7.5 - x == 2.5);
@@ -148,9 +148,9 @@ public class Z3MixedTypeOperatorTests
     public void RealExpr_ComparisonWithDouble()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test comparisons with doubles
         solver.Assert(x > 1.0);   // x > 1.0
@@ -166,10 +166,10 @@ public class Z3MixedTypeOperatorTests
     public void MixedExpressionsInComplexFormula()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         // Test a complex formula using mixed-type operators
         // x + y == 15, x - y == 5, x > 5, y < 10
@@ -197,9 +197,9 @@ public class Z3MixedTypeOperatorTests
     public void OperatorPrecedenceWorksCorrectly()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test that operator precedence works: x * 2 + 3 == 13 should give x = 5
         solver.Assert(x * 2 + 3 == 13);

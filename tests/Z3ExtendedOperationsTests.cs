@@ -8,10 +8,10 @@ public class Z3ExtendedOperationsTests
     public void ImpliesOperation_FactoryMethod_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
-        var implies = context.MkImplies(p, q);
+        var implies = context.Implies(p, q);
         
         Assert.That(implies.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(implies.Context, Is.SameAs(context));
@@ -21,8 +21,8 @@ public class Z3ExtendedOperationsTests
     public void ImpliesOperation_InstanceMethod_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
         var implies = p.Implies(q);
         
@@ -34,10 +34,10 @@ public class Z3ExtendedOperationsTests
     public void IffOperation_FactoryMethod_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
-        var iff = context.MkIff(p, q);
+        var iff = context.Iff(p, q);
         
         Assert.That(iff.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(iff.Context, Is.SameAs(context));
@@ -47,8 +47,8 @@ public class Z3ExtendedOperationsTests
     public void IffOperation_InstanceMethod_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
         var iff = p.Iff(q);
         
@@ -60,10 +60,10 @@ public class Z3ExtendedOperationsTests
     public void XorOperation_FactoryMethod_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
-        var xor = context.MkXor(p, q);
+        var xor = context.Xor(p, q);
         
         Assert.That(xor.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(xor.Context, Is.SameAs(context));
@@ -73,8 +73,8 @@ public class Z3ExtendedOperationsTests
     public void XorOperation_InstanceMethod_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
         var xor = p.Xor(q);
         
@@ -86,8 +86,8 @@ public class Z3ExtendedOperationsTests
     public void XorOperation_OperatorOverload_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
         var xor = p ^ q;
         
@@ -99,10 +99,10 @@ public class Z3ExtendedOperationsTests
     public void ModOperation_FactoryMethod_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
-        var mod = context.MkMod(x, y);
+        var mod = context.Mod(x, y);
         
         Assert.That(mod.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(mod.Context, Is.SameAs(context));
@@ -112,8 +112,8 @@ public class Z3ExtendedOperationsTests
     public void ModOperation_InstanceMethod_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         var mod = x.Mod(y);
         
@@ -125,7 +125,7 @@ public class Z3ExtendedOperationsTests
     public void AbsOperation_IntInstanceMethod_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         var abs = x.Abs();
         
@@ -137,7 +137,7 @@ public class Z3ExtendedOperationsTests
     public void AbsOperation_RealInstanceMethod_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         var abs = x.Abs();
         
@@ -149,11 +149,11 @@ public class Z3ExtendedOperationsTests
     public void ExtendedBooleanOperations_WithSolver_Work()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
-        var r = context.MkBoolConst("r");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
+        var r = context.BoolConst("r");
 
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
 
         // Test implies: p => q (if p is true, q must be true)
         solver.Push();
@@ -202,32 +202,32 @@ public class Z3ExtendedOperationsTests
     public void ExtendedArithmeticOperations_WithSolver_Work()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
 
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
 
         // Test modulo: x % y
         solver.Push();
-        solver.Assert(x == context.MkInt(17));
-        solver.Assert(y == context.MkInt(5));
-        solver.Assert(x.Mod(y) == context.MkInt(2));
+        solver.Assert(x == context.Int(17));
+        solver.Assert(y == context.Int(5));
+        solver.Assert(x.Mod(y) == context.Int(2));
         var result1 = solver.Check();
         Assert.That(result1, Is.EqualTo(Z3Status.Satisfiable), "17 % 5 == 2 should be satisfiable");
         solver.Pop();
 
         // Test absolute value with negative number
         solver.Push();
-        solver.Assert(x == context.MkInt(-10));
-        solver.Assert(x.Abs() == context.MkInt(10));
+        solver.Assert(x == context.Int(-10));
+        solver.Assert(x.Abs() == context.Int(10));
         var result2 = solver.Check();
         Assert.That(result2, Is.EqualTo(Z3Status.Satisfiable), "abs(-10) == 10 should be satisfiable");
         solver.Pop();
 
         // Test absolute value with positive number
         solver.Push();
-        solver.Assert(x == context.MkInt(7));
-        solver.Assert(x.Abs() == context.MkInt(7));
+        solver.Assert(x == context.Int(7));
+        solver.Assert(x.Abs() == context.Int(7));
         var result3 = solver.Check();
         Assert.That(result3, Is.EqualTo(Z3Status.Satisfiable), "abs(7) == 7 should be satisfiable");
         solver.Pop();
@@ -237,22 +237,22 @@ public class Z3ExtendedOperationsTests
     public void ExtendedRealArithmeticOperations_WithSolver_Work()
     {
         using var context = new Z3Context();
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
 
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
 
         // Test absolute value with negative real
         solver.Push();
-        solver.Assert(x == context.MkReal(-3.5));
-        solver.Assert(x.Abs() == context.MkReal(3.5));
+        solver.Assert(x == context.Real(-3.5));
+        solver.Assert(x.Abs() == context.Real(3.5));
         var result1 = solver.Check();
         Assert.That(result1, Is.EqualTo(Z3Status.Satisfiable), "abs(-3.5) == 3.5 should be satisfiable");
         solver.Pop();
 
         // Test absolute value with positive real
         solver.Push();
-        solver.Assert(x == context.MkReal(2.7));
-        solver.Assert(x.Abs() == context.MkReal(2.7));
+        solver.Assert(x == context.Real(2.7));
+        solver.Assert(x.Abs() == context.Real(2.7));
         var result2 = solver.Check();
         Assert.That(result2, Is.EqualTo(Z3Status.Satisfiable), "abs(2.7) == 2.7 should be satisfiable");
         solver.Pop();
@@ -262,26 +262,26 @@ public class Z3ExtendedOperationsTests
     public void ComplexExtendedOperations_CombinedUse_Work()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
 
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
 
         // Simplified test focusing on the core extended operations
-        solver.Assert(x == context.MkInt(15));
-        solver.Assert(y == context.MkInt(5));
+        solver.Assert(x == context.Int(15));
+        solver.Assert(y == context.Int(5));
         
         // Test modulo operation: 15 % 5 should be 0
-        solver.Assert(x.Mod(y) == context.MkInt(0));
+        solver.Assert(x.Mod(y) == context.Int(0));
         
         // Test absolute value: abs(15) should be 15
-        solver.Assert(x.Abs() == context.MkInt(15));
+        solver.Assert(x.Abs() == context.Int(15));
         
         // Test boolean operations with explicit values
-        solver.Assert(p == context.MkTrue());
-        solver.Assert(q == context.MkFalse());
+        solver.Assert(p == context.True());
+        solver.Assert(q == context.False());
         solver.Assert(p.Xor(q)); // true XOR false should be true
 
         var result = solver.Check();
@@ -316,11 +316,11 @@ public class Z3ExtendedOperationsTests
     public void ExtendedOperations_ToStringNeverThrows()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var z = context.MkRealConst("z");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var z = context.RealConst("z");
 
         // All extended boolean operations should have working ToString
         Assert.DoesNotThrow(() => p.Implies(q).ToString());
@@ -353,11 +353,11 @@ public class Z3ExtendedOperationsTests
 
         using (var context = new Z3Context())
         {
-            var p = context.MkBoolConst("p");
-            var q = context.MkBoolConst("q");
-            var x = context.MkIntConst("x");
-            var y = context.MkIntConst("y");
-            var z = context.MkRealConst("z");
+            var p = context.BoolConst("p");
+            var q = context.BoolConst("q");
+            var x = context.IntConst("x");
+            var y = context.IntConst("y");
+            var z = context.RealConst("z");
 
             implies = p.Implies(q);
             iff = p.Iff(q);
@@ -388,8 +388,8 @@ public class Z3ExtendedOperationsTests
     public void ModuloOperator_IntExpr_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         // Test % operator with Z3IntExpr operands
         var mod1 = x % y;
@@ -411,7 +411,7 @@ public class Z3ExtendedOperationsTests
     public void UnaryMinusOperator_IntExpr_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         var negX = -x;
         Assert.That(negX.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -422,7 +422,7 @@ public class Z3ExtendedOperationsTests
     public void UnaryMinusOperator_RealExpr_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         var negX = -x;
         Assert.That(negX.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -433,39 +433,39 @@ public class Z3ExtendedOperationsTests
     public void NewOperators_WithSolver_Work()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkRealConst("y");
+        var x = context.IntConst("x");
+        var y = context.RealConst("y");
 
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
 
         // Test modulo operator: x % 7 == 3 with x = 17
         solver.Push();
-        solver.Assert(x == context.MkInt(17));
-        solver.Assert(x % 7 == context.MkInt(3));
+        solver.Assert(x == context.Int(17));
+        solver.Assert(x % 7 == context.Int(3));
         var result1 = solver.Check();
         Assert.That(result1, Is.EqualTo(Z3Status.Satisfiable), "17 % 7 == 3 should be satisfiable");
         solver.Pop();
 
         // Test unary minus operator with integers: -x == -5 with x = 5
         solver.Push();
-        solver.Assert(x == context.MkInt(5));
-        solver.Assert(-x == context.MkInt(-5));
+        solver.Assert(x == context.Int(5));
+        solver.Assert(-x == context.Int(-5));
         var result2 = solver.Check();
         Assert.That(result2, Is.EqualTo(Z3Status.Satisfiable), "-5 == -5 should be satisfiable");
         solver.Pop();
 
         // Test unary minus operator with reals: -y == -3.14 with y = 3.14
         solver.Push();
-        solver.Assert(y == context.MkReal(3.14));
-        solver.Assert(-y == context.MkReal(-3.14));
+        solver.Assert(y == context.Real(3.14));
+        solver.Assert(-y == context.Real(-3.14));
         var result3 = solver.Check();
         Assert.That(result3, Is.EqualTo(Z3Status.Satisfiable), "-3.14 == -3.14 should be satisfiable");
         solver.Pop();
 
         // Test complex expression with new operators: -(x % 10) == -7 with x = 17
         solver.Push();
-        solver.Assert(x == context.MkInt(17));
-        solver.Assert(-(x % 10) == context.MkInt(-7));
+        solver.Assert(x == context.Int(17));
+        solver.Assert(-(x % 10) == context.Int(-7));
         var result4 = solver.Check();
         Assert.That(result4, Is.EqualTo(Z3Status.Satisfiable), "-(17 % 10) == -7 should be satisfiable");
         if (result4 == Z3Status.Satisfiable)
@@ -486,9 +486,9 @@ public class Z3ExtendedOperationsTests
     public void NewOperators_ToStringWorks()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var z = context.MkRealConst("z");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var z = context.RealConst("z");
 
         // Test ToString for modulo operators
         Assert.DoesNotThrow(() => (x % y).ToString());
@@ -510,8 +510,8 @@ public class Z3ExtendedOperationsTests
     public void NeqHelperFunction_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
 
         // Test Neq helper function
         var neq = x.Neq(y);
@@ -519,9 +519,9 @@ public class Z3ExtendedOperationsTests
         Assert.That(neq.Context, Is.SameAs(context));
 
         // Test with solver to ensure it works correctly
-        using var solver = context.MkSolver();
-        solver.Assert(x == context.MkInt(5));
-        solver.Assert(y == context.MkInt(3));
+        using var solver = context.CreateSolver();
+        solver.Assert(x == context.Int(5));
+        solver.Assert(y == context.Int(3));
         solver.Assert(x.Neq(y)); // x != y should be true since 5 != 3
 
         var result = solver.Check();
@@ -543,23 +543,23 @@ public class Z3ExtendedOperationsTests
     public void NeqHelperFunction_ConsistentWithOperator()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
 
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
         // Both x.Neq(y) and x != y should be equivalent
         solver.Push();
-        solver.Assert(x == context.MkInt(7));
-        solver.Assert(y == context.MkInt(7));
+        solver.Assert(x == context.Int(7));
+        solver.Assert(y == context.Int(7));
         solver.Assert(x.Neq(y)); // This should be false (7 == 7)
         var result1 = solver.Check();
         Assert.That(result1, Is.EqualTo(Z3Status.Unsatisfiable), "x.Neq(y) with x=y=7 should be unsatisfiable");
         solver.Pop();
 
         solver.Push();
-        solver.Assert(x == context.MkInt(7));
-        solver.Assert(y == context.MkInt(7));
+        solver.Assert(x == context.Int(7));
+        solver.Assert(y == context.Int(7));
         solver.Assert(x != y); // This should also be false (7 == 7)
         var result2 = solver.Check();
         Assert.That(result2, Is.EqualTo(Z3Status.Unsatisfiable), "x != y with x=y=7 should be unsatisfiable");
@@ -567,8 +567,8 @@ public class Z3ExtendedOperationsTests
 
         // Both should be equivalent in satisfiable case too
         solver.Push();
-        solver.Assert(x == context.MkInt(5));
-        solver.Assert(y == context.MkInt(3));
+        solver.Assert(x == context.Int(5));
+        solver.Assert(y == context.Int(3));
         solver.Assert(x.Neq(y));
         var result3 = solver.Check();
         Assert.That(result3, Is.EqualTo(Z3Status.Satisfiable), "x.Neq(y) with x=5, y=3 should be satisfiable");
@@ -579,9 +579,9 @@ public class Z3ExtendedOperationsTests
     public void IfThenElse_IntegerExpressions_ReturnsCorrectType()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var condition = x > context.MkInt(0);
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var condition = x > context.Int(0);
         
         var result = condition.If(x, y);
         
@@ -594,9 +594,9 @@ public class Z3ExtendedOperationsTests
     public void IfThenElse_RealExpressions_ReturnsCorrectType()
     {
         using var context = new Z3Context();
-        var a = context.MkRealConst("a");
-        var b = context.MkRealConst("b");
-        var condition = a > context.MkReal(0.0);
+        var a = context.RealConst("a");
+        var b = context.RealConst("b");
+        var condition = a > context.Real(0.0);
         
         var result = condition.If(a, b);
         
@@ -609,9 +609,9 @@ public class Z3ExtendedOperationsTests
     public void IfThenElse_BooleanExpressions_ReturnsCorrectType()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
-        var r = context.MkBoolConst("r");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
+        var r = context.BoolConst("r");
         
         var result = p.If(q, r);
         
@@ -624,14 +624,14 @@ public class Z3ExtendedOperationsTests
     public void IfThenElse_SolverIntegration_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var condition = x > context.MkInt(0);
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var condition = x > context.Int(0);
         
-        var result = condition.If(context.MkInt(10), context.MkInt(-5));
+        var result = condition.If(context.Int(10), context.Int(-5));
         
-        using var solver = context.MkSolver();
-        solver.Assert(x == context.MkInt(3));
+        using var solver = context.CreateSolver();
+        solver.Assert(x == context.Int(3));
         solver.Assert(y == result);
         
         var status = solver.Check();
@@ -649,9 +649,9 @@ public class Z3ExtendedOperationsTests
     public void IfThenElse_TypeSafety_CompileTimeChecked()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var condition = x > context.MkInt(0);
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var condition = x > context.Int(0);
         
         // This should compile and return Z3IntExpr without casting
         Z3IntExpr result = condition.If(x, y);
@@ -666,8 +666,8 @@ public class Z3ExtendedOperationsTests
     public void MinOperation_IntegerExpressions_ExtensionMethod()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         var min = context.Min(x, y);
         
@@ -680,8 +680,8 @@ public class Z3ExtendedOperationsTests
     public void MaxOperation_IntegerExpressions_ExtensionMethod()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         var max = context.Max(x, y);
         
@@ -694,8 +694,8 @@ public class Z3ExtendedOperationsTests
     public void MinOperation_IntegerExpressions_AlternativeExtensionSyntax()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         var min = context.Min(x, y);
         
@@ -708,8 +708,8 @@ public class Z3ExtendedOperationsTests
     public void MaxOperation_IntegerExpressions_AlternativeExtensionSyntax()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         var max = context.Max(x, y);
         
@@ -722,8 +722,8 @@ public class Z3ExtendedOperationsTests
     public void MinOperation_RealExpressions_ExtensionMethod()
     {
         using var context = new Z3Context();
-        var a = context.MkRealConst("a");
-        var b = context.MkRealConst("b");
+        var a = context.RealConst("a");
+        var b = context.RealConst("b");
         
         var min = context.Min(a, b);
         
@@ -736,8 +736,8 @@ public class Z3ExtendedOperationsTests
     public void MaxOperation_RealExpressions_ExtensionMethod()
     {
         using var context = new Z3Context();
-        var a = context.MkRealConst("a");
-        var b = context.MkRealConst("b");
+        var a = context.RealConst("a");
+        var b = context.RealConst("b");
         
         var max = context.Max(a, b);
         
@@ -750,13 +750,13 @@ public class Z3ExtendedOperationsTests
     public void MinMaxOperations_SolverIntegration_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var z = context.MkIntConst("z");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var z = context.IntConst("z");
         
-        using var solver = context.MkSolver();
-        solver.Assert(x == context.MkInt(5));
-        solver.Assert(y == context.MkInt(10));
+        using var solver = context.CreateSolver();
+        solver.Assert(x == context.Int(5));
+        solver.Assert(y == context.Int(10));
         solver.Assert(z == context.Min(x, y)); // z should be min(5, 10) = 5
         
         var status = solver.Check();
@@ -774,13 +774,13 @@ public class Z3ExtendedOperationsTests
     public void MinMaxOperations_RealSolverIntegration_Works()
     {
         using var context = new Z3Context();
-        var a = context.MkRealConst("a");
-        var b = context.MkRealConst("b");
-        var maxVal = context.MkRealConst("maxVal");
+        var a = context.RealConst("a");
+        var b = context.RealConst("b");
+        var maxVal = context.RealConst("maxVal");
         
-        using var solver = context.MkSolver();
-        solver.Assert(a == context.MkReal(3.14));
-        solver.Assert(b == context.MkReal(2.71));
+        using var solver = context.CreateSolver();
+        solver.Assert(a == context.Real(3.14));
+        solver.Assert(b == context.Real(2.71));
         solver.Assert(maxVal == context.Max(a, b)); // maxVal should be max(3.14, 2.71) = 3.14
         
         var status = solver.Check();
@@ -799,7 +799,7 @@ public class Z3ExtendedOperationsTests
     public void MinOperation_IntWithLiteral_ExtensionMethods()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test both orders: expr-literal and literal-expr
         var min1 = context.Min(x, 5);
@@ -815,7 +815,7 @@ public class Z3ExtendedOperationsTests
     public void MaxOperation_IntWithLiteral_ExtensionMethods()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
+        var x = context.IntConst("x");
         
         // Test both orders: expr-literal and literal-expr
         var max1 = context.Max(x, 5);
@@ -831,7 +831,7 @@ public class Z3ExtendedOperationsTests
     public void MinOperation_RealWithDouble_ExtensionMethods()
     {
         using var context = new Z3Context();
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test both orders: expr-literal and literal-expr
         var min1 = context.Min(x, 3.14);
@@ -847,7 +847,7 @@ public class Z3ExtendedOperationsTests
     public void MaxOperation_RealWithDouble_ExtensionMethods()
     {
         using var context = new Z3Context();
-        var x = context.MkRealConst("x");
+        var x = context.RealConst("x");
         
         // Test both orders: expr-literal and literal-expr
         var max1 = context.Max(x, 3.14);
@@ -863,12 +863,12 @@ public class Z3ExtendedOperationsTests
     public void MinMaxLiterals_SolverIntegration_Works()
     {
         using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        var minResult = context.MkIntConst("minResult");
-        var maxResult = context.MkIntConst("maxResult");
+        var x = context.IntConst("x");
+        var minResult = context.IntConst("minResult");
+        var maxResult = context.IntConst("maxResult");
         
-        using var solver = context.MkSolver();
-        solver.Assert(x == context.MkInt(7));
+        using var solver = context.CreateSolver();
+        solver.Assert(x == context.Int(7));
         solver.Assert(minResult == context.Min(x, 10)); // Should be min(7, 10) = 7
         solver.Assert(maxResult == context.Max(3, x));  // Should be max(3, 7) = 7
         
@@ -890,10 +890,10 @@ public class Z3ExtendedOperationsTests
     public void XorOperation_SolverIntegration_WithOperator_Works()
     {
         using var context = new Z3Context();
-        var p = context.MkBoolConst("p");
-        var q = context.MkBoolConst("q");
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
         
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         solver.Assert(p ^ q);  // XOR operator: one must be true, not both
         solver.Assert(p | q);  // OR operator: at least one must be true
         

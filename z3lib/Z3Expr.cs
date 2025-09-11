@@ -8,7 +8,7 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     public static Z3BoolExpr operator ==(Z3Expr left, Z3Expr right) => left.Eq(right);
     public static Z3BoolExpr operator !=(Z3Expr left, Z3Expr right) => left.Neq(right);
     
-    public Z3BoolExpr Eq(Z3Expr other) => Context.MkEq(this, other);
+    public Z3BoolExpr Eq(Z3Expr other) => Context.Eq(this, other);
     public Z3BoolExpr Neq(Z3Expr other) => !Eq(other);
 
     public override bool Equals(object? obj)

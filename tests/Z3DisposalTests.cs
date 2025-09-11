@@ -14,27 +14,27 @@ public class Z3DisposalTests
         // All context operations should throw ObjectDisposedException
         Assert.Throws<ObjectDisposedException>(() => _ = context.Handle);
         Assert.Throws<ObjectDisposedException>(() => context.SetParameter("timeout", "1000"));
-        Assert.Throws<ObjectDisposedException>(() => context.MkInt(5));
-        Assert.Throws<ObjectDisposedException>(() => context.MkIntConst("x"));
-        Assert.Throws<ObjectDisposedException>(() => context.MkReal(3.14));
-        Assert.Throws<ObjectDisposedException>(() => context.MkRealConst("y"));
-        Assert.Throws<ObjectDisposedException>(() => context.MkTrue());
-        Assert.Throws<ObjectDisposedException>(() => context.MkFalse());
-        Assert.Throws<ObjectDisposedException>(() => context.MkSolver());
-        Assert.Throws<ObjectDisposedException>(() => context.MkSimpleSolver());
+        Assert.Throws<ObjectDisposedException>(() => context.Int(5));
+        Assert.Throws<ObjectDisposedException>(() => context.IntConst("x"));
+        Assert.Throws<ObjectDisposedException>(() => context.Real(3.14));
+        Assert.Throws<ObjectDisposedException>(() => context.RealConst("y"));
+        Assert.Throws<ObjectDisposedException>(() => context.True());
+        Assert.Throws<ObjectDisposedException>(() => context.False());
+        Assert.Throws<ObjectDisposedException>(() => context.CreateSolver());
+        Assert.Throws<ObjectDisposedException>(() => context.CreateSimpleSolver());
     }
 
     [Test]
     public void SolverThrowsAfterDisposal()
     {
         using var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
         solver.Dispose();
 
         // All solver operations should throw ObjectDisposedException
         Assert.Throws<ObjectDisposedException>(() => _ = solver.Handle);
-        Assert.Throws<ObjectDisposedException>(() => solver.Assert(context.MkTrue()));
+        Assert.Throws<ObjectDisposedException>(() => solver.Assert(context.True()));
         Assert.Throws<ObjectDisposedException>(() => solver.Check());
         Assert.Throws<ObjectDisposedException>(() => solver.GetReasonUnknown());
         Assert.Throws<ObjectDisposedException>(() => solver.Push());
@@ -48,7 +48,7 @@ public class Z3DisposalTests
         
         using (var context = new Z3Context())
         {
-            solver = context.MkSolver();
+            solver = context.CreateSolver();
             
             // Solver should work while context is alive
             Assert.DoesNotThrow(() => solver.Check());
@@ -69,10 +69,10 @@ public class Z3DisposalTests
     public void ContextDisposalOrder_ContextFirst()
     {
         var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
         // Add some constraints to make it interesting
-        solver.Assert(context.MkTrue());
+        solver.Assert(context.True());
         
         // Dispose context first
         context.Dispose();
@@ -85,16 +85,16 @@ public class Z3DisposalTests
     public void ContextDisposalOrder_SolverFirst()
     {
         using var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
         // Add some constraints
-        solver.Assert(context.MkTrue());
+        solver.Assert(context.True());
         
         // Dispose solver first
         solver.Dispose();
         
         // Context should still work
-        Assert.DoesNotThrow(() => context.MkInt(5));
+        Assert.DoesNotThrow(() => context.Int(5));
         Assert.DoesNotThrow(() => context.SetParameter("timeout", "1000"));
     }
 
@@ -102,14 +102,14 @@ public class Z3DisposalTests
     public void MultipleSolversDisposalOrder()
     {
         using var context = new Z3Context();
-        var solver1 = context.MkSolver();
-        var solver2 = context.MkSimpleSolver();
-        var solver3 = context.MkSolver();
+        var solver1 = context.CreateSolver();
+        var solver2 = context.CreateSimpleSolver();
+        var solver3 = context.CreateSolver();
         
         // Add constraints to each
-        solver1.Assert(context.MkTrue());
-        solver2.Assert(context.MkFalse());
-        solver3.Assert(context.MkInt(1) == context.MkInt(1));
+        solver1.Assert(context.True());
+        solver2.Assert(context.False());
+        solver3.Assert(context.Int(1) == context.Int(1));
         
         // Dispose in different order
         solver2.Dispose();
@@ -117,7 +117,7 @@ public class Z3DisposalTests
         solver3.Dispose();
         
         // Context should still work
-        Assert.DoesNotThrow(() => context.MkInt(10));
+        Assert.DoesNotThrow(() => context.Int(10));
     }
 
     [Test]
@@ -129,8 +129,8 @@ public class Z3DisposalTests
         var expressions = new List<Z3Expr>();
         for (int i = 0; i < 100; i++)
         {
-            expressions.Add(context.MkInt(i));
-            expressions.Add(context.MkIntConst($"x{i}"));
+            expressions.Add(context.Int(i));
+            expressions.Add(context.IntConst($"x{i}"));
         }
         
         // Should not throw when disposing context with many tracked expressions
@@ -147,7 +147,7 @@ public class Z3DisposalTests
         
         // Solver double disposal
         using var context2 = new Z3Context();
-        var solver = context2.MkSolver();
+        var solver = context2.CreateSolver();
         solver.Dispose();
         Assert.DoesNotThrow(() => solver.Dispose()); // Should not throw
     }
@@ -158,8 +158,8 @@ public class Z3DisposalTests
         var context = new Z3Context();
         context.Dispose();
         
-        Assert.Throws<ObjectDisposedException>(() => context.MkSolver());
-        Assert.Throws<ObjectDisposedException>(() => context.MkSimpleSolver());
+        Assert.Throws<ObjectDisposedException>(() => context.CreateSolver());
+        Assert.Throws<ObjectDisposedException>(() => context.CreateSimpleSolver());
     }
 
     [Test]
@@ -171,18 +171,18 @@ public class Z3DisposalTests
         // Create multiple solvers with complex constraints
         for (int i = 0; i < 10; i++)
         {
-            var solver = context.MkSolver();
+            var solver = context.CreateSolver();
             solvers.Add(solver);
             
-            var x = context.MkIntConst($"x{i}");
-            var y = context.MkIntConst($"y{i}");
+            var x = context.IntConst($"x{i}");
+            var y = context.IntConst($"y{i}");
             
-            solver.Assert(x > context.MkInt(0));
-            solver.Assert(y < context.MkInt(100));
-            solver.Assert((x + y) == context.MkInt(50));
+            solver.Assert(x > context.Int(0));
+            solver.Assert(y < context.Int(100));
+            solver.Assert((x + y) == context.Int(50));
             
             solver.Push();
-            solver.Assert(x == context.MkInt(i * 5));
+            solver.Assert(x == context.Int(i * 5));
             
             var result = solver.Check();
             Assert.That(result, Is.EqualTo(Z3Status.Satisfiable).Or.EqualTo(Z3Status.Unsatisfiable));
@@ -230,9 +230,9 @@ public class Z3DisposalTests
     private static void CreateAndAbandonObjects()
     {
         var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
-        solver.Assert(context.MkTrue());
+        solver.Assert(context.True());
         solver.Check();
         
         // Let objects go out of scope without explicit disposal
@@ -243,12 +243,12 @@ public class Z3DisposalTests
     public void ContextDisposesTrackedSolversAutomatically()
     {
         var context = new Z3Context();
-        var solver1 = context.MkSolver();
-        var solver2 = context.MkSimpleSolver();
+        var solver1 = context.CreateSolver();
+        var solver2 = context.CreateSimpleSolver();
         
         // Add constraints to verify solvers are working
-        solver1.Assert(context.MkTrue());
-        solver2.Assert(context.MkFalse());
+        solver1.Assert(context.True());
+        solver2.Assert(context.False());
         
         // Dispose context - should automatically dispose both solvers
         context.Dispose();
@@ -264,10 +264,10 @@ public class Z3DisposalTests
     public void SolverDisposalIsTrackedByContext()
     {
         using var context = new Z3Context();
-        var solver = context.MkSolver();
+        var solver = context.CreateSolver();
         
         // Solver should work initially
-        solver.Assert(context.MkTrue());
+        solver.Assert(context.True());
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
         // Dispose solver explicitly - context should handle it
@@ -278,12 +278,12 @@ public class Z3DisposalTests
         Assert.Throws<ObjectDisposedException>(() => solver.Check());
         
         // Context should still work fine
-        Assert.DoesNotThrow(() => context.MkInt(5));
+        Assert.DoesNotThrow(() => context.Int(5));
     }
 
     private static Z3BoolExpr CreateBoolExprFromAnotherContext()
     {
         using var tempContext = new Z3Context();
-        return tempContext.MkTrue();
+        return tempContext.True();
     }
 }

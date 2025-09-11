@@ -9,7 +9,7 @@ public class Z3SolverTests
     public void CanCreateSolver()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
         Assert.That(solver.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
@@ -18,16 +18,16 @@ public class Z3SolverTests
     public void CanCheckSatisfiabilityWithSatisfiableConstraints()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var ten = context.MkInt(10);
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var ten = context.Int(10);
         
         // x + y == 10 and x > 0 and y > 0 (satisfiable)
         solver.Assert((x + y) == ten);
-        solver.Assert(x > context.MkInt(0));
-        solver.Assert(y > context.MkInt(0));
+        solver.Assert(x > context.Int(0));
+        solver.Assert(y > context.Int(0));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -37,11 +37,11 @@ public class Z3SolverTests
     public void CanCheckSatisfiabilityWithUnsatisfiableConstraints()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var five = context.MkInt(5);
-        var ten = context.MkInt(10);
+        var x = context.IntConst("x");
+        var five = context.Int(5);
+        var ten = context.Int(10);
         
         // x == 5 and x == 10 (unsatisfiable)
         solver.Assert(x == five);
@@ -55,10 +55,10 @@ public class Z3SolverTests
     public void CanGetSatisfiableResult()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var five = context.MkInt(5);
+        var x = context.IntConst("x");
+        var five = context.Int(5);
         
         // x == 5
         solver.Assert(x == five);
@@ -71,15 +71,15 @@ public class Z3SolverTests
     public void CanSolveComplexConstraints()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
-        var ten = context.MkInt(10);
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var ten = context.Int(10);
         
         // x + y == 10 and x == 3
         solver.Assert((x + y) == ten);
-        solver.Assert(x == context.MkInt(3));
+        solver.Assert(x == context.Int(3));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -89,10 +89,10 @@ public class Z3SolverTests
     public void CanCreateBooleanExpressions()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var p = context.MkTrue();
-        var q = context.MkFalse();
+        var p = context.True();
+        var q = context.False();
         var andExpr = p & q;
         var orExpr = p | q;
         
@@ -108,10 +108,10 @@ public class Z3SolverTests
     public void CanSolveRealConstraints()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
-        var pi = context.MkReal(3.14);
+        var x = context.RealConst("x");
+        var pi = context.Real(3.14);
         
         // x == 3.14
         solver.Assert(x == pi);
@@ -124,14 +124,14 @@ public class Z3SolverTests
     public void CanUsePushAndPop()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var five = context.MkInt(5);
-        var ten = context.MkInt(10);
+        var x = context.IntConst("x");
+        var five = context.Int(5);
+        var ten = context.Int(10);
         
         // Add x > 0
-        solver.Assert(x > context.MkInt(0));
+        solver.Assert(x > context.Int(0));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
         // Push context and add x == 5
@@ -154,17 +154,17 @@ public class Z3SolverTests
         using var context = new Z3Context();
         
         // Create variables using factory methods
-        var x = context.MkIntConst("x");
-        var y = context.MkIntConst("y");
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
         
         // Create solver
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
         // Add constraints using natural operators
-        solver.Assert(x > context.MkInt(0));
-        solver.Assert(y > context.MkInt(0));
-        solver.Assert((x + y) == context.MkInt(10));
-        solver.Assert(x < context.MkInt(8));  // Additional constraint to make solution unique
+        solver.Assert(x > context.Int(0));
+        solver.Assert(y > context.Int(0));
+        solver.Assert((x + y) == context.Int(10));
+        solver.Assert(x < context.Int(8));  // Additional constraint to make solution unique
         
         // Check satisfiability
         var result = solver.Check();
@@ -172,29 +172,13 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanDetectUnsatisfiableConstraints()
-    {
-        using var context = new Z3Context();
-        using var solver = context.MkSolver();
-        
-        var x = context.MkIntConst("x");
-        
-        // Add unsatisfiable constraints
-        solver.Assert(x == context.MkInt(5));
-        solver.Assert(x == context.MkInt(10));
-        
-        var result = solver.Check();
-        Assert.That(result, Is.EqualTo(Z3Status.Unsatisfiable));
-    }
-
-    [Test]
     public void GetReasonUnknownWhenStatusIsKnown()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        solver.Assert(x == context.MkInt(5));
+        var x = context.IntConst("x");
+        solver.Assert(x == context.Int(5));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -214,23 +198,17 @@ public class Z3SolverTests
         };
         
         using var context = new Z3Context(parameters);
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkIntConst("x");
-        var five = context.MkInt(5);
-        var ten = context.MkInt(10);
+        var x = context.IntConst("x");
+        var five = context.Int(5);
+        var ten = context.Int(10);
         
         // Add contradictory constraints: x == 5 and x == 10
         solver.Assert(x == five);
         solver.Assert(x == ten);
         
         var result = solver.Check();
-        Console.WriteLine($"Solver with timeout=0 result: {result}");
-        
-        if (result == Z3Status.Unknown)
-        {
-            Console.WriteLine($"Reason unknown: {solver.GetReasonUnknown()}");
-        }
         
         // This should be unsatisfiable, not unknown
         Assert.That(result, Is.Not.EqualTo(Z3Status.Satisfiable));
@@ -240,20 +218,14 @@ public class Z3SolverTests
     public void DiagnosticOutputForDebugging()
     {
         using var context = new Z3Context();
-        using var solver = context.MkSolver();
+        using var solver = context.CreateSolver();
         
-        var x = context.MkRealConst("x");
-        var pi = context.MkReal(3.14);
+        var x = context.RealConst("x");
+        var pi = context.Real(3.14);
         
         solver.Assert(x == pi);
         
         var result = solver.Check();
-        Console.WriteLine($"Real constraint diagnostic result: {result}");
-        
-        if (result == Z3Status.Unknown)
-        {
-            Console.WriteLine($"Reason unknown: {solver.GetReasonUnknown()}");
-        }
         
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
     }
