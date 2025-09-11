@@ -85,6 +85,27 @@ public partial class Z3Context : IDisposable
         solver.InternalDispose();
     }
 
+    internal Z3Expr WrapExpr(IntPtr handle)
+    {
+        ThrowIfDisposed();
+        
+        if (handle == IntPtr.Zero)
+            throw new ArgumentException("Invalid expression handle", nameof(handle));
+        
+        var sort = NativeMethods.Z3GetSort(contextHandle, handle);
+        var sortKind = NativeMethods.Z3GetSortKind(contextHandle, sort);
+        
+        TrackExpression(handle);
+        
+        return (Z3SortKind)sortKind switch
+        {
+            Z3SortKind.Bool => new Z3BoolExpr(this, handle),
+            Z3SortKind.Int => new Z3IntExpr(this, handle),
+            Z3SortKind.Real => new Z3RealExpr(this, handle),
+            _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}")
+        };
+    }
+
     internal void ThrowIfDisposed()
     {
         if (disposed)

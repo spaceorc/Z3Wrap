@@ -46,13 +46,75 @@
    - ✅ Error handling: Throws on invalid states instead of returning null
    - ✅ Comprehensive testing: 13 lifetime tests covering all scenarios
 
-### Phase 3: Extended Boolean Operations
+### Phase 3: Complete Z3Model Value Extraction (COMPLETED ✅)
+**Status**: Z3Model now has complete value extraction capabilities with rock-solid lifetime management.
+
+**Implementation Plan:**
+1. ✅ **Research Z3 C API model functions**
+2. ✅ **Add required P/Invoke methods to NativeMethods.cs**
+   - `Z3_model_eval` - Primary API for evaluating expressions in models
+   - `Z3_get_numeral_string` - Extract numeric values as strings
+   - `Z3_get_numeral_int` - Extract integer values directly  
+   - `Z3_get_bool_value` - Extract boolean values
+   - `Z3_is_numeral_ast` - Check if expression is a numeral
+   - `Z3_get_sort`, `Z3_get_sort_kind` - For expression type detection
+3. ✅ **Implement Z3Model.Evaluate() method**
+   - Core evaluation using Z3_model_eval with model completion
+   - Returns Z3Expr representing the evaluated result
+   - Handles expression evaluation within model context
+   - Automatic type detection and wrapper creation
+4. ✅ **Add convenient value extraction methods**
+   - `GetIntValue(Z3IntExpr expr)` - Extract integer constant values (returns int)
+   - `GetBoolValue(Z3BoolExpr expr)` - Extract boolean constant values (returns Z3BoolValue enum)
+   - `GetRealValueAsString(Z3RealExpr expr)` - Extract real constant values (returns string)
+   - Proper error handling for non-constant expressions
+   - Consistent enum usage: Z3Status, Z3BoolValue, Z3SortKind (no magic constants)
+5. ✅ **Create comprehensive tests**
+   - 17 new tests for Z3Model value extraction functionality
+   - Test value extraction for all expression types
+   - Test error handling for invalid extractions
+   - Test model completion behavior
+   - Test model invalidation scenarios
+6. ✅ **Update usage examples**
+
+**Expected Usage Pattern:**
+```csharp
+using var context = new Z3Context();
+var x = context.MkIntConst("x");
+var y = context.MkBoolConst("y");
+var z = context.MkRealConst("z");
+
+using var solver = context.MkSolver();
+solver.Assert(x > context.MkInt(0));
+solver.Assert(x < context.MkInt(10));
+solver.Assert(y);
+solver.Assert(z == context.MkReal(3.14));
+
+if (solver.Check() == Z3Status.Satisfiable)
+{
+    var model = solver.GetModel();
+    
+    // Primary method: Evaluate returns Z3 expressions (consistent with factory pattern)
+    var xExpr = model.Evaluate(x);        // Returns Z3IntExpr representing constant
+    var yExpr = model.Evaluate(y);        // Returns Z3BoolExpr representing true/false
+    var zExpr = model.Evaluate(z);        // Returns Z3RealExpr representing constant
+    
+    // Convenience methods: Extract primitive values for display/computation
+    var xValue = model.GetIntValue(x);           // e.g., 5 (int)
+    var yValue = model.GetBoolValue(y);          // e.g., Z3BoolValue.True (enum)  
+    var zValue = model.GetRealValueAsString(z);  // e.g., "3.14" (string)
+    
+    Console.WriteLine($"x = {xValue}, y = {yValue}, z = {zValue}");
+}
+```
+
+### Phase 4: Extended Boolean Operations
 Add missing logical operations to make Boolean expressions complete:
 - **Implies** - `context.MkImplies(p, q)` and `p.Implies(q)`
 - **Iff** - `context.MkIff(p, q)` and `p.Iff(q)` (biconditional)
 - **Xor** - `context.MkXor(p, q)` and `p.Xor(q)` (exclusive or)
 
-### Phase 4: Extended Arithmetic Operations
+### Phase 5: Extended Arithmetic Operations
 Add common mathematical operations:
 - **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)`
 - **Absolute Value** - `context.MkAbs(x)` and `x.Abs()`

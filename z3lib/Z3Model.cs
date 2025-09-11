@@ -30,6 +30,56 @@ public sealed class Z3Model
         }
     }
 
+    public Z3Expr Evaluate(Z3Expr expr, bool modelCompletion = true)
+    {
+        ThrowIfInvalidated();
+        context.ThrowIfDisposed();
+        
+        if (!NativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out IntPtr result))
+            throw new InvalidOperationException("Failed to evaluate expression in model");
+        
+        return context.WrapExpr(result);
+    }
+
+    public int GetIntValue(Z3IntExpr expr)
+    {
+        var evaluated = Evaluate(expr);
+        
+        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
+            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
+        
+        if (!NativeMethods.Z3GetNumeralInt(context.Handle, evaluated.Handle, out int value))
+            throw new InvalidOperationException($"Failed to extract integer value from expression {expr}");
+        
+        return value;
+    }
+
+    public Z3BoolValue GetBoolValue(Z3BoolExpr expr)
+    {
+        var evaluated = Evaluate(expr);
+        
+        var boolValue = NativeMethods.Z3GetBoolValue(context.Handle, evaluated.Handle);
+        
+        return boolValue switch
+        {
+            1 => Z3BoolValue.True,
+            0 => Z3BoolValue.False,
+            -1 => Z3BoolValue.Undefined,
+            _ => throw new InvalidOperationException($"Invalid boolean value {boolValue} from Z3")
+        };
+    }
+
+    public string GetRealValueAsString(Z3RealExpr expr)
+    {
+        var evaluated = Evaluate(expr);
+        
+        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
+            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
+        
+        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
+        return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract real value from expression {expr}");
+    }
+
     public override string ToString()
     {
         if (invalidated) 

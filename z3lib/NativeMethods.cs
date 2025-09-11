@@ -69,6 +69,13 @@ public static class NativeMethods
         LoadFunction("Z3_model_dec_ref");
         LoadFunction("Z3_model_to_string");
         LoadFunction("Z3_ast_to_string");
+        LoadFunction("Z3_model_eval");
+        LoadFunction("Z3_get_numeral_string");
+        LoadFunction("Z3_get_numeral_int");
+        LoadFunction("Z3_get_bool_value");
+        LoadFunction("Z3_is_numeral_ast");
+        LoadFunction("Z3_get_sort");
+        LoadFunction("Z3_get_sort_kind");
     }
 
     private static void LoadFunction(string functionName)
@@ -385,6 +392,55 @@ public static class NativeMethods
         return func(ctx, ast);
     }
 
+    public static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    {
+        var funcPtr = GetFunctionPointer("Z3_model_eval");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
+        return func(ctx, model, expr, modelCompletion ? 1 : 0, out result) != 0;
+    }
+
+    public static IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
+        return func(ctx, expr);
+    }
+
+    public static bool Z3GetNumeralInt(IntPtr ctx, IntPtr expr, out int value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_numeral_int");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralIntDelegate>(funcPtr);
+        return func(ctx, expr, out value) != 0;
+    }
+
+    public static int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_bool_value");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetBoolValueDelegate>(funcPtr);
+        return func(ctx, expr);
+    }
+
+    public static bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
+    {
+        var funcPtr = GetFunctionPointer("Z3_is_numeral_ast");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3IsNumeralAstDelegate>(funcPtr);
+        return func(ctx, expr) != 0;
+    }
+
+    public static IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetSortDelegate>(funcPtr);
+        return func(ctx, expr);
+    }
+
+    public static int Z3GetSortKind(IntPtr ctx, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_sort_kind");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetSortKindDelegate>(funcPtr);
+        return func(ctx, sort);
+    }
+
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextDelegate(IntPtr cfg);
@@ -435,4 +491,11 @@ public static class NativeMethods
     private delegate void Z3ModelDecRefDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr Z3ModelToStringDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr Z3AstToStringDelegate(IntPtr ctx, IntPtr ast);
+    private delegate int Z3ModelEvalDelegate(IntPtr ctx, IntPtr model, IntPtr expr, int modelCompletion, out IntPtr result);
+    private delegate IntPtr Z3GetNumeralStringDelegate(IntPtr ctx, IntPtr expr);
+    private delegate int Z3GetNumeralIntDelegate(IntPtr ctx, IntPtr expr, out int value);
+    private delegate int Z3GetBoolValueDelegate(IntPtr ctx, IntPtr expr);
+    private delegate int Z3IsNumeralAstDelegate(IntPtr ctx, IntPtr expr);
+    private delegate IntPtr Z3GetSortDelegate(IntPtr ctx, IntPtr expr);
+    private delegate int Z3GetSortKindDelegate(IntPtr ctx, IntPtr sort);
 }
