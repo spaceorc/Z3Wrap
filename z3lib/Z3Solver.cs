@@ -7,6 +7,7 @@ public sealed class Z3Solver : IDisposable
     private readonly Z3Context context;
     private IntPtr solverHandle;
     private bool disposed;
+    private bool isBeingDisposedByContext;
 
     internal Z3Solver(Z3Context context, bool useSimpleSolver = false)
     {
@@ -30,6 +31,8 @@ public sealed class Z3Solver : IDisposable
             return solverHandle;
         }
     }
+
+    internal IntPtr InternalHandle => solverHandle;
 
     public void Assert(Z3BoolExpr constraint)
     {
@@ -75,22 +78,22 @@ public sealed class Z3Solver : IDisposable
         if (disposed)
             return;
 
-        if (solverHandle != IntPtr.Zero)
+        if (!isBeingDisposedByContext)
         {
-            // Only try to decrement reference if context is still alive
-            try
-            {
-                NativeMethods.Z3SolverDecRef(context.Handle, solverHandle);
-            }
-            catch (ObjectDisposedException)
-            {
-                // Context is already disposed, can't safely decrement reference
-                // This is okay - Z3 will clean up when context is disposed
-            }
-            
-            solverHandle = IntPtr.Zero;
+            // Delegate disposal to context - it will call back to InternalDispose
+            context.DisposeSolver(this);
         }
 
+        disposed = true;
+    }
+
+    internal void InternalDispose()
+    {
+        if (disposed)
+            return;
+
+        isBeingDisposedByContext = true;
+        solverHandle = IntPtr.Zero;
         disposed = true;
     }
 

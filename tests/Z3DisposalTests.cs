@@ -239,6 +239,48 @@ public class Z3DisposalTests
         // Finalizers should handle cleanup
     }
 
+    [Test]
+    public void ContextDisposesTrackedSolversAutomatically()
+    {
+        var context = new Z3Context();
+        var solver1 = context.MkSolver();
+        var solver2 = context.MkSimpleSolver();
+        
+        // Add constraints to verify solvers are working
+        solver1.Assert(context.MkTrue());
+        solver2.Assert(context.MkFalse());
+        
+        // Dispose context - should automatically dispose both solvers
+        context.Dispose();
+        
+        // Solvers should now be disposed and throw when accessed
+        Assert.Throws<ObjectDisposedException>(() => _ = solver1.Handle);
+        Assert.Throws<ObjectDisposedException>(() => _ = solver2.Handle);
+        Assert.Throws<ObjectDisposedException>(() => solver1.Check());
+        Assert.Throws<ObjectDisposedException>(() => solver2.Check());
+    }
+
+    [Test]
+    public void SolverDisposalIsTrackedByContext()
+    {
+        using var context = new Z3Context();
+        var solver = context.MkSolver();
+        
+        // Solver should work initially
+        solver.Assert(context.MkTrue());
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        
+        // Dispose solver explicitly - context should handle it
+        solver.Dispose();
+        
+        // Solver should now be disposed
+        Assert.Throws<ObjectDisposedException>(() => _ = solver.Handle);
+        Assert.Throws<ObjectDisposedException>(() => solver.Check());
+        
+        // Context should still work fine
+        Assert.DoesNotThrow(() => context.MkInt(5));
+    }
+
     private static Z3BoolExpr CreateBoolExprFromAnotherContext()
     {
         using var tempContext = new Z3Context();

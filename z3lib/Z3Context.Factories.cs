@@ -223,11 +223,15 @@ public partial class Z3Context
     // Solver factory methods
     public Z3Solver MkSolver()
     {
-        return new Z3Solver(this, false);
+        var solver = new Z3Solver(this, false);
+        TrackSolver(solver);
+        return solver;
     }
 
     public Z3Solver MkSimpleSolver()
     {
-        return new Z3Solver(this, true);
+        var solver = new Z3Solver(this, true);
+        TrackSolver(solver);
+        return solver;
     }
 }

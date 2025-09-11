@@ -3,6 +3,7 @@ namespace z3lib;
 public partial class Z3Context : IDisposable
 {
     private readonly HashSet<IntPtr> trackedExpressions = [];
+    private readonly HashSet<Z3Solver> trackedSolvers = [];
     private IntPtr configHandle;
     private IntPtr contextHandle;
     private bool disposed;
@@ -57,6 +58,33 @@ public partial class Z3Context : IDisposable
         trackedExpressions.Add(handle);
     }
 
+    internal void TrackSolver(Z3Solver solver)
+    {
+        ThrowIfDisposed();
+        trackedSolvers.Add(solver);
+    }
+
+    internal void UntrackSolver(Z3Solver solver)
+    {
+        trackedSolvers.Remove(solver);
+    }
+
+    internal void DisposeSolver(Z3Solver solver)
+    {
+        if (disposed)
+            return; // Context is already disposed, nothing to do
+
+        UntrackSolver(solver);
+        
+        var solverHandle = solver.InternalHandle;
+        if (solverHandle != IntPtr.Zero)
+        {
+            NativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
+        }
+        
+        solver.InternalDispose();
+    }
+
     internal void ThrowIfDisposed()
     {
         if (disposed)
@@ -70,12 +98,20 @@ public partial class Z3Context : IDisposable
         
         if (contextHandle != IntPtr.Zero)
         {
-            // Clean up all tracked expressions first
+            // First dispose all tracked solvers
+            foreach (var solver in trackedSolvers.ToArray())
+            {
+                DisposeSolver(solver);
+            }
+            trackedSolvers.Clear();
+
+            // Then clean up all tracked expressions
             foreach (var exprHandle in trackedExpressions)
                 NativeMethods.Z3DecRef(contextHandle, exprHandle);
 
             trackedExpressions.Clear();
 
+            // Finally dispose the context itself
             NativeMethods.Z3DelContext(contextHandle);
             contextHandle = IntPtr.Zero;
         }
