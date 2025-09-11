@@ -175,6 +175,16 @@ public class RealClassTests
     }
 
     [Test]
+    public void ImplicitConversion_FromBigInteger_CreatesIntegerRational()
+    {
+        BigInteger bigInt = new BigInteger(12345678901234567890L);
+        Real real = bigInt; // Implicit conversion from BigInteger
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+    }
+
+    [Test]
     public void Constructor_FromDecimal_CreatesExactRational()
     {
         var real = new Real(0.125m);
@@ -190,12 +200,38 @@ public class RealClassTests
         Assert.That((int)real.Denominator, Is.EqualTo(2));
     }
 
+
+    [Test]
+    public void ExplicitConversion_FromDouble_PreservesExactValues()
+    {
+        // Values that can be exactly represented
+        Real quarter = (Real)0.25;
+        Assert.That((int)quarter.Numerator, Is.EqualTo(1));
+        Assert.That((int)quarter.Denominator, Is.EqualTo(4));
+
+        Real eighth = (Real)0.125;
+        Assert.That((int)eighth.Numerator, Is.EqualTo(1));
+        Assert.That((int)eighth.Denominator, Is.EqualTo(8));
+    }
+
     [Test]
     public void ExplicitConversion_ToDouble_ReturnsApproximateValue()
     {
         var oneThird = new Real(1, 3);
         double result = (double)oneThird;
         Assert.That(result, Is.EqualTo(1.0 / 3.0).Within(1e-15));
+    }
+
+    [Test]
+    public void ExplicitConversion_ToDecimal_ReturnsDecimalValue()
+    {
+        var oneQuarter = new Real(1, 4);
+        decimal result = (decimal)oneQuarter;
+        Assert.That(result, Is.EqualTo(0.25m));
+        
+        var twoThirds = new Real(2, 3);
+        decimal result2 = (decimal)twoThirds;
+        Assert.That(result2, Is.EqualTo(2.0m / 3.0m));
     }
 
     [Test]
@@ -237,6 +273,27 @@ public class RealClassTests
         Assert.Throws<FormatException>(() => Real.Parse("invalid"));
         Assert.Throws<FormatException>(() => Real.Parse("1/0"));
         Assert.Throws<FormatException>(() => Real.Parse(""));
+    }
+
+    [Test]
+    public void Parse_InvalidNumerator_ThrowsFormatException()
+    {
+        Assert.Throws<FormatException>(() => Real.Parse("invalid/5"));
+        Assert.Throws<FormatException>(() => Real.Parse("abc/10"));
+    }
+
+    [Test]
+    public void Parse_InvalidDenominator_ThrowsFormatException()
+    {
+        Assert.Throws<FormatException>(() => Real.Parse("5/invalid"));
+        Assert.Throws<FormatException>(() => Real.Parse("10/abc"));
+    }
+
+    [Test]
+    public void Parse_InvalidDecimalFormat_ThrowsFormatException()
+    {
+        Assert.Throws<FormatException>(() => Real.Parse("1.2.3"));
+        Assert.Throws<FormatException>(() => Real.Parse("abc.def"));
     }
 
     [Test]
@@ -396,5 +453,165 @@ public class RealClassTests
         
         Assert.That(result.Numerator, Is.Not.EqualTo(BigInteger.Zero));
         Assert.That(result.Denominator, Is.GreaterThan(BigInteger.Zero));
+    }
+
+    [Test]
+    public void Min_ReturnsSmaller()
+    {
+        var oneThird = new Real(1, 3);
+        var oneHalf = new Real(1, 2);
+        
+        Assert.That(Real.Min(oneThird, oneHalf), Is.EqualTo(oneThird));
+        Assert.That(Real.Min(oneHalf, oneThird), Is.EqualTo(oneThird));
+        Assert.That(Real.Min(oneThird, oneThird), Is.EqualTo(oneThird));
+    }
+
+    [Test]
+    public void Max_ReturnsLarger()
+    {
+        var oneThird = new Real(1, 3);
+        var oneHalf = new Real(1, 2);
+        
+        Assert.That(Real.Max(oneThird, oneHalf), Is.EqualTo(oneHalf));
+        Assert.That(Real.Max(oneHalf, oneThird), Is.EqualTo(oneHalf));
+        Assert.That(Real.Max(oneThird, oneThird), Is.EqualTo(oneThird));
+    }
+
+    [Test]
+    public void ToInt_IntegerValue_ReturnsCorrectInt()
+    {
+        var real = new Real(42);
+        Assert.That(real.ToInt(), Is.EqualTo(42));
+        
+        var negative = new Real(-123);
+        Assert.That(negative.ToInt(), Is.EqualTo(-123));
+    }
+
+    [Test]
+    public void ToInt_NonIntegerValue_ThrowsInvalidOperationException()
+    {
+        var fraction = new Real(1, 3);
+        Assert.Throws<InvalidOperationException>(() => fraction.ToInt());
+    }
+
+    [Test]
+    public void ToLong_IntegerValue_ReturnsCorrectLong()
+    {
+        var real = new Real(42L);
+        Assert.That(real.ToLong(), Is.EqualTo(42L));
+        
+        var large = new Real(long.MaxValue);
+        Assert.That(large.ToLong(), Is.EqualTo(long.MaxValue));
+    }
+
+    [Test]
+    public void ToLong_NonIntegerValue_ThrowsInvalidOperationException()
+    {
+        var fraction = new Real(1, 3);
+        Assert.Throws<InvalidOperationException>(() => fraction.ToLong());
+    }
+
+    [Test]
+    public void ToBigInteger_IntegerValue_ReturnsCorrectBigInteger()
+    {
+        var real = new Real(42);
+        Assert.That(real.ToBigInteger(), Is.EqualTo(new BigInteger(42)));
+        
+        var large = new Real(long.MaxValue);
+        Assert.That(large.ToBigInteger(), Is.EqualTo(new BigInteger(long.MaxValue)));
+        
+        var veryLarge = new Real(new BigInteger(long.MaxValue) + 1000, 1);
+        Assert.That(veryLarge.ToBigInteger(), Is.EqualTo(new BigInteger(long.MaxValue) + 1000));
+    }
+
+    [Test]
+    public void ToBigInteger_NonIntegerValue_ThrowsInvalidOperationException()
+    {
+        var fraction = new Real(1, 3);
+        Assert.Throws<InvalidOperationException>(() => fraction.ToBigInteger());
+    }
+
+    [Test]
+    public void ToInt_OverflowValue_ThrowsOverflowException()
+    {
+        var tooLarge = new Real(long.MaxValue);
+        Assert.Throws<OverflowException>(() => tooLarge.ToInt());
+    }
+
+    [Test]
+    public void ToLong_OverflowValue_ThrowsOverflowException()
+    {
+        // Create a value larger than long.MaxValue using BigInteger
+        var tooLarge = new Real(new BigInteger(long.MaxValue) + 1, 1);
+        Assert.Throws<OverflowException>(() => tooLarge.ToLong());
+    }
+
+    [Test]
+    public void Round_IntegerValue_ReturnsSameValue()
+    {
+        var integer = new Real(42);
+        Assert.That(integer.Round(), Is.EqualTo(new BigInteger(42)));
+    }
+
+    [Test]
+    public void Round_DefaultToEven_RoundsCorrectly()
+    {
+        // Test rounding down
+        var oneQuarter = new Real(1, 4); // 0.25
+        Assert.That(oneQuarter.Round(), Is.EqualTo(BigInteger.Zero));
+
+        // Test rounding up  
+        var threeQuarters = new Real(3, 4); // 0.75
+        Assert.That(threeQuarters.Round(), Is.EqualTo(BigInteger.One));
+
+        // Test midpoint - should round to even
+        var oneHalf = new Real(1, 2); // 0.5 - rounds to 0 (even)
+        Assert.That(oneHalf.Round(), Is.EqualTo(BigInteger.Zero));
+
+        var threeHalves = new Real(3, 2); // 1.5 - rounds to 2 (even)
+        Assert.That(threeHalves.Round(), Is.EqualTo(new BigInteger(2)));
+    }
+
+    [Test]
+    public void Round_AwayFromZero_RoundsCorrectly()
+    {
+        var oneHalf = new Real(1, 2); // 0.5
+        Assert.That(oneHalf.Round(MidpointRounding.AwayFromZero), Is.EqualTo(BigInteger.One));
+
+        var negativeHalf = new Real(-1, 2); // -0.5
+        Assert.That(negativeHalf.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(-1)));
+    }
+
+    [Test]
+    public void Round_ToZero_RoundsCorrectly()
+    {
+        var oneHalf = new Real(1, 2); // 0.5
+        Assert.That(oneHalf.Round(MidpointRounding.ToZero), Is.EqualTo(BigInteger.Zero));
+
+        var negativeHalf = new Real(-1, 2); // -0.5
+        Assert.That(negativeHalf.Round(MidpointRounding.ToZero), Is.EqualTo(BigInteger.Zero));
+    }
+
+    [Test]
+    public void ToDecimal_VeryLargeInteger_ReturnsMaxValue()
+    {
+        // Create a Real that's too large for decimal
+        var veryLarge = new Real(BigInteger.Pow(10, 50), 1);
+        var result = veryLarge.ToDecimal();
+        Assert.That(result, Is.EqualTo(decimal.MaxValue));
+        
+        var verySmall = new Real(-BigInteger.Pow(10, 50), 1);
+        var result2 = verySmall.ToDecimal();
+        Assert.That(result2, Is.EqualTo(decimal.MinValue));
+    }
+
+    [Test]
+    public void ToDecimal_VeryLargeFraction_HandlesOverflow()
+    {
+        // Create fractions with very large numerator/denominator that would overflow decimal arithmetic
+        var largeFraction = new Real(BigInteger.Pow(10, 40), BigInteger.Pow(10, 35));
+        var result = largeFraction.ToDecimal();
+        // Should return some reasonable approximation without throwing
+        Assert.That(result, Is.Not.EqualTo(0));
     }
 }
