@@ -1,3 +1,3 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("tests")]
+[assembly: InternalsVisibleTo("z3lib.tests")]

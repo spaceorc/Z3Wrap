@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z3lib", "z3lib\z3lib.csproj", "{334CF6BD-C27A-46A4-8B1E-18AFDACA403D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{E5EA2C22-5273-4D69-9C31-9E4D0881F110}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z3lib.tests", "z3lib.tests\z3lib.tests.csproj", "{E5EA2C22-5273-4D69-9C31-9E4D0881F110}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5722-43CA-BCBB-D1B9E28011A5}"
 	ProjectSection(SolutionItems) = preProject
