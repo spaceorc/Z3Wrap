@@ -108,4 +108,7 @@ public static partial class Z3ContextExtensions
         var resultHandle = NativeMethods.Z3MkUnaryMinus(context.Handle, expr.Handle);
         return context.WrapRealExpr(resultHandle);
     }
+    
+    public static Z3IntExpr Abs(this Z3Context context, Z3IntExpr expr) => context.Ite(context.Lt(expr, 0), context.UnaryMinus(expr), expr);
+    public static Z3RealExpr Abs(this Z3Context context, Z3RealExpr expr) => context.Ite(context.Lt(expr, 0), context.UnaryMinus(expr), expr);
 }
