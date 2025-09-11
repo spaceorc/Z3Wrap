@@ -20,7 +20,7 @@
 - ✅ **NativeMethods.cs** - P/Invoke with dynamic library loading
 - ✅ **Z3Context** - Context management with centralized expression tracking
 - ✅ **Expression Types**: Z3BoolExpr, Z3IntExpr, Z3RealExpr with operator overloading
-- ✅ **Factory Pattern** - Context-based expression creation (`context.MkInt(5)`, `context.MkBoolConst("p")`)
+- ✅ **Factory Pattern** - Context-based expression creation (`context.Int(5)`, `context.BoolConst("p")`)
 - ✅ **Memory Management** - Hierarchical disposal with context managing all object lifetimes
 - ✅ **Modern C# Patterns** - Nullable reference types, `using var`, expression-bodied members
 
@@ -29,7 +29,7 @@
    - ✅ Solver P/Invoke methods: `Z3_mk_solver`, `Z3_solver_assert`, `Z3_solver_check`
    - ✅ Solver reference counting: `Z3_solver_inc_ref`, `Z3_solver_dec_ref`
    - ✅ Constraint stack: `Z3_solver_push`, `Z3_solver_pop`
-   - ✅ Simple solver support: `context.MkSimpleSolver()`
+   - ✅ Simple solver support: `context.CreateSimpleSolver()`
    - ✅ GetReasonUnknown() for diagnostic information
    - ✅ Hierarchical disposal: Context tracks and disposes all solvers
 
@@ -80,15 +80,15 @@
 **Expected Usage Pattern:**
 ```csharp
 using var context = new Z3Context();
-var x = context.MkIntConst("x");
-var y = context.MkBoolConst("y");
-var z = context.MkRealConst("z");
+var x = context.IntConst("x");
+var y = context.BoolConst("y");
+var z = context.RealConst("z");
 
-using var solver = context.MkSolver();
-solver.Assert(x > context.MkInt(0));
-solver.Assert(x < context.MkInt(10));
+using var solver = context.CreateSolver();
+solver.Assert(x > context.Int(0));
+solver.Assert(x < context.Int(10));
 solver.Assert(y);
-solver.Assert(z == context.MkReal(3.14));
+solver.Assert(z == context.Real(3.14));
 
 if (solver.Check() == Z3Status.Satisfiable)
 {
@@ -110,42 +110,42 @@ if (solver.Check() == Z3Status.Satisfiable)
 
 ### Phase 4: Extended Boolean Operations (COMPLETED ✅)
 Add missing logical operations to make Boolean expressions complete:
-- ✅ **Implies** - `context.MkImplies(p, q)` and `p.Implies(q)`
-- ✅ **Iff** - `context.MkIff(p, q)` and `p.Iff(q)` (biconditional)
-- ✅ **Xor** - `context.MkXor(p, q)` and `p.Xor(q)` (exclusive or)
+- ✅ **Implies** - `context.Implies(p, q)` and `p.Implies(q)`
+- ✅ **Iff** - `context.Iff(p, q)` and `p.Iff(q)` (biconditional)
+- ✅ **Xor** - `context.Xor(p, q)` and `p.Xor(q)` (exclusive or)
 
 ### Phase 5: Extended Arithmetic Operations (COMPLETED ✅)
 Add common mathematical operations:
-- ✅ **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)` (with % operator!)
+- ✅ **Modulo** - `context.Mod(x, y)` and `x.Mod(y)` (with % operator!)
 - ✅ **Absolute Value** - `x.Abs()` (instance methods for both integers and reals)
-- ✅ **Unary Minus** - `context.MkUnaryMinus(x)` and `-x` (unary operator!)
+- ✅ **Unary Minus** - `context.UnaryMinus(x)` and `-x` (unary operator!)
 - ✅ **Min/Max** - `context.Min(x, y)`, `context.Max(x, y)` (extension methods only) with comprehensive literal overloads
-- 🔮 **Power** - `context.MkPower(x, y)` (limited Z3 support, can be added later)
+- 🔮 **Power** - `context.Power(x, y)` (limited Z3 support, can be added later)
 
 ### Phase 6: Generic If-Then-Else Operations (COMPLETED ✅)
 Add type-safe conditional expressions:
 - ✅ **Generic If Method** - `condition.If(thenExpr, elseExpr)` with compile-time type safety
-- ✅ **Generic Factory Support** - `context.MkIte<T>(condition, thenExpr, elseExpr)` with compile-time type safety
-- ✅ **Non-Generic Factory Support** - `context.MkIte(condition, thenExpr, elseExpr)` with runtime type detection
+- ✅ **Generic Factory Support** - `context.Ite<T>(condition, thenExpr, elseExpr)` with compile-time type safety
+- ✅ **Non-Generic Factory Support** - `context.Ite(condition, thenExpr, elseExpr)` with runtime type detection
 - ✅ **Z3 Sort Integration** - Uses Z3's sort system via `WrapExpr` for accurate type determination
 - ✅ **Type Safety** - Returns correct expression type without runtime casting
 - ✅ **IntelliSense Support** - Full IDE integration with method suggestions
 
 **Usage Examples:**
 ```csharp
-var condition = x > context.MkInt(0);
+var condition = x > context.Int(0);
 
 // Generic factory method - compile-time type safety
-Z3IntExpr result1 = context.MkIte<Z3IntExpr>(condition, x, y);
-Z3RealExpr result2 = context.MkIte<Z3RealExpr>(condition, realA, realB);
+Z3IntExpr result1 = context.Ite<Z3IntExpr>(condition, x, y);
+Z3RealExpr result2 = context.Ite<Z3RealExpr>(condition, realA, realB);
 
 // Non-generic factory method - runtime type detection using Z3 sorts
-var result3 = context.MkIte(condition, x, y); // Returns Z3IntExpr automatically
-var result4 = context.MkIte(condition, realA, realB); // Returns Z3RealExpr automatically
+var result3 = context.Ite(condition, x, y); // Returns Z3IntExpr automatically
+var result4 = context.Ite(condition, realA, realB); // Returns Z3RealExpr automatically
 
 // Instance method syntax (uses generic factory internally)
 Z3IntExpr result5 = condition.If(x, y);
-result5.Add(context.MkInt(5)); // IntelliSense works immediately
+result5.Add(context.Int(5)); // IntelliSense works immediately
 
 // Works with all expression types
 var realResult = (a > 0.0).If(realA, realB);  // Z3RealExpr
@@ -252,39 +252,39 @@ if (solver.Check() == Z3Status.Satisfiable)
 using var context = new Z3Context();
 
 // Create variables using factory methods
-var x = context.MkIntConst("x");
-var y = context.MkIntConst("y");
-var p = context.MkBoolConst("p");
-var q = context.MkBoolConst("q");
+var x = context.IntConst("x");
+var y = context.IntConst("y");
+var p = context.BoolConst("p");
+var q = context.BoolConst("q");
 
 // Create solver
-using var solver = context.MkSolver();
+using var solver = context.CreateSolver();
 
 // Add constraints using natural operators
-solver.Assert(x > context.MkInt(0));
-solver.Assert(y > context.MkInt(0));
-solver.Assert(x + y == context.MkInt(10));
+solver.Assert(x > context.Int(0));
+solver.Assert(y > context.Int(0));
+solver.Assert(x + y == context.Int(10));
 solver.Assert(p | (x != y)); // Boolean operators work!
 
 // Extended boolean operations - NEW!
 solver.Assert(p.Implies(q)); // If p then q
-solver.Assert(q.Iff(x.Mod(y) == context.MkInt(0))); // q iff x is divisible by y
+solver.Assert(q.Iff(x.Mod(y) == context.Int(0))); // q iff x is divisible by y
 solver.Assert(p ^ q); // XOR operator: exactly one of p or q must be true
 
 // Extended arithmetic operations - NEW!
-solver.Assert(x.Abs() > context.MkInt(0)); // Absolute value
-solver.Assert(y % 2 == context.MkInt(1)); // y is odd (using % operator!)
-solver.Assert(-x < context.MkInt(0)); // Unary minus operator!
+solver.Assert(x.Abs() > context.Int(0)); // Absolute value
+solver.Assert(y % 2 == context.Int(1)); // y is odd (using % operator!)
+solver.Assert(-x < context.Int(0)); // Unary minus operator!
 
 // Type-safe if-then-else operations - NEW!  
-var conditional = (x > context.MkInt(5)).If(context.MkInt(100), context.MkInt(0)); // Returns Z3IntExpr
-solver.Assert(conditional > context.MkInt(50)); // Can use immediately without casting
+var conditional = (x > context.Int(5)).If(context.Int(100), context.Int(0)); // Returns Z3IntExpr
+solver.Assert(conditional > context.Int(50)); // Can use immediately without casting
 
 // Min/Max operations - NEW!
-solver.Assert(context.Min(x, y) > context.MkInt(0)); // Minimum of x and y must be positive
-solver.Assert(context.Max(x, y) < context.MkInt(20)); // Maximum of x and y must be less than 20
-solver.Assert(context.Min(x, 5) > context.MkInt(0)); // Natural literal syntax
-solver.Assert(context.Max(10, y) == context.MkInt(10)); // Works both ways
+solver.Assert(context.Min(x, y) > context.Int(0)); // Minimum of x and y must be positive
+solver.Assert(context.Max(x, y) < context.Int(20)); // Maximum of x and y must be less than 20
+solver.Assert(context.Min(x, 5) > context.Int(0)); // Natural literal syntax
+solver.Assert(context.Max(10, y) == context.Int(10)); // Works both ways
 
 // Check satisfiability - THIS WORKS NOW!
 var result = solver.Check();
@@ -316,7 +316,7 @@ else if (result == Z3Status.Unknown)
 
 // Push/pop constraint contexts
 solver.Push();
-solver.Assert(x == context.MkInt(3));
+solver.Assert(x == context.Int(3));
 Console.WriteLine($"With x=3: {solver.Check()}");
 solver.Pop(); // Back to previous state
 ```

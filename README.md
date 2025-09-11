@@ -70,7 +70,7 @@ using var solver = context.CreateSolver();
 solver.Assert(x > 0);
 solver.Assert(y > 0);
 solver.Assert(x + y == 10);
-solver.Assert(x * 2 == y + 1);
+solver.Assert(x * 2 == y - 1);
 
 // Check satisfiability
 if (solver.Check() == Z3Status.Satisfiable)
