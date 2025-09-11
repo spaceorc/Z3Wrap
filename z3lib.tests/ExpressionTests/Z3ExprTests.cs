@@ -65,7 +65,10 @@ public class Z3ExprTests
         using var solver = context.CreateSolver();
         
         var x = context.IntConst("x");
+#pragma warning disable CS1718 // Comparison made to same variable
+        // ReSharper disable once EqualExpressionComparison
         var inequality = x != x;
+#pragma warning restore CS1718
 
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
@@ -193,6 +196,7 @@ public class Z3ExprTests
         var notAnExpr = "not an expression";
         
         // Test that expression does not equal non-Z3Expr objects
+        // ReSharper disable once SuspiciousTypeConversion.Global
         Assert.That(x.Equals(notAnExpr), Is.False);
     }
 
@@ -291,7 +295,10 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         
         // Test reflexivity: x == x should always be true
+#pragma warning disable CS1718 // Comparison made to same variable
+        // ReSharper disable once EqualExpressionComparison
         var equality = x == x;
+#pragma warning restore CS1718
         solver.Assert(equality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
