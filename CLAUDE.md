@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a C# .NET 9.0 library project for libz3 wrapper functionality. The project structure follows standard .NET conventions:
 
-- `z3lib.sln` - Visual Studio solution file containing the main library and test projects
-- `z3lib/` - Main library project directory
-  - `z3lib.csproj` - Project file targeting .NET 9.0 with nullable reference types enabled
+- `Z3Wrap.sln` - Visual Studio solution file containing the main library and test projects
+- `Z3Wrap/` - Main library project directory
+  - `Z3Wrap.csproj` - Project file targeting .NET 9.0 with nullable reference types enabled
   - `NativeMethods.cs` - P/Invoke declarations and dynamic library loading for Z3 C API
-- `tests/` - Test project directory
-  - `tests.csproj` - NUnit test project
-  - `NativeMethodsTests.cs` - Tests for P/Invoke functionality
+- `Z3Wrap.Tests/` - Test project directory
+  - `Z3Wrap.Tests.csproj` - NUnit test project
+  - Various test files for Z3 wrapper functionality
 - `PLAN.md` - Implementation plan for the Z3 wrapper
 
 ## Build Commands
