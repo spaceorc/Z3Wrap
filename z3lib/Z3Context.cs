@@ -104,6 +104,24 @@ public partial class Z3Context : IDisposable
         };
     }
 
+    internal Z3IntExpr WrapIntExpr(IntPtr handle)
+    {
+        TrackExpression(handle);
+        return new Z3IntExpr(this, handle);
+    }
+
+    internal Z3RealExpr WrapRealExpr(IntPtr handle)
+    {
+        TrackExpression(handle);
+        return new Z3RealExpr(this, handle);
+    }
+
+    internal Z3BoolExpr WrapBoolExpr(IntPtr handle)
+    {
+        TrackExpression(handle);
+        return new Z3BoolExpr(this, handle);
+    }
+
     internal void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
 
     private void DisposeCore()
