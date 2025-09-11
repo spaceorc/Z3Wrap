@@ -338,15 +338,36 @@ solver.Pop(); // Back to previous state
 - ✅ **Simplified dispose pattern** - No unused parameters, clean delegation
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
 - ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, unary `-`) and logical operators (`&`, `|`, `^`, `!`)
+- ✅ **Mixed-type operators** - Full bidirectional support for literals: `expr + 5`, `3.14 * expr`, `x >= 42`, etc.
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
 - ✅ **Comprehensive test coverage** - 136 tests across 10 organized test files with global setup
 - ✅ **Sealed classes** - All concrete classes properly sealed for performance and design clarity
 - ✅ **Minimal codebase** - No unused methods, fields, or delegates - everything serves a purpose
 - ✅ **Consistent patterns** - Operators call helper methods, helper methods call context functions
 - ✅ **Generic type safety** - If-Then-Else operations with compile-time type checking
-- ✅ **Clean architecture** - Mk methods for direct native calls, extensions for complex operations, instance methods for natural syntax
+- ✅ **Clean architecture** - Modular extension methods organized by functionality (Primitives, Operators, Comparison, Equality, etc.)
+- ✅ **Extension method pattern** - Proper `this Z3Context context` pattern with comprehensive mixed-type overloads
 - ✅ **Mixed-type overloads** - Extension methods provide natural literal syntax (e.g., `context.Min(x, 5)`, `context.Max(3.14, y)`)
 - ✅ **Warning suppression** - Clean builds with documented pragma directives for intentional design choices
+- ✅ **InternalsVisibleTo** - Test assembly access to internal members while keeping API clean
+
+## Extension Method Architecture ✅
+
+The library uses a modular extension method pattern for clean separation of concerns:
+
+- **Z3ContextExtensions.Primitives.cs** - Core factory methods (`Int`, `Real`, `BoolConst`, `True`, `False`)
+- **Z3ContextExtensions.NumericOperators.cs** - Arithmetic operations (`Add`, `Sub`, `Mul`, `Div`, `Mod`, `UnaryMinus`, `Abs`)
+- **Z3ContextExtensions.Comparison.cs** - Comparison operations (`Lt`, `Le`, `Gt`, `Ge`) with mixed-type support
+- **Z3ContextExtensions.Equality.cs** - Equality operations (`Eq`, `Neq`) with comprehensive literal overloads
+- **Z3ContextExtensions.BoolOperators.cs** - Boolean operations (`And`, `Or`, `Not`, `Implies`, `Iff`, `Xor`)
+- **Z3ContextExtensions.MinMax.cs** - Min/Max operations using if-then-else pattern
+
+**Benefits:**
+- **Modular organization** - Each file has single responsibility
+- **Mixed-type support** - `context.Add(expr, 5)`, `context.Lt(x, 3.14)` 
+- **Bidirectional operators** - Both `expr + 5` and `5 + expr` work naturally
+- **Consistent patterns** - All extensions follow same `this Z3Context context` pattern
+- **IntelliSense friendly** - Grouped methods appear organized in IDE
 
 ## Test Suite Excellence ✅
 - **GlobalSetup.cs** - One-time libz3 loading for all tests (eliminates redundant setup)
