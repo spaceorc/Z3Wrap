@@ -57,6 +57,5 @@ public sealed class Z3IntExpr : Z3Expr
     public Z3BoolExpr Le(Z3IntExpr other) => Context.MkLe(this, other);
     public Z3BoolExpr Gt(Z3IntExpr other) => Context.MkGt(this, other);
     public Z3BoolExpr Ge(Z3IntExpr other) => Context.MkGe(this, other);
-    
-    public Z3IntExpr Abs() => Context.MkAbs(this);
+    public Z3IntExpr Abs() => (this > 0).If(this, -this);
 }

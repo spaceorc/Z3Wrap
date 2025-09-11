@@ -81,6 +81,19 @@ public class Z3ExtendedOperationsTests
         Assert.That(xor.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(xor.Context, Is.SameAs(context));
     }
+    
+    [Test]
+    public void XorOperation_OperatorOverload_Works()
+    {
+        using var context = new Z3Context();
+        var p = context.MkBoolConst("p");
+        var q = context.MkBoolConst("q");
+        
+        var xor = p ^ q;
+        
+        Assert.That(xor.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(xor.Context, Is.SameAs(context));
+    }
 
     [Test]
     public void ModOperation_FactoryMethod_Works()
@@ -109,36 +122,12 @@ public class Z3ExtendedOperationsTests
     }
 
     [Test]
-    public void AbsOperation_IntFactoryMethod_Works()
-    {
-        using var context = new Z3Context();
-        var x = context.MkIntConst("x");
-        
-        var abs = context.MkAbs(x);
-        
-        Assert.That(abs.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(abs.Context, Is.SameAs(context));
-    }
-
-    [Test]
     public void AbsOperation_IntInstanceMethod_Works()
     {
         using var context = new Z3Context();
         var x = context.MkIntConst("x");
         
         var abs = x.Abs();
-        
-        Assert.That(abs.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(abs.Context, Is.SameAs(context));
-    }
-
-    [Test]
-    public void AbsOperation_RealFactoryMethod_Works()
-    {
-        using var context = new Z3Context();
-        var x = context.MkRealConst("x");
-        
-        var abs = context.MkAbs(x);
         
         Assert.That(abs.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(abs.Context, Is.SameAs(context));
@@ -671,5 +660,258 @@ public class Z3ExtendedOperationsTests
         var doubled = result.Add(result);
         
         Assert.That(doubled, Is.TypeOf<Z3IntExpr>());
+    }
+    
+    [Test]
+    public void MinOperation_IntegerExpressions_ExtensionMethod()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        
+        var min = context.Min(x, y);
+        
+        Assert.That(min, Is.TypeOf<Z3IntExpr>());
+        Assert.That(min.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(min.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MaxOperation_IntegerExpressions_ExtensionMethod()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        
+        var max = context.Max(x, y);
+        
+        Assert.That(max, Is.TypeOf<Z3IntExpr>());
+        Assert.That(max.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(max.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MinOperation_IntegerExpressions_AlternativeExtensionSyntax()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        
+        var min = context.Min(x, y);
+        
+        Assert.That(min, Is.TypeOf<Z3IntExpr>());
+        Assert.That(min.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(min.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MaxOperation_IntegerExpressions_AlternativeExtensionSyntax()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        
+        var max = context.Max(x, y);
+        
+        Assert.That(max, Is.TypeOf<Z3IntExpr>());
+        Assert.That(max.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(max.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MinOperation_RealExpressions_ExtensionMethod()
+    {
+        using var context = new Z3Context();
+        var a = context.MkRealConst("a");
+        var b = context.MkRealConst("b");
+        
+        var min = context.Min(a, b);
+        
+        Assert.That(min, Is.TypeOf<Z3RealExpr>());
+        Assert.That(min.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(min.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MaxOperation_RealExpressions_ExtensionMethod()
+    {
+        using var context = new Z3Context();
+        var a = context.MkRealConst("a");
+        var b = context.MkRealConst("b");
+        
+        var max = context.Max(a, b);
+        
+        Assert.That(max, Is.TypeOf<Z3RealExpr>());
+        Assert.That(max.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(max.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MinMaxOperations_SolverIntegration_Works()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var y = context.MkIntConst("y");
+        var z = context.MkIntConst("z");
+        
+        using var solver = context.MkSolver();
+        solver.Assert(x == context.MkInt(5));
+        solver.Assert(y == context.MkInt(10));
+        solver.Assert(z == context.Min(x, y)); // z should be min(5, 10) = 5
+        
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+        
+        if (status == Z3Status.Satisfiable)
+        {
+            var model = solver.GetModel();
+            var zValue = model.GetIntValue(z);
+            Assert.That(zValue, Is.EqualTo(5)); // min(5, 10) = 5
+        }
+    }
+    
+    [Test]
+    public void MinMaxOperations_RealSolverIntegration_Works()
+    {
+        using var context = new Z3Context();
+        var a = context.MkRealConst("a");
+        var b = context.MkRealConst("b");
+        var maxVal = context.MkRealConst("maxVal");
+        
+        using var solver = context.MkSolver();
+        solver.Assert(a == context.MkReal(3.14));
+        solver.Assert(b == context.MkReal(2.71));
+        solver.Assert(maxVal == context.Max(a, b)); // maxVal should be max(3.14, 2.71) = 3.14
+        
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+        
+        if (status == Z3Status.Satisfiable)
+        {
+            var model = solver.GetModel();
+            var maxValue = model.GetRealValueAsString(maxVal);
+            // Z3 might represent 3.14 exactly or as a fraction, so we check it's not 2.71
+            Assert.That(maxValue, Is.Not.EqualTo("2.71"));
+        }
+    }
+    
+    [Test]
+    public void MinOperation_IntWithLiteral_ExtensionMethods()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        
+        // Test both orders: expr-literal and literal-expr
+        var min1 = context.Min(x, 5);
+        var min2 = context.Min(10, x);
+        
+        Assert.That(min1, Is.TypeOf<Z3IntExpr>());
+        Assert.That(min2, Is.TypeOf<Z3IntExpr>());
+        Assert.That(min1.Context, Is.SameAs(context));
+        Assert.That(min2.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MaxOperation_IntWithLiteral_ExtensionMethods()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        
+        // Test both orders: expr-literal and literal-expr
+        var max1 = context.Max(x, 5);
+        var max2 = context.Max(10, x);
+        
+        Assert.That(max1, Is.TypeOf<Z3IntExpr>());
+        Assert.That(max2, Is.TypeOf<Z3IntExpr>());
+        Assert.That(max1.Context, Is.SameAs(context));
+        Assert.That(max2.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MinOperation_RealWithDouble_ExtensionMethods()
+    {
+        using var context = new Z3Context();
+        var x = context.MkRealConst("x");
+        
+        // Test both orders: expr-literal and literal-expr
+        var min1 = context.Min(x, 3.14);
+        var min2 = context.Min(2.71, x);
+        
+        Assert.That(min1, Is.TypeOf<Z3RealExpr>());
+        Assert.That(min2, Is.TypeOf<Z3RealExpr>());
+        Assert.That(min1.Context, Is.SameAs(context));
+        Assert.That(min2.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MaxOperation_RealWithDouble_ExtensionMethods()
+    {
+        using var context = new Z3Context();
+        var x = context.MkRealConst("x");
+        
+        // Test both orders: expr-literal and literal-expr
+        var max1 = context.Max(x, 3.14);
+        var max2 = context.Max(2.71, x);
+        
+        Assert.That(max1, Is.TypeOf<Z3RealExpr>());
+        Assert.That(max2, Is.TypeOf<Z3RealExpr>());
+        Assert.That(max1.Context, Is.SameAs(context));
+        Assert.That(max2.Context, Is.SameAs(context));
+    }
+    
+    [Test]
+    public void MinMaxLiterals_SolverIntegration_Works()
+    {
+        using var context = new Z3Context();
+        var x = context.MkIntConst("x");
+        var minResult = context.MkIntConst("minResult");
+        var maxResult = context.MkIntConst("maxResult");
+        
+        using var solver = context.MkSolver();
+        solver.Assert(x == context.MkInt(7));
+        solver.Assert(minResult == context.Min(x, 10)); // Should be min(7, 10) = 7
+        solver.Assert(maxResult == context.Max(3, x));  // Should be max(3, 7) = 7
+        
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+        
+        if (status == Z3Status.Satisfiable)
+        {
+            var model = solver.GetModel();
+            var minValue = model.GetIntValue(minResult);
+            var maxValue = model.GetIntValue(maxResult);
+            
+            Assert.That(minValue, Is.EqualTo(7)); // min(7, 10) = 7
+            Assert.That(maxValue, Is.EqualTo(7)); // max(3, 7) = 7
+        }
+    }
+    
+    [Test]
+    public void XorOperation_SolverIntegration_WithOperator_Works()
+    {
+        using var context = new Z3Context();
+        var p = context.MkBoolConst("p");
+        var q = context.MkBoolConst("q");
+        
+        using var solver = context.MkSolver();
+        solver.Assert(p ^ q);  // XOR operator: one must be true, not both
+        solver.Assert(p | q);  // OR operator: at least one must be true
+        
+        var result = solver.Check();
+        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
+        
+        if (result == Z3Status.Satisfiable)
+        {
+            var model = solver.GetModel();
+            var pValue = model.GetBoolValue(p);
+            var qValue = model.GetBoolValue(q);
+            
+            // With XOR and OR constraints, exactly one should be true
+            var bothTrue = (pValue == Z3BoolValue.True && qValue == Z3BoolValue.True);
+            var bothFalse = (pValue == Z3BoolValue.False && qValue == Z3BoolValue.False);
+            
+            Assert.That(bothTrue, Is.False, "XOR constraint should prevent both from being true");
+            Assert.That(bothFalse, Is.False, "OR constraint should prevent both from being false");
+        }
     }
 }

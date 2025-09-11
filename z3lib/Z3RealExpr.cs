@@ -79,6 +79,5 @@ public sealed class Z3RealExpr : Z3Expr
     public Z3BoolExpr Le(Z3RealExpr other) => Context.MkLe(this, other);
     public Z3BoolExpr Gt(Z3RealExpr other) => Context.MkGt(this, other);
     public Z3BoolExpr Ge(Z3RealExpr other) => Context.MkGe(this, other);
-    
-    public Z3RealExpr Abs() => Context.MkAbs(this);
+    public Z3RealExpr Abs() => (this > 0).If(this, -this);
 }

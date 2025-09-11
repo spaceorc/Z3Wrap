@@ -117,9 +117,9 @@ Add missing logical operations to make Boolean expressions complete:
 ### Phase 5: Extended Arithmetic Operations (COMPLETED ✅)
 Add common mathematical operations:
 - ✅ **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)` (with % operator!)
-- ✅ **Absolute Value** - `context.MkAbs(x)` and `x.Abs()` (for both integers and reals)
+- ✅ **Absolute Value** - `x.Abs()` (instance methods for both integers and reals)
 - ✅ **Unary Minus** - `context.MkUnaryMinus(x)` and `-x` (unary operator!)
-- 🔮 **Min/Max** - `context.MkMin(x, y)`, `context.MkMax(x, y)` (can be implemented using if-then-else)
+- ✅ **Min/Max** - `context.Min(x, y)`, `context.Max(x, y)` (extension methods only) with comprehensive literal overloads
 - 🔮 **Power** - `context.MkPower(x, y)` (limited Z3 support, can be added later)
 
 ### Phase 6: Generic If-Then-Else Operations (COMPLETED ✅)
@@ -259,6 +259,7 @@ solver.Assert(p | (x != y)); // Boolean operators work!
 // Extended boolean operations - NEW!
 solver.Assert(p.Implies(q)); // If p then q
 solver.Assert(q.Iff(x.Mod(y) == context.MkInt(0))); // q iff x is divisible by y
+solver.Assert(p ^ q); // XOR operator: exactly one of p or q must be true
 
 // Extended arithmetic operations - NEW!
 solver.Assert(x.Abs() > context.MkInt(0)); // Absolute value
@@ -268,6 +269,12 @@ solver.Assert(-x < context.MkInt(0)); // Unary minus operator!
 // Type-safe if-then-else operations - NEW!  
 var conditional = (x > context.MkInt(5)).If(context.MkInt(100), context.MkInt(0)); // Returns Z3IntExpr
 solver.Assert(conditional > context.MkInt(50)); // Can use immediately without casting
+
+// Min/Max operations - NEW!
+solver.Assert(context.Min(x, y) > context.MkInt(0)); // Minimum of x and y must be positive
+solver.Assert(context.Max(x, y) < context.MkInt(20)); // Maximum of x and y must be less than 20
+solver.Assert(context.Min(x, 5) > context.MkInt(0)); // Natural literal syntax
+solver.Assert(context.Max(10, y) == context.MkInt(10)); // Works both ways
 
 // Check satisfiability - THIS WORKS NOW!
 var result = solver.Check();
@@ -308,9 +315,9 @@ solver.Pop(); // Back to previous state
 1. ✅ **Z3Solver + Z3Status** - COMPLETED! Core solving works
 2. ✅ **Z3Model** - COMPLETED! Get actual variable values from satisfiable results  
 3. ✅ **Extended boolean operations** - COMPLETED! (Implies, Iff, Xor)
-4. ✅ **Extended arithmetic operations** - COMPLETED! (Mod, Abs, UnaryMinus with operators) 
+4. ✅ **Extended arithmetic operations** - COMPLETED! (Mod, Abs, UnaryMinus, Min, Max with operators and methods) 
 5. ✅ **Generic If-Then-Else** - COMPLETED! Type-safe conditional expressions with compile-time checking
-6. 🔮 **Min/Max operations** - Can be implemented using if-then-else (Z3_mk_ite)
+6. ✅ **Min/Max operations** - COMPLETED! Implemented using if-then-else with factory and instance methods
 7. 🔮 **Bit vectors** (Very useful for verification, but can wait)
 8. 🔮 **Arrays/Strings** (Specialized use cases)
 
@@ -320,13 +327,15 @@ solver.Pop(); // Back to previous state
 - ✅ **Modern C# patterns** - Nullable types, `using var`, expression-bodied members
 - ✅ **Simplified dispose pattern** - No unused parameters, clean delegation
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
-- ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, unary `-`)
+- ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, unary `-`) and logical operators (`&`, `|`, `^`, `!`)
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
-- ✅ **Comprehensive test coverage** - 124 tests across 10 organized test files with global setup
+- ✅ **Comprehensive test coverage** - 137 tests across 10 organized test files with global setup
 - ✅ **Sealed classes** - All concrete classes properly sealed for performance and design clarity
 - ✅ **Minimal codebase** - No unused methods, fields, or delegates - everything serves a purpose
 - ✅ **Consistent patterns** - Operators call helper methods, helper methods call context functions
 - ✅ **Generic type safety** - If-Then-Else operations with compile-time type checking
+- ✅ **Clean architecture** - Mk methods for direct native calls, extensions for complex operations, instance methods for natural syntax
+- ✅ **Mixed-type overloads** - Extension methods provide natural literal syntax (e.g., `context.Min(x, 5)`, `context.Max(3.14, y)`)
 - ✅ **Warning suppression** - Clean builds with documented pragma directives for intentional design choices
 
 ## Test Suite Excellence ✅
@@ -337,8 +346,8 @@ solver.Pop(); // Back to previous state
 - **Z3DisposalTests.cs** - Comprehensive hierarchical disposal scenarios
 - **Z3ModelLifetimeTests.cs** - Model ownership and lifetime management testing
 - **Z3ModelValueExtractionTests.cs** - Model value extraction with comprehensive edge cases
-- **Z3ExtendedOperationsTests.cs** - Extended boolean and arithmetic operations plus if-then-else (30 tests)
+- **Z3ExtendedOperationsTests.cs** - Extended boolean and arithmetic operations plus if-then-else and min/max (43 tests)
 - **Z3MixedTypeOperatorTests.cs** - Mixed-type arithmetic operations
 - **Z3SimpleTest.cs** - Edge cases and specific constraint scenarios
 - **Modern syntax** - Uses `using var` and clean patterns throughout
-- **124 comprehensive tests** - Full coverage of library functionality and edge cases
+- **137 comprehensive tests** - Full coverage of library functionality and edge cases

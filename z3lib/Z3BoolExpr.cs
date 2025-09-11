@@ -8,6 +8,7 @@ public sealed class Z3BoolExpr : Z3Expr
 
     public static Z3BoolExpr operator &(Z3BoolExpr left, Z3BoolExpr right) => left.And(right);
     public static Z3BoolExpr operator |(Z3BoolExpr left, Z3BoolExpr right) => left.Or(right);
+    public static Z3BoolExpr operator ^(Z3BoolExpr left, Z3BoolExpr right) => left.Xor(right);
     public static Z3BoolExpr operator !(Z3BoolExpr expr) => expr.Not();
 
     public Z3BoolExpr And(Z3BoolExpr other) => Context.MkAnd(this, other);

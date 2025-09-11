@@ -249,28 +249,6 @@ public partial class Z3Context
         TrackExpression(resultHandle);
         return new Z3IntExpr(this, resultHandle);
     }
-
-    public Z3IntExpr MkAbs(Z3IntExpr expr)
-    {
-        var zero = MkInt(0);
-        var negExpr = MkUnaryMinus(expr);
-        
-        var condition = MkGe(expr, zero);
-        var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, expr.Handle, negExpr.Handle);
-        TrackExpression(resultHandle);
-        return new Z3IntExpr(this, resultHandle);
-    }
-
-    public Z3RealExpr MkAbs(Z3RealExpr expr)
-    {
-        var zero = MkReal(0.0);
-        var negExpr = MkUnaryMinus(expr);
-        
-        var condition = MkGe(expr, zero);
-        var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, expr.Handle, negExpr.Handle);
-        TrackExpression(resultHandle);
-        return new Z3RealExpr(this, resultHandle);
-    }
     
     // If-Then-Else operation
     public Z3Expr MkIte(Z3BoolExpr condition, Z3Expr thenExpr, Z3Expr elseExpr)
