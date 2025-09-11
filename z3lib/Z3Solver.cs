@@ -8,6 +8,8 @@ public sealed class Z3Solver : IDisposable
     private IntPtr solverHandle;
     private bool disposed;
     private bool isBeingDisposedByContext;
+    private Z3Model? cachedModel;
+    private Z3Status? lastCheckResult;
 
     internal Z3Solver(Z3Context context, bool useSimpleSolver = false)
     {
@@ -38,6 +40,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(constraint);
+        InvalidateModel(); // Model no longer valid after assertion
         
         NativeMethods.Z3SolverAssert(context.Handle, solverHandle, constraint.Handle);
     }
@@ -45,9 +48,11 @@ public sealed class Z3Solver : IDisposable
     public Z3Status Check()
     {
         ThrowIfDisposed();
+        InvalidateModel(); // Clear any previous model
         
         var result = NativeMethods.Z3SolverCheck(context.Handle, solverHandle);
-        return (Z3Status)result;
+        lastCheckResult = (Z3Status)result;
+        return lastCheckResult.Value;
     }
 
     public string GetReasonUnknown()
@@ -61,6 +66,7 @@ public sealed class Z3Solver : IDisposable
     public void Push()
     {
         ThrowIfDisposed();
+        InvalidateModel(); // Model no longer valid after push
         
         NativeMethods.Z3SolverPush(context.Handle, solverHandle);
     }
@@ -68,10 +74,41 @@ public sealed class Z3Solver : IDisposable
     public void Pop(uint numScopes = 1)
     {
         ThrowIfDisposed();
+        InvalidateModel(); // Model no longer valid after pop
         
         NativeMethods.Z3SolverPop(context.Handle, solverHandle, numScopes);
     }
 
+    public Z3Model GetModel()
+    {
+        ThrowIfDisposed();
+        
+        // Check if we have called Check() before
+        if (lastCheckResult == null)
+            throw new InvalidOperationException("Must call Check() before GetModel()");
+            
+        // Check if the result was satisfiable
+        if (lastCheckResult != Z3Status.Satisfiable)
+            throw new InvalidOperationException($"Cannot get model when solver status is {lastCheckResult}");
+        
+        // Return cached model if we have one
+        if (cachedModel == null)
+        {
+            var modelHandle = NativeMethods.Z3SolverGetModel(context.Handle, solverHandle);
+            if (modelHandle == IntPtr.Zero)
+                throw new InvalidOperationException("Failed to get model from solver");
+                
+            cachedModel = new Z3Model(context, modelHandle);
+        }
+        
+        return cachedModel;
+    }
+
+    private void InvalidateModel()
+    {
+        cachedModel?.Invalidate();
+        cachedModel = null;
+    }
 
     public void Dispose()
     {
@@ -92,6 +129,9 @@ public sealed class Z3Solver : IDisposable
         if (disposed)
             return;
 
+        // Clean up model before solver disposal
+        InvalidateModel();
+        
         isBeingDisposedByContext = true;
         solverHandle = IntPtr.Zero;
         disposed = true;

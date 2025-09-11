@@ -67,9 +67,7 @@ public static class NativeMethods
         // Model functions
         LoadFunction("Z3_model_inc_ref");
         LoadFunction("Z3_model_dec_ref");
-        LoadFunction("Z3_model_eval");
-        LoadFunction("Z3_get_numeral_string");
-        LoadFunction("Z3_get_numeral_int");
+        LoadFunction("Z3_model_to_string");
         LoadFunction("Z3_ast_to_string");
     }
 
@@ -373,25 +371,11 @@ public static class NativeMethods
         func(ctx, model);
     }
 
-    public static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    public static IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
     {
-        var funcPtr = GetFunctionPointer("Z3_model_eval");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
-        return func(ctx, model, expr, modelCompletion, out result);
-    }
-
-    public static IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr ast)
-    {
-        var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
-        return func(ctx, ast);
-    }
-
-    public static bool Z3GetNumeralInt(IntPtr ctx, IntPtr ast, out int value)
-    {
-        var funcPtr = GetFunctionPointer("Z3_get_numeral_int");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralIntDelegate>(funcPtr);
-        return func(ctx, ast, out value);
+        var funcPtr = GetFunctionPointer("Z3_model_to_string");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelToStringDelegate>(funcPtr);
+        return func(ctx, model);
     }
 
     public static IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
@@ -449,8 +433,6 @@ public static class NativeMethods
     // Model delegates
     private delegate void Z3ModelIncRefDelegate(IntPtr ctx, IntPtr model);
     private delegate void Z3ModelDecRefDelegate(IntPtr ctx, IntPtr model);
-    private delegate bool Z3ModelEvalDelegate(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result);
-    private delegate IntPtr Z3GetNumeralStringDelegate(IntPtr ctx, IntPtr ast);
-    private delegate bool Z3GetNumeralIntDelegate(IntPtr ctx, IntPtr ast, out int value);
+    private delegate IntPtr Z3ModelToStringDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr Z3AstToStringDelegate(IntPtr ctx, IntPtr ast);
 }

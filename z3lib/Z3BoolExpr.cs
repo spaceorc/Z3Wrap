@@ -1,6 +1,6 @@
 namespace z3lib;
 
-public class Z3BoolExpr : Z3Expr
+public sealed class Z3BoolExpr : Z3Expr
 {
     internal Z3BoolExpr(Z3Context context, IntPtr handle) : base(context, handle)
     {

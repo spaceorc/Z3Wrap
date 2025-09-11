@@ -38,9 +38,13 @@
    public enum Z3Status { Unknown = -1, Unsatisfiable = 0, Satisfiable = 1 }
    ```
 
-3. ⏳ **Z3Model** - Result extraction (next priority)
-   - Add model P/Invoke methods: `Z3_solver_get_model`, `Z3_model_eval`
-   - Model interpretation: `Z3_model_get_const_interp`
+3. ✅ **Z3Model** - Basic model extraction with rock-solid lifetime management
+   - ✅ Model P/Invoke methods: `Z3_solver_get_model`, `Z3_model_to_string`
+   - ✅ Solver-owned model lifecycle: Model owned and managed by solver
+   - ✅ Safe disposal in any order: Context→Solver→Model hierarchical cleanup
+   - ✅ Model invalidation: Automatic invalidation on solver state changes
+   - ✅ Error handling: Throws on invalid states instead of returning null
+   - ✅ Comprehensive testing: 13 lifetime tests covering all scenarios
 
 ### Phase 3: Extended Boolean Operations
 Add missing logical operations to make Boolean expressions complete:
@@ -116,7 +120,39 @@ internal void DisposeSolver(Z3Solver solver)
 - **Memory safety** - No leaked Z3 objects, proper reference counting
 - **Exception safety** - Context disposal works even if children throw
 - **Natural usage** - Users can dispose objects in any order without issues
-- **Comprehensive testing** - 16 disposal tests covering all scenarios
+- **Comprehensive testing** - 29 disposal tests covering all scenarios (16 solver + 13 model)
+
+## Z3Model Implementation ✅
+
+The library now includes Z3Model for extracting satisfying assignments from solver results:
+
+### Design Principles
+- **Solver-owned lifecycle** - Models are created and owned by their solver
+- **Automatic invalidation** - Models become invalid when solver state changes
+- **Error on invalid access** - GetModel() throws exceptions instead of returning null
+- **Safe disposal** - ToString() never throws, Handle throws after invalidation
+
+### Model Lifecycle
+```csharp
+using var solver = context.MkSolver();
+// ... add constraints ...
+
+if (solver.Check() == Z3Status.Satisfiable)
+{
+    var model = solver.GetModel();  // ✅ Works - solver is satisfiable
+    Console.WriteLine(model);       // ✅ Shows model contents
+    
+    solver.Assert(x == context.MkInt(1)); // Model invalidated here
+    Console.WriteLine(model);       // ✅ Safe - returns "<invalidated>"
+    model.Handle;                   // ❌ Throws ObjectDisposedException
+}
+```
+
+### Error Handling
+- **GetModel() throws** when solver status is not Satisfiable
+- **GetModel() throws** when Check() hasn't been called first  
+- **Clear error messages** describe exactly what went wrong
+- **ToString() is always safe** - returns error strings instead of throwing
 
 ## Current Usage Pattern (FULLY WORKING!)
 ```csharp
@@ -141,7 +177,13 @@ var result = solver.Check();
 Console.WriteLine($"Result: {result}");
 Console.WriteLine($"Variables: x={x}, y={y}, p={p}"); // ToString() works!
 
-if (result == Z3Status.Unknown)
+if (result == Z3Status.Satisfiable)
+{
+    // Extract the satisfying assignment - THIS WORKS NOW!
+    var model = solver.GetModel();
+    Console.WriteLine($"Model: {model}");
+}
+else if (result == Z3Status.Unknown)
 {
     Console.WriteLine($"Reason: {solver.GetReasonUnknown()}");
 }
@@ -169,7 +211,9 @@ solver.Pop(); // Back to previous state
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
 - ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `==`, `!=`, `<`, `>`, `<=`, `>=`)
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
-- ✅ **Comprehensive test coverage** - 49 tests across 5 organized test files with global setup
+- ✅ **Comprehensive test coverage** - 66 tests across 6 organized test files with global setup
+- ✅ **Sealed classes** - All concrete classes properly sealed for performance and design clarity
+- ✅ **Minimal codebase** - No unused methods, fields, or delegates - everything serves a purpose
 
 ## Test Suite Excellence ✅
 - **GlobalSetup.cs** - One-time libz3 loading for all tests (eliminates redundant setup)
@@ -177,6 +221,7 @@ solver.Pop(); // Back to previous state
 - **Z3ExpressionTests.cs** - Expression creation, operators, and resilient ToString() behavior  
 - **Z3SolverTests.cs** - Solver functionality, push/pop, diagnostics
 - **Z3DisposalTests.cs** - Comprehensive hierarchical disposal scenarios
+- **Z3ModelLifetimeTests.cs** - Model ownership and lifetime management testing
 - **Z3SimpleTest.cs** - Edge cases and specific constraint scenarios
 - **Modern syntax** - Uses `using var` and clean patterns throughout
-- **49 comprehensive tests** - Full coverage of library functionality and edge cases
+- **66 comprehensive tests** - Full coverage of library functionality and edge cases

@@ -1,6 +1,6 @@
 namespace z3lib;
 
-public class Z3IntExpr : Z3Expr
+public sealed class Z3IntExpr : Z3Expr
 {
     internal Z3IntExpr(Z3Context context, IntPtr handle) : base(context, handle)
     {
