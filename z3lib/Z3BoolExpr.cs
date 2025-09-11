@@ -19,5 +19,5 @@ public sealed class Z3BoolExpr : Z3Expr
     public Z3BoolExpr Iff(Z3BoolExpr other) => Context.MkIff(this, other);
     public Z3BoolExpr Xor(Z3BoolExpr other) => Context.MkXor(this, other);
     
-    public T If<T>(T thenExpr, T elseExpr) where T : Z3Expr => (T)Context.MkIte(this, thenExpr, elseExpr);
+    public T If<T>(T thenExpr, T elseExpr) where T : Z3Expr => Context.MkIte(this, thenExpr, elseExpr);
 }

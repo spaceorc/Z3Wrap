@@ -125,7 +125,9 @@ Add common mathematical operations:
 ### Phase 6: Generic If-Then-Else Operations (COMPLETED ✅)
 Add type-safe conditional expressions:
 - ✅ **Generic If Method** - `condition.If(thenExpr, elseExpr)` with compile-time type safety
-- ✅ **Factory Support** - `context.MkIte(condition, thenExpr, elseExpr)` with automatic type detection
+- ✅ **Generic Factory Support** - `context.MkIte<T>(condition, thenExpr, elseExpr)` with compile-time type safety
+- ✅ **Non-Generic Factory Support** - `context.MkIte(condition, thenExpr, elseExpr)` with runtime type detection
+- ✅ **Z3 Sort Integration** - Uses Z3's sort system via `WrapExpr` for accurate type determination
 - ✅ **Type Safety** - Returns correct expression type without runtime casting
 - ✅ **IntelliSense Support** - Full IDE integration with method suggestions
 
@@ -133,9 +135,17 @@ Add type-safe conditional expressions:
 ```csharp
 var condition = x > context.MkInt(0);
 
-// Type-safe: returns Z3IntExpr without casting  
-Z3IntExpr result = condition.If(x, y);
-result.Add(context.MkInt(5)); // IntelliSense works immediately
+// Generic factory method - compile-time type safety
+Z3IntExpr result1 = context.MkIte<Z3IntExpr>(condition, x, y);
+Z3RealExpr result2 = context.MkIte<Z3RealExpr>(condition, realA, realB);
+
+// Non-generic factory method - runtime type detection using Z3 sorts
+var result3 = context.MkIte(condition, x, y); // Returns Z3IntExpr automatically
+var result4 = context.MkIte(condition, realA, realB); // Returns Z3RealExpr automatically
+
+// Instance method syntax (uses generic factory internally)
+Z3IntExpr result5 = condition.If(x, y);
+result5.Add(context.MkInt(5)); // IntelliSense works immediately
 
 // Works with all expression types
 var realResult = (a > 0.0).If(realA, realB);  // Z3RealExpr

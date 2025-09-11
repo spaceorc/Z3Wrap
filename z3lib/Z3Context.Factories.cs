@@ -4,7 +4,6 @@ namespace z3lib;
 
 public partial class Z3Context
 {
-    // Integer factory methods
     public Z3IntExpr MkInt(int value)
     {
         using var numeralPtr = new AnsiStringPtr(value.ToString());
@@ -24,7 +23,6 @@ public partial class Z3Context
         return new Z3IntExpr(this, handle);
     }
 
-    // Real factory methods
     public Z3RealExpr MkReal(double value)
     {
         using var numeralPtr = new AnsiStringPtr(value.ToString(CultureInfo.InvariantCulture));
@@ -44,7 +42,6 @@ public partial class Z3Context
         return new Z3RealExpr(this, handle);
     }
 
-    // Boolean factory methods
     public Z3BoolExpr MkTrue()
     {
         var handle = NativeMethods.Z3MkTrue(Handle);
@@ -69,7 +66,6 @@ public partial class Z3Context
         return new Z3BoolExpr(this, handle);
     }
 
-    // Arithmetic operators
     public Z3IntExpr MkAdd(Z3IntExpr left, Z3IntExpr right)
     {
         var args = new[] { left.Handle, right.Handle };
@@ -132,7 +128,6 @@ public partial class Z3Context
         return new Z3RealExpr(this, resultHandle);
     }
 
-    // Comparison operators
     public Z3BoolExpr MkLt(Z3IntExpr left, Z3IntExpr right)
     {
         var resultHandle = NativeMethods.Z3MkLt(Handle, left.Handle, right.Handle);
@@ -196,7 +191,6 @@ public partial class Z3Context
         return new Z3BoolExpr(this, resultHandle);
     }
 
-    // Boolean operators
     public Z3BoolExpr MkAnd(Z3BoolExpr left, Z3BoolExpr right)
     {
         var args = new[] { left.Handle, right.Handle };
@@ -220,7 +214,6 @@ public partial class Z3Context
         return new Z3BoolExpr(this, resultHandle);
     }
 
-    // Extended boolean operations
     public Z3BoolExpr MkImplies(Z3BoolExpr left, Z3BoolExpr right)
     {
         var resultHandle = NativeMethods.Z3MkImplies(Handle, left.Handle, right.Handle);
@@ -242,7 +235,6 @@ public partial class Z3Context
         return new Z3BoolExpr(this, resultHandle);
     }
 
-    // Extended arithmetic operations
     public Z3IntExpr MkMod(Z3IntExpr left, Z3IntExpr right)
     {
         var resultHandle = NativeMethods.Z3MkMod(Handle, left.Handle, right.Handle);
@@ -250,21 +242,16 @@ public partial class Z3Context
         return new Z3IntExpr(this, resultHandle);
     }
     
-    // If-Then-Else operation
+    public T MkIte<T>(Z3BoolExpr condition, T thenExpr, T elseExpr) where T : Z3Expr
+    {
+        var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
+        return (T)WrapExpr(resultHandle);
+    }
+
     public Z3Expr MkIte(Z3BoolExpr condition, Z3Expr thenExpr, Z3Expr elseExpr)
     {
         var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
-        TrackExpression(resultHandle);
-        
-        // Return the appropriate type based on the then/else expressions
-        // In Z3, if-then-else preserves the type if both branches have the same type
-        return thenExpr switch
-        {
-            Z3IntExpr when elseExpr is Z3IntExpr => new Z3IntExpr(this, resultHandle),
-            Z3RealExpr when elseExpr is Z3RealExpr => new Z3RealExpr(this, resultHandle),  
-            Z3BoolExpr when elseExpr is Z3BoolExpr => new Z3BoolExpr(this, resultHandle),
-            _ => throw new ArgumentException($"Both then and else expressions must have the same type. Got {thenExpr.GetType().Name} and {elseExpr.GetType().Name}")
-        };
+        return WrapExpr(resultHandle);
     }
 
     public Z3IntExpr MkUnaryMinus(Z3IntExpr expr)
@@ -281,7 +268,6 @@ public partial class Z3Context
         return new Z3RealExpr(this, resultHandle);
     }
 
-    // Solver factory methods
     public Z3Solver MkSolver()
     {
         var solver = new Z3Solver(this, false);

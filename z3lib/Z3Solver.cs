@@ -11,7 +11,7 @@ public sealed class Z3Solver : IDisposable
     private Z3Model? cachedModel;
     private Z3Status? lastCheckResult;
 
-    internal Z3Solver(Z3Context context, bool useSimpleSolver = false)
+    internal Z3Solver(Z3Context context, bool useSimpleSolver)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         
