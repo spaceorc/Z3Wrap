@@ -80,10 +80,15 @@ Create a proper `Real` class that provides exact rational arithmetic matching Z3
 - ✅ **String formats**: Fraction ("1/3") and decimal approximation
 - ✅ **Properties**: `Numerator`, `Denominator`, `IsInteger`, `IsZero`
 
-#### Phase 2: Z3 Native Methods (NEXT)
+#### Phase 2: Z3 Native Methods (IN PROGRESS)
 Add to `NativeMethods.cs`:
-- `Z3_mk_real` - Create exact rationals from numerator/denominator
-- `Z3_get_numerator` / `Z3_get_denominator` - Extract rational parts from models
+- `Z3_mk_real` - Create exact rationals from numerator/denominator  
+- `Z3_get_numerator_denominator` - Extract both numerator and denominator in single call (more efficient than separate calls)
+
+**Technical Decisions:**
+- **Approach**: Using `Z3_get_numerator_denominator` for efficient extraction of rational parts from Z3 models
+- **Future Enhancement**: Replace `int` with `BigInteger` for unlimited precision rational arithmetic
+- **Architecture**: Maintains existing pattern of delegate-based P/Invoke with dynamic library loading
 
 #### Phase 3: Replace Double Usage (NEXT)  
 Replace `double` in 8 files:
@@ -117,7 +122,13 @@ Real exactValue = model.GetRealValue(x); // Returns Real(1, 3) exactly
 Console.WriteLine(exactValue); // "1/3"
 ```
 
-## Future Extensions
+## Future Enhancements
+
+### BigInteger Integration (Planned)
+**Goal**: Replace `int` with `BigInteger` throughout Real class and Z3 integration for unlimited precision
+- **Impact**: Support arbitrarily large numerators/denominators without overflow
+- **Compatibility**: Maintain backward compatibility with implicit int conversions
+- **Timeline**: After Real class integration is complete and stable
 
 ### Advanced Types (Later)
 - **Bit Vectors** - Fixed-width integer operations
