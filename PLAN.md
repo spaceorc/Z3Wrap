@@ -116,24 +116,45 @@ Add missing logical operations to make Boolean expressions complete:
 
 ### Phase 5: Extended Arithmetic Operations (COMPLETED ✅)
 Add common mathematical operations:
-- ✅ **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)`
+- ✅ **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)` (with % operator!)
 - ✅ **Absolute Value** - `context.MkAbs(x)` and `x.Abs()` (for both integers and reals)
-- 🔮 **Min/Max** - `context.MkMin(x, y)`, `context.MkMax(x, y)` (can be implemented later using if-then-else)
+- ✅ **Unary Minus** - `context.MkUnaryMinus(x)` and `-x` (unary operator!)
+- 🔮 **Min/Max** - `context.MkMin(x, y)`, `context.MkMax(x, y)` (can be implemented using if-then-else)
 - 🔮 **Power** - `context.MkPower(x, y)` (limited Z3 support, can be added later)
+
+### Phase 6: Generic If-Then-Else Operations (COMPLETED ✅)
+Add type-safe conditional expressions:
+- ✅ **Generic If Method** - `condition.If(thenExpr, elseExpr)` with compile-time type safety
+- ✅ **Factory Support** - `context.MkIte(condition, thenExpr, elseExpr)` with automatic type detection
+- ✅ **Type Safety** - Returns correct expression type without runtime casting
+- ✅ **IntelliSense Support** - Full IDE integration with method suggestions
+
+**Usage Examples:**
+```csharp
+var condition = x > context.MkInt(0);
+
+// Type-safe: returns Z3IntExpr without casting  
+Z3IntExpr result = condition.If(x, y);
+result.Add(context.MkInt(5)); // IntelliSense works immediately
+
+// Works with all expression types
+var realResult = (a > 0.0).If(realA, realB);  // Z3RealExpr
+var boolResult = p.If(q, r);                  // Z3BoolExpr
+```
 
 ## Future Phases: Advanced Types
 
-### Phase 5: Bit Vectors (Later)
+### Phase 7: Bit Vectors (Later)
 - **Z3BitVectorExpr** - Fixed-width integers
 - Bit operations: `&`, `|`, `^`, `~`, `<<`, `>>`
 - Arithmetic: `+`, `-`, `*`, `/`, `%` on bit vectors
 
-### Phase 6: Arrays and Other Types (Later)
+### Phase 8: Arrays and Other Types (Later)
 - **Z3ArrayExpr** - Array/map operations
 - **Z3StringExpr** - String operations
 - **Z3DataTypeExpr** - User-defined datatypes
 
-### Phase 7: Quantifiers (Advanced)
+### Phase 9: Quantifiers (Advanced)
 - **ForAll/Exists** - Quantified expressions
 - Variable binding and substitution
 
@@ -244,6 +265,10 @@ solver.Assert(x.Abs() > context.MkInt(0)); // Absolute value
 solver.Assert(y % 2 == context.MkInt(1)); // y is odd (using % operator!)
 solver.Assert(-x < context.MkInt(0)); // Unary minus operator!
 
+// Type-safe if-then-else operations - NEW!  
+var conditional = (x > context.MkInt(5)).If(context.MkInt(100), context.MkInt(0)); // Returns Z3IntExpr
+solver.Assert(conditional > context.MkInt(50)); // Can use immediately without casting
+
 // Check satisfiability - THIS WORKS NOW!
 var result = solver.Check();
 Console.WriteLine($"Result: {result}");
@@ -283,10 +308,11 @@ solver.Pop(); // Back to previous state
 1. ✅ **Z3Solver + Z3Status** - COMPLETED! Core solving works
 2. ✅ **Z3Model** - COMPLETED! Get actual variable values from satisfiable results  
 3. ✅ **Extended boolean operations** - COMPLETED! (Implies, Iff, Xor)
-4. ✅ **Extended arithmetic operations** - COMPLETED! (Mod, Abs) 
-5. 🔮 **Min/Max operations** - Can be implemented using if-then-else (Z3_mk_ite)
-6. 🔮 **Bit vectors** (Very useful for verification, but can wait)
-7. 🔮 **Arrays/Strings** (Specialized use cases)
+4. ✅ **Extended arithmetic operations** - COMPLETED! (Mod, Abs, UnaryMinus with operators) 
+5. ✅ **Generic If-Then-Else** - COMPLETED! Type-safe conditional expressions with compile-time checking
+6. 🔮 **Min/Max operations** - Can be implemented using if-then-else (Z3_mk_ite)
+7. 🔮 **Bit vectors** (Very useful for verification, but can wait)
+8. 🔮 **Arrays/Strings** (Specialized use cases)
 
 ## Architecture Decisions Made
 - ✅ **Centralized factory pattern** - All expressions created through context
@@ -296,10 +322,12 @@ solver.Pop(); // Back to previous state
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
 - ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, unary `-`)
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
-- ✅ **Comprehensive test coverage** - 119 tests across 10 organized test files with global setup
+- ✅ **Comprehensive test coverage** - 124 tests across 10 organized test files with global setup
 - ✅ **Sealed classes** - All concrete classes properly sealed for performance and design clarity
 - ✅ **Minimal codebase** - No unused methods, fields, or delegates - everything serves a purpose
-- ✅ **Consistent patterns** - Operators call context methods directly, helper functions call operators for consistency
+- ✅ **Consistent patterns** - Operators call helper methods, helper methods call context functions
+- ✅ **Generic type safety** - If-Then-Else operations with compile-time type checking
+- ✅ **Warning suppression** - Clean builds with documented pragma directives for intentional design choices
 
 ## Test Suite Excellence ✅
 - **GlobalSetup.cs** - One-time libz3 loading for all tests (eliminates redundant setup)
@@ -309,8 +337,8 @@ solver.Pop(); // Back to previous state
 - **Z3DisposalTests.cs** - Comprehensive hierarchical disposal scenarios
 - **Z3ModelLifetimeTests.cs** - Model ownership and lifetime management testing
 - **Z3ModelValueExtractionTests.cs** - Model value extraction with comprehensive edge cases
-- **Z3ExtendedOperationsTests.cs** - Extended boolean and arithmetic operations plus operators (25 tests)
+- **Z3ExtendedOperationsTests.cs** - Extended boolean and arithmetic operations plus if-then-else (30 tests)
 - **Z3MixedTypeOperatorTests.cs** - Mixed-type arithmetic operations
 - **Z3SimpleTest.cs** - Edge cases and specific constraint scenarios
 - **Modern syntax** - Uses `using var` and clean patterns throughout
-- **119 comprehensive tests** - Full coverage of library functionality and edge cases
+- **124 comprehensive tests** - Full coverage of library functionality and edge cases
