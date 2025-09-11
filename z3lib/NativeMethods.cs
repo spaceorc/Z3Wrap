@@ -52,6 +52,16 @@ public static class NativeMethods
         LoadFunction("Z3_mk_ge");
         LoadFunction("Z3_mk_numeral");
         
+        // Extended boolean operations
+        LoadFunction("Z3_mk_implies");
+        LoadFunction("Z3_mk_iff");
+        LoadFunction("Z3_mk_xor");
+        
+        // Extended arithmetic operations
+        LoadFunction("Z3_mk_mod");
+        LoadFunction("Z3_mk_unary_minus");
+        LoadFunction("Z3_mk_ite");
+        
         // Solver functions
         LoadFunction("Z3_mk_solver");
         LoadFunction("Z3_mk_simple_solver");
@@ -292,6 +302,50 @@ public static class NativeMethods
         return func(ctx, numeral, sort);
     }
 
+    // Extended boolean operations
+    public static IntPtr Z3MkImplies(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_implies");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkImpliesDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkIff(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_iff");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkIffDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkXor(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_xor");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkXorDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    // Extended arithmetic operations
+    public static IntPtr Z3MkMod(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_mod");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkModDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    public static IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_unary_minus");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkUnaryMinusDelegate>(funcPtr);
+        return func(ctx, arg);
+    }
+
+    public static IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_ite");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkIteDelegate>(funcPtr);
+        return func(ctx, condition, thenExpr, elseExpr);
+    }
+
     // Solver functions
     public static IntPtr Z3MkSolver(IntPtr ctx)
     {
@@ -473,6 +527,16 @@ public static class NativeMethods
     private delegate IntPtr Z3MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkGeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
+    
+    // Extended boolean operation delegates
+    private delegate IntPtr Z3MkImpliesDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkIffDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkXorDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    
+    // Extended arithmetic operation delegates
+    private delegate IntPtr Z3MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr Z3MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
+    private delegate IntPtr Z3MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
     
     // Solver delegates
     private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);

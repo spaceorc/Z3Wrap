@@ -108,18 +108,18 @@ if (solver.Check() == Z3Status.Satisfiable)
 }
 ```
 
-### Phase 4: Extended Boolean Operations
+### Phase 4: Extended Boolean Operations (COMPLETED ✅)
 Add missing logical operations to make Boolean expressions complete:
-- **Implies** - `context.MkImplies(p, q)` and `p.Implies(q)`
-- **Iff** - `context.MkIff(p, q)` and `p.Iff(q)` (biconditional)
-- **Xor** - `context.MkXor(p, q)` and `p.Xor(q)` (exclusive or)
+- ✅ **Implies** - `context.MkImplies(p, q)` and `p.Implies(q)`
+- ✅ **Iff** - `context.MkIff(p, q)` and `p.Iff(q)` (biconditional)
+- ✅ **Xor** - `context.MkXor(p, q)` and `p.Xor(q)` (exclusive or)
 
-### Phase 5: Extended Arithmetic Operations
+### Phase 5: Extended Arithmetic Operations (COMPLETED ✅)
 Add common mathematical operations:
-- **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)`
-- **Absolute Value** - `context.MkAbs(x)` and `x.Abs()`
-- **Min/Max** - `context.MkMin(x, y)`, `context.MkMax(x, y)`
-- **Power** - `context.MkPower(x, y)` (if supported by Z3)
+- ✅ **Modulo** - `context.MkMod(x, y)` and `x.Mod(y)`
+- ✅ **Absolute Value** - `context.MkAbs(x)` and `x.Abs()` (for both integers and reals)
+- 🔮 **Min/Max** - `context.MkMin(x, y)`, `context.MkMax(x, y)` (can be implemented later using if-then-else)
+- 🔮 **Power** - `context.MkPower(x, y)` (limited Z3 support, can be added later)
 
 ## Future Phases: Advanced Types
 
@@ -224,6 +224,7 @@ using var context = new Z3Context();
 var x = context.MkIntConst("x");
 var y = context.MkIntConst("y");
 var p = context.MkBoolConst("p");
+var q = context.MkBoolConst("q");
 
 // Create solver
 using var solver = context.MkSolver();
@@ -234,16 +235,37 @@ solver.Assert(y > context.MkInt(0));
 solver.Assert(x + y == context.MkInt(10));
 solver.Assert(p | (x != y)); // Boolean operators work!
 
+// Extended boolean operations - NEW!
+solver.Assert(p.Implies(q)); // If p then q
+solver.Assert(q.Iff(x.Mod(y) == context.MkInt(0))); // q iff x is divisible by y
+
+// Extended arithmetic operations - NEW!
+solver.Assert(x.Abs() > context.MkInt(0)); // Absolute value
+solver.Assert(y % 2 == context.MkInt(1)); // y is odd (using % operator!)
+solver.Assert(-x < context.MkInt(0)); // Unary minus operator!
+
 // Check satisfiability - THIS WORKS NOW!
 var result = solver.Check();
 Console.WriteLine($"Result: {result}");
-Console.WriteLine($"Variables: x={x}, y={y}, p={p}"); // ToString() works!
+Console.WriteLine($"Variables: x={x}, y={y}, p={p}, q={q}"); // ToString() works!
 
 if (result == Z3Status.Satisfiable)
 {
     // Extract the satisfying assignment - THIS WORKS NOW!
     var model = solver.GetModel();
     Console.WriteLine($"Model: {model}");
+    
+    // Extract values using convenient methods
+    var xVal = model.GetIntValue(x);
+    var yVal = model.GetIntValue(y);
+    var pVal = model.GetBoolValue(p);
+    var qVal = model.GetBoolValue(q);
+    
+    Console.WriteLine($"x = {xVal}, y = {yVal}");
+    Console.WriteLine($"p = {pVal}, q = {qVal}");
+    Console.WriteLine($"x % y = {model.GetIntValue(x % y)}"); // Using % operator!
+    Console.WriteLine($"|x| = {model.GetIntValue(x.Abs())}");
+    Console.WriteLine($"-x = {model.GetIntValue(-x)}"); // Using unary - operator!
 }
 else if (result == Z3Status.Unknown)
 {
@@ -259,11 +281,12 @@ solver.Pop(); // Back to previous state
 
 ## Implementation Priority Queue  
 1. ✅ **Z3Solver + Z3Status** - COMPLETED! Core solving works
-2. 🔥 **Z3Model** - Get actual variable values from satisfiable results
-3. 📈 **Boolean operations** (Implies, Iff, Xor - commonly used)
-4. 📈 **Arithmetic operations** (Mod, Abs, Min, Max - nice to have)
-5. 🔮 **Bit vectors** (Very useful for verification, but can wait)
-6. 🔮 **Arrays/Strings** (Specialized use cases)
+2. ✅ **Z3Model** - COMPLETED! Get actual variable values from satisfiable results  
+3. ✅ **Extended boolean operations** - COMPLETED! (Implies, Iff, Xor)
+4. ✅ **Extended arithmetic operations** - COMPLETED! (Mod, Abs) 
+5. 🔮 **Min/Max operations** - Can be implemented using if-then-else (Z3_mk_ite)
+6. 🔮 **Bit vectors** (Very useful for verification, but can wait)
+7. 🔮 **Arrays/Strings** (Specialized use cases)
 
 ## Architecture Decisions Made
 - ✅ **Centralized factory pattern** - All expressions created through context
@@ -271,11 +294,12 @@ solver.Pop(); // Back to previous state
 - ✅ **Modern C# patterns** - Nullable types, `using var`, expression-bodied members
 - ✅ **Simplified dispose pattern** - No unused parameters, clean delegation
 - ✅ **Automatic string marshalling** - `AnsiStringPtr` for clean P/Invoke
-- ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `==`, `!=`, `<`, `>`, `<=`, `>=`)
+- ✅ **Operator overloading** - Natural mathematical syntax (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `<=`, `>=`, unary `-`)
 - ✅ **Resilient ToString()** - Never throws exceptions, handles disposed contexts gracefully
-- ✅ **Comprehensive test coverage** - 66 tests across 6 organized test files with global setup
+- ✅ **Comprehensive test coverage** - 119 tests across 10 organized test files with global setup
 - ✅ **Sealed classes** - All concrete classes properly sealed for performance and design clarity
 - ✅ **Minimal codebase** - No unused methods, fields, or delegates - everything serves a purpose
+- ✅ **Consistent patterns** - Operators call context methods directly, helper functions call operators for consistency
 
 ## Test Suite Excellence ✅
 - **GlobalSetup.cs** - One-time libz3 loading for all tests (eliminates redundant setup)
@@ -284,6 +308,9 @@ solver.Pop(); // Back to previous state
 - **Z3SolverTests.cs** - Solver functionality, push/pop, diagnostics
 - **Z3DisposalTests.cs** - Comprehensive hierarchical disposal scenarios
 - **Z3ModelLifetimeTests.cs** - Model ownership and lifetime management testing
+- **Z3ModelValueExtractionTests.cs** - Model value extraction with comprehensive edge cases
+- **Z3ExtendedOperationsTests.cs** - Extended boolean and arithmetic operations plus operators (25 tests)
+- **Z3MixedTypeOperatorTests.cs** - Mixed-type arithmetic operations
 - **Z3SimpleTest.cs** - Edge cases and specific constraint scenarios
 - **Modern syntax** - Uses `using var` and clean patterns throughout
-- **66 comprehensive tests** - Full coverage of library functionality and edge cases
+- **119 comprehensive tests** - Full coverage of library functionality and edge cases

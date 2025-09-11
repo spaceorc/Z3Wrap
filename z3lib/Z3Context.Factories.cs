@@ -220,6 +220,89 @@ public partial class Z3Context
         return new Z3BoolExpr(this, resultHandle);
     }
 
+    // Extended boolean operations
+    public Z3BoolExpr MkImplies(Z3BoolExpr left, Z3BoolExpr right)
+    {
+        var resultHandle = NativeMethods.Z3MkImplies(Handle, left.Handle, right.Handle);
+        TrackExpression(resultHandle);
+        return new Z3BoolExpr(this, resultHandle);
+    }
+
+    public Z3BoolExpr MkIff(Z3BoolExpr left, Z3BoolExpr right)
+    {
+        var resultHandle = NativeMethods.Z3MkIff(Handle, left.Handle, right.Handle);
+        TrackExpression(resultHandle);
+        return new Z3BoolExpr(this, resultHandle);
+    }
+
+    public Z3BoolExpr MkXor(Z3BoolExpr left, Z3BoolExpr right)
+    {
+        var resultHandle = NativeMethods.Z3MkXor(Handle, left.Handle, right.Handle);
+        TrackExpression(resultHandle);
+        return new Z3BoolExpr(this, resultHandle);
+    }
+
+    // Extended arithmetic operations
+    public Z3IntExpr MkMod(Z3IntExpr left, Z3IntExpr right)
+    {
+        var resultHandle = NativeMethods.Z3MkMod(Handle, left.Handle, right.Handle);
+        TrackExpression(resultHandle);
+        return new Z3IntExpr(this, resultHandle);
+    }
+
+    public Z3IntExpr MkAbs(Z3IntExpr expr)
+    {
+        var zero = MkInt(0);
+        var negExpr = MkUnaryMinus(expr);
+        
+        var condition = MkGe(expr, zero);
+        var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, expr.Handle, negExpr.Handle);
+        TrackExpression(resultHandle);
+        return new Z3IntExpr(this, resultHandle);
+    }
+
+    public Z3RealExpr MkAbs(Z3RealExpr expr)
+    {
+        var zero = MkReal(0.0);
+        var negExpr = MkUnaryMinus(expr);
+        
+        var condition = MkGe(expr, zero);
+        var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, expr.Handle, negExpr.Handle);
+        TrackExpression(resultHandle);
+        return new Z3RealExpr(this, resultHandle);
+    }
+    
+    // If-Then-Else operation
+    public Z3Expr MkIte(Z3BoolExpr condition, Z3Expr thenExpr, Z3Expr elseExpr)
+    {
+        var resultHandle = NativeMethods.Z3MkIte(Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
+        TrackExpression(resultHandle);
+        
+        // Return the appropriate type based on the then/else expressions
+        // In Z3, if-then-else preserves the type if both branches have the same type
+        return thenExpr switch
+        {
+            Z3IntExpr when elseExpr is Z3IntExpr => new Z3IntExpr(this, resultHandle),
+            Z3RealExpr when elseExpr is Z3RealExpr => new Z3RealExpr(this, resultHandle),  
+            Z3BoolExpr when elseExpr is Z3BoolExpr => new Z3BoolExpr(this, resultHandle),
+            _ => throw new ArgumentException($"Both then and else expressions must have the same type. Got {thenExpr.GetType().Name} and {elseExpr.GetType().Name}")
+        };
+    }
+
+    public Z3IntExpr MkUnaryMinus(Z3IntExpr expr)
+    {
+        var resultHandle = NativeMethods.Z3MkUnaryMinus(Handle, expr.Handle);
+        TrackExpression(resultHandle);
+        return new Z3IntExpr(this, resultHandle);
+    }
+
+    public Z3RealExpr MkUnaryMinus(Z3RealExpr expr)
+    {
+        var resultHandle = NativeMethods.Z3MkUnaryMinus(Handle, expr.Handle);
+        TrackExpression(resultHandle);
+        return new Z3RealExpr(this, resultHandle);
+    }
+
     // Solver factory methods
     public Z3Solver MkSolver()
     {

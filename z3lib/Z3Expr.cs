@@ -5,10 +5,11 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     public IntPtr Handle { get; } = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
     public Z3Context Context { get; } = context ?? throw new ArgumentNullException(nameof(context));
 
-    public static Z3BoolExpr operator ==(Z3Expr left, Z3Expr right) => left.Context.MkEq(left, right);
-    public static Z3BoolExpr operator !=(Z3Expr left, Z3Expr right) => !(left == right);
+    public static Z3BoolExpr operator ==(Z3Expr left, Z3Expr right) => left.Eq(right);
+    public static Z3BoolExpr operator !=(Z3Expr left, Z3Expr right) => left.Neq(right);
     
-    public Z3BoolExpr Eq(Z3Expr other) => this == other;
+    public Z3BoolExpr Eq(Z3Expr other) => Context.MkEq(this, other);
+    public Z3BoolExpr Neq(Z3Expr other) => !Eq(other);
 
     public override bool Equals(object? obj)
     {
