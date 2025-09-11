@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Z3Wrap;
+namespace Z3Wrap.Interop;
 
 public static class NativeMethods
 {

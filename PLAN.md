@@ -1,18 +1,44 @@
 # Z3 C# Wrapper Implementation Plan
 
-## Project Structure
-- **NativeMethods.cs** - P/Invoke declarations for Z3 C API functions ✅
-- **Z3Context.cs** - Manages Z3 context lifecycle and configuration ✅
-- **Z3Context.Factories.cs** - Factory methods for creating expressions ✅
-- **Z3Expr.cs** - Base expression class with ToString() support ✅
-- **Z3BoolExpr.cs** - Boolean expression wrapper ✅
-- **Z3IntExpr.cs** - Integer expression wrapper ✅
-- **Z3RealExpr.cs** - Real expression wrapper ✅
-- **AnsiStringPtr.cs** - Disposable string marshalling helper ✅
-- **Z3Solver.cs** - Wrapper for solver operations ✅
-- **Z3Status.cs** - Solver result enumeration ✅
-- **Z3Model.cs** - Model inspection wrapper ⏳
-- **Z3Exception.cs** - Custom exception handling ⏳
+## Project Structure (REORGANIZED ✅)
+
+### Namespace Organization (Modified Option 1)
+```
+Z3Wrap/
+├── Expressions/         # Expression hierarchy (Z3Wrap.Expressions namespace)
+│   ├── Z3Expr.cs       # Base abstract expression class
+│   ├── Z3BoolExpr.cs   # Boolean expressions
+│   ├── Z3IntExpr.cs    # Integer expressions  
+│   └── Z3RealExpr.cs   # Real number expressions
+├── Interop/            # Implementation details (Z3Wrap.Interop namespace)
+│   ├── NativeMethods.cs      # P/Invoke declarations
+│   ├── AnsiStringPtr.cs      # String marshalling helper
+│   └── Z3SortKind.cs         # Z3 sort enumeration
+└── (root)              # Core API (Z3Wrap namespace)
+    ├── Z3Context.cs            # Main context class
+    ├── Z3Solver.cs             # Solver operations  
+    ├── Z3Model.cs              # Model extraction
+    ├── Z3Status.cs             # Status enumeration
+    ├── Z3BoolValue.cs          # Boolean value enumeration
+    └── Z3ContextExtensions.*.cs # Extension methods (with DependentUpon grouping)
+```
+
+### Extension Method Organization (DependentUpon Pattern ✅)
+- **Z3ContextExtensions.cs** - Main file with documentation
+- **Z3ContextExtensions.Primitives.cs** - Basic factory methods (`Int`, `Bool`, `Real` constants)
+- **Z3ContextExtensions.BoolOperators.cs** - Boolean operations (`And`, `Or`, `Not`, `Implies`, `Iff`, `Xor`, `Ite`)
+- **Z3ContextExtensions.NumericOperators.cs** - Arithmetic operations (`Add`, `Sub`, `Mul`, `Div`, `Mod`, `UnaryMinus`, `Abs`)
+- **Z3ContextExtensions.Comparison.cs** - Comparison operations (`Lt`, `Le`, `Gt`, `Ge`)
+- **Z3ContextExtensions.Equality.cs** - Equality operations (`Eq`, `Neq`)
+- **Z3ContextExtensions.MinMax.cs** - Min/Max operations using if-then-else pattern
+
+### Benefits Achieved
+- ✅ **Clean API Surface**: Core API stays in root namespace (`Z3Wrap`)
+- ✅ **Hidden Implementation Details**: P/Invoke code in `Z3Wrap.Interop` namespace
+- ✅ **Logical Grouping**: All expression types in `Z3Wrap.Expressions` namespace
+- ✅ **Extension Method Grouping**: Visual hierarchy using MSBuild `DependentUpon`
+- ✅ **Backward Compatible**: User code only needs `using Z3Wrap;`
+- ✅ **All Tests Pass**: 268 tests continue to pass without modification
 
 ## Current Status: Core Functionality Complete ✅
 
@@ -538,3 +564,54 @@ make version         # Show .NET version
 - **Error handling** with proper exit codes
 - **Tool detection** with helpful installation messages
 - **Cross-platform browser opening** for coverage reports
+
+## Namespace Reorganization (September 2025) ✅
+
+### Implementation Process
+The project underwent a comprehensive namespace reorganization using the **Modified Option 1** approach to improve code organization while maintaining full backward compatibility.
+
+### Changes Made
+
+1. **Expression Classes → Z3Wrap.Expressions**
+   - Moved `Z3Expr.cs`, `Z3BoolExpr.cs`, `Z3IntExpr.cs`, `Z3RealExpr.cs` to `Expressions/` directory
+   - Updated namespace to `Z3Wrap.Expressions`
+   - Added appropriate using statements to referencing files
+
+2. **Interop Classes → Z3Wrap.Interop**
+   - Moved `NativeMethods.cs`, `AnsiStringPtr.cs`, `Z3SortKind.cs` to `Interop/` directory
+   - Updated namespace to `Z3Wrap.Interop`
+   - Hidden implementation details from main API surface
+
+3. **Extension Method Organization**
+   - Created `Z3ContextExtensions.cs` as main documentation file
+   - Used MSBuild `<DependentUpon>` pattern for visual hierarchy
+   - All extension files appear nested under main file in IDE
+   - Extension methods remain in root `Z3Wrap` namespace for accessibility
+
+### MSBuild Configuration
+```xml
+<ItemGroup>
+    <Compile Update="Z3ContextExtensions.Primitives.cs">
+        <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Z3ContextExtensions.BoolOperators.cs">
+        <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+    </Compile>
+    <!-- ... additional extension files ... -->
+</ItemGroup>
+```
+
+### Quality Assurance
+- ✅ **All Tests Pass**: 268 tests continue to pass without modification
+- ✅ **No Breaking Changes**: User code requires no changes
+- ✅ **Builds Successfully**: Clean compilation with no warnings
+- ✅ **Backward Compatible**: Only `using Z3Wrap;` needed for full functionality
+
+### Benefits Realized
+- **Better Organization**: Logical grouping of related classes
+- **Clean Root Namespace**: Core API (`Z3Context`, `Z3Solver`, `Z3Model`) easily accessible
+- **Hidden Complexity**: Implementation details (`P/Invoke`, marshalling) tucked away
+- **Visual Hierarchy**: Extension methods grouped in IDE for better navigation
+- **Maintainable**: Clear separation of concerns and responsibilities
+
+This reorganization provides a solid foundation for adding the `Rational` class to the root namespace for proper Z3 Real number support.

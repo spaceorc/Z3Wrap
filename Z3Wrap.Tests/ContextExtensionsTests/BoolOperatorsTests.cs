@@ -1,3 +1,5 @@
+using Z3Wrap.Expressions;
+
 namespace Z3Wrap.Tests.ContextExtensionsTests;
 
 [TestFixture]

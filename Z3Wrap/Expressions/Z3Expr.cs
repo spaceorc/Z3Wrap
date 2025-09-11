@@ -1,4 +1,6 @@
-namespace Z3Wrap;
+using Z3Wrap.Interop;
+
+namespace Z3Wrap.Expressions;
 
 public abstract class Z3Expr(Z3Context context, IntPtr handle)
 {

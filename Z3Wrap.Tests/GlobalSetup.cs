@@ -1,3 +1,5 @@
+using Z3Wrap.Interop;
+
 namespace Z3Wrap.Tests;
 
 [SetUpFixture]

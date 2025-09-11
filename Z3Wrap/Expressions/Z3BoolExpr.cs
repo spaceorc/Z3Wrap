@@ -1,4 +1,4 @@
-namespace Z3Wrap;
+namespace Z3Wrap.Expressions;
 
 public sealed class Z3BoolExpr : Z3Expr
 {

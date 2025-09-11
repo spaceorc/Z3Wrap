@@ -6,4 +6,25 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Compile Update="Z3ContextExtensions.Primitives.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.BoolOperators.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.NumericOperators.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Comparison.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Equality.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.MinMax.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
 </Project>

@@ -1,3 +1,6 @@
+using Z3Wrap.Expressions;
+using Z3Wrap.Interop;
+
 namespace Z3Wrap;
 
 public class Z3Context : IDisposable

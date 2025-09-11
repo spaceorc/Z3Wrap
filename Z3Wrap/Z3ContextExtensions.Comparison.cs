@@ -1,3 +1,6 @@
+using Z3Wrap.Expressions;
+using Z3Wrap.Interop;
+
 namespace Z3Wrap;
 
 public static partial class Z3ContextExtensions

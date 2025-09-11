@@ -1,4 +1,4 @@
-namespace Z3Wrap;
+namespace Z3Wrap.Interop;
 
 public enum Z3SortKind
 {
