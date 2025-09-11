@@ -4,13 +4,13 @@ namespace z3lib;
 
 internal readonly struct AnsiStringPtr(string str) : IDisposable
 {
-    public IntPtr Pointer { get; } = Marshal.StringToHGlobalAnsi(str);
+    private readonly IntPtr pointer = Marshal.StringToHGlobalAnsi(str);
 
     public void Dispose()
     {
-        if (Pointer != IntPtr.Zero)
-            Marshal.FreeHGlobal(Pointer);
+        if (pointer != IntPtr.Zero)
+            Marshal.FreeHGlobal(pointer);
     }
 
-    public static implicit operator IntPtr(AnsiStringPtr ansiString) => ansiString.Pointer;
+    public static implicit operator IntPtr(AnsiStringPtr ansiString) => ansiString.pointer;
 }
