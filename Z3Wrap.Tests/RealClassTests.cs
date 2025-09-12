@@ -144,8 +144,10 @@ public class RealClassTests
         Assert.That(oneThird <= oneHalf, Is.True);
         Assert.That(oneHalf > oneThird, Is.True);
         Assert.That(oneHalf >= oneThird, Is.True);
+#pragma warning disable CS1718 // Comparison made to same variable
         Assert.That(oneThird >= oneThird, Is.True);
         Assert.That(oneHalf <= oneHalf, Is.True);
+#pragma warning restore CS1718
     }
 
     [Test]

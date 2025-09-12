@@ -113,6 +113,40 @@ public class Z3ModelValueExtractionTests
     }
     
     [Test]
+    public void GetRealValue()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+        
+        var z = context.RealConst("z");
+        solver.Assert(z == context.Real(2.718m));
+        
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        
+        var model = solver.GetModel();
+        var value = model.GetRealValue(z);
+        
+        Assert.That(value, Is.EqualTo(new Real(2.718m)));
+    }
+
+    [Test]
+    public void GetRealValue_ExactFraction()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+        
+        var z = context.RealConst("z");
+        solver.Assert(z == context.Real(new Real(1, 3)));
+        
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        
+        var model = solver.GetModel();
+        var value = model.GetRealValue(z);
+        
+        Assert.That(value, Is.EqualTo(new Real(1, 3)));
+    }
+
+    [Test]
     public void GetRealValueAsString()
     {
         using var context = new Z3Context();
@@ -267,6 +301,7 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.Evaluate(x));
         Assert.Throws<ObjectDisposedException>(() => model.GetIntValue(x));
         Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetRealValue(context.RealConst("z")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValueAsString(context.RealConst("z")));
     }
     

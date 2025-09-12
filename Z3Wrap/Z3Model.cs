@@ -71,6 +71,8 @@ public sealed class Z3Model
         };
     }
 
+    public Real GetRealValue(Z3RealExpr expr) => Real.Parse(GetRealValueAsString(expr));
+
     public string GetRealValueAsString(Z3RealExpr expr)
     {
         var evaluated = Evaluate(expr);
