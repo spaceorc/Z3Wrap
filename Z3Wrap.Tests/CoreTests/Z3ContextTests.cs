@@ -1,17 +1,18 @@
 namespace Z3Wrap.Tests.CoreTests;
 
+[TestFixture]
 public class Z3ContextTests
 {
 
     [Test]
-    public void CanCreateAndDisposeContext()
+    public void Constructor_DefaultConfig_CreatesAndDisposesSuccessfully()
     {
         using var context = new Z3Context();
         Assert.That(context.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
 
     [Test]
-    public void CanCreateContextWithParameters()
+    public void Constructor_WithParameters_CreatesSuccessfully()
     {
         var parameters = new Dictionary<string, string>
         {
@@ -24,14 +25,14 @@ public class Z3ContextTests
     }
 
     [Test]
-    public void CanSetParameterAfterCreation()
+    public void SetParameter_ValidParameter_DoesNotThrow()
     {
         using var context = new Z3Context();
         Assert.DoesNotThrow(() => context.SetParameter("timeout", "1000"));
     }
 
     [Test]
-    public void ThrowsWhenAccessingDisposedContext()
+    public void Handle_DisposedContext_ThrowsObjectDisposedException()
     {
         var context = new Z3Context();
         context.Dispose();
@@ -41,7 +42,7 @@ public class Z3ContextTests
     }
 
     [Test]
-    public void CanDisposeMultipleTimes()
+    public void Dispose_MultipleCalls_DoesNotThrow()
     {
         var context = new Z3Context();
         context.Dispose();

@@ -1,9 +1,10 @@
 namespace Z3Wrap.Tests.CoreTests;
 
+[TestFixture]
 public class Z3ModelLifetimeTests
 {
     [Test]
-    public void ModelCreationAndBasicUse()
+    public void GetModel_SatisfiableSolver_ReturnsValidModel()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -28,7 +29,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void ModelInvalidatedAfterSolverDisposal()
+    public void Model_SolverDisposed_ThrowsObjectDisposedException()
     {
         var context = new Z3Context();
         var solver = context.CreateSolver();
@@ -55,7 +56,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void ModelInvalidatedAfterContextDisposal()
+    public void Model_ContextDisposed_ThrowsObjectDisposedException()
     {
         var context = new Z3Context();
         var solver = context.CreateSolver();
@@ -78,7 +79,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void ModelInvalidatedAfterNewAssertion()
+    public void Model_NewAssertionAdded_BecomesInvalidated()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -109,7 +110,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void ModelInvalidatedAfterPushPop()
+    public void Model_SolverPushPop_BecomesInvalidated()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -136,7 +137,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void DisposalOrderDoesntMatter()
+    public void Dispose_AnyOrder_DoesNotThrow()
     {
         var context = new Z3Context();
         var solvers = new List<Z3Solver>();
@@ -182,7 +183,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void MultipleGetModelCallsReturnSameInstance()
+    public void GetModel_MultipleCalls_ReturnsSameInstance()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -203,7 +204,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void GetModelThrowsWhenNotSatisfiable()
+    public void GetModel_UnsatisfiableSolver_ThrowsInvalidOperationException()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -221,7 +222,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void GetModelThrowsWhenUnknown()
+    public void GetModel_UnknownStatus_ThrowsInvalidOperationException()
     {
         using var context = new Z3Context();
         
@@ -260,7 +261,7 @@ public class Z3ModelLifetimeTests
     }
 
     [Test]
-    public void GetModelThrowsWithoutCheck()
+    public void GetModel_WithoutCheck_ThrowsInvalidOperationException()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();

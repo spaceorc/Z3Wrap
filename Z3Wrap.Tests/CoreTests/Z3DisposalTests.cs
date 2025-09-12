@@ -2,6 +2,7 @@ using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.CoreTests;
 
+[TestFixture]
 public class Z3DisposalTests
 {
 

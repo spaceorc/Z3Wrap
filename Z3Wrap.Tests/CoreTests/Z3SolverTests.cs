@@ -1,5 +1,6 @@
 namespace Z3Wrap.Tests.CoreTests;
 
+[TestFixture]
 public class Z3SolverTests
 {
 

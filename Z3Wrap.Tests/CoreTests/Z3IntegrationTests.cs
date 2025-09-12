@@ -1,9 +1,10 @@
 namespace Z3Wrap.Tests.CoreTests;
 
-public class Z3SimpleTest
+[TestFixture]
+public class Z3IntegrationTests
 {
     [Test]
-    public void SimpleArithmeticUnsatisfiable()
+    public void IntegerConstraints_ContradictoryBounds_ReturnsUnsatisfiable()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -22,7 +23,7 @@ public class Z3SimpleTest
     }
 
     [Test]
-    public void VerySimpleUnsatisfiable()
+    public void AssertFalse_SimpleSolver_ReturnsUnsatisfiable()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSimpleSolver(); // Try simple solver
@@ -37,7 +38,7 @@ public class Z3SimpleTest
     }
 
     [Test]
-    public void SimpleContradiction()
+    public void Contradiction_TrueAndNotTrue_ReturnsUnsatisfiable()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();

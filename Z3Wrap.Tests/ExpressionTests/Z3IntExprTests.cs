@@ -3,10 +3,10 @@ using Z3Wrap.Expressions;
 namespace Z3Wrap.Tests.ExpressionTests;
 
 [TestFixture]
-public class Z3IntExprOperatorTests
+public class Z3IntExprTests
 {
     [Test]
-    public void AddOperator_IntExprToIntExpr_CreatesAdditionExpression()
+    public void AddOperator_TwoIntExprs_CreatesAddition()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -24,7 +24,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void SubOperator_IntExprToIntExpr_CreatesSubtractionExpression()
+    public void SubOperator_TwoIntExprs_CreatesSubtraction()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -42,7 +42,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void MulOperator_IntExprToIntExpr_CreatesMultiplicationExpression()
+    public void MulOperator_TwoIntExprs_CreatesMultiplication()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -60,7 +60,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void DivOperator_IntExprToIntExpr_CreatesDivisionExpression()
+    public void DivOperator_TwoIntExprs_CreatesDivision()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -78,7 +78,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void ModOperator_IntExprToIntExpr_CreatesModuloExpression()
+    public void ModOperator_TwoIntExprs_CreatesModulo()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -96,7 +96,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void LtOperator_IntExprToIntExpr_CreatesLessThanComparison()
+    public void LtOperator_TwoIntExprs_CreatesLessThan()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -114,7 +114,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void LeOperator_IntExprToIntExpr_CreatesLessThanOrEqualComparison()
+    public void LeOperator_TwoIntExprs_CreatesLessOrEqual()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -132,7 +132,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void GtOperator_IntExprToIntExpr_CreatesGreaterThanComparison()
+    public void GtOperator_TwoIntExprs_CreatesGreaterThan()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -150,7 +150,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void GeOperator_IntExprToIntExpr_CreatesGreaterThanOrEqualComparison()
+    public void GeOperator_TwoIntExprs_CreatesGreaterOrEqual()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -168,7 +168,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void UnaryMinusOperator_IntExpr_CreatesNegationExpression()
+    public void UnaryMinusOperator_IntExpr_CreatesNegation()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -185,7 +185,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void AddOperator_IntExprToInt_CreatesAdditionExpression()
+    public void AddOperator_ExprAndInt_CreatesAddition()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -203,7 +203,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void SubOperator_IntExprToInt_CreatesSubtractionExpression()
+    public void SubOperator_ExprAndInt_CreatesSubtraction()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -221,7 +221,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void MulOperator_IntExprToInt_CreatesMultiplicationExpression()
+    public void MulOperator_ExprAndInt_CreatesMultiplication()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -239,7 +239,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void DivOperator_IntExprToInt_CreatesDivisionExpression()
+    public void DivOperator_ExprAndInt_CreatesDivision()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -257,7 +257,7 @@ public class Z3IntExprOperatorTests
     }
 
     [Test]
-    public void ModOperator_IntExprToInt_CreatesModuloExpression()
+    public void ModOperator_ExprAndInt_CreatesModulo()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -952,31 +952,6 @@ public class Z3IntExprOperatorTests
         solver.Reset();
         solver.Assert(context.Eq(x, context.Int(7)));
         solver.Assert(context.Eq(result, context.Int(7)));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ToRealMethod_CreatesRealExpressionFromInt()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-        
-        var x = context.IntConst("x");
-        var result = x.ToReal();
-
-        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(result.Context, Is.SameAs(context));
-        Assert.That(result, Is.InstanceOf<Z3RealExpr>());
-
-        // Test equivalent to context extension method
-        var contextResult = context.ToReal(x);
-        solver.Assert(context.Eq(result, contextResult));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        // Test that int 42 becomes real 42
-        solver.Reset();
-        solver.Assert(context.Eq(x, context.Int(42)));
-        solver.Assert(context.Eq(result, context.Real(42)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 }

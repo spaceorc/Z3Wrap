@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Z3Wrap.Tests;
+namespace Z3Wrap.Tests.DataTypesTests;
 
 [TestFixture]
 public class RealClassTests

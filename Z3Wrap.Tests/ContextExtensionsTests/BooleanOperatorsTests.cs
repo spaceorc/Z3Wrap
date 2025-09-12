@@ -3,7 +3,7 @@ using Z3Wrap.Expressions;
 namespace Z3Wrap.Tests.ContextExtensionsTests;
 
 [TestFixture]
-public class BoolOperatorsTests
+public class BooleanOperatorsTests
 {
     [Test]
     public void And_CreatesBooleanConjunction()
