@@ -186,12 +186,12 @@ solver.Assert(context.Max(x, BigInteger.Parse("1000000")) < BigInteger.Parse("20
 ### Conditional Expressions
 
 ```csharp
-// Type-safe if-then-else
+// Type-safe if-then-else using the If method
 var result = (x > 0).If(x * 2, x * -2);  // Returns Z3IntExpr
 solver.Assert(result == 10);
 
-// Generic factory method
-var conditional = context.MkIte<Z3IntExpr>(x > y, x, y);  // Maximum of x and y
+// Using context Ite method
+var conditional = context.Ite(x > y, x, y);  // Maximum of x and y
 ```
 
 ### Large Number Examples
@@ -270,7 +270,7 @@ The library provides comprehensive extension methods organized by functionality:
 - **Comparison** - `Lt()`, `Le()`, `Gt()`, `Ge()` with mixed-type BigInteger support
 - **Equality** - `Eq()`, `Neq()` with comprehensive BigInteger literal overloads
 - **Boolean** - `And()`, `Or()`, `Not()`, `Implies()`, `Iff()`, `Xor()`
-- **Conditional** - `MkIte()` with generic and non-generic overloads
+- **Conditional** - `Ite()` method and `If()` extension for type-safe if-then-else
 - **MinMax** - `Min()`, `Max()` with mixed-type BigInteger literal support
 
 ### Operators
