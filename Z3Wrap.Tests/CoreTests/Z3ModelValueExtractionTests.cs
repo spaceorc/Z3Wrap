@@ -1,3 +1,4 @@
+using System.Numerics;
 using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.CoreTests;
@@ -75,7 +76,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var value = model.GetIntValue(x);
         
-        Assert.That(value, Is.EqualTo(123));
+        Assert.That(value, Is.EqualTo(new BigInteger(123)));
     }
     
     [Test]
@@ -180,10 +181,10 @@ public class Z3ModelValueExtractionTests
         var xValue = model.GetIntValue(x);
         var yValue = model.GetIntValue(y);
         
-        Assert.That(xValue + yValue, Is.EqualTo(15));
-        Assert.That(xValue - yValue, Is.EqualTo(5));
-        Assert.That(xValue, Is.EqualTo(10));
-        Assert.That(yValue, Is.EqualTo(5));
+        Assert.That(xValue + yValue, Is.EqualTo(new BigInteger(15)));
+        Assert.That(xValue - yValue, Is.EqualTo(new BigInteger(5)));
+        Assert.That(xValue, Is.EqualTo(new BigInteger(10)));
+        Assert.That(yValue, Is.EqualTo(new BigInteger(5)));
     }
     
     [Test]
@@ -227,7 +228,7 @@ public class Z3ModelValueExtractionTests
         
         Assert.That(xEval, Is.Not.Null);
         Assert.That(yEval, Is.Not.Null);
-        Assert.That(model.GetIntValue(x), Is.EqualTo(10));
+        Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(10)));
     }
     
     [Test]
@@ -249,7 +250,7 @@ public class Z3ModelValueExtractionTests
         
         Assert.That(xEval, Is.Not.Null);
         Assert.That(yEval, Is.Not.Null);
-        Assert.That(model.GetIntValue(x), Is.EqualTo(10));
+        Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(10)));
     }
 
     [Test]
@@ -270,8 +271,8 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         
         // These should work (constants)
-        Assert.That(model.GetIntValue(x), Is.EqualTo(5));
-        Assert.That(model.GetIntValue(y), Is.EqualTo(10));
+        Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(5)));
+        Assert.That(model.GetIntValue(y), Is.EqualTo(new BigInteger(10)));
         
         // This should work (evaluates to a constant)
         var sumEval = model.Evaluate(sum);

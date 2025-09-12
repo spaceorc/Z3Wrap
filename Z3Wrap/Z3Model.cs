@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Z3Wrap.Expressions;
 using Z3Wrap.Interop;
@@ -43,16 +44,19 @@ public sealed class Z3Model
         return context.WrapExpr(result);
     }
 
-    public int GetIntValue(Z3IntExpr expr)
+    public BigInteger GetIntValue(Z3IntExpr expr)
     {
         var evaluated = Evaluate(expr);
         
         if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
             throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
         
-        if (!NativeMethods.Z3GetNumeralInt(context.Handle, evaluated.Handle, out int value))
-            throw new InvalidOperationException($"Failed to extract integer value from expression {expr}");
+        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
+        var valueStr = Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract integer value from expression {expr}");
         
+        if (!BigInteger.TryParse(valueStr, out BigInteger value))
+            throw new InvalidOperationException($"Failed to parse integer value '{valueStr}' from expression {expr}");
+            
         return value;
     }
 

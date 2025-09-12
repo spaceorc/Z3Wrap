@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Numerics;
 using Z3Wrap.Expressions;
 using Z3Wrap.Interop;
 
@@ -6,7 +7,7 @@ namespace Z3Wrap;
 
 public static partial class Z3ContextExtensions
 {
-    public static Z3IntExpr Int(this Z3Context context, int value)
+    public static Z3IntExpr Int(this Z3Context context, BigInteger value)
     {
         using var numeralPtr = new AnsiStringPtr(value.ToString());
         var sortHandle = NativeMethods.Z3MkIntSort(context.Handle);

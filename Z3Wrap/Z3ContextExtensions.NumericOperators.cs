@@ -1,3 +1,4 @@
+using System.Numerics;
 using Z3Wrap.Expressions;
 using Z3Wrap.Interop;
 
@@ -39,17 +40,17 @@ public static partial class Z3ContextExtensions
         return context.WrapIntExpr(resultHandle);
     }
 
-    // Z3IntExpr <-> int operations
-    public static Z3IntExpr Add(this Z3Context context, Z3IntExpr left, int right) => context.Add(left, context.Int(right));
-    public static Z3IntExpr Add(this Z3Context context, int left, Z3IntExpr right) => context.Add(context.Int(left), right);
-    public static Z3IntExpr Sub(this Z3Context context, Z3IntExpr left, int right) => context.Sub(left, context.Int(right));
-    public static Z3IntExpr Sub(this Z3Context context, int left, Z3IntExpr right) => context.Sub(context.Int(left), right);
-    public static Z3IntExpr Mul(this Z3Context context, Z3IntExpr left, int right) => context.Mul(left, context.Int(right));
-    public static Z3IntExpr Mul(this Z3Context context, int left, Z3IntExpr right) => context.Mul(context.Int(left), right);
-    public static Z3IntExpr Div(this Z3Context context, Z3IntExpr left, int right) => context.Div(left, context.Int(right));
-    public static Z3IntExpr Div(this Z3Context context, int left, Z3IntExpr right) => context.Div(context.Int(left), right);
-    public static Z3IntExpr Mod(this Z3Context context, Z3IntExpr left, int right) => context.Mod(left, context.Int(right));
-    public static Z3IntExpr Mod(this Z3Context context, int left, Z3IntExpr right) => context.Mod(context.Int(left), right);
+    // Z3IntExpr <-> BigInteger operations
+    public static Z3IntExpr Add(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Add(left, context.Int(right));
+    public static Z3IntExpr Add(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Add(context.Int(left), right);
+    public static Z3IntExpr Sub(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Sub(left, context.Int(right));
+    public static Z3IntExpr Sub(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Sub(context.Int(left), right);
+    public static Z3IntExpr Mul(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Mul(left, context.Int(right));
+    public static Z3IntExpr Mul(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Mul(context.Int(left), right);
+    public static Z3IntExpr Div(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Div(left, context.Int(right));
+    public static Z3IntExpr Div(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Div(context.Int(left), right);
+    public static Z3IntExpr Mod(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Mod(left, context.Int(right));
+    public static Z3IntExpr Mod(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Mod(context.Int(left), right);
 
     // Z3RealExpr <-> Z3RealExpr operations
     public static Z3RealExpr Add(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
@@ -102,6 +103,6 @@ public static partial class Z3ContextExtensions
         return context.WrapRealExpr(resultHandle);
     }
 
-    public static Z3IntExpr Abs(this Z3Context context, Z3IntExpr expr) => context.Ite(context.Lt(expr, 0), context.UnaryMinus(expr), expr);
+    public static Z3IntExpr Abs(this Z3Context context, Z3IntExpr expr) => context.Ite(context.Lt(expr, BigInteger.Zero), context.UnaryMinus(expr), expr);
     public static Z3RealExpr Abs(this Z3Context context, Z3RealExpr expr) => context.Ite(context.Lt(expr, 0), context.UnaryMinus(expr), expr);
 }

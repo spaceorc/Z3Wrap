@@ -1,3 +1,4 @@
+using System.Numerics;
 using Z3Wrap.Expressions;
 using Z3Wrap.Interop;
 
@@ -16,10 +17,10 @@ public static partial class Z3ContextExtensions
         return context.Not(context.Eq(left, right));
     }
 
-    public static Z3BoolExpr Eq(this Z3Context context, Z3IntExpr left, int right) => context.Eq(left, context.Int(right));
-    public static Z3BoolExpr Eq(this Z3Context context, int left, Z3IntExpr right) => context.Eq(context.Int(left), right);
-    public static Z3BoolExpr Neq(this Z3Context context, Z3IntExpr left, int right) => context.Neq(left, context.Int(right));
-    public static Z3BoolExpr Neq(this Z3Context context, int left, Z3IntExpr right) => context.Neq(context.Int(left), right);
+    public static Z3BoolExpr Eq(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Eq(left, context.Int(right));
+    public static Z3BoolExpr Eq(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Eq(context.Int(left), right);
+    public static Z3BoolExpr Neq(this Z3Context context, Z3IntExpr left, BigInteger right) => context.Neq(left, context.Int(right));
+    public static Z3BoolExpr Neq(this Z3Context context, BigInteger left, Z3IntExpr right) => context.Neq(context.Int(left), right);
 
     public static Z3BoolExpr Eq(this Z3Context context, Z3RealExpr left, Real right) => context.Eq(left, context.Real(right));
     public static Z3BoolExpr Eq(this Z3Context context, Real left, Z3RealExpr right) => context.Eq(context.Real(left), right);
