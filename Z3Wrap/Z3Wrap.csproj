@@ -25,6 +25,9 @@
         <Compile Update="Z3ContextExtensions.MinMax.cs">
             <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
         </Compile>
+        <Compile Update="Z3ContextExtensions.Arrays.cs">
+            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

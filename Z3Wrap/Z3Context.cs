@@ -117,6 +117,7 @@ public class Z3Context : IDisposable
             Z3SortKind.Bool => new Z3BoolExpr(this, handle),
             Z3SortKind.Int => new Z3IntExpr(this, handle),
             Z3SortKind.Real => new Z3RealExpr(this, handle),
+            Z3SortKind.Array => throw new InvalidOperationException("Array expressions must be wrapped with specific generic types. Use WrapArrayExpr<TIndex, TValue>() instead."),
             _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}")
         };
     }
@@ -137,6 +138,14 @@ public class Z3Context : IDisposable
     {
         TrackExpression(handle);
         return new Z3BoolExpr(this, handle);
+    }
+
+    internal Z3ArrayExpr<TIndex, TValue> WrapArrayExpr<TIndex, TValue>(IntPtr handle)
+        where TIndex : Z3Expr
+        where TValue : Z3Expr
+    {
+        TrackExpression(handle);
+        return new Z3ArrayExpr<TIndex, TValue>(this, handle);
     }
 
     internal void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));

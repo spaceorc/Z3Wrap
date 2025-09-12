@@ -110,6 +110,12 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2real");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_real2int");
             
+            // Array theory functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_array_sort");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_select");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_store");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_const_array");
+            
             // Solver functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_solver");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_simple_solver");
@@ -465,6 +471,35 @@ public static class NativeMethods
         return func(ctx, t1);
     }
 
+    // Array theory functions
+    public static IntPtr Z3MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkArraySortDelegate>(funcPtr);
+        return func(ctx, domain, range);
+    }
+
+    public static IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_select");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSelectDelegate>(funcPtr);
+        return func(ctx, array, index);
+    }
+
+    public static IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_store");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkStoreDelegate>(funcPtr);
+        return func(ctx, array, index, value);
+    }
+
+    public static IntPtr Z3MkConstArray(IntPtr ctx, IntPtr domain, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_const_array");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkConstArrayDelegate>(funcPtr);
+        return func(ctx, domain, value);
+    }
+
     // Solver functions
     public static IntPtr Z3MkSolver(IntPtr ctx)
     {
@@ -666,6 +701,12 @@ public static class NativeMethods
     // Type conversion delegates
     private delegate IntPtr Z3MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
     private delegate IntPtr Z3MkReal2IntDelegate(IntPtr ctx, IntPtr t1);
+    
+    // Array theory delegates
+    private delegate IntPtr Z3MkArraySortDelegate(IntPtr ctx, IntPtr domain, IntPtr range);
+    private delegate IntPtr Z3MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
+    private delegate IntPtr Z3MkStoreDelegate(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value);
+    private delegate IntPtr Z3MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
     
     // Solver delegates
     private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);
