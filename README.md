@@ -141,17 +141,12 @@ if (solver.Check() == Z3Status.Satisfiable)
 }
 ```
 
-**Before Z3Wrap (Wrong):**
-```csharp
-// Other libraries with double precision errors:
-solver.Assert(x == 0.1 + 0.2);  // May not equal 0.3 due to floating-point!
-```
-
-**With Z3Wrap (Correct):**
+**Exact Arithmetic Examples:**
 ```csharp
 // Exact arithmetic matching Z3's mathematical model:
 solver.Assert(x == 0.1m + 0.2m);  // Exactly equals 0.3 - no precision errors!
 solver.Assert(x == new Real(3, 10));  // Explicit exact fraction
+solver.Assert(a == new Real(1, 3) + new Real(1, 6));  // Exactly 1/2
 ```
 
 ## Advanced Features
@@ -233,13 +228,13 @@ Z3Expr (abstract base)
 └── Z3RealExpr - Exact rational expressions with Real class
 ```
 
-### Precision Benefits
+### Precision Features
 
-| Type | Z3Wrap | Other Libraries |
-|------|--------|----------------|
-| **Integers** | `BigInteger` - unlimited precision | `int`/`long` - overflow at 2³¹/2⁶³ |
-| **Reals** | `Real` class - exact fractions | `double` - floating-point errors |
-| **Example** | `1/3 + 1/6 = 1/2` exactly | `0.333... + 0.166... ≈ 0.499999` |
+| Type | Z3Wrap Approach | Benefits |
+|------|----------------|----------|
+| **Integers** | `BigInteger` - unlimited precision | No overflow, handles arbitrarily large numbers |
+| **Reals** | `Real` class - exact fractions | No floating-point errors, exact rational arithmetic |
+| **Example** | `1/3 + 1/6 = 1/2` exactly | Mathematically precise calculations |
 
 ### Memory Management
 
@@ -349,26 +344,15 @@ Current testing: **343 tests passing** with comprehensive coverage of:
 
 Install Z3 using your platform's package manager or download from [Z3 releases](https://github.com/Z3Prover/z3/releases).
 
-## Key Advantages
+## Design Principles
 
-### vs. Other Z3 Wrappers
-
-| Feature | Z3Wrap | Other Wrappers |
-|---------|---------|----------------|
-| **Integer Precision** | `BigInteger` - unlimited | `int`/`long` - limited range |
-| **Real Precision** | `Real` class - exact fractions | `double` - floating-point errors |
-| **Type Safety** | Strongly typed expressions | Often untyped/object-based |
-| **Natural Syntax** | `x + y == 10` | Verbose method calls |
-| **Memory Management** | Automatic hierarchical disposal | Manual resource management |
-| **Platform Support** | Auto-discovery, zero config | Complex setup required |
-
-### Mathematical Correctness
-
-Z3Wrap provides **exact arithmetic** matching Z3's mathematical model:
-- **No integer overflow** - BigInteger handles arbitrarily large numbers
-- **No floating-point errors** - Real class uses exact rational arithmetic
-- **Precise model extraction** - Values returned with full precision
-- **Consistent with Z3** - Same mathematical semantics as the underlying solver
+Z3Wrap is designed with **mathematical correctness** as a core principle:
+- **Unlimited precision integers** - BigInteger handles arbitrarily large numbers without overflow
+- **Exact rational arithmetic** - Real class uses exact fractions, eliminating floating-point errors
+- **Type safety** - Strongly typed expressions prevent common mistakes
+- **Natural syntax** - Mathematical operators work as expected: `x + y == 10`
+- **Memory safety** - Automatic hierarchical disposal prevents resource leaks
+- **Zero configuration** - Auto-discovery and loading of Z3 library
 
 ## License
 
