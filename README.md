@@ -6,6 +6,7 @@ A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision a
 
 - **Unlimited Precision** - BigInteger for integers, exact rational arithmetic for reals
 - **Type-Safe** - Strongly typed expressions with operator overloading  
+- **Type Conversions** - Seamless conversion between integer and real expressions
 - **Natural Syntax** - Write constraints using familiar operators: `x + y == 10`, `p.Implies(q)`
 - **Zero Configuration** - Automatically discovers and loads Z3 library
 - **Cross-Platform** - Windows, macOS, and Linux support
@@ -80,6 +81,23 @@ solver.Assert(a == new Real(1, 3));      // Exactly 1/3
 solver.Assert(a + new Real(1, 6) == new Real(1, 2)); // Exact: 1/3 + 1/6 = 1/2
 ```
 
+### Type Conversions
+
+```csharp
+var x = context.IntConst("x");
+var y = context.RealConst("y");
+
+// Convert integer to real for mixed arithmetic
+solver.Assert(x.ToReal() + y == context.Real(5.5m));
+
+// Convert real to integer (truncates)
+solver.Assert(y.ToInt() % context.Int(2) == context.Int(0));
+
+// Alternative extension method syntax
+solver.Assert(context.ToReal(x) >= context.Real(10));
+solver.Assert(context.ToInt(y) < context.Int(100));
+```
+
 ### Boolean Logic
 
 ```csharp
@@ -134,6 +152,10 @@ var constraint = x >= BigInteger.Parse("999999999999");
 
 // Boolean: &, |, ^, !
 var formula = p & (q | !r);
+
+// Type Conversions: ToReal(), ToInt()
+var mixed = x.ToReal() + y;  // Convert int to real for mixed arithmetic
+var truncated = z.ToInt();   // Convert real to int (truncates)
 ```
 
 ## Requirements

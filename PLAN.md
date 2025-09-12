@@ -9,9 +9,10 @@ Z3Wrap is a modern C# wrapper for Microsoft's Z3 theorem prover with **complete 
 - ✅ **Solving Complete**: Z3Solver with full constraint solving capabilities
 - ✅ **Model Extraction Complete**: Full value extraction from satisfying assignments with unlimited precision
 - ✅ **Extended Operations Complete**: Boolean logic, arithmetic, comparisons, if-then-else
+- ✅ **Type Conversions Complete**: Z3_mk_int2real and Z3_mk_real2int support with ToReal()/ToInt() methods
 - ✅ **Architecture Mature**: Comprehensive test coverage, hierarchical disposal, modern C# patterns
 - ✅ **Unlimited Precision**: BigInteger integration for integers, Real class for exact rationals
-- ✅ **343 Tests Passing**: Comprehensive test suite covering all functionality including unlimited precision arithmetic
+- ✅ **355 Tests Passing**: Comprehensive test suite covering all functionality including type conversions
 
 ## Current Architecture
 
@@ -43,6 +44,7 @@ using var context = new Z3Context();
 // Create variables and constraints
 var x = context.IntConst("x");
 var y = context.IntConst("y");
+var r = context.RealConst("r");
 var p = context.BoolConst("p");
 
 using var solver = context.CreateSolver();
@@ -50,12 +52,17 @@ solver.Assert(x + y == context.Int(10));
 solver.Assert(x > context.Int(0));
 solver.Assert(p.Implies(x % 2 == context.Int(0))); // Extended operations work!
 
+// Type conversions for mixed arithmetic
+solver.Assert(x.ToReal() + r == context.Real(15.5m)); // int to real conversion
+solver.Assert(r.ToInt() >= context.Int(5));           // real to int conversion
+
 // Solve and extract model
 if (solver.Check() == Z3Status.Satisfiable)
 {
     var model = solver.GetModel();
     Console.WriteLine($"x = {model.GetIntValue(x)}");
     Console.WriteLine($"y = {model.GetIntValue(y)}");
+    Console.WriteLine($"r = {model.GetRealValueAsString(r)}");
     Console.WriteLine($"p = {model.GetBoolValue(p)}");
 }
 ```
@@ -127,6 +134,38 @@ Console.WriteLine(exactValue); // "1/3"
 
 ## Future Enhancements
 
+### Type Conversions: COMPLETED ✅
+
+**Goal**: Add support for Z3's `Z3_mk_int2real` and `Z3_mk_real2int` functions to enable seamless conversion between integer and real expressions at the Z3 level.
+
+- ✅ **Native Methods**: Added `Z3_mk_int2real` and `Z3_mk_real2int` function loading and C# wrappers
+- ✅ **Context Extensions**: Added `context.ToReal(Z3IntExpr)` and `context.ToInt(Z3RealExpr)` extension methods
+- ✅ **Instance Methods**: Added `intExpr.ToReal()` and `realExpr.ToInt()` instance methods for convenient syntax
+- ✅ **Test Coverage**: 12 comprehensive tests covering both APIs, mixed-type solving, and edge cases
+- ✅ **Model Integration**: Full compatibility with existing model extraction methods
+
+#### Achievement: Mixed-Type Arithmetic ✅
+
+**API Usage:**
+```csharp
+var x = context.IntConst("x");
+var y = context.RealConst("y");
+
+// Instance methods (recommended)
+solver.Assert(x.ToReal() + y == context.Real(5.5m));
+solver.Assert(y.ToInt() % context.Int(2) == context.Int(0));
+
+// Extension methods (alternative)
+solver.Assert(context.ToReal(x) >= context.Real(10));
+solver.Assert(context.ToInt(y) < context.Int(100));
+```
+
+**Benefits:**
+- **Mixed Constraints**: Enable complex constraints requiring both integer and real variables
+- **Type Safety**: Proper return types (`Z3IntExpr` vs `Z3RealExpr`) with compile-time checking  
+- **Z3 Semantics**: Uses Z3's native type conversion for correct mathematical behavior
+- **Dual APIs**: Both instance methods and extension methods for user preference
+
 ### BigInteger Integration: COMPLETED ✅
 
 **Goal**: Replace `int` with `BigInteger` throughout Z3IntExpr system for unlimited precision integer arithmetic
@@ -167,14 +206,15 @@ Console.WriteLine(exactValue); // Can represent any integer size
 
 ### Architecture Benefits Achieved ✅
 - **Mathematical Correctness**: Exact rational arithmetic (Real class) and unlimited precision integers (BigInteger) matching Z3's design
+- **Type Conversions**: Seamless conversion between integer and real expressions using Z3's native functions
 - **Unlimited Precision**: BigInteger for integers, Real class for exact rationals - no overflow or precision loss
 - **Memory Safety**: Hierarchical disposal, no resource leaks
 - **Type Safety**: Strongly typed expressions with compile-time checking
 - **Natural Syntax**: Operator overloading with mixed-type support and implicit conversions
 - **Modern C#**: Nullable types, using statements, seamless integration with .NET numeric types
-- **Comprehensive Testing**: 343 test cases covering all functionality including unlimited precision arithmetic
+- **Comprehensive Testing**: 355 test cases covering all functionality including type conversions and unlimited precision arithmetic
 - **Cross-Platform**: Works on Windows, macOS, Linux with auto-discovery
 - **Zero Configuration**: Automatically finds and loads Z3 library
 - **Backward Compatibility**: Seamless migration from int/double-based APIs
 
-Z3Wrap now provides **unlimited precision arithmetic** for both integers (BigInteger) and rationals (Real class) while maintaining its clean, intuitive API design. Both precision enhancements are complete and fully integrated.
+Z3Wrap now provides **unlimited precision arithmetic** for both integers (BigInteger) and rationals (Real class) with **seamless type conversions** while maintaining its clean, intuitive API design. All core enhancements are complete and fully integrated.

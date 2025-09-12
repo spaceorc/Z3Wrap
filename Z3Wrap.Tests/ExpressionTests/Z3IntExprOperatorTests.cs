@@ -1,3 +1,5 @@
+using Z3Wrap.Expressions;
+
 namespace Z3Wrap.Tests.ExpressionTests;
 
 [TestFixture]
@@ -950,6 +952,31 @@ public class Z3IntExprOperatorTests
         solver.Reset();
         solver.Assert(context.Eq(x, context.Int(7)));
         solver.Assert(context.Eq(result, context.Int(7)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToRealMethod_CreatesRealExpressionFromInt()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+        
+        var x = context.IntConst("x");
+        var result = x.ToReal();
+
+        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(result.Context, Is.SameAs(context));
+        Assert.That(result, Is.InstanceOf<Z3RealExpr>());
+
+        // Test equivalent to context extension method
+        var contextResult = context.ToReal(x);
+        solver.Assert(context.Eq(result, contextResult));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        // Test that int 42 becomes real 42
+        solver.Reset();
+        solver.Assert(context.Eq(x, context.Int(42)));
+        solver.Assert(context.Eq(result, context.Real(42)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 }

@@ -1,3 +1,5 @@
+using Z3Wrap.Expressions;
+
 namespace Z3Wrap.Tests.ExpressionTests;
 
 [TestFixture]
@@ -859,6 +861,37 @@ public class Z3RealExprOperatorTests
         solver.Reset();
         solver.Assert(context.Eq(x, context.Real(2.7m)));
         solver.Assert(context.Eq(result, context.Real(2.7m)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToIntMethod_CreatesIntExpressionFromReal()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+        
+        var x = context.RealConst("x");
+        var result = x.ToInt();
+
+        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(result.Context, Is.SameAs(context));
+        Assert.That(result, Is.InstanceOf<Z3IntExpr>());
+
+        // Test equivalent to context extension method
+        var contextResult = context.ToInt(x);
+        solver.Assert(context.Eq(result, contextResult));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        // Test that real 17.0 becomes int 17
+        solver.Reset();
+        solver.Assert(context.Eq(x, context.Real(17)));
+        solver.Assert(context.Eq(result, context.Int(17)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        
+        // Test truncation: real 17.9 becomes int 17
+        solver.Reset();
+        solver.Assert(context.Eq(x, context.Real(17.9m)));
+        solver.Assert(context.Eq(result, context.Int(17)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 }

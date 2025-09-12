@@ -106,6 +106,10 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_unary_minus");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_ite");
             
+            // Type conversion functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2real");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_real2int");
+            
             // Solver functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_solver");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_simple_solver");
@@ -446,6 +450,21 @@ public static class NativeMethods
         return func(ctx, condition, thenExpr, elseExpr);
     }
 
+    // Type conversion functions
+    public static IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_int2real");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkInt2RealDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
+    public static IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_real2int");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkReal2IntDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
     // Solver functions
     public static IntPtr Z3MkSolver(IntPtr ctx)
     {
@@ -643,6 +662,10 @@ public static class NativeMethods
     private delegate IntPtr Z3MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
     private delegate IntPtr Z3MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
+    
+    // Type conversion delegates
+    private delegate IntPtr Z3MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr Z3MkReal2IntDelegate(IntPtr ctx, IntPtr t1);
     
     // Solver delegates
     private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);

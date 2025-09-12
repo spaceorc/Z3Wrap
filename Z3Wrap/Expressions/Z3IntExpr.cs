@@ -71,4 +71,6 @@ public sealed class Z3IntExpr : Z3Expr
 
     public Z3IntExpr UnaryMinus() => Context.UnaryMinus(this);
     public Z3IntExpr Abs() => Context.Abs(this);
+    
+    public Z3RealExpr ToReal() => Context.ToReal(this);
 }

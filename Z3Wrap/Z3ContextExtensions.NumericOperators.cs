@@ -105,4 +105,17 @@ public static partial class Z3ContextExtensions
 
     public static Z3IntExpr Abs(this Z3Context context, Z3IntExpr expr) => context.Ite(context.Lt(expr, BigInteger.Zero), context.UnaryMinus(expr), expr);
     public static Z3RealExpr Abs(this Z3Context context, Z3RealExpr expr) => context.Ite(context.Lt(expr, 0), context.UnaryMinus(expr), expr);
+
+    // Type conversion operations
+    public static Z3RealExpr ToReal(this Z3Context context, Z3IntExpr expr)
+    {
+        var resultHandle = NativeMethods.Z3MkInt2Real(context.Handle, expr.Handle);
+        return context.WrapRealExpr(resultHandle);
+    }
+
+    public static Z3IntExpr ToInt(this Z3Context context, Z3RealExpr expr)
+    {
+        var resultHandle = NativeMethods.Z3MkReal2Int(context.Handle, expr.Handle);
+        return context.WrapIntExpr(resultHandle);
+    }
 }
