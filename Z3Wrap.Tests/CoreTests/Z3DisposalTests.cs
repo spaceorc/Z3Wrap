@@ -16,7 +16,7 @@ public class Z3DisposalTests
         Assert.Throws<ObjectDisposedException>(() => context.SetParameter("timeout", "1000"));
         Assert.Throws<ObjectDisposedException>(() => context.Int(5));
         Assert.Throws<ObjectDisposedException>(() => context.IntConst("x"));
-        Assert.Throws<ObjectDisposedException>(() => context.Real(3.14));
+        Assert.Throws<ObjectDisposedException>(() => context.Real(3.14m));
         Assert.Throws<ObjectDisposedException>(() => context.RealConst("y"));
         Assert.Throws<ObjectDisposedException>(() => context.True());
         Assert.Throws<ObjectDisposedException>(() => context.False());

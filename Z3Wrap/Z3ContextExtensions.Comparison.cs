@@ -65,13 +65,13 @@ public static partial class Z3ContextExtensions
         return context.WrapBoolExpr(resultHandle);
     }
 
-    // Z3RealExpr <-> double operations
-    public static Z3BoolExpr Lt(this Z3Context context, Z3RealExpr left, double right) => context.Lt(left, context.Real(right));
-    public static Z3BoolExpr Lt(this Z3Context context, double left, Z3RealExpr right) => context.Lt(context.Real(left), right);
-    public static Z3BoolExpr Le(this Z3Context context, Z3RealExpr left, double right) => context.Le(left, context.Real(right));
-    public static Z3BoolExpr Le(this Z3Context context, double left, Z3RealExpr right) => context.Le(context.Real(left), right);
-    public static Z3BoolExpr Gt(this Z3Context context, Z3RealExpr left, double right) => context.Gt(left, context.Real(right));
-    public static Z3BoolExpr Gt(this Z3Context context, double left, Z3RealExpr right) => context.Gt(context.Real(left), right);
-    public static Z3BoolExpr Ge(this Z3Context context, Z3RealExpr left, double right) => context.Ge(left, context.Real(right));
-    public static Z3BoolExpr Ge(this Z3Context context, double left, Z3RealExpr right) => context.Ge(context.Real(left), right);
+    // Z3RealExpr <-> Real operations
+    public static Z3BoolExpr Lt(this Z3Context context, Z3RealExpr left, Real right) => context.Lt(left, context.Real(right));
+    public static Z3BoolExpr Lt(this Z3Context context, Real left, Z3RealExpr right) => context.Lt(context.Real(left), right);
+    public static Z3BoolExpr Le(this Z3Context context, Z3RealExpr left, Real right) => context.Le(left, context.Real(right));
+    public static Z3BoolExpr Le(this Z3Context context, Real left, Z3RealExpr right) => context.Le(context.Real(left), right);
+    public static Z3BoolExpr Gt(this Z3Context context, Z3RealExpr left, Real right) => context.Gt(left, context.Real(right));
+    public static Z3BoolExpr Gt(this Z3Context context, Real left, Z3RealExpr right) => context.Gt(context.Real(left), right);
+    public static Z3BoolExpr Ge(this Z3Context context, Z3RealExpr left, Real right) => context.Ge(left, context.Real(right));
+    public static Z3BoolExpr Ge(this Z3Context context, Real left, Z3RealExpr right) => context.Ge(context.Real(left), right);
 }

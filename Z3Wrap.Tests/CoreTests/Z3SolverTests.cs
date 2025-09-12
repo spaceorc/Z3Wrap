@@ -109,9 +109,9 @@ public class Z3SolverTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var pi = context.Real(3.14);
+        var pi = context.Real(3.14m);
         
-        // x == 3.14
+        // x == 3.14m
         solver.Assert(x == pi);
         
         var result = solver.Check();
@@ -219,7 +219,7 @@ public class Z3SolverTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var pi = context.Real(3.14);
+        var pi = context.Real(3.14m);
         
         solver.Assert(x == pi);
         

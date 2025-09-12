@@ -351,13 +351,13 @@ public class Z3ExprTests
         using var solver = context.CreateSolver();
         
         var intFive = context.Int(5);
-        var realFive = context.Real(5.0);
+        var realFive = context.Real(5.0m);
         var equality = intFive == realFive;
         
         Assert.That(equality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(equality.Context, Is.SameAs(context));
         
-        // Test that 5 (int) == 5.0 (real) is satisfiable in Z3
+        // Test that 5 (int) == 5.0m (real) is satisfiable in Z3
         solver.Assert(equality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -369,13 +369,13 @@ public class Z3ExprTests
         using var solver = context.CreateSolver();
         
         var intFive = context.Int(5);
-        var realPi = context.Real(3.14159);
+        var realPi = context.Real(3.14159m);
         var inequality = intFive != realPi;
         
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
         
-        // Test that 5 (int) != 3.14159 (real) is satisfiable
+        // Test that 5 (int) != 3.14159m (real) is satisfiable
         solver.Assert(inequality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

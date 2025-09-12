@@ -193,33 +193,24 @@ public class RealClassTests
     }
 
     [Test]
-    public void ExplicitConversion_FromDouble_CreatesRationalApproximation()
+    public void ExplicitConversion_FromDecimal_CreatesRationalRepresentation()
     {
-        Real real = (Real)0.5;
+        Real real = (Real)0.5m;
         Assert.That((int)real.Numerator, Is.EqualTo(1));
         Assert.That((int)real.Denominator, Is.EqualTo(2));
     }
 
-
     [Test]
-    public void ExplicitConversion_FromDouble_PreservesExactValues()
+    public void ExplicitConversion_FromDecimal_PreservesExactValues()
     {
         // Values that can be exactly represented
-        Real quarter = (Real)0.25;
+        Real quarter = (Real)0.25m;
         Assert.That((int)quarter.Numerator, Is.EqualTo(1));
         Assert.That((int)quarter.Denominator, Is.EqualTo(4));
 
-        Real eighth = (Real)0.125;
+        Real eighth = (Real)0.125m;
         Assert.That((int)eighth.Numerator, Is.EqualTo(1));
         Assert.That((int)eighth.Denominator, Is.EqualTo(8));
-    }
-
-    [Test]
-    public void ExplicitConversion_ToDouble_ReturnsApproximateValue()
-    {
-        var oneThird = new Real(1, 3);
-        double result = (double)oneThird;
-        Assert.That(result, Is.EqualTo(1.0 / 3.0).Within(1e-15));
     }
 
     [Test]
@@ -232,6 +223,81 @@ public class RealClassTests
         var twoThirds = new Real(2, 3);
         decimal result2 = (decimal)twoThirds;
         Assert.That(result2, Is.EqualTo(2.0m / 3.0m));
+    }
+
+    [Test]
+    public void ExplicitConversion_ToInt_ReturnsIntegerValue()
+    {
+        var fortyTwo = new Real(42);
+        int result = (int)fortyTwo;
+        Assert.That(result, Is.EqualTo(42));
+        
+        var negative = new Real(-123);
+        int result2 = (int)negative;
+        Assert.That(result2, Is.EqualTo(-123));
+    }
+
+    [Test]
+    public void ExplicitConversion_ToInt_NonIntegerThrows()
+    {
+        var fraction = new Real(1, 3);
+        Assert.Throws<InvalidOperationException>(() => { int result = (int)fraction; });
+    }
+
+    [Test]
+    public void ExplicitConversion_ToInt_OverflowThrows()
+    {
+        var tooLarge = new Real(long.MaxValue);
+        Assert.Throws<OverflowException>(() => { int result = (int)tooLarge; });
+    }
+
+    [Test]
+    public void ExplicitConversion_ToLong_ReturnsLongValue()
+    {
+        var fortyTwo = new Real(42L);
+        long result = (long)fortyTwo;
+        Assert.That(result, Is.EqualTo(42L));
+        
+        var maxValue = new Real(long.MaxValue);
+        long result2 = (long)maxValue;
+        Assert.That(result2, Is.EqualTo(long.MaxValue));
+    }
+
+    [Test]
+    public void ExplicitConversion_ToLong_NonIntegerThrows()
+    {
+        var fraction = new Real(1, 3);
+        Assert.Throws<InvalidOperationException>(() => { long result = (long)fraction; });
+    }
+
+    [Test]
+    public void ExplicitConversion_ToLong_OverflowThrows()
+    {
+        var tooLarge = new Real(new BigInteger(long.MaxValue) + 1, 1);
+        Assert.Throws<OverflowException>(() => { long result = (long)tooLarge; });
+    }
+
+    [Test]
+    public void ExplicitConversion_ToBigInteger_ReturnsCorrectValue()
+    {
+        var fortyTwo = new Real(42);
+        BigInteger result = (BigInteger)fortyTwo;
+        Assert.That(result, Is.EqualTo(new BigInteger(42)));
+        
+        var large = new Real(long.MaxValue);
+        BigInteger result2 = (BigInteger)large;
+        Assert.That(result2, Is.EqualTo(new BigInteger(long.MaxValue)));
+        
+        var veryLarge = new Real(new BigInteger(long.MaxValue) + 1000, 1);
+        BigInteger result3 = (BigInteger)veryLarge;
+        Assert.That(result3, Is.EqualTo(new BigInteger(long.MaxValue) + 1000));
+    }
+
+    [Test]
+    public void ExplicitConversion_ToBigInteger_NonIntegerThrows()
+    {
+        var fraction = new Real(1, 3);
+        Assert.Throws<InvalidOperationException>(() => { BigInteger result = (BigInteger)fraction; });
     }
 
     [Test]
@@ -260,9 +326,9 @@ public class RealClassTests
     }
 
     [Test]
-    public void Parse_DecimalString_CreatesExactRational()
+    public void Parse_FractionString_CreatesExactRational()
     {
-        var real = Real.Parse("0.25");
+        var real = Real.Parse("1/4");
         Assert.That((int)real.Numerator, Is.EqualTo(1));
         Assert.That((int)real.Denominator, Is.EqualTo(4));
     }
@@ -292,7 +358,7 @@ public class RealClassTests
     [Test]
     public void Parse_InvalidDecimalFormat_ThrowsFormatException()
     {
-        Assert.Throws<FormatException>(() => Real.Parse("1.2.3"));
+        Assert.Throws<FormatException>(() => Real.Parse("1.2m.3"));
         Assert.Throws<FormatException>(() => Real.Parse("abc.def"));
     }
 
@@ -557,38 +623,38 @@ public class RealClassTests
     public void Round_DefaultToEven_RoundsCorrectly()
     {
         // Test rounding down
-        var oneQuarter = new Real(1, 4); // 0.25
+        var oneQuarter = new Real(1, 4); // 0.25m
         Assert.That(oneQuarter.Round(), Is.EqualTo(BigInteger.Zero));
 
         // Test rounding up  
-        var threeQuarters = new Real(3, 4); // 0.75
+        var threeQuarters = new Real(3, 4); // 0.75m
         Assert.That(threeQuarters.Round(), Is.EqualTo(BigInteger.One));
 
         // Test midpoint - should round to even
-        var oneHalf = new Real(1, 2); // 0.5 - rounds to 0 (even)
+        var oneHalf = new Real(1, 2); // 0.5m - rounds to 0 (even)
         Assert.That(oneHalf.Round(), Is.EqualTo(BigInteger.Zero));
 
-        var threeHalves = new Real(3, 2); // 1.5 - rounds to 2 (even)
+        var threeHalves = new Real(3, 2); // 1.5m - rounds to 2 (even)
         Assert.That(threeHalves.Round(), Is.EqualTo(new BigInteger(2)));
     }
 
     [Test]
     public void Round_AwayFromZero_RoundsCorrectly()
     {
-        var oneHalf = new Real(1, 2); // 0.5
+        var oneHalf = new Real(1, 2); // 0.5m
         Assert.That(oneHalf.Round(MidpointRounding.AwayFromZero), Is.EqualTo(BigInteger.One));
 
-        var negativeHalf = new Real(-1, 2); // -0.5
+        var negativeHalf = new Real(-1, 2); // -0.5m
         Assert.That(negativeHalf.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(-1)));
     }
 
     [Test]
     public void Round_ToZero_RoundsCorrectly()
     {
-        var oneHalf = new Real(1, 2); // 0.5
+        var oneHalf = new Real(1, 2); // 0.5m
         Assert.That(oneHalf.Round(MidpointRounding.ToZero), Is.EqualTo(BigInteger.Zero));
 
-        var negativeHalf = new Real(-1, 2); // -0.5
+        var negativeHalf = new Real(-1, 2); // -0.5m
         Assert.That(negativeHalf.Round(MidpointRounding.ToZero), Is.EqualTo(BigInteger.Zero));
     }
 

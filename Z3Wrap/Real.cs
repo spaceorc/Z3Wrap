@@ -294,9 +294,10 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public static implicit operator Real(decimal value) => new(value);
     public static implicit operator Real(BigInteger value) => new(value, 1);
 
-    public static explicit operator Real(double value) => new((decimal)value);
-    public static explicit operator double(Real value) => (double)value.numerator / (double)value.denominator;
     public static explicit operator decimal(Real value) => value.ToDecimal();
+    public static explicit operator BigInteger(Real value) => value.ToBigInteger();
+    public static explicit operator long(Real value) => value.ToLong();
+    public static explicit operator int(Real value) => value.ToInt();
 
     // Interface implementations
     public bool Equals(Real other) => this == other;

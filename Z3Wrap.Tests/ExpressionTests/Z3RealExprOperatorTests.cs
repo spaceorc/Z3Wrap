@@ -16,8 +16,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 2.5 + 3.7 == 6.2
-        solver.Assert(context.Eq(context.Real(2.5) + context.Real(3.7), context.Real(6.2)));
+        // Test 2.5m + 3.7m == 6.2m
+        solver.Assert(context.Eq(context.Real(2.5m) + context.Real(3.7m), context.Real(6.2m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -34,8 +34,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 10.8 - 4.3 == 6.5
-        solver.Assert(context.Eq(context.Real(10.8) - context.Real(4.3), context.Real(6.5)));
+        // Test 10.8m - 4.3m == 6.5m
+        solver.Assert(context.Eq(context.Real(10.8m) - context.Real(4.3m), context.Real(6.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -52,8 +52,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 2.5 * 4.0 == 10.0
-        solver.Assert(context.Eq(context.Real(2.5) * context.Real(4.0), context.Real(10.0)));
+        // Test 2.5m * 4.0m == 10.0m
+        solver.Assert(context.Eq(context.Real(2.5m) * context.Real(4.0m), context.Real(10.0m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -70,8 +70,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 15.0 / 3.0 == 5.0
-        solver.Assert(context.Eq(context.Real(15.0) / context.Real(3.0), context.Real(5.0)));
+        // Test 15.0m / 3.0m == 5.0m
+        solver.Assert(context.Eq(context.Real(15.0m) / context.Real(3.0m), context.Real(5.0m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -88,8 +88,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 2.1 < 2.2 is true
-        solver.Assert(context.Real(2.1) < context.Real(2.2));
+        // Test 2.1m < 2.2m is true
+        solver.Assert(context.Real(2.1m) < context.Real(2.2m));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -106,8 +106,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 5.5 <= 5.5 is true
-        solver.Assert(context.Real(5.5) <= context.Real(5.5));
+        // Test 5.5m <= 5.5m is true
+        solver.Assert(context.Real(5.5m) <= context.Real(5.5m));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -124,8 +124,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 9.7 > 1.3 is true
-        solver.Assert(context.Real(9.7) > context.Real(1.3));
+        // Test 9.7m > 1.3m is true
+        solver.Assert(context.Real(9.7m) > context.Real(1.3m));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -142,8 +142,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 7.5 >= 7.5 is true
-        solver.Assert(context.Real(7.5) >= context.Real(7.5));
+        // Test 7.5m >= 7.5m is true
+        solver.Assert(context.Real(7.5m) >= context.Real(7.5m));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -159,8 +159,8 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test -3.14 == -3.14
-        solver.Assert(context.Eq(-context.Real(3.14), context.Real(-3.14)));
+        // Test -3.14m == -3.14m
+        solver.Assert(context.Eq(-context.Real(3.14m), context.Real(-3.14m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -171,14 +171,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x + 1.5;
+        var result = x + 1.5m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x + 1.5 where x = 2.7 equals 4.2
-        solver.Assert(context.Eq(x, context.Real(2.7)));
-        solver.Assert(context.Eq(result, context.Real(4.2)));
+        // Test x + 1.5m where x = 2.7m equals 4.2m
+        solver.Assert(context.Eq(x, context.Real(2.7m)));
+        solver.Assert(context.Eq(result, context.Real(4.2m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -189,14 +189,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x - 2.3;
+        var result = x - 2.3m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x - 2.3 where x = 5.8 equals 3.5
-        solver.Assert(context.Eq(x, context.Real(5.8)));
-        solver.Assert(context.Eq(result, context.Real(3.5)));
+        // Test x - 2.3m where x = 5.8m equals 3.5m
+        solver.Assert(context.Eq(x, context.Real(5.8m)));
+        solver.Assert(context.Eq(result, context.Real(3.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -207,14 +207,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x * 3.0;
+        var result = x * 3.0m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x * 3.0 where x = 2.5 equals 7.5
-        solver.Assert(context.Eq(x, context.Real(2.5)));
-        solver.Assert(context.Eq(result, context.Real(7.5)));
+        // Test x * 3.0m where x = 2.5m equals 7.5m
+        solver.Assert(context.Eq(x, context.Real(2.5m)));
+        solver.Assert(context.Eq(result, context.Real(7.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -225,14 +225,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x / 2.0;
+        var result = x / 2.0m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x / 2.0 where x = 9.0 equals 4.5
-        solver.Assert(context.Eq(x, context.Real(9.0)));
-        solver.Assert(context.Eq(result, context.Real(4.5)));
+        // Test x / 2.0m where x = 9.0m equals 4.5m
+        solver.Assert(context.Eq(x, context.Real(9.0m)));
+        solver.Assert(context.Eq(result, context.Real(4.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -243,13 +243,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x < 10.5;
+        var result = x < 10.5m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x < 10.5 where x = 5.2 is true
-        solver.Assert(context.Eq(x, context.Real(5.2)));
+        // Test x < 10.5m where x = 5.2m is true
+        solver.Assert(context.Eq(x, context.Real(5.2m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -261,13 +261,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x <= 7.3;
+        var result = x <= 7.3m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x <= 7.3 where x = 7.3 is true
-        solver.Assert(context.Eq(x, context.Real(7.3)));
+        // Test x <= 7.3m where x = 7.3m is true
+        solver.Assert(context.Eq(x, context.Real(7.3m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -279,13 +279,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x > 0.0;
+        var result = x > 0.0m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x > 0.0 where x = 1.1 is true
-        solver.Assert(context.Eq(x, context.Real(1.1)));
+        // Test x > 0.0m where x = 1.1m is true
+        solver.Assert(context.Eq(x, context.Real(1.1m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -297,13 +297,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x >= -3.14;
+        var result = x >= -3.14m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x >= -3.14 where x = -3.14 is true
-        solver.Assert(context.Eq(x, context.Real(-3.14)));
+        // Test x >= -3.14m where x = -3.14m is true
+        solver.Assert(context.Eq(x, context.Real(-3.14m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -315,14 +315,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 2.5 + x;
+        var result = 2.5m + x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 2.5 + x where x = 4.1 equals 6.6
-        solver.Assert(context.Eq(x, context.Real(4.1)));
-        solver.Assert(context.Eq(result, context.Real(6.6)));
+        // Test 2.5m + x where x = 4.1m equals 6.6m
+        solver.Assert(context.Eq(x, context.Real(4.1m)));
+        solver.Assert(context.Eq(result, context.Real(6.6m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -333,14 +333,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 10.7 - x;
+        var result = 10.7m - x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 10.7 - x where x = 4.2 equals 6.5
-        solver.Assert(context.Eq(x, context.Real(4.2)));
-        solver.Assert(context.Eq(result, context.Real(6.5)));
+        // Test 10.7m - x where x = 4.2m equals 6.5m
+        solver.Assert(context.Eq(x, context.Real(4.2m)));
+        solver.Assert(context.Eq(result, context.Real(6.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -351,14 +351,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 1.5 * x;
+        var result = 1.5m * x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 1.5 * x where x = 4.0 equals 6.0
-        solver.Assert(context.Eq(x, context.Real(4.0)));
-        solver.Assert(context.Eq(result, context.Real(6.0)));
+        // Test 1.5m * x where x = 4.0m equals 6.0m
+        solver.Assert(context.Eq(x, context.Real(4.0m)));
+        solver.Assert(context.Eq(result, context.Real(6.0m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -369,14 +369,14 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 20.0 / x;
+        var result = 20.0m / x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 20.0 / x where x = 4.0 equals 5.0
-        solver.Assert(context.Eq(x, context.Real(4.0)));
-        solver.Assert(context.Eq(result, context.Real(5.0)));
+        // Test 20.0m / x where x = 4.0m equals 5.0m
+        solver.Assert(context.Eq(x, context.Real(4.0m)));
+        solver.Assert(context.Eq(result, context.Real(5.0m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -387,13 +387,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 5.5 < x;
+        var result = 5.5m < x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 5.5 < x where x = 10.0 is true
-        solver.Assert(context.Eq(x, context.Real(10.0)));
+        // Test 5.5m < x where x = 10.0m is true
+        solver.Assert(context.Eq(x, context.Real(10.0m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -405,13 +405,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 8.3 <= x;
+        var result = 8.3m <= x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 8.3 <= x where x = 8.3 is true
-        solver.Assert(context.Eq(x, context.Real(8.3)));
+        // Test 8.3m <= x where x = 8.3m is true
+        solver.Assert(context.Eq(x, context.Real(8.3m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -423,13 +423,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 15.2 > x;
+        var result = 15.2m > x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 15.2 > x where x = 10.1 is true
-        solver.Assert(context.Eq(x, context.Real(10.1)));
+        // Test 15.2m > x where x = 10.1m is true
+        solver.Assert(context.Eq(x, context.Real(10.1m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -441,13 +441,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 12.7 >= x;
+        var result = 12.7m >= x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 12.7 >= x where x = 12.7 is true
-        solver.Assert(context.Eq(x, context.Real(12.7)));
+        // Test 12.7m >= x where x = 12.7m is true
+        solver.Assert(context.Eq(x, context.Real(12.7m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -459,13 +459,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x == 3.14;
+        var result = x == 3.14m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x == 3.14 where x = 3.14 is true
-        solver.Assert(context.Eq(x, context.Real(3.14)));
+        // Test x == 3.14m where x = 3.14m is true
+        solver.Assert(context.Eq(x, context.Real(3.14m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -477,13 +477,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x != 0.0;
+        var result = x != 0.0m;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test x != 0.0 where x = 1.0 is true
-        solver.Assert(context.Eq(x, context.Real(1.0)));
+        // Test x != 0.0m where x = 1.0m is true
+        solver.Assert(context.Eq(x, context.Real(1.0m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -495,13 +495,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = 2.718 == x;
+        var result = 2.718m == x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test 2.718 == x where x = 2.718 is true
-        solver.Assert(context.Eq(x, context.Real(2.718)));
+        // Test 2.718m == x where x = 2.718m is true
+        solver.Assert(context.Eq(x, context.Real(2.718m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -513,13 +513,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = -1.5 != x;
+        var result = -1.5m != x;
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test -1.5 != x where x = 0.0 is true
-        solver.Assert(context.Eq(x, context.Real(0.0)));
+        // Test -1.5m != x where x = 0.0m is true
+        solver.Assert(context.Eq(x, context.Real(0.0m)));
         solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -683,13 +683,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Add(1.5);
+        var result = x.Add(1.5m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x + 1.5;
+        var operatorResult = x + 1.5m;
         solver.Assert(context.Eq(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -701,13 +701,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Sub(2.7);
+        var result = x.Sub(2.7m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x - 2.7;
+        var operatorResult = x - 2.7m;
         solver.Assert(context.Eq(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -719,13 +719,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Mul(3.5);
+        var result = x.Mul(3.5m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x * 3.5;
+        var operatorResult = x * 3.5m;
         solver.Assert(context.Eq(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -737,13 +737,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Div(2.0);
+        var result = x.Div(2.0m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x / 2.0;
+        var operatorResult = x / 2.0m;
         solver.Assert(context.Eq(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -755,13 +755,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Lt(10.5);
+        var result = x.Lt(10.5m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x < 10.5;
+        var operatorResult = x < 10.5m;
         solver.Assert(context.Iff(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -773,13 +773,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Le(7.8);
+        var result = x.Le(7.8m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x <= 7.8;
+        var operatorResult = x <= 7.8m;
         solver.Assert(context.Iff(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -791,13 +791,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Gt(0.0);
+        var result = x.Gt(0.0m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x > 0.0;
+        var operatorResult = x > 0.0m;
         solver.Assert(context.Iff(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -809,13 +809,13 @@ public class Z3RealExprOperatorTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var result = x.Ge(-5.5);
+        var result = x.Ge(-5.5m);
 
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
         // Test equivalent to operator
-        var operatorResult = x >= -5.5;
+        var operatorResult = x >= -5.5m;
         solver.Assert(context.Iff(result, operatorResult));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -850,15 +850,15 @@ public class Z3RealExprOperatorTests
         Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(result.Context, Is.SameAs(context));
 
-        // Test abs(-3.5) == 3.5
-        solver.Assert(context.Eq(x, context.Real(-3.5)));
-        solver.Assert(context.Eq(result, context.Real(3.5)));
+        // Test abs(-3.5m) == 3.5m
+        solver.Assert(context.Eq(x, context.Real(-3.5m)));
+        solver.Assert(context.Eq(result, context.Real(3.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
-        // Reset and test abs(2.7) == 2.7
+        // Reset and test abs(2.7m) == 2.7m
         solver.Reset();
-        solver.Assert(context.Eq(x, context.Real(2.7)));
-        solver.Assert(context.Eq(result, context.Real(2.7)));
+        solver.Assert(context.Eq(x, context.Real(2.7m)));
+        solver.Assert(context.Eq(result, context.Real(2.7m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 }

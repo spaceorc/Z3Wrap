@@ -42,10 +42,10 @@ public class PrimitivesTests
     {
         using var context = new Z3Context();
         
-        var pi = context.Real(3.14159);
-        var half = context.Real(0.5);
-        var negative = context.Real(-2.718);
-        var zero = context.Real(0.0);
+        var pi = context.Real(3.14159m);
+        var half = context.Real(0.5m);
+        var negative = context.Real(-2.718m);
+        var zero = context.Real(0.0m);
 
         Assert.That(pi.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(half.Handle, Is.Not.EqualTo(IntPtr.Zero));

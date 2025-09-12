@@ -79,15 +79,15 @@ public static partial class Z3ContextExtensions
         return context.WrapRealExpr(resultHandle);
     }
 
-    // Z3RealExpr <-> double operations
-    public static Z3RealExpr Add(this Z3Context context, Z3RealExpr left, double right) => context.Add(left, context.Real(right));
-    public static Z3RealExpr Add(this Z3Context context, double left, Z3RealExpr right) => context.Add(context.Real(left), right);
-    public static Z3RealExpr Sub(this Z3Context context, Z3RealExpr left, double right) => context.Sub(left, context.Real(right));
-    public static Z3RealExpr Sub(this Z3Context context, double left, Z3RealExpr right) => context.Sub(context.Real(left), right);
-    public static Z3RealExpr Mul(this Z3Context context, Z3RealExpr left, double right) => context.Mul(left, context.Real(right));
-    public static Z3RealExpr Mul(this Z3Context context, double left, Z3RealExpr right) => context.Mul(context.Real(left), right);
-    public static Z3RealExpr Div(this Z3Context context, Z3RealExpr left, double right) => context.Div(left, context.Real(right));
-    public static Z3RealExpr Div(this Z3Context context, double left, Z3RealExpr right) => context.Div(context.Real(left), right);
+    // Z3RealExpr <-> Real operations
+    public static Z3RealExpr Add(this Z3Context context, Z3RealExpr left, Real right) => context.Add(left, context.Real(right));
+    public static Z3RealExpr Add(this Z3Context context, Real left, Z3RealExpr right) => context.Add(context.Real(left), right);
+    public static Z3RealExpr Sub(this Z3Context context, Z3RealExpr left, Real right) => context.Sub(left, context.Real(right));
+    public static Z3RealExpr Sub(this Z3Context context, Real left, Z3RealExpr right) => context.Sub(context.Real(left), right);
+    public static Z3RealExpr Mul(this Z3Context context, Z3RealExpr left, Real right) => context.Mul(left, context.Real(right));
+    public static Z3RealExpr Mul(this Z3Context context, Real left, Z3RealExpr right) => context.Mul(context.Real(left), right);
+    public static Z3RealExpr Div(this Z3Context context, Z3RealExpr left, Real right) => context.Div(left, context.Real(right));
+    public static Z3RealExpr Div(this Z3Context context, Real left, Z3RealExpr right) => context.Div(context.Real(left), right);
 
     // Unary operations
     public static Z3IntExpr UnaryMinus(this Z3Context context, Z3IntExpr expr)

@@ -88,17 +88,17 @@ public class EqualityTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var eqRight = context.Eq(x, 3.14);
-        var eqLeft = context.Eq(2.718, x);
+        var eqRight = context.Eq(x, 3.14m);
+        var eqLeft = context.Eq(2.718m, x);
 
         Assert.That(eqRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(eqLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test x == 3.14 is satisfiable
+        // Test x == 3.14m is satisfiable
         solver.Assert(eqRight);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
-        // Reset solver and test 2.718 == x is satisfiable
+        // Reset solver and test 2.718m == x is satisfiable
         solver.Reset();
         solver.Assert(eqLeft);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -111,13 +111,13 @@ public class EqualityTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var neqRight = context.Neq(x, 0.0);
-        var neqLeft = context.Neq(-1.5, x);
+        var neqRight = context.Neq(x, 0.0m);
+        var neqLeft = context.Neq(-1.5m, x);
 
         Assert.That(neqRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(neqLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test x != 0.0 && -1.5 != x is satisfiable
+        // Test x != 0.0m && -1.5m != x is satisfiable
         solver.Assert(neqRight);
         solver.Assert(neqLeft);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));

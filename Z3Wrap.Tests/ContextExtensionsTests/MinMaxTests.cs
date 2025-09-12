@@ -54,9 +54,9 @@ public class MinMaxTests
         Assert.That(minimum.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(minimum.Context, Is.SameAs(context));
 
-        // Test min(2.5, 7.3) == 2.5
-        var result = context.Min(context.Real(2.5), context.Real(7.3));
-        solver.Assert(context.Eq(result, context.Real(2.5)));
+        // Test min(2.5m, 7.3m) == 2.5m
+        var result = context.Min(context.Real(2.5m), context.Real(7.3m));
+        solver.Assert(context.Eq(result, context.Real(2.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -73,9 +73,9 @@ public class MinMaxTests
         Assert.That(maximum.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(maximum.Context, Is.SameAs(context));
 
-        // Test max(2.5, 7.3) == 7.3
-        var result = context.Max(context.Real(2.5), context.Real(7.3));
-        solver.Assert(context.Eq(result, context.Real(7.3)));
+        // Test max(2.5m, 7.3m) == 7.3m
+        var result = context.Max(context.Real(2.5m), context.Real(7.3m));
+        solver.Assert(context.Eq(result, context.Real(7.3m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -136,21 +136,21 @@ public class MinMaxTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var minRight = context.Min(x, 5.5);
-        var minLeft = context.Min(3.3, x);
+        var minRight = context.Min(x, 5.5m);
+        var minLeft = context.Min(3.3m, x);
 
         Assert.That(minRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(minLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test min(x, 5.5) where x = 7.2 should be 5.5
-        solver.Assert(context.Eq(x, context.Real(7.2)));
-        solver.Assert(context.Eq(minRight, context.Real(5.5)));
+        // Test min(x, 5.5m) where x = 7.2m should be 5.5m
+        solver.Assert(context.Eq(x, context.Real(7.2m)));
+        solver.Assert(context.Eq(minRight, context.Real(5.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
-        // Reset and test min(3.3, x) where x = 2.1 should be 2.1
+        // Reset and test min(3.3m, x) where x = 2.1m should be 2.1m
         solver.Reset();
-        solver.Assert(context.Eq(x, context.Real(2.1)));
-        solver.Assert(context.Eq(minLeft, context.Real(2.1)));
+        solver.Assert(context.Eq(x, context.Real(2.1m)));
+        solver.Assert(context.Eq(minLeft, context.Real(2.1m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -161,21 +161,21 @@ public class MinMaxTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var maxRight = context.Max(x, 4.4);
-        var maxLeft = context.Max(6.6, x);
+        var maxRight = context.Max(x, 4.4m);
+        var maxLeft = context.Max(6.6m, x);
 
         Assert.That(maxRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(maxLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test max(x, 4.4) where x = 2.2 should be 4.4
-        solver.Assert(context.Eq(x, context.Real(2.2)));
-        solver.Assert(context.Eq(maxRight, context.Real(4.4)));
+        // Test max(x, 4.4m) where x = 2.2m should be 4.4m
+        solver.Assert(context.Eq(x, context.Real(2.2m)));
+        solver.Assert(context.Eq(maxRight, context.Real(4.4m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
-        // Reset and test max(6.6, x) where x = 8.8 should be 8.8
+        // Reset and test max(6.6m, x) where x = 8.8m should be 8.8m
         solver.Reset();
-        solver.Assert(context.Eq(x, context.Real(8.8)));
-        solver.Assert(context.Eq(maxLeft, context.Real(8.8)));
+        solver.Assert(context.Eq(x, context.Real(8.8m)));
+        solver.Assert(context.Eq(maxLeft, context.Real(8.8m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 

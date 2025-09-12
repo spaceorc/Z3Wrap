@@ -49,7 +49,7 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
         
         var z = context.RealConst("z");
-        solver.Assert(z == context.Real(3.14));
+        solver.Assert(z == context.Real(3.14m));
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -58,7 +58,7 @@ public class Z3ModelValueExtractionTests
         var evaluated = model.Evaluate(z);
         
         Assert.That(evaluated, Is.TypeOf<Z3RealExpr>());
-        Assert.That(evaluated.ToString(), Does.Contain("3.14").Or.Contain("157").Or.Contain("50"));
+        Assert.That(evaluated.ToString(), Does.Contain("3.14m").Or.Contain("157").Or.Contain("50"));
     }
 
     [Test]
@@ -119,14 +119,14 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
         
         var z = context.RealConst("z");
-        solver.Assert(z == context.Real(2.718));
+        solver.Assert(z == context.Real(2.718m));
         
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
         var model = solver.GetModel();
         var value = model.GetRealValueAsString(z);
         
-        Assert.That(value, Does.Contain("2.718").Or.Contain("1359").Or.Contain("500"));
+        Assert.That(value, Does.Contain("2.718m").Or.Contain("1359").Or.Contain("500"));
     }
     
     [Test]

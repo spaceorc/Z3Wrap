@@ -165,8 +165,8 @@ public class ComparisonTests
         Assert.That(comparison.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(comparison.Context, Is.SameAs(context));
 
-        // Test 2.5 < 3.7 is satisfiable
-        solver.Assert(context.Lt(context.Real(2.5), context.Real(3.7)));
+        // Test 2.5m < 3.7m is satisfiable
+        solver.Assert(context.Lt(context.Real(2.5m), context.Real(3.7m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -183,8 +183,8 @@ public class ComparisonTests
         Assert.That(comparison.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(comparison.Context, Is.SameAs(context));
 
-        // Test 4.2 <= 4.2 is satisfiable
-        solver.Assert(context.Le(context.Real(4.2), context.Real(4.2)));
+        // Test 4.2m <= 4.2m is satisfiable
+        solver.Assert(context.Le(context.Real(4.2m), context.Real(4.2m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -201,8 +201,8 @@ public class ComparisonTests
         Assert.That(comparison.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(comparison.Context, Is.SameAs(context));
 
-        // Test 9.8 > 1.2 is satisfiable
-        solver.Assert(context.Gt(context.Real(9.8), context.Real(1.2)));
+        // Test 9.8m > 1.2m is satisfiable
+        solver.Assert(context.Gt(context.Real(9.8m), context.Real(1.2m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -219,8 +219,8 @@ public class ComparisonTests
         Assert.That(comparison.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(comparison.Context, Is.SameAs(context));
 
-        // Test 6.5 >= 6.5 is satisfiable
-        solver.Assert(context.Ge(context.Real(6.5), context.Real(6.5)));
+        // Test 6.5m >= 6.5m is satisfiable
+        solver.Assert(context.Ge(context.Real(6.5m), context.Real(6.5m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -231,13 +231,13 @@ public class ComparisonTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var ltRight = context.Lt(x, 10.5);
-        var ltLeft = context.Lt(5.5, x);
+        var ltRight = context.Lt(x, 10.5m);
+        var ltLeft = context.Lt(5.5m, x);
 
         Assert.That(ltRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(ltLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test x < 10.5 && 5.5 < x is satisfiable
+        // Test x < 10.5m && 5.5m < x is satisfiable
         solver.Assert(ltRight);
         solver.Assert(ltLeft);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -250,16 +250,16 @@ public class ComparisonTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var leRight = context.Le(x, 7.3);
-        var leLeft = context.Le(7.3, x);
+        var leRight = context.Le(x, 7.3m);
+        var leLeft = context.Le(7.3m, x);
 
         Assert.That(leRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(leLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test x <= 7.3 && 7.3 <= x implies x = 7.3
+        // Test x <= 7.3m && 7.3m <= x implies x = 7.3m
         solver.Assert(leRight);
         solver.Assert(leLeft);
-        solver.Assert(context.Eq(x, context.Real(7.3)));
+        solver.Assert(context.Eq(x, context.Real(7.3m)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -270,8 +270,8 @@ public class ComparisonTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var gtRight = context.Gt(x, 0.0);
-        var gtLeft = context.Gt(100.0, x);
+        var gtRight = context.Gt(x, 0.0m);
+        var gtLeft = context.Gt(100.0m, x);
 
         Assert.That(gtRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(gtLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -289,13 +289,13 @@ public class ComparisonTests
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
-        var geRight = context.Ge(x, -3.14);
-        var geLeft = context.Ge(3.14, x);
+        var geRight = context.Ge(x, -3.14m);
+        var geLeft = context.Ge(3.14m, x);
 
         Assert.That(geRight.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(geLeft.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
-        // Test x >= -3.14 && 3.14 >= x is satisfiable
+        // Test x >= -3.14m && 3.14m >= x is satisfiable
         solver.Assert(geRight);
         solver.Assert(geLeft);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));

@@ -23,9 +23,9 @@ public static partial class Z3ContextExtensions
         return context.WrapIntExpr(handle);
     }
 
-    public static Z3RealExpr Real(this Z3Context context, double value)
+    public static Z3RealExpr Real(this Z3Context context, Real value)
     {
-        using var numeralPtr = new AnsiStringPtr(value.ToString(CultureInfo.InvariantCulture));
+        using var numeralPtr = new AnsiStringPtr(value.ToString());
         var sortHandle = NativeMethods.Z3MkRealSort(context.Handle);
         var handle = NativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sortHandle);
         return context.WrapRealExpr(handle);
