@@ -179,7 +179,7 @@ public class RealClassTests
     [Test]
     public void ImplicitConversion_FromBigInteger_CreatesIntegerRational()
     {
-        BigInteger bigInt = new BigInteger(12345678901234567890L);
+        var bigInt = new BigInteger(12345678901234567890L);
         Real real = bigInt; // Implicit conversion from BigInteger
         Assert.That(real.Numerator, Is.EqualTo(bigInt));
         Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
@@ -197,7 +197,7 @@ public class RealClassTests
     [Test]
     public void ExplicitConversion_FromDecimal_CreatesRationalRepresentation()
     {
-        Real real = (Real)0.5m;
+        var real = (Real)0.5m;
         Assert.That((int)real.Numerator, Is.EqualTo(1));
         Assert.That((int)real.Denominator, Is.EqualTo(2));
     }
@@ -206,11 +206,11 @@ public class RealClassTests
     public void ExplicitConversion_FromDecimal_PreservesExactValues()
     {
         // Values that can be exactly represented
-        Real quarter = (Real)0.25m;
+        var quarter = (Real)0.25m;
         Assert.That((int)quarter.Numerator, Is.EqualTo(1));
         Assert.That((int)quarter.Denominator, Is.EqualTo(4));
 
-        Real eighth = (Real)0.125m;
+        var eighth = (Real)0.125m;
         Assert.That((int)eighth.Numerator, Is.EqualTo(1));
         Assert.That((int)eighth.Denominator, Is.EqualTo(8));
     }
@@ -219,11 +219,11 @@ public class RealClassTests
     public void ExplicitConversion_ToDecimal_ReturnsDecimalValue()
     {
         var oneQuarter = new Real(1, 4);
-        decimal result = (decimal)oneQuarter;
+        var result = (decimal)oneQuarter;
         Assert.That(result, Is.EqualTo(0.25m));
         
         var twoThirds = new Real(2, 3);
-        decimal result2 = (decimal)twoThirds;
+        var result2 = (decimal)twoThirds;
         Assert.That(result2, Is.EqualTo(2.0m / 3.0m));
     }
 
@@ -231,11 +231,11 @@ public class RealClassTests
     public void ExplicitConversion_ToInt_ReturnsIntegerValue()
     {
         var fortyTwo = new Real(42);
-        int result = (int)fortyTwo;
+        var result = (int)fortyTwo;
         Assert.That(result, Is.EqualTo(42));
         
         var negative = new Real(-123);
-        int result2 = (int)negative;
+        var result2 = (int)negative;
         Assert.That(result2, Is.EqualTo(-123));
     }
 
@@ -243,25 +243,25 @@ public class RealClassTests
     public void ExplicitConversion_ToInt_NonIntegerThrows()
     {
         var fraction = new Real(1, 3);
-        Assert.Throws<InvalidOperationException>(() => { int result = (int)fraction; });
+        Assert.Throws<InvalidOperationException>(() => { var result = (int)fraction; });
     }
 
     [Test]
     public void ExplicitConversion_ToInt_OverflowThrows()
     {
         var tooLarge = new Real(long.MaxValue);
-        Assert.Throws<OverflowException>(() => { int result = (int)tooLarge; });
+        Assert.Throws<OverflowException>(() => { var result = (int)tooLarge; });
     }
 
     [Test]
     public void ExplicitConversion_ToLong_ReturnsLongValue()
     {
         var fortyTwo = new Real(42L);
-        long result = (long)fortyTwo;
+        var result = (long)fortyTwo;
         Assert.That(result, Is.EqualTo(42L));
         
         var maxValue = new Real(long.MaxValue);
-        long result2 = (long)maxValue;
+        var result2 = (long)maxValue;
         Assert.That(result2, Is.EqualTo(long.MaxValue));
     }
 
@@ -269,29 +269,29 @@ public class RealClassTests
     public void ExplicitConversion_ToLong_NonIntegerThrows()
     {
         var fraction = new Real(1, 3);
-        Assert.Throws<InvalidOperationException>(() => { long result = (long)fraction; });
+        Assert.Throws<InvalidOperationException>(() => { var result = (long)fraction; });
     }
 
     [Test]
     public void ExplicitConversion_ToLong_OverflowThrows()
     {
         var tooLarge = new Real(new BigInteger(long.MaxValue) + 1, 1);
-        Assert.Throws<OverflowException>(() => { long result = (long)tooLarge; });
+        Assert.Throws<OverflowException>(() => { var result = (long)tooLarge; });
     }
 
     [Test]
     public void ExplicitConversion_ToBigInteger_ReturnsCorrectValue()
     {
         var fortyTwo = new Real(42);
-        BigInteger result = (BigInteger)fortyTwo;
+        var result = (BigInteger)fortyTwo;
         Assert.That(result, Is.EqualTo(new BigInteger(42)));
         
         var large = new Real(long.MaxValue);
-        BigInteger result2 = (BigInteger)large;
+        var result2 = (BigInteger)large;
         Assert.That(result2, Is.EqualTo(new BigInteger(long.MaxValue)));
         
         var veryLarge = new Real(new BigInteger(long.MaxValue) + 1000, 1);
-        BigInteger result3 = (BigInteger)veryLarge;
+        var result3 = (BigInteger)veryLarge;
         Assert.That(result3, Is.EqualTo(new BigInteger(long.MaxValue) + 1000));
     }
 
@@ -299,7 +299,7 @@ public class RealClassTests
     public void ExplicitConversion_ToBigInteger_NonIntegerThrows()
     {
         var fraction = new Real(1, 3);
-        Assert.Throws<InvalidOperationException>(() => { BigInteger result = (BigInteger)fraction; });
+        Assert.Throws<InvalidOperationException>(() => { var result = (BigInteger)fraction; });
     }
 
     [Test]

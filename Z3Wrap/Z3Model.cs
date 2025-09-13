@@ -38,7 +38,7 @@ public sealed class Z3Model
         ThrowIfInvalidated();
         context.ThrowIfDisposed();
         
-        if (!NativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out IntPtr result))
+        if (!NativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
             throw new InvalidOperationException("Failed to evaluate expression in model");
         
         return context.WrapExpr(result);
@@ -54,7 +54,7 @@ public sealed class Z3Model
         var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
         var valueStr = Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract integer value from expression {expr}");
         
-        if (!BigInteger.TryParse(valueStr, out BigInteger value))
+        if (!BigInteger.TryParse(valueStr, out var value))
             throw new InvalidOperationException($"Failed to parse integer value '{valueStr}' from expression {expr}");
             
         return value;

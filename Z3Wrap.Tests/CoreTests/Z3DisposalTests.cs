@@ -128,7 +128,7 @@ public class Z3DisposalTests
         
         // Create many expressions to test cleanup
         var expressions = new List<Z3Expr>();
-        for (int i = 0; i < 100; i++)
+        for (var i = 0; i < 100; i++)
         {
             expressions.Add(context.Int(i));
             expressions.Add(context.IntConst($"x{i}"));
@@ -170,7 +170,7 @@ public class Z3DisposalTests
         var solvers = new List<Z3Solver>();
         
         // Create multiple solvers with complex constraints
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             var solver = context.CreateSolver();
             solvers.Add(solver);
@@ -192,19 +192,19 @@ public class Z3DisposalTests
         }
         
         // Dispose some solvers
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             solvers[i].Dispose();
         }
         
         // Context should still work with remaining solvers
-        for (int i = 5; i < 10; i++)
+        for (var i = 5; i < 10; i++)
         {
             Assert.DoesNotThrow(() => solvers[i].Check());
         }
         
         // Clean up remaining solvers
-        for (int i = 5; i < 10; i++)
+        for (var i = 5; i < 10; i++)
         {
             solvers[i].Dispose();
         }

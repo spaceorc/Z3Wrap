@@ -144,7 +144,7 @@ public class Z3ModelLifetimeTests
         var models = new List<Z3Model>();
         
         // Create multiple solvers with models
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             var solver = context.CreateSolver();
             solvers.Add(solver);
@@ -237,7 +237,7 @@ public class Z3ModelLifetimeTests
         var z = context.IntConst("z");
         
         // Add complex constraints
-        for (int i = 0; i < 50; i++)
+        for (var i = 0; i < 50; i++)
         {
             var xi = context.IntConst($"x{i}");
             solver.Assert((x * y * z + xi) == context.Int(i * 17 + 13));
@@ -281,7 +281,7 @@ public class Z3ModelLifetimeTests
         var solversAndModels = new List<(Z3Solver solver, Z3Model model)>();
         
         // Create many solvers with models
-        for (int i = 0; i < 20; i++)
+        for (var i = 0; i < 20; i++)
         {
             var solver = context.CreateSolver();
             var x = context.IntConst($"x{i}");
