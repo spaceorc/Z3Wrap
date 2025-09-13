@@ -76,14 +76,35 @@ public class Z3ArrayExprTests
     }
 
     [Test]
+    public void IndexerAccess_IntegerLiteral_WorksWithImplicitConversion()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+
+        var element = arr[0];
+
+        Assert.That(element, Is.Not.Null);
+        Assert.That(element, Is.TypeOf<Z3IntExpr>());
+        Assert.That(element.Handle, Is.Not.EqualTo(IntPtr.Zero));
+
+        // Verify it works in solver context
+        using var solver = context.CreateSolver();
+        solver.Assert(arr[0] == 42);
+        solver.Assert(arr[1] == 100);
+        solver.Assert(arr[0] < arr[1]);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
     public void Store_UpdatesArray_ReturnsNewArray()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         var arr = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
-        var index = context.Int(10);
-        var value = context.Bool(true);
 
-        var updatedArr = arr.Store(index, value);
+        var updatedArr = arr.Store(10, true);
 
         Assert.That(updatedArr, Is.Not.Null);
         Assert.That(updatedArr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
@@ -95,14 +116,13 @@ public class Z3ArrayExprTests
     public void ArrayConstraints_SolveWithSelect_Works()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
-        var i = context.Int(5);
-        var j = context.Int(10);
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr[i] == context.Int(42));
-        solver.Assert(arr[j] == context.Int(100));
-        solver.Assert(arr[i] < arr[j]);
+        solver.Assert(arr[5] == 42);
+        solver.Assert(arr[10] == 100);
+        solver.Assert(arr[5] < arr[10]);
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -115,14 +135,13 @@ public class Z3ArrayExprTests
     public void ArrayConstraints_SolveWithStore_Works()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
-        var i = context.Int(3);
-        var value = context.Int(999);
 
-        var arr2 = arr1.Store(i, value);
+        var arr2 = arr1.Store(3, 999);
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr2[i] == context.Int(999));
+        solver.Assert(arr2[3] == 999);
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -132,15 +151,13 @@ public class Z3ArrayExprTests
     public void ArrayConstraints_StoreSelectProperty_Works()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
-        var i = context.Int(7);
-        var value = context.Int(555);
 
-        var updatedArr = arr.Store(i, value);
+        var updatedArr = arr.Store(7, 555);
 
         using var solver = context.CreateSolver();
-        // After storing value at index i, selecting from index i should return the stored value
-        solver.Assert(updatedArr[i] == value);
+        solver.Assert(updatedArr[7] == 555);
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -172,15 +189,13 @@ public class Z3ArrayExprTests
     public void Array_AllIndicesHaveSameValue_Works()
     {
         using var context = new Z3Context();
-        var defaultValue = context.Int(99);
-        var arr = context.Array<Z3IntExpr, Z3IntExpr>(defaultValue);
-        var i = context.Int(100);
-        var j = context.Int(200);
+        using var scope = context.SetUp();
+        var arr = context.Array<Z3IntExpr, Z3IntExpr>(99);
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr[i] == defaultValue);
-        solver.Assert(arr[j] == defaultValue);
-        solver.Assert(i != j);
+        solver.Assert(arr[100] == 99);
+        solver.Assert(arr[200] == 99);
+        solver.Assert(100 != 200);
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
