@@ -16,7 +16,6 @@ public class Z3ExprTests
         Assert.That(equality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(equality.Context, Is.SameAs(context));
 
-        // Test that x == x evaluates to true
         solver.Assert(equality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -34,7 +33,6 @@ public class Z3ExprTests
         Assert.That(equality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(equality.Context, Is.SameAs(context));
 
-        // Test that we can have cases where x != y
         solver.Assert(context.Neq(x, y));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -52,7 +50,6 @@ public class Z3ExprTests
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
 
-        // Test that x != y can be true
         solver.Assert(inequality);
         solver.Assert(context.Neq(x, y)); // Make them actually different
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -73,7 +70,6 @@ public class Z3ExprTests
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
 
-        // Test that x != x should be unsatisfiable (always false)
         solver.Assert(inequality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
     }
@@ -91,7 +87,6 @@ public class Z3ExprTests
         Assert.That(equality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(equality.Context, Is.SameAs(context));
 
-        // Test that Eq method works equivalently to == operator
         var operatorEquality = x == y;
         solver.Assert(equality.Iff(operatorEquality));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -110,7 +105,6 @@ public class Z3ExprTests
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
 
-        // Test that Neq method works equivalently to != operator
         var operatorInequality = x != y;
         solver.Assert(inequality.Iff(operatorInequality));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -129,7 +123,6 @@ public class Z3ExprTests
         Assert.That(equality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(equality.Context, Is.SameAs(context));
 
-        // Test that 5 == 5 is satisfiable
         solver.Assert(equality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -147,7 +140,6 @@ public class Z3ExprTests
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
 
-        // Test that 5 != 10 is satisfiable
         solver.Assert(inequality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -160,7 +152,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var y = context.IntConst("x"); // Same name, should have same handle
 
-        // Test that expressions with the same handle are equal
         Assert.That(x.Equals(y), Is.True);
     }
 
@@ -172,7 +163,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var y = context.IntConst("y");
 
-        // Test that expressions with different handles are not equal
         Assert.That(x.Equals(y), Is.False);
     }
 
@@ -183,7 +173,6 @@ public class Z3ExprTests
 
         var x = context.IntConst("x");
 
-        // Test that expression does not equal null
         Assert.That(x.Equals(null), Is.False);
     }
 
@@ -195,7 +184,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var notAnExpr = "not an expression";
 
-        // Test that expression does not equal non-Z3Expr objects
         // ReSharper disable once SuspiciousTypeConversion.Global
         Assert.That(x.Equals(notAnExpr), Is.False);
     }
@@ -208,7 +196,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var y = context.IntConst("x"); // Same name, should have same handle
 
-        // Test that expressions with the same handle have the same hash code
         Assert.That(x.GetHashCode(), Is.EqualTo(y.GetHashCode()));
     }
 
@@ -220,7 +207,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var y = context.IntConst("y");
 
-        // Test that expressions with different handles have different hash codes
         Assert.That(x.GetHashCode(), Is.Not.EqualTo(y.GetHashCode()));
     }
 
@@ -232,10 +218,7 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var toString = x.ToString();
 
-        // Test that ToString returns a valid string representation
-        Assert.That(toString, Is.Not.Null);
-        Assert.That(toString, Is.Not.Empty);
-        Assert.That(toString, Does.Contain("x")); // Should contain the variable name
+        Assert.That(toString, Is.EqualTo("x"));
     }
 
     [Test]
@@ -248,11 +231,7 @@ public class Z3ExprTests
         var sum = x + y;
         var toString = sum.ToString();
 
-        // Test that ToString returns a representation of the arithmetic expression
-        Assert.That(toString, Is.Not.Null);
-        Assert.That(toString, Is.Not.Empty);
-        // Should contain both variable names and some arithmetic operator representation
-        Assert.That(toString, Does.Contain("x").Or.Contain("y"));
+        Assert.That(toString, Is.EqualTo("(+ x y)"));
     }
 
     [Test]
@@ -265,11 +244,7 @@ public class Z3ExprTests
         var conjunction = context.And(p, q);
         var toString = conjunction.ToString();
 
-        // Test that ToString returns a representation of the boolean expression
-        Assert.That(toString, Is.Not.Null);
-        Assert.That(toString, Is.Not.Empty);
-        // Should contain the variable names
-        Assert.That(toString, Does.Contain("p").Or.Contain("q"));
+        Assert.That(toString, Is.EqualTo("(and p q)"));
     }
 
     [Test]
@@ -278,10 +253,8 @@ public class Z3ExprTests
         var context = new Z3Context();
         var x = context.IntConst("x");
 
-        // Dispose the context
         context.Dispose();
 
-        // Test that ToString handles disposed context gracefully
         var toString = x.ToString();
         Assert.That(toString, Is.EqualTo("<disposed>"));
     }
@@ -294,7 +267,6 @@ public class Z3ExprTests
 
         var x = context.IntConst("x");
 
-        // Test reflexivity: x == x should always be true
 #pragma warning disable CS1718 // Comparison made to same variable
         // ReSharper disable once EqualExpressionComparison
         var equality = x == x;
@@ -302,7 +274,6 @@ public class Z3ExprTests
         solver.Assert(equality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
-        // Test that x.Eq(x) is also true
         solver.Reset();
         solver.Assert(x.Eq(x));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -317,7 +288,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var y = context.IntConst("y");
 
-        // Test symmetry: (x == y) iff (y == x)
         var leftRight = x == y;
         var rightLeft = y == x;
         var symmetry = leftRight.Iff(rightLeft);
@@ -335,7 +305,6 @@ public class Z3ExprTests
         var x = context.IntConst("x");
         var y = context.IntConst("y");
 
-        // Test that (x != y) is equivalent to NOT(x == y)
         var inequality = x != y;
         var notEquality = context.Not(x == y);
         var equivalence = inequality.Iff(notEquality);
@@ -357,7 +326,6 @@ public class Z3ExprTests
         Assert.That(equality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(equality.Context, Is.SameAs(context));
 
-        // Test that 5 (int) == 5.0m (real) is satisfiable in Z3
         solver.Assert(equality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -375,7 +343,6 @@ public class Z3ExprTests
         Assert.That(inequality.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(inequality.Context, Is.SameAs(context));
 
-        // Test that 5 (int) != 3.14159m (real) is satisfiable
         solver.Assert(inequality);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

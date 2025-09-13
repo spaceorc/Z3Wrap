@@ -221,10 +221,26 @@ public class RealClassTests
         var oneQuarter = new Real(1, 4);
         var result = (decimal)oneQuarter;
         Assert.That(result, Is.EqualTo(0.25m));
-        
+
         var twoThirds = new Real(2, 3);
         var result2 = (decimal)twoThirds;
         Assert.That(result2, Is.EqualTo(2.0m / 3.0m));
+    }
+
+    [Test]
+    public void ToDecimal_NormalValues_ReturnsCorrectDecimal()
+    {
+        var oneHalf = new Real(1, 2);
+        Assert.That(oneHalf.ToDecimal(), Is.EqualTo(0.5m));
+
+        var threeQuarters = new Real(3, 4);
+        Assert.That(threeQuarters.ToDecimal(), Is.EqualTo(0.75m));
+
+        var integer = new Real(42, 1);
+        Assert.That(integer.ToDecimal(), Is.EqualTo(42m));
+
+        var negative = new Real(-7, 2);
+        Assert.That(negative.ToDecimal(), Is.EqualTo(-3.5m));
     }
 
     [Test]
@@ -661,25 +677,22 @@ public class RealClassTests
     }
 
     [Test]
-    public void ToDecimal_VeryLargeInteger_ReturnsMaxValue()
+    public void ToDecimal_OverflowValues_ThrowsOverflowException()
     {
-        // Create a Real that's too large for decimal
+        // Very large integer
         var veryLarge = new Real(BigInteger.Pow(10, 50), 1);
-        var result = veryLarge.ToDecimal();
-        Assert.That(result, Is.EqualTo(decimal.MaxValue));
-        
-        var verySmall = new Real(-BigInteger.Pow(10, 50), 1);
-        var result2 = verySmall.ToDecimal();
-        Assert.That(result2, Is.EqualTo(decimal.MinValue));
-    }
+        Assert.Throws<OverflowException>(() => veryLarge.ToDecimal());
 
-    [Test]
-    public void ToDecimal_VeryLargeFraction_HandlesOverflow()
-    {
-        // Create fractions with very large numerator/denominator that would overflow decimal arithmetic
-        var largeFraction = new Real(BigInteger.Pow(10, 40), BigInteger.Pow(10, 35));
-        var result = largeFraction.ToDecimal();
-        // Should return some reasonable approximation without throwing
-        Assert.That(result, Is.Not.EqualTo(0));
+        // Very small integer
+        var verySmall = new Real(-BigInteger.Pow(10, 50), 1);
+        Assert.Throws<OverflowException>(() => verySmall.ToDecimal());
+
+        // Very large fraction
+        var largeFraction = new Real(BigInteger.Pow(10, 100), 3);
+        Assert.Throws<OverflowException>(() => largeFraction.ToDecimal());
+
+        // Extremely large fraction
+        var extremelyLargeFraction = new Real(BigInteger.Pow(10, 1000), 3);
+        Assert.Throws<OverflowException>(() => extremelyLargeFraction.ToDecimal());
     }
 }

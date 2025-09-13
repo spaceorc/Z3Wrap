@@ -150,7 +150,7 @@ public class Z3Context : IDisposable
         return new Z3ArrayExpr<TIndex, TValue>(this, handle);
     }
 
-    internal void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
+    private void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
 
     private void DisposeCore()
     {

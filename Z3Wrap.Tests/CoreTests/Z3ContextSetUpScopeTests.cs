@@ -1,4 +1,4 @@
-namespace Z3Wrap.Tests;
+namespace Z3Wrap.Tests.CoreTests;
 
 [TestFixture]
 public class Z3ContextSetUpScopeTests

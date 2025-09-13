@@ -1,4 +1,3 @@
-using System.Numerics;
 using Z3Wrap.Expressions;
 
 namespace Z3Wrap;

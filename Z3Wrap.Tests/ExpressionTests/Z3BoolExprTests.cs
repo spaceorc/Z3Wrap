@@ -270,8 +270,7 @@ public class Z3BoolExprTests
         solver.Assert(condition);
         solver.Assert(thenValue == context.Int(42));
         solver.Assert(elseValue == context.Int(99));
-        solver.Assert(result == context.Int(42)); // Should select thenValue
-
+        solver.Assert(result == context.Int(42));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -293,8 +292,7 @@ public class Z3BoolExprTests
         solver.Assert(!condition); // False condition
         solver.Assert(thenValue == context.Real(1.5m));
         solver.Assert(elseValue == context.Real(2.5m));
-        solver.Assert(result == context.Real(2.5m)); // Should select elseValue
-
+        solver.Assert(result == context.Real(2.5m));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -316,8 +314,7 @@ public class Z3BoolExprTests
         solver.Assert(condition);
         solver.Assert(thenValue);
         solver.Assert(!elseValue);
-        solver.Assert(result); // Should be true (from thenValue)
-
+        solver.Assert(result);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -332,8 +329,7 @@ public class Z3BoolExprTests
         Assert.That(result, Is.TypeOf<Z3IntExpr>());
 
         using var solver = context.CreateSolver();
-        solver.Assert(result == context.Int(100)); // Should select first value
-
+        solver.Assert(result == context.Int(100));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -361,8 +357,7 @@ public class Z3BoolExprTests
         solver.Assert(!r); // r is false
         // r ^ !p = false ^ true = true
         // (p & q) | (r ^ !p) = false | true = true
-        solver.Assert(expr); // Should be true
-
+        solver.Assert(expr);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -459,14 +454,12 @@ public class Z3BoolExprTests
         using var solver = context.CreateSolver();
         solver.Assert(cond1);
         solver.Assert(cond2);
-        solver.Assert(nested == context.Int(1)); // Should select 1
-
+        solver.Assert(nested == context.Int(1));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         using var solver2 = context.CreateSolver();
         solver2.Assert(!cond1);
-        solver2.Assert(nested == context.Int(3)); // Should select 3
-
+        solver2.Assert(nested == context.Int(3));
         Assert.That(solver2.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -481,7 +474,6 @@ public class Z3BoolExprTests
         var p = context.BoolConst("p");
         var q = context.BoolConst("q");
 
-        // Test that !p & q is parsed as (!p) & q, not !(p & q)
         var expr1 = !p & q;
         var expr2 = (!p) & q;
         var equivalent = expr1.Iff(expr2);
@@ -500,15 +492,13 @@ public class Z3BoolExprTests
         var q = context.BoolConst("q");
         var r = context.BoolConst("r");
 
-        // Test that p | q | r works correctly
         var expr = p | q | r;
 
         using var solver = context.CreateSolver();
         solver.Assert(!p);
         solver.Assert(!q);
         solver.Assert(r);
-        solver.Assert(expr); // Should be true because r is true
-
+        solver.Assert(expr);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -542,6 +532,145 @@ public class Z3BoolExprTests
         using var solver4 = context.CreateSolver();
         solver4.Assert(context.Bool(false) ^ context.Bool(false));
         Assert.That(solver4.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    #endregion
+
+    #region Bool Comparison Operator Tests
+
+    [Test]
+    public void EqualityOperator_BoolExprEqualTrue_ReturnsSatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+
+        var result = p == true;
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3BoolExpr>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(p);
+        solver.Assert(result);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void EqualityOperator_BoolExprEqualFalse_ReturnsUnsatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+
+        var result = p == false;
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3BoolExpr>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(p); // p is true
+        solver.Assert(result); // p == false
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void EqualityOperator_TrueEqualBoolExpr_ReturnsSatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+
+        var result = true == p;
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3BoolExpr>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(p);
+        solver.Assert(result);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void InequalityOperator_BoolExprNotEqualTrue_ReturnsUnsatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+
+        var result = p != true;
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3BoolExpr>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(p); // p is true
+        solver.Assert(result); // p != true
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void InequalityOperator_BoolExprNotEqualFalse_ReturnsSatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+
+        var result = p != false;
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3BoolExpr>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(p); // p is true
+        solver.Assert(result); // p != false
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void InequalityOperator_FalseNotEqualBoolExpr_ReturnsSatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+
+        var result = false != p;
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3BoolExpr>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(p); // p is true
+        solver.Assert(result); // false != p
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void BoolComparison_ComplexExpression_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var p = context.BoolConst("p");
+        var q = context.BoolConst("q");
+
+        // Test: (p & q) == true and p == true and q != false
+        var expr1 = (p & q) == true;
+        var expr2 = p == true;
+        var expr3 = q != false;
+
+        using var solver = context.CreateSolver();
+        solver.Assert(expr1);
+        solver.Assert(expr2);
+        solver.Assert(expr3);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     #endregion

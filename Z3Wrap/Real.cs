@@ -152,36 +152,9 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public decimal ToDecimal()
     {
         if (denominator == 1)
-        {
-            try
-            {
-                return (decimal)numerator;
-            }
-            catch (OverflowException)
-            {
-                return numerator > 0 ? decimal.MaxValue : decimal.MinValue;
-            }
-        }
+            return (decimal)numerator;
 
-        try
-        {
-            return (decimal)numerator / (decimal)denominator;
-        }
-        catch (OverflowException)
-        {
-            var doubleResult = (double)numerator / (double)denominator;
-            if (double.IsInfinity(doubleResult))
-                return doubleResult > 0 ? decimal.MaxValue : decimal.MinValue;
-            
-            try
-            {
-                return (decimal)doubleResult;
-            }
-            catch
-            {
-                return doubleResult > 0 ? decimal.MaxValue : decimal.MinValue;
-            }
-        }
+        return (decimal)numerator / (decimal)denominator;
     }
 
     // Mathematical operations
@@ -192,10 +165,6 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
 
         var quotient = numerator / denominator;
         var remainder = numerator % denominator;
-
-        if (remainder == 0)
-            return quotient;
-
         var absRemainder = BigInteger.Abs(remainder);
         var halfDenominator = denominator / 2;
 

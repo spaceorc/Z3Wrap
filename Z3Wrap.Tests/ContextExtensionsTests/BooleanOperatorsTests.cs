@@ -6,7 +6,7 @@ namespace Z3Wrap.Tests.ContextExtensionsTests;
 public class BooleanOperatorsTests
 {
     [Test]
-    public void And_CreatesBooleanConjunction()
+    public void And_TwoOperands_CreatesBooleanConjunction()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -18,7 +18,6 @@ public class BooleanOperatorsTests
         Assert.That(conjunction.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(conjunction.Context, Is.SameAs(context));
 
-        // Test logical properties
         solver.Assert(p);
         solver.Assert(q);
         solver.Assert(conjunction);
@@ -26,7 +25,7 @@ public class BooleanOperatorsTests
     }
 
     [Test]
-    public void Or_CreatesBooleanDisjunction()
+    public void Or_TwoOperands_CreatesBooleanDisjunction()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -38,13 +37,12 @@ public class BooleanOperatorsTests
         Assert.That(disjunction.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(disjunction.Context, Is.SameAs(context));
 
-        // Test that true OR false is satisfiable
         solver.Assert(context.Or(context.True(), context.False()));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Not_CreatesBooleanNegation()
+    public void Not_SingleOperand_CreatesBooleanNegation()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -55,14 +53,13 @@ public class BooleanOperatorsTests
         Assert.That(negation.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(negation.Context, Is.SameAs(context));
 
-        // Test that NOT true is equivalent to false
         var notTrue = context.Not(context.True());
         solver.Assert(context.Eq(notTrue, context.False()));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Xor_CreatesBooleanExclusiveOr()
+    public void Xor_TwoOperands_CreatesBooleanExclusiveOr()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -74,14 +71,13 @@ public class BooleanOperatorsTests
         Assert.That(exclusiveOr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(exclusiveOr.Context, Is.SameAs(context));
 
-        // Test that true XOR false is true
         var trueXorFalse = context.Xor(context.True(), context.False());
         solver.Assert(trueXorFalse);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Implies_CreatesBooleanImplication()
+    public void Implies_TwoOperands_CreatesBooleanImplication()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -93,14 +89,13 @@ public class BooleanOperatorsTests
         Assert.That(implication.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(implication.Context, Is.SameAs(context));
 
-        // Test that false implies anything is true
         var falseImpliesTrue = context.Implies(context.False(), context.True());
         solver.Assert(falseImpliesTrue);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Iff_CreatesBooleanBiconditional()
+    public void Iff_TwoOperands_CreatesBooleanBiconditional()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -112,14 +107,13 @@ public class BooleanOperatorsTests
         Assert.That(biconditional.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(biconditional.Context, Is.SameAs(context));
 
-        // Test that true iff true is satisfiable
         var trueIffTrue = context.Iff(context.True(), context.True());
         solver.Assert(trueIffTrue);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Ite_GenericVersionCreatesConditionalExpression()
+    public void Ite_GenericVersion_CreatesConditionalExpression()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -134,14 +128,13 @@ public class BooleanOperatorsTests
         Assert.That(conditional.Context, Is.SameAs(context));
         Assert.That(conditional, Is.InstanceOf<Z3IntExpr>());
 
-        // Test that if true then 5 else 10 equals 5
         var result = context.Ite(context.True(), context.Int(5), context.Int(10));
         solver.Assert(context.Eq(result, context.Int(5)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Ite_BaseVersionCreatesConditionalExpression()
+    public void Ite_BaseVersion_CreatesConditionalExpression()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -155,14 +148,13 @@ public class BooleanOperatorsTests
         Assert.That(conditional.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(conditional.Context, Is.SameAs(context));
 
-        // Test that if false then 5 else 10 equals 10
         var result = context.Ite(context.False(), context.Int(5), context.Int(10));
         solver.Assert(context.Eq(result, context.Int(10)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void BoolOperators_CombinationTest()
+    public void BoolOperators_CombinedOperations_CreatesSatisfiableSolution()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -171,7 +163,6 @@ public class BooleanOperatorsTests
         var q = context.BoolConst("q");
         var r = context.BoolConst("r");
         
-        // Test De Morgan's law: NOT(p AND q) == (NOT p) OR (NOT q)
         var leftSide = context.Not(context.And(p, q));
         var rightSide = context.Or(context.Not(p), context.Not(q));
         var deMorgan = context.Iff(leftSide, rightSide);

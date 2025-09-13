@@ -5,7 +5,7 @@ public class Z3SolverTests
 {
 
     [Test]
-    public void CanCreateSolver()
+    public void CreateSolver_DefaultParameters_ReturnsValidHandle()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -14,7 +14,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanCheckSatisfiabilityWithSatisfiableConstraints()
+    public void Check_SatisfiableConstraints_ReturnsSatisfiable()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -34,7 +34,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanCheckSatisfiabilityWithUnsatisfiableConstraints()
+    public void Check_UnsatisfiableConstraints_ReturnsUnsatisfiable()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -53,7 +53,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanGetSatisfiableResult()
+    public void Check_SimpleConstraint_ReturnsSatisfiable()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -70,7 +70,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanSolveComplexConstraints()
+    public void Check_ComplexConstraints_ReturnsSatisfiable()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -89,7 +89,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanCreateBooleanExpressions()
+    public void Assert_BooleanExpressions_AcceptsAndSolves()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -99,7 +99,6 @@ public class Z3SolverTests
         var andExpr = p & q;
         var orExpr = p | q;
         
-        // Should be able to assert boolean expressions
         solver.Assert(p);
         solver.Assert(orExpr);
         
@@ -108,7 +107,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanSolveRealConstraints()
+    public void Check_RealConstraints_ReturnsSatisfiable()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -125,7 +124,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CanUsePushAndPop()
+    public void PushPop_StackedConstraints_ManagesContextCorrectly()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -154,7 +153,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void CompleteUsagePattern()
+    public void SolverWorkflow_MultipleConstraints_FindsSatisfiableSolution()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -178,7 +177,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void GetReasonUnknownWhenStatusIsKnown()
+    public void GetReasonUnknown_KnownStatus_ReturnsNonNull()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -196,7 +195,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void SolverWithTimeoutParameters()
+    public void CreateSolver_TimeoutParameters_HandlesContradictions()
     {
         // Test solver with timeout disabled
         var parameters = new Dictionary<string, string>
@@ -223,7 +222,7 @@ public class Z3SolverTests
     }
 
     [Test]
-    public void DiagnosticOutputForDebugging()
+    public void Check_RealEquality_ReturnsSatisfiableForDebugging()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

@@ -222,7 +222,7 @@ public class ImplicitBoolRealConversionTests
         // The equation (x + 1) * 2.5 = x * 3 - 0.5
         // Expands to: 2.5x + 2.5 = 3x - 0.5
         // Solving: 2.5 + 0.5 = 3x - 2.5x => 3 = 0.5x => x = 6
-        Assert.That(xValueStr, Does.Contain("6"));
+        Assert.That(xValueStr, Is.EqualTo("6"));
     }
 
     [Test]

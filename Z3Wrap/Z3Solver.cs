@@ -62,7 +62,13 @@ public sealed class Z3Solver : IDisposable
         InvalidateModel(); // Clear any previous model
         
         var result = NativeMethods.Z3SolverCheck(context.Handle, solverHandle);
-        lastCheckResult = (Z3Status)result;
+        lastCheckResult = (Z3BoolValue)result switch
+        {
+            Z3BoolValue.False => Z3Status.Unsatisfiable,
+            Z3BoolValue.True => Z3Status.Satisfiable,
+            Z3BoolValue.Undefined => Z3Status.Unknown,
+            _ => throw new InvalidOperationException($"Unexpected boolean value result {result} from Z3_solver_check"),
+        };
         return lastCheckResult.Value;
     }
 
@@ -148,9 +154,5 @@ public sealed class Z3Solver : IDisposable
         disposed = true;
     }
 
-    private void ThrowIfDisposed()
-    {
-        if (disposed)
-            throw new ObjectDisposedException(nameof(Z3Solver));
-    }
+    private void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, nameof(Z3Solver));
 }

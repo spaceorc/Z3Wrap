@@ -11,9 +11,10 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
+        using var scope = context.SetUp();
         
         var x = context.IntConst("x");
-        solver.Assert(x == context.Int(42));
+        solver.Assert(x == 42);
         
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
@@ -22,7 +23,7 @@ public class Z3ModelValueExtractionTests
         var evaluated = model.Evaluate(x);
         
         Assert.That(evaluated, Is.TypeOf<Z3IntExpr>());
-        Assert.That(evaluated.ToString(), Does.Contain("42"));
+        Assert.That(evaluated.ToString(), Is.EqualTo("42"));
     }
     
     [Test]
@@ -41,7 +42,7 @@ public class Z3ModelValueExtractionTests
         var evaluated = model.Evaluate(p);
         
         Assert.That(evaluated, Is.TypeOf<Z3BoolExpr>());
-        Assert.That(evaluated.ToString(), Does.Contain("true"));
+        Assert.That(evaluated.ToString(), Is.EqualTo("true"));
     }
     
     [Test]
@@ -60,7 +61,7 @@ public class Z3ModelValueExtractionTests
         var evaluated = model.Evaluate(z);
         
         Assert.That(evaluated, Is.TypeOf<Z3RealExpr>());
-        Assert.That(evaluated.ToString(), Does.Contain("3.14m").Or.Contain("157").Or.Contain("50"));
+        Assert.That(evaluated.ToString(), Does.Contain("157").And.Contain("50"));
     }
 
     [Test]
@@ -94,7 +95,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var value = model.GetBoolValue(p);
         
-        Assert.That(value, Is.EqualTo(Z3BoolValue.True));
+        Assert.That(value, Is.True);
     }
     
     [Test]
@@ -111,7 +112,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var value = model.GetBoolValue(p);
         
-        Assert.That(value, Is.EqualTo(Z3BoolValue.False).Or.EqualTo(Z3BoolValue.Undefined));
+        Assert.That(value, Is.False);
     }
     
     [Test]
@@ -162,7 +163,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var value = model.GetRealValueAsString(z);
         
-        Assert.That(value, Does.Contain("2.718m").Or.Contain("1359").Or.Contain("500"));
+        Assert.That(value, Is.EqualTo("1359/500"));
     }
     
     [Test]
@@ -205,9 +206,8 @@ public class Z3ModelValueExtractionTests
         var pValue = model.GetBoolValue(p);
         var qValue = model.GetBoolValue(q);
         
-        // Allow Undefined since Z3 may not assign definite values to unconstrained booleans
-        Assert.That(pValue, Is.EqualTo(Z3BoolValue.False).Or.EqualTo(Z3BoolValue.Undefined));
-        Assert.That(qValue, Is.EqualTo(Z3BoolValue.True).Or.EqualTo(Z3BoolValue.Undefined));
+        Assert.That(pValue, Is.False);
+        Assert.That(qValue, Is.True);
     }
     
     [Test]

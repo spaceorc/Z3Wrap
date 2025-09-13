@@ -288,8 +288,8 @@ public class Z3ArrayExprTests
 
         // Check that the stored values are maintained (Z3 may return equivalent fractions)
         // 19.99 = 1999/100, 29.95 = 599/20 are equivalent representations
-        Assert.That(price1Str, Does.Contain("19.99").Or.Contain("1999/100"));
-        Assert.That(price2Str, Does.Contain("29.95").Or.Contain("2995/100").Or.Contain("599/20"));
+        Assert.That(price1Str, Is.EqualTo("1999/100"));
+        Assert.That(price2Str, Is.EqualTo("599/20"));
     }
 
     [Test]
@@ -333,7 +333,7 @@ public class Z3ArrayExprTests
         Assert.That(toString, Is.Not.Null);
         Assert.That(toString, Is.Not.Empty);
         // Z3 typically shows array expressions with the variable name
-        Assert.That(toString, Does.Contain("test_array").Or.Not.Empty);
+        Assert.That(toString, Is.EqualTo("test_array"));
     }
 
     [Test]

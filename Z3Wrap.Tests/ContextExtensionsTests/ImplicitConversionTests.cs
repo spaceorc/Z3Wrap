@@ -1,7 +1,7 @@
 using System.Numerics;
 using Z3Wrap.Expressions;
 
-namespace Z3Wrap.Tests;
+namespace Z3Wrap.Tests.ContextExtensionsTests;
 
 [TestFixture]
 public class ImplicitConversionTests
@@ -13,8 +13,7 @@ public class ImplicitConversionTests
 
         var ex = Assert.Throws<InvalidOperationException>(() =>
         {
-            Z3IntExpr _ = 42; // Should throw
-        });
+            Z3IntExpr _ = 42;        });
 
         Assert.That(ex.Message, Does.Contain("No Z3Context is currently set"));
         Assert.That(ex.Message, Does.Contain("context.SetUp()"));
@@ -26,12 +25,11 @@ public class ImplicitConversionTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        Z3IntExpr expr = 42; // Should work with implicit conversion
-
+        Z3IntExpr expr = 42;
         Assert.That(expr, Is.Not.Null);
         Assert.That(expr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(expr.Context, Is.EqualTo(context));
-        Assert.That(expr.ToString(), Does.Contain("42"));
+        Assert.That(expr.ToString(), Is.EqualTo("42"));
     }
 
     [Test]
@@ -40,12 +38,11 @@ public class ImplicitConversionTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        Z3IntExpr expr = long.MaxValue; // Should work with implicit conversion
-
+        Z3IntExpr expr = long.MaxValue;
         Assert.That(expr, Is.Not.Null);
         Assert.That(expr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(expr.Context, Is.EqualTo(context));
-        Assert.That(expr.ToString(), Does.Contain(long.MaxValue.ToString()));
+        Assert.That(expr.ToString(), Is.EqualTo(long.MaxValue.ToString()));
     }
 
     [Test]
@@ -55,15 +52,14 @@ public class ImplicitConversionTests
         using var scope = context.SetUp();
 
         BigInteger bigValue = new BigInteger(long.MaxValue) * 2;
-        Z3IntExpr expr = bigValue; // Should work with implicit conversion
-
+        Z3IntExpr expr = bigValue;
         Assert.That(expr, Is.Not.Null);
         Assert.That(expr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(expr.Context, Is.EqualTo(context));
     }
 
     [Test]
-    public void ImplicitConversion_InArithmetic_Works()
+    public void ImplicitConversion_ArithmeticOperations_CreatesValidExpressions()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -83,7 +79,7 @@ public class ImplicitConversionTests
     }
 
     [Test]
-    public void ImplicitConversion_ArrayDefaultValue_Works()
+    public void ImplicitConversion_ArrayDefaultValue_CreatesSatisfiableArray()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -99,14 +95,13 @@ public class ImplicitConversionTests
         var element = arr[index];
 
         using var solver = context.CreateSolver();
-        solver.Assert(element == 42); // Should be satisfiable since default is 42
-
+        solver.Assert(element == 42);
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void ImplicitConversion_NestedScopes_WorksCorrectly()
+    public void ImplicitConversion_NestedScopes_UsesCorrectContext()
     {
         using var context1 = new Z3Context();
         using var context2 = new Z3Context();
@@ -131,8 +126,7 @@ public class ImplicitConversionTests
         // No context set
         Assert.Throws<InvalidOperationException>(() =>
         {
-            Z3IntExpr _ = 400; // Should throw
-        });
+            Z3IntExpr _ = 400;        });
     }
 
     [Test]
@@ -142,21 +136,19 @@ public class ImplicitConversionTests
 
         {
             using var scope = context.SetUp();
-            Z3IntExpr expr = 42; // Should work
-            Assert.That(expr, Is.Not.Null);
+            Z3IntExpr expr = 42;            Assert.That(expr, Is.Not.Null);
         } // scope disposed here
 
         // After scope disposal, should throw
         var ex = Assert.Throws<InvalidOperationException>(() =>
         {
-            Z3IntExpr _ = 42; // Should throw
-        });
+            Z3IntExpr _ = 42;        });
 
         Assert.That(ex.Message, Does.Contain("No Z3Context is currently set"));
     }
 
     [Test]
-    public void ImplicitConversion_ComplexExpression_Works()
+    public void ImplicitConversion_ComplexExpression_CreatesSatisfiableSolution()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -183,7 +175,7 @@ public class ImplicitConversionTests
     }
 
     [Test]
-    public void ImplicitConversion_MixedIntegerTypes_Works()
+    public void ImplicitConversion_MixedIntegerTypes_HandlesAllTypes()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

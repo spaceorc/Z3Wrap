@@ -27,31 +27,11 @@ public sealed class Z3RealExpr : Z3Expr
     public static Z3BoolExpr operator >=(Z3RealExpr left, Z3RealExpr right) => left.Context.Ge(left, right);
     public static Z3RealExpr operator -(Z3RealExpr expr) => expr.Context.UnaryMinus(expr);
 
-    // Z3RealExpr <-> Real operations
-    public static Z3RealExpr operator +(Z3RealExpr left, Real right) => left.Context.Add(left, (Z3RealExpr)right);
-    public static Z3RealExpr operator -(Z3RealExpr left, Real right) => left.Context.Sub(left, (Z3RealExpr)right);
-    public static Z3RealExpr operator *(Z3RealExpr left, Real right) => left.Context.Mul(left, (Z3RealExpr)right);
-    public static Z3RealExpr operator /(Z3RealExpr left, Real right) => left.Context.Div(left, (Z3RealExpr)right);
-    public static Z3BoolExpr operator <(Z3RealExpr left, Real right) => left.Context.Lt(left, (Z3RealExpr)right);
-    public static Z3BoolExpr operator <=(Z3RealExpr left, Real right) => left.Context.Le(left, (Z3RealExpr)right);
-    public static Z3BoolExpr operator >(Z3RealExpr left, Real right) => left.Context.Gt(left, (Z3RealExpr)right);
-    public static Z3BoolExpr operator >=(Z3RealExpr left, Real right) => left.Context.Ge(left, (Z3RealExpr)right);
-
-    // Real <-> Z3RealExpr operations
-    public static Z3RealExpr operator +(Real left, Z3RealExpr right) => right.Context.Add((Z3RealExpr)left, right);
-    public static Z3RealExpr operator -(Real left, Z3RealExpr right) => right.Context.Sub((Z3RealExpr)left, right);
-    public static Z3RealExpr operator *(Real left, Z3RealExpr right) => right.Context.Mul((Z3RealExpr)left, right);
-    public static Z3RealExpr operator /(Real left, Z3RealExpr right) => right.Context.Div((Z3RealExpr)left, right);
-    public static Z3BoolExpr operator <(Real left, Z3RealExpr right) => right.Context.Lt((Z3RealExpr)left, right);
-    public static Z3BoolExpr operator <=(Real left, Z3RealExpr right) => right.Context.Le((Z3RealExpr)left, right);
-    public static Z3BoolExpr operator >(Real left, Z3RealExpr right) => right.Context.Gt((Z3RealExpr)left, right);
-    public static Z3BoolExpr operator >=(Real left, Z3RealExpr right) => right.Context.Ge((Z3RealExpr)left, right);
-
     // Mixed-type equality operations (Real)
-    public static Z3BoolExpr operator ==(Z3RealExpr left, Real right) => left.Context.Eq(left, (Z3RealExpr)right);
-    public static Z3BoolExpr operator !=(Z3RealExpr left, Real right) => left.Context.Neq(left, (Z3RealExpr)right);
-    public static Z3BoolExpr operator ==(Real left, Z3RealExpr right) => right.Context.Eq((Z3RealExpr)left, right);
-    public static Z3BoolExpr operator !=(Real left, Z3RealExpr right) => right.Context.Neq((Z3RealExpr)left, right);
+    public static Z3BoolExpr operator ==(Z3RealExpr left, Real right) => left.Context.Eq(left, right);
+    public static Z3BoolExpr operator !=(Z3RealExpr left, Real right) => left.Context.Neq(left, right);
+    public static Z3BoolExpr operator ==(Real left, Z3RealExpr right) => right.Context.Eq(left, right);
+    public static Z3BoolExpr operator !=(Real left, Z3RealExpr right) => right.Context.Neq(left, right);
 
     public Z3RealExpr Add(Z3RealExpr other) => Context.Add(this, other);
     public Z3RealExpr Sub(Z3RealExpr other) => Context.Sub(this, other);
@@ -61,16 +41,6 @@ public sealed class Z3RealExpr : Z3Expr
     public Z3BoolExpr Le(Z3RealExpr other) => Context.Le(this, other);
     public Z3BoolExpr Gt(Z3RealExpr other) => Context.Gt(this, other);
     public Z3BoolExpr Ge(Z3RealExpr other) => Context.Ge(this, other);
-
-    public Z3RealExpr Add(Real other) => Context.Add(this, (Z3RealExpr)other);
-    public Z3RealExpr Sub(Real other) => Context.Sub(this, (Z3RealExpr)other);
-    public Z3RealExpr Mul(Real other) => Context.Mul(this, (Z3RealExpr)other);
-    public Z3RealExpr Div(Real other) => Context.Div(this, (Z3RealExpr)other);
-    public Z3BoolExpr Lt(Real other) => Context.Lt(this, (Z3RealExpr)other);
-    public Z3BoolExpr Le(Real other) => Context.Le(this, (Z3RealExpr)other);
-    public Z3BoolExpr Gt(Real other) => Context.Gt(this, (Z3RealExpr)other);
-    public Z3BoolExpr Ge(Real other) => Context.Ge(this, (Z3RealExpr)other);
-
     public Z3RealExpr UnaryMinus() => Context.UnaryMinus(this);
     public Z3RealExpr Abs() => Context.Abs(this);
     

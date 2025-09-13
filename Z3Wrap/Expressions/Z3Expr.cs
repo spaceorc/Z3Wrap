@@ -26,7 +26,6 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     {
         try
         {
-            Context.ThrowIfDisposed();
             var stringPtr = NativeMethods.Z3AstToString(Context.Handle, Handle);
             return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(stringPtr) ?? "<invalid>";
         }
