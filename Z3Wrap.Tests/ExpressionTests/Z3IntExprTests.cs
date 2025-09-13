@@ -8,7 +8,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x + y;
@@ -26,7 +26,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x - y;
@@ -44,7 +44,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x * y;
@@ -62,7 +62,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x / y;
@@ -80,7 +80,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x % y;
@@ -98,7 +98,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x < y;
@@ -116,7 +116,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x <= y;
@@ -134,7 +134,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x > y;
@@ -152,7 +152,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x >= y;
@@ -170,7 +170,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = -x;
 
@@ -187,7 +187,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x + 10;
 
@@ -205,7 +205,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x - 3;
 
@@ -223,7 +223,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x * 4;
 
@@ -241,7 +241,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x / 2;
 
@@ -259,7 +259,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x % 3;
 
@@ -277,7 +277,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x < 10;
 
@@ -295,7 +295,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x <= 5;
 
@@ -313,7 +313,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x > 0;
 
@@ -331,7 +331,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x >= -5;
 
@@ -349,7 +349,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 20 + x;
 
@@ -367,7 +367,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 100 - x;
 
@@ -385,7 +385,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 7 * x;
 
@@ -403,7 +403,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 50 / x;
 
@@ -421,7 +421,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 23 % x;
 
@@ -439,7 +439,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 5 < x;
 
@@ -457,7 +457,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 8 <= x;
 
@@ -475,7 +475,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 15 > x;
 
@@ -493,7 +493,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 12 >= x;
 
@@ -511,7 +511,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x == 42;
 
@@ -529,7 +529,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x != 0;
 
@@ -547,7 +547,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = 25 == x;
 
@@ -565,7 +565,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = -1 != x;
 
@@ -583,7 +583,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Add(y);
@@ -602,7 +602,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Sub(y);
@@ -621,7 +621,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Mul(y);
@@ -640,7 +640,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Div(y);
@@ -659,7 +659,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Mod(y);
@@ -678,7 +678,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Lt(y);
@@ -697,7 +697,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Le(y);
@@ -716,7 +716,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Gt(y);
@@ -735,7 +735,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var result = x.Ge(y);
@@ -754,7 +754,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Add(10);
 
@@ -772,7 +772,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Sub(5);
 
@@ -790,7 +790,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Mul(3);
 
@@ -808,7 +808,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Div(2);
 
@@ -826,7 +826,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Mod(7);
 
@@ -844,7 +844,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Lt(100);
 
@@ -862,7 +862,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Le(50);
 
@@ -880,7 +880,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Gt(0);
 
@@ -898,7 +898,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Ge(-10);
 
@@ -916,7 +916,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.UnaryMinus();
 
@@ -934,7 +934,7 @@ public class Z3IntExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var result = x.Abs();
 

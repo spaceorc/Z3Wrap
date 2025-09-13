@@ -8,7 +8,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x + y;
@@ -26,7 +26,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x - y;
@@ -44,7 +44,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x * y;
@@ -62,7 +62,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x / y;
@@ -80,7 +80,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x < y;
@@ -98,7 +98,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x <= y;
@@ -116,7 +116,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x > y;
@@ -134,7 +134,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x >= y;
@@ -152,7 +152,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = -x;
 
@@ -169,7 +169,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x + 1.5m;
 
@@ -187,7 +187,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x - 2.3m;
 
@@ -205,7 +205,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x * 3.0m;
 
@@ -223,7 +223,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x / 2.0m;
 
@@ -241,7 +241,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x < 10.5m;
 
@@ -259,7 +259,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x <= 7.3m;
 
@@ -277,7 +277,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x > 0.0m;
 
@@ -295,7 +295,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x >= -3.14m;
 
@@ -313,7 +313,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 2.5m + x;
 
@@ -331,7 +331,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 10.7m - x;
 
@@ -349,7 +349,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 1.5m * x;
 
@@ -367,7 +367,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 20.0m / x;
 
@@ -385,7 +385,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 5.5m < x;
 
@@ -403,7 +403,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 8.3m <= x;
 
@@ -421,7 +421,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 15.2m > x;
 
@@ -439,7 +439,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 12.7m >= x;
 
@@ -457,7 +457,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x == 3.14m;
 
@@ -475,7 +475,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x != 0.0m;
 
@@ -493,7 +493,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = 2.718m == x;
 
@@ -511,7 +511,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = -1.5m != x;
 
@@ -529,7 +529,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Add(y);
@@ -548,7 +548,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Sub(y);
@@ -567,7 +567,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Mul(y);
@@ -586,7 +586,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Div(y);
@@ -605,7 +605,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Lt(y);
@@ -624,7 +624,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Le(y);
@@ -643,7 +643,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Gt(y);
@@ -662,7 +662,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var y = context.RealConst("y");
         var result = x.Ge(y);
@@ -681,7 +681,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Add(1.5m);
 
@@ -699,7 +699,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Sub(2.7m);
 
@@ -717,7 +717,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Mul(3.5m);
 
@@ -735,7 +735,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Div(2.0m);
 
@@ -753,7 +753,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Lt(10.5m);
 
@@ -771,7 +771,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Le(7.8m);
 
@@ -789,7 +789,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Gt(0.0m);
 
@@ -807,7 +807,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Ge(-5.5m);
 
@@ -825,7 +825,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.UnaryMinus();
 
@@ -843,7 +843,7 @@ public class Z3RealExprTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var result = x.Abs();
 
