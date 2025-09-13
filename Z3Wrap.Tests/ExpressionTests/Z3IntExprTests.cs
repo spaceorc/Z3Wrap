@@ -186,6 +186,7 @@ public class Z3IntExprTests
     public void AddOperator_ExprAndInt_CreatesAddition()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -204,6 +205,7 @@ public class Z3IntExprTests
     public void SubOperator_ExprAndInt_CreatesSubtraction()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -222,6 +224,7 @@ public class Z3IntExprTests
     public void MulOperator_ExprAndInt_CreatesMultiplication()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -240,6 +243,7 @@ public class Z3IntExprTests
     public void DivOperator_ExprAndInt_CreatesDivision()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -258,6 +262,7 @@ public class Z3IntExprTests
     public void ModOperator_ExprAndInt_CreatesModulo()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -276,6 +281,7 @@ public class Z3IntExprTests
     public void LtOperator_IntExprToInt_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -294,6 +300,7 @@ public class Z3IntExprTests
     public void LeOperator_IntExprToInt_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -312,6 +319,7 @@ public class Z3IntExprTests
     public void GtOperator_IntExprToInt_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -330,6 +338,7 @@ public class Z3IntExprTests
     public void GeOperator_IntExprToInt_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -348,6 +357,7 @@ public class Z3IntExprTests
     public void AddOperator_IntToIntExpr_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -366,6 +376,7 @@ public class Z3IntExprTests
     public void SubOperator_IntToIntExpr_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -384,6 +395,7 @@ public class Z3IntExprTests
     public void MulOperator_IntToIntExpr_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -402,6 +414,7 @@ public class Z3IntExprTests
     public void DivOperator_IntToIntExpr_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -420,6 +433,7 @@ public class Z3IntExprTests
     public void ModOperator_IntToIntExpr_CreatesModuloExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -438,6 +452,7 @@ public class Z3IntExprTests
     public void LtOperator_IntToIntExpr_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -456,6 +471,7 @@ public class Z3IntExprTests
     public void LeOperator_IntToIntExpr_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -474,6 +490,7 @@ public class Z3IntExprTests
     public void GtOperator_IntToIntExpr_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -492,6 +509,7 @@ public class Z3IntExprTests
     public void GeOperator_IntToIntExpr_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -510,6 +528,7 @@ public class Z3IntExprTests
     public void EqOperator_IntExprToInt_CreatesEqualityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -528,6 +547,7 @@ public class Z3IntExprTests
     public void NeqOperator_IntExprToInt_CreatesInequalityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -546,6 +566,7 @@ public class Z3IntExprTests
     public void EqOperator_IntToIntExpr_CreatesEqualityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -564,6 +585,7 @@ public class Z3IntExprTests
     public void NeqOperator_IntToIntExpr_CreatesInequalityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -753,6 +775,7 @@ public class Z3IntExprTests
     public void AddMethod_Int_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -771,6 +794,7 @@ public class Z3IntExprTests
     public void SubMethod_Int_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -789,6 +813,7 @@ public class Z3IntExprTests
     public void MulMethod_Int_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -807,6 +832,7 @@ public class Z3IntExprTests
     public void DivMethod_Int_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -825,6 +851,7 @@ public class Z3IntExprTests
     public void ModMethod_Int_CreatesModuloExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -843,6 +870,7 @@ public class Z3IntExprTests
     public void LtMethod_Int_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -861,6 +889,7 @@ public class Z3IntExprTests
     public void LeMethod_Int_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -879,6 +908,7 @@ public class Z3IntExprTests
     public void GtMethod_Int_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -897,6 +927,7 @@ public class Z3IntExprTests
     public void GeMethod_Int_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
@@ -933,6 +964,7 @@ public class Z3IntExprTests
     public void AbsMethod_CreatesAbsoluteValueExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");

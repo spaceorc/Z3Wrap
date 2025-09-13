@@ -79,8 +79,9 @@ public class ComparisonTests
     public void Lt_IntExprWithInt_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var ltRight = context.Lt(x, 10);
         var ltLeft = context.Lt(5, x);
@@ -98,8 +99,9 @@ public class ComparisonTests
     public void Le_IntExprWithInt_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var leRight = context.Le(x, 5);
         var leLeft = context.Le(5, x);
@@ -118,8 +120,9 @@ public class ComparisonTests
     public void Gt_IntExprWithInt_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var gtRight = context.Gt(x, 0);
         var gtLeft = context.Gt(100, x);
@@ -137,8 +140,9 @@ public class ComparisonTests
     public void Ge_IntExprWithInt_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var geRight = context.Ge(x, -5);
         var geLeft = context.Ge(5, x);
@@ -228,8 +232,9 @@ public class ComparisonTests
     public void Lt_RealExprWithDouble_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var ltRight = context.Lt(x, 10.5m);
         var ltLeft = context.Lt(5.5m, x);
@@ -247,8 +252,9 @@ public class ComparisonTests
     public void Le_RealExprWithDouble_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var leRight = context.Le(x, 7.3m);
         var leLeft = context.Le(7.3m, x);
@@ -267,8 +273,9 @@ public class ComparisonTests
     public void Gt_RealExprWithDouble_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var gtRight = context.Gt(x, 0.0m);
         var gtLeft = context.Gt(100.0m, x);
@@ -286,8 +293,9 @@ public class ComparisonTests
     public void Ge_RealExprWithDouble_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var geRight = context.Ge(x, -3.14m);
         var geLeft = context.Ge(3.14m, x);

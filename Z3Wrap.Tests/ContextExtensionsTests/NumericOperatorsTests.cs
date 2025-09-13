@@ -102,8 +102,9 @@ public class NumericOperatorsTests
     public void Add_IntExprWithInt_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var addRight = context.Add(x, 10);
         var addLeft = context.Add(5, x);
@@ -127,8 +128,9 @@ public class NumericOperatorsTests
     public void Sub_IntExprWithInt_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var subRight = context.Sub(x, 7);
         var subLeft = context.Sub(20, x);
@@ -152,8 +154,9 @@ public class NumericOperatorsTests
     public void Mul_IntExprWithInt_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var mulRight = context.Mul(x, 4);
         var mulLeft = context.Mul(3, x);
@@ -177,8 +180,9 @@ public class NumericOperatorsTests
     public void Div_IntExprWithInt_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var divRight = context.Div(x, 2);
         var divLeft = context.Div(100, x);
@@ -202,8 +206,9 @@ public class NumericOperatorsTests
     public void Mod_IntExprWithInt_CreatesModuloExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var modRight = context.Mod(x, 3);
         var modLeft = context.Mod(23, x);
@@ -303,8 +308,9 @@ public class NumericOperatorsTests
     public void Add_RealExprWithDouble_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var addRight = context.Add(x, 1.5m);
         var addLeft = context.Add(2.5m, x);
@@ -328,8 +334,9 @@ public class NumericOperatorsTests
     public void Sub_RealExprWithDouble_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var subRight = context.Sub(x, 2.3m);
         var subLeft = context.Sub(10.7m, x);
@@ -353,8 +360,9 @@ public class NumericOperatorsTests
     public void Mul_RealExprWithDouble_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var mulRight = context.Mul(x, 3.0m);
         var mulLeft = context.Mul(1.5m, x);
@@ -378,8 +386,9 @@ public class NumericOperatorsTests
     public void Div_RealExprWithDouble_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var divRight = context.Div(x, 2.0m);
         var divLeft = context.Div(20.0m, x);
@@ -439,8 +448,9 @@ public class NumericOperatorsTests
     public void Abs_IntExpr_CreatesAbsoluteValueExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var absoluteValue = context.Abs(x);
 
@@ -463,8 +473,9 @@ public class NumericOperatorsTests
     public void Abs_RealExpr_CreatesAbsoluteValueExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var absoluteValue = context.Abs(x);
 

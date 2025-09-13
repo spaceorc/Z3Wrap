@@ -43,8 +43,9 @@ public class EqualityTests
     public void Eq_IntExprWithInt_CreatesEqualityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var eqRight = context.Eq(x, 100);
         var eqLeft = context.Eq(50, x);
@@ -66,8 +67,9 @@ public class EqualityTests
     public void Neq_IntExprWithInt_CreatesInequalityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var neqRight = context.Neq(x, 0);
         var neqLeft = context.Neq(-1, x);
@@ -85,8 +87,9 @@ public class EqualityTests
     public void Eq_RealExprWithDouble_CreatesEqualityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var eqRight = context.Eq(x, 3.14m);
         var eqLeft = context.Eq(2.718m, x);
@@ -108,8 +111,9 @@ public class EqualityTests
     public void Neq_RealExprWithDouble_CreatesInequalityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var neqRight = context.Neq(x, 0.0m);
         var neqLeft = context.Neq(-1.5m, x);

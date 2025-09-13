@@ -17,12 +17,13 @@ public class Z3SolverTests
     public void CanCheckSatisfiabilityWithSatisfiableConstraints()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var ten = context.Int(10);
-        
+
         // x + y == 10 and x > 0 and y > 0 (satisfiable)
         solver.Assert((x + y) == ten);
         solver.Assert(x > context.Int(0));
@@ -36,12 +37,13 @@ public class Z3SolverTests
     public void CanCheckSatisfiabilityWithUnsatisfiableConstraints()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var five = context.Int(5);
         var ten = context.Int(10);
-        
+
         // x == 5 and x == 10 (unsatisfiable)
         solver.Assert(x == five);
         solver.Assert(x == ten);
@@ -54,11 +56,12 @@ public class Z3SolverTests
     public void CanGetSatisfiableResult()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var five = context.Int(5);
-        
+
         // x == 5
         solver.Assert(x == five);
         
@@ -70,12 +73,13 @@ public class Z3SolverTests
     public void CanSolveComplexConstraints()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var ten = context.Int(10);
-        
+
         // x + y == 10 and x == 3
         solver.Assert((x + y) == ten);
         solver.Assert(x == context.Int(3));
@@ -107,11 +111,12 @@ public class Z3SolverTests
     public void CanSolveRealConstraints()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var pi = context.Real(3.14m);
-        
+
         // x == 3.14m
         solver.Assert(x == pi);
         
@@ -123,21 +128,22 @@ public class Z3SolverTests
     public void CanUsePushAndPop()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var five = context.Int(5);
         var ten = context.Int(10);
-        
+
         // Add x > 0
         solver.Assert(x > context.Int(0));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         // Push context and add x == 5
         solver.Push();
         solver.Assert(x == five);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         // Add conflicting constraint x == 10
         solver.Assert(x == ten);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
@@ -151,14 +157,15 @@ public class Z3SolverTests
     public void CompleteUsagePattern()
     {
         using var context = new Z3Context();
-        
+        using var scope = context.SetUp();
+
         // Create variables using factory methods
         var x = context.IntConst("x");
         var y = context.IntConst("y");
-        
+
         // Create solver
         using var solver = context.CreateSolver();
-        
+
         // Add constraints using natural operators
         solver.Assert(x > context.Int(0));
         solver.Assert(y > context.Int(0));
@@ -174,8 +181,9 @@ public class Z3SolverTests
     public void GetReasonUnknownWhenStatusIsKnown()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         solver.Assert(x == context.Int(5));
         
@@ -195,14 +203,15 @@ public class Z3SolverTests
         {
             ["timeout"] = "0"  // Disable timeout
         };
-        
+
         using var context = new Z3Context(parameters);
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var five = context.Int(5);
         var ten = context.Int(10);
-        
+
         // Add contradictory constraints: x == 5 and x == 10
         solver.Assert(x == five);
         solver.Assert(x == ten);
@@ -217,11 +226,12 @@ public class Z3SolverTests
     public void DiagnosticOutputForDebugging()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
-        
+
         var x = context.RealConst("x");
         var pi = context.Real(3.14m);
-        
+
         solver.Assert(x == pi);
         
         var result = solver.Check();

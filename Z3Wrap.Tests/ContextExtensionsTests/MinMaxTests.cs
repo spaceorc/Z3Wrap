@@ -83,6 +83,7 @@ public class MinMaxTests
     public void Min_IntExprWithInt_ReturnsMinimumValue()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
         
         var x = context.IntConst("x");
@@ -108,6 +109,7 @@ public class MinMaxTests
     public void Max_IntExprWithInt_ReturnsMaximumValue()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
         
         var x = context.IntConst("x");
@@ -133,6 +135,7 @@ public class MinMaxTests
     public void Min_RealExprWithDouble_ReturnsMinimumValue()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");
@@ -158,6 +161,7 @@ public class MinMaxTests
     public void Max_RealExprWithDouble_ReturnsMaximumValue()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
         
         var x = context.RealConst("x");

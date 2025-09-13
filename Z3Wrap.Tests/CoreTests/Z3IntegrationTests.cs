@@ -7,6 +7,7 @@ public class Z3IntegrationTests
     public void IntegerConstraints_ContradictoryBounds_ReturnsUnsatisfiable()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");

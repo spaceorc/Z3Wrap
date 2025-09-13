@@ -5,6 +5,8 @@ namespace Z3Wrap;
 
 public class Z3Context : IDisposable
 {
+    private static readonly ThreadLocal<Z3Context?> currentContext = new(() => null);
+
     private readonly HashSet<IntPtr> trackedExpressions = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
     private IntPtr configHandle;
@@ -187,5 +189,32 @@ public class Z3Context : IDisposable
     ~Z3Context()
     {
         DisposeCore();
+    }
+
+    public static Z3Context Current => currentContext.Value ?? throw new InvalidOperationException(
+        "No Z3Context is currently set. Use 'using var scope = context.SetUp()' to enable implicit conversions.");
+
+    public static bool IsCurrentContextSet => currentContext.Value != null;
+
+    public SetUpScope SetUp()
+    {
+        ThrowIfDisposed();
+        return new SetUpScope(this);
+    }
+
+    public sealed class SetUpScope : IDisposable
+    {
+        private readonly Z3Context? previousContext;
+
+        internal SetUpScope(Z3Context context)
+        {
+            previousContext = currentContext.Value;
+            currentContext.Value = context;
+        }
+
+        public void Dispose()
+        {
+            currentContext.Value = previousContext;
+        }
     }
 }

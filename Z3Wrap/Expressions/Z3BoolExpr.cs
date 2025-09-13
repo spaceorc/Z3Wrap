@@ -6,6 +6,9 @@ public sealed class Z3BoolExpr : Z3Expr
     {
     }
 
+    // Implicit conversions using thread-local context
+    public static implicit operator Z3BoolExpr(bool value) => Z3Context.Current.Bool(value);
+
     public static Z3BoolExpr operator &(Z3BoolExpr left, Z3BoolExpr right) => left.And(right);
     public static Z3BoolExpr operator |(Z3BoolExpr left, Z3BoolExpr right) => left.Or(right);
     public static Z3BoolExpr operator ^(Z3BoolExpr left, Z3BoolExpr right) => left.Xor(right);

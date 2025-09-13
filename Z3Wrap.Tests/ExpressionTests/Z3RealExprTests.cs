@@ -168,6 +168,7 @@ public class Z3RealExprTests
     public void AddOperator_RealExprToDouble_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -186,6 +187,7 @@ public class Z3RealExprTests
     public void SubOperator_RealExprToDouble_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -204,6 +206,7 @@ public class Z3RealExprTests
     public void MulOperator_RealExprToDouble_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -222,6 +225,7 @@ public class Z3RealExprTests
     public void DivOperator_RealExprToDouble_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -240,6 +244,7 @@ public class Z3RealExprTests
     public void LtOperator_RealExprToDouble_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -258,6 +263,7 @@ public class Z3RealExprTests
     public void LeOperator_RealExprToDouble_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -276,6 +282,7 @@ public class Z3RealExprTests
     public void GtOperator_RealExprToDouble_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -294,6 +301,7 @@ public class Z3RealExprTests
     public void GeOperator_RealExprToDouble_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -312,6 +320,7 @@ public class Z3RealExprTests
     public void AddOperator_DoubleToRealExpr_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -330,6 +339,7 @@ public class Z3RealExprTests
     public void SubOperator_DoubleToRealExpr_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -348,6 +358,7 @@ public class Z3RealExprTests
     public void MulOperator_DoubleToRealExpr_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -366,6 +377,7 @@ public class Z3RealExprTests
     public void DivOperator_DoubleToRealExpr_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -384,6 +396,7 @@ public class Z3RealExprTests
     public void LtOperator_DoubleToRealExpr_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -402,6 +415,7 @@ public class Z3RealExprTests
     public void LeOperator_DoubleToRealExpr_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -420,6 +434,7 @@ public class Z3RealExprTests
     public void GtOperator_DoubleToRealExpr_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -438,6 +453,7 @@ public class Z3RealExprTests
     public void GeOperator_DoubleToRealExpr_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -456,6 +472,7 @@ public class Z3RealExprTests
     public void EqOperator_RealExprToDouble_CreatesEqualityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -474,6 +491,7 @@ public class Z3RealExprTests
     public void NeqOperator_RealExprToDouble_CreatesInequalityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -492,6 +510,7 @@ public class Z3RealExprTests
     public void EqOperator_DoubleToRealExpr_CreatesEqualityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -510,6 +529,7 @@ public class Z3RealExprTests
     public void NeqOperator_DoubleToRealExpr_CreatesInequalityComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -680,6 +700,7 @@ public class Z3RealExprTests
     public void AddMethod_Double_CreatesAdditionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -698,6 +719,7 @@ public class Z3RealExprTests
     public void SubMethod_Double_CreatesSubtractionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -716,6 +738,7 @@ public class Z3RealExprTests
     public void MulMethod_Double_CreatesMultiplicationExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -734,6 +757,7 @@ public class Z3RealExprTests
     public void DivMethod_Double_CreatesDivisionExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -752,6 +776,7 @@ public class Z3RealExprTests
     public void LtMethod_Double_CreatesLessThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -770,6 +795,7 @@ public class Z3RealExprTests
     public void LeMethod_Double_CreatesLessThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -788,6 +814,7 @@ public class Z3RealExprTests
     public void GtMethod_Double_CreatesGreaterThanComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -806,6 +833,7 @@ public class Z3RealExprTests
     public void GeMethod_Double_CreatesGreaterThanOrEqualComparison()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");
@@ -842,6 +870,7 @@ public class Z3RealExprTests
     public void AbsMethod_CreatesAbsoluteValueExpression()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.RealConst("x");

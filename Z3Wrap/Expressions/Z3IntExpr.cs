@@ -9,6 +9,11 @@ public sealed class Z3IntExpr : Z3Expr
     {
     }
 
+    // Implicit conversions using thread-local context
+    public static implicit operator Z3IntExpr(int value) => Z3Context.Current.Int(value);
+    public static implicit operator Z3IntExpr(long value) => Z3Context.Current.Int(value);
+    public static implicit operator Z3IntExpr(BigInteger value) => Z3Context.Current.Int(value);
+
     // Z3IntExpr <-> Z3IntExpr operations
     public static Z3IntExpr operator +(Z3IntExpr left, Z3IntExpr right) => left.Context.Add(left, right);
     public static Z3IntExpr operator -(Z3IntExpr left, Z3IntExpr right) => left.Context.Sub(left, right);
@@ -20,28 +25,6 @@ public sealed class Z3IntExpr : Z3Expr
     public static Z3BoolExpr operator >(Z3IntExpr left, Z3IntExpr right) => left.Context.Gt(left, right);
     public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right) => left.Context.Ge(left, right);
     public static Z3IntExpr operator -(Z3IntExpr expr) => expr.Context.UnaryMinus(expr);
-
-    // Z3IntExpr <-> BigInteger operations  
-    public static Z3IntExpr operator +(Z3IntExpr left, BigInteger right) => left.Context.Add(left, right);
-    public static Z3IntExpr operator -(Z3IntExpr left, BigInteger right) => left.Context.Sub(left, right);
-    public static Z3IntExpr operator *(Z3IntExpr left, BigInteger right) => left.Context.Mul(left, right);
-    public static Z3IntExpr operator /(Z3IntExpr left, BigInteger right) => left.Context.Div(left, right);
-    public static Z3IntExpr operator %(Z3IntExpr left, BigInteger right) => left.Context.Mod(left, right);
-    public static Z3BoolExpr operator <(Z3IntExpr left, BigInteger right) => left.Context.Lt(left, right);
-    public static Z3BoolExpr operator <=(Z3IntExpr left, BigInteger right) => left.Context.Le(left, right);
-    public static Z3BoolExpr operator >(Z3IntExpr left, BigInteger right) => left.Context.Gt(left, right);
-    public static Z3BoolExpr operator >=(Z3IntExpr left, BigInteger right) => left.Context.Ge(left, right);
-
-    // BigInteger <-> Z3IntExpr operations
-    public static Z3IntExpr operator +(BigInteger left, Z3IntExpr right) => right.Context.Add(left, right);
-    public static Z3IntExpr operator -(BigInteger left, Z3IntExpr right) => right.Context.Sub(left, right);
-    public static Z3IntExpr operator *(BigInteger left, Z3IntExpr right) => right.Context.Mul(left, right);
-    public static Z3IntExpr operator /(BigInteger left, Z3IntExpr right) => right.Context.Div(left, right);
-    public static Z3IntExpr operator %(BigInteger left, Z3IntExpr right) => right.Context.Mod(left, right);
-    public static Z3BoolExpr operator <(BigInteger left, Z3IntExpr right) => right.Context.Lt(left, right);
-    public static Z3BoolExpr operator <=(BigInteger left, Z3IntExpr right) => right.Context.Le(left, right);
-    public static Z3BoolExpr operator >(BigInteger left, Z3IntExpr right) => right.Context.Gt(left, right);
-    public static Z3BoolExpr operator >=(BigInteger left, Z3IntExpr right) => right.Context.Ge(left, right);
 
     // Mixed-type equality operations
     public static Z3BoolExpr operator ==(Z3IntExpr left, BigInteger right) => left.Context.Eq(left, right);
@@ -58,17 +41,6 @@ public sealed class Z3IntExpr : Z3Expr
     public Z3BoolExpr Le(Z3IntExpr other) => Context.Le(this, other);
     public Z3BoolExpr Gt(Z3IntExpr other) => Context.Gt(this, other);
     public Z3BoolExpr Ge(Z3IntExpr other) => Context.Ge(this, other);
-
-    public Z3IntExpr Add(BigInteger other) => Context.Add(this, other);
-    public Z3IntExpr Sub(BigInteger other) => Context.Sub(this, other);
-    public Z3IntExpr Mul(BigInteger other) => Context.Mul(this, other);
-    public Z3IntExpr Div(BigInteger other) => Context.Div(this, other);
-    public Z3IntExpr Mod(BigInteger other) => Context.Mod(this, other);
-    public Z3BoolExpr Lt(BigInteger other) => Context.Lt(this, other);
-    public Z3BoolExpr Le(BigInteger other) => Context.Le(this, other);
-    public Z3BoolExpr Gt(BigInteger other) => Context.Gt(this, other);
-    public Z3BoolExpr Ge(BigInteger other) => Context.Ge(this, other);
-
     public Z3IntExpr UnaryMinus() => Context.UnaryMinus(this);
     public Z3IntExpr Abs() => Context.Abs(this);
     
