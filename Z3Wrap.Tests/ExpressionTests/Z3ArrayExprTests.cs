@@ -386,4 +386,52 @@ public class Z3ArrayExprTests
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
     }
+
+    [Test]
+    public void ArrayConst_SingleGeneric_IntToBool_CreatesVariable()
+    {
+        using var context = new Z3Context();
+        var arr = context.ArrayConst<Z3BoolExpr>("arr");
+
+        Assert.That(arr, Is.Not.Null);
+        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(arr.Context, Is.EqualTo(context));
+        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+    }
+
+    [Test]
+    public void ArrayConst_SingleGeneric_IntToReal_CreatesVariable()
+    {
+        using var context = new Z3Context();
+        var arr = context.ArrayConst<Z3RealExpr>("prices");
+
+        Assert.That(arr, Is.Not.Null);
+        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(arr.Context, Is.EqualTo(context));
+        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3RealExpr>>());
+    }
+
+    [Test]
+    public void Array_SingleGeneric_AllElementsSameValue_Creates()
+    {
+        using var context = new Z3Context();
+        var defaultVal = context.Bool(true);
+        var arr = context.Array(defaultVal);
+
+        Assert.That(arr, Is.Not.Null);
+        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+    }
+
+    [Test]
+    public void Array_SingleGeneric_IntegerDefault_Creates()
+    {
+        using var context = new Z3Context();
+        var defaultVal = context.Int(42);
+        var arr = context.Array(defaultVal);
+
+        Assert.That(arr, Is.Not.Null);
+        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3IntExpr>>());
+    }
 }

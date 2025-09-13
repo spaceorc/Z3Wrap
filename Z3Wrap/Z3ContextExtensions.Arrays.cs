@@ -12,12 +12,18 @@ public static partial class Z3ContextExtensions
         var domainSort = GetSortForType<TIndex>(context);
         var rangeSort = GetSortForType<TValue>(context);
         var arraySort = NativeMethods.Z3MkArraySort(context.Handle, domainSort, rangeSort);
-        
+
         using var namePtr = new AnsiStringPtr(name);
         var symbol = NativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var handle = NativeMethods.Z3MkConst(context.Handle, symbol, arraySort);
-        
+
         return context.WrapArrayExpr<TIndex, TValue>(handle);
+    }
+
+    public static Z3ArrayExpr<Z3IntExpr, TValue> ArrayConst<TValue>(this Z3Context context, string name)
+        where TValue : Z3Expr
+    {
+        return context.ArrayConst<Z3IntExpr, TValue>(name);
     }
 
     public static Z3ArrayExpr<TIndex, TValue> Array<TIndex, TValue>(this Z3Context context, TValue defaultValue)
@@ -26,8 +32,14 @@ public static partial class Z3ContextExtensions
     {
         var domainSort = GetSortForType<TIndex>(context);
         var handle = NativeMethods.Z3MkConstArray(context.Handle, domainSort, defaultValue.Handle);
-        
+
         return context.WrapArrayExpr<TIndex, TValue>(handle);
+    }
+
+    public static Z3ArrayExpr<Z3IntExpr, TValue> Array<TValue>(this Z3Context context, TValue defaultValue)
+        where TValue : Z3Expr
+    {
+        return context.Array<Z3IntExpr, TValue>(defaultValue);
     }
 
     public static TValue Select<TIndex, TValue>(this Z3Context context, Z3ArrayExpr<TIndex, TValue> array, TIndex index)
