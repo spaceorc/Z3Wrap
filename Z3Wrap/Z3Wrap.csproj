@@ -28,6 +28,15 @@
         <Compile Update="Z3ContextExtensions.Real.cs">
           <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
         </Compile>
+        <Compile Update="Z3ContextExtensions.Real.Conversion.cs">
+          <DependentUpon>Z3ContextExtensions.Real.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Real.Functions.cs">
+          <DependentUpon>Z3ContextExtensions.Real.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Real.Operators.cs">
+          <DependentUpon>Z3ContextExtensions.Real.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
