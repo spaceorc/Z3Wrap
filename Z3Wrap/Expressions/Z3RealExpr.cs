@@ -1,4 +1,5 @@
 using System.Numerics;
+using Z3Wrap.DataTypes;
 
 namespace Z3Wrap.Expressions;
 

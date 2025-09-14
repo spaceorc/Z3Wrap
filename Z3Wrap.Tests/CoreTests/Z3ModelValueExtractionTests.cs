@@ -1,4 +1,5 @@
 using System.Numerics;
+using Z3Wrap.DataTypes;
 using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.CoreTests;
@@ -305,13 +306,8 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValue(context.RealConst("z")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValueAsString(context.RealConst("z")));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsBigInteger(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsString(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsInt(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsUInt(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsLong(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsULong(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsBinaryString(context.BitVecConst("bv", 8)));
+        Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(context.BitVecConst("bv", 8)));
+        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.BitVecConst("bv", 8)));
     }
 
     [Test]
@@ -326,7 +322,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsString(bv);
+        var value = model.GetNumericValueAsString(bv);
 
         Assert.That(value, Is.EqualTo("42"));
     }
@@ -343,7 +339,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsString(bv);
+        var value = model.GetNumericValueAsString(bv);
 
         Assert.That(value, Is.EqualTo("0"));
     }
@@ -360,7 +356,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsString(bv);
+        var value = model.GetNumericValueAsString(bv);
 
         Assert.That(value, Is.EqualTo("255"));
     }
@@ -377,7 +373,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsString(bv);
+        var value = model.GetNumericValueAsString(bv);
 
         // -1 in 32-bit bitvector should be represented as 4294967295 (2^32 - 1)
         Assert.That(value, Is.EqualTo("4294967295"));
@@ -395,7 +391,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsString(bv);
+        var value = model.GetNumericValueAsString(bv);
 
         Assert.That(value, Is.EqualTo("1234567890"));
     }
@@ -420,10 +416,10 @@ public class Z3ModelValueExtractionTests
 
         var model = solver.GetModel();
 
-        Assert.That(model.GetBitVecValueAsString(bv8), Is.EqualTo("100"));
-        Assert.That(model.GetBitVecValueAsString(bv16), Is.EqualTo("1000"));
-        Assert.That(model.GetBitVecValueAsString(bv32), Is.EqualTo("100000"));
-        Assert.That(model.GetBitVecValueAsString(bv64), Is.EqualTo("1000000000"));
+        Assert.That(model.GetNumericValueAsString(bv8), Is.EqualTo("100"));
+        Assert.That(model.GetNumericValueAsString(bv16), Is.EqualTo("1000"));
+        Assert.That(model.GetNumericValueAsString(bv32), Is.EqualTo("100000"));
+        Assert.That(model.GetNumericValueAsString(bv64), Is.EqualTo("1000000000"));
     }
 
     [Test]
@@ -442,8 +438,8 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var xValue = model.GetBitVecValueAsString(x);
-        var yValue = model.GetBitVecValueAsString(y);
+        var xValue = model.GetNumericValueAsString(x);
+        var yValue = model.GetNumericValueAsString(y);
 
         Assert.That(xValue, Is.EqualTo("20"));
         Assert.That(yValue, Is.EqualTo("30"));
@@ -465,7 +461,7 @@ public class Z3ModelValueExtractionTests
         solver.Assert(bv == context.BitVec(43, 8)); // Contradiction
 
         // Should throw on invalidated model
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsString(bv));
+        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(bv));
     }
 
     [Test]
@@ -480,7 +476,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBigInteger(bv);
+        var value = model.GetBitVec(bv).Value;
 
         Assert.That(value, Is.EqualTo(new BigInteger(42)));
     }
@@ -497,7 +493,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBigInteger(bv);
+        var value = model.GetBitVec(bv).Value;
 
         Assert.That(value, Is.EqualTo(BigInteger.Zero));
     }
@@ -514,7 +510,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBigInteger(bv);
+        var value = model.GetBitVec(bv).Value;
 
         Assert.That(value, Is.EqualTo(new BigInteger(255)));
     }
@@ -531,7 +527,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBigInteger(bv);
+        var value = model.GetBitVec(bv).Value;
 
         // -1 in 32-bit bitvector should be represented as 4294967295 (2^32 - 1)
         Assert.That(value, Is.EqualTo(new BigInteger(4294967295L)));
@@ -549,7 +545,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBigInteger(bv);
+        var value = model.GetBitVec(bv).Value;
 
         Assert.That(value, Is.EqualTo(new BigInteger(1234567890)));
     }
@@ -574,10 +570,10 @@ public class Z3ModelValueExtractionTests
 
         var model = solver.GetModel();
 
-        Assert.That(model.GetBitVecValueAsBigInteger(bv8), Is.EqualTo(new BigInteger(100)));
-        Assert.That(model.GetBitVecValueAsBigInteger(bv16), Is.EqualTo(new BigInteger(1000)));
-        Assert.That(model.GetBitVecValueAsBigInteger(bv32), Is.EqualTo(new BigInteger(100000)));
-        Assert.That(model.GetBitVecValueAsBigInteger(bv64), Is.EqualTo(new BigInteger(1000000000)));
+        Assert.That(model.GetBitVec(bv8).Value, Is.EqualTo(new BigInteger(100)));
+        Assert.That(model.GetBitVec(bv16).Value, Is.EqualTo(new BigInteger(1000)));
+        Assert.That(model.GetBitVec(bv32).Value, Is.EqualTo(new BigInteger(100000)));
+        Assert.That(model.GetBitVec(bv64).Value, Is.EqualTo(new BigInteger(1000000000)));
     }
 
     [Test]
@@ -596,8 +592,8 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var xValue = model.GetBitVecValueAsBigInteger(x);
-        var yValue = model.GetBitVecValueAsBigInteger(y);
+        var xValue = model.GetBitVec(x).Value;
+        var yValue = model.GetBitVec(y).Value;
 
         Assert.That(xValue, Is.EqualTo(new BigInteger(20)));
         Assert.That(yValue, Is.EqualTo(new BigInteger(30)));
@@ -619,7 +615,7 @@ public class Z3ModelValueExtractionTests
         solver.Assert(bv == context.BitVec(43, 8)); // Contradiction
 
         // Should throw on invalidated model
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsBigInteger(bv));
+        Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(bv));
     }
 
     [Test]
@@ -634,8 +630,8 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var intValue = model.GetBitVecValueAsBigInteger(bv);
-        var stringValue = model.GetBitVecValueAsString(bv);
+        var intValue = model.GetBitVec(bv).Value;
+        var stringValue = model.GetNumericValueAsString(bv);
 
         // Both methods should return the same value
         Assert.That(intValue, Is.EqualTo(new BigInteger(123456)));
@@ -655,7 +651,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsInt(bv);
+        var value = model.GetBitVec(bv).ToInt();
 
         Assert.That(value, Is.EqualTo(42));
     }
@@ -673,7 +669,11 @@ public class Z3ModelValueExtractionTests
 
         var model = solver.GetModel();
 
-        Assert.Throws<OverflowException>(() => model.GetBitVecValueAsInt(bv));
+        // Large sizes should work now that you removed the size check
+        var bitVec = model.GetBitVec(bv);
+        Assert.That(bitVec.Size, Is.EqualTo(64));
+        // For -1 in 64-bit, the signed value should be -1
+        Assert.That(bitVec.ToInt(), Is.EqualTo(-1));
     }
 
     [Test]
@@ -688,7 +688,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsUInt(bv);
+        var value = model.GetBitVec(bv).ToUInt();
 
         Assert.That(value, Is.EqualTo(255U));
     }
@@ -705,7 +705,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsLong(bv);
+        var value = model.GetBitVec(bv).ToLong();
 
         Assert.That(value, Is.EqualTo(1000000L));
     }
@@ -722,7 +722,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsULong(bv);
+        var value = model.GetBitVec(bv).ToULong();
 
         Assert.That(value, Is.EqualTo(4294967295UL));
     }
@@ -739,7 +739,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBinaryString(bv);
+        var value = model.GetBitVec(bv).ToBinaryString();
 
         Assert.That(value, Is.EqualTo("00101010"));
     }
@@ -756,7 +756,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBinaryString(bv);
+        var value = model.GetBitVec(bv).ToBinaryString();
 
         Assert.That(value, Is.EqualTo("0000"));
     }
@@ -773,7 +773,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVecValueAsBinaryString(bv);
+        var value = model.GetBitVec(bv).ToBinaryString();
 
         Assert.That(value, Is.EqualTo("1111"));
     }
@@ -792,13 +792,13 @@ public class Z3ModelValueExtractionTests
 
         var model = solver.GetModel();
 
-        Assert.That(model.GetBitVecValueAsBigInteger(bv), Is.EqualTo(new BigInteger(170)));
-        Assert.That(model.GetBitVecValueAsString(bv), Is.EqualTo("170"));
-        Assert.That(model.GetBitVecValueAsInt(bv), Is.EqualTo(170));
-        Assert.That(model.GetBitVecValueAsUInt(bv), Is.EqualTo(170U));
-        Assert.That(model.GetBitVecValueAsLong(bv), Is.EqualTo(170L));
-        Assert.That(model.GetBitVecValueAsULong(bv), Is.EqualTo(170UL));
-        Assert.That(model.GetBitVecValueAsBinaryString(bv), Is.EqualTo("10101010"));
+        Assert.That(model.GetBitVec(bv).Value, Is.EqualTo(new BigInteger(170)));
+        Assert.That(model.GetNumericValueAsString(bv), Is.EqualTo("170"));
+        Assert.That((int)model.GetBitVec(bv).Value, Is.EqualTo(170));
+        Assert.That(model.GetBitVec(bv).ToUInt(), Is.EqualTo(170U));
+        Assert.That((long)model.GetBitVec(bv).Value, Is.EqualTo(170L));
+        Assert.That(model.GetBitVec(bv).ToULong(), Is.EqualTo(170UL));
+        Assert.That(model.GetBitVec(bv).ToBinaryString(), Is.EqualTo("10101010"));
     }
 
     [Test]

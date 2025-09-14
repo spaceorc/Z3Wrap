@@ -1,6 +1,6 @@
-using System.Collections.Specialized;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using Z3Wrap.DataTypes;
 using Z3Wrap.Expressions;
 using Z3Wrap.Interop;
 
@@ -49,8 +49,7 @@ public sealed class Z3Model
     // Value Extraction Methods - Integer
     public BigInteger GetIntValue(Z3IntExpr expr)
     {
-        var evaluated = Evaluate(expr);
-        var valueStr = ExtractNumeralString(context, evaluated, expr);
+        var valueStr = GetNumericValueAsString(expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
             throw new InvalidOperationException($"Failed to parse integer value '{valueStr}' from expression {expr}");
@@ -74,94 +73,26 @@ public sealed class Z3Model
     }
 
     // Value Extraction Methods - Real
-    public Real GetRealValue(Z3RealExpr expr) => Real.Parse(GetRealValueAsString(expr));
+    public Real GetRealValue(Z3RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
 
-    public string GetRealValueAsString(Z3RealExpr expr)
+    public string GetRealValueAsString(Z3RealExpr expr) => GetNumericValueAsString(expr);
+
+    // Generic numeric value extraction
+    public string GetNumericValueAsString(Z3NumericExpr expr)
     {
         var evaluated = Evaluate(expr);
         return ExtractNumeralString(context, evaluated, expr);
     }
 
     // Value Extraction Methods - BitVector
-    public BigInteger GetBitVecValueAsBigInteger(Z3BitVecExpr expr)
+    public BitVec GetBitVec(Z3BitVecExpr expr)
     {
-        var evaluated = Evaluate(expr);
-        var valueStr = ExtractNumeralString(context, evaluated, expr);
+        var valueStr = GetNumericValueAsString(expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
             throw new InvalidOperationException($"Failed to parse bitvector value '{valueStr}' from expression {expr}");
 
-        return value;
-    }
-
-    public int GetBitVecValueAsInt(Z3BitVecExpr expr)
-    {
-        var bigIntValue = GetBitVecValueAsBigInteger(expr);
-
-        if (bigIntValue > int.MaxValue || bigIntValue < int.MinValue)
-            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of int");
-
-        return (int)bigIntValue;
-    }
-
-    public uint GetBitVecValueAsUInt(Z3BitVecExpr expr)
-    {
-        var bigIntValue = GetBitVecValueAsBigInteger(expr);
-
-        if (bigIntValue > uint.MaxValue || bigIntValue < uint.MinValue)
-            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of uint");
-
-        return (uint)bigIntValue;
-    }
-
-    public long GetBitVecValueAsLong(Z3BitVecExpr expr)
-    {
-        var bigIntValue = GetBitVecValueAsBigInteger(expr);
-
-        if (bigIntValue > long.MaxValue || bigIntValue < long.MinValue)
-            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of long");
-
-        return (long)bigIntValue;
-    }
-
-    public ulong GetBitVecValueAsULong(Z3BitVecExpr expr)
-    {
-        var bigIntValue = GetBitVecValueAsBigInteger(expr);
-
-        if (bigIntValue > ulong.MaxValue || bigIntValue < ulong.MinValue)
-            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of ulong");
-
-        return (ulong)bigIntValue;
-    }
-
-    public string GetBitVecValueAsBinaryString(Z3BitVecExpr expr)
-    {
-        var bigIntValue = GetBitVecValueAsBigInteger(expr);
-
-        if (bigIntValue < 0)
-            throw new ArgumentException($"Cannot convert negative bitvector value {bigIntValue} to binary string");
-
-        // Convert BigInteger to binary string manually
-        if (bigIntValue == 0)
-            return new string('0', (int)expr.Size);
-
-        var binaryStr = "";
-        var value = bigIntValue;
-        while (value > 0)
-        {
-            binaryStr = (value & 1) + binaryStr;
-            value >>= 1;
-        }
-
-        // Pad to the size of the bitvector
-        var size = (int)expr.Size;
-        return binaryStr.PadLeft(size, '0');
-    }
-
-    public string GetBitVecValueAsString(Z3BitVecExpr expr)
-    {
-        var evaluated = Evaluate(expr);
-        return ExtractNumeralString(context, evaluated, expr);
+        return new BitVec(value, expr.Size);
     }
 
     // Object Methods

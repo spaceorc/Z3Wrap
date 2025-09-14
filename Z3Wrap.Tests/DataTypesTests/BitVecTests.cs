@@ -1,0 +1,531 @@
+using System.Numerics;
+using Z3Wrap.DataTypes;
+
+namespace Z3Wrap.Tests.DataTypesTests;
+
+[TestFixture]
+public class BitVecTests
+{
+    [Test]
+    public void Constructor_WithValidValues_CreatesCorrectBitVec()
+    {
+        var bv = new BitVec(42, 8);
+
+        Assert.That(bv.Value, Is.EqualTo(new BigInteger(42)));
+        Assert.That(bv.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void Constructor_WithZeroSize_ThrowsException()
+    {
+        Assert.Throws<ArgumentException>(() => new BitVec(1, 0));
+    }
+
+    [Test]
+    public void Constructor_WithLargeSize_WorksCorrectly()
+    {
+        // Large sizes should work now that you removed the 1024 limit
+        var bv = new BitVec(1, 2048);
+        Assert.That(bv.Size, Is.EqualTo(2048));
+        Assert.That(bv.Value, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void Constructor_WithValueTooLarge_MasksCorrectly()
+    {
+        // 255 in 8 bits should remain 255
+        var bv1 = new BitVec(255, 8);
+        Assert.That(bv1.Value, Is.EqualTo(new BigInteger(255)));
+
+        // 256 in 8 bits should be masked to 0
+        var bv2 = new BitVec(256, 8);
+        Assert.That(bv2.Value, Is.EqualTo(new BigInteger(0)));
+
+        // 257 in 8 bits should be masked to 1
+        var bv3 = new BitVec(257, 8);
+        Assert.That(bv3.Value, Is.EqualTo(new BigInteger(1)));
+    }
+
+    [Test]
+    public void Constructor_WithNegativeValue_HandlesCorrectly()
+    {
+        // -1 in 8 bits should be 255 (two's complement)
+        var bv = new BitVec(-1, 8);
+        Assert.That(bv.Value, Is.EqualTo(new BigInteger(255)));
+    }
+
+    [Test]
+    public void Properties_ReturnsCorrectValues()
+    {
+        var bv = new BitVec(170, 8); // 10101010
+
+        Assert.That(bv.Value, Is.EqualTo(new BigInteger(170)));
+        Assert.That(bv.Size, Is.EqualTo(8));
+        Assert.That(bv.IsZero, Is.False);
+        Assert.That(bv.MaxValue, Is.EqualTo(new BigInteger(255))); // 2^8 - 1
+
+        var zero = new BitVec(0, 8);
+        Assert.That(zero.IsZero, Is.True);
+    }
+
+    [Test]
+    public void AsInt_WithValidSize_ReturnsCorrectValue()
+    {
+        var bv = new BitVec(42, 16);
+        Assert.That(bv.ToInt(), Is.EqualTo(42));
+    }
+
+    [Test]
+    public void ToInt_WithLargeSize_WorksCorrectly()
+    {
+        // Large sizes should work now that you removed the size check
+        var bv = new BitVec(42, 64);
+        Assert.That(bv.ToInt(), Is.EqualTo(42));
+    }
+
+    [Test]
+    public void AsInt_WithSignedInterpretation_WorksCorrectly()
+    {
+        // Test that the old "overflow" case now works correctly with signed interpretation
+        var bv = new BitVec(int.MaxValue + 1L, 32); // This becomes int.MinValue in signed interpretation
+        Assert.That(bv.ToInt(), Is.EqualTo(int.MinValue));
+    }
+
+    [Test]
+    public void AsUInt_WithValidValues_ReturnsCorrectValue()
+    {
+        var bv = new BitVec(4294967295L, 32); // uint.MaxValue
+        Assert.That(bv.ToUInt(), Is.EqualTo(uint.MaxValue));
+    }
+
+    [Test]
+    public void AsLong_WithPositiveValue_ReturnsCorrectValue()
+    {
+        var bv = new BitVec(1234567890, 64);
+        Assert.That(bv.ToLong(), Is.EqualTo(1234567890L));
+    }
+
+    [Test]
+    public void AsLong_WithNegativeValue_ReturnsCorrectSignedValue()
+    {
+        // -1 in 8-bit two's complement is 255 in unsigned representation
+        var bv = new BitVec(255, 8);
+        Assert.That(bv.ToLong(), Is.EqualTo(-1L));
+    }
+
+    [Test]
+    public void AsInt_WithNegativeValue_ReturnsCorrectSignedValue()
+    {
+        // -10 in 8-bit two's complement is 246 in unsigned representation
+        var bv = new BitVec(246, 8);
+        Assert.That(bv.ToInt(), Is.EqualTo(-10));
+    }
+
+    [Test]
+    public void AsInt_WithPositiveValue_ReturnsCorrectValue()
+    {
+        var bv = new BitVec(42, 8);
+        Assert.That(bv.ToInt(), Is.EqualTo(42));
+    }
+
+    [Test]
+    public void AsULong_WithValidValues_ReturnsCorrectValue()
+    {
+        var bv = new BitVec(ulong.MaxValue, 64);
+        Assert.That(bv.ToULong(), Is.EqualTo(ulong.MaxValue));
+    }
+
+    [Test]
+    public void AsBinary_ReturnsCorrectBinaryString()
+    {
+        var bv1 = new BitVec(170, 8); // 10101010
+        Assert.That(bv1.ToBinaryString(), Is.EqualTo("10101010"));
+
+        var bv2 = new BitVec(0, 4);
+        Assert.That(bv2.ToBinaryString(), Is.EqualTo("0000"));
+
+        var bv3 = new BitVec(15, 4); // 1111
+        Assert.That(bv3.ToBinaryString(), Is.EqualTo("1111"));
+    }
+
+    [Test]
+    public void ArithmeticOperators_WithSameSize_WorkCorrectly()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 8);
+
+        Assert.That((bv1 + bv2).Value, Is.EqualTo(new BigInteger(15)));
+        Assert.That((bv1 - bv2).Value, Is.EqualTo(new BigInteger(5)));
+        Assert.That((bv1 * bv2).Value, Is.EqualTo(new BigInteger(50)));
+        Assert.That((bv1 / bv2).Value, Is.EqualTo(new BigInteger(2))); // Unsigned division
+        Assert.That((bv1 % bv2).Value, Is.EqualTo(new BigInteger(0))); // Unsigned remainder
+    }
+
+    [Test]
+    public void ArithmeticOperators_WithDifferentSizes_ThrowException()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 16);
+
+        Assert.Throws<ArgumentException>(() => { var result = bv1 + bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 - bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 * bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 / bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 % bv2; });
+    }
+
+    [Test]
+    public void ArithmeticOperators_WithOverflow_MasksCorrectly()
+    {
+        var bv1 = new BitVec(200, 8); // Near max for 8-bit
+        var bv2 = new BitVec(100, 8);
+
+        var result = bv1 + bv2; // 300, should be masked to 44 (300 & 255)
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(44)));
+    }
+
+    [Test]
+    public void DivisionOperator_WithValidOperands_ReturnsCorrectResult()
+    {
+        var bv1 = new BitVec(20, 8);
+        var bv2 = new BitVec(4, 8);
+
+        var result = bv1 / bv2;
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(5)));
+        Assert.That(result.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void ModuloOperator_WithValidOperands_ReturnsCorrectResult()
+    {
+        var bv1 = new BitVec(23, 8);
+        var bv2 = new BitVec(5, 8);
+
+        var result = bv1 % bv2;
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(3)));
+        Assert.That(result.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void SignedDiv_WithPositiveOperands_ReturnsCorrectResult()
+    {
+        var bv1 = new BitVec(20, 8);
+        var bv2 = new BitVec(4, 8);
+
+        var result = bv1.SignedDiv(bv2);
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(5)));
+        Assert.That(result.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void SignedDiv_WithNegativeOperands_ReturnsCorrectResult()
+    {
+        // -10 / 3 in 8-bit two's complement
+        // -10 = 246 in unsigned representation
+        var bv1 = new BitVec(246, 8); // -10 in 8-bit two's complement
+        var bv2 = new BitVec(3, 8);
+
+        var result = bv1.SignedDiv(bv2);
+        // -10 / 3 = -3, which is 253 in 8-bit unsigned representation
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(253)));
+        Assert.That(result.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void SignedRem_WithValidOperands_ReturnsCorrectResult()
+    {
+        var bv1 = new BitVec(23, 8);
+        var bv2 = new BitVec(5, 8);
+
+        var result = bv1.SignedRem(bv2);
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(3)));
+        Assert.That(result.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void SignedMod_WithValidOperands_ReturnsCorrectResult()
+    {
+        // Test Z3-style signed modulo where result has same sign as divisor
+        var bv1 = new BitVec(246, 8); // -10 in 8-bit two's complement
+        var bv2 = new BitVec(3, 8);
+
+        var result = bv1.SignedMod(bv2);
+        // -10 mod 3 should be 2 (same sign as divisor)
+        Assert.That(result.Value, Is.EqualTo(new BigInteger(2)));
+        Assert.That(result.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void DivisionByZero_ThrowsException()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(0, 8);
+
+        Assert.Throws<DivideByZeroException>(() => { var result = bv1 / bv2; });
+        Assert.Throws<DivideByZeroException>(() => { var result = bv1 % bv2; });
+        Assert.Throws<DivideByZeroException>(() => bv1.SignedDiv(bv2));
+        Assert.Throws<DivideByZeroException>(() => bv1.SignedRem(bv2));
+        Assert.Throws<DivideByZeroException>(() => bv1.SignedMod(bv2));
+    }
+
+    [Test]
+    public void DivisionWithDifferentSizes_ThrowsException()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 16);
+
+        Assert.Throws<ArgumentException>(() => { var result = bv1 / bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 % bv2; });
+        Assert.Throws<ArgumentException>(() => bv1.SignedDiv(bv2));
+        Assert.Throws<ArgumentException>(() => bv1.SignedRem(bv2));
+        Assert.Throws<ArgumentException>(() => bv1.SignedMod(bv2));
+    }
+
+    [Test]
+    public void UnaryMinus_ReturnsCorrectValue()
+    {
+        var bv = new BitVec(5, 8);
+        var negated = -bv;
+
+        // -5 in 8-bit should be 251 (256 - 5)
+        Assert.That(negated.Value, Is.EqualTo(new BigInteger(251)));
+    }
+
+    [Test]
+    public void BitwiseOperators_WorkCorrectly()
+    {
+        var bv1 = new BitVec(170, 8); // 10101010
+        var bv2 = new BitVec(85, 8);  // 01010101
+
+        Assert.That((bv1 & bv2).Value, Is.EqualTo(new BigInteger(0)));     // 00000000
+        Assert.That((bv1 | bv2).Value, Is.EqualTo(new BigInteger(255)));   // 11111111
+        Assert.That((bv1 ^ bv2).Value, Is.EqualTo(new BigInteger(255)));   // 11111111
+        Assert.That((~bv1).Value, Is.EqualTo(new BigInteger(85)));         // 01010101
+    }
+
+    [Test]
+    public void ShiftOperators_WorkCorrectly()
+    {
+        var bv = new BitVec(5, 8); // 00000101
+
+        var leftShift = bv << 2;   // 00010100 = 20
+        Assert.That(leftShift.Value, Is.EqualTo(new BigInteger(20)));
+
+        var rightShift = bv >> 1;  // 00000010 = 2
+        Assert.That(rightShift.Value, Is.EqualTo(new BigInteger(2)));
+    }
+
+    [Test]
+    public void ShiftOperators_WithNegativeShift_ThrowException()
+    {
+        var bv = new BitVec(5, 8);
+
+        Assert.Throws<ArgumentException>(() => { var result = bv << -1; });
+        Assert.Throws<ArgumentException>(() => { var result = bv >> -1; });
+    }
+
+    [Test]
+    public void ComparisonOperators_WithSameSize_WorkCorrectly()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 8);
+        var bv3 = new BitVec(10, 8);
+
+        Assert.That(bv1 == bv3, Is.True);
+        Assert.That(bv1 != bv2, Is.True);
+        Assert.That(bv1 > bv2, Is.True);
+        Assert.That(bv1 >= bv2, Is.True);
+        Assert.That(bv1 >= bv3, Is.True);
+        Assert.That(bv2 < bv1, Is.True);
+        Assert.That(bv2 <= bv1, Is.True);
+        Assert.That(bv3 <= bv1, Is.True);
+    }
+
+    [Test]
+    public void ComparisonOperators_WithDifferentSizes_ThrowException()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 16);
+
+        Assert.Throws<ArgumentException>(() => { var result = bv1 < bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 <= bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 > bv2; });
+        Assert.Throws<ArgumentException>(() => { var result = bv1 >= bv2; });
+    }
+
+    [Test]
+    public void EqualityOperators_WithDifferentSizes_ReturnsFalse()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(10, 16);
+
+        Assert.That(bv1 == bv2, Is.False);
+        Assert.That(bv1 != bv2, Is.True);
+    }
+
+    [Test]
+    public void ImplicitConversion_FromBigIntegerTuple_WorksCorrectly()
+    {
+        var bv = new BitVec(42, 8);
+
+        Assert.That(bv.Value, Is.EqualTo(new BigInteger(42)));
+        Assert.That(bv.Size, Is.EqualTo(8));
+    }
+
+    [Test]
+    public void Equals_WorksCorrectly()
+    {
+        var bv1 = new BitVec(42, 8);
+        var bv2 = new BitVec(42, 8);
+        var bv3 = new BitVec(43, 8);
+        var bv4 = new BitVec(42, 16);
+
+        Assert.That(bv1.Equals(bv2), Is.True);
+        Assert.That(bv1.Equals(bv3), Is.False);
+        Assert.That(bv1.Equals(bv4), Is.False);
+        Assert.That(bv1.Equals((object)bv2), Is.True);
+        Assert.That(bv1.Equals(42), Is.False);
+    }
+
+    [Test]
+    public void GetHashCode_SameForEqualObjects()
+    {
+        var bv1 = new BitVec(42, 8);
+        var bv2 = new BitVec(42, 8);
+
+        Assert.That(bv1.GetHashCode(), Is.EqualTo(bv2.GetHashCode()));
+    }
+
+    [Test]
+    public void CompareTo_WorksCorrectly()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 8);
+        var bv3 = new BitVec(10, 8);
+
+        Assert.That(bv1.CompareTo(bv2), Is.GreaterThan(0));
+        Assert.That(bv2.CompareTo(bv1), Is.LessThan(0));
+        Assert.That(bv1.CompareTo(bv3), Is.EqualTo(0));
+    }
+
+    [Test]
+    public void CompareTo_WithDifferentSizes_ThrowsException()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 16);
+
+        Assert.Throws<ArgumentException>(() => bv1.CompareTo(bv2));
+    }
+
+    [Test]
+    public void ToString_WithDifferentFormats_ReturnsCorrectStrings()
+    {
+        var bv = new BitVec(170, 8); // 10101010
+
+        Assert.That(bv.ToString(), Is.EqualTo("170 (8-bit)"));
+        Assert.That(bv.ToString("D"), Is.EqualTo("170 (8-bit)"));
+        Assert.That(bv.ToString("DECIMAL"), Is.EqualTo("170 (8-bit)"));
+        Assert.That(bv.ToString("B"), Is.EqualTo("0b10101010 (8-bit)"));
+        Assert.That(bv.ToString("BINARY"), Is.EqualTo("0b10101010 (8-bit)"));
+        Assert.That(bv.ToString("X"), Is.EqualTo("0xAA (8-bit)"));
+        Assert.That(bv.ToString("HEX"), Is.EqualTo("0xAA (8-bit)"));
+        Assert.That(bv.ToString("V"), Is.EqualTo("170"));
+        Assert.That(bv.ToString("VALUE"), Is.EqualTo("170"));
+    }
+
+    [Test]
+    public void ToString_WithInvalidFormat_ThrowsException()
+    {
+        var bv = new BitVec(42, 8);
+        Assert.Throws<FormatException>(() => bv.ToString("Z"));
+    }
+
+    [Test]
+    public void StaticMethods_WorkCorrectly()
+    {
+        var zero = BitVec.Zero(8);
+        var one = BitVec.One(8);
+        var max = BitVec.Max(8);
+
+        Assert.That(zero.Value, Is.EqualTo(BigInteger.Zero));
+        Assert.That(one.Value, Is.EqualTo(BigInteger.One));
+        Assert.That(max.Value, Is.EqualTo(new BigInteger(255))); // 2^8 - 1
+
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(20, 8);
+
+        Assert.That(BitVec.Min(bv1, bv2), Is.EqualTo(bv1));
+        Assert.That(BitVec.Max(bv1, bv2), Is.EqualTo(bv2));
+    }
+
+    [Test]
+    public void StaticMethods_WithDifferentSizes_ThrowException()
+    {
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(20, 16);
+
+        Assert.Throws<ArgumentException>(() => BitVec.Min(bv1, bv2));
+        Assert.Throws<ArgumentException>(() => BitVec.Max(bv1, bv2));
+    }
+
+    [Test]
+    public void AsInt_SignedConversion_ReturnsCorrectSignedValues()
+    {
+        // Test positive value
+        var positive = new BitVec(42, 8);
+        Assert.That(positive.ToInt(), Is.EqualTo(42));
+
+        // Test negative value (MSB set) - 8-bit: 10000000 = 128 unsigned, -128 signed
+        var negative = new BitVec(128, 8);
+        Assert.That(negative.ToInt(), Is.EqualTo(-128));
+
+        // Test another negative - 8-bit: 11111111 = 255 unsigned, -1 signed
+        var minusOne = new BitVec(255, 8);
+        Assert.That(minusOne.ToInt(), Is.EqualTo(-1));
+
+        // Test 16-bit negative value: 32768 = 0x8000 = -32768 signed
+        var negative16 = new BitVec(32768, 16);
+        Assert.That(negative16.ToInt(), Is.EqualTo(-32768));
+    }
+
+    [Test]
+    public void AsLong_SignedConversion_ReturnsCorrectSignedValues()
+    {
+        // Test positive value
+        var positive = new BitVec(42, 8);
+        Assert.That(positive.ToLong(), Is.EqualTo(42L));
+
+        // Test negative value (MSB set) - 8-bit: 10000000 = 128 unsigned, -128 signed
+        var negative = new BitVec(128, 8);
+        Assert.That(negative.ToLong(), Is.EqualTo(-128L));
+
+        // Test 32-bit negative value
+        var negative32 = new BitVec(2147483648U, 32); // 0x80000000 = -2147483648 signed
+        Assert.That(negative32.ToLong(), Is.EqualTo(-2147483648L));
+
+        // Test 64-bit negative value
+        var maxUnsigned64 = (BigInteger.One << 63); // MSB set for 64-bit
+        var negative64 = new BitVec(maxUnsigned64, 64);
+        Assert.That(negative64.ToLong(), Is.EqualTo(long.MinValue));
+    }
+
+    [Test]
+    public void AsSignedBigInteger_ReturnsCorrectSignedValues()
+    {
+        // Test positive value
+        var positive = new BitVec(42, 8);
+        Assert.That(positive.ToSignedBigInteger(), Is.EqualTo(new BigInteger(42)));
+
+        // Test negative value (MSB set) - 8-bit: 10000000 = 128 unsigned, -128 signed
+        var negative = new BitVec(128, 8);
+        Assert.That(negative.ToSignedBigInteger(), Is.EqualTo(new BigInteger(-128)));
+
+        // Test another negative - 8-bit: 11111111 = 255 unsigned, -1 signed
+        var minusOne = new BitVec(255, 8);
+        Assert.That(minusOne.ToSignedBigInteger(), Is.EqualTo(new BigInteger(-1)));
+
+        // Test larger bit width - 16-bit: 65535 = -1 signed
+        var minusOne16 = new BitVec(65535, 16);
+        Assert.That(minusOne16.ToSignedBigInteger(), Is.EqualTo(new BigInteger(-1)));
+    }
+}
