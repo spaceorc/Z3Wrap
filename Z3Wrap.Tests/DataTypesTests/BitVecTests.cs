@@ -616,4 +616,169 @@ public class BitVecTests
         var overflowEx = Assert.Throws<OverflowException>(() => large.ToInt());
         Assert.That(overflowEx.Message, Does.Contain("Unsigned value"));
     }
+
+    [Test]
+    public void ToInt_WithValueTooLarge_ThrowsOverflowException()
+    {
+        // Create BitVec with value larger than int.MaxValue (2147483647)
+        var largeValue = new BigInteger(int.MaxValue) + 1;
+        var bv = new BitVec(largeValue, 64);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToInt());
+        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of int"));
+    }
+
+    [Test]
+    public void ToInt_WithMaxIntValue_DoesNotThrow()
+    {
+        // Boundary test: int.MaxValue should work
+        var bv = new BitVec(int.MaxValue, 32);
+        Assert.That(bv.ToInt(), Is.EqualTo(int.MaxValue));
+    }
+
+    [Test]
+    public void ToSignedInt_WithValueTooLarge_ThrowsOverflowException()
+    {
+        // Create 33-bit value that when interpreted as signed exceeds int.MaxValue
+        // Use a value that when sign-extended would be > int.MaxValue
+        var largePositive = new BigInteger(int.MaxValue) + 1;
+        var bv = new BitVec(largePositive, 64);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToSignedInt());
+        Assert.That(ex.Message, Does.Contain("Signed value"));
+        Assert.That(ex.Message, Does.Contain("is outside the range of int"));
+    }
+
+    [Test]
+    public void ToSignedInt_WithValueTooSmall_ThrowsOverflowException()
+    {
+        // Create a value that when interpreted as signed is < int.MinValue
+        // For this we need more than 32 bits with MSB set to create a very negative number
+        var bv = new BitVec(BigInteger.Pow(2, 33) - 1, 34); // 34-bit value with all bits set
+        // This represents -1 in 34-bit two's complement, but that's fine for int
+        // Let's create something that's actually too small
+        var veryLarge = BigInteger.Pow(2, 62); // This will be a very negative number when sign-extended from 63 bits
+        var bv2 = new BitVec(veryLarge, 63);
+
+        var ex = Assert.Throws<OverflowException>(() => bv2.ToSignedInt());
+        Assert.That(ex.Message, Does.Contain("Signed value"));
+        Assert.That(ex.Message, Does.Contain("is outside the range of int"));
+    }
+
+    [Test]
+    public void ToUInt_WithValueTooLarge_ThrowsOverflowException()
+    {
+        // Create BitVec with value larger than uint.MaxValue (4294967295)
+        var largeValue = new BigInteger(uint.MaxValue) + 1;
+        var bv = new BitVec(largeValue, 64);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToUInt());
+        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of uint"));
+    }
+
+    [Test]
+    public void ToUInt_WithMaxUIntValue_DoesNotThrow()
+    {
+        // Boundary test: uint.MaxValue should work
+        var bv = new BitVec(uint.MaxValue, 32);
+        Assert.That(bv.ToUInt(), Is.EqualTo(uint.MaxValue));
+    }
+
+    [Test]
+    public void ToLong_WithValueTooLarge_ThrowsOverflowException()
+    {
+        // Create BitVec with value larger than long.MaxValue
+        var largeValue = new BigInteger(long.MaxValue) + 1;
+        var bv = new BitVec(largeValue, 128);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToLong());
+        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of long"));
+    }
+
+    [Test]
+    public void ToLong_WithMaxLongValue_DoesNotThrow()
+    {
+        // Boundary test: long.MaxValue should work
+        var bv = new BitVec(long.MaxValue, 64);
+        Assert.That(bv.ToLong(), Is.EqualTo(long.MaxValue));
+    }
+
+    [Test]
+    public void ToSignedLong_WithValueTooLarge_ThrowsOverflowException()
+    {
+        // Create value that when interpreted as signed exceeds long.MaxValue
+        var largePositive = new BigInteger(long.MaxValue) + 1;
+        var bv = new BitVec(largePositive, 128);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToSignedLong());
+        Assert.That(ex.Message, Does.Contain("Signed value"));
+        Assert.That(ex.Message, Does.Contain("is outside the range of long"));
+    }
+
+    [Test]
+    public void ToSignedLong_WithValueTooSmall_ThrowsOverflowException()
+    {
+        // Create a value that when interpreted as signed is < long.MinValue
+        // Use a 65-bit value with MSB set to create a number smaller than long.MinValue
+        var veryLarge = BigInteger.Pow(2, 126); // This will be very negative in 127-bit two's complement
+        var bv = new BitVec(veryLarge, 127);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToSignedLong());
+        Assert.That(ex.Message, Does.Contain("Signed value"));
+        Assert.That(ex.Message, Does.Contain("is outside the range of long"));
+    }
+
+    [Test]
+    public void ToULong_WithValueTooLarge_ThrowsOverflowException()
+    {
+        // Create BitVec with value larger than ulong.MaxValue
+        var largeValue = new BigInteger(ulong.MaxValue) + 1;
+        var bv = new BitVec(largeValue, 128);
+
+        var ex = Assert.Throws<OverflowException>(() => bv.ToULong());
+        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of ulong"));
+    }
+
+    [Test]
+    public void ToULong_WithMaxULongValue_DoesNotThrow()
+    {
+        // Boundary test: ulong.MaxValue should work
+        var bv = new BitVec(ulong.MaxValue, 64);
+        Assert.That(bv.ToULong(), Is.EqualTo(ulong.MaxValue));
+    }
+
+    [Test]
+    public void ConversionMethods_WithBoundaryValues_HandleCorrectly()
+    {
+        // Test all boundary values work correctly (no overflow)
+
+        // Test int boundaries
+        var intMax = new BitVec(int.MaxValue, 32);
+        Assert.That(intMax.ToInt(), Is.EqualTo(int.MaxValue));
+
+        // Test uint boundaries
+        var uintMax = new BitVec(uint.MaxValue, 32);
+        Assert.That(uintMax.ToUInt(), Is.EqualTo(uint.MaxValue));
+
+        // Test long boundaries
+        var longMax = new BitVec(long.MaxValue, 64);
+        Assert.That(longMax.ToLong(), Is.EqualTo(long.MaxValue));
+
+        // Test ulong boundaries
+        var ulongMax = new BitVec(ulong.MaxValue, 64);
+        Assert.That(ulongMax.ToULong(), Is.EqualTo(ulong.MaxValue));
+
+        // Test signed boundaries
+        var signedIntMax = new BitVec(int.MaxValue, 32);
+        Assert.That(signedIntMax.ToSignedInt(), Is.EqualTo(int.MaxValue));
+
+        var signedIntMin = new BitVec(BigInteger.Pow(2, 31), 32); // int.MinValue in two's complement
+        Assert.That(signedIntMin.ToSignedInt(), Is.EqualTo(int.MinValue));
+
+        var signedLongMax = new BitVec(long.MaxValue, 64);
+        Assert.That(signedLongMax.ToSignedLong(), Is.EqualTo(long.MaxValue));
+
+        var signedLongMin = new BitVec(BigInteger.Pow(2, 63), 64); // long.MinValue in two's complement
+        Assert.That(signedLongMin.ToSignedLong(), Is.EqualTo(long.MinValue));
+    }
 }
