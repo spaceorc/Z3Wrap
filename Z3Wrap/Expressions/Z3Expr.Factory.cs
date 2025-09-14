@@ -17,9 +17,16 @@ public abstract partial class Z3Expr
             Z3SortKind.Bool => new Z3BoolExpr(context, handle),
             Z3SortKind.Int => new Z3IntExpr(context, handle),
             Z3SortKind.Real => new Z3RealExpr(context, handle),
+            Z3SortKind.BV => CreateBitVectorExpression(context, handle, sort),
             Z3SortKind.Array => CreateArrayExpression(context, handle, sort),
             _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}")
         };
+    }
+
+    private static Z3BitVecExpr CreateBitVectorExpression(Z3Context context, IntPtr handle, IntPtr bvSort)
+    {
+        var size = NativeMethods.Z3GetBvSortSize(context.Handle, bvSort);
+        return new Z3BitVecExpr(context, handle, size);
     }
 
     private static Z3Expr CreateArrayExpression(Z3Context context, IntPtr handle, IntPtr arraySort)
@@ -32,6 +39,7 @@ public abstract partial class Z3Expr
             Z3SortKind.Bool => ArrayFactory<Z3BoolExpr>.CreateArray(context, handle, arraySort),
             Z3SortKind.Int => ArrayFactory<Z3IntExpr>.CreateArray(context, handle, arraySort),
             Z3SortKind.Real => ArrayFactory<Z3RealExpr>.CreateArray(context, handle, arraySort),
+            // Z3SortKind.BV => ArrayFactory<Z3BitVecExpr>.CreateArray(context, handle, arraySort),
             _ => throw new InvalidOperationException($"Unsupported array domain sort kind: {domainKind}")
         };
     }
@@ -48,8 +56,16 @@ public abstract partial class Z3Expr
                 Z3SortKind.Bool => new Z3ArrayExpr<TIndex, Z3BoolExpr>(context, handle),
                 Z3SortKind.Int => new Z3ArrayExpr<TIndex, Z3IntExpr>(context, handle),
                 Z3SortKind.Real => new Z3ArrayExpr<TIndex, Z3RealExpr>(context, handle),
+                // Z3SortKind.BV => CreateBitVectorArrayRange<TIndex>(context, handle, rangeSort),
                 _ => throw new InvalidOperationException($"Unsupported array range sort kind: {rangeKind}")
             };
         }
+
+        // private static Z3Expr CreateBitVectorArrayRange<TIndexType>(Z3Context context, IntPtr handle, IntPtr rangeSort)
+        //     where TIndexType : Z3Expr
+        // {
+        //     var size = NativeMethods.Z3GetBvSortSize(context.Handle, rangeSort);
+        //     return new Z3ArrayExpr<TIndexType, Z3BitVecExpr>(context, handle);
+        // }
     }
 }

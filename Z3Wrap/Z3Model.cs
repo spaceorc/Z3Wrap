@@ -91,6 +91,18 @@ public sealed class Z3Model
         return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract real value from expression {expr}");
     }
 
+    // Value Extraction Methods - BitVector
+    public string GetBitVecValueAsString(Z3BitVecExpr expr)
+    {
+        var evaluated = Evaluate(expr);
+
+        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
+            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
+
+        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
+        return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract bitvector value from expression {expr}");
+    }
+
     // Object Methods
     public override string ToString()
     {

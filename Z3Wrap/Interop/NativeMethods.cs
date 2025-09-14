@@ -117,7 +117,46 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_const_array");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_array_sort_domain");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_array_sort_range");
-            
+
+            // Bitvector functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bv_sort");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvudiv");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsdiv");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvurem");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsrem");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsmod");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvand");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvor");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvxor");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvnot");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvneg");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvshl");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvlshr");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvashr");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvult");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvslt");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvule");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsle");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvugt");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsgt");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvuge");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsge");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_sign_ext");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_zero_ext");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_extract");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_repeat");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bv2int");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2bv");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd_no_overflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub_no_overflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub_no_underflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul_no_overflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_bv_sort_size");
+
             // Solver functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_solver");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_simple_solver");
@@ -515,6 +554,266 @@ public static class NativeMethods
         return func(ctx, arraySort);
     }
 
+    // Bitvector theory methods
+    public static IntPtr Z3MkBvSort(IntPtr ctx, uint sz)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSortDelegate>(funcPtr);
+        return func(ctx, sz);
+    }
+
+    public static IntPtr Z3MkBvadd(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvadd");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvaddDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsub(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsub");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsubDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvmul(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvmul");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvmulDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvudiv(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvudiv");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvudivDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsdiv(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsdivDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvurem(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvurem");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvuremDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsrem(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsrem");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsremDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsmod(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsmod");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsmodDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvand(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvand");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvandDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvor");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvorDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvxor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvxor");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvxorDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvnot(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvnot");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvnotDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
+    public static IntPtr Z3MkBvneg(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvneg");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvnegDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
+    public static IntPtr Z3MkBvshl(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvshl");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvshlDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvlshr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvlshr");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvlshrDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvashr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvashr");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvashrDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvult(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvult");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvultDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvslt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvslt");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsltDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvule(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvule");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvuleDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsle(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsle");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsleDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvugt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvugt");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvugtDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsgt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsgt");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsgtDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvuge(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvuge");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvugeDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsge(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsge");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsgeDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkSignExt(IntPtr ctx, uint i, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_sign_ext");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSignExtDelegate>(funcPtr);
+        return func(ctx, i, t1);
+    }
+
+    public static IntPtr Z3MkZeroExt(IntPtr ctx, uint i, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_zero_ext");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkZeroExtDelegate>(funcPtr);
+        return func(ctx, i, t1);
+    }
+
+    public static IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_extract");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkExtractDelegate>(funcPtr);
+        return func(ctx, high, low, t1);
+    }
+
+    public static IntPtr Z3MkRepeat(IntPtr ctx, uint i, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_repeat");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkRepeatDelegate>(funcPtr);
+        return func(ctx, i, t1);
+    }
+
+    public static IntPtr Z3MkBv2int(IntPtr ctx, IntPtr t1, bool isSigned)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBv2intDelegate>(funcPtr);
+        return func(ctx, t1, isSigned);
+    }
+
+    public static IntPtr Z3MkInt2bv(IntPtr ctx, uint n, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_int2bv");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkInt2bvDelegate>(funcPtr);
+        return func(ctx, n, t1);
+    }
+
+    public static IntPtr Z3MkBvaddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvaddNoOverflowDelegate>(funcPtr);
+        return func(ctx, t1, t2, isSigned);
+    }
+
+    public static IntPtr Z3MkBvsubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_overflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsubNoOverflowDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvsubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvsubNoUnderflowDelegate>(funcPtr);
+        return func(ctx, t1, t2, isSigned);
+    }
+
+    public static IntPtr Z3MkBvmulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvmulNoOverflowDelegate>(funcPtr);
+        return func(ctx, t1, t2, isSigned);
+    }
+
+    public static IntPtr Z3MkBvmulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_underflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvmulNoUnderflowDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetBvSortSizeDelegate>(funcPtr);
+        return func(ctx, sort);
+    }
+
     // Solver functions
     public static IntPtr Z3MkSolver(IntPtr ctx)
     {
@@ -718,6 +1017,45 @@ public static class NativeMethods
     private delegate IntPtr Z3MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
     private delegate IntPtr Z3GetArraySortDomainDelegate(IntPtr ctx, IntPtr arraySort);
     private delegate IntPtr Z3GetArraySortRangeDelegate(IntPtr ctx, IntPtr arraySort);
+
+    // Bitvector theory delegates
+    private delegate IntPtr Z3MkBvSortDelegate(IntPtr ctx, uint sz);
+    private delegate IntPtr Z3MkBvaddDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsubDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvmulDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvudivDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsdivDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvuremDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsremDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsmodDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvandDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvxorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvnotDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr Z3MkBvnegDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr Z3MkBvshlDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvlshrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvashrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvultDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsltDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvuleDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsleDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvugtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsgtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvugeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsgeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkSignExtDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr Z3MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr Z3MkExtractDelegate(IntPtr ctx, uint high, uint low, IntPtr t1);
+    private delegate IntPtr Z3MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr Z3MkBv2intDelegate(IntPtr ctx, IntPtr t1, bool isSigned);
+    private delegate IntPtr Z3MkInt2bvDelegate(IntPtr ctx, uint n, IntPtr t1);
+    private delegate IntPtr Z3MkBvaddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned);
+    private delegate IntPtr Z3MkBvsubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvsubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned);
+    private delegate IntPtr Z3MkBvmulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned);
+    private delegate IntPtr Z3MkBvmulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate uint Z3GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
     
     // Solver delegates
     private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);
