@@ -50,4 +50,5 @@ public sealed class Z3IntExpr : Z3NumericExpr
     public Z3IntExpr Abs() => Context.Abs(this);
     
     public Z3RealExpr ToReal() => Context.ToReal(this);
+    public Z3BitVecExpr ToBitVec(uint size) => Context.ToBitVec(this, size);
 }

@@ -253,4 +253,83 @@ public class TypeConversionTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
     }
+
+    [Test]
+    public void IntExprToBitVec_EquivalentToContextMethod()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var result = x.ToBitVec(32);
+
+        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(result.Context, Is.SameAs(context));
+        Assert.That(result, Is.InstanceOf<Z3BitVecExpr>());
+        Assert.That(result.Size, Is.EqualTo(32));
+
+        // Test equivalent to context extension method
+        var contextResult = context.ToBitVec(x, 32);
+        solver.Assert(context.Eq(result, contextResult));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        // Test that int 42 becomes 32-bit bitvector 42
+        solver.Reset();
+        solver.Assert(context.Eq(x, context.Int(42)));
+        solver.Assert(context.Eq(result, context.BitVec(42, 32)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var xValue = model.GetIntValue(x);
+        var resultValue = model.GetBitVec(result);
+
+        Assert.That(xValue, Is.EqualTo(new BigInteger(42)));
+        Assert.That(resultValue.Value, Is.EqualTo(new BigInteger(42)));
+    }
+
+    [Test]
+    public void IntExprToBitVec_WithLargeValue_SolvesCorrectly()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var bv = x.ToBitVec(64);
+
+        // Test with a large value that fits in 64 bits
+        var largeValue = BigInteger.Parse("1234567890123456789");
+        solver.Assert(context.Eq(x, context.Int(largeValue)));
+        solver.Assert(context.Eq(bv, context.BitVec(largeValue, 64)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var xValue = model.GetIntValue(x);
+        var bvValue = model.GetBitVec(bv);
+
+        Assert.That(xValue, Is.EqualTo(largeValue));
+        Assert.That(bvValue.Value, Is.EqualTo(largeValue));
+    }
+
+    [Test]
+    public void IntExprToBitVec_WithNegativeValue_SolvesCorrectly()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var bv = x.ToBitVec(8);
+
+        // Test with negative value that becomes positive in bitvector representation
+        solver.Assert(context.Eq(x, context.Int(-1)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var xValue = model.GetIntValue(x);
+        var bvValue = model.GetBitVec(bv);
+
+        Assert.That(xValue, Is.EqualTo(new BigInteger(-1)));
+        Assert.That(bvValue.Value, Is.EqualTo(new BigInteger(255))); // -1 in 8-bit two's complement is 255
+    }
 }
