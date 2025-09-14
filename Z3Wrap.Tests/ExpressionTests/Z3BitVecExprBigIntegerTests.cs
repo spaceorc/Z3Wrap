@@ -1,6 +1,4 @@
 using System.Numerics;
-using Z3Wrap.DataTypes;
-using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.ExpressionTests;
 

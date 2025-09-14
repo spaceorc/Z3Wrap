@@ -1,7 +1,6 @@
 #pragma warning disable NUnit2021 // Comparison of value types is allowed here for BitVec tests
 
 using Z3Wrap.DataTypes;
-using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.ExpressionTests;
 
