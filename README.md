@@ -247,6 +247,7 @@ using var solver = context.CreateSolver();
 - **`Z3Expr`** - Base class for all expressions
 - **`Z3ArrayExpr<TIndex, TValue>`** - Generic arrays with type-safe indexing
 - **`Real`** - Exact rational arithmetic class
+- **`BitVec`** - Fixed-width bitvector value type with overflow-safe conversions
 
 ### Operators
 
