@@ -7,7 +7,6 @@ A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision a
 - **Unlimited Precision** - BigInteger for integers, exact rational arithmetic for reals
 - **Type-Safe** - Strongly typed expressions with operator overloading
 - **Natural Syntax** - Write constraints using familiar operators: `x + y == 10`, `p.Implies(q)`
-- **Scoped Context** - Clean implicit conversions with `using var scope = context.SetUp()`
 - **Arrays** - Full Z3 array theory support with generic type safety
 - **Solver Scopes** - Push/pop operations for backtracking constraint sets
 - **Zero Configuration** - Automatically discovers and loads Z3 library
