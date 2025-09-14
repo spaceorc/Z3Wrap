@@ -45,16 +45,42 @@ Created `Z3Wrap/Expressions/Z3BitVecExpr.cs` with:
 - Creation, extraction, edge cases, overflow handling ✅
 - All 480 tests passing ✅
 
-## Phase 1A: BitVec Value Type ⏳ IN PROGRESS
+## Phase 1A: BitVec Value Type ✅ COMPLETED
 
-### 1A.1 BitVec Readonly Struct ⏳
-Create `Z3Wrap/BitVec.cs` as `readonly struct` with:
-- Value semantics and immutability
-- `BigInteger Value` and `uint Size` properties
-- All conversion methods (`AsInt()`, `AsBinary()`, etc.)
-- Meaningful binary operators (`+`, `-`, `*`, `/`, `&`, `|`, `^`, `<<`, `>>`)
-- Comparison operators with proper overflow handling
-- Comprehensive test coverage
+### 1A.1 BitVec Readonly Struct ✅
+Created `Z3Wrap/BitVec.cs` as `readonly struct` with:
+- Value semantics and immutability ✅
+- `BigInteger Value` and `uint Size` properties ✅
+- All conversion methods (`ToInt()`, `ToBinaryString()`, etc.) ✅
+- Meaningful binary operators (`+`, `-`, `*`, `/`, `&`, `|`, `^`, `<<`, `>>`) ✅
+- Comparison operators with proper overflow handling ✅
+- Comprehensive test coverage ✅
+
+## Phase 1B: Z3BitVecExpr Operators ✅ COMPLETED
+
+### 1B.1 Complete Operator Overloading ✅
+Implemented all operators in `Z3BitVecExpr` with:
+- **Arithmetic operators**: `+`, `-`, `*`, `/`, `%`, unary `-` (unsigned by default) ✅
+- **Bitwise operators**: `&`, `|`, `^`, `~` ✅
+- **Shift operators**: `<<` (logical left), `>>` (logical right) ✅
+- **Comparison operators**: `<`, `<=`, `>`, `>=` (unsigned by default) ✅
+- **Explicit signed methods**: `SignedLt()`, `SignedDiv()`, `ArithmeticShiftRight()` ✅
+
+### 1B.2 Z3Context Extension Methods ✅
+Added comprehensive BitVec operation methods:
+- Arithmetic: `Add`, `Sub`, `Mul`, `UDiv`, `SDiv`, `URem`, `SRem`, `SMod`, `Neg` ✅
+- Bitwise: `And`, `Or`, `Xor`, `Not` ✅
+- Shift: `Shl`, `Lshr`, `Ashr` ✅
+- Comparison: `Ult`, `Slt`, `Ule`, `Sle`, `Ugt`, `Sgt`, `Uge`, `Sge` ✅
+
+### 1B.3 Comprehensive Testing ✅
+Created `Z3BitVecExprOperatorTests.cs` with 9 tests covering:
+- All arithmetic operations with solver verification ✅
+- Bitwise operations with binary value testing ✅
+- Shift operations (logical and arithmetic) ✅
+- Unsigned vs signed comparison differences ✅
+- Complex chained expressions ✅
+- All 607 tests passing ✅
 
 ## Phase 2: Type System (Size Safety) 🔄 PLANNED
 
@@ -71,30 +97,6 @@ Create `Z3Wrap/BitVec.cs` as `readonly struct` with:
   - **Decimal**: `(_ bv10 32)` (32 bits, value 10)
 - Implicit conversions from appropriate .NET types based on size
 - BitVector utility class for cross-size operations
-
-## Phase 3: Operations Implementation 🔄 PLANNED
-
-### 3.1 Context Extensions
-Create `Z3ContextExtensions.BitVectors.cs` with:
-- Bitvector constant creation: `BitVecConst<TSize>(name)`
-- Literal creation: `BitVec<TSize>(value)`, `BitVec(binaryString)`, `BitVec(hexString)`
-- Type-safe size conversions and extensions
-
-### 3.2 Arithmetic Operations
-- Full arithmetic with overflow detection options
-- Both signed and unsigned variants where applicable
-- Division by zero handling
-- Modular arithmetic semantics
-
-### 3.3 Bitwise Operations
-- Complete bitwise operator support (`&`, `|`, `^`, `~`)
-- Bit manipulation: extract, extend, repeat
-- Shift operations with proper semantics
-
-### 3.4 Comparison Operations
-- Signed vs unsigned comparison operators
-- Type-safe comparisons with size matching
-- Bit-level equality and inequality
 
 ## Phase 4: Advanced Features 🔄 PLANNED
 
@@ -175,10 +177,18 @@ if (solver.Check() == Z3Status.Satisfiable) {
 
 - ✅ **Research Complete**: Comprehensive Z3 bitvector API analysis
 - ✅ **Phase 1 COMPLETED**: Core infrastructure with 35 tests, all functionality working
-- ⏳ **Phase 1A IN PROGRESS**: BitVec readonly struct value type
-- 🔄 **Phase 2-5 PLANNED**: Advanced features and comprehensive testing
+- ✅ **Phase 1A COMPLETED**: BitVec readonly struct value type with full operator support
+- ✅ **Phase 1B COMPLETED**: Z3BitVecExpr operators with comprehensive testing (607 tests passing)
+- 🔄 **Phase 2+ PLANNED**: Advanced features and type system
 
 ## Recent Achievements
+
+### September 2024
+- **Completed full operator implementation** for Z3BitVecExpr with natural C# syntax
+- **All operators working**: arithmetic (+, -, *, /, %), bitwise (&, |, ^, ~), shift (<<, >>), comparison (<, <=, >, >=)
+- **Signed operation support** with explicit methods for signed semantics
+- **Comprehensive test suite** with 9 new operator tests covering all functionality
+- **607 tests passing** including complete BitVec and Z3BitVecExpr operator coverage
 
 ### December 2024
 - **Completed comprehensive BitVec foundation** with all core functionality
@@ -186,4 +196,4 @@ if (solver.Check() == Z3Status.Satisfiable) {
 - **Clean architecture** with Z3NumericExpr base class and consolidated extraction
 - **Removed non-existent functionality** (hex extraction) and implemented manual conversions
 - **Enhanced error handling** with detailed Z3 library loading diagnostics
-- **All 480 tests passing** with robust BitVec implementation
+- **BitVec readonly struct** with complete value semantics and operator overloading
