@@ -8,11 +8,13 @@ Z3Wrap is a modern C# wrapper for Microsoft's Z3 theorem prover with **complete 
 - ✅ **Foundation Complete**: Context management, expression types, memory management
 - ✅ **Solving Complete**: Z3Solver with full constraint solving capabilities
 - ✅ **Model Extraction Complete**: Full value extraction from satisfying assignments with unlimited precision
-- ✅ **Extended Operations Complete**: Boolean logic, arithmetic, comparisons, if-then-else
+- ✅ **Extended Operations Complete**: Boolean logic, arithmetic, comparisons, if-then-else, min/max
 - ✅ **Type Conversions Complete**: Z3_mk_int2real and Z3_mk_real2int support with ToReal()/ToInt() methods
+- ✅ **Arrays Complete**: Full Z3 array theory support with generic type safety
+- ✅ **Scoped Context Complete**: Implicit conversions via SetUp() for clean natural syntax
 - ✅ **Architecture Mature**: Comprehensive test coverage, hierarchical disposal, modern C# patterns
 - ✅ **Unlimited Precision**: BigInteger integration for integers, Real class for exact rationals
-- ✅ **355 Tests Passing**: Comprehensive test suite covering all functionality including type conversions
+- ✅ **400+ Tests Passing**: Comprehensive test suite covering all functionality including arrays and scoped contexts
 
 ## Current Architecture
 
@@ -20,26 +22,37 @@ Z3Wrap is a modern C# wrapper for Microsoft's Z3 theorem prover with **complete 
 ```
 Z3Wrap/
 ├── Expressions/         # Expression hierarchy (Z3Wrap.Expressions)
-│   ├── Z3Expr.cs       # Base abstract expression class
-│   ├── Z3BoolExpr.cs   # Boolean expressions
-│   ├── Z3IntExpr.cs    # Integer expressions  
-│   └── Z3RealExpr.cs   # Real number expressions
+│   ├── Z3Expr.cs           # Base abstract expression class with factory methods
+│   ├── Z3BoolExpr.cs       # Boolean expressions
+│   ├── Z3IntExpr.cs        # Integer expressions with BigInteger
+│   ├── Z3RealExpr.cs       # Real number expressions with exact rationals
+│   └── Z3ArrayExpr.cs      # Generic arrays with type-safe indexing
 ├── Interop/            # Implementation details (Z3Wrap.Interop)
-│   ├── NativeMethods.cs      # P/Invoke declarations
-│   ├── AnsiStringPtr.cs      # String marshalling helper
-│   └── Z3SortKind.cs         # Z3 sort enumeration
+│   ├── NativeMethods.cs    # P/Invoke declarations with array methods
+│   ├── AnsiStringPtr.cs    # String marshalling helper
+│   ├── Z3SortKind.cs       # Z3 sort enumeration
+│   └── Z3BoolValue.cs      # Boolean value enumeration
 └── (root)              # Core API (Z3Wrap namespace)
-    ├── Z3Context.cs            # Main context class
-    ├── Z3Solver.cs             # Solver operations  
-    ├── Z3Model.cs              # Model extraction
-    ├── Z3Status.cs             # Status enumeration
-    ├── Z3BoolValue.cs          # Boolean value enumeration
-    └── Z3ContextExtensions.*.cs # Extension methods
+    ├── Z3Context.cs                    # Main context class with SetUp() scoping
+    ├── Z3Solver.cs                     # Solver operations with push/pop
+    ├── Z3Model.cs                      # Model extraction
+    ├── Z3Status.cs                     # Status enumeration
+    ├── Real.cs                         # Exact rational arithmetic class
+    └── Z3ContextExtensions.*.cs        # Extension methods (split by functionality)
+        ├── Z3ContextExtensions.cs          # Core extension methods
+        ├── Z3ContextExtensions.Arrays.cs   # Array theory operations
+        ├── Z3ContextExtensions.BoolOperators.cs # Boolean operations
+        ├── Z3ContextExtensions.Comparison.cs   # Comparison operations
+        ├── Z3ContextExtensions.Equality.cs     # Equality operations
+        ├── Z3ContextExtensions.MinMax.cs       # Min/Max operations
+        ├── Z3ContextExtensions.NumericOperators.cs # Arithmetic operations
+        └── Z3ContextExtensions.Primitives.cs   # Primitive value creation
 ```
 
 ### Current Usage (Fully Working)
 ```csharp
 using var context = new Z3Context();
+using var scope = context.SetUp(); // Enable implicit conversions (recommended)
 
 // Create variables and constraints
 var x = context.IntConst("x");
@@ -48,22 +61,34 @@ var r = context.RealConst("r");
 var p = context.BoolConst("p");
 
 using var solver = context.CreateSolver();
-solver.Assert(x + y == context.Int(10));
-solver.Assert(x > context.Int(0));
-solver.Assert(p.Implies(x % 2 == context.Int(0))); // Extended operations work!
+solver.Assert(x + y == 10);        // Implicit conversions with scope
+solver.Assert(x > 0);
+solver.Assert(p.Implies(x % 2 == 0)); // Clean syntax
 
 // Type conversions for mixed arithmetic
-solver.Assert(x.ToReal() + r == context.Real(15.5m)); // int to real conversion
-solver.Assert(r.ToInt() >= context.Int(5));           // real to int conversion
+solver.Assert(x.ToReal() + r == 15.5m); // Mixed-type arithmetic
+solver.Assert(r.ToInt() >= 5);
+
+// Arrays with type safety
+var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
+solver.Assert(prices[0] == 10.5m);
+solver.Assert(prices[1] > prices[0]);
+
+// Solver scopes for backtracking
+solver.Push();
+solver.Assert(x < 100);
+Console.WriteLine($"With x < 100: {solver.Check()}");
+solver.Pop();
 
 // Solve and extract model
 if (solver.Check() == Z3Status.Satisfiable)
 {
     var model = solver.GetModel();
-    Console.WriteLine($"x = {model.GetIntValue(x)}");
+    Console.WriteLine($"x = {model.GetIntValue(x)}");        // BigInteger
     Console.WriteLine($"y = {model.GetIntValue(y)}");
-    Console.WriteLine($"r = {model.GetRealValueAsString(r)}");
+    Console.WriteLine($"r = {model.GetRealValueAsString(r)}"); // Exact rational
     Console.WriteLine($"p = {model.GetBoolValue(p)}");
+    Console.WriteLine($"prices[0] = {model.GetRealValueAsString(prices[context.Int(0)])}");
 }
 ```
 
@@ -198,23 +223,85 @@ BigInteger exactValue = model.GetIntValue(x); // Unlimited precision
 Console.WriteLine(exactValue); // Can represent any integer size
 ```
 
-### Advanced Types (Later)
+### Arrays Implementation: COMPLETED ✅
+
+**Goal**: Full Z3 array theory support with type-safe generic indexing
+- ✅ **Z3ArrayExpr<TIndex, TValue>**: Generic array expressions with compile-time type safety
+- ✅ **Array Creation**: `context.ArrayConst<TIndex, TValue>(name)` and constant arrays via `context.Array<TIndex, TValue>(defaultValue)`
+- ✅ **Indexer Syntax**: Natural `array[index]` access for select operations
+- ✅ **Store Operations**: Functional updates with `array.Store(index, value)`
+- ✅ **Type Safety**: Compile-time checks for index and value types (bool, int, real)
+- ✅ **Extension Methods**: Both generic and specialized overloads for common patterns
+- ✅ **Test Coverage**: Comprehensive tests covering all array operations and type combinations
+
+#### Achievement: Type-Safe Array Theory ✅
+
+**API Usage:**
+```csharp
+using var context = new Z3Context();
+using var scope = context.SetUp();
+using var solver = context.CreateSolver();
+
+// Type-safe array creation
+var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
+var flags = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("flags");
+
+// Natural indexer syntax
+solver.Assert(prices[0] == 10.5m);
+solver.Assert(prices[1] > prices[0]);
+solver.Assert(flags[5] == true);
+
+// Functional store operations
+var updatedPrices = prices.Store(context.Int(2), context.Real(15.99m));
+solver.Assert(updatedPrices[2] == 15.99m);
+
+// Constant arrays (all elements same value)
+var defaultPrices = context.Array<Z3IntExpr, Z3RealExpr>(context.Real(0));
+solver.Assert(defaultPrices[100] == 0);
+```
+
+### Scoped Context Implementation: COMPLETED ✅
+
+**Goal**: Clean implicit conversions for natural mathematical syntax
+- ✅ **SetUp() Pattern**: Thread-local scoped context with `using var scope = context.SetUp()`
+- ✅ **Implicit Conversions**: Automatic conversion from C# primitives to Z3 expressions
+- ✅ **Thread Safety**: Proper context stacking with previous context restoration
+- ✅ **Natural Syntax**: Write `x + 5 == 10` instead of `context.Eq(context.Add(x, context.Int(5)), context.Int(10))`
+- ✅ **Type Support**: Works with integers, decimals, booleans, and BigInteger values
+- ✅ **Test Coverage**: Comprehensive tests ensuring implicit conversions work correctly
+
+#### Achievement: Mathematical Syntax ✅
+
+**Before (Verbose):**
+```csharp
+solver.Assert(context.Eq(context.Add(x, context.Int(5)), context.Int(10)));
+```
+
+**Now (Natural):**
+```csharp
+using var scope = context.SetUp();
+solver.Assert(x + 5 == 10); // Clean mathematical syntax
+```
+
+### Advanced Types (Future)
 - **Bit Vectors** - Fixed-width integer operations
-- **Arrays** - Array/map theory support  
 - **Strings** - String constraint solving
 - **Quantifiers** - ForAll/Exists expressions
+- **Algebraic Data Types** - Custom data structure support
 
 ### Architecture Benefits Achieved ✅
 - **Mathematical Correctness**: Exact rational arithmetic (Real class) and unlimited precision integers (BigInteger) matching Z3's design
 - **Type Conversions**: Seamless conversion between integer and real expressions using Z3's native functions
+- **Arrays**: Full Z3 array theory with generic type safety and natural indexer syntax
+- **Scoped Context**: Clean implicit conversions enabling natural mathematical syntax
 - **Unlimited Precision**: BigInteger for integers, Real class for exact rationals - no overflow or precision loss
 - **Memory Safety**: Hierarchical disposal, no resource leaks
-- **Type Safety**: Strongly typed expressions with compile-time checking
-- **Natural Syntax**: Operator overloading with mixed-type support and implicit conversions
-- **Modern C#**: Nullable types, using statements, seamless integration with .NET numeric types
-- **Comprehensive Testing**: 355 test cases covering all functionality including type conversions and unlimited precision arithmetic
+- **Type Safety**: Strongly typed expressions with compile-time checking, including generic arrays
+- **Natural Syntax**: Operator overloading with mixed-type support, implicit conversions, and mathematical operators
+- **Modern C#**: Nullable types, using statements, seamless integration with .NET numeric types, generic constraints
+- **Comprehensive Testing**: 400+ test cases covering all functionality including arrays, scoped contexts, type conversions and unlimited precision arithmetic
 - **Cross-Platform**: Works on Windows, macOS, Linux with auto-discovery
 - **Zero Configuration**: Automatically finds and loads Z3 library
 - **Backward Compatibility**: Seamless migration from int/double-based APIs
 
-Z3Wrap now provides **unlimited precision arithmetic** for both integers (BigInteger) and rationals (Real class) with **seamless type conversions** while maintaining its clean, intuitive API design. All core enhancements are complete and fully integrated.
+Z3Wrap now provides **complete Z3 theory support** including unlimited precision arithmetic, arrays, and scoped contexts with natural syntax while maintaining its clean, intuitive API design. All major enhancements are complete and fully integrated.
