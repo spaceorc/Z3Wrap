@@ -23,11 +23,4 @@ public static partial class Z3ContextExtensions
 
     public static Z3BoolExpr Eq<T>(this Z3Context context, T left, T right) where T : Z3Expr => context.Eq((Z3Expr)left, right);
     public static Z3BoolExpr Neq<T>(this Z3Context context, T left, T right) where T : Z3Expr => context.Neq((Z3Expr)left, right);
-
-    // If-then-else (works with any expression type)
-    public static T Ite<T>(this Z3Context context, Z3BoolExpr condition, T thenExpr, T elseExpr) where T : Z3Expr
-    {
-        var resultHandle = NativeMethods.Z3MkIte(context.Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
-        return (T)Z3Expr.Create(context, resultHandle);
-    }
 }
