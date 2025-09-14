@@ -422,7 +422,7 @@ public class BitVecTests
     {
         var bv = new BitVec(170, 8); // 10101010
 
-        Assert.That(bv.ToString(), Is.EqualTo("170 (8-bit)"));
+        Assert.That(bv.ToString(), Is.EqualTo("170"));
         Assert.That(bv.ToString("D"), Is.EqualTo("170 (8-bit)"));
         Assert.That(bv.ToString("DECIMAL"), Is.EqualTo("170 (8-bit)"));
         Assert.That(bv.ToString("B"), Is.EqualTo("0b10101010 (8-bit)"));

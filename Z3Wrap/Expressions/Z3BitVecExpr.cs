@@ -16,4 +16,13 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     }
     
     public override string ToString() => $"BitVec[{Size}]({base.ToString()})";
+
+    // Fluent API for bitvector operations
+    public Z3BitVecExpr Extend(uint additionalBits) => Context.Extend(this, additionalBits);
+    public Z3BitVecExpr SignedExtend(uint additionalBits) => Context.SignedExtend(this, additionalBits);
+    public Z3BitVecExpr Extract(uint high, uint low) => Context.Extract(this, high, low);
+    public Z3BitVecExpr Resize(uint newSize) => Context.Resize(this, newSize);
+    public Z3BitVecExpr SignedResize(uint newSize) => Context.SignedResize(this, newSize);
+    public Z3IntExpr ToInt() => Context.ToInt(this);
+    public Z3IntExpr ToSignedInt() => Context.ToSignedInt(this);
 }

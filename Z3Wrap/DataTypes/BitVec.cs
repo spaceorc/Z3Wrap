@@ -361,4 +361,55 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
 
         return left >= right ? left : right;
     }
+
+    public BitVec Extend(uint additionalBits)
+    {
+        return new BitVec(value, size + additionalBits);
+    }
+
+    public BitVec SignedExtend(uint additionalBits)
+    {
+        var signedValue = ToSignedBigInteger();
+        return new BitVec(signedValue, size + additionalBits);
+    }
+
+    public BitVec Extract(uint high, uint low)
+    {
+        if (high >= size)
+            throw new ArgumentException($"High bit {high} is out of range for {size}-bit vector");
+        if (low > high)
+            throw new ArgumentException($"Low bit {low} cannot be greater than high bit {high}");
+
+        var newSize = high - low + 1;
+        var extractedValue = (value >> (int)low) & ((BigInteger.One << (int)newSize) - 1);
+        return new BitVec(extractedValue, newSize);
+    }
+
+    public BitVec Resize(uint newSize)
+    {
+        if (newSize == size)
+            return this;
+
+        if (newSize > size)
+            return Extend(newSize - size);
+
+        return new BitVec(value, newSize);
+    }
+
+    public BitVec SignedResize(uint newSize)
+    {
+        if (newSize == size)
+            return this;
+
+        if (newSize > size)
+            return SignedExtend(newSize - size);
+
+        return new BitVec(value, newSize);
+    }
+
+    public static BitVec FromInt(int value, uint size) => new(value, size);
+    public static BitVec FromUInt(uint value, uint size) => new(value, size);
+    public static BitVec FromLong(long value, uint size) => new(value, size);
+    public static BitVec FromULong(ulong value, uint size) => new(value, size);
+    public static BitVec FromBigInteger(BigInteger value, uint size) => new(value, size);
 }
