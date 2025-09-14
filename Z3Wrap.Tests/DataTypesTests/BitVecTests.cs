@@ -88,7 +88,7 @@ public class BitVecTests
     {
         // Test that the old "overflow" case now works correctly with signed interpretation
         var bv = new BitVec(int.MaxValue + 1L, 32); // This becomes int.MinValue in signed interpretation
-        Assert.That(bv.ToInt(), Is.EqualTo(int.MinValue));
+        Assert.That(bv.ToSignedInt(), Is.EqualTo(int.MinValue));
     }
 
     [Test]
@@ -110,7 +110,7 @@ public class BitVecTests
     {
         // -1 in 8-bit two's complement is 255 in unsigned representation
         var bv = new BitVec(255, 8);
-        Assert.That(bv.ToLong(), Is.EqualTo(-1L));
+        Assert.That(bv.ToSignedLong(), Is.EqualTo(-1L));
     }
 
     [Test]
@@ -118,7 +118,7 @@ public class BitVecTests
     {
         // -10 in 8-bit two's complement is 246 in unsigned representation
         var bv = new BitVec(246, 8);
-        Assert.That(bv.ToInt(), Is.EqualTo(-10));
+        Assert.That(bv.ToSignedInt(), Is.EqualTo(-10));
     }
 
     [Test]
@@ -469,44 +469,44 @@ public class BitVecTests
     }
 
     [Test]
-    public void AsInt_SignedConversion_ReturnsCorrectSignedValues()
+    public void AsSignedInt_SignedConversion_ReturnsCorrectSignedValues()
     {
         // Test positive value
         var positive = new BitVec(42, 8);
-        Assert.That(positive.ToInt(), Is.EqualTo(42));
+        Assert.That(positive.ToSignedInt(), Is.EqualTo(42));
 
         // Test negative value (MSB set) - 8-bit: 10000000 = 128 unsigned, -128 signed
         var negative = new BitVec(128, 8);
-        Assert.That(negative.ToInt(), Is.EqualTo(-128));
+        Assert.That(negative.ToSignedInt(), Is.EqualTo(-128));
 
         // Test another negative - 8-bit: 11111111 = 255 unsigned, -1 signed
         var minusOne = new BitVec(255, 8);
-        Assert.That(minusOne.ToInt(), Is.EqualTo(-1));
+        Assert.That(minusOne.ToSignedInt(), Is.EqualTo(-1));
 
         // Test 16-bit negative value: 32768 = 0x8000 = -32768 signed
         var negative16 = new BitVec(32768, 16);
-        Assert.That(negative16.ToInt(), Is.EqualTo(-32768));
+        Assert.That(negative16.ToSignedInt(), Is.EqualTo(-32768));
     }
 
     [Test]
-    public void AsLong_SignedConversion_ReturnsCorrectSignedValues()
+    public void AsSignedLong_SignedConversion_ReturnsCorrectSignedValues()
     {
         // Test positive value
         var positive = new BitVec(42, 8);
-        Assert.That(positive.ToLong(), Is.EqualTo(42L));
+        Assert.That(positive.ToSignedLong(), Is.EqualTo(42L));
 
         // Test negative value (MSB set) - 8-bit: 10000000 = 128 unsigned, -128 signed
         var negative = new BitVec(128, 8);
-        Assert.That(negative.ToLong(), Is.EqualTo(-128L));
+        Assert.That(negative.ToSignedLong(), Is.EqualTo(-128L));
 
         // Test 32-bit negative value
         var negative32 = new BitVec(2147483648U, 32); // 0x80000000 = -2147483648 signed
-        Assert.That(negative32.ToLong(), Is.EqualTo(-2147483648L));
+        Assert.That(negative32.ToSignedLong(), Is.EqualTo(-2147483648L));
 
         // Test 64-bit negative value
         var maxUnsigned64 = (BigInteger.One << 63); // MSB set for 64-bit
         var negative64 = new BitVec(maxUnsigned64, 64);
-        Assert.That(negative64.ToLong(), Is.EqualTo(long.MinValue));
+        Assert.That(negative64.ToSignedLong(), Is.EqualTo(long.MinValue));
     }
 
     [Test]
@@ -527,5 +527,93 @@ public class BitVecTests
         // Test larger bit width - 16-bit: 65535 = -1 signed
         var minusOne16 = new BitVec(65535, 16);
         Assert.That(minusOne16.ToSignedBigInteger(), Is.EqualTo(new BigInteger(-1)));
+    }
+
+    [Test]
+    public void ToInt_UnsignedConversion_ReturnsCorrectUnsignedValues()
+    {
+        // Test unsigned interpretation - no sign extension
+        var bv = new BitVec(255, 8); // All bits set in 8-bit
+        Assert.That(bv.ToInt(), Is.EqualTo(255)); // Should be 255, not -1
+
+        var bv16 = new BitVec(65535, 16); // All bits set in 16-bit
+        Assert.That(bv16.ToInt(), Is.EqualTo(65535)); // Should be 65535, not -1
+
+        var bv32 = new BitVec(4294967295U, 32); // All bits set in 32-bit
+        Assert.Throws<OverflowException>(() => bv32.ToInt()); // Too large for signed int
+    }
+
+    [Test]
+    public void ToLong_UnsignedConversion_ReturnsCorrectUnsignedValues()
+    {
+        // Test unsigned interpretation - no sign extension
+        var bv = new BitVec(255, 8); // All bits set in 8-bit
+        Assert.That(bv.ToLong(), Is.EqualTo(255L)); // Should be 255, not -1
+
+        var bv32 = new BitVec(4294967295U, 32); // All bits set in 32-bit
+        Assert.That(bv32.ToLong(), Is.EqualTo(4294967295L)); // Should be unsigned value
+
+        var bv64 = new BitVec(ulong.MaxValue, 64); // All bits set in 64-bit
+        Assert.Throws<OverflowException>(() => bv64.ToLong()); // Too large for signed long
+    }
+
+    [Test]
+    public void Constructor_EdgeCases_HandlesCorrectly()
+    {
+        // Test very large bit widths
+        var largeBv = new BitVec(1, 1024);
+        Assert.That(largeBv.Size, Is.EqualTo(1024));
+        Assert.That(largeBv.Value, Is.EqualTo(BigInteger.One));
+
+        // Test maximum single bit
+        var singleBit = new BitVec(1, 1);
+        Assert.That(singleBit.Size, Is.EqualTo(1));
+        Assert.That(singleBit.Value, Is.EqualTo(BigInteger.One));
+
+        // Test overflow with single bit
+        var overflowSingle = new BitVec(2, 1); // Should be masked to 0
+        Assert.That(overflowSingle.Value, Is.EqualTo(BigInteger.Zero));
+    }
+
+    [Test]
+    public void ToBinaryString_EdgeCases_WorksCorrectly()
+    {
+        // Test single bit
+        var single = new BitVec(1, 1);
+        Assert.That(single.ToBinaryString(), Is.EqualTo("1"));
+
+        var singleZero = new BitVec(0, 1);
+        Assert.That(singleZero.ToBinaryString(), Is.EqualTo("0"));
+
+        // Test large bit width
+        var large = new BitVec(1, 64);
+        Assert.That(large.ToBinaryString(), Is.EqualTo("0000000000000000000000000000000000000000000000000000000000000001"));
+
+        // Test all bits set
+        var allSet = new BitVec(15, 4); // 1111 in 4 bits
+        Assert.That(allSet.ToBinaryString(), Is.EqualTo("1111"));
+    }
+
+    [Test]
+    public void ExceptionMessages_AreStandardized()
+    {
+        // Test size mismatch messages
+        var bv1 = new BitVec(10, 8);
+        var bv2 = new BitVec(5, 16);
+
+        var ex = Assert.Throws<ArgumentException>(() => { var result = bv1 + bv2; });
+        Assert.That(ex.Message, Does.Contain("Size mismatch"));
+
+        // Test division by zero messages
+        var zero = new BitVec(0, 8);
+        var nonZero = new BitVec(10, 8);
+
+        var divEx = Assert.Throws<DivideByZeroException>(() => { var result = nonZero / zero; });
+        Assert.That(divEx.Message, Does.Contain("Division by zero is not allowed"));
+
+        // Test overflow messages
+        var large = new BitVec(BigInteger.Pow(2, 50), 64);
+        var overflowEx = Assert.Throws<OverflowException>(() => large.ToInt());
+        Assert.That(overflowEx.Message, Does.Contain("Unsigned value"));
     }
 }

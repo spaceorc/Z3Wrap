@@ -24,13 +24,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
                    new BigInteger((uint)bits[0]));
         
         var den = BigInteger.Pow(10, scale);
-        
-        if (den < 0)
-        {
-            num = -num;
-            den = -den;
-        }
-        
+
         var gcd = BigInteger.GreatestCommonDivisor(BigInteger.Abs(num), den);
         numerator = num / gcd;
         denominator = den / gcd;
@@ -39,7 +33,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public Real(BigInteger numerator, BigInteger denominator)
     {
         if (denominator == 0)
-            throw new ArgumentException("Denominator cannot be zero", nameof(denominator));
+            throw new ArgumentException("Denominator must be non-zero", nameof(denominator));
 
         if (denominator < 0)
         {
@@ -64,7 +58,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public static Real Parse(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new FormatException("Input string cannot be null or empty");
+            throw new FormatException("Input string must not be null or empty");
 
         value = value.Trim();
 
@@ -122,10 +116,10 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public int ToInt()
     {
         if (!IsInteger)
-            throw new InvalidOperationException("Cannot convert non-integer Real to int");
+            throw new InvalidOperationException("Cannot convert non-integer value to int");
         
         if (numerator > int.MaxValue || numerator < int.MinValue)
-            throw new OverflowException($"Real value {this} is outside the range of int");
+            throw new OverflowException($"Value {this} is outside the range of int");
         
         return (int)numerator;
     }
@@ -133,10 +127,10 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public long ToLong()
     {
         if (!IsInteger)
-            throw new InvalidOperationException("Cannot convert non-integer Real to long");
+            throw new InvalidOperationException("Cannot convert non-integer value to long");
         
         if (numerator > long.MaxValue || numerator < long.MinValue)
-            throw new OverflowException($"Real value {this} is outside the range of long");
+            throw new OverflowException($"Value {this} is outside the range of long");
         
         return (long)numerator;
     }
@@ -144,7 +138,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public BigInteger ToBigInteger()
     {
         if (!IsInteger)
-            throw new InvalidOperationException("Cannot convert non-integer Real to BigInteger");
+            throw new InvalidOperationException("Cannot convert non-integer value to BigInteger");
         
         return numerator;
     }
@@ -189,7 +183,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     
     public Real Reciprocal() =>
         IsZero
-            ? throw new DivideByZeroException("Cannot compute reciprocal of zero")
+            ? throw new DivideByZeroException("Division by zero is not allowed")
             : new Real(denominator, numerator);
 
     public Real Power(int exponent)
@@ -240,7 +234,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     public static Real operator /(Real left, Real right)
     {
         if (right.IsZero)
-            throw new DivideByZeroException("Cannot divide by zero");
+            throw new DivideByZeroException("Division by zero is not allowed");
 
         var newNum = left.numerator * right.denominator;
         var newDen = left.denominator * right.numerator;

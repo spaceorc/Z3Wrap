@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Numerics;
+using System.Text;
 
 namespace Z3Wrap.DataTypes;
 
@@ -12,7 +13,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public BitVec(BigInteger value, uint size)
     {
         if (size == 0)
-            throw new ArgumentException("BitVec size must be greater than zero", nameof(size));
+            throw new ArgumentException("Size must be greater than zero", nameof(size));
 
         // Mask to ensure value fits in the specified bit width
         var maxValue = (BigInteger.One << (int)size) - 1;
@@ -31,14 +32,22 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public bool IsZero => value == 0;
     public BigInteger MaxValue => (BigInteger.One << (int)size) - 1;
 
-    // Conversion methods
+    // Conversion methods (unsigned by default)
     public int ToInt()
+    {
+        if (value > int.MaxValue)
+            throw new OverflowException($"Unsigned value {value} is outside the range of int");
+
+        return (int)value;
+    }
+
+    public int ToSignedInt()
     {
         // For signed interpretation, convert using two's complement
         var signedValue = ToSignedBigInteger();
 
         if (signedValue > int.MaxValue || signedValue < int.MinValue)
-            throw new OverflowException($"BitVec signed value {signedValue} is outside the range of int");
+            throw new OverflowException($"Signed value {signedValue} is outside the range of int");
 
         return (int)signedValue;
     }
@@ -46,18 +55,26 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public uint ToUInt()
     {
         if (value > uint.MaxValue)
-            throw new OverflowException($"BitVec value {value} is outside the range of uint");
+            throw new OverflowException($"Unsigned value {value} is outside the range of uint");
 
         return (uint)value;
     }
 
     public long ToLong()
     {
+        if (value > long.MaxValue)
+            throw new OverflowException($"Unsigned value {value} is outside the range of long");
+
+        return (long)value;
+    }
+
+    public long ToSignedLong()
+    {
         // For signed interpretation, convert using two's complement
         var signedValue = ToSignedBigInteger();
 
         if (signedValue > long.MaxValue || signedValue < long.MinValue)
-            throw new OverflowException($"BitVec signed value {signedValue} is outside the range of long");
+            throw new OverflowException($"Signed value {signedValue} is outside the range of long");
 
         return (long)signedValue;
     }
@@ -65,7 +82,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public ulong ToULong()
     {
         if (value > ulong.MaxValue)
-            throw new OverflowException($"BitVec value {value} is outside the range of ulong");
+            throw new OverflowException($"Unsigned value {value} is outside the range of ulong");
 
         return (ulong)value;
     }
@@ -75,22 +92,22 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         if (value == 0)
             return new string('0', (int)size);
 
-        var binaryStr = "";
+        var sb = new StringBuilder((int)size);
         var val = value;
         while (val > 0)
         {
-            binaryStr = (val & 1) + binaryStr;
+            sb.Insert(0, (val & 1).ToString());
             val >>= 1;
         }
 
-        return binaryStr.PadLeft((int)size, '0');
+        return sb.ToString().PadLeft((int)size, '0');
     }
 
     // Arithmetic operators (unsigned semantics)
     public static BitVec operator +(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return new BitVec(left.value + right.value, left.size);
     }
@@ -98,7 +115,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator -(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return new BitVec(left.value - right.value, left.size);
     }
@@ -106,7 +123,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator *(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return new BitVec(left.value * right.value, left.size);
     }
@@ -115,10 +132,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator /(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         if (right.IsZero)
-            throw new DivideByZeroException("Cannot divide by zero");
+            throw new DivideByZeroException("Division by zero is not allowed");
 
         // Unsigned division - straightforward for positive values
         return new BitVec(left.value / right.value, left.size);
@@ -127,10 +144,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator %(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         if (right.IsZero)
-            throw new DivideByZeroException("Cannot compute remainder with zero divisor");
+            throw new DivideByZeroException("Division by zero is not allowed");
 
         // Unsigned remainder - straightforward for positive values
         return new BitVec(left.value % right.value, left.size);
@@ -146,10 +163,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public BitVec SignedDiv(BitVec other)
     {
         if (size != other.size)
-            throw new ArgumentException($"BitVec size mismatch: {size} != {other.size}");
+            throw new ArgumentException($"Size mismatch: {size} != {other.size}");
 
         if (other.IsZero)
-            throw new DivideByZeroException("Cannot divide by zero");
+            throw new DivideByZeroException("Division by zero is not allowed");
 
         // Convert to signed interpretation
         var leftSigned = ToSignedBigInteger();
@@ -162,10 +179,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public BitVec SignedRem(BitVec other)
     {
         if (size != other.size)
-            throw new ArgumentException($"BitVec size mismatch: {size} != {other.size}");
+            throw new ArgumentException($"Size mismatch: {size} != {other.size}");
 
         if (other.IsZero)
-            throw new DivideByZeroException("Cannot compute remainder with zero divisor");
+            throw new DivideByZeroException("Division by zero is not allowed");
 
         // Convert to signed interpretation
         var leftSigned = ToSignedBigInteger();
@@ -178,10 +195,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public BitVec SignedMod(BitVec other)
     {
         if (size != other.size)
-            throw new ArgumentException($"BitVec size mismatch: {size} != {other.size}");
+            throw new ArgumentException($"Size mismatch: {size} != {other.size}");
 
         if (other.IsZero)
-            throw new DivideByZeroException("Cannot compute modulo with zero divisor");
+            throw new DivideByZeroException("Division by zero is not allowed");
 
         // Convert to signed interpretation
         var leftSigned = ToSignedBigInteger();
@@ -204,8 +221,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         if ((value & msb) != 0)
         {
             // Convert from unsigned to signed (two's complement)
-            var maxUnsigned = (BigInteger.One << (int)size) - 1;
-            return value - maxUnsigned - 1;
+            return value - (BigInteger.One << (int)size);
         }
         return value;
     }
@@ -214,7 +230,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator &(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return new BitVec(left.value & right.value, left.size);
     }
@@ -222,7 +238,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator |(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return new BitVec(left.value | right.value, left.size);
     }
@@ -230,7 +246,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator ^(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return new BitVec(left.value ^ right.value, left.size);
     }
@@ -246,7 +262,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator <<(BitVec left, int shift)
     {
         if (shift < 0)
-            throw new ArgumentException("Shift amount cannot be negative", nameof(shift));
+            throw new ArgumentException("Shift amount must be non-negative", nameof(shift));
 
         return new BitVec(left.value << shift, left.size);
     }
@@ -254,7 +270,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec operator >>(BitVec left, int shift)
     {
         if (shift < 0)
-            throw new ArgumentException("Shift amount cannot be negative", nameof(shift));
+            throw new ArgumentException("Shift amount must be non-negative", nameof(shift));
 
         // Logical right shift (unsigned)
         return new BitVec(left.value >> shift, left.size);
@@ -271,7 +287,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static bool operator <(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return left.value < right.value;
     }
@@ -279,7 +295,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static bool operator <=(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return left.value <= right.value;
     }
@@ -287,7 +303,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static bool operator >(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return left.value > right.value;
     }
@@ -295,7 +311,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static bool operator >=(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return left.value >= right.value;
     }
@@ -308,7 +324,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public int CompareTo(BitVec other)
     {
         if (size != other.size)
-            throw new ArgumentException($"BitVec size mismatch: {size} != {other.size}");
+            throw new ArgumentException($"Size mismatch: {size} != {other.size}");
 
         if (this < other) return -1;
         if (this > other) return 1;
@@ -342,7 +358,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec Min(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return left <= right ? left : right;
     }
@@ -350,7 +366,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public static BitVec Max(BitVec left, BitVec right)
     {
         if (left.size != right.size)
-            throw new ArgumentException($"BitVec size mismatch: {left.size} != {right.size}");
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
 
         return left >= right ? left : right;
     }

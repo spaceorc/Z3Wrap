@@ -696,4 +696,137 @@ public class RealClassTests
         var extremelyLargeFraction = new Real(BigInteger.Pow(10, 1000), 3);
         Assert.Throws<OverflowException>(() => extremelyLargeFraction.ToDecimal());
     }
+
+    [Test]
+    public void Constructor_EdgeCases_HandlesCorrectly()
+    {
+        // Test very large numerator and denominator
+        var largeNum = BigInteger.Pow(10, 100);
+        var largeDen = BigInteger.Pow(10, 50);
+        var largeReal = new Real(largeNum, largeDen);
+
+        // Should be simplified to 10^50 / 1
+        Assert.That(largeReal.Numerator, Is.EqualTo(BigInteger.Pow(10, 50)));
+        Assert.That(largeReal.Denominator, Is.EqualTo(BigInteger.One));
+
+        // Test with common factor
+        var real = new Real(999999, 333333); // Should reduce to 3/1
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(3)));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void Parse_EdgeCases_WorksCorrectly()
+    {
+        // Test very large fractions
+        var largeFraction = Real.Parse("123456789012345678901234567890/987654321098765432109876543210");
+        Assert.That(largeFraction.Numerator, Is.Not.EqualTo(BigInteger.Zero));
+        Assert.That(largeFraction.Denominator, Is.Not.EqualTo(BigInteger.Zero));
+
+        // Test whitespace handling
+        var whitespace = Real.Parse("  1 / 2  ");
+        Assert.That(whitespace.Numerator, Is.EqualTo(BigInteger.One));
+        Assert.That(whitespace.Denominator, Is.EqualTo(new BigInteger(2)));
+
+        // Test decimal edge cases
+        var smallDecimal = Real.Parse("0.000000000000001");
+        Assert.That(smallDecimal.Numerator, Is.EqualTo(BigInteger.One));
+        Assert.That(smallDecimal.Denominator, Is.EqualTo(BigInteger.Pow(10, 15)));
+    }
+
+    [Test]
+    public void Arithmetic_EdgeCases_WorksCorrectly()
+    {
+        // Test arithmetic with very large numbers
+        var large1 = new Real(BigInteger.Pow(10, 50), 1);
+        var large2 = new Real(BigInteger.Pow(10, 50), 1);
+
+        var sum = large1 + large2;
+        Assert.That(sum.Numerator, Is.EqualTo(BigInteger.Pow(10, 50) * 2));
+
+        // Test multiplication resulting in simplification
+        var a = new Real(2, 3);
+        var b = new Real(3, 4);
+        var product = a * b; // Should be 6/12 = 1/2
+
+        Assert.That(product.Numerator, Is.EqualTo(BigInteger.One));
+        Assert.That(product.Denominator, Is.EqualTo(new BigInteger(2)));
+
+        // Test division by very small number
+        var tiny = new Real(1, BigInteger.Pow(10, 20));
+        var one = new Real(1);
+        var huge = one / tiny;
+
+        Assert.That(huge.Numerator, Is.EqualTo(BigInteger.Pow(10, 20)));
+        Assert.That(huge.Denominator, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void ExceptionMessages_AreStandardized()
+    {
+        // Test division by zero messages
+        var one = new Real(1);
+        var zero = new Real(0);
+
+        var divEx = Assert.Throws<DivideByZeroException>(() => { var result = one / zero; });
+        Assert.That(divEx.Message, Does.Contain("Division by zero is not allowed"));
+
+        var reciprocalEx = Assert.Throws<DivideByZeroException>(() => zero.Reciprocal());
+        Assert.That(reciprocalEx.Message, Does.Contain("Division by zero is not allowed"));
+
+        // Test format exception messages
+        var formatEx = Assert.Throws<FormatException>(() => Real.Parse(""));
+        Assert.That(formatEx.Message, Does.Contain("Input string must not be null or empty"));
+
+        // Test conversion exception messages
+        var fraction = new Real(1, 3);
+        var conversionEx = Assert.Throws<InvalidOperationException>(() => fraction.ToInt());
+        Assert.That(conversionEx.Message, Does.Contain("Cannot convert non-integer value"));
+    }
+
+    [Test]
+    public void ToString_EdgeCases_WorksCorrectly()
+    {
+        // Test very large numbers
+        var large = new Real(BigInteger.Pow(10, 50), 1);
+        var largeStr = large.ToString();
+        Assert.That(largeStr, Does.Not.Contain("/"));
+        Assert.That(largeStr.Length, Is.GreaterThan(40));
+
+        // Test very small fractions
+        var small = new Real(1, BigInteger.Pow(10, 20));
+        var smallStr = small.ToString();
+        Assert.That(smallStr, Does.Contain("/"));
+        Assert.That(smallStr, Does.StartWith("1/"));
+
+        // Test decimal format with large numbers throws for very large values
+        Assert.Throws<OverflowException>(() => large.ToString("D"));
+    }
+
+    [Test]
+    public void Round_EdgeCases_WorksCorrectly()
+    {
+        // Test rounding very large fractions
+        var largeFraction = new Real(BigInteger.Pow(10, 50) + 1, 2); // (10^50 + 1) / 2
+        var rounded = largeFraction.Round();
+        Assert.That(rounded, Is.EqualTo(BigInteger.Pow(10, 50) / 2)); // Should round down
+
+        // Test all rounding modes with midpoint
+        var midpoint = new Real(5, 2); // 2.5
+
+        Assert.That(midpoint.Round(MidpointRounding.ToEven), Is.EqualTo(new BigInteger(2)));
+        Assert.That(midpoint.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(3)));
+        Assert.That(midpoint.Round(MidpointRounding.ToZero), Is.EqualTo(new BigInteger(2)));
+        Assert.That(midpoint.Round(MidpointRounding.ToPositiveInfinity), Is.EqualTo(new BigInteger(3)));
+        Assert.That(midpoint.Round(MidpointRounding.ToNegativeInfinity), Is.EqualTo(new BigInteger(2)));
+
+        // Test negative midpoint
+        var negativeMidpoint = new Real(-5, 2); // -2.5
+
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToEven), Is.EqualTo(new BigInteger(-2)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(-3)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToZero), Is.EqualTo(new BigInteger(-2)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToPositiveInfinity), Is.EqualTo(new BigInteger(-2)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToNegativeInfinity), Is.EqualTo(new BigInteger(-3)));
+    }
 }
