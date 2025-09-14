@@ -1,3 +1,6 @@
+using System.Numerics;
+using Z3Wrap.DataTypes;
+
 namespace Z3Wrap.Expressions;
 
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
@@ -14,7 +17,10 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     {
         return (Z3BitVecExpr)Z3Expr.Create(context, handle);
     }
-    
+
+    // Implicit conversion from BitVec using current context
+    public static implicit operator Z3BitVecExpr(BitVec value) => Z3Context.Current.BitVec(value);
+
     public override string ToString() => $"BitVec[{Size}]({base.ToString()})";
 
     // Fluent API for bitvector operations
@@ -65,4 +71,50 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public static Z3BoolExpr operator <=(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Ule(left, right);
     public static Z3BoolExpr operator >(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Ugt(left, right);
     public static Z3BoolExpr operator >=(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Uge(left, right);
+
+    // BigInteger operators - Arithmetic (Z3BitVecExpr op BigInteger)
+    public static Z3BitVecExpr operator +(Z3BitVecExpr left, BigInteger right) => left.Context.Add(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator -(Z3BitVecExpr left, BigInteger right) => left.Context.Sub(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator *(Z3BitVecExpr left, BigInteger right) => left.Context.Mul(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator /(Z3BitVecExpr left, BigInteger right) => left.Context.UDiv(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator %(Z3BitVecExpr left, BigInteger right) => left.Context.URem(left, left.Context.BitVec(right, left.Size));
+
+    // BigInteger operators - Arithmetic (BigInteger op Z3BitVecExpr)
+    public static Z3BitVecExpr operator +(BigInteger left, Z3BitVecExpr right) => right.Context.Add(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator -(BigInteger left, Z3BitVecExpr right) => right.Context.Sub(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator *(BigInteger left, Z3BitVecExpr right) => right.Context.Mul(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator /(BigInteger left, Z3BitVecExpr right) => right.Context.UDiv(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator %(BigInteger left, Z3BitVecExpr right) => right.Context.URem(right.Context.BitVec(left, right.Size), right);
+
+    // BigInteger operators - Bitwise (Z3BitVecExpr op BigInteger)
+    public static Z3BitVecExpr operator &(Z3BitVecExpr left, BigInteger right) => left.Context.And(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator |(Z3BitVecExpr left, BigInteger right) => left.Context.Or(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator ^(Z3BitVecExpr left, BigInteger right) => left.Context.Xor(left, left.Context.BitVec(right, left.Size));
+
+    // BigInteger operators - Bitwise (BigInteger op Z3BitVecExpr)
+    public static Z3BitVecExpr operator &(BigInteger left, Z3BitVecExpr right) => right.Context.And(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator |(BigInteger left, Z3BitVecExpr right) => right.Context.Or(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator ^(BigInteger left, Z3BitVecExpr right) => right.Context.Xor(right.Context.BitVec(left, right.Size), right);
+
+    // BigInteger operators - Shift (only left-to-right makes sense)
+    public static Z3BitVecExpr operator <<(Z3BitVecExpr left, BigInteger right) => left.Context.Shl(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator >>(Z3BitVecExpr left, BigInteger right) => left.Context.Lshr(left, left.Context.BitVec(right, left.Size));
+
+    // BigInteger operators - Comparison (Z3BitVecExpr op BigInteger)
+    public static Z3BoolExpr operator <(Z3BitVecExpr left, BigInteger right) => left.Context.Ult(left, left.Context.BitVec(right, left.Size));
+    public static Z3BoolExpr operator <=(Z3BitVecExpr left, BigInteger right) => left.Context.Ule(left, left.Context.BitVec(right, left.Size));
+    public static Z3BoolExpr operator >(Z3BitVecExpr left, BigInteger right) => left.Context.Ugt(left, left.Context.BitVec(right, left.Size));
+    public static Z3BoolExpr operator >=(Z3BitVecExpr left, BigInteger right) => left.Context.Uge(left, left.Context.BitVec(right, left.Size));
+
+    // BigInteger operators - Comparison (BigInteger op Z3BitVecExpr)
+    public static Z3BoolExpr operator <(BigInteger left, Z3BitVecExpr right) => right.Context.Ult(right.Context.BitVec(left, right.Size), right);
+    public static Z3BoolExpr operator <=(BigInteger left, Z3BitVecExpr right) => right.Context.Ule(right.Context.BitVec(left, right.Size), right);
+    public static Z3BoolExpr operator >(BigInteger left, Z3BitVecExpr right) => right.Context.Ugt(right.Context.BitVec(left, right.Size), right);
+    public static Z3BoolExpr operator >=(BigInteger left, Z3BitVecExpr right) => right.Context.Uge(right.Context.BitVec(left, right.Size), right);
+
+    // BigInteger operators - Equality
+    public static Z3BoolExpr operator ==(Z3BitVecExpr left, BigInteger right) => left.Context.Eq(left, left.Context.BitVec(right, left.Size));
+    public static Z3BoolExpr operator ==(BigInteger left, Z3BitVecExpr right) => right.Context.Eq(right.Context.BitVec(left, right.Size), right);
+    public static Z3BoolExpr operator !=(Z3BitVecExpr left, BigInteger right) => !(left == right);
+    public static Z3BoolExpr operator !=(BigInteger left, Z3BitVecExpr right) => !(left == right);
 }

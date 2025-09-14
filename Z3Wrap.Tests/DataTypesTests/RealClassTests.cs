@@ -113,7 +113,7 @@ public class RealClassTests
     {
         var nonZero = new Real(1, 2);
         var zero = new Real(0);
-        Assert.Throws<DivideByZeroException>(() => { var result = nonZero / zero; });
+        Assert.Throws<DivideByZeroException>(() => { _ = nonZero / zero; });
     }
 
     [Test]
@@ -260,14 +260,14 @@ public class RealClassTests
     public void ExplicitConversion_ToInt_NonIntegerThrows()
     {
         var fraction = new Real(1, 3);
-        Assert.Throws<InvalidOperationException>(() => { var result = (int)fraction; });
+        Assert.Throws<InvalidOperationException>(() => { _ = (int)fraction; });
     }
 
     [Test]
     public void ExplicitConversion_ToInt_OverflowThrows()
     {
         var tooLarge = new Real(long.MaxValue);
-        Assert.Throws<OverflowException>(() => { var result = (int)tooLarge; });
+        Assert.Throws<OverflowException>(() => { _ = (int)tooLarge; });
     }
 
     [Test]
@@ -286,14 +286,14 @@ public class RealClassTests
     public void ExplicitConversion_ToLong_NonIntegerThrows()
     {
         var fraction = new Real(1, 3);
-        Assert.Throws<InvalidOperationException>(() => { var result = (long)fraction; });
+        Assert.Throws<InvalidOperationException>(() => { _ = (long)fraction; });
     }
 
     [Test]
     public void ExplicitConversion_ToLong_OverflowThrows()
     {
         var tooLarge = new Real(new BigInteger(long.MaxValue) + 1, 1);
-        Assert.Throws<OverflowException>(() => { var result = (long)tooLarge; });
+        Assert.Throws<OverflowException>(() => { _ = (long)tooLarge; });
     }
 
     [Test]
@@ -316,7 +316,7 @@ public class RealClassTests
     public void ExplicitConversion_ToBigInteger_NonIntegerThrows()
     {
         var fraction = new Real(1, 3);
-        Assert.Throws<InvalidOperationException>(() => { var result = (BigInteger)fraction; });
+        Assert.Throws<InvalidOperationException>(() => { _ = (BigInteger)fraction; });
     }
 
     [Test]
@@ -768,7 +768,7 @@ public class RealClassTests
         var one = new Real(1);
         var zero = new Real(0);
 
-        var divEx = Assert.Throws<DivideByZeroException>(() => { var result = one / zero; });
+        var divEx = Assert.Throws<DivideByZeroException>(() => { _ = one / zero; });
         Assert.That(divEx.Message, Does.Contain("Division by zero is not allowed"));
 
         var reciprocalEx = Assert.Throws<DivideByZeroException>(() => zero.Reciprocal());

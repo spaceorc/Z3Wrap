@@ -167,11 +167,11 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        Assert.Throws<ArgumentException>(() => { var result = bv1 + bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 - bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 * bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 / bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 % bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 + bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 - bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 * bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 / bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 % bv2; });
     }
 
     [Test]
@@ -261,8 +261,8 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(0, 8);
 
-        Assert.Throws<DivideByZeroException>(() => { var result = bv1 / bv2; });
-        Assert.Throws<DivideByZeroException>(() => { var result = bv1 % bv2; });
+        Assert.Throws<DivideByZeroException>(() => { _ = bv1 / bv2; });
+        Assert.Throws<DivideByZeroException>(() => { _ = bv1 % bv2; });
         Assert.Throws<DivideByZeroException>(() => bv1.SignedDiv(bv2));
         Assert.Throws<DivideByZeroException>(() => bv1.SignedRem(bv2));
         Assert.Throws<DivideByZeroException>(() => bv1.SignedMod(bv2));
@@ -274,8 +274,8 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        Assert.Throws<ArgumentException>(() => { var result = bv1 / bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 % bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 / bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 % bv2; });
         Assert.Throws<ArgumentException>(() => bv1.SignedDiv(bv2));
         Assert.Throws<ArgumentException>(() => bv1.SignedRem(bv2));
         Assert.Throws<ArgumentException>(() => bv1.SignedMod(bv2));
@@ -320,8 +320,8 @@ public class BitVecTests
     {
         var bv = new BitVec(5, 8);
 
-        Assert.Throws<ArgumentException>(() => { var result = bv << -1; });
-        Assert.Throws<ArgumentException>(() => { var result = bv >> -1; });
+        Assert.Throws<ArgumentException>(() => { _ = bv << -1; });
+        Assert.Throws<ArgumentException>(() => { _ = bv >> -1; });
     }
 
     [Test]
@@ -347,10 +347,10 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        Assert.Throws<ArgumentException>(() => { var result = bv1 < bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 <= bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 > bv2; });
-        Assert.Throws<ArgumentException>(() => { var result = bv1 >= bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 < bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 <= bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 > bv2; });
+        Assert.Throws<ArgumentException>(() => { _ = bv1 >= bv2; });
     }
 
     [Test]
@@ -601,14 +601,14 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        var ex = Assert.Throws<ArgumentException>(() => { var result = bv1 + bv2; });
+        var ex = Assert.Throws<ArgumentException>(() => { _ = bv1 + bv2; });
         Assert.That(ex.Message, Does.Contain("Size mismatch"));
 
         // Test division by zero messages
         var zero = new BitVec(0, 8);
         var nonZero = new BitVec(10, 8);
 
-        var divEx = Assert.Throws<DivideByZeroException>(() => { var result = nonZero / zero; });
+        var divEx = Assert.Throws<DivideByZeroException>(() => { _ = nonZero / zero; });
         Assert.That(divEx.Message, Does.Contain("Division by zero is not allowed"));
 
         // Test overflow messages
