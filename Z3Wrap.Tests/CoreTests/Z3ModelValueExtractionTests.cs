@@ -312,7 +312,6 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsLong(context.BitVecConst("bv", 8)));
         Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsULong(context.BitVecConst("bv", 8)));
         Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsBinaryString(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVecValueAsHexString(context.BitVecConst("bv", 8)));
     }
 
     [Test]
@@ -779,57 +778,6 @@ public class Z3ModelValueExtractionTests
         Assert.That(value, Is.EqualTo("1111"));
     }
 
-    [Test]
-    public void GetBitVecValueAsHexString_SimpleValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(255, 8)); // 255 = FF
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVecValueAsHexString(bv);
-
-
-        Assert.That(value, Is.EqualTo("FF"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsHexString_ZeroValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 16);
-        solver.Assert(bv == context.BitVec(0, 16));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVecValueAsHexString(bv);
-
-        Assert.That(value, Is.EqualTo("0000"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsHexString_LargeValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 16);
-        solver.Assert(bv == context.BitVec(43981, 16)); // 43981 = ABCD
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVecValueAsHexString(bv);
-
-        Assert.That(value, Is.EqualTo("ABCD"));
-    }
 
     [Test]
     public void GetBitVecValue_AllFormatsConsistent()
@@ -851,7 +799,6 @@ public class Z3ModelValueExtractionTests
         Assert.That(model.GetBitVecValueAsLong(bv), Is.EqualTo(170L));
         Assert.That(model.GetBitVecValueAsULong(bv), Is.EqualTo(170UL));
         Assert.That(model.GetBitVecValueAsBinaryString(bv), Is.EqualTo("10101010"));
-        Assert.That(model.GetBitVecValueAsHexString(bv), Is.EqualTo("AA"));
     }
 
     [Test]

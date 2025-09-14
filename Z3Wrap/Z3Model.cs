@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Z3Wrap.Expressions;
@@ -49,12 +50,7 @@ public sealed class Z3Model
     public BigInteger GetIntValue(Z3IntExpr expr)
     {
         var evaluated = Evaluate(expr);
-
-        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
-            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
-
-        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
-        var valueStr = Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract integer value from expression {expr}");
+        var valueStr = ExtractNumeralString(context, evaluated, expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
             throw new InvalidOperationException($"Failed to parse integer value '{valueStr}' from expression {expr}");
@@ -83,24 +79,14 @@ public sealed class Z3Model
     public string GetRealValueAsString(Z3RealExpr expr)
     {
         var evaluated = Evaluate(expr);
-
-        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
-            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
-
-        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
-        return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract real value from expression {expr}");
+        return ExtractNumeralString(context, evaluated, expr);
     }
 
     // Value Extraction Methods - BitVector
     public BigInteger GetBitVecValueAsBigInteger(Z3BitVecExpr expr)
     {
         var evaluated = Evaluate(expr);
-
-        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
-            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
-
-        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
-        var valueStr = Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract bitvector value from expression {expr}");
+        var valueStr = ExtractNumeralString(context, evaluated, expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
             throw new InvalidOperationException($"Failed to parse bitvector value '{valueStr}' from expression {expr}");
@@ -172,35 +158,10 @@ public sealed class Z3Model
         return binaryStr.PadLeft(size, '0');
     }
 
-    public string GetBitVecValueAsHexString(Z3BitVecExpr expr)
-    {
-        var bigIntValue = GetBitVecValueAsBigInteger(expr);
-
-        if (bigIntValue < 0)
-            throw new ArgumentException($"Cannot convert negative bitvector value {bigIntValue} to hex string");
-
-        var hexStr = bigIntValue.ToString("X").TrimStart('0');
-
-        // Handle zero case
-        if (string.IsNullOrEmpty(hexStr))
-            hexStr = "0";
-
-        // Pad to appropriate hex digits for the size
-        var size = (int)expr.Size;
-        var hexDigits = (size + 3) / 4; // Round up to nearest hex digit
-
-        return hexStr.PadLeft(hexDigits, '0');
-    }
-
     public string GetBitVecValueAsString(Z3BitVecExpr expr)
     {
         var evaluated = Evaluate(expr);
-
-        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
-            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
-
-        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
-        return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract bitvector value from expression {expr}");
+        return ExtractNumeralString(context, evaluated, expr);
     }
 
     // Object Methods
@@ -250,4 +211,15 @@ public sealed class Z3Model
         if (invalidated)
             throw new ObjectDisposedException(nameof(Z3Model), "Model has been invalidated due to solver state change");
     }
+
+    private static string ExtractNumeralString(Z3Context context, Z3Expr evaluatedExpr, Z3NumericExpr originalExpr)
+    {
+        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
+            throw new InvalidOperationException($"Expression {originalExpr} does not evaluate to a numeric constant in this model");
+
+        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
+        return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
+    }
+
+
 }

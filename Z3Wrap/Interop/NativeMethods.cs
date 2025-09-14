@@ -31,9 +31,10 @@ public static class NativeMethods
     {
         if (loadedFunctionPointers != null)
             return; // Already loaded
-            
+
         var searchPaths = GetPlatformSearchPaths();
-        
+        var loadAttempts = new List<(string path, Exception exception)>();
+
         foreach (var path in searchPaths)
         {
             if (File.Exists(path))
@@ -43,16 +44,23 @@ public static class NativeMethods
                     loadedFunctionPointers = LoadLibraryInternal(path);
                     return; // Success
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Try next path if this one fails
+                    loadAttempts.Add((path, ex));
                 }
             }
         }
-        
+
+        var searchedPaths = string.Join(", ", searchPaths);
+        var attemptDetails = loadAttempts.Any()
+            ? "\n\nLoad attempts:\n" + string.Join("\n", loadAttempts.Select(a => $"  {a.path}: {a.exception.Message}"))
+            : "";
+
         throw new InvalidOperationException(
-            "Could not automatically locate Z3 library. " +
-            "Please ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly.");
+            $"Could not automatically locate Z3 library. " +
+            $"Searched paths: {searchedPaths}" +
+            attemptDetails +
+            "\n\nPlease ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly.");
     }
 
     // Internal Library Loading
@@ -934,6 +942,7 @@ public static class NativeMethods
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
         return func(ctx, expr);
     }
+
 
 
     public static int Z3GetBoolValue(IntPtr ctx, IntPtr expr)

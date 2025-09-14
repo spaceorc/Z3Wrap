@@ -3,7 +3,7 @@ using System.Numerics;
 namespace Z3Wrap.Expressions;
 
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
-public sealed class Z3RealExpr : Z3Expr
+public sealed class Z3RealExpr : Z3NumericExpr
 {
     internal Z3RealExpr(Z3Context context, IntPtr handle) : base(context, handle)
     {
