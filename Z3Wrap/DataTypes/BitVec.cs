@@ -9,7 +9,6 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     private readonly BigInteger value;
     private readonly uint size;
 
-    // Constructors
     public BitVec(BigInteger value, uint size)
     {
         if (size == 0)
@@ -26,13 +25,15 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public BitVec(long value, uint size) : this(new BigInteger(value), size) { }
     public BitVec(ulong value, uint size) : this(new BigInteger(value), size) { }
 
-    // Properties
     public BigInteger Value => value;
     public uint Size => size;
     public bool IsZero => value == 0;
     public BigInteger MaxValue => (BigInteger.One << (int)size) - 1;
 
-    // Conversion methods (unsigned by default)
+    public static BitVec Zero(uint size) => new(0, size);
+    public static BitVec One(uint size) => new(1, size);
+    public static BitVec Max(uint size) => new((BigInteger.One << (int)size) - 1, size);
+
     public int ToInt()
     {
         if (value > int.MaxValue)
@@ -103,63 +104,18 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         return sb.ToString().PadLeft((int)size, '0');
     }
 
-    // Arithmetic operators (unsigned semantics)
-    public static BitVec operator +(BitVec left, BitVec right)
+    public BigInteger ToSignedBigInteger()
     {
-        if (left.size != right.size)
-            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
-
-        return new BitVec(left.value + right.value, left.size);
+        // Check if MSB is set (negative in two's complement)
+        var msb = BigInteger.One << ((int)size - 1);
+        if ((value & msb) != 0)
+        {
+            // Convert from unsigned to signed (two's complement)
+            return value - (BigInteger.One << (int)size);
+        }
+        return value;
     }
 
-    public static BitVec operator -(BitVec left, BitVec right)
-    {
-        if (left.size != right.size)
-            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
-
-        return new BitVec(left.value - right.value, left.size);
-    }
-
-    public static BitVec operator *(BitVec left, BitVec right)
-    {
-        if (left.size != right.size)
-            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
-
-        return new BitVec(left.value * right.value, left.size);
-    }
-
-
-    public static BitVec operator /(BitVec left, BitVec right)
-    {
-        if (left.size != right.size)
-            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
-
-        if (right.IsZero)
-            throw new DivideByZeroException("Division by zero is not allowed");
-
-        // Unsigned division - straightforward for positive values
-        return new BitVec(left.value / right.value, left.size);
-    }
-
-    public static BitVec operator %(BitVec left, BitVec right)
-    {
-        if (left.size != right.size)
-            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
-
-        if (right.IsZero)
-            throw new DivideByZeroException("Division by zero is not allowed");
-
-        // Unsigned remainder - straightforward for positive values
-        return new BitVec(left.value % right.value, left.size);
-    }
-
-    public static BitVec operator -(BitVec operand)
-    {
-        // Two's complement negation
-        return new BitVec(-operand.value, operand.size);
-    }
-
-    // Division operations (signed semantics)
     public BitVec SignedDiv(BitVec other)
     {
         if (size != other.size)
@@ -214,19 +170,60 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         return new BitVec(remainder, size);
     }
 
-    public BigInteger ToSignedBigInteger()
+    public static BitVec operator +(BitVec left, BitVec right)
     {
-        // Check if MSB is set (negative in two's complement)
-        var msb = BigInteger.One << ((int)size - 1);
-        if ((value & msb) != 0)
-        {
-            // Convert from unsigned to signed (two's complement)
-            return value - (BigInteger.One << (int)size);
-        }
-        return value;
+        if (left.size != right.size)
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
+
+        return new BitVec(left.value + right.value, left.size);
     }
 
-    // Bitwise operators
+    public static BitVec operator -(BitVec left, BitVec right)
+    {
+        if (left.size != right.size)
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
+
+        return new BitVec(left.value - right.value, left.size);
+    }
+
+    public static BitVec operator *(BitVec left, BitVec right)
+    {
+        if (left.size != right.size)
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
+
+        return new BitVec(left.value * right.value, left.size);
+    }
+
+    public static BitVec operator /(BitVec left, BitVec right)
+    {
+        if (left.size != right.size)
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
+
+        if (right.IsZero)
+            throw new DivideByZeroException("Division by zero is not allowed");
+
+        // Unsigned division - straightforward for positive values
+        return new BitVec(left.value / right.value, left.size);
+    }
+
+    public static BitVec operator %(BitVec left, BitVec right)
+    {
+        if (left.size != right.size)
+            throw new ArgumentException($"Size mismatch: {left.size} != {right.size}");
+
+        if (right.IsZero)
+            throw new DivideByZeroException("Division by zero is not allowed");
+
+        // Unsigned remainder - straightforward for positive values
+        return new BitVec(left.value % right.value, left.size);
+    }
+
+    public static BitVec operator -(BitVec operand)
+    {
+        // Two's complement negation
+        return new BitVec(-operand.value, operand.size);
+    }
+
     public static BitVec operator &(BitVec left, BitVec right)
     {
         if (left.size != right.size)
@@ -258,7 +255,6 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         return new BitVec(inverted, operand.size);
     }
 
-    // Shift operators
     public static BitVec operator <<(BitVec left, int shift)
     {
         if (shift < 0)
@@ -276,7 +272,6 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         return new BitVec(left.value >> shift, left.size);
     }
 
-    // Comparison operators (unsigned semantics)
     public static bool operator ==(BitVec left, BitVec right)
     {
         return left.size == right.size && left.value == right.value;
@@ -316,9 +311,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         return left.value >= right.value;
     }
 
-    // Interface implementations
     public bool Equals(BitVec other) => this == other;
+
     public override bool Equals(object? obj) => obj is BitVec other && Equals(other);
+
     public override int GetHashCode() => HashCode.Combine(value, size);
 
     public int CompareTo(BitVec other)
@@ -332,6 +328,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     }
 
     public override string ToString() => ToString(null, CultureInfo.InvariantCulture);
+
     public string ToString(string? format) => ToString(format, CultureInfo.InvariantCulture);
 
     public string ToString(string? format, IFormatProvider? formatProvider)
@@ -349,12 +346,6 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         };
     }
 
-    // Static constants
-    public static BitVec Zero(uint size) => new(0, size);
-    public static BitVec One(uint size) => new(1, size);
-    public static BitVec Max(uint size) => new((BigInteger.One << (int)size) - 1, size);
-
-    // Utility methods
     public static BitVec Min(BitVec left, BitVec right)
     {
         if (left.size != right.size)
