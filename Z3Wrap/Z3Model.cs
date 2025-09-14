@@ -8,11 +8,12 @@ namespace Z3Wrap;
 
 public sealed class Z3Model
 {
+    // Fields
     private readonly Z3Context context;
     private IntPtr modelHandle;
     private bool invalidated;
 
-    // Constructor & Properties
+    // Constructor
     internal Z3Model(Z3Context context, IntPtr handle)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
@@ -26,6 +27,7 @@ public sealed class Z3Model
         NativeMethods.Z3ModelIncRef(context.Handle, handle);
     }
 
+    // Properties
     public IntPtr Handle
     {
         get
@@ -35,7 +37,7 @@ public sealed class Z3Model
         }
     }
 
-    // Evaluation Methods
+    // Public Methods - Expression Evaluation
     public Z3Expr Evaluate(Z3Expr expr, bool modelCompletion = true)
     {
         ThrowIfInvalidated();
@@ -46,7 +48,7 @@ public sealed class Z3Model
         return Z3Expr.Create(context, result);
     }
 
-    // Value Extraction Methods - Integer
+    // Public Methods - Value Extraction
     public BigInteger GetIntValue(Z3IntExpr expr)
     {
         var valueStr = GetNumericValueAsString(expr);
@@ -57,7 +59,6 @@ public sealed class Z3Model
         return value;
     }
 
-    // Value Extraction Methods - Boolean
     public bool GetBoolValue(Z3BoolExpr expr)
     {
         var evaluated = Evaluate(expr);
@@ -72,17 +73,8 @@ public sealed class Z3Model
         };
     }
 
-    // Value Extraction Methods - Real
     public Real GetRealValue(Z3RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
 
-    // Generic numeric value extraction
-    public string GetNumericValueAsString(Z3NumericExpr expr)
-    {
-        var evaluated = Evaluate(expr);
-        return ExtractNumeralString(context, evaluated, expr);
-    }
-
-    // Value Extraction Methods - BitVector
     public BitVec GetBitVec(Z3BitVecExpr expr)
     {
         var valueStr = GetNumericValueAsString(expr);
@@ -93,7 +85,13 @@ public sealed class Z3Model
         return new BitVec(value, expr.Size);
     }
 
-    // Object Methods
+    public string GetNumericValueAsString(Z3NumericExpr expr)
+    {
+        var evaluated = Evaluate(expr);
+        return ExtractNumeralString(context, evaluated, expr);
+    }
+
+    // Object Overrides
     public override string ToString()
     {
         if (invalidated)
@@ -149,6 +147,4 @@ public sealed class Z3Model
         var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
         return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
     }
-
-
 }
