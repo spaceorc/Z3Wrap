@@ -298,8 +298,8 @@ public class Z3ArrayExprTests
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var price1Str = model.GetRealValueAsString(prices[item1]);
-        var price2Str = model.GetRealValueAsString(prices[item2]);
+        var price1Str = model.GetNumericValueAsString(prices[item1]);
+        var price2Str = model.GetNumericValueAsString(prices[item2]);
 
         // Check that the stored values are maintained (Z3 may return equivalent fractions)
         // 19.99 = 1999/100, 29.95 = 599/20 are equivalent representations

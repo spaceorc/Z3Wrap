@@ -151,7 +151,7 @@ public class Z3ModelValueExtractionTests
     }
 
     [Test]
-    public void GetRealValueAsString()
+    public void GetNumericValueAsString()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -162,7 +162,7 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         
         var model = solver.GetModel();
-        var value = model.GetRealValueAsString(z);
+        var value = model.GetNumericValueAsString(z);
         
         Assert.That(value, Is.EqualTo("1359/500"));
     }
@@ -305,7 +305,7 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.GetIntValue(x));
         Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValue(context.RealConst("z")));
-        Assert.Throws<ObjectDisposedException>(() => model.GetRealValueAsString(context.RealConst("z")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.RealConst("z")));
         Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(context.BitVecConst("bv", 8)));
         Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.BitVecConst("bv", 8)));
     }

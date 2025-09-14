@@ -75,8 +75,6 @@ public sealed class Z3Model
     // Value Extraction Methods - Real
     public Real GetRealValue(Z3RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
 
-    public string GetRealValueAsString(Z3RealExpr expr) => GetNumericValueAsString(expr);
-
     // Generic numeric value extraction
     public string GetNumericValueAsString(Z3NumericExpr expr)
     {

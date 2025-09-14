@@ -103,7 +103,7 @@ public class TypeConversionTests
 
         var model = solver.GetModel();
         var xValue = model.GetIntValue(x);
-        var yValue = model.GetRealValueAsString(y);
+        var yValue = model.GetNumericValueAsString(y);
 
         Assert.That(xValue, Is.EqualTo(BigInteger.Parse("3")));
         Assert.That(yValue, Is.EqualTo("5/2")); // 5.5 - 3 = 2.5 = 5/2
@@ -124,7 +124,7 @@ public class TypeConversionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var xValue = model.GetRealValueAsString(x);
+        var xValue = model.GetNumericValueAsString(x);
         var yValue = model.GetIntValue(y);
 
         Assert.That(xValue, Is.EqualTo("7"));
@@ -148,7 +148,7 @@ public class TypeConversionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var zValue = model.GetRealValueAsString(z);
+        var zValue = model.GetNumericValueAsString(z);
 
         Assert.That(zValue, Is.EqualTo("6")); // 15 - 5 - 4 = 6
     }
@@ -191,7 +191,7 @@ public class TypeConversionTests
 
         var model = solver.GetModel();
         var xValue = model.GetIntValue(x);
-        var yValue = model.GetRealValueAsString(y);
+        var yValue = model.GetNumericValueAsString(y);
 
         Assert.That(xValue, Is.EqualTo(BigInteger.Parse("10")));
         Assert.That(yValue, Is.EqualTo("19/2")); // 9.5 = 19/2
@@ -234,7 +234,7 @@ public class TypeConversionTests
 
         var model = solver.GetModel();
         var xValue = model.GetIntValue(x);
-        var yValue = model.GetRealValueAsString(y);
+        var yValue = model.GetNumericValueAsString(y);
 
         Assert.That(xValue, Is.EqualTo(BigInteger.Parse("42")));
         Assert.That(yValue, Is.EqualTo("85/2")); // 42.5 = 85/2

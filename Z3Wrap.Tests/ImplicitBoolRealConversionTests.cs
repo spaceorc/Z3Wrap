@@ -218,7 +218,7 @@ public class ImplicitBoolRealConversionTests
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var xValueStr = model.GetRealValueAsString(x);
+        var xValueStr = model.GetNumericValueAsString(x);
 
         // The equation (x + 1) * 2.5 = x * 3 - 0.5
         // Expands to: 2.5x + 2.5 = 3x - 0.5
