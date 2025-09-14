@@ -21,10 +21,10 @@ public sealed class Z3BoolExpr : Z3Expr
     public static Z3BoolExpr operator !(Z3BoolExpr expr) => expr.Not();
 
     // Mixed-type equality operations
-    public static Z3BoolExpr operator ==(Z3BoolExpr left, bool right) => left.Context.Eq(left, right);
-    public static Z3BoolExpr operator !=(Z3BoolExpr left, bool right) => left.Context.Neq(left, right);
-    public static Z3BoolExpr operator ==(bool left, Z3BoolExpr right) => right.Context.Eq(left, right);
-    public static Z3BoolExpr operator !=(bool left, Z3BoolExpr right) => right.Context.Neq(left, right);
+    public static Z3BoolExpr operator ==(Z3BoolExpr left, bool right) => left.Context.Eq(left, left.Context.Bool(right));
+    public static Z3BoolExpr operator !=(Z3BoolExpr left, bool right) => left.Context.Neq(left, left.Context.Bool(right));
+    public static Z3BoolExpr operator ==(bool left, Z3BoolExpr right) => right.Context.Eq(right.Context.Bool(left), right);
+    public static Z3BoolExpr operator !=(bool left, Z3BoolExpr right) => right.Context.Neq(right.Context.Bool(left), right);
 
     public Z3BoolExpr And(Z3BoolExpr other) => Context.And(this, other);
     public Z3BoolExpr Or(Z3BoolExpr other) => Context.Or(this, other);
