@@ -9,6 +9,11 @@ public sealed class Z3RealExpr : Z3Expr
     {
     }
 
+    public new static Z3RealExpr Create(Z3Context context, IntPtr handle)
+    {
+        return (Z3RealExpr)Z3Expr.Create(context, handle);
+    }
+
     // Implicit conversions using thread-local context
     public static implicit operator Z3RealExpr(int value) => Z3Context.Current.Real(value);
     public static implicit operator Z3RealExpr(long value) => Z3Context.Current.Real(value);

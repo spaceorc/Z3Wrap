@@ -2,7 +2,7 @@ using Z3Wrap.Interop;
 
 namespace Z3Wrap.Expressions;
 
-public abstract class Z3Expr(Z3Context context, IntPtr handle)
+public abstract partial class Z3Expr(Z3Context context, IntPtr handle)
 {
     public IntPtr Handle { get; } = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
     public Z3Context Context { get; } = context ?? throw new ArgumentNullException(nameof(context));

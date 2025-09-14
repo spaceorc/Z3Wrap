@@ -42,7 +42,7 @@ public sealed class Z3Model
         if (!NativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
-        return context.WrapExpr(result);
+        return Z3Expr.Create(context, result);
     }
 
     // Value Extraction Methods - Integer

@@ -463,6 +463,43 @@ public class Z3BoolExprTests
         Assert.That(solver2.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
+    [Test]
+    public void If_WithArrayExpressions_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        var condition = context.BoolConst("condition");
+        var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
+        var arr2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
+
+        // This should now work with the ExpressionWrapper handling array types
+        var result = condition.If(arr1, arr2);
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3IntExpr>>());
+
+        using var solver = context.CreateSolver();
+        solver.Assert(condition);
+        solver.Assert(arr1[0] == context.Int(10));
+        solver.Assert(arr2[0] == context.Int(20));
+        solver.Assert(result[0] == context.Int(10)); // Should select arr1
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        // This should now work without throwing an exception
+        var model = solver.GetModel();
+        Assert.That(model, Is.Not.Null);
+
+        // Test that the conditional logic works correctly
+        using var solver2 = context.CreateSolver();
+        solver2.Assert(!condition); // condition is false
+        solver2.Assert(arr1[0] == context.Int(10));
+        solver2.Assert(arr2[0] == context.Int(20));
+        solver2.Assert(result[0] == context.Int(20)); // Should select arr2
+
+        Assert.That(solver2.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
     #endregion
 
     #region Operator Precedence and Associativity Tests

@@ -70,9 +70,13 @@ public class Z3Context : IDisposable
         return solver;
     }
 
-    private void TrackExpression(IntPtr handle)
+    internal void TrackExpression(IntPtr handle)
     {
         ThrowIfDisposed();
+
+        if (handle == IntPtr.Zero)
+            throw new ArgumentException("Invalid expression handle", nameof(handle));
+
         NativeMethods.Z3IncRef(contextHandle, handle);
         trackedExpressions.Add(handle);
     }
@@ -102,53 +106,6 @@ public class Z3Context : IDisposable
         solver.InternalDispose();
     }
 
-    internal Z3Expr WrapExpr(IntPtr handle)
-    {
-        ThrowIfDisposed();
-        
-        if (handle == IntPtr.Zero)
-            throw new ArgumentException("Invalid expression handle", nameof(handle));
-        
-        var sort = NativeMethods.Z3GetSort(contextHandle, handle);
-        var sortKind = NativeMethods.Z3GetSortKind(contextHandle, sort);
-        
-        TrackExpression(handle);
-        
-        return (Z3SortKind)sortKind switch
-        {
-            Z3SortKind.Bool => new Z3BoolExpr(this, handle),
-            Z3SortKind.Int => new Z3IntExpr(this, handle),
-            Z3SortKind.Real => new Z3RealExpr(this, handle),
-            Z3SortKind.Array => throw new InvalidOperationException("Array expressions must be wrapped with specific generic types. Use WrapArrayExpr<TIndex, TValue>() instead."),
-            _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}")
-        };
-    }
-
-    internal Z3IntExpr WrapIntExpr(IntPtr handle)
-    {
-        TrackExpression(handle);
-        return new Z3IntExpr(this, handle);
-    }
-
-    internal Z3RealExpr WrapRealExpr(IntPtr handle)
-    {
-        TrackExpression(handle);
-        return new Z3RealExpr(this, handle);
-    }
-
-    internal Z3BoolExpr WrapBoolExpr(IntPtr handle)
-    {
-        TrackExpression(handle);
-        return new Z3BoolExpr(this, handle);
-    }
-
-    internal Z3ArrayExpr<TIndex, TValue> WrapArrayExpr<TIndex, TValue>(IntPtr handle)
-        where TIndex : Z3Expr
-        where TValue : Z3Expr
-    {
-        TrackExpression(handle);
-        return new Z3ArrayExpr<TIndex, TValue>(this, handle);
-    }
 
     private void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
 

@@ -7,6 +7,11 @@ public sealed class Z3BoolExpr : Z3Expr
     {
     }
 
+    public new static Z3BoolExpr Create(Z3Context context, IntPtr handle)
+    {
+        return (Z3BoolExpr)Z3Expr.Create(context, handle);
+    }
+
     // Implicit conversions using thread-local context
     public static implicit operator Z3BoolExpr(bool value) => Z3Context.Current.Bool(value);
 

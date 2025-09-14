@@ -115,6 +115,8 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_select");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_store");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_const_array");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_array_sort_domain");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_array_sort_range");
             
             // Solver functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_solver");
@@ -500,6 +502,20 @@ public static class NativeMethods
         return func(ctx, domain, value);
     }
 
+    public static IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr arraySort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_array_sort_domain");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetArraySortDomainDelegate>(funcPtr);
+        return func(ctx, arraySort);
+    }
+
+    public static IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr arraySort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_array_sort_range");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetArraySortRangeDelegate>(funcPtr);
+        return func(ctx, arraySort);
+    }
+
     // Solver functions
     public static IntPtr Z3MkSolver(IntPtr ctx)
     {
@@ -707,6 +723,8 @@ public static class NativeMethods
     private delegate IntPtr Z3MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
     private delegate IntPtr Z3MkStoreDelegate(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value);
     private delegate IntPtr Z3MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
+    private delegate IntPtr Z3GetArraySortDomainDelegate(IntPtr ctx, IntPtr arraySort);
+    private delegate IntPtr Z3GetArraySortRangeDelegate(IntPtr ctx, IntPtr arraySort);
     
     // Solver delegates
     private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);

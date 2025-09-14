@@ -9,6 +9,11 @@ public sealed class Z3IntExpr : Z3Expr
     {
     }
 
+    public new static Z3IntExpr Create(Z3Context context, IntPtr handle)
+    {
+        return (Z3IntExpr)Z3Expr.Create(context, handle);
+    }
+
     // Implicit conversions using thread-local context
     public static implicit operator Z3IntExpr(int value) => Z3Context.Current.Int(value);
     public static implicit operator Z3IntExpr(long value) => Z3Context.Current.Int(value);
