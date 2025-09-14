@@ -7,31 +7,31 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Update="Z3ContextExtensions.Primitives.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Z3ContextExtensions.BoolOperators.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Z3ContextExtensions.NumericOperators.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Z3ContextExtensions.Comparison.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Z3ContextExtensions.Equality.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Z3ContextExtensions.MinMax.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Z3ContextExtensions.Arrays.cs">
-            <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-        </Compile>
         <Compile Update="Expressions\Z3Expr.Factory.cs">
             <DependentUpon>Z3Expr.cs</DependentUpon>
         </Compile>
-        <Compile Update="Z3ContextExtensions.BitVectors.cs">
+        <Compile Update="Z3ContextExtensions.Array.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.BitVec.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Bool.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Conversions.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Core.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Int.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Mixed.cs">
+          <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Real.cs">
           <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
         </Compile>
     </ItemGroup>
