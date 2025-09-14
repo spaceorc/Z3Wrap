@@ -15,4 +15,14 @@ public static partial class Z3ContextExtensions
 
         return Z3BitVecExpr.Create(context, handle);
     }
+
+    // Bitvector value creation from int
+    public static Z3BitVecExpr BitVec(this Z3Context context, int value, uint size)
+    {
+        using var numeralPtr = new AnsiStringPtr(value.ToString());
+        var sort = NativeMethods.Z3MkBvSort(context.Handle, size);
+        var handle = NativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sort);
+
+        return Z3BitVecExpr.Create(context, handle);
+    }
 }

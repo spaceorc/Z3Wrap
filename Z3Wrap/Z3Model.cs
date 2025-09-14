@@ -92,6 +92,106 @@ public sealed class Z3Model
     }
 
     // Value Extraction Methods - BitVector
+    public BigInteger GetBitVecValueAsBigInteger(Z3BitVecExpr expr)
+    {
+        var evaluated = Evaluate(expr);
+
+        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluated.Handle))
+            throw new InvalidOperationException($"Expression {expr} does not evaluate to a numeric constant in this model");
+
+        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluated.Handle);
+        var valueStr = Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract bitvector value from expression {expr}");
+
+        if (!BigInteger.TryParse(valueStr, out var value))
+            throw new InvalidOperationException($"Failed to parse bitvector value '{valueStr}' from expression {expr}");
+
+        return value;
+    }
+
+    public int GetBitVecValueAsInt(Z3BitVecExpr expr)
+    {
+        var bigIntValue = GetBitVecValueAsBigInteger(expr);
+
+        if (bigIntValue > int.MaxValue || bigIntValue < int.MinValue)
+            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of int");
+
+        return (int)bigIntValue;
+    }
+
+    public uint GetBitVecValueAsUInt(Z3BitVecExpr expr)
+    {
+        var bigIntValue = GetBitVecValueAsBigInteger(expr);
+
+        if (bigIntValue > uint.MaxValue || bigIntValue < uint.MinValue)
+            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of uint");
+
+        return (uint)bigIntValue;
+    }
+
+    public long GetBitVecValueAsLong(Z3BitVecExpr expr)
+    {
+        var bigIntValue = GetBitVecValueAsBigInteger(expr);
+
+        if (bigIntValue > long.MaxValue || bigIntValue < long.MinValue)
+            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of long");
+
+        return (long)bigIntValue;
+    }
+
+    public ulong GetBitVecValueAsULong(Z3BitVecExpr expr)
+    {
+        var bigIntValue = GetBitVecValueAsBigInteger(expr);
+
+        if (bigIntValue > ulong.MaxValue || bigIntValue < ulong.MinValue)
+            throw new OverflowException($"Bitvector value {bigIntValue} is outside the range of ulong");
+
+        return (ulong)bigIntValue;
+    }
+
+    public string GetBitVecValueAsBinaryString(Z3BitVecExpr expr)
+    {
+        var bigIntValue = GetBitVecValueAsBigInteger(expr);
+
+        if (bigIntValue < 0)
+            throw new ArgumentException($"Cannot convert negative bitvector value {bigIntValue} to binary string");
+
+        // Convert BigInteger to binary string manually
+        if (bigIntValue == 0)
+            return new string('0', (int)expr.Size);
+
+        var binaryStr = "";
+        var value = bigIntValue;
+        while (value > 0)
+        {
+            binaryStr = (value & 1) + binaryStr;
+            value >>= 1;
+        }
+
+        // Pad to the size of the bitvector
+        var size = (int)expr.Size;
+        return binaryStr.PadLeft(size, '0');
+    }
+
+    public string GetBitVecValueAsHexString(Z3BitVecExpr expr)
+    {
+        var bigIntValue = GetBitVecValueAsBigInteger(expr);
+
+        if (bigIntValue < 0)
+            throw new ArgumentException($"Cannot convert negative bitvector value {bigIntValue} to hex string");
+
+        var hexStr = bigIntValue.ToString("X").TrimStart('0');
+
+        // Handle zero case
+        if (string.IsNullOrEmpty(hexStr))
+            hexStr = "0";
+
+        // Pad to appropriate hex digits for the size
+        var size = (int)expr.Size;
+        var hexDigits = (size + 3) / 4; // Round up to nearest hex digit
+
+        return hexStr.PadLeft(hexDigits, '0');
+    }
+
     public string GetBitVecValueAsString(Z3BitVecExpr expr)
     {
         var evaluated = Evaluate(expr);
