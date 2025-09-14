@@ -8,6 +8,7 @@ A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision a
 - **Type-Safe** - Strongly typed expressions with operator overloading
 - **Natural Syntax** - Write constraints using familiar operators: `x + y == 10`, `p.Implies(q)`
 - **Arrays** - Full Z3 array theory support with generic type safety
+- **Bit Vectors** - Fixed-width integer operations with natural C# operators
 - **Solver Scopes** - Push/pop operations for backtracking constraint sets
 - **Zero Configuration** - Automatically discovers and loads Z3 library
 - **Cross-Platform** - Windows, macOS, and Linux support
@@ -95,9 +96,27 @@ solver.Assert(x.ToReal() + y == context.Real(5.5m));
 // Convert real to integer (truncates)
 solver.Assert(y.ToInt() % context.Int(2) == context.Int(0));
 
-// Alternative extension method syntax
-solver.Assert(context.ToReal(x) >= context.Real(10));
-solver.Assert(context.ToInt(y) < context.Int(100));
+// Convert integer to bitvector
+var bv = x.ToBitVec(32);  // 32-bit bitvector
+solver.Assert(bv & 0xFF == 0x42);
+```
+
+### Bit Vectors
+
+```csharp
+var a = context.BitVecConst("a", 32);  // 32-bit bitvector
+var b = context.BitVecConst("b", 32);
+
+// Natural C# operators with BigInteger literals
+solver.Assert(a + 0x10 == 0b11010000);     // Arithmetic with hex/binary
+solver.Assert((a & b) != 0);               // Bitwise operations
+solver.Assert(a << 2 == b);                // Shift operations
+solver.Assert(a < b);                      // Unsigned comparison (default)
+solver.Assert(a.SignedLt(b));              // Explicit signed comparison
+
+// Size operations
+var extended = a.Extend(16);               // Zero-extend to 48 bits
+var truncated = extended.Extract(15, 0);   // Extract lower 16 bits
 ```
 
 ### Boolean Logic
@@ -200,13 +219,15 @@ Z3Expr (abstract base)
 ├── Z3BoolExpr - Boolean expressions with logical operators
 ├── Z3IntExpr  - BigInteger expressions with unlimited precision arithmetic
 ├── Z3RealExpr - Exact rational expressions with Real class
+├── Z3BitVecExpr - Fixed-width integer expressions with bitwise operators
 └── Z3ArrayExpr<TIndex, TValue> - Generic arrays with type-safe indexing
 ```
 
 ### Key Features
 
 - **Integers**: `BigInteger` provides unlimited precision - no overflow
-- **Reals**: `Real` class uses exact fractions - no floating-point errors  
+- **Reals**: `Real` class uses exact fractions - no floating-point errors
+- **Bit Vectors**: Fixed-width operations with natural BigInteger literal support
 - **Memory**: Hierarchical disposal - context manages all object lifetimes
 
 ```csharp
@@ -239,17 +260,20 @@ var constraint = x >= BigInteger.Parse("999999999999");
 // Boolean: &, |, ^, !
 var formula = p & (q | !r);
 
+// Bit Vectors: all operators work with BigInteger literals
+var bv = context.BitVecConst("bv", 32);
+var result = bv & 0xFF;                        // Bitwise AND with literal
+var shifted = result << 4;                     // Shift operations
+var comparison = bv > 0x80000000;              // Unsigned comparison
+
 // Arrays: indexer access and store operations
 var element = array[index];                    // Select operation
 var newArray = array.Store(index, value);     // Store operation
 
-// Min/Max operations
-var minimum = context.Min(x, y);
-var maximum = context.Max(a, b);
-
-// Type Conversions: ToReal(), ToInt()
-var mixed = x.ToReal() + y;  // Convert int to real for mixed arithmetic
-var truncated = z.ToInt();   // Convert real to int (truncates)
+// Type Conversions: ToReal(), ToInt(), ToBitVec()
+var mixed = x.ToReal() + y;                    // Convert int to real
+var truncated = z.ToInt();                     // Convert real to int (truncates)
+var bitvector = x.ToBitVec(32);                // Convert int to 32-bit bitvector
 ```
 
 ## Requirements
