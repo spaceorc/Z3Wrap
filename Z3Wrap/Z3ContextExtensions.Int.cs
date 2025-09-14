@@ -161,4 +161,11 @@ public static partial class Z3ContextExtensions
 
     public static Z3IntExpr Max(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
         => context.Ite(context.Ge(left, right), left, right);
+
+    // Integer to Real conversion
+    public static Z3RealExpr ToReal(this Z3Context context, Z3IntExpr expr)
+    {
+        var handle = NativeMethods.Z3MkInt2Real(context.Handle, expr.Handle);
+        return Z3RealExpr.Create(context, handle);
+    }
 }
