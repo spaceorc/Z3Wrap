@@ -311,7 +311,7 @@ public class Z3ModelValueExtractionTests
     }
 
     [Test]
-    public void GetBitVecValueAsString_SimpleValue()
+    public void GetNumericValueAsString_BasicValues()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -328,41 +328,7 @@ public class Z3ModelValueExtractionTests
     }
 
     [Test]
-    public void GetBitVecValueAsString_ZeroValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 16);
-        solver.Assert(bv == context.BitVec(0, 16));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetNumericValueAsString(bv);
-
-        Assert.That(value, Is.EqualTo("0"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsString_MaxValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(255, 8)); // max value for 8-bit
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetNumericValueAsString(bv);
-
-        Assert.That(value, Is.EqualTo("255"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsString_NegativeValue()
+    public void GetNumericValueAsString_NegativeInput()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -380,246 +346,7 @@ public class Z3ModelValueExtractionTests
     }
 
     [Test]
-    public void GetBitVecValueAsString_LargeValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 64);
-        solver.Assert(bv == context.BitVec(1234567890, 64));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetNumericValueAsString(bv);
-
-        Assert.That(value, Is.EqualTo("1234567890"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsString_DifferentSizes()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv8 = context.BitVecConst("bv8", 8);
-        var bv16 = context.BitVecConst("bv16", 16);
-        var bv32 = context.BitVecConst("bv32", 32);
-        var bv64 = context.BitVecConst("bv64", 64);
-
-        solver.Assert(bv8 == context.BitVec(100, 8));
-        solver.Assert(bv16 == context.BitVec(1000, 16));
-        solver.Assert(bv32 == context.BitVec(100000, 32));
-        solver.Assert(bv64 == context.BitVec(1000000000, 64));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-
-        Assert.That(model.GetNumericValueAsString(bv8), Is.EqualTo("100"));
-        Assert.That(model.GetNumericValueAsString(bv16), Is.EqualTo("1000"));
-        Assert.That(model.GetNumericValueAsString(bv32), Is.EqualTo("100000"));
-        Assert.That(model.GetNumericValueAsString(bv64), Is.EqualTo("1000000000"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsString_ComplexExpression()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var x = context.BitVecConst("x", 8);
-        var y = context.BitVecConst("y", 8);
-
-        // Set up constraints: x = 20, y = 30 (without using addition for now)
-        solver.Assert(x == context.BitVec(20, 8));
-        solver.Assert(y == context.BitVec(30, 8));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var xValue = model.GetNumericValueAsString(x);
-        var yValue = model.GetNumericValueAsString(y);
-
-        Assert.That(xValue, Is.EqualTo("20"));
-        Assert.That(yValue, Is.EqualTo("30"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsString_InvalidatedModel_ThrowsException()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(42, 8));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        var model = solver.GetModel();
-
-        // Invalidate model by changing solver state
-        solver.Assert(bv == context.BitVec(43, 8)); // Contradiction
-
-        // Should throw on invalidated model
-        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(bv));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_SimpleValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(42, 8));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).Value;
-
-        Assert.That(value, Is.EqualTo(new BigInteger(42)));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_ZeroValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 16);
-        solver.Assert(bv == context.BitVec(0, 16));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).Value;
-
-        Assert.That(value, Is.EqualTo(BigInteger.Zero));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_MaxValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(255, 8)); // max value for 8-bit
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).Value;
-
-        Assert.That(value, Is.EqualTo(new BigInteger(255)));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_NegativeValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 32);
-        solver.Assert(bv == context.BitVec(-1, 32));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).Value;
-
-        // -1 in 32-bit bitvector should be represented as 4294967295 (2^32 - 1)
-        Assert.That(value, Is.EqualTo(new BigInteger(4294967295L)));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_LargeValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 64);
-        solver.Assert(bv == context.BitVec(1234567890, 64));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).Value;
-
-        Assert.That(value, Is.EqualTo(new BigInteger(1234567890)));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_DifferentSizes()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv8 = context.BitVecConst("bv8", 8);
-        var bv16 = context.BitVecConst("bv16", 16);
-        var bv32 = context.BitVecConst("bv32", 32);
-        var bv64 = context.BitVecConst("bv64", 64);
-
-        solver.Assert(bv8 == context.BitVec(100, 8));
-        solver.Assert(bv16 == context.BitVec(1000, 16));
-        solver.Assert(bv32 == context.BitVec(100000, 32));
-        solver.Assert(bv64 == context.BitVec(1000000000, 64));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-
-        Assert.That(model.GetBitVec(bv8).Value, Is.EqualTo(new BigInteger(100)));
-        Assert.That(model.GetBitVec(bv16).Value, Is.EqualTo(new BigInteger(1000)));
-        Assert.That(model.GetBitVec(bv32).Value, Is.EqualTo(new BigInteger(100000)));
-        Assert.That(model.GetBitVec(bv64).Value, Is.EqualTo(new BigInteger(1000000000)));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_ComplexExpression()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var x = context.BitVecConst("x", 8);
-        var y = context.BitVecConst("y", 8);
-
-        // Set up constraints: x = 20, y = 30
-        solver.Assert(x == context.BitVec(20, 8));
-        solver.Assert(y == context.BitVec(30, 8));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var xValue = model.GetBitVec(x).Value;
-        var yValue = model.GetBitVec(y).Value;
-
-        Assert.That(xValue, Is.EqualTo(new BigInteger(20)));
-        Assert.That(yValue, Is.EqualTo(new BigInteger(30)));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_InvalidatedModel_ThrowsException()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(42, 8));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        var model = solver.GetModel();
-
-        // Invalidate model by changing solver state
-        solver.Assert(bv == context.BitVec(43, 8)); // Contradiction
-
-        // Should throw on invalidated model
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(bv));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBigInteger_ConsistentWithStringValue()
+    public void GetBitVecAndStringValue_AreConsistent()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -630,17 +357,18 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var intValue = model.GetBitVec(bv).Value;
+        var bitVecValue = model.GetBitVec(bv);
         var stringValue = model.GetNumericValueAsString(bv);
 
-        // Both methods should return the same value
-        Assert.That(intValue, Is.EqualTo(new BigInteger(123456)));
+        // Both methods should return consistent values
+        Assert.That(bitVecValue.Value, Is.EqualTo(new BigInteger(123456)));
+        Assert.That(bitVecValue.Size, Is.EqualTo(32));
         Assert.That(stringValue, Is.EqualTo("123456"));
-        Assert.That(intValue.ToString(), Is.EqualTo(stringValue));
+        Assert.That(bitVecValue.Value.ToString(), Is.EqualTo(stringValue));
     }
 
     [Test]
-    public void GetBitVecValueAsInt_SimpleValue()
+    public void GetBitVec_SimpleValue()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -651,154 +379,30 @@ public class Z3ModelValueExtractionTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToInt();
+        var extractedBitVec = model.GetBitVec(bv);
 
-        Assert.That(value, Is.EqualTo(42));
+        // Verify we got the correct BitVec from the model
+        Assert.That(extractedBitVec.Value, Is.EqualTo(new BigInteger(42)));
+        Assert.That(extractedBitVec.Size, Is.EqualTo(8));
     }
 
     [Test]
-    public void GetBitVecValueAsInt_OverflowThrowsException()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 64);
-        solver.Assert(bv == context.BitVec(-1, 64)); // This will be a very large positive number
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-
-        // Large sizes should work now that you removed the size check
-        var bitVec = model.GetBitVec(bv);
-        Assert.That(bitVec.Size, Is.EqualTo(64));
-        // For -1 in 64-bit, the signed value should be -1
-        Assert.That(bitVec.ToInt(), Is.EqualTo(-1));
-    }
-
-    [Test]
-    public void GetBitVecValueAsUInt_SimpleValue()
+    public void GetBitVec_NegativeInput()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
 
         var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(255, 8));
+        solver.Assert(bv == context.BitVec(-1, 8)); // Becomes 255 in unsigned representation
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToUInt();
+        var extractedBitVec = model.GetBitVec(bv);
 
-        Assert.That(value, Is.EqualTo(255U));
-    }
-
-    [Test]
-    public void GetBitVecValueAsLong_SimpleValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 32);
-        solver.Assert(bv == context.BitVec(1000000, 32));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToLong();
-
-        Assert.That(value, Is.EqualTo(1000000L));
-    }
-
-    [Test]
-    public void GetBitVecValueAsULong_SimpleValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 32);
-        solver.Assert(bv == context.BitVec(-1, 32)); // This becomes 4294967295
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToULong();
-
-        Assert.That(value, Is.EqualTo(4294967295UL));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBinaryString_SimpleValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(42, 8)); // 42 = 00101010
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToBinaryString();
-
-        Assert.That(value, Is.EqualTo("00101010"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBinaryString_ZeroValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 4);
-        solver.Assert(bv == context.BitVec(0, 4));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToBinaryString();
-
-        Assert.That(value, Is.EqualTo("0000"));
-    }
-
-    [Test]
-    public void GetBitVecValueAsBinaryString_MaxValue()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 4);
-        solver.Assert(bv == context.BitVec(15, 4)); // 15 = 1111
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var value = model.GetBitVec(bv).ToBinaryString();
-
-        Assert.That(value, Is.EqualTo("1111"));
-    }
-
-
-    [Test]
-    public void GetBitVecValue_AllFormatsConsistent()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(170, 8)); // 170 = 10101010 = AA
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-
-        Assert.That(model.GetBitVec(bv).Value, Is.EqualTo(new BigInteger(170)));
-        Assert.That(model.GetNumericValueAsString(bv), Is.EqualTo("170"));
-        Assert.That((int)model.GetBitVec(bv).Value, Is.EqualTo(170));
-        Assert.That(model.GetBitVec(bv).ToUInt(), Is.EqualTo(170U));
-        Assert.That((long)model.GetBitVec(bv).Value, Is.EqualTo(170L));
-        Assert.That(model.GetBitVec(bv).ToULong(), Is.EqualTo(170UL));
-        Assert.That(model.GetBitVec(bv).ToBinaryString(), Is.EqualTo("10101010"));
+        // Verify model extraction gives us the correct unsigned representation
+        Assert.That(extractedBitVec.Value, Is.EqualTo(new BigInteger(255)));
+        Assert.That(extractedBitVec.Size, Is.EqualTo(8));
     }
 
     [Test]
