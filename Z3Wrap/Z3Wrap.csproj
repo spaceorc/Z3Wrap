@@ -46,6 +46,12 @@
         <Compile Update="Z3ContextExtensions.Int.Operators.cs">
           <DependentUpon>Z3ContextExtensions.Int.cs</DependentUpon>
         </Compile>
+        <Compile Update="Z3ContextExtensions.Bool.Functions.cs">
+          <DependentUpon>Z3ContextExtensions.Bool.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.Bool.Operators.cs">
+          <DependentUpon>Z3ContextExtensions.Bool.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
