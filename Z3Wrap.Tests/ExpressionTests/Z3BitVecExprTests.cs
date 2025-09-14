@@ -1,3 +1,5 @@
+using Z3Wrap.DataTypes;
+
 namespace Z3Wrap.Tests.ExpressionTests;
 
 [TestFixture]
@@ -19,7 +21,7 @@ public class Z3BitVecExprTests
     public void BitVec_FromInt_CreatesValueWithCorrectSize()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(42, 32);
+        var bv = context.BitVec(new BitVec(42, 32));
 
         Assert.That(bv, Is.Not.Null);
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -31,7 +33,7 @@ public class Z3BitVecExprTests
     public void BitVec_FromInt_HandlesZero()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(0, 16);
+        var bv = context.BitVec(new BitVec(0, 16));
 
         Assert.That(bv, Is.Not.Null);
         Assert.That(bv.Size, Is.EqualTo(16));
@@ -41,7 +43,7 @@ public class Z3BitVecExprTests
     public void BitVec_FromInt_HandlesNegativeValues()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(-1, 32);
+        var bv = context.BitVec(new BitVec(-1, 32));
 
         Assert.That(bv, Is.Not.Null);
         Assert.That(bv.Size, Is.EqualTo(32));
@@ -52,9 +54,9 @@ public class Z3BitVecExprTests
     {
         using var context = new Z3Context();
 
-        var bv8 = context.BitVec(255, 8);
-        var bv16 = context.BitVec(65535, 16);
-        var bv64 = context.BitVec(123456789, 64);
+        var bv8 = context.BitVec(new BitVec(255, 8));
+        var bv16 = context.BitVec(new BitVec(65535, 16));
+        var bv64 = context.BitVec(new BitVec(123456789, 64));
 
         Assert.That(bv8.Size, Is.EqualTo(8));
         Assert.That(bv16.Size, Is.EqualTo(16));
@@ -70,7 +72,7 @@ public class Z3BitVecExprTests
         {
             for (int i = 0; i < 100; i++)
             {
-                var bv = context.BitVec(i, 32);
+                var bv = context.BitVec(new BitVec(i, 32));
                 Assert.That(bv, Is.Not.Null);
             }
         });

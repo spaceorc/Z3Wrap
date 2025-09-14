@@ -317,7 +317,7 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
 
         var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(42, 8));
+        solver.Assert(bv == context.BitVec(new BitVec(42, 8)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -334,7 +334,7 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
 
         var bv = context.BitVecConst("bv", 32);
-        solver.Assert(bv == context.BitVec(-1, 32));
+        solver.Assert(bv == context.BitVec(new BitVec(-1, 32)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -352,7 +352,7 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
 
         var bv = context.BitVecConst("bv", 32);
-        solver.Assert(bv == context.BitVec(123456, 32));
+        solver.Assert(bv == context.BitVec(new BitVec(123456, 32)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -374,7 +374,7 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
 
         var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(42, 8));
+        solver.Assert(bv == context.BitVec(new BitVec(42, 8)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -393,7 +393,7 @@ public class Z3ModelValueExtractionTests
         using var solver = context.CreateSolver();
 
         var bv = context.BitVecConst("bv", 8);
-        solver.Assert(bv == context.BitVec(-1, 8)); // Becomes 255 in unsigned representation
+        solver.Assert(bv == context.BitVec(new BitVec(-1, 8))); // Becomes 255 in unsigned representation
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -423,7 +423,7 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
 
-        var bv = context.BitVec(42, 8);
+        var bv = context.BitVec(new BitVec(42, 8));
 
         var toString = bv.ToString();
 

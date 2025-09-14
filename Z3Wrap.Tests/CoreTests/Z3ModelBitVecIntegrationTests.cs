@@ -14,7 +14,7 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 8);
-        solver.Assert(bvExpr == context.BitVec(170, 8)); // 10101010
+        solver.Assert(bvExpr == context.BitVec(new BitVec(170, 8))); // 10101010
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -34,7 +34,7 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 16);
-        solver.Assert(bvExpr == context.BitVec(0, 16));
+        solver.Assert(bvExpr == context.BitVec(new BitVec(0, 16)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -54,7 +54,7 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 4);
-        solver.Assert(bvExpr == context.BitVec(15, 4)); // 1111
+        solver.Assert(bvExpr == context.BitVec(new BitVec(15, 4))); // 1111
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -74,7 +74,7 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 32);
-        solver.Assert(bvExpr == context.BitVec(1234567890, 32));
+        solver.Assert(bvExpr == context.BitVec(new BitVec(1234567890, 32)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -97,9 +97,9 @@ public class Z3ModelBitVecIntegrationTests
         var bv16 = context.BitVecConst("bv16", 16);
         var bv32 = context.BitVecConst("bv32", 32);
 
-        solver.Assert(bv8 == context.BitVec(255, 8));
-        solver.Assert(bv16 == context.BitVec(65535, 16));
-        solver.Assert(bv32 == context.BitVec(2147483647, 32)); // int.MaxValue
+        solver.Assert(bv8 == context.BitVec(new BitVec(255, 8)));
+        solver.Assert(bv16 == context.BitVec(new BitVec(65535, 16)));
+        solver.Assert(bv32 == context.BitVec(new BitVec(2147483647, 32))); // int.MaxValue
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -128,8 +128,8 @@ public class Z3ModelBitVecIntegrationTests
         var y = context.BitVecConst("y", 8);
 
         // x + y = 100, x = 30
-        solver.Assert(x == context.BitVec(30, 8));
-        solver.Assert(y == context.BitVec(70, 8));
+        solver.Assert(x == context.BitVec(new BitVec(30, 8)));
+        solver.Assert(y == context.BitVec(new BitVec(70, 8)));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -165,7 +165,7 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 8);
-        solver.Assert(bvExpr == context.BitVec(170, 8)); // 10101010
+        solver.Assert(bvExpr == context.BitVec(new BitVec(170, 8))); // 10101010
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -195,7 +195,7 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 8);
-        solver.Assert(bvExpr == context.BitVec(5, 8)); // 00000101
+        solver.Assert(bvExpr == context.BitVec(new BitVec(5, 8))); // 00000101
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -216,14 +216,14 @@ public class Z3ModelBitVecIntegrationTests
         using var solver = context.CreateSolver();
 
         var bvExpr = context.BitVecConst("bv", 8);
-        solver.Assert(bvExpr == context.BitVec(170, 8)); // 10101010
+        solver.Assert(bvExpr == context.BitVec(new BitVec(170, 8))); // 10101010
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
         var bitVec = model.GetBitVec(bvExpr);
 
-        Assert.That(bitVec.ToString(), Is.EqualTo("170 (8-bit)"));
+        Assert.That(bitVec.ToString(), Is.EqualTo("170"));
         Assert.That(bitVec.ToString("B"), Is.EqualTo("0b10101010 (8-bit)"));
         Assert.That(bitVec.ToString("X"), Is.EqualTo("0xAA (8-bit)"));
         Assert.That(bitVec.ToString("V"), Is.EqualTo("170"));
@@ -239,7 +239,7 @@ public class Z3ModelBitVecIntegrationTests
         {
             using var solver = context.CreateSolver();
             bvExpr = context.BitVecConst("bv", 8);
-            solver.Assert(bvExpr == context.BitVec(42, 8));
+            solver.Assert(bvExpr == context.BitVec(new BitVec(42, 8)));
 
             Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
             var model = solver.GetModel();

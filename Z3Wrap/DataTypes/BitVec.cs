@@ -333,7 +333,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
 
     public string ToString(string? format, IFormatProvider? formatProvider)
     {
-        format ??= "D";
+        format ??= "V";
         formatProvider ??= CultureInfo.InvariantCulture;
 
         return format.ToUpperInvariant() switch

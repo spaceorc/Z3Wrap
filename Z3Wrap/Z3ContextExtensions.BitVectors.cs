@@ -1,3 +1,4 @@
+using Z3Wrap.DataTypes;
 using Z3Wrap.Expressions;
 using Z3Wrap.Interop;
 
@@ -16,11 +17,11 @@ public static partial class Z3ContextExtensions
         return Z3BitVecExpr.Create(context, handle);
     }
 
-    // Bitvector value creation from int
-    public static Z3BitVecExpr BitVec(this Z3Context context, int value, uint size)
+    // Bitvector value creation from BitVec
+    public static Z3BitVecExpr BitVec(this Z3Context context, BitVec value)
     {
         using var numeralPtr = new AnsiStringPtr(value.ToString());
-        var sort = NativeMethods.Z3MkBvSort(context.Handle, size);
+        var sort = NativeMethods.Z3MkBvSort(context.Handle, value.Size);
         var handle = NativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sort);
 
         return Z3BitVecExpr.Create(context, handle);
