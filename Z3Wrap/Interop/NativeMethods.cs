@@ -51,7 +51,7 @@ public static class NativeMethods
         }
 
         var searchedPaths = string.Join(", ", searchPaths);
-        var attemptDetails = loadAttempts.Any()
+        var attemptDetails = loadAttempts.Count != 0
             ? "\n\nLoad attempts:\n" + string.Join("\n", loadAttempts.Select(a => $"  {a.path}: {a.exception.Message}"))
             : "";
 
