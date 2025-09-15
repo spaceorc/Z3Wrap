@@ -93,12 +93,12 @@ public class Z3BitVecEdgeCasesTests
 
         // Test same size (should return original)
         var a16 = context.BitVecConst("a", 16);
-        var resized16 = context.SignedResize(a16, 16);
+        var resized16 = context.Resize(a16, 16, signed: true);
         Assert.That(resized16, Is.EqualTo(a16)); // Should be same instance
 
         // Test size reduction with sign extension - this was uncovered
         var a32 = context.BitVecConst("a", 32);
-        var resized16from32 = context.SignedResize(a32, 16);
+        var resized16from32 = context.Resize(a32, 16, signed: true);
         Assert.That(resized16from32.Size, Is.EqualTo(16));
 
         // Verify with solver
@@ -120,10 +120,10 @@ public class Z3BitVecEdgeCasesTests
         var b16 = context.BitVecConst("c", 16);
 
         // Act & Assert - Size validation should work
-        Assert.DoesNotThrow(() => context.SignedRem(a8, b8));
+        Assert.DoesNotThrow(() => context.Rem(a8, b8, signed: true));
 
         // Size mismatch should throw
-        var ex = Assert.Throws<ArgumentException>(() => context.SignedRem(a8, b16));
+        var ex = Assert.Throws<ArgumentException>(() => context.Rem(a8, b16, signed: true));
         Assert.That(ex!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
     }
 

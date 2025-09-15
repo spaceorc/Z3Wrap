@@ -33,5 +33,4 @@ public static partial class Z3ContextExtensions
     {
         return context.BitVec(new BitVec(value, size));
     }
-
 }

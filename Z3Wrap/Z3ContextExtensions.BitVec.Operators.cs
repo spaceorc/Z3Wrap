@@ -37,35 +37,23 @@ public static partial class Z3ContextExtensions
         return Z3BitVecExpr.Create(context, handle);
     }
 
-    public static Z3BitVecExpr Div(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BitVecExpr Div(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvUDiv(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvSDiv(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvUDiv(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
-    public static Z3BitVecExpr SignedDiv(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BitVecExpr Rem(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvSDiv(context.Handle, left.Handle, right.Handle);
-        return Z3BitVecExpr.Create(context, handle);
-    }
-
-    public static Z3BitVecExpr Rem(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvURem(context.Handle, left.Handle, right.Handle);
-        return Z3BitVecExpr.Create(context, handle);
-    }
-
-    public static Z3BitVecExpr SignedRem(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvSRem(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvSRem(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvURem(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -123,84 +111,54 @@ public static partial class Z3ContextExtensions
         return Z3BitVecExpr.Create(context, handle);
     }
 
-    public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvLShr(context.Handle, left.Handle, right.Handle);
-        return Z3BitVecExpr.Create(context, handle);
-    }
-
-    public static Z3BitVecExpr SignedShr(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvAShr(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvAShr(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvLShr(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
     // Comparison operations (return Z3BoolExpr)
-    public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvSLt(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
-    public static Z3BoolExpr SignedLt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BoolExpr Le(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvSLt(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvSLe(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
-    public static Z3BoolExpr Le(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BoolExpr Gt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvSGt(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
-    public static Z3BoolExpr SignedLe(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BoolExpr Ge(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvSLe(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
-    }
-
-    public static Z3BoolExpr Gt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
-    }
-
-    public static Z3BoolExpr SignedGt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvSGt(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
-    }
-
-    public static Z3BoolExpr Ge(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
-    }
-
-    public static Z3BoolExpr SignedGe(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
-    {
-        if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvSGe(context.Handle, left.Handle, right.Handle);
+        var handle = signed
+            ? NativeMethods.Z3MkBvSGe(context.Handle, left.Handle, right.Handle)
+            : NativeMethods.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -208,20 +166,16 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Add(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Add(left, context.BitVec(right, left.Size));
     public static Z3BitVecExpr Sub(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Sub(left, context.BitVec(right, left.Size));
     public static Z3BitVecExpr Mul(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Mul(left, context.BitVec(right, left.Size));
-    public static Z3BitVecExpr Div(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Div(left, context.BitVec(right, left.Size));
-    public static Z3BitVecExpr SignedDiv(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedDiv(left, context.BitVec(right, left.Size));
-    public static Z3BitVecExpr Rem(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Rem(left, context.BitVec(right, left.Size));
-    public static Z3BitVecExpr SignedRem(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedRem(left, context.BitVec(right, left.Size));
+    public static Z3BitVecExpr Div(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Div(left, context.BitVec(right, left.Size), signed);
+    public static Z3BitVecExpr Rem(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Rem(left, context.BitVec(right, left.Size), signed);
     public static Z3BitVecExpr SignedMod(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedMod(left, context.BitVec(right, left.Size));
 
     // BigInteger arithmetic operations (BigInteger op Z3BitVecExpr)
     public static Z3BitVecExpr Add(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Add(context.BitVec(left, right.Size), right);
     public static Z3BitVecExpr Sub(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Sub(context.BitVec(left, right.Size), right);
     public static Z3BitVecExpr Mul(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Mul(context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr Div(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Div(context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr SignedDiv(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedDiv(context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr Rem(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Rem(context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr SignedRem(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedRem(context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr Div(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Div(context.BitVec(left, right.Size), right, signed);
+    public static Z3BitVecExpr Rem(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Rem(context.BitVec(left, right.Size), right, signed);
     public static Z3BitVecExpr SignedMod(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedMod(context.BitVec(left, right.Size), right);
 
     // BigInteger bitwise operations (Z3BitVecExpr op BigInteger)
@@ -236,26 +190,17 @@ public static partial class Z3ContextExtensions
 
     // BigInteger shift operations
     public static Z3BitVecExpr Shl(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Shl(left, context.BitVec(right, left.Size));
-    public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Shr(left, context.BitVec(right, left.Size));
-    public static Z3BitVecExpr SignedShr(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedShr(left, context.BitVec(right, left.Size));
+    public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Shr(left, context.BitVec(right, left.Size), signed);
 
     // BigInteger comparison operations (Z3BitVecExpr op BigInteger)
-    public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Lt(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr SignedLt(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedLt(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr Le(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Le(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr SignedLe(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedLe(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr Gt(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Gt(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr SignedGt(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedGt(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr Ge(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Ge(left, context.BitVec(right, left.Size));
-    public static Z3BoolExpr SignedGe(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.SignedGe(left, context.BitVec(right, left.Size));
+    public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Lt(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Le(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Le(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Gt(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Gt(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Ge(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Ge(left, context.BitVec(right, left.Size), signed);
 
     // BigInteger comparison operations (BigInteger op Z3BitVecExpr)
-    public static Z3BoolExpr Lt(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Lt(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr SignedLt(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedLt(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr Le(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Le(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr SignedLe(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedLe(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr Gt(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Gt(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr SignedGt(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedGt(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr Ge(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Ge(context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr SignedGe(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.SignedGe(context.BitVec(left, right.Size), right);
+    public static Z3BoolExpr Lt(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Lt(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Le(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Le(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Gt(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Gt(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Ge(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Ge(context.BitVec(left, right.Size), right, signed);
 }

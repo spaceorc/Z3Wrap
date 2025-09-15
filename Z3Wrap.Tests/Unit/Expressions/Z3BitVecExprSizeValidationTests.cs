@@ -100,8 +100,8 @@ public class Z3BitVecExprSizeValidationTests
         var b16 = context.BitVecConst("b", 16);
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a8.SignedLt(b16); });
-        var ex2 = Assert.Throws<ArgumentException>(() => { _ = a8.SignedDiv(b16); });
+        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a8.Lt(b16, signed: true); });
+        var ex2 = Assert.Throws<ArgumentException>(() => { _ = context.Div(a8, b16, signed: true); });
         var ex3 = Assert.Throws<ArgumentException>(() => { _ = a8.Shl(b16); });
 
         Assert.That(ex1!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
@@ -142,7 +142,7 @@ public class Z3BitVecExprSizeValidationTests
             var __ = a8 & b8;
             var ___ = a8 << b8;
             var ____ = a8 < b8;
-            var _____ = a8.SignedDiv(b8);
+            var _____ = context.Div(a8, b8, signed: true);
             var ______ = context.Add(a8, b8);
         });
     }

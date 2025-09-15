@@ -6,15 +6,9 @@ namespace Z3Wrap;
 public static partial class Z3ContextExtensions
 {
     // Bitvector to Integer conversion
-    public static Z3IntExpr ToInt(this Z3Context context, Z3BitVecExpr expr)
+    public static Z3IntExpr ToInt(this Z3Context context, Z3BitVecExpr expr, bool signed = false)
     {
-        var handle = NativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, false);
-        return Z3IntExpr.Create(context, handle);
-    }
-
-    public static Z3IntExpr ToSignedInt(this Z3Context context, Z3BitVecExpr expr)
-    {
-        var handle = NativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, true);
+        var handle = NativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, signed);
         return Z3IntExpr.Create(context, handle);
     }
 }

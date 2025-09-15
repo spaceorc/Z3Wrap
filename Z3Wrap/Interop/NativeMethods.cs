@@ -778,11 +778,11 @@ public static class NativeMethods
         return func(ctx, i, t1);
     }
 
-    public static IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr t1, bool isSigned)
+    public static IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr t1, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBv2IntDelegate>(funcPtr);
-        return func(ctx, t1, isSigned);
+        return func(ctx, t1, signed);
     }
 
     public static IntPtr Z3MkInt2Bv(IntPtr ctx, uint n, IntPtr t1)
@@ -792,11 +792,11 @@ public static class NativeMethods
         return func(ctx, n, t1);
     }
 
-    public static IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned)
+    public static IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddNoOverflowDelegate>(funcPtr);
-        return func(ctx, t1, t2, isSigned);
+        return func(ctx, t1, t2, signed);
     }
 
     public static IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
@@ -806,18 +806,18 @@ public static class NativeMethods
         return func(ctx, t1, t2);
     }
 
-    public static IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned)
+    public static IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubNoUnderflowDelegate>(funcPtr);
-        return func(ctx, t1, t2, isSigned);
+        return func(ctx, t1, t2, signed);
     }
 
-    public static IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned)
+    public static IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulNoOverflowDelegate>(funcPtr);
-        return func(ctx, t1, t2, isSigned);
+        return func(ctx, t1, t2, signed);
     }
 
     public static IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
@@ -1069,12 +1069,12 @@ public static class NativeMethods
     private delegate IntPtr Z3MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
     private delegate IntPtr Z3MkExtractDelegate(IntPtr ctx, uint high, uint low, IntPtr t1);
     private delegate IntPtr Z3MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr Z3MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool isSigned);
+    private delegate IntPtr Z3MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
     private delegate IntPtr Z3MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
-    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned);
+    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
     private delegate IntPtr Z3MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned);
-    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool isSigned);
+    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
     private delegate IntPtr Z3MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate uint Z3GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
     

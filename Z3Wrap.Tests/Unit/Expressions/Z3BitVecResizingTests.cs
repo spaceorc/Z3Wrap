@@ -54,7 +54,7 @@ public class Z3BitVecResizingTests
     public void SignedExtend_ContextMethod_PositiveValue()
     {
         var bv8 = context.BitVec(new BitVec(85, 8)); // 0b01010101 (positive)
-        var bv16 = context.SignedExtend(bv8, 8);
+        var bv16 = context.Extend(bv8, 8, signed: true);
 
         Assert.That(bv16.Size, Is.EqualTo(16));
 
@@ -68,7 +68,7 @@ public class Z3BitVecResizingTests
     public void SignedExtend_FluentAPI_NegativeValue()
     {
         var bv8 = context.BitVec(new BitVec(170, 8)); // 0b10101010 (negative in signed interpretation)
-        var bv16 = bv8.SignedExtend(8);
+        var bv16 = bv8.Extend(8, signed: true);
 
         Assert.That(bv16.Size, Is.EqualTo(16));
 
@@ -156,7 +156,7 @@ public class Z3BitVecResizingTests
     public void BitVec2Int_FluentAPI_SignedConversion()
     {
         var bvExpr = context.BitVec(new BitVec(200, 8)); // 200 unsigned, -56 signed
-        var intExpr = bvExpr.ToSignedInt();
+        var intExpr = bvExpr.ToInt(signed: true);
 
         using var solver = context.CreateSolver();
 
@@ -261,7 +261,7 @@ public class Z3BitVecResizingTests
     public void SignedResize_ContextMethod_WorksCorrectly()
     {
         var bv8 = context.BitVec(new BitVec(200, 8)); // -56 in signed 8-bit
-        var bv16 = context.SignedResize(bv8, 16); // Sign extend to 16 bits
+        var bv16 = context.Resize(bv8, 16, signed: true); // Sign extend to 16 bits
 
         Assert.That(bv16.Size, Is.EqualTo(16));
 
@@ -276,7 +276,7 @@ public class Z3BitVecResizingTests
     public void SignedResize_FluentAPI_WorksCorrectly()
     {
         var bv8 = context.BitVec(new BitVec(200, 8)); // -56 in signed 8-bit
-        var bv16 = bv8.SignedResize(16); // Sign extend to 16 bits
+        var bv16 = bv8.Resize(16, signed: true); // Sign extend to 16 bits
 
         Assert.That(bv16.Size, Is.EqualTo(16));
 

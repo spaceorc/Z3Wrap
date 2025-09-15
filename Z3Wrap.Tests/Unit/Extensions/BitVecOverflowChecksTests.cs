@@ -13,7 +13,7 @@ public class BitVecOverflowChecksTests
 
         var x = context.BitVecConst("x", 8);
         var y = context.BitVecConst("y", 8);
-        var overflowCheck = context.AddNoOverflow(x, y, isSigned: false);
+        var overflowCheck = context.AddNoOverflow(x, y, signed: false);
 
         Assert.That(overflowCheck.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(overflowCheck.Context, Is.SameAs(context));
@@ -21,7 +21,7 @@ public class BitVecOverflowChecksTests
         // Test case: 255 + 1 should overflow in unsigned 8-bit arithmetic
         var maxVal = context.BitVec(new BitVec(255, 8)); // Max unsigned 8-bit value
         var one = context.BitVec(new BitVec(1, 8));
-        var wouldOverflow = context.AddNoOverflow(maxVal, one, isSigned: false);
+        var wouldOverflow = context.AddNoOverflow(maxVal, one, signed: false);
 
         // The overflow check should return false (meaning it WOULD overflow)
         solver.Assert(context.Not(wouldOverflow));
@@ -31,7 +31,7 @@ public class BitVecOverflowChecksTests
         solver.Reset();
         var val1 = context.BitVec(new BitVec(100, 8));
         var val2 = context.BitVec(new BitVec(50, 8));
-        var wouldNotOverflow = context.AddNoOverflow(val1, val2, isSigned: false);
+        var wouldNotOverflow = context.AddNoOverflow(val1, val2, signed: false);
 
         // The overflow check should return true (meaning it would NOT overflow)
         solver.Assert(wouldNotOverflow);
@@ -47,7 +47,7 @@ public class BitVecOverflowChecksTests
         // Test case: 127 + 1 should overflow in signed 8-bit arithmetic
         var maxSigned = context.BitVec(new BitVec(127, 8)); // Max signed 8-bit value
         var one = context.BitVec(new BitVec(1, 8));
-        var wouldOverflow = !context.AddNoOverflow(maxSigned, one, isSigned: true);
+        var wouldOverflow = !context.AddNoOverflow(maxSigned, one, signed: true);
 
         // The overflow check should return false (meaning it WOULD overflow)
         solver.Assert(wouldOverflow);
@@ -57,7 +57,7 @@ public class BitVecOverflowChecksTests
         solver.Reset();
         var val1 = context.BitVec(new BitVec(60, 8));
         var val2 = context.BitVec(new BitVec(60, 8));
-        var wouldNotOverflow = context.AddNoOverflow(val1, val2, isSigned: true);
+        var wouldNotOverflow = context.AddNoOverflow(val1, val2, signed: true);
 
         // The overflow check should return true (meaning it would NOT overflow)
         solver.Assert(wouldNotOverflow);
@@ -65,14 +65,14 @@ public class BitVecOverflowChecksTests
     }
 
     [Test]
-    public void SubNoOverflow_DetectsOverflow()
+    public void SignedSubNoOverflow_DetectsOverflow()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
 
         var x = context.BitVecConst("x", 8);
         var y = context.BitVecConst("y", 8);
-        var overflowCheck = context.SubNoOverflow(x, y);
+        var overflowCheck = context.SignedSubNoOverflow(x, y);
 
         Assert.That(overflowCheck.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(overflowCheck.Context, Is.SameAs(context));
@@ -80,7 +80,7 @@ public class BitVecOverflowChecksTests
         // Test case: 10 - 5 should NOT overflow in 8-bit arithmetic
         var val1 = context.BitVec(new BitVec(10, 8));
         var val2 = context.BitVec(new BitVec(5, 8));
-        var wouldNotOverflow = context.SubNoOverflow(val1, val2);
+        var wouldNotOverflow = context.SignedSubNoOverflow(val1, val2);
 
         // The overflow check should return true (meaning it would NOT overflow)
         solver.Assert(wouldNotOverflow);
@@ -96,7 +96,7 @@ public class BitVecOverflowChecksTests
         // Test case: -128 - 1 should underflow in signed 8-bit arithmetic
         var minSigned = context.BitVec(new BitVec(128, 8)); // -128 in 8-bit two's complement
         var one = context.BitVec(new BitVec(1, 8));
-        var wouldUnderflow = context.SubNoUnderflow(minSigned, one, isSigned: true);
+        var wouldUnderflow = context.SubNoUnderflow(minSigned, one, signed: true);
 
         // The underflow check should return false (meaning it WOULD underflow)
         solver.Assert(context.Not(wouldUnderflow));
@@ -106,7 +106,7 @@ public class BitVecOverflowChecksTests
         solver.Reset();
         var val1 = context.BitVec(new BitVec(156, 8)); // -100 in 8-bit two's complement
         var val2 = context.BitVec(new BitVec(20, 8));
-        var wouldNotUnderflow = context.SubNoUnderflow(val1, val2, isSigned: true);
+        var wouldNotUnderflow = context.SubNoUnderflow(val1, val2, signed: true);
 
         // The underflow check should return true (meaning it would NOT underflow)
         solver.Assert(wouldNotUnderflow);
@@ -122,7 +122,7 @@ public class BitVecOverflowChecksTests
         // Test case: 16 * 16 = 256 should overflow in unsigned 8-bit arithmetic
         var val1 = context.BitVec(new BitVec(16, 8));
         var val2 = context.BitVec(new BitVec(16, 8));
-        var wouldOverflow = context.MulNoOverflow(val1, val2, isSigned: false);
+        var wouldOverflow = context.MulNoOverflow(val1, val2, signed: false);
 
         // The overflow check should return false (meaning it WOULD overflow)
         solver.Assert(context.Not(wouldOverflow));
@@ -132,7 +132,7 @@ public class BitVecOverflowChecksTests
         solver.Reset();
         val1 = context.BitVec(new BitVec(10, 8));
         val2 = context.BitVec(new BitVec(10, 8));
-        var wouldNotOverflow = context.MulNoOverflow(val1, val2, isSigned: false);
+        var wouldNotOverflow = context.MulNoOverflow(val1, val2, signed: false);
 
         // The overflow check should return true (meaning it would NOT overflow)
         solver.Assert(wouldNotOverflow);
@@ -148,7 +148,7 @@ public class BitVecOverflowChecksTests
         // Test case: 12 * 12 = 144 should overflow in signed 8-bit arithmetic (max is 127)
         var val1 = context.BitVec(new BitVec(12, 8));
         var val2 = context.BitVec(new BitVec(12, 8));
-        var wouldOverflow = context.MulNoOverflow(val1, val2, isSigned: true);
+        var wouldOverflow = context.MulNoOverflow(val1, val2, signed: true);
 
         // The overflow check should return false (meaning it WOULD overflow)
         solver.Assert(context.Not(wouldOverflow));
@@ -156,14 +156,14 @@ public class BitVecOverflowChecksTests
     }
 
     [Test]
-    public void MulNoUnderflow_DetectsUnderflow()
+    public void SignedMulNoUnderflow_DetectsUnderflow()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
 
         var x = context.BitVecConst("x", 8);
         var y = context.BitVecConst("y", 8);
-        var underflowCheck = context.MulNoUnderflow(x, y);
+        var underflowCheck = context.SignedMulNoUnderflow(x, y);
 
         Assert.That(underflowCheck.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(underflowCheck.Context, Is.SameAs(context));
@@ -171,7 +171,7 @@ public class BitVecOverflowChecksTests
         // Test case: -128 * 2 should underflow in signed 8-bit arithmetic
         var minSigned = context.BitVec(new BitVec(128, 8)); // -128 in 8-bit two's complement
         var two = context.BitVec(new BitVec(2, 8));
-        var wouldUnderflow = context.MulNoUnderflow(minSigned, two);
+        var wouldUnderflow = context.SignedMulNoUnderflow(minSigned, two);
 
         // The underflow check should return false (meaning it WOULD underflow)
         solver.Assert(context.Not(wouldUnderflow));
@@ -187,10 +187,10 @@ public class BitVecOverflowChecksTests
         var y16 = context.BitVecConst("y", 16);
 
         Assert.Throws<ArgumentException>(() => context.AddNoOverflow(x8, y16));
-        Assert.Throws<ArgumentException>(() => context.SubNoOverflow(x8, y16));
+        Assert.Throws<ArgumentException>(() => context.SignedSubNoOverflow(x8, y16));
         Assert.Throws<ArgumentException>(() => context.SubNoUnderflow(x8, y16));
         Assert.Throws<ArgumentException>(() => context.MulNoOverflow(x8, y16));
-        Assert.Throws<ArgumentException>(() => context.MulNoUnderflow(x8, y16));
+        Assert.Throws<ArgumentException>(() => context.SignedMulNoUnderflow(x8, y16));
     }
 
     [Test]
@@ -204,7 +204,7 @@ public class BitVecOverflowChecksTests
         var y = context.BitVecConst("y", 8);
 
         // Constrain that x + y doesn't overflow (unsigned)
-        solver.Assert(context.AddNoOverflow(x, y, isSigned: false));
+        solver.Assert(context.AddNoOverflow(x, y, signed: false));
 
         // Also constrain x > 200 and y > 200
         solver.Assert(context.Gt(x, context.BitVec(new BitVec(200, 8))));
@@ -223,16 +223,16 @@ public class BitVecOverflowChecksTests
         var x = context.BitVecConst("x", 8);
 
         // Test Z3BitVecExpr + BigInteger
-        var check1 = context.AddNoOverflow(x, 100, isSigned: false);
+        var check1 = context.AddNoOverflow(x, 100, signed: false);
         Assert.That(check1.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test BigInteger + Z3BitVecExpr
-        var check2 = context.AddNoOverflow(100, x, isSigned: false);
+        var check2 = context.AddNoOverflow(100, x, signed: false);
         Assert.That(check2.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test practical constraint: x = 200, x + 100 should overflow
         solver.Assert(context.Eq(x, context.BitVec(new BitVec(200, 8))));
-        solver.Assert(context.Not(context.AddNoOverflow(x, 100, isSigned: false)));
+        solver.Assert(context.Not(context.AddNoOverflow(x, 100, signed: false)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -245,21 +245,21 @@ public class BitVecOverflowChecksTests
         var x = context.BitVecConst("x", 8);
 
         // Test Z3BitVecExpr * BigInteger
-        var check1 = context.MulNoOverflow(x, 20, isSigned: false);
+        var check1 = context.MulNoOverflow(x, 20, signed: false);
         Assert.That(check1.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test BigInteger * Z3BitVecExpr
-        var check2 = context.MulNoOverflow(20, x, isSigned: false);
+        var check2 = context.MulNoOverflow(20, x, signed: false);
         Assert.That(check2.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test practical constraint: x = 20, x * 20 = 400 should overflow in 8-bit
         solver.Assert(context.Eq(x, context.BitVec(new BitVec(20, 8))));
-        solver.Assert(context.Not(context.MulNoOverflow(x, 20, isSigned: false)));
+        solver.Assert(context.Not(context.MulNoOverflow(x, 20, signed: false)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void SubNoOverflow_BigIntegerOverloads_WorkCorrectly()
+    public void SignedSubNoOverflow_BigIntegerOverloads_WorkCorrectly()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
@@ -267,16 +267,16 @@ public class BitVecOverflowChecksTests
         var x = context.BitVecConst("x", 8);
 
         // Test Z3BitVecExpr - BigInteger
-        var check1 = context.SubNoOverflow(x, 50);
+        var check1 = context.SignedSubNoOverflow(x, 50);
         Assert.That(check1.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test BigInteger - Z3BitVecExpr
-        var check2 = context.SubNoOverflow(50, x);
+        var check2 = context.SignedSubNoOverflow(50, x);
         Assert.That(check2.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test practical constraint: x = 100, x - 50 should not overflow
         solver.Assert(context.Eq(x, context.BitVec(new BitVec(100, 8))));
-        solver.Assert(context.SubNoOverflow(x, 50));
+        solver.Assert(context.SignedSubNoOverflow(x, 50));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -290,18 +290,18 @@ public class BitVecOverflowChecksTests
         var y = context.BitVecConst("y", 8);
 
         // Test fluent API for overflow checks
-        var addCheck = x.AddNoOverflow(y, isSigned: false);
-        var subCheck = x.SubNoOverflow(y);
-        var mulCheck = x.MulNoOverflow(y, isSigned: false);
+        var addCheck = x.AddNoOverflow(y, signed: false);
+        var subCheck = x.SignedSubNoOverflow(y);
+        var mulCheck = x.MulNoOverflow(y, signed: false);
 
         Assert.That(addCheck.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(subCheck.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(mulCheck.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Test fluent API with BigInteger
-        var addCheckBig = x.AddNoOverflow(100, isSigned: false);
-        var subCheckBig = x.SubNoOverflow(50);
-        var mulCheckBig = x.MulNoOverflow(10, isSigned: false);
+        var addCheckBig = x.AddNoOverflow(100, signed: false);
+        var subCheckBig = x.SignedSubNoOverflow(50);
+        var mulCheckBig = x.MulNoOverflow(10, signed: false);
 
         Assert.That(addCheckBig.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(subCheckBig.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -309,7 +309,7 @@ public class BitVecOverflowChecksTests
 
         // Test practical constraint: x = 200, x + 100 should overflow
         solver.Assert(context.Eq(x, context.BitVec(new BitVec(200, 8))));
-        solver.Assert(context.Not(x.AddNoOverflow(100, isSigned: false)));
+        solver.Assert(context.Not(x.AddNoOverflow(100, signed: false)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 

@@ -24,44 +24,44 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public override string ToString() => $"BitVec[{Size}]({base.ToString()})";
 
     // Fluent API for bitvector operations
-    public Z3BitVecExpr Extend(uint additionalBits) => Context.Extend(this, additionalBits);
-    public Z3BitVecExpr SignedExtend(uint additionalBits) => Context.SignedExtend(this, additionalBits);
+    public Z3BitVecExpr Extend(uint additionalBits, bool signed = false) => Context.Extend(this, additionalBits, signed);
     public Z3BitVecExpr Extract(uint high, uint low) => Context.Extract(this, high, low);
-    public Z3BitVecExpr Resize(uint newSize) => Context.Resize(this, newSize);
-    public Z3BitVecExpr SignedResize(uint newSize) => Context.SignedResize(this, newSize);
+    public Z3BitVecExpr Resize(uint newSize, bool signed = false) => Context.Resize(this, newSize, signed);
     public Z3BitVecExpr Repeat(uint count) => Context.Repeat(this, count);
-    public Z3IntExpr ToInt() => Context.ToInt(this);
-    public Z3IntExpr ToSignedInt() => Context.ToSignedInt(this);
+    public Z3IntExpr ToInt(bool signed = false) => Context.ToInt(this, signed);
 
-    // Signed comparison methods (for explicit signed comparisons)
-    public Z3BoolExpr SignedLt(Z3BitVecExpr other) => Context.SignedLt(this, other);
-    public Z3BoolExpr SignedLe(Z3BitVecExpr other) => Context.SignedLe(this, other);
-    public Z3BoolExpr SignedGt(Z3BitVecExpr other) => Context.SignedGt(this, other);
-    public Z3BoolExpr SignedGe(Z3BitVecExpr other) => Context.SignedGe(this, other);
+    // Comparison methods with signed parameter support
+    public Z3BoolExpr Lt(Z3BitVecExpr other, bool signed = false) => Context.Lt(this, other, signed);
+    public Z3BoolExpr Le(Z3BitVecExpr other, bool signed = false) => Context.Le(this, other, signed);
+    public Z3BoolExpr Gt(Z3BitVecExpr other, bool signed = false) => Context.Gt(this, other, signed);
+    public Z3BoolExpr Ge(Z3BitVecExpr other, bool signed = false) => Context.Ge(this, other, signed);
 
-    // Signed division methods (for explicit signed operations)
-    public Z3BitVecExpr SignedDiv(Z3BitVecExpr other) => Context.SignedDiv(this, other);
-    public Z3BitVecExpr SignedRem(Z3BitVecExpr other) => Context.SignedRem(this, other);
+    // Comparison methods with BigInteger and signed parameter support
+    public Z3BoolExpr Lt(BigInteger other, bool signed = false) => Context.Lt(this, other, signed);
+    public Z3BoolExpr Le(BigInteger other, bool signed = false) => Context.Le(this, other, signed);
+    public Z3BoolExpr Gt(BigInteger other, bool signed = false) => Context.Gt(this, other, signed);
+    public Z3BoolExpr Ge(BigInteger other, bool signed = false) => Context.Ge(this, other, signed);
+
+    // Signed modulo method (SignedMod is inherently signed-only)
     public Z3BitVecExpr SignedMod(Z3BitVecExpr other) => Context.SignedMod(this, other);
 
     // Shift methods (for explicit shift types)
     public Z3BitVecExpr Shl(Z3BitVecExpr amount) => Context.Shl(this, amount);
-    public Z3BitVecExpr Shr(Z3BitVecExpr amount) => Context.Shr(this, amount);
-    public Z3BitVecExpr SignedShr(Z3BitVecExpr amount) => Context.SignedShr(this, amount);
+    public Z3BitVecExpr Shr(Z3BitVecExpr amount, bool signed = false) => Context.Shr(this, amount, signed);
 
     // Overflow/underflow checking methods
-    public Z3BoolExpr AddNoOverflow(Z3BitVecExpr other, bool isSigned = false) => Context.AddNoOverflow(this, other, isSigned);
-    public Z3BoolExpr SubNoOverflow(Z3BitVecExpr other) => Context.SubNoOverflow(this, other);
-    public Z3BoolExpr SubNoUnderflow(Z3BitVecExpr other, bool isSigned = true) => Context.SubNoUnderflow(this, other, isSigned);
-    public Z3BoolExpr MulNoOverflow(Z3BitVecExpr other, bool isSigned = false) => Context.MulNoOverflow(this, other, isSigned);
-    public Z3BoolExpr MulNoUnderflow(Z3BitVecExpr other) => Context.MulNoUnderflow(this, other);
+    public Z3BoolExpr AddNoOverflow(Z3BitVecExpr other, bool signed = false) => Context.AddNoOverflow(this, other, signed);
+    public Z3BoolExpr SignedSubNoOverflow(Z3BitVecExpr other) => Context.SignedSubNoOverflow(this, other);
+    public Z3BoolExpr SubNoUnderflow(Z3BitVecExpr other, bool signed = true) => Context.SubNoUnderflow(this, other, signed);
+    public Z3BoolExpr MulNoOverflow(Z3BitVecExpr other, bool signed = false) => Context.MulNoOverflow(this, other, signed);
+    public Z3BoolExpr SignedMulNoUnderflow(Z3BitVecExpr other) => Context.SignedMulNoUnderflow(this, other);
 
     // Overflow/underflow checking methods with BigInteger
-    public Z3BoolExpr AddNoOverflow(BigInteger other, bool isSigned = false) => Context.AddNoOverflow(this, other, isSigned);
-    public Z3BoolExpr SubNoOverflow(BigInteger other) => Context.SubNoOverflow(this, other);
-    public Z3BoolExpr SubNoUnderflow(BigInteger other, bool isSigned = true) => Context.SubNoUnderflow(this, other, isSigned);
-    public Z3BoolExpr MulNoOverflow(BigInteger other, bool isSigned = false) => Context.MulNoOverflow(this, other, isSigned);
-    public Z3BoolExpr MulNoUnderflow(BigInteger other) => Context.MulNoUnderflow(this, other);
+    public Z3BoolExpr AddNoOverflow(BigInteger other, bool signed = false) => Context.AddNoOverflow(this, other, signed);
+    public Z3BoolExpr SignedSubNoOverflow(BigInteger other) => Context.SignedSubNoOverflow(this, other);
+    public Z3BoolExpr SubNoUnderflow(BigInteger other, bool signed = true) => Context.SubNoUnderflow(this, other, signed);
+    public Z3BoolExpr MulNoOverflow(BigInteger other, bool signed = false) => Context.MulNoOverflow(this, other, signed);
+    public Z3BoolExpr SignedMulNoUnderflow(BigInteger other) => Context.SignedMulNoUnderflow(this, other);
 
     // Arithmetic operators (unsigned by default)
     public static Z3BitVecExpr operator +(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Add(left, right);

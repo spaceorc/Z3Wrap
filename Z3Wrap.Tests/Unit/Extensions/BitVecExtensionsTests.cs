@@ -93,7 +93,7 @@ public class BitVecExtensionsTests
 
         var x = context.BitVecConst("x", 8);
         var y = context.BitVecConst("y", 8);
-        var quotient = context.SignedDiv(x, y);
+        var quotient = context.Div(x, y, signed: true);
 
         Assert.That(quotient.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(quotient.Context, Is.SameAs(context));

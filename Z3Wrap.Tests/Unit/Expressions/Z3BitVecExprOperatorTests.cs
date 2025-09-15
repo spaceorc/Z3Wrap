@@ -186,10 +186,10 @@ public class Z3BitVecExprOperatorTests
         solver.Assert(y == posTwo);
 
         // Test signed comparisons (-1 < 2 in signed, but 15 > 2 in unsigned)
-        solver.Assert(x.SignedLt(y));  // -1 < 2 (signed)
-        solver.Assert(x.SignedLe(y));  // -1 <= 2 (signed)
-        solver.Assert(y.SignedGt(x));  // 2 > -1 (signed)
-        solver.Assert(y.SignedGe(x));  // 2 >= -1 (signed)
+        solver.Assert(x.Lt(y, signed: true));  // -1 < 2 (signed)
+        solver.Assert(x.Le(y, signed: true));  // -1 <= 2 (signed)
+        solver.Assert(y.Gt(x, signed: true));  // 2 > -1 (signed)
+        solver.Assert(y.Ge(x, signed: true));  // 2 >= -1 (signed)
 
         // But unsigned comparison should be opposite
         solver.Assert(x > y);  // 15 > 2 (unsigned)
@@ -219,10 +219,10 @@ public class Z3BitVecExprOperatorTests
         solver.Assert(y == three);   // y = 3
 
         // Test signed division: -10 / 3 = -3
-        solver.Assert(x.SignedDiv(y) == negThree);
+        solver.Assert(context.Div(x, y, signed: true) == negThree);
 
         // Test signed remainder: -10 % 3 = -1
-        solver.Assert(x.SignedRem(y) == negOne);
+        solver.Assert(context.Rem(x, y, signed: true) == negOne);
 
         // Act & Assert
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -248,7 +248,7 @@ public class Z3BitVecExprOperatorTests
         solver.Assert(shift == one);
 
         // Test arithmetic shift right (preserves sign bit)
-        solver.Assert(x.SignedShr(shift) == expected);
+        solver.Assert(x.Shr(shift, signed: true) == expected);
 
         // Compare with logical shift right (doesn't preserve sign bit)
         var logicalResult = context.BitVec(new BitVec(120, 8)); // 0b01111000 = 120
