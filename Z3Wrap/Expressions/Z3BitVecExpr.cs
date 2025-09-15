@@ -29,6 +29,7 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public Z3BitVecExpr Extract(uint high, uint low) => Context.Extract(this, high, low);
     public Z3BitVecExpr Resize(uint newSize) => Context.Resize(this, newSize);
     public Z3BitVecExpr SignedResize(uint newSize) => Context.SignedResize(this, newSize);
+    public Z3BitVecExpr Repeat(uint count) => Context.Repeat(this, count);
     public Z3IntExpr ToInt() => Context.ToInt(this);
     public Z3IntExpr ToSignedInt() => Context.ToSignedInt(this);
 
@@ -47,6 +48,20 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public Z3BitVecExpr Shl(Z3BitVecExpr amount) => Context.Shl(this, amount);
     public Z3BitVecExpr Shr(Z3BitVecExpr amount) => Context.Shr(this, amount);
     public Z3BitVecExpr SignedShr(Z3BitVecExpr amount) => Context.SignedShr(this, amount);
+
+    // Overflow/underflow checking methods
+    public Z3BoolExpr AddNoOverflow(Z3BitVecExpr other, bool isSigned = false) => Context.AddNoOverflow(this, other, isSigned);
+    public Z3BoolExpr SubNoOverflow(Z3BitVecExpr other) => Context.SubNoOverflow(this, other);
+    public Z3BoolExpr SubNoUnderflow(Z3BitVecExpr other, bool isSigned = true) => Context.SubNoUnderflow(this, other, isSigned);
+    public Z3BoolExpr MulNoOverflow(Z3BitVecExpr other, bool isSigned = false) => Context.MulNoOverflow(this, other, isSigned);
+    public Z3BoolExpr MulNoUnderflow(Z3BitVecExpr other) => Context.MulNoUnderflow(this, other);
+
+    // Overflow/underflow checking methods with BigInteger
+    public Z3BoolExpr AddNoOverflow(BigInteger other, bool isSigned = false) => Context.AddNoOverflow(this, other, isSigned);
+    public Z3BoolExpr SubNoOverflow(BigInteger other) => Context.SubNoOverflow(this, other);
+    public Z3BoolExpr SubNoUnderflow(BigInteger other, bool isSigned = true) => Context.SubNoUnderflow(this, other, isSigned);
+    public Z3BoolExpr MulNoOverflow(BigInteger other, bool isSigned = false) => Context.MulNoOverflow(this, other, isSigned);
+    public Z3BoolExpr MulNoUnderflow(BigInteger other) => Context.MulNoUnderflow(this, other);
 
     // Arithmetic operators (unsigned by default)
     public static Z3BitVecExpr operator +(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Add(left, right);

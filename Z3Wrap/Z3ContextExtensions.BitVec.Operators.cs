@@ -17,7 +17,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvadd(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvAdd(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -25,7 +25,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsub(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSub(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -33,7 +33,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvmul(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvMul(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -41,7 +41,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvudiv(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvUDiv(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -49,7 +49,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsdiv(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSDiv(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -57,7 +57,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvurem(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvURem(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -65,7 +65,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsrem(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSRem(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -73,13 +73,13 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsmod(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSMod(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
     public static Z3BitVecExpr Neg(this Z3Context context, Z3BitVecExpr expr)
     {
-        var handle = NativeMethods.Z3MkBvneg(context.Handle, expr.Handle);
+        var handle = NativeMethods.Z3MkBvNeg(context.Handle, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -88,7 +88,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvand(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvAnd(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -96,7 +96,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvor(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvOr(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -104,13 +104,13 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvxor(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvXor(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
     public static Z3BitVecExpr Not(this Z3Context context, Z3BitVecExpr expr)
     {
-        var handle = NativeMethods.Z3MkBvnot(context.Handle, expr.Handle);
+        var handle = NativeMethods.Z3MkBvNot(context.Handle, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -119,7 +119,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvshl(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvShl(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -127,7 +127,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvlshr(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvLShr(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -135,7 +135,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvashr(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvAShr(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -144,7 +144,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvult(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -152,7 +152,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvslt(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSLt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -160,7 +160,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvule(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -168,7 +168,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsle(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSLe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -176,7 +176,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvugt(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -184,7 +184,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsgt(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSGt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -192,7 +192,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvuge(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -200,7 +200,7 @@ public static partial class Z3ContextExtensions
     {
         if (left.Size != right.Size)
             throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
-        var handle = NativeMethods.Z3MkBvsge(context.Handle, left.Handle, right.Handle);
+        var handle = NativeMethods.Z3MkBvSGe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 

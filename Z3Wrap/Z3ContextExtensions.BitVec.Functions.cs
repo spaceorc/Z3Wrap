@@ -54,4 +54,10 @@ public static partial class Z3ContextExtensions
         var handle = NativeMethods.Z3MkExtract(context.Handle, high, low, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
+
+    public static Z3BitVecExpr Repeat(this Z3Context context, Z3BitVecExpr expr, uint count)
+    {
+        var handle = NativeMethods.Z3MkRepeat(context.Handle, count, expr.Handle);
+        return Z3BitVecExpr.Create(context, handle);
+    }
 }

@@ -64,6 +64,9 @@
         <Compile Update="Z3ContextExtensions.Array.Operators.cs">
           <DependentUpon>Z3ContextExtensions.Array.cs</DependentUpon>
         </Compile>
+        <Compile Update="Z3ContextExtensions.BitVec.OverflowChecks.cs">
+          <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

@@ -181,6 +181,84 @@ public class BitVecExtensionsTests
 
 
     [Test]
+    public void Repeat_BitVecExpr_CreatesRepeatedBitVector()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        // Test repeating a 4-bit value twice to get 8-bit result
+        var original = context.BitVec(new BitVec(5, 4)); // 0101 in binary
+        var repeated = context.Repeat(original, 2);
+
+        Assert.That(repeated.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(repeated.Context, Is.SameAs(context));
+        Assert.That(repeated.Size, Is.EqualTo(8)); // 4 * 2 = 8 bits
+
+        // 0101 repeated twice should be 01010101 = 85 in decimal
+        solver.Assert(context.Eq(repeated, context.BitVec(new BitVec(85, 8))));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Repeat_BitVecExpr_ThreeRepeats()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        // Test repeating a 2-bit value three times to get 6-bit result
+        var original = context.BitVec(new BitVec(3, 2)); // 11 in binary
+        var repeated = context.Repeat(original, 3);
+
+        Assert.That(repeated.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(repeated.Context, Is.SameAs(context));
+        Assert.That(repeated.Size, Is.EqualTo(6)); // 2 * 3 = 6 bits
+
+        // 11 repeated three times should be 111111 = 63 in decimal
+        solver.Assert(context.Eq(repeated, context.BitVec(new BitVec(63, 6))));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Repeat_BitVecExpr_SingleRepeat()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        // Test repeating a value once (should be the same value)
+        var original = context.BitVec(new BitVec(42, 8));
+        var repeated = context.Repeat(original, 1);
+
+        Assert.That(repeated.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(repeated.Context, Is.SameAs(context));
+        Assert.That(repeated.Size, Is.EqualTo(8)); // 8 * 1 = 8 bits
+
+        // Should be the same value
+        solver.Assert(context.Eq(repeated, original));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Repeat_BitVecExpr_WithVariable()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        // Test with a variable
+        var x = context.BitVecConst("x", 4);
+        var repeated = context.Repeat(x, 2);
+
+        Assert.That(repeated.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(repeated.Context, Is.SameAs(context));
+        Assert.That(repeated.Size, Is.EqualTo(8)); // 4 * 2 = 8 bits
+
+        // Set x to a specific value and check the repetition
+        solver.Assert(context.Eq(x, context.BitVec(new BitVec(10, 4)))); // 1010 in binary
+        // 1010 repeated twice should be 10101010 = 170 in decimal
+        solver.Assert(context.Eq(repeated, context.BitVec(new BitVec(170, 8))));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
     public void BitVecOperations_SizeMismatch_ThrowsException()
     {
         using var context = new Z3Context();
