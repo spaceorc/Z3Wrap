@@ -1,16 +1,21 @@
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace Z3Wrap.Interop;
 
-internal readonly struct AnsiStringPtr(string str) : IDisposable
+internal sealed class AnsiStringPtr : SafeHandleZeroOrMinusOneIsInvalid
 {
-    private readonly IntPtr pointer = Marshal.StringToHGlobalAnsi(str);
-
-    public void Dispose()
+    public AnsiStringPtr(string str) : base(true)
     {
-        if (pointer != IntPtr.Zero)
-            Marshal.FreeHGlobal(pointer);
+        SetHandle(Marshal.StringToHGlobalAnsi(str));
     }
 
-    public static implicit operator IntPtr(AnsiStringPtr ansiString) => ansiString.pointer;
+    protected override bool ReleaseHandle()
+    {
+        Marshal.FreeHGlobal(handle);
+        return true;
+    }
+
+    public static implicit operator IntPtr(AnsiStringPtr ansiString) =>
+        ansiString.DangerousGetHandle();
 }

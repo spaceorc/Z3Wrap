@@ -4,7 +4,9 @@ namespace Z3Wrap.Interop;
 
 public static class NativeMethods
 {
-    private static Dictionary<string, IntPtr>? loadedFunctionPointers;
+    private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
+
+    private static LoadedLibrary? loadedLibrary;
 
     // Public API Methods
     /// <summary>
@@ -16,10 +18,7 @@ public static class NativeMethods
     /// <exception cref="InvalidOperationException">Thrown when required Z3 functions cannot be loaded from the library.</exception>
     public static void LoadLibrary(string libraryPath)
     {
-        if (loadedFunctionPointers != null)
-            return; // Already loaded
-
-        loadedFunctionPointers = LoadLibraryInternal(libraryPath);
+        LoadLibrarySafe(libraryPath);
     }
 
     /// <summary>
@@ -29,8 +28,8 @@ public static class NativeMethods
     /// <exception cref="InvalidOperationException">Thrown when library cannot be found or loaded.</exception>
     public static void LoadLibraryAuto()
     {
-        if (loadedFunctionPointers != null)
-            return; // Already loaded
+        if (loadedLibrary != null)
+            return; // Fast path - already loaded
 
         var searchPaths = GetPlatformSearchPaths();
         var loadAttempts = new List<(string path, Exception exception)>();
@@ -41,8 +40,8 @@ public static class NativeMethods
             {
                 try
                 {
-                    loadedFunctionPointers = LoadLibraryInternal(path);
-                    return; // Success
+                    LoadLibrarySafe(path);
+                    return; // Success - library is now loaded
                 }
                 catch (Exception ex)
                 {
@@ -63,8 +62,23 @@ public static class NativeMethods
             "\n\nPlease ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly.");
     }
 
+    // Thread-safe library loading helper
+    private static void LoadLibrarySafe(string libraryPath)
+    {
+        if (loadedLibrary != null)
+            return; // Fast path - already loaded
+        
+        var newLibrary = LoadLibraryInternal(libraryPath);
+        // Atomically set if still null, otherwise another thread already loaded
+        if (Interlocked.CompareExchange(ref loadedLibrary, newLibrary, null) != null)
+        {
+            // Another thread already loaded - clean up our library handle
+            NativeLibrary.Free(newLibrary.LibraryHandle);
+        }
+    }
+
     // Internal Library Loading
-    private static Dictionary<string, IntPtr> LoadLibraryInternal(string libraryPath)
+    private static LoadedLibrary LoadLibraryInternal(string libraryPath)
     {
         var handle = NativeLibrary.Load(libraryPath);
         var functionPointers = new Dictionary<string, IntPtr>();
@@ -190,9 +204,7 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
             
-            // Once all functions are loaded successfully, we can return the pointers
-            // The library handle is no longer needed - function pointers keep the library loaded
-            return functionPointers;
+            return new LoadedLibrary(functionPointers, handle);
         }
         catch
         {
@@ -261,10 +273,10 @@ public static class NativeMethods
     private static IntPtr GetFunctionPointer(string functionName)
     {
         // Ensure library is loaded before trying to get function pointer
-        if (loadedFunctionPointers == null) 
+        if (loadedLibrary == null)
             LoadLibraryAuto();
-        
-        if (!loadedFunctionPointers!.TryGetValue(functionName, out var ptr))
+
+        if (!loadedLibrary!.FunctionPointers.TryGetValue(functionName, out var ptr))
             throw new InvalidOperationException($"Function {functionName} not loaded.");
         return ptr;
     }
