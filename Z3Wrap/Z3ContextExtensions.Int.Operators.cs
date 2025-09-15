@@ -7,24 +7,42 @@ namespace Z3Wrap;
 public static partial class Z3ContextExtensions
 {
     // Integer arithmetic operations
-    public static Z3IntExpr Add(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3IntExpr Add(this Z3Context context, params Z3IntExpr[] operands)
     {
-        var args = new[] { left.Handle, right.Handle };
-        var resultHandle = NativeMethods.Z3MkAdd(context.Handle, 2, args);
+        if (operands.Length == 0)
+            throw new InvalidOperationException("Add requires at least one operand. Z3 does not support empty addition.");
+
+        var args = new IntPtr[operands.Length];
+        for (int i = 0; i < operands.Length; i++)
+            args[i] = operands[i].Handle;
+
+        var resultHandle = NativeMethods.Z3MkAdd(context.Handle, (uint)args.Length, args);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
-    public static Z3IntExpr Sub(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3IntExpr Sub(this Z3Context context, params Z3IntExpr[] operands)
     {
-        var args = new[] { left.Handle, right.Handle };
-        var resultHandle = NativeMethods.Z3MkSub(context.Handle, 2, args);
+        if (operands.Length == 0)
+            throw new InvalidOperationException("Sub requires at least one operand. Z3 does not support empty subtraction.");
+
+        var args = new IntPtr[operands.Length];
+        for (int i = 0; i < operands.Length; i++)
+            args[i] = operands[i].Handle;
+
+        var resultHandle = NativeMethods.Z3MkSub(context.Handle, (uint)args.Length, args);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
-    public static Z3IntExpr Mul(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3IntExpr Mul(this Z3Context context, params Z3IntExpr[] operands)
     {
-        var args = new[] { left.Handle, right.Handle };
-        var resultHandle = NativeMethods.Z3MkMul(context.Handle, 2, args);
+        if (operands.Length == 0)
+            throw new InvalidOperationException("Mul requires at least one operand. Z3 does not support empty multiplication.");
+
+        var args = new IntPtr[operands.Length];
+        for (int i = 0; i < operands.Length; i++)
+            args[i] = operands[i].Handle;
+
+        var resultHandle = NativeMethods.Z3MkMul(context.Handle, (uint)args.Length, args);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
