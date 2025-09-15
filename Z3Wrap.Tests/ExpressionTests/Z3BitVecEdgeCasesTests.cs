@@ -25,7 +25,7 @@ public class Z3BitVecEdgeCasesTests
         var b = context.BitVecConst("b", 8);
 
         // Act - This was completely uncovered in the coverage report
-        var smod = context.SMod(a, b);
+        var smod = context.SignedMod(a, b);
 
         // Assert
         Assert.That(smod.Size, Is.EqualTo(8));
@@ -47,7 +47,7 @@ public class Z3BitVecEdgeCasesTests
         var b = context.BitVecConst("b", 8);
 
         // Act
-        var smod = context.SMod(a, b);
+        var smod = context.SignedMod(a, b);
 
         // Assert - Test signed modulo with negative dividend
         using var solver = context.CreateSolver();
@@ -120,10 +120,10 @@ public class Z3BitVecEdgeCasesTests
         var b16 = context.BitVecConst("c", 16);
 
         // Act & Assert - Size validation should work
-        Assert.DoesNotThrow(() => context.SRem(a8, b8));
+        Assert.DoesNotThrow(() => context.SignedRem(a8, b8));
 
         // Size mismatch should throw
-        var ex = Assert.Throws<ArgumentException>(() => context.SRem(a8, b16));
+        var ex = Assert.Throws<ArgumentException>(() => context.SignedRem(a8, b16));
         Assert.That(ex!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
     }
 
@@ -138,10 +138,10 @@ public class Z3BitVecEdgeCasesTests
 
         // Act - Test all major operation types
         var add = context.Add(a64, b64);
-        var smod = context.SMod(a64, b64);
+        var smod = context.SignedMod(a64, b64);
         var and = context.And(a64, b64);
         var shl = context.Shl(a64, b64);
-        var ult = context.Ult(a64, b64);
+        var ult = context.Lt(a64, b64);
 
         // Assert
         Assert.That(add.Size, Is.EqualTo(64));

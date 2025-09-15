@@ -248,7 +248,7 @@ public class Z3BitVecExprOperatorTests
         solver.Assert(shift == one);
 
         // Test arithmetic shift right (preserves sign bit)
-        solver.Assert(x.ArithmeticShiftRight(shift) == expected);
+        solver.Assert(x.SignedShr(shift) == expected);
 
         // Compare with logical shift right (doesn't preserve sign bit)
         var logicalResult = context.BitVec(new BitVec(120, 8)); // 0b01111000 = 120

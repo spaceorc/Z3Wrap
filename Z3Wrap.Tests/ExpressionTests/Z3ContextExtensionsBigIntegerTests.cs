@@ -27,11 +27,11 @@ public class Z3ContextExtensionsBigIntegerTests
         var add = context.Add(a, 10);
         var sub = context.Sub(a, 5);
         var mul = context.Mul(a, 3);
-        var udiv = context.UDiv(a, 2);
-        var sdiv = context.SDiv(a, 2);
-        var urem = context.URem(a, 7);
-        var srem = context.SRem(a, 7);
-        var smod = context.SMod(a, 7);
+        var udiv = context.Div(a, 2);
+        var sdiv = context.SignedDiv(a, 2);
+        var urem = context.Rem(a, 7);
+        var srem = context.SignedRem(a, 7);
+        var smod = context.SignedMod(a, 7);
 
         // Assert - Verify operations create valid expressions
         Assert.That(add.Size, Is.EqualTo(8));
@@ -69,11 +69,11 @@ public class Z3ContextExtensionsBigIntegerTests
         var add = context.Add(50, a);
         var sub = context.Sub(100, a);
         var mul = context.Mul(3, a);
-        var udiv = context.UDiv(80, a);
-        var sdiv = context.SDiv(80, a);
-        var urem = context.URem(25, a);
-        var srem = context.SRem(25, a);
-        var smod = context.SMod(25, a);
+        var udiv = context.Div(80, a);
+        var sdiv = context.SignedDiv(80, a);
+        var urem = context.Rem(25, a);
+        var srem = context.SignedRem(25, a);
+        var smod = context.SignedMod(25, a);
 
         // Assert - Verify operations create valid expressions
         Assert.That(add.Size, Is.EqualTo(8));
@@ -163,8 +163,8 @@ public class Z3ContextExtensionsBigIntegerTests
 
         // Act - Using context extensions directly
         var shl = context.Shl(a, 2);
-        var lshr = context.Lshr(a, 1);
-        var ashr = context.Ashr(a, 1);
+        var lshr = context.Shr(a, 1);
+        var ashr = context.SignedShr(a, 1);
 
         // Assert - Verify operations create valid expressions
         Assert.That(shl.Size, Is.EqualTo(8));
@@ -189,14 +189,14 @@ public class Z3ContextExtensionsBigIntegerTests
         var a = context.BitVecConst("a", 8);
 
         // Act - Using context extensions directly
-        var ult = context.Ult(a, 100);
-        var slt = context.Slt(a, 100);
-        var ule = context.Ule(a, 50);
-        var sle = context.Sle(a, 50);
-        var ugt = context.Ugt(a, 30);
-        var sgt = context.Sgt(a, 30);
-        var uge = context.Uge(a, 40);
-        var sge = context.Sge(a, 40);
+        var ult = context.Lt(a, 100);
+        var slt = context.SignedLt(a, 100);
+        var ule = context.Le(a, 50);
+        var sle = context.SignedLe(a, 50);
+        var ugt = context.Gt(a, 30);
+        var sgt = context.SignedGt(a, 30);
+        var uge = context.Ge(a, 40);
+        var sge = context.SignedGe(a, 40);
 
         // Verify with solver
         using var solver = context.CreateSolver();
@@ -222,14 +222,14 @@ public class Z3ContextExtensionsBigIntegerTests
         var a = context.BitVecConst("a", 8);
 
         // Act - Using context extensions directly with BigInteger as left operand
-        var ult = context.Ult(30, a);
-        var slt = context.Slt(30, a);
-        var ule = context.Ule(50, a);
-        var sle = context.Sle(50, a);
-        var ugt = context.Ugt(60, a);
-        var sgt = context.Sgt(60, a);
-        var uge = context.Uge(50, a);
-        var sge = context.Sge(50, a);
+        var ult = context.Lt(30, a);
+        var slt = context.SignedLt(30, a);
+        var ule = context.Le(50, a);
+        var sle = context.SignedLe(50, a);
+        var ugt = context.Gt(60, a);
+        var sgt = context.SignedGt(60, a);
+        var uge = context.Ge(50, a);
+        var sge = context.SignedGe(50, a);
 
         // Verify with solver
         using var solver = context.CreateSolver();
@@ -264,7 +264,7 @@ public class Z3ContextExtensionsBigIntegerTests
         {
             var _ = context.Add(a8, 42);
             var __ = context.And(255, a8);
-            var ___ = context.Ult(a8, 100);
+            var ___ = context.Lt(a8, 100);
         });
 
         // The size validation happens in the underlying Z3BitVecExpr operations

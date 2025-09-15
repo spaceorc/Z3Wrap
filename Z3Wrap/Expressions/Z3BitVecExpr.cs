@@ -33,27 +33,27 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public Z3IntExpr ToSignedInt() => Context.ToSignedInt(this);
 
     // Signed comparison methods (for explicit signed comparisons)
-    public Z3BoolExpr SignedLt(Z3BitVecExpr other) => Context.Slt(this, other);
-    public Z3BoolExpr SignedLe(Z3BitVecExpr other) => Context.Sle(this, other);
-    public Z3BoolExpr SignedGt(Z3BitVecExpr other) => Context.Sgt(this, other);
-    public Z3BoolExpr SignedGe(Z3BitVecExpr other) => Context.Sge(this, other);
+    public Z3BoolExpr SignedLt(Z3BitVecExpr other) => Context.SignedLt(this, other);
+    public Z3BoolExpr SignedLe(Z3BitVecExpr other) => Context.SignedLe(this, other);
+    public Z3BoolExpr SignedGt(Z3BitVecExpr other) => Context.SignedGt(this, other);
+    public Z3BoolExpr SignedGe(Z3BitVecExpr other) => Context.SignedGe(this, other);
 
     // Signed division methods (for explicit signed operations)
-    public Z3BitVecExpr SignedDiv(Z3BitVecExpr other) => Context.SDiv(this, other);
-    public Z3BitVecExpr SignedRem(Z3BitVecExpr other) => Context.SRem(this, other);
-    public Z3BitVecExpr SignedMod(Z3BitVecExpr other) => Context.SMod(this, other);
+    public Z3BitVecExpr SignedDiv(Z3BitVecExpr other) => Context.SignedDiv(this, other);
+    public Z3BitVecExpr SignedRem(Z3BitVecExpr other) => Context.SignedRem(this, other);
+    public Z3BitVecExpr SignedMod(Z3BitVecExpr other) => Context.SignedMod(this, other);
 
     // Shift methods (for explicit shift types)
-    public Z3BitVecExpr LogicalShiftLeft(Z3BitVecExpr amount) => Context.Shl(this, amount);
-    public Z3BitVecExpr LogicalShiftRight(Z3BitVecExpr amount) => Context.Lshr(this, amount);
-    public Z3BitVecExpr ArithmeticShiftRight(Z3BitVecExpr amount) => Context.Ashr(this, amount);
+    public Z3BitVecExpr Shl(Z3BitVecExpr amount) => Context.Shl(this, amount);
+    public Z3BitVecExpr Shr(Z3BitVecExpr amount) => Context.Shr(this, amount);
+    public Z3BitVecExpr SignedShr(Z3BitVecExpr amount) => Context.SignedShr(this, amount);
 
     // Arithmetic operators (unsigned by default)
     public static Z3BitVecExpr operator +(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Add(left, right);
     public static Z3BitVecExpr operator -(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Sub(left, right);
     public static Z3BitVecExpr operator *(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Mul(left, right);
-    public static Z3BitVecExpr operator /(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.UDiv(left, right);
-    public static Z3BitVecExpr operator %(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.URem(left, right);
+    public static Z3BitVecExpr operator /(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Div(left, right);
+    public static Z3BitVecExpr operator %(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Rem(left, right);
     public static Z3BitVecExpr operator -(Z3BitVecExpr operand) => operand.Context.Neg(operand);
 
     // Bitwise operators
@@ -64,57 +64,57 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
 
     // Shift operators (logical by default)
     public static Z3BitVecExpr operator <<(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Shl(left, right);
-    public static Z3BitVecExpr operator >>(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Lshr(left, right);
+    public static Z3BitVecExpr operator >>(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Shr(left, right);
 
     // Comparison operators (unsigned by default)
-    public static Z3BoolExpr operator <(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Ult(left, right);
-    public static Z3BoolExpr operator <=(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Ule(left, right);
-    public static Z3BoolExpr operator >(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Ugt(left, right);
-    public static Z3BoolExpr operator >=(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Uge(left, right);
+    public static Z3BoolExpr operator <(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Lt(left, right);
+    public static Z3BoolExpr operator <=(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Le(left, right);
+    public static Z3BoolExpr operator >(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Gt(left, right);
+    public static Z3BoolExpr operator >=(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Ge(left, right);
 
     // BigInteger operators - Arithmetic (Z3BitVecExpr op BigInteger)
-    public static Z3BitVecExpr operator +(Z3BitVecExpr left, BigInteger right) => left.Context.Add(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator -(Z3BitVecExpr left, BigInteger right) => left.Context.Sub(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator *(Z3BitVecExpr left, BigInteger right) => left.Context.Mul(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator /(Z3BitVecExpr left, BigInteger right) => left.Context.UDiv(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator %(Z3BitVecExpr left, BigInteger right) => left.Context.URem(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator +(Z3BitVecExpr left, BigInteger right) => left.Context.Add(left, right);
+    public static Z3BitVecExpr operator -(Z3BitVecExpr left, BigInteger right) => left.Context.Sub(left, right);
+    public static Z3BitVecExpr operator *(Z3BitVecExpr left, BigInteger right) => left.Context.Mul(left, right);
+    public static Z3BitVecExpr operator /(Z3BitVecExpr left, BigInteger right) => left.Context.Div(left, right);
+    public static Z3BitVecExpr operator %(Z3BitVecExpr left, BigInteger right) => left.Context.Rem(left, right);
 
     // BigInteger operators - Arithmetic (BigInteger op Z3BitVecExpr)
-    public static Z3BitVecExpr operator +(BigInteger left, Z3BitVecExpr right) => right.Context.Add(right.Context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr operator -(BigInteger left, Z3BitVecExpr right) => right.Context.Sub(right.Context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr operator *(BigInteger left, Z3BitVecExpr right) => right.Context.Mul(right.Context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr operator /(BigInteger left, Z3BitVecExpr right) => right.Context.UDiv(right.Context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr operator %(BigInteger left, Z3BitVecExpr right) => right.Context.URem(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator +(BigInteger left, Z3BitVecExpr right) => right.Context.Add(left, right);
+    public static Z3BitVecExpr operator -(BigInteger left, Z3BitVecExpr right) => right.Context.Sub(left, right);
+    public static Z3BitVecExpr operator *(BigInteger left, Z3BitVecExpr right) => right.Context.Mul(left, right);
+    public static Z3BitVecExpr operator /(BigInteger left, Z3BitVecExpr right) => right.Context.Div(left, right);
+    public static Z3BitVecExpr operator %(BigInteger left, Z3BitVecExpr right) => right.Context.Rem(left, right);
 
     // BigInteger operators - Bitwise (Z3BitVecExpr op BigInteger)
-    public static Z3BitVecExpr operator &(Z3BitVecExpr left, BigInteger right) => left.Context.And(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator |(Z3BitVecExpr left, BigInteger right) => left.Context.Or(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator ^(Z3BitVecExpr left, BigInteger right) => left.Context.Xor(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator &(Z3BitVecExpr left, BigInteger right) => left.Context.And(left, right);
+    public static Z3BitVecExpr operator |(Z3BitVecExpr left, BigInteger right) => left.Context.Or(left, right);
+    public static Z3BitVecExpr operator ^(Z3BitVecExpr left, BigInteger right) => left.Context.Xor(left, right);
 
     // BigInteger operators - Bitwise (BigInteger op Z3BitVecExpr)
-    public static Z3BitVecExpr operator &(BigInteger left, Z3BitVecExpr right) => right.Context.And(right.Context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr operator |(BigInteger left, Z3BitVecExpr right) => right.Context.Or(right.Context.BitVec(left, right.Size), right);
-    public static Z3BitVecExpr operator ^(BigInteger left, Z3BitVecExpr right) => right.Context.Xor(right.Context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr operator &(BigInteger left, Z3BitVecExpr right) => right.Context.And(left, right);
+    public static Z3BitVecExpr operator |(BigInteger left, Z3BitVecExpr right) => right.Context.Or(left, right);
+    public static Z3BitVecExpr operator ^(BigInteger left, Z3BitVecExpr right) => right.Context.Xor(left, right);
 
     // BigInteger operators - Shift (only left-to-right makes sense)
-    public static Z3BitVecExpr operator <<(Z3BitVecExpr left, BigInteger right) => left.Context.Shl(left, left.Context.BitVec(right, left.Size));
-    public static Z3BitVecExpr operator >>(Z3BitVecExpr left, BigInteger right) => left.Context.Lshr(left, left.Context.BitVec(right, left.Size));
+    public static Z3BitVecExpr operator <<(Z3BitVecExpr left, BigInteger right) => left.Context.Shl(left, right);
+    public static Z3BitVecExpr operator >>(Z3BitVecExpr left, BigInteger right) => left.Context.Shr(left, right);
 
     // BigInteger operators - Comparison (Z3BitVecExpr op BigInteger)
-    public static Z3BoolExpr operator <(Z3BitVecExpr left, BigInteger right) => left.Context.Ult(left, left.Context.BitVec(right, left.Size));
-    public static Z3BoolExpr operator <=(Z3BitVecExpr left, BigInteger right) => left.Context.Ule(left, left.Context.BitVec(right, left.Size));
-    public static Z3BoolExpr operator >(Z3BitVecExpr left, BigInteger right) => left.Context.Ugt(left, left.Context.BitVec(right, left.Size));
-    public static Z3BoolExpr operator >=(Z3BitVecExpr left, BigInteger right) => left.Context.Uge(left, left.Context.BitVec(right, left.Size));
+    public static Z3BoolExpr operator <(Z3BitVecExpr left, BigInteger right) => left.Context.Lt(left, right);
+    public static Z3BoolExpr operator <=(Z3BitVecExpr left, BigInteger right) => left.Context.Le(left, right);
+    public static Z3BoolExpr operator >(Z3BitVecExpr left, BigInteger right) => left.Context.Gt(left, right);
+    public static Z3BoolExpr operator >=(Z3BitVecExpr left, BigInteger right) => left.Context.Ge(left, right);
 
     // BigInteger operators - Comparison (BigInteger op Z3BitVecExpr)
-    public static Z3BoolExpr operator <(BigInteger left, Z3BitVecExpr right) => right.Context.Ult(right.Context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr operator <=(BigInteger left, Z3BitVecExpr right) => right.Context.Ule(right.Context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr operator >(BigInteger left, Z3BitVecExpr right) => right.Context.Ugt(right.Context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr operator >=(BigInteger left, Z3BitVecExpr right) => right.Context.Uge(right.Context.BitVec(left, right.Size), right);
+    public static Z3BoolExpr operator <(BigInteger left, Z3BitVecExpr right) => right.Context.Lt(left, right);
+    public static Z3BoolExpr operator <=(BigInteger left, Z3BitVecExpr right) => right.Context.Le(left, right);
+    public static Z3BoolExpr operator >(BigInteger left, Z3BitVecExpr right) => right.Context.Gt(left, right);
+    public static Z3BoolExpr operator >=(BigInteger left, Z3BitVecExpr right) => right.Context.Ge(left, right);
 
     // BigInteger operators - Equality
-    public static Z3BoolExpr operator ==(Z3BitVecExpr left, BigInteger right) => left.Context.Eq(left, left.Context.BitVec(right, left.Size));
-    public static Z3BoolExpr operator ==(BigInteger left, Z3BitVecExpr right) => right.Context.Eq(right.Context.BitVec(left, right.Size), right);
-    public static Z3BoolExpr operator !=(Z3BitVecExpr left, BigInteger right) => !(left == right);
-    public static Z3BoolExpr operator !=(BigInteger left, Z3BitVecExpr right) => !(left == right);
+    public static Z3BoolExpr operator ==(Z3BitVecExpr left, BigInteger right) => left.Context.Eq(left, right);
+    public static Z3BoolExpr operator ==(BigInteger left, Z3BitVecExpr right) => right.Context.Eq(left, right);
+    public static Z3BoolExpr operator !=(Z3BitVecExpr left, BigInteger right) => left.Context.Neq(left, right);
+    public static Z3BoolExpr operator !=(BigInteger left, Z3BitVecExpr right) => right.Context.Neq(left, right);
 }

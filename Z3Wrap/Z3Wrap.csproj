@@ -52,6 +52,15 @@
         <Compile Update="Z3ContextExtensions.Bool.Operators.cs">
           <DependentUpon>Z3ContextExtensions.Bool.cs</DependentUpon>
         </Compile>
+        <Compile Update="Z3ContextExtensions.BitVec.Conversion.cs">
+          <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.BitVec.Functions.cs">
+          <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Z3ContextExtensions.BitVec.Operators.cs">
+          <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
