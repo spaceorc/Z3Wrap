@@ -4,7 +4,7 @@ using Z3Wrap.DataTypes;
 namespace Z3Wrap.Tests.Unit.DataTypes;
 
 [TestFixture]
-public class RealClassTests
+public class RealTests
 {
     [Test]
     public void Constructor_IntegerValues_CreatesCorrectRational()
