@@ -47,6 +47,191 @@ public class RealTests
     }
 
     [Test]
+    public void Constructor_LongValues_CreatesCorrectRational()
+    {
+        var real = new Real(3L, 4L);
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(3)));
+        Assert.That(real.Denominator, Is.EqualTo(new BigInteger(4)));
+    }
+
+    [Test]
+    public void Constructor_LongNumeratorOnly_CreatesIntegerRational()
+    {
+        var real = new Real(42L);
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(42)));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+    }
+
+    [Test]
+    public void Constructor_LongMaxValues_HandlesLargeNumbers()
+    {
+        var real = new Real(long.MaxValue, long.MaxValue - 1);
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(long.MaxValue)));
+        Assert.That(real.Denominator, Is.EqualTo(new BigInteger(long.MaxValue - 1)));
+    }
+
+    [Test]
+    public void Constructor_LongMinValue_HandlesNegativeNumbers()
+    {
+        var real = new Real(long.MinValue, 2L);
+        // The fraction gets simplified: long.MinValue / 2 = (long.MinValue/2) / 1
+        // since GCD(long.MinValue, 2) = 2
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(long.MinValue / 2)));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void Constructor_LongNegativeDenominator_MovesSignToNumerator()
+    {
+        var real = new Real(3L, -4L);
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(-3)));
+        Assert.That(real.Denominator, Is.EqualTo(new BigInteger(4)));
+    }
+
+    [Test]
+    public void Constructor_LongZeroDenominator_ThrowsArgumentException()
+    {
+        Assert.Throws<ArgumentException>(() => new Real(1L, 0L));
+    }
+
+    [Test]
+    public void Constructor_LongSimplification_ReducesToLowestTerms()
+    {
+        var real = new Real(6L, 9L);
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(2)));
+        Assert.That(real.Denominator, Is.EqualTo(new BigInteger(3)));
+    }
+
+    [Test]
+    public void Constructor_LongZeroNumerator_CreatesZero()
+    {
+        var real = new Real(0L, 5L);
+        Assert.That(real.IsZero, Is.True);
+        Assert.That(real.Numerator, Is.EqualTo(BigInteger.Zero));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void Constructor_LongBothNegative_ResultsInPositive()
+    {
+        var real = new Real(-3L, -4L);
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(3)));
+        Assert.That(real.Denominator, Is.EqualTo(new BigInteger(4)));
+        Assert.That(real.IsPositive, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigInteger_CreatesIntegerRational()
+    {
+        var bigInt = new BigInteger(42);
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerZero_CreatesZero()
+    {
+        var bigInt = BigInteger.Zero;
+        var real = new Real(bigInt);
+        Assert.That(real.IsZero, Is.True);
+        Assert.That(real.Numerator, Is.EqualTo(BigInteger.Zero));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void Constructor_BigIntegerNegative_HandlesNegativeNumbers()
+    {
+        var bigInt = new BigInteger(-12345);
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsNegative, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerLarge_HandlesVeryLargeNumbers()
+    {
+        var bigInt = BigInteger.Pow(10, 100);
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsPositive, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerFromLongMax_HandlesLongMaxValue()
+    {
+        var bigInt = new BigInteger(long.MaxValue);
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerFromLongMin_HandlesLongMinValue()
+    {
+        var bigInt = new BigInteger(long.MinValue);
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsNegative, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerExtremelyLarge_HandlesArbitraryPrecision()
+    {
+        // Create a very large BigInteger (larger than any built-in numeric type)
+        var bigInt = BigInteger.Parse("123456789012345678901234567890123456789012345678901234567890");
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsPositive, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerExtremelyLargeNegative_HandlesArbitraryPrecisionNegative()
+    {
+        // Create a very large negative BigInteger
+        var bigInt = BigInteger.Parse("-987654321098765432109876543210987654321098765432109876543210");
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(bigInt));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsNegative, Is.True);
+    }
+
+    [Test]
+    public void Constructor_BigIntegerOne_CreatesOne()
+    {
+        var bigInt = BigInteger.One;
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsPositive, Is.True);
+        Assert.That(real, Is.EqualTo(Real.One));
+    }
+
+    [Test]
+    public void Constructor_BigIntegerMinusOne_CreatesMinusOne()
+    {
+        var bigInt = BigInteger.MinusOne;
+        var real = new Real(bigInt);
+        Assert.That(real.Numerator, Is.EqualTo(BigInteger.MinusOne));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsNegative, Is.True);
+        Assert.That(real, Is.EqualTo(Real.MinusOne));
+    }
+
+    [Test]
     public void Properties_IsZero_DetectsZeroCorrectly()
     {
         Assert.That(new Real(0, 1).IsZero, Is.True);
