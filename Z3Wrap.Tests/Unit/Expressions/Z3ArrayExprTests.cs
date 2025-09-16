@@ -6,179 +6,262 @@ namespace Z3Wrap.Tests.Unit.Expressions;
 [TestFixture]
 public class Z3ArrayExprTests
 {
-    [Test]
-    public void ArrayConst_IntToBool_CreatesVariable()
-    {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+    private Z3Context context = null!;
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr.Context, Is.EqualTo(context));
+    [SetUp]
+    public void SetUp()
+    {
+        context = new Z3Context();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        context.Dispose();
+    }
+
+    #region Array Creation Tests
+
+    [TestCase("intToBool")]
+    [TestCase("test_array")]
+    [TestCase("arr")]
+    public void ArrayConst_IntToBool_CreatesVariable(string name)
+    {
+        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>(name);
+
+        AssertValidArrayExpression(array, name);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+    }
+
+    [TestCase("prices")]
+    [TestCase("values")]
+    public void ArrayConst_IntToReal_CreatesVariable(string name)
+    {
+        var array = context.ArrayConst<Z3IntExpr, Z3RealExpr>(name);
+
+        AssertValidArrayExpression(array, name);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3RealExpr>>());
+    }
+
+    [TestCase("flags")]
+    [TestCase("conditions")]
+    public void ArrayConst_BoolToInt_CreatesVariable(string name)
+    {
+        var array = context.ArrayConst<Z3BoolExpr, Z3IntExpr>(name);
+
+        AssertValidArrayExpression(array, name);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3BoolExpr, Z3IntExpr>>());
+    }
+
+    [TestCase("arr")]
+    [TestCase("data")]
+    public void ArrayConst_SingleGeneric_IntToBool_CreatesVariable(string name)
+    {
+        var array = context.ArrayConst<Z3BoolExpr>(name);
+
+        AssertValidArrayExpression(array, name);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+    }
+
+    [TestCase("prices")]
+    [TestCase("measurements")]
+    public void ArrayConst_SingleGeneric_IntToReal_CreatesVariable(string name)
+    {
+        var array = context.ArrayConst<Z3RealExpr>(name);
+
+        AssertValidArrayExpression(array, name);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3RealExpr>>());
     }
 
     [Test]
-    public void ArrayConst_IntToReal_CreatesVariable()
+    public void Array_BooleanDefault_CreatesConstantArray()
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
+        var defaultValue = context.Bool(true);
+        var array = context.Array<Z3IntExpr, Z3BoolExpr>(defaultValue);
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr.Context, Is.EqualTo(context));
+        AssertValidArrayExpression(array);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
     }
 
     [Test]
-    public void ArrayConst_BoolToInt_CreatesVariable()
+    public void Array_IntegerDefault_CreatesConstantArray()
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3BoolExpr, Z3IntExpr>("flags");
+        var defaultValue = context.Int(42);
+        var array = context.Array<Z3BoolExpr, Z3IntExpr>(defaultValue);
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr.Context, Is.EqualTo(context));
+        AssertValidArrayExpression(array);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3BoolExpr, Z3IntExpr>>());
     }
 
     [Test]
-    public void Array_AllElementsSameValue_Creates()
+    public void Array_SingleGeneric_BooleanDefault_CreatesConstantArray()
     {
-        using var context = new Z3Context();
-        var defaultVal = context.Bool(true);
-        var arr = context.Array<Z3IntExpr, Z3BoolExpr>(defaultVal);
+        var defaultValue = context.Bool(true);
+        var array = context.Array(defaultValue);
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        AssertValidArrayExpression(array);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
     }
 
     [Test]
-    public void Array_IntegerDefault_Creates()
+    public void Array_SingleGeneric_IntegerDefault_CreatesConstantArray()
     {
-        using var context = new Z3Context();
-        var defaultVal = context.Int(42);
-        var arr = context.Array<Z3BoolExpr, Z3IntExpr>(defaultVal);
+        var defaultValue = context.Int(42);
+        var array = context.Array(defaultValue);
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        AssertValidArrayExpression(array);
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3IntExpr>>());
     }
 
-    [Test]
-    public void IndexerAccess_SelectOperation_Works()
+    #endregion
+
+    #region Array Access Tests
+
+    [TestCase(5)]
+    [TestCase(0)]
+    [TestCase(-1)]
+    public void IndexerAccess_IntegerLiteral_WorksWithImplicitConversion(int index)
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
-        var index = context.Int(5);
-
-        var element = arr[index];
-
-        Assert.That(element, Is.Not.Null);
-        Assert.That(element, Is.TypeOf<Z3BoolExpr>());
-        Assert.That(element.Handle, Is.Not.EqualTo(IntPtr.Zero));
-    }
-
-    [Test]
-    public void IndexerAccess_IntegerLiteral_WorksWithImplicitConversion()
-    {
-        using var context = new Z3Context();
         using var scope = context.SetUp();
-        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
 
-        var element = arr[0];
+        var element = array[index];
 
-        Assert.That(element, Is.Not.Null);
+        AssertValidExpression(element);
         Assert.That(element, Is.TypeOf<Z3IntExpr>());
-        Assert.That(element.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Verify it works in solver context
         using var solver = context.CreateSolver();
-        solver.Assert(arr[0] == 42);
-        solver.Assert(arr[1] == 100);
-        solver.Assert(arr[0] < arr[1]);
-
+        solver.Assert(array[index] == 42);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void Store_UpdatesArray_ReturnsNewArray()
+    public void IndexerAccess_Z3IntExpr_Works()
     {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        var arr = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var index = context.Int(5);
 
-        var updatedArr = arr.Store(10, true);
+        var element = array[index];
 
-        Assert.That(updatedArr, Is.Not.Null);
-        Assert.That(updatedArr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
-        Assert.That(updatedArr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(updatedArr.Handle, Is.Not.EqualTo(arr.Handle)); // Functional update
+        AssertValidExpression(element);
+        Assert.That(element, Is.TypeOf<Z3BoolExpr>());
     }
 
     [Test]
-    public void ArrayConstraints_SolveWithSelect_Works()
+    public void Select_ExtensionMethod_Z3IntConstIndex_Works()
     {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var index = context.IntConst("i");
 
+        var element = context.Select(array, index);
+
+        AssertValidExpression(element);
+        Assert.That(element, Is.TypeOf<Z3IntExpr>());
+    }
+
+    [Test]
+    public void Select_ExtensionMethodVsIndexer_ProduceEquivalentResults()
+    {
+        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var index = context.Int(42);
+
+        var elementViaExtension = context.Select(array, index);
+        var elementViaIndexer = array[index];
+
+        AssertValidExpression(elementViaExtension);
+        AssertValidExpression(elementViaIndexer);
+        Assert.That(elementViaExtension, Is.TypeOf<Z3BoolExpr>());
+        Assert.That(elementViaIndexer, Is.TypeOf<Z3BoolExpr>());
+
+        // Both should work in solver contexts
         using var solver = context.CreateSolver();
-        solver.Assert(arr[5] == 42);
-        solver.Assert(arr[10] == 100);
-        solver.Assert(arr[5] < arr[10]);
-
-        var result = solver.Check();
-        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        Assert.That(model, Is.Not.Null);
+        solver.Assert(elementViaExtension == true);
+        solver.Assert(elementViaIndexer == true);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
-    [Test]
-    public void ArrayConstraints_SolveWithStore_Works()
+    #endregion
+
+    #region Array Update Tests
+
+    [TestCase(10, true)]
+    [TestCase(0, false)]
+    [TestCase(-5, true)]
+    public void Store_IntegerLiteralIndexAndValue_ReturnsNewArray(int index, bool value)
     {
-        using var context = new Z3Context();
         using var scope = context.SetUp();
-        var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
+        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
 
-        var arr2 = arr1.Store(3, 999);
+        var updatedArray = array.Store(index, value);
 
+        AssertValidArrayExpression(updatedArray);
+        Assert.That(updatedArray, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        Assert.That(updatedArray.Handle, Is.Not.EqualTo(array.Handle)); // Functional update
+
+        // Verify the stored value can be retrieved
         using var solver = context.CreateSolver();
-        solver.Assert(arr2[3] == 999);
-
-        var result = solver.Check();
-        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
+        solver.Assert(updatedArray[index] == value);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void ArrayConstraints_StoreSelectProperty_Works()
+    public void Store_Z3Expressions_ReturnsNewArray()
     {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var index = context.Int(7);
+        var value = context.Int(555);
 
-        var updatedArr = arr.Store(7, 555);
+        var updatedArray = array.Store(index, value);
 
+        AssertValidArrayExpression(updatedArray);
+        Assert.That(updatedArray.Handle, Is.Not.EqualTo(array.Handle));
+
+        // Verify store-select property
         using var solver = context.CreateSolver();
-        solver.Assert(updatedArr[7] == 555);
-
-        var result = solver.Check();
-        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
+        solver.Assert(updatedArray[index] == value);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void ArrayConstraints_DifferentIndices_Independent()
+    public void Store_ExtensionMethod_Works()
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var index = context.Int(5);
+        var value = context.Int(100);
+
+        var updatedArrayViaExtension = context.Store(array, index, value);
+        var updatedArrayViaInstance = array.Store(index, value);
+
+        AssertValidArrayExpression(updatedArrayViaExtension);
+        AssertValidArrayExpression(updatedArrayViaInstance);
+
+        // Both should satisfy the same constraint
+        using var solver = context.CreateSolver();
+        solver.Assert(updatedArrayViaExtension[index] == value);
+        solver.Assert(updatedArrayViaInstance[index] == value);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    #endregion
+
+    #region Array Constraint Solving Tests
+
+    [Test]
+    public void ArrayConstraints_MultipleIndices_Independent()
+    {
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
         var i = context.Int(1);
         var j = context.Int(2);
         var value1 = context.Int(111);
         var value2 = context.Int(222);
 
-        var arr1 = arr.Store(i, value1);
-        var arr2 = arr1.Store(j, value2);
+        var array1 = array.Store(i, value1);
+        var array2 = array1.Store(j, value2);
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr2[i] == value1);
-        solver.Assert(arr2[j] == value2);
+        solver.Assert(array2[i] == value1);
+        solver.Assert(array2[j] == value2);
         solver.Assert(value1 != value2);
 
         var result = solver.Check();
@@ -186,15 +269,14 @@ public class Z3ArrayExprTests
     }
 
     [Test]
-    public void Array_AllIndicesHaveSameValue_Works()
+    public void ArrayConstraints_ConstantArrayAllIndices_SameValue()
     {
-        using var context = new Z3Context();
         using var scope = context.SetUp();
-        var arr = context.Array<Z3IntExpr, Z3IntExpr>(99);
+        var array = context.Array<Z3IntExpr, Z3IntExpr>(99);
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr[100] == 99);
-        solver.Assert(arr[200] == 99);
+        solver.Assert(array[100] == 99);
+        solver.Assert(array[200] == 99);
         solver.Assert(100 != 200);
 
         var result = solver.Check();
@@ -202,89 +284,57 @@ public class Z3ArrayExprTests
     }
 
     [Test]
-    public void ArrayEquality_SameArrays_Equal()
+    public void ArrayConstraints_StoreSelectProperty_DifferentIndices()
     {
-        using var context = new Z3Context();
-        var arr1 = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
-        var arr2 = arr1; // Same reference
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var index1 = context.Int(0);
+        var index2 = context.Int(1);
+        var value = context.Int(100);
+
+        var storedArray = context.Store(array, index1, value);
+        var select1 = context.Select(storedArray, index1);
+        var select2 = context.Select(storedArray, index2);
+        var originalAtIndex2 = context.Select(array, index2);
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr1 == arr2);
+        solver.Assert(context.Eq(select1, value)); // Should equal stored value
+        solver.Assert(context.Eq(select2, originalAtIndex2)); // Should equal original value
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void ArrayEquality_DifferentArrays_CanBeEqual()
+    public void ArrayConstraints_ComplexNestedStoreSelect_Works()
     {
-        using var context = new Z3Context();
-        var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
-        var arr2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
-        var i = context.Int(0);
-
-        using var solver = context.CreateSolver();
-        // Force arrays to be equal by constraining all accessible elements
-        solver.Assert(arr1 == arr2);
-        solver.Assert(arr1[i] == context.Int(42));
-
-        var result = solver.Check();
-        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        // Both arrays should select the same value at index i
-        var val1 = model.GetIntValue(arr1[i]);
-        var val2 = model.GetIntValue(arr2[i]);
-        Assert.That(val1, Is.EqualTo(val2));
-        Assert.That(val1, Is.EqualTo(new BigInteger(42)));
-    }
-
-    [Test]
-    public void ArrayInequality_ExplicitlyDifferent_Works()
-    {
-        using var context = new Z3Context();
-        var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
-        var arr2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
-        var i = context.Int(0);
-
-        using var solver = context.CreateSolver();
-        solver.Assert(arr1 != arr2);
-        solver.Assert(arr1[i] != arr2[i]); // Make them provably different
-
-        var result = solver.Check();
-        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ComplexArrayOperation_NestedStoreSelect_Works()
-    {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
         var i = context.Int(1);
         var j = context.Int(2);
 
-        // arr[i] := 10, then arr[j] := 20, then select arr[i]
-        var arr1 = arr.Store(i, context.Int(10));
-        var arr2 = arr1.Store(j, context.Int(20));
+        var array1 = array.Store(i, context.Int(10));
+        var array2 = array1.Store(j, context.Int(20));
 
         using var solver = context.CreateSolver();
-        solver.Assert(arr2[i] == context.Int(10)); // Should still be 10
-        solver.Assert(arr2[j] == context.Int(20)); // Should be 20
+        solver.Assert(array2[i] == context.Int(10)); // Should still be 10
+        solver.Assert(array2[j] == context.Int(20)); // Should be 20
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var valI = model.GetIntValue(arr2[i]);
-        var valJ = model.GetIntValue(arr2[j]);
+        var valI = model.GetIntValue(array2[i]);
+        var valJ = model.GetIntValue(array2[j]);
         Assert.That(valI, Is.EqualTo(new BigInteger(10)));
         Assert.That(valJ, Is.EqualTo(new BigInteger(20)));
     }
 
+    #endregion
+
+    #region Array Type-Specific Tests
+
     [Test]
-    public void RealArrays_SolveConstraints_Works()
+    public void RealArrays_DecimalConstraints_Works()
     {
-        using var context = new Z3Context();
         var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
         var item1 = context.Int(1);
         var item2 = context.Int(2);
@@ -301,8 +351,7 @@ public class Z3ArrayExprTests
         var price1Str = model.GetNumericValueAsString(prices[item1]);
         var price2Str = model.GetNumericValueAsString(prices[item2]);
 
-        // Check that the stored values are maintained (Z3 may return equivalent fractions)
-        // 19.99 = 1999/100, 29.95 = 599/20 are equivalent representations
+        // Z3 may return equivalent fraction representations
         Assert.That(price1Str, Is.EqualTo("1999/100"));
         Assert.That(price2Str, Is.EqualTo("599/20"));
     }
@@ -310,7 +359,6 @@ public class Z3ArrayExprTests
     [Test]
     public void BooleanArrays_LogicalConstraints_Works()
     {
-        using var context = new Z3Context();
         var flags = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("flags");
         var idx0 = context.Int(0);
         var idx1 = context.Int(1);
@@ -323,115 +371,109 @@ public class Z3ArrayExprTests
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
 
-        // For now, just verify that the constraints are satisfiable
-        // Array element evaluation in models may require additional Z3 configuration
-        var model = solver.GetModel();
-        Assert.That(model, Is.Not.Null);
-
-        // Test that the constraint logic works by checking satisfiability
+        // Verify the negation is unsatisfiable
         using var solver2 = context.CreateSolver();
         solver2.Assert(flags[idx0] == context.Bool(true));
         solver2.Assert(flags[idx1] == context.Bool(false));
         solver2.Assert(!(flags[idx0] & !flags[idx1])); // Negate the constraint
 
         var result2 = solver2.Check();
-        Assert.That(result2, Is.EqualTo(Z3Status.Unsatisfiable)); // Should be UNSAT
+        Assert.That(result2, Is.EqualTo(Z3Status.Unsatisfiable));
     }
 
-    [Test]
-    public void ArrayToString_ValidOutput_ContainsArrayInfo()
-    {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("test_array");
-        var toString = arr.ToString();
+    #endregion
 
-        Assert.That(toString, Is.Not.Null);
-        Assert.That(toString, Is.Not.Empty);
-        // Z3 typically shows array expressions with the variable name
-        Assert.That(toString, Is.EqualTo("test_array"));
-    }
+    #region Array Equality Tests
 
     [Test]
-    public void ArrayContextExtensions_SelectMethod_Works()
+    public void ArrayEquality_SameReference_Equal()
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
-        var index = context.Int(42);
-
-        var element1 = context.Select(arr, index); // Extension method
-        var element2 = arr[index]; // Indexer
-
-        // Both should produce equivalent expressions
-        Assert.That(element1, Is.Not.Null);
-        Assert.That(element2, Is.Not.Null);
-        Assert.That(element1, Is.TypeOf<Z3BoolExpr>());
-        Assert.That(element2, Is.TypeOf<Z3BoolExpr>());
-    }
-
-    [Test]
-    public void ArrayContextExtensions_StoreMethod_Works()
-    {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr");
-        var index = context.Int(5);
-        var value = context.Int(100);
-
-        var newArr1 = context.Store(arr, index, value); // Extension method
-        var newArr2 = arr.Store(index, value); // Instance method
+        var array1 = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var array2 = array1; // Same reference
 
         using var solver = context.CreateSolver();
-        solver.Assert(newArr1[index] == value);
-        solver.Assert(newArr2[index] == value);
+        solver.Assert(array1 == array2);
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
-    public void ArrayConst_SingleGeneric_IntToBool_CreatesVariable()
+    public void ArrayEquality_DifferentArrays_CanBeEqual()
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3BoolExpr>("arr");
+        var array1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
+        var array2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
+        var index = context.Int(0);
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr.Context, Is.EqualTo(context));
-        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        using var solver = context.CreateSolver();
+        solver.Assert(array1 == array2);
+        solver.Assert(array1[index] == context.Int(42));
+
+        var result = solver.Check();
+        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var val1 = model.GetIntValue(array1[index]);
+        var val2 = model.GetIntValue(array2[index]);
+        Assert.That(val1, Is.EqualTo(val2));
+        Assert.That(val1, Is.EqualTo(new BigInteger(42)));
     }
 
     [Test]
-    public void ArrayConst_SingleGeneric_IntToReal_CreatesVariable()
+    public void ArrayInequality_ExplicitlyDifferent_Works()
     {
-        using var context = new Z3Context();
-        var arr = context.ArrayConst<Z3RealExpr>("prices");
+        var array1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
+        var array2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
+        var index = context.Int(0);
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr.Context, Is.EqualTo(context));
-        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3RealExpr>>());
+        using var solver = context.CreateSolver();
+        solver.Assert(array1 != array2);
+        solver.Assert(array1[index] != array2[index]); // Make them provably different
+
+        var result = solver.Check();
+        Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
     }
 
-    [Test]
-    public void Array_SingleGeneric_AllElementsSameValue_Creates()
-    {
-        using var context = new Z3Context();
-        var defaultVal = context.Bool(true);
-        var arr = context.Array(defaultVal);
+    #endregion
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+    #region Array String Representation Tests
+
+    [TestCase("test_array")]
+    [TestCase("my_array")]
+    [TestCase("data")]
+    public void ArrayToString_ValidOutput_ContainsArrayName(string arrayName)
+    {
+        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>(arrayName);
+        var stringRepresentation = array.ToString();
+
+        Assert.That(stringRepresentation, Is.Not.Null);
+        Assert.That(stringRepresentation, Is.Not.Empty);
+        Assert.That(stringRepresentation, Is.EqualTo(arrayName));
     }
 
-    [Test]
-    public void Array_SingleGeneric_IntegerDefault_Creates()
-    {
-        using var context = new Z3Context();
-        var defaultVal = context.Int(42);
-        var arr = context.Array(defaultVal);
+    #endregion
 
-        Assert.That(arr, Is.Not.Null);
-        Assert.That(arr.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(arr, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3IntExpr>>());
+    #region Helper Methods
+
+    private void AssertValidArrayExpression<TIndex, TValue>(Z3ArrayExpr<TIndex, TValue> array, string? expectedName = null)
+        where TIndex : Z3Expr where TValue : Z3Expr
+    {
+        Assert.That(array, Is.Not.Null);
+        Assert.That(array.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(array.Context, Is.SameAs(context));
+
+        if (expectedName != null)
+        {
+            Assert.That(array.ToString(), Is.EqualTo(expectedName));
+        }
     }
+
+    private void AssertValidExpression(Z3Expr expression)
+    {
+        Assert.That(expression, Is.Not.Null);
+        Assert.That(expression.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(expression.Context, Is.SameAs(context));
+    }
+
+    #endregion
 }
