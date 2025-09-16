@@ -11,6 +11,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     // Constructors
     public Real(int numerator, int denominator = 1) : this(new BigInteger(numerator), new BigInteger(denominator)) { }
     public Real(long numerator, long denominator = 1) : this(new BigInteger(numerator), new BigInteger(denominator)) { }
+    public Real(BigInteger numerator) : this(numerator, BigInteger.One) { }
 
     public Real(decimal value)
     {
