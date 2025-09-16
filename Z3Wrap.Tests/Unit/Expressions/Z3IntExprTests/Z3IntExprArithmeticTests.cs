@@ -1,5 +1,4 @@
 using System.Numerics;
-using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 
@@ -495,6 +494,92 @@ public class Z3IntExprArithmeticTests
         // Additional verification: abs should always be non-negative
         solver.Assert(result >= 0);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [TestCase(10, 5, 5, Description = "Standard case")]
+    [TestCase(-3, 7, -3, Description = "Negative minimum")]
+    [TestCase(0, 0, 0, Description = "Equal values")]
+    [TestCase(100, -50, -50, Description = "Positive vs negative")]
+    [TestCase(-10, -20, -20, Description = "Two negatives")]
+    public void Min_AllVariations_ReturnsExpectedResult(int left, int right, int expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Int(left);
+        var y = context.Int(right);
+        var leftInt = left;
+        var rightInt = right;
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
+
+        // Test all variations of minimum (extension methods)
+        var resultContextIntExpr = context.Min(x, y);                // Context.Min(IntExpr, IntExpr) (extension method)
+        var resultContextRightInt = context.Min(x, rightInt);        // Context.Min(IntExpr, int) (extension method)
+        var resultContextLeftInt = context.Min(leftInt, y);          // Context.Min(int, IntExpr) (extension method)
+        var resultContextRightBigInt = context.Min(x, rightBigInt);  // Context.Min(IntExpr, BigInteger) (extension method)
+        var resultContextLeftBigInt = context.Min(leftBigInt, y);    // Context.Min(BigInteger, IntExpr) (extension method)
+
+        // Set up constraints to get specific values for evaluation
+        solver.Assert(context.Eq(x, context.Int(left)));
+        solver.Assert(context.Eq(y, context.Int(right)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        var expected = expectedResult;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Min(IntExpr, IntExpr) extension method failed");
+            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(IntExpr, int) extension method failed");
+            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(int, IntExpr) extension method failed");
+            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(IntExpr, BigInteger) extension method failed");
+            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(BigInteger, IntExpr) extension method failed");
+        });
+    }
+
+    [TestCase(10, 5, 10, Description = "Standard case")]
+    [TestCase(-3, 7, 7, Description = "Negative vs positive")]
+    [TestCase(0, 0, 0, Description = "Equal values")]
+    [TestCase(100, -50, 100, Description = "Positive vs negative")]
+    [TestCase(-10, -20, -10, Description = "Two negatives")]
+    public void Max_AllVariations_ReturnsExpectedResult(int left, int right, int expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Int(left);
+        var y = context.Int(right);
+        var leftInt = left;
+        var rightInt = right;
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
+
+        // Test all variations of maximum (extension methods)
+        var resultContextIntExpr = context.Max(x, y);                // Context.Max(IntExpr, IntExpr) (extension method)
+        var resultContextRightInt = context.Max(x, rightInt);        // Context.Max(IntExpr, int) (extension method)
+        var resultContextLeftInt = context.Max(leftInt, y);          // Context.Max(int, IntExpr) (extension method)
+        var resultContextRightBigInt = context.Max(x, rightBigInt);  // Context.Max(IntExpr, BigInteger) (extension method)
+        var resultContextLeftBigInt = context.Max(leftBigInt, y);    // Context.Max(BigInteger, IntExpr) (extension method)
+
+        // Set up constraints to get specific values for evaluation
+        solver.Assert(context.Eq(x, context.Int(left)));
+        solver.Assert(context.Eq(y, context.Int(right)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        var expected = expectedResult;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Max(IntExpr, IntExpr) extension method failed");
+            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(IntExpr, int) extension method failed");
+            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(int, IntExpr) extension method failed");
+            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(IntExpr, BigInteger) extension method failed");
+            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(BigInteger, IntExpr) extension method failed");
+        });
     }
 
     [Test]

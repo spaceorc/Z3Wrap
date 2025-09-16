@@ -1,7 +1,5 @@
 using System.Globalization;
-using System.Numerics;
 using Z3Wrap.DataTypes;
-using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
 
@@ -275,6 +273,88 @@ public class Z3RealExprArithmeticTests
         {
             Assert.That(model.GetRealValue(resultMethod), Is.EqualTo(new Real(expected)), "RealExpr.Abs() method failed");
             Assert.That(model.GetRealValue(resultContext), Is.EqualTo(new Real(expected)), "Context.Abs(RealExpr) method failed");
+        });
+    }
+
+    [TestCase(10.5, 5.2, 5.2, Description = "Standard case")]
+    [TestCase(-3.7, 7.1, -3.7, Description = "Negative minimum")]
+    [TestCase(0.0, 0.0, 0.0, Description = "Equal values")]
+    [TestCase(100.25, -50.75, -50.75, Description = "Positive vs negative")]
+    [TestCase(-10.8, -20.3, -20.3, Description = "Two negatives")]
+    public void Min_AllVariations_ReturnsExpectedResult(double leftDouble, double rightDouble, double expectedDouble)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var left = (decimal)leftDouble;
+        var right = (decimal)rightDouble;
+        var expected = (decimal)expectedDouble;
+
+        var x = context.Real(left);
+        var y = context.Real(right);
+        var leftDecimal = left;
+        var rightDecimal = right;
+
+        // Test all variations of minimum (extension methods)
+        var resultContextRealExpr = context.Min(x, y);               // Context.Min(RealExpr, RealExpr) (extension method)
+        var resultContextRightDecimal = context.Min(x, rightDecimal); // Context.Min(RealExpr, decimal) (extension method)
+        var resultContextLeftDecimal = context.Min(leftDecimal, y);  // Context.Min(decimal, RealExpr) (extension method)
+
+        // Set up constraints to get specific values for evaluation
+        solver.Assert(context.Eq(x, context.Real(left)));
+        solver.Assert(context.Eq(y, context.Real(right)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        var expectedReal = new Real(expected);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(resultContextRealExpr), Is.EqualTo(expectedReal), "Context.Min(RealExpr, RealExpr) extension method failed");
+            Assert.That(model.GetRealValue(resultContextRightDecimal), Is.EqualTo(expectedReal), "Context.Min(RealExpr, decimal) extension method failed");
+            Assert.That(model.GetRealValue(resultContextLeftDecimal), Is.EqualTo(expectedReal), "Context.Min(decimal, RealExpr) extension method failed");
+        });
+    }
+
+    [TestCase(10.5, 5.2, 10.5, Description = "Standard case")]
+    [TestCase(-3.7, 7.1, 7.1, Description = "Negative vs positive")]
+    [TestCase(0.0, 0.0, 0.0, Description = "Equal values")]
+    [TestCase(100.25, -50.75, 100.25, Description = "Positive vs negative")]
+    [TestCase(-10.8, -20.3, -10.8, Description = "Two negatives")]
+    public void Max_AllVariations_ReturnsExpectedResult(double leftDouble, double rightDouble, double expectedDouble)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var left = (decimal)leftDouble;
+        var right = (decimal)rightDouble;
+        var expected = (decimal)expectedDouble;
+
+        var x = context.Real(left);
+        var y = context.Real(right);
+        var leftDecimal = left;
+        var rightDecimal = right;
+
+        // Test all variations of maximum (extension methods)
+        var resultContextRealExpr = context.Max(x, y);               // Context.Max(RealExpr, RealExpr) (extension method)
+        var resultContextRightDecimal = context.Max(x, rightDecimal); // Context.Max(RealExpr, decimal) (extension method)
+        var resultContextLeftDecimal = context.Max(leftDecimal, y);  // Context.Max(decimal, RealExpr) (extension method)
+
+        // Set up constraints to get specific values for evaluation
+        solver.Assert(context.Eq(x, context.Real(left)));
+        solver.Assert(context.Eq(y, context.Real(right)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        var expectedReal = new Real(expected);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(resultContextRealExpr), Is.EqualTo(expectedReal), "Context.Max(RealExpr, RealExpr) extension method failed");
+            Assert.That(model.GetRealValue(resultContextRightDecimal), Is.EqualTo(expectedReal), "Context.Max(RealExpr, decimal) extension method failed");
+            Assert.That(model.GetRealValue(resultContextLeftDecimal), Is.EqualTo(expectedReal), "Context.Max(decimal, RealExpr) extension method failed");
         });
     }
 
