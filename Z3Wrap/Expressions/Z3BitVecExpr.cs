@@ -147,7 +147,9 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public static Z3BitVecExpr operator |(BigInteger left, Z3BitVecExpr right) => right.Context.Or(left, right);
     public static Z3BitVecExpr operator ^(BigInteger left, Z3BitVecExpr right) => right.Context.Xor(left, right);
 
-    // BigInteger operators - Shift (only left-to-right makes sense)
+    // BigInteger operators - Shift (Z3BitVecExpr op BigInteger)
+    // Note: C# constraint CS0564 prevents BigInteger << Z3BitVecExpr operators in this class
+    // (first operand must be same type as containing type for shift operators)
     public static Z3BitVecExpr operator <<(Z3BitVecExpr left, BigInteger right) => left.Context.Shl(left, right);
     public static Z3BitVecExpr operator >>(Z3BitVecExpr left, BigInteger right) => left.Context.Shr(left, right);
 

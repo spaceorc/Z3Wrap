@@ -1,3 +1,4 @@
+using System.Numerics;
 using Z3Wrap.DataTypes;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
@@ -17,13 +18,18 @@ public class Z3BitVecExprBitwiseTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of bitwise AND
         var resultOperatorBitVec = x & y;                    // BitVec & BitVec (operator)
-        var resultOperatorRightBigInt = x & right;           // BitVec & BigInteger (operator)
-        var resultOperatorLeftBigInt = left & y;             // BigInteger & BitVec (operator)
+        var resultOperatorRightBigInt = x & rightBigInt;     // BitVec & BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt & y;       // BigInteger & BitVec (operator)
         var resultMethodBitVec = x.And(y);                   // BitVec.And(BitVec) (method)
-        var resultMethodBigInt = x.And(right);               // BitVec.And(BigInteger) (method)
+        var resultMethodBigInt = x.And(rightBigInt);         // BitVec.And(BigInteger) (method)
+        var resultContextBitVec = context.And(x, y);         // Context.And(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.And(x, rightBigInt); // Context.And(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.And(leftBigInt, y);   // Context.And(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -36,6 +42,9 @@ public class Z3BitVecExprBitwiseTests
             Assert.That(model.GetBitVec(resultOperatorLeftBigInt), Is.EqualTo(expected), "BigInteger & BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.And(BitVec) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.And(BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.And(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.And(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.And(BigInteger, BitVec) method failed");
         });
     }
 
@@ -51,13 +60,18 @@ public class Z3BitVecExprBitwiseTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of bitwise OR
-        var resultOperatorBitVec = x | y;                    // BitVec | BitVec (operator)
-        var resultOperatorRightBigInt = x | right;           // BitVec | BigInteger (operator)
-        var resultOperatorLeftBigInt = left | y;             // BigInteger | BitVec (operator)
-        var resultMethodBitVec = x.Or(y);                    // BitVec.Or(BitVec) (method)
-        var resultMethodBigInt = x.Or(right);                // BitVec.Or(BigInteger) (method)
+        var resultOperatorBitVec = x | y;                        // BitVec | BitVec (operator)
+        var resultOperatorRightBigInt = x | rightBigInt;         // BitVec | BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt | y;           // BigInteger | BitVec (operator)
+        var resultMethodBitVec = x.Or(y);                        // BitVec.Or(BitVec) (method)
+        var resultMethodBigInt = x.Or(rightBigInt);              // BitVec.Or(BigInteger) (method)
+        var resultContextBitVec = context.Or(x, y);              // Context.Or(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.Or(x, rightBigInt); // Context.Or(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.Or(leftBigInt, y);   // Context.Or(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -70,6 +84,9 @@ public class Z3BitVecExprBitwiseTests
             Assert.That(model.GetBitVec(resultOperatorLeftBigInt), Is.EqualTo(expected), "BigInteger | BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Or(BitVec) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Or(BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Or(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Or(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Or(BigInteger, BitVec) method failed");
         });
     }
 
@@ -85,13 +102,18 @@ public class Z3BitVecExprBitwiseTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of bitwise XOR
-        var resultOperatorBitVec = x ^ y;                    // BitVec ^ BitVec (operator)
-        var resultOperatorRightBigInt = x ^ right;           // BitVec ^ BigInteger (operator)
-        var resultOperatorLeftBigInt = left ^ y;             // BigInteger ^ BitVec (operator)
-        var resultMethodBitVec = x.Xor(y);                   // BitVec.Xor(BitVec) (method)
-        var resultMethodBigInt = x.Xor(right);               // BitVec.Xor(BigInteger) (method)
+        var resultOperatorBitVec = x ^ y;                        // BitVec ^ BitVec (operator)
+        var resultOperatorRightBigInt = x ^ rightBigInt;         // BitVec ^ BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt ^ y;           // BigInteger ^ BitVec (operator)
+        var resultMethodBitVec = x.Xor(y);                       // BitVec.Xor(BitVec) (method)
+        var resultMethodBigInt = x.Xor(rightBigInt);             // BitVec.Xor(BigInteger) (method)
+        var resultContextBitVec = context.Xor(x, y);             // Context.Xor(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.Xor(x, rightBigInt); // Context.Xor(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.Xor(leftBigInt, y);   // Context.Xor(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -104,6 +126,9 @@ public class Z3BitVecExprBitwiseTests
             Assert.That(model.GetBitVec(resultOperatorLeftBigInt), Is.EqualTo(expected), "BigInteger ^ BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Xor(BitVec) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Xor(BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Xor(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Xor(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Xor(BigInteger, BitVec) method failed");
         });
     }
 
@@ -122,6 +147,7 @@ public class Z3BitVecExprBitwiseTests
         // Test all variations of bitwise NOT (unary operation)
         var resultOperator = ~x;                             // ~BitVec (operator)
         var resultMethod = x.Not();                          // BitVec.Not() (method)
+        var resultContext = context.Not(x);                  // Context.Not(BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -131,6 +157,7 @@ public class Z3BitVecExprBitwiseTests
         {
             Assert.That(model.GetBitVec(resultOperator), Is.EqualTo(expected), "~BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethod), Is.EqualTo(expected), "BitVec.Not() method failed");
+            Assert.That(model.GetBitVec(resultContext), Is.EqualTo(expected), "Context.Not(BitVec) method failed");
         });
     }
 }

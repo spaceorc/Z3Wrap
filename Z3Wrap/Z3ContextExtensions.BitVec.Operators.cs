@@ -188,9 +188,21 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Or(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Or(context.BitVec(left, right.Size), right);
     public static Z3BitVecExpr Xor(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Xor(context.BitVec(left, right.Size), right);
 
-    // BigInteger shift operations
+    // BigInteger shift operations (Z3BitVecExpr op BigInteger)
     public static Z3BitVecExpr Shl(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Shl(left, context.BitVec(right, left.Size));
     public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Shr(left, context.BitVec(right, left.Size), signed);
+
+    // BigInteger shift operations (BigInteger op Z3BitVecExpr)
+    public static Z3BitVecExpr Shl(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Shl(context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr Shr(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) => context.Shr(context.BitVec(left, right.Size), right, signed);
+
+    // Convenience methods for explicit logical/arithmetic shift
+    public static Z3BitVecExpr LShr(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right) => context.Shr(left, right, signed: false);
+    public static Z3BitVecExpr LShr(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Shr(left, right, signed: false);
+    public static Z3BitVecExpr LShr(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Shr(left, right, signed: false);
+    public static Z3BitVecExpr AShr(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right) => context.Shr(left, right, signed: true);
+    public static Z3BitVecExpr AShr(this Z3Context context, Z3BitVecExpr left, BigInteger right) => context.Shr(left, right, signed: true);
+    public static Z3BitVecExpr AShr(this Z3Context context, BigInteger left, Z3BitVecExpr right) => context.Shr(left, right, signed: true);
 
     // BigInteger comparison operations (Z3BitVecExpr op BigInteger)
     public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) => context.Lt(left, context.BitVec(right, left.Size), signed);

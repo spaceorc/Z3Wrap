@@ -18,13 +18,18 @@ public class Z3BitVecExprArithmeticTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of addition
         var resultOperatorBitVec = x + y;                    // BitVec + BitVec (operator)
-        var resultOperatorRightBigInt = x + right;           // BitVec + BigInteger (operator)
-        var resultOperatorLeftBigInt = left + y;             // BigInteger + BitVec (operator)
+        var resultOperatorRightBigInt = x + rightBigInt;     // BitVec + BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt + y;       // BigInteger + BitVec (operator)
         var resultMethodBitVec = x.Add(y);                   // BitVec.Add(BitVec) (method)
-        var resultMethodBigInt = x.Add(right);               // BitVec.Add(BigInteger) (method)
+        var resultMethodBigInt = x.Add(rightBigInt);         // BitVec.Add(BigInteger) (method)
+        var resultContextBitVec = context.Add(x, y);         // Context.Add(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.Add(x, rightBigInt); // Context.Add(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.Add(leftBigInt, y);   // Context.Add(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -37,6 +42,9 @@ public class Z3BitVecExprArithmeticTests
             Assert.That(model.GetBitVec(resultOperatorLeftBigInt), Is.EqualTo(expected), "BigInteger + BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Add(BitVec) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Add(BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Add(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Add(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Add(BigInteger, BitVec) method failed");
         });
     }
 
@@ -52,13 +60,18 @@ public class Z3BitVecExprArithmeticTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of subtraction
         var resultOperatorBitVec = x - y;                    // BitVec - BitVec (operator)
-        var resultOperatorRightBigInt = x - right;           // BitVec - BigInteger (operator)
-        var resultOperatorLeftBigInt = left - y;             // BigInteger - BitVec (operator)
+        var resultOperatorRightBigInt = x - rightBigInt;     // BitVec - BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt - y;       // BigInteger - BitVec (operator)
         var resultMethodBitVec = x.Sub(y);                   // BitVec.Sub(BitVec) (method)
-        var resultMethodBigInt = x.Sub(right);               // BitVec.Sub(BigInteger) (method)
+        var resultMethodBigInt = x.Sub(rightBigInt);         // BitVec.Sub(BigInteger) (method)
+        var resultContextBitVec = context.Sub(x, y);         // Context.Sub(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.Sub(x, rightBigInt); // Context.Sub(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.Sub(leftBigInt, y);   // Context.Sub(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -71,6 +84,9 @@ public class Z3BitVecExprArithmeticTests
             Assert.That(model.GetBitVec(resultOperatorLeftBigInt), Is.EqualTo(expected), "BigInteger - BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Sub(BitVec) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Sub(BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Sub(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Sub(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Sub(BigInteger, BitVec) method failed");
         });
     }
 
@@ -86,13 +102,18 @@ public class Z3BitVecExprArithmeticTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of multiplication
         var resultOperatorBitVec = x * y;                    // BitVec * BitVec (operator)
-        var resultOperatorRightBigInt = x * right;           // BitVec * BigInteger (operator)
-        var resultOperatorLeftBigInt = left * y;             // BigInteger * BitVec (operator)
+        var resultOperatorRightBigInt = x * rightBigInt;     // BitVec * BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt * y;       // BigInteger * BitVec (operator)
         var resultMethodBitVec = x.Mul(y);                   // BitVec.Mul(BitVec) (method)
-        var resultMethodBigInt = x.Mul(right);               // BitVec.Mul(BigInteger) (method)
+        var resultMethodBigInt = x.Mul(rightBigInt);         // BitVec.Mul(BigInteger) (method)
+        var resultContextBitVec = context.Mul(x, y);         // Context.Mul(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.Mul(x, rightBigInt); // Context.Mul(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.Mul(leftBigInt, y);   // Context.Mul(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -105,6 +126,9 @@ public class Z3BitVecExprArithmeticTests
             Assert.That(model.GetBitVec(resultOperatorLeftBigInt), Is.EqualTo(expected), "BigInteger * BitVec operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Mul(BitVec) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Mul(BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Mul(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Mul(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Mul(BigInteger, BitVec) method failed");
         });
     }
 
@@ -122,16 +146,59 @@ public class Z3BitVecExprArithmeticTests
 
         var x = context.BitVec(dividend, 8);
         var y = context.BitVec(divisor, 8);
-        var divResult = x.Div(y, signed: false);
-        var remResult = x.Rem(y, signed: false);
+        var left = new BigInteger(dividend);
+        var right = new BigInteger(divisor);
+
+        // Test all variations of unsigned division operations
+        var divResultOperatorBitVec = x / y;                         // BitVec / BitVec (operator)
+        var divResultOperatorRightBigInt = x / right;                // BitVec / BigInteger (operator)
+        var divResultOperatorLeftBigInt = left / y;                  // BigInteger / BitVec (operator)
+        var divResultBitVec = x.Div(y, signed: false);              // BitVec.Div(BitVec, unsigned) (method)
+        var divResultRightBigInt = x.Div(right, signed: false);     // BitVec.Div(BigInteger, unsigned) (method)
+        var divResultContextBitVec = context.Div(x, y, signed: false); // Context.Div(BitVec, BitVec, unsigned) (method)
+        var divResultContextRightBigInt = context.Div(x, right, signed: false); // Context.Div(BitVec, BigInteger, unsigned) (method)
+        var divResultLeftBigInt = context.Div(left, y, signed: false); // Context.Div(BigInteger, BitVec, unsigned) (method)
+
+        var remResultOperatorBitVec = x % y;                         // BitVec % BitVec (operator)
+        var remResultOperatorRightBigInt = x % right;                // BitVec % BigInteger (operator)
+        var remResultOperatorLeftBigInt = left % y;                  // BigInteger % BitVec (operator)
+        var remResultBitVec = x.Rem(y, signed: false);              // BitVec.Rem(BitVec, unsigned) (method)
+        var remResultRightBigInt = x.Rem(right, signed: false);     // BitVec.Rem(BigInteger, unsigned) (method)
+        var remResultContextBitVec = context.Rem(x, y, signed: false); // Context.Rem(BitVec, BitVec, unsigned) (method)
+        var remResultContextRightBigInt = context.Rem(x, right, signed: false); // Context.Rem(BitVec, BigInteger, unsigned) (method)
+        var remResultLeftBigInt = context.Rem(left, y, signed: false); // Context.Rem(BigInteger, BitVec, unsigned) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
 
+        var expectedDivBitVec = new BitVec(expectedDiv, 8);
+        var expectedRemBitVec = new BitVec(expectedRem, 8);
+
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(divResult), Is.EqualTo(new BitVec(expectedDiv, 8)), "Division result mismatch");
-            Assert.That(model.GetBitVec(remResult), Is.EqualTo(new BitVec(expectedRem, 8)), "Remainder result mismatch");
+            // Test unsigned division operators
+            Assert.That(model.GetBitVec(divResultOperatorBitVec), Is.EqualTo(expectedDivBitVec), "BitVec / BitVec operator failed");
+            Assert.That(model.GetBitVec(divResultOperatorRightBigInt), Is.EqualTo(expectedDivBitVec), "BitVec / BigInteger operator failed");
+            Assert.That(model.GetBitVec(divResultOperatorLeftBigInt), Is.EqualTo(expectedDivBitVec), "BigInteger / BitVec operator failed");
+
+            // Test unsigned division methods
+            Assert.That(model.GetBitVec(divResultBitVec), Is.EqualTo(expectedDivBitVec), "BitVec.Div(BitVec, unsigned) method failed");
+            Assert.That(model.GetBitVec(divResultRightBigInt), Is.EqualTo(expectedDivBitVec), "BitVec.Div(BigInteger, unsigned) method failed");
+            Assert.That(model.GetBitVec(divResultContextBitVec), Is.EqualTo(expectedDivBitVec), "Context.Div(BitVec, BitVec, unsigned) method failed");
+            Assert.That(model.GetBitVec(divResultContextRightBigInt), Is.EqualTo(expectedDivBitVec), "Context.Div(BitVec, BigInteger, unsigned) method failed");
+            Assert.That(model.GetBitVec(divResultLeftBigInt), Is.EqualTo(expectedDivBitVec), "Context.Div(BigInteger, BitVec, unsigned) method failed");
+
+            // Test unsigned remainder operators
+            Assert.That(model.GetBitVec(remResultOperatorBitVec), Is.EqualTo(expectedRemBitVec), "BitVec % BitVec operator failed");
+            Assert.That(model.GetBitVec(remResultOperatorRightBigInt), Is.EqualTo(expectedRemBitVec), "BitVec % BigInteger operator failed");
+            Assert.That(model.GetBitVec(remResultOperatorLeftBigInt), Is.EqualTo(expectedRemBitVec), "BigInteger % BitVec operator failed");
+
+            // Test unsigned remainder methods
+            Assert.That(model.GetBitVec(remResultBitVec), Is.EqualTo(expectedRemBitVec), "BitVec.Rem(BitVec, unsigned) method failed");
+            Assert.That(model.GetBitVec(remResultRightBigInt), Is.EqualTo(expectedRemBitVec), "BitVec.Rem(BigInteger, unsigned) method failed");
+            Assert.That(model.GetBitVec(remResultContextBitVec), Is.EqualTo(expectedRemBitVec), "Context.Rem(BitVec, BitVec, unsigned) method failed");
+            Assert.That(model.GetBitVec(remResultContextRightBigInt), Is.EqualTo(expectedRemBitVec), "Context.Rem(BitVec, BigInteger, unsigned) method failed");
+            Assert.That(model.GetBitVec(remResultLeftBigInt), Is.EqualTo(expectedRemBitVec), "Context.Rem(BigInteger, BitVec, unsigned) method failed");
         });
     }
 
@@ -156,54 +223,48 @@ public class Z3BitVecExprArithmeticTests
         var expectedSignedModBitVec = new BitVec(expectedSignedMod, 8);
 
         // Test all variations of signed division operations
-        // Note: Operators (/ and %) use unsigned semantics, so we test them separately for unsigned results
-        var divResultOperatorBitVec = x / y;                         // BitVec / BitVec (operator - unsigned)
-        var divResultOperatorRightBigInt = x / right;                // BitVec / BigInteger (operator - unsigned)
-        var divResultOperatorLeftBigInt = left / y;                  // BigInteger / BitVec (operator - unsigned)
         var divResultBitVec = x.Div(y, signed: true);               // BitVec.Div(BitVec, signed) (method)
         var divResultRightBigInt = x.Div(right, signed: true);      // BitVec.Div(BigInteger, signed) (method)
+        var divResultContextBitVec = context.Div(x, y, signed: true); // Context.Div(BitVec, BitVec, signed) (method)
+        var divResultContextRightBigInt = context.Div(x, right, signed: true); // Context.Div(BitVec, BigInteger, signed) (method)
         var divResultLeftBigInt = context.Div(left, y, signed: true); // Context.Div(BigInteger, BitVec, signed) (method)
 
-        var remResultOperatorBitVec = x % y;                         // BitVec % BitVec (operator - unsigned)
-        var remResultOperatorRightBigInt = x % right;                // BitVec % BigInteger (operator - unsigned)
-        var remResultOperatorLeftBigInt = left % y;                  // BigInteger % BitVec (operator - unsigned)
         var remResultBitVec = x.Rem(y, signed: true);               // BitVec.Rem(BitVec, signed) (method)
         var remResultRightBigInt = x.Rem(right, signed: true);      // BitVec.Rem(BigInteger, signed) (method)
+        var remResultContextBitVec = context.Rem(x, y, signed: true); // Context.Rem(BitVec, BitVec, signed) (method)
+        var remResultContextRightBigInt = context.Rem(x, right, signed: true); // Context.Rem(BitVec, BigInteger, signed) (method)
         var remResultLeftBigInt = context.Rem(left, y, signed: true); // Context.Rem(BigInteger, BitVec, signed) (method)
 
         var signedModResultBitVec = x.SignedMod(y);                  // BitVec.SignedMod(BitVec) (method)
         var signedModResultBigInt = x.SignedMod(right);              // BitVec.SignedMod(BigInteger) (method)
+        var signedModResultContextBitVec = context.SignedMod(x, y);  // Context.SignedMod(BitVec, BitVec) (method)
+        var signedModResultContextRightBigInt = context.SignedMod(x, right); // Context.SignedMod(BitVec, BigInteger) (method)
         var signedModResultLeftBigInt = context.SignedMod(left, y);  // Context.SignedMod(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
 
-        // Calculate expected unsigned results for operators
-        var unsignedDiv = context.Div(x, y, signed: false);
-        var unsignedRem = context.Rem(x, y, signed: false);
-
         Assert.Multiple(() =>
         {
-            // Test unsigned operators (/ and %)
-            Assert.That(model.GetBitVec(divResultOperatorBitVec), Is.EqualTo(model.GetBitVec(unsignedDiv)), "BitVec / BitVec operator failed (unsigned)");
-            Assert.That(model.GetBitVec(divResultOperatorRightBigInt), Is.EqualTo(model.GetBitVec(unsignedDiv)), "BitVec / BigInteger operator failed (unsigned)");
-            Assert.That(model.GetBitVec(divResultOperatorLeftBigInt), Is.EqualTo(model.GetBitVec(unsignedDiv)), "BigInteger / BitVec operator failed (unsigned)");
-
-            Assert.That(model.GetBitVec(remResultOperatorBitVec), Is.EqualTo(model.GetBitVec(unsignedRem)), "BitVec % BitVec operator failed (unsigned)");
-            Assert.That(model.GetBitVec(remResultOperatorRightBigInt), Is.EqualTo(model.GetBitVec(unsignedRem)), "BitVec % BigInteger operator failed (unsigned)");
-            Assert.That(model.GetBitVec(remResultOperatorLeftBigInt), Is.EqualTo(model.GetBitVec(unsignedRem)), "BigInteger % BitVec operator failed (unsigned)");
-
-            // Test signed methods
+            // Test signed division methods
             Assert.That(model.GetBitVec(divResultBitVec), Is.EqualTo(expected), "BitVec.Div(BitVec, signed) method failed");
             Assert.That(model.GetBitVec(divResultRightBigInt), Is.EqualTo(expected), "BitVec.Div(BigInteger, signed) method failed");
+            Assert.That(model.GetBitVec(divResultContextBitVec), Is.EqualTo(expected), "Context.Div(BitVec, BitVec, signed) method failed");
+            Assert.That(model.GetBitVec(divResultContextRightBigInt), Is.EqualTo(expected), "Context.Div(BitVec, BigInteger, signed) method failed");
             Assert.That(model.GetBitVec(divResultLeftBigInt), Is.EqualTo(expected), "Context.Div(BigInteger, BitVec, signed) method failed");
 
+            // Test signed remainder methods
             Assert.That(model.GetBitVec(remResultBitVec), Is.EqualTo(expectedRemBitVec), "BitVec.Rem(BitVec, signed) method failed");
             Assert.That(model.GetBitVec(remResultRightBigInt), Is.EqualTo(expectedRemBitVec), "BitVec.Rem(BigInteger, signed) method failed");
+            Assert.That(model.GetBitVec(remResultContextBitVec), Is.EqualTo(expectedRemBitVec), "Context.Rem(BitVec, BitVec, signed) method failed");
+            Assert.That(model.GetBitVec(remResultContextRightBigInt), Is.EqualTo(expectedRemBitVec), "Context.Rem(BitVec, BigInteger, signed) method failed");
             Assert.That(model.GetBitVec(remResultLeftBigInt), Is.EqualTo(expectedRemBitVec), "Context.Rem(BigInteger, BitVec, signed) method failed");
 
+            // Test signed modulo methods
             Assert.That(model.GetBitVec(signedModResultBitVec), Is.EqualTo(expectedSignedModBitVec), "BitVec.SignedMod(BitVec) method failed");
             Assert.That(model.GetBitVec(signedModResultBigInt), Is.EqualTo(expectedSignedModBitVec), "BitVec.SignedMod(BigInteger) method failed");
+            Assert.That(model.GetBitVec(signedModResultContextBitVec), Is.EqualTo(expectedSignedModBitVec), "Context.SignedMod(BitVec, BitVec) method failed");
+            Assert.That(model.GetBitVec(signedModResultContextRightBigInt), Is.EqualTo(expectedSignedModBitVec), "Context.SignedMod(BitVec, BigInteger) method failed");
             Assert.That(model.GetBitVec(signedModResultLeftBigInt), Is.EqualTo(expectedSignedModBitVec), "Context.SignedMod(BigInteger, BitVec) method failed");
         });
     }
@@ -224,6 +285,7 @@ public class Z3BitVecExprArithmeticTests
         // Test all variations of negation
         var resultOperator = -x;           // -BitVec (unary operator)
         var resultMethod = x.Neg();        // BitVec.Neg() (method)
+        var resultContext = context.Neg(x); // Context.Neg(BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -232,6 +294,7 @@ public class Z3BitVecExprArithmeticTests
         {
             Assert.That(model.GetBitVec(resultOperator), Is.EqualTo(expected), "-BitVec unary operator failed");
             Assert.That(model.GetBitVec(resultMethod), Is.EqualTo(expected), "BitVec.Neg() method failed");
+            Assert.That(model.GetBitVec(resultContext), Is.EqualTo(expected), "Context.Neg(BitVec) method failed");
         });
     }
 }
