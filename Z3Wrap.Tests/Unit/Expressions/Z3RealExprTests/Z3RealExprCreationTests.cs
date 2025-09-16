@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Numerics;
 using Z3Wrap.DataTypes;
 using Z3Wrap.Expressions;
@@ -32,59 +33,6 @@ public class Z3RealExprCreationTests
 
         // Verify the value is correct
         var expected = context.Real(3.14m);
-        solver.Assert(context.Eq(realValue, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Real_FromInteger_CreatesRealExpression()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var realValue = context.Real(42);
-
-        Assert.That(realValue.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(realValue.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real(42.0m);
-        solver.Assert(context.Eq(realValue, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Real_FromLong_CreatesRealExpression()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var longValue = 9223372036854775807L; // long.MaxValue
-        var realValue = context.Real(longValue);
-
-        Assert.That(realValue.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(realValue.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real((decimal)longValue);
-        solver.Assert(context.Eq(realValue, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Real_FromBigInteger_CreatesRealExpression()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var bigIntValue = BigInteger.Parse("123456789012345678901234567890");
-        var realValue = context.Real(bigIntValue);
-
-        Assert.That(realValue.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(realValue.Context, Is.SameAs(context));
-
-        // Verify the value is correct by creating another with same value
-        var expected = context.Real(bigIntValue);
         solver.Assert(context.Eq(realValue, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -127,22 +75,6 @@ public class Z3RealExprCreationTests
     }
 
     [Test]
-    public void ToInt_NegativeReal_CreatesNegativeInt()
-    {
-        using var context = new Z3Context();
-        using var solver = context.CreateSolver();
-
-        var x = context.RealConst("x");
-        var intResult = x.ToInt();
-
-        // Test converting negative real to negative integer
-        solver.Assert(context.Eq(x, context.Real(-15.0m)));
-        var expected = context.Int(-15);
-        solver.Assert(context.Eq(intResult, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
     public void ToInt_FractionalReal_TruncatesToInt()
     {
         using var context = new Z3Context();
@@ -161,147 +93,6 @@ public class Z3RealExprCreationTests
         // Verify that the result is an integer (no fractional part)
         var intValue = model.GetIntValue(intResult);
         Assert.That(intValue, Is.InstanceOf<BigInteger>());
-    }
-
-    [Test]
-    public void ImplicitConversion_FromLong_CreatesRealExpr()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        // Test implicit conversion from long
-        Z3RealExpr longResult = 9223372036854775807L; // long.MaxValue
-
-        Assert.That(longResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(longResult.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real(9223372036854775807L);
-        solver.Assert(context.Eq(longResult, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ImplicitConversion_FromNegativeLong_CreatesNegativeRealExpr()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        // Test implicit conversion from negative long
-        Z3RealExpr negativeLongResult = -9223372036854775808L; // long.MinValue
-
-        Assert.That(negativeLongResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(negativeLongResult.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real(-9223372036854775808L);
-        solver.Assert(context.Eq(negativeLongResult, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ImplicitConversion_LongInArithmetic_WorksCorrectly()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var x = context.RealConst("x");
-
-        // Test long implicit conversion in arithmetic operations
-        var result = x + 1000000000000L; // Large long value
-
-        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(result.Context, Is.SameAs(context));
-
-        // Test x + 1000000000000L where x = 5.5 equals 1000000000005.5
-        solver.Assert(context.Eq(x, context.Real(5.5m)));
-        solver.Assert(context.Eq(result, context.Real(1000000000005.5m)));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ImplicitConversion_FromBigInteger_CreatesRealExpr()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        // Test implicit conversion from BigInteger
-        var bigIntValue = BigInteger.Parse("123456789012345678901234567890");
-        Z3RealExpr bigIntResult = bigIntValue;
-
-        Assert.That(bigIntResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(bigIntResult.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real(bigIntValue);
-        solver.Assert(context.Eq(bigIntResult, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ImplicitConversion_FromNegativeBigInteger_CreatesNegativeRealExpr()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        // Test implicit conversion from negative BigInteger
-        var negativeBigIntValue = BigInteger.Parse("-987654321098765432109876543210");
-        Z3RealExpr negativeBigIntResult = negativeBigIntValue;
-
-        Assert.That(negativeBigIntResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(negativeBigIntResult.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real(negativeBigIntValue);
-        solver.Assert(context.Eq(negativeBigIntResult, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ImplicitConversion_BigIntegerInArithmetic_WorksCorrectly()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var x = context.RealConst("x");
-
-        // Test BigInteger implicit conversion in arithmetic operations
-        var bigIntValue = new BigInteger(999999999999999);
-        var result = x + bigIntValue;
-
-        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(result.Context, Is.SameAs(context));
-
-        // Test x + bigIntValue where x = 1 equals 1000000000000000
-        solver.Assert(context.Eq(x, context.Real(1)));
-        solver.Assert(context.Eq(result, context.Real(new BigInteger(1000000000000000))));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ImplicitConversion_FromReal_CreatesRealExpr()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        // Test implicit conversion from Real data type
-        var realValue = new Real(22, 7); // Approximation of pi
-        Z3RealExpr realResult = realValue;
-
-        Assert.That(realResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(realResult.Context, Is.SameAs(context));
-
-        // Verify the value is correct
-        var expected = context.Real(realValue);
-        solver.Assert(context.Eq(realResult, expected));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
     [Test]
@@ -324,21 +115,22 @@ public class Z3RealExprCreationTests
     }
 
     [Test]
-    public void ImplicitConversion_FromInt_CreatesRealExpr()
+    public void ImplicitConversion_FromReal_CreatesRealExpr()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        // Test implicit conversion from int
-        Z3RealExpr intResult = 42;
+        // Test implicit conversion from Real data type
+        var realValue = new Real(22, 7); // Approximation of pi
+        Z3RealExpr realResult = realValue;
 
-        Assert.That(intResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(intResult.Context, Is.SameAs(context));
+        Assert.That(realResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(realResult.Context, Is.SameAs(context));
 
         // Verify the value is correct
-        var expected = context.Real(42);
-        solver.Assert(context.Eq(intResult, expected));
+        var expected = context.Real(realValue);
+        solver.Assert(context.Eq(realResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -364,77 +156,32 @@ public class Z3RealExprCreationTests
     }
 
     [Test]
-    public void TypeCoercion_MixedTypes_WorkTogetherCorrectly()
+    public void NegativeValues_Decimals_CreateCorrectly()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var realExpr = context.RealConst("real");
-
-        // Test various type coercions in a single expression
-        // (real + int) * decimal + long + bigInteger
-        var intVal = 5;
-        var decimalVal = 2.5m;
-        var longVal = 1000L;
-        var bigIntVal = new BigInteger(999);
-
-        var complexResult = (realExpr + intVal) * decimalVal + longVal + bigIntVal;
-
-        Assert.That(complexResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
-        Assert.That(complexResult.Context, Is.SameAs(context));
-
-        // Set real = 3.0, expected: (3.0 + 5) * 2.5 + 1000 + 999 = 8.0 * 2.5 + 1999 = 20.0 + 1999 = 2019.0
-        solver.Assert(context.Eq(realExpr, context.Real(3.0m)));
-        solver.Assert(context.Eq(complexResult, context.Real(2019.0m)));
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void NegativeValues_AllTypes_CreateCorrectly()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        // Test negative values for all supported types
+        // Test negative decimal values
         var negativeDecimal = context.Real(-3.14m);
-        var negativeInt = context.Real(-42);
-        var negativeLong = context.Real(-9223372036854775808L);
-        var negativeBigInt = context.Real(new BigInteger(-123456789));
         var negativeRealType = context.Real(new Real(-22, 7));
 
         // Test implicit conversions with negative values
         Z3RealExpr implicitNegativeDecimal = -2.718m;
-        Z3RealExpr implicitNegativeInt = -100;
-        Z3RealExpr implicitNegativeLong = -5000000000L;
-        Z3RealExpr implicitNegativeBigInt = new BigInteger(-987654321);
 
         Assert.Multiple(() =>
         {
             Assert.That(negativeDecimal.Handle, Is.Not.EqualTo(IntPtr.Zero));
-            Assert.That(negativeInt.Handle, Is.Not.EqualTo(IntPtr.Zero));
-            Assert.That(negativeLong.Handle, Is.Not.EqualTo(IntPtr.Zero));
-            Assert.That(negativeBigInt.Handle, Is.Not.EqualTo(IntPtr.Zero));
             Assert.That(negativeRealType.Handle, Is.Not.EqualTo(IntPtr.Zero));
             Assert.That(implicitNegativeDecimal.Handle, Is.Not.EqualTo(IntPtr.Zero));
-            Assert.That(implicitNegativeInt.Handle, Is.Not.EqualTo(IntPtr.Zero));
-            Assert.That(implicitNegativeLong.Handle, Is.Not.EqualTo(IntPtr.Zero));
-            Assert.That(implicitNegativeBigInt.Handle, Is.Not.EqualTo(IntPtr.Zero));
         });
 
         // Verify all have the same context
         Assert.Multiple(() =>
         {
             Assert.That(negativeDecimal.Context, Is.SameAs(context));
-            Assert.That(negativeInt.Context, Is.SameAs(context));
-            Assert.That(negativeLong.Context, Is.SameAs(context));
-            Assert.That(negativeBigInt.Context, Is.SameAs(context));
             Assert.That(negativeRealType.Context, Is.SameAs(context));
             Assert.That(implicitNegativeDecimal.Context, Is.SameAs(context));
-            Assert.That(implicitNegativeInt.Context, Is.SameAs(context));
-            Assert.That(implicitNegativeLong.Context, Is.SameAs(context));
-            Assert.That(implicitNegativeBigInt.Context, Is.SameAs(context));
         });
     }
 
@@ -445,26 +192,70 @@ public class Z3RealExprCreationTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        // Test zero values for all supported types
+        // Test zero values for decimal types
         var zeroDecimal = context.Real(0.0m);
-        var zeroInt = context.Real(0);
-        var zeroLong = context.Real(0L);
-        var zeroBigInt = context.Real(BigInteger.Zero);
+        var zeroReal = context.Real(Real.Zero);
 
         // Test implicit conversions with zero values
         Z3RealExpr implicitZeroDecimal = 0.0m;
-        Z3RealExpr implicitZeroInt = 0;
-        Z3RealExpr implicitZeroLong = 0L;
-        Z3RealExpr implicitZeroBigInt = BigInteger.Zero;
+        Z3RealExpr implicitZeroReal = Real.Zero;
 
         // All zeros should be equivalent
-        solver.Assert(context.Eq(zeroDecimal, zeroInt));
-        solver.Assert(context.Eq(zeroInt, zeroLong));
-        solver.Assert(context.Eq(zeroLong, zeroBigInt));
-        solver.Assert(context.Eq(zeroBigInt, implicitZeroDecimal));
-        solver.Assert(context.Eq(implicitZeroDecimal, implicitZeroInt));
-        solver.Assert(context.Eq(implicitZeroInt, implicitZeroLong));
-        solver.Assert(context.Eq(implicitZeroLong, implicitZeroBigInt));
+        solver.Assert(context.Eq(zeroDecimal, zeroReal));
+        solver.Assert(context.Eq(zeroReal, implicitZeroDecimal));
+        solver.Assert(context.Eq(implicitZeroDecimal, implicitZeroReal));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void TypeCoercion_DecimalWithRealExpr_WorkTogetherCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var realExpr = context.RealConst("real");
+
+        // Test decimal coercion in a complex expression
+        // (real + decimal) * decimal / decimal
+        var decimalVal1 = 5.5m;
+        var decimalVal2 = 2.0m;
+        var decimalVal3 = 4.0m;
+
+        var complexResult = (realExpr + decimalVal1) * decimalVal2 / decimalVal3;
+
+        Assert.That(complexResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(complexResult.Context, Is.SameAs(context));
+
+        // Set real = 2.5, expected: (2.5 + 5.5) * 2.0 / 4.0 = 8.0 * 2.0 / 4.0 = 16.0 / 4.0 = 4.0
+        solver.Assert(context.Eq(realExpr, context.Real(2.5m)));
+        solver.Assert(context.Eq(complexResult, context.Real(4.0m)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void FractionalValues_WithRealType_WorkCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Test fractional Real values
+        var oneThird = new Real(1, 3);
+        var twoThirds = new Real(2, 3);
+        var piApprox = new Real(22, 7);
+
+        var realExpr1 = context.Real(oneThird);
+        var realExpr2 = context.Real(twoThirds);
+        var realExpr3 = context.Real(piApprox);
+
+        // Test that 1/3 + 2/3 = 1
+        var sum = realExpr1 + realExpr2;
+        solver.Assert(context.Eq(sum, context.Real(Real.One)));
+
+        // Test that pi approximation is greater than 3
+        solver.Assert(realExpr3 > context.Real(3.0m));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

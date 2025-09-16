@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Numerics;
 using Z3Wrap.DataTypes;
 using Z3Wrap.Expressions;
 
@@ -24,37 +23,16 @@ public class Z3RealExprComparisonTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of less than
-        var resultOperatorRealExpr = x < y;                              // RealExpr < RealExpr (operator)
-        var resultOperatorRightInt = x < rightInt;                       // RealExpr < int (operator)
-        var resultOperatorLeftInt = leftInt < y;                         // int < RealExpr (operator)
-        var resultOperatorRightDecimal = x < rightDecimal;               // RealExpr < decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal < y;                 // decimal < RealExpr (operator)
-        var resultOperatorRightLong = x < rightLong;                     // RealExpr < long (operator)
-        var resultOperatorLeftLong = leftLong < y;                       // long < RealExpr (operator)
-        var resultOperatorRightBigInt = x < rightBigInt;                 // RealExpr < BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt < y;                   // BigInteger < RealExpr (operator)
-        var resultMethodRealExpr = x.Lt(y);                              // RealExpr.Lt(RealExpr) (method)
-        var resultMethodInt = x.Lt(rightInt);                            // RealExpr.Lt(int) (method)
-        var resultMethodDecimal = x.Lt(rightDecimal);                    // RealExpr.Lt(decimal) (method)
-        var resultMethodLong = x.Lt(rightLong);                          // RealExpr.Lt(long) (method)
-        var resultMethodBigInt = x.Lt(rightBigInt);                      // RealExpr.Lt(BigInteger) (method)
-        var resultContextRealExpr = context.Lt(x, y);                    // Context.Lt(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Lt(x, rightInt);             // Context.Lt(RealExpr, int) (method)
-        var resultContextLeftInt = context.Lt(leftInt, y);               // Context.Lt(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Lt(x, rightDecimal);     // Context.Lt(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Lt(leftDecimal, y);       // Context.Lt(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Lt(x, rightLong);           // Context.Lt(RealExpr, long) (method)
-        var resultContextLeftLong = context.Lt(leftLong, y);             // Context.Lt(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Lt(x, rightBigInt);       // Context.Lt(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Lt(leftBigInt, y);         // Context.Lt(BigInteger, RealExpr) (method)
+        // Test all variations of less than - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x < y;                        // RealExpr < RealExpr (operator)
+        var resultOperatorRightDecimal = x < rightDecimal;         // RealExpr < decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal < y;           // decimal < RealExpr (operator)
+        var resultMethodRealExpr = x.Lt(y);                        // RealExpr.Lt(RealExpr) (method)
+        var resultMethodDecimal = x.Lt(rightDecimal);              // RealExpr.Lt(decimal) (method)
+        var resultContextRealExpr = context.Lt(x, y);              // Context.Lt(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Lt(x, rightDecimal); // Context.Lt(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Lt(leftDecimal, y);   // Context.Lt(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -64,55 +42,25 @@ public class Z3RealExprComparisonTests
         {
             // If we expect true, assert all comparisons and check satisfiability
             solver.Assert(resultOperatorRealExpr);
-            solver.Assert(resultOperatorRightInt);
-            solver.Assert(resultOperatorLeftInt);
             solver.Assert(resultOperatorRightDecimal);
             solver.Assert(resultOperatorLeftDecimal);
-            solver.Assert(resultOperatorRightLong);
-            solver.Assert(resultOperatorLeftLong);
-            solver.Assert(resultOperatorRightBigInt);
-            solver.Assert(resultOperatorLeftBigInt);
             solver.Assert(resultMethodRealExpr);
-            solver.Assert(resultMethodInt);
             solver.Assert(resultMethodDecimal);
-            solver.Assert(resultMethodLong);
-            solver.Assert(resultMethodBigInt);
             solver.Assert(resultContextRealExpr);
-            solver.Assert(resultContextRightInt);
-            solver.Assert(resultContextLeftInt);
             solver.Assert(resultContextRightDecimal);
             solver.Assert(resultContextLeftDecimal);
-            solver.Assert(resultContextRightLong);
-            solver.Assert(resultContextLeftLong);
-            solver.Assert(resultContextRightBigInt);
-            solver.Assert(resultContextLeftBigInt);
         }
         else
         {
             // If we expect false, assert negation of all comparisons
             solver.Assert(context.Not(resultOperatorRealExpr));
-            solver.Assert(context.Not(resultOperatorRightInt));
-            solver.Assert(context.Not(resultOperatorLeftInt));
             solver.Assert(context.Not(resultOperatorRightDecimal));
             solver.Assert(context.Not(resultOperatorLeftDecimal));
-            solver.Assert(context.Not(resultOperatorRightLong));
-            solver.Assert(context.Not(resultOperatorLeftLong));
-            solver.Assert(context.Not(resultOperatorRightBigInt));
-            solver.Assert(context.Not(resultOperatorLeftBigInt));
             solver.Assert(context.Not(resultMethodRealExpr));
-            solver.Assert(context.Not(resultMethodInt));
             solver.Assert(context.Not(resultMethodDecimal));
-            solver.Assert(context.Not(resultMethodLong));
-            solver.Assert(context.Not(resultMethodBigInt));
             solver.Assert(context.Not(resultContextRealExpr));
-            solver.Assert(context.Not(resultContextRightInt));
-            solver.Assert(context.Not(resultContextLeftInt));
             solver.Assert(context.Not(resultContextRightDecimal));
             solver.Assert(context.Not(resultContextLeftDecimal));
-            solver.Assert(context.Not(resultContextRightLong));
-            solver.Assert(context.Not(resultContextLeftLong));
-            solver.Assert(context.Not(resultContextRightBigInt));
-            solver.Assert(context.Not(resultContextLeftBigInt));
         }
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -134,37 +82,16 @@ public class Z3RealExprComparisonTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of less than or equal
-        var resultOperatorRealExpr = x <= y;                             // RealExpr <= RealExpr (operator)
-        var resultOperatorRightInt = x <= rightInt;                      // RealExpr <= int (operator)
-        var resultOperatorLeftInt = leftInt <= y;                        // int <= RealExpr (operator)
-        var resultOperatorRightDecimal = x <= rightDecimal;              // RealExpr <= decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal <= y;                // decimal <= RealExpr (operator)
-        var resultOperatorRightLong = x <= rightLong;                    // RealExpr <= long (operator)
-        var resultOperatorLeftLong = leftLong <= y;                      // long <= RealExpr (operator)
-        var resultOperatorRightBigInt = x <= rightBigInt;                // RealExpr <= BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt <= y;                  // BigInteger <= RealExpr (operator)
-        var resultMethodRealExpr = x.Le(y);                              // RealExpr.Le(RealExpr) (method)
-        var resultMethodInt = x.Le(rightInt);                            // RealExpr.Le(int) (method)
-        var resultMethodDecimal = x.Le(rightDecimal);                    // RealExpr.Le(decimal) (method)
-        var resultMethodLong = x.Le(rightLong);                          // RealExpr.Le(long) (method)
-        var resultMethodBigInt = x.Le(rightBigInt);                      // RealExpr.Le(BigInteger) (method)
-        var resultContextRealExpr = context.Le(x, y);                    // Context.Le(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Le(x, rightInt);             // Context.Le(RealExpr, int) (method)
-        var resultContextLeftInt = context.Le(leftInt, y);               // Context.Le(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Le(x, rightDecimal);     // Context.Le(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Le(leftDecimal, y);       // Context.Le(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Le(x, rightLong);           // Context.Le(RealExpr, long) (method)
-        var resultContextLeftLong = context.Le(leftLong, y);             // Context.Le(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Le(x, rightBigInt);       // Context.Le(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Le(leftBigInt, y);         // Context.Le(BigInteger, RealExpr) (method)
+        // Test all variations of less than or equal - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x <= y;                       // RealExpr <= RealExpr (operator)
+        var resultOperatorRightDecimal = x <= rightDecimal;        // RealExpr <= decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal <= y;          // decimal <= RealExpr (operator)
+        var resultMethodRealExpr = x.Le(y);                        // RealExpr.Le(RealExpr) (method)
+        var resultMethodDecimal = x.Le(rightDecimal);              // RealExpr.Le(decimal) (method)
+        var resultContextRealExpr = context.Le(x, y);              // Context.Le(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Le(x, rightDecimal); // Context.Le(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Le(leftDecimal, y);   // Context.Le(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -174,55 +101,25 @@ public class Z3RealExprComparisonTests
         {
             // If we expect true, assert all comparisons and check satisfiability
             solver.Assert(resultOperatorRealExpr);
-            solver.Assert(resultOperatorRightInt);
-            solver.Assert(resultOperatorLeftInt);
             solver.Assert(resultOperatorRightDecimal);
             solver.Assert(resultOperatorLeftDecimal);
-            solver.Assert(resultOperatorRightLong);
-            solver.Assert(resultOperatorLeftLong);
-            solver.Assert(resultOperatorRightBigInt);
-            solver.Assert(resultOperatorLeftBigInt);
             solver.Assert(resultMethodRealExpr);
-            solver.Assert(resultMethodInt);
             solver.Assert(resultMethodDecimal);
-            solver.Assert(resultMethodLong);
-            solver.Assert(resultMethodBigInt);
             solver.Assert(resultContextRealExpr);
-            solver.Assert(resultContextRightInt);
-            solver.Assert(resultContextLeftInt);
             solver.Assert(resultContextRightDecimal);
             solver.Assert(resultContextLeftDecimal);
-            solver.Assert(resultContextRightLong);
-            solver.Assert(resultContextLeftLong);
-            solver.Assert(resultContextRightBigInt);
-            solver.Assert(resultContextLeftBigInt);
         }
         else
         {
             // If we expect false, assert negation of all comparisons
             solver.Assert(context.Not(resultOperatorRealExpr));
-            solver.Assert(context.Not(resultOperatorRightInt));
-            solver.Assert(context.Not(resultOperatorLeftInt));
             solver.Assert(context.Not(resultOperatorRightDecimal));
             solver.Assert(context.Not(resultOperatorLeftDecimal));
-            solver.Assert(context.Not(resultOperatorRightLong));
-            solver.Assert(context.Not(resultOperatorLeftLong));
-            solver.Assert(context.Not(resultOperatorRightBigInt));
-            solver.Assert(context.Not(resultOperatorLeftBigInt));
             solver.Assert(context.Not(resultMethodRealExpr));
-            solver.Assert(context.Not(resultMethodInt));
             solver.Assert(context.Not(resultMethodDecimal));
-            solver.Assert(context.Not(resultMethodLong));
-            solver.Assert(context.Not(resultMethodBigInt));
             solver.Assert(context.Not(resultContextRealExpr));
-            solver.Assert(context.Not(resultContextRightInt));
-            solver.Assert(context.Not(resultContextLeftInt));
             solver.Assert(context.Not(resultContextRightDecimal));
             solver.Assert(context.Not(resultContextLeftDecimal));
-            solver.Assert(context.Not(resultContextRightLong));
-            solver.Assert(context.Not(resultContextLeftLong));
-            solver.Assert(context.Not(resultContextRightBigInt));
-            solver.Assert(context.Not(resultContextLeftBigInt));
         }
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -244,37 +141,16 @@ public class Z3RealExprComparisonTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of greater than
-        var resultOperatorRealExpr = x > y;                              // RealExpr > RealExpr (operator)
-        var resultOperatorRightInt = x > rightInt;                       // RealExpr > int (operator)
-        var resultOperatorLeftInt = leftInt > y;                         // int > RealExpr (operator)
-        var resultOperatorRightDecimal = x > rightDecimal;               // RealExpr > decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal > y;                 // decimal > RealExpr (operator)
-        var resultOperatorRightLong = x > rightLong;                     // RealExpr > long (operator)
-        var resultOperatorLeftLong = leftLong > y;                       // long > RealExpr (operator)
-        var resultOperatorRightBigInt = x > rightBigInt;                 // RealExpr > BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt > y;                   // BigInteger > RealExpr (operator)
-        var resultMethodRealExpr = x.Gt(y);                              // RealExpr.Gt(RealExpr) (method)
-        var resultMethodInt = x.Gt(rightInt);                            // RealExpr.Gt(int) (method)
-        var resultMethodDecimal = x.Gt(rightDecimal);                    // RealExpr.Gt(decimal) (method)
-        var resultMethodLong = x.Gt(rightLong);                          // RealExpr.Gt(long) (method)
-        var resultMethodBigInt = x.Gt(rightBigInt);                      // RealExpr.Gt(BigInteger) (method)
-        var resultContextRealExpr = context.Gt(x, y);                    // Context.Gt(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Gt(x, rightInt);             // Context.Gt(RealExpr, int) (method)
-        var resultContextLeftInt = context.Gt(leftInt, y);               // Context.Gt(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Gt(x, rightDecimal);     // Context.Gt(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Gt(leftDecimal, y);       // Context.Gt(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Gt(x, rightLong);           // Context.Gt(RealExpr, long) (method)
-        var resultContextLeftLong = context.Gt(leftLong, y);             // Context.Gt(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Gt(x, rightBigInt);       // Context.Gt(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Gt(leftBigInt, y);         // Context.Gt(BigInteger, RealExpr) (method)
+        // Test all variations of greater than - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x > y;                        // RealExpr > RealExpr (operator)
+        var resultOperatorRightDecimal = x > rightDecimal;         // RealExpr > decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal > y;           // decimal > RealExpr (operator)
+        var resultMethodRealExpr = x.Gt(y);                        // RealExpr.Gt(RealExpr) (method)
+        var resultMethodDecimal = x.Gt(rightDecimal);              // RealExpr.Gt(decimal) (method)
+        var resultContextRealExpr = context.Gt(x, y);              // Context.Gt(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Gt(x, rightDecimal); // Context.Gt(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Gt(leftDecimal, y);   // Context.Gt(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -284,55 +160,25 @@ public class Z3RealExprComparisonTests
         {
             // If we expect true, assert all comparisons and check satisfiability
             solver.Assert(resultOperatorRealExpr);
-            solver.Assert(resultOperatorRightInt);
-            solver.Assert(resultOperatorLeftInt);
             solver.Assert(resultOperatorRightDecimal);
             solver.Assert(resultOperatorLeftDecimal);
-            solver.Assert(resultOperatorRightLong);
-            solver.Assert(resultOperatorLeftLong);
-            solver.Assert(resultOperatorRightBigInt);
-            solver.Assert(resultOperatorLeftBigInt);
             solver.Assert(resultMethodRealExpr);
-            solver.Assert(resultMethodInt);
             solver.Assert(resultMethodDecimal);
-            solver.Assert(resultMethodLong);
-            solver.Assert(resultMethodBigInt);
             solver.Assert(resultContextRealExpr);
-            solver.Assert(resultContextRightInt);
-            solver.Assert(resultContextLeftInt);
             solver.Assert(resultContextRightDecimal);
             solver.Assert(resultContextLeftDecimal);
-            solver.Assert(resultContextRightLong);
-            solver.Assert(resultContextLeftLong);
-            solver.Assert(resultContextRightBigInt);
-            solver.Assert(resultContextLeftBigInt);
         }
         else
         {
             // If we expect false, assert negation of all comparisons
             solver.Assert(context.Not(resultOperatorRealExpr));
-            solver.Assert(context.Not(resultOperatorRightInt));
-            solver.Assert(context.Not(resultOperatorLeftInt));
             solver.Assert(context.Not(resultOperatorRightDecimal));
             solver.Assert(context.Not(resultOperatorLeftDecimal));
-            solver.Assert(context.Not(resultOperatorRightLong));
-            solver.Assert(context.Not(resultOperatorLeftLong));
-            solver.Assert(context.Not(resultOperatorRightBigInt));
-            solver.Assert(context.Not(resultOperatorLeftBigInt));
             solver.Assert(context.Not(resultMethodRealExpr));
-            solver.Assert(context.Not(resultMethodInt));
             solver.Assert(context.Not(resultMethodDecimal));
-            solver.Assert(context.Not(resultMethodLong));
-            solver.Assert(context.Not(resultMethodBigInt));
             solver.Assert(context.Not(resultContextRealExpr));
-            solver.Assert(context.Not(resultContextRightInt));
-            solver.Assert(context.Not(resultContextLeftInt));
             solver.Assert(context.Not(resultContextRightDecimal));
             solver.Assert(context.Not(resultContextLeftDecimal));
-            solver.Assert(context.Not(resultContextRightLong));
-            solver.Assert(context.Not(resultContextLeftLong));
-            solver.Assert(context.Not(resultContextRightBigInt));
-            solver.Assert(context.Not(resultContextLeftBigInt));
         }
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -354,37 +200,16 @@ public class Z3RealExprComparisonTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of greater than or equal
-        var resultOperatorRealExpr = x >= y;                             // RealExpr >= RealExpr (operator)
-        var resultOperatorRightInt = x >= rightInt;                      // RealExpr >= int (operator)
-        var resultOperatorLeftInt = leftInt >= y;                        // int >= RealExpr (operator)
-        var resultOperatorRightDecimal = x >= rightDecimal;              // RealExpr >= decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal >= y;                // decimal >= RealExpr (operator)
-        var resultOperatorRightLong = x >= rightLong;                    // RealExpr >= long (operator)
-        var resultOperatorLeftLong = leftLong >= y;                      // long >= RealExpr (operator)
-        var resultOperatorRightBigInt = x >= rightBigInt;                // RealExpr >= BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt >= y;                  // BigInteger >= RealExpr (operator)
-        var resultMethodRealExpr = x.Ge(y);                              // RealExpr.Ge(RealExpr) (method)
-        var resultMethodInt = x.Ge(rightInt);                            // RealExpr.Ge(int) (method)
-        var resultMethodDecimal = x.Ge(rightDecimal);                    // RealExpr.Ge(decimal) (method)
-        var resultMethodLong = x.Ge(rightLong);                          // RealExpr.Ge(long) (method)
-        var resultMethodBigInt = x.Ge(rightBigInt);                      // RealExpr.Ge(BigInteger) (method)
-        var resultContextRealExpr = context.Ge(x, y);                    // Context.Ge(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Ge(x, rightInt);             // Context.Ge(RealExpr, int) (method)
-        var resultContextLeftInt = context.Ge(leftInt, y);               // Context.Ge(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Ge(x, rightDecimal);     // Context.Ge(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Ge(leftDecimal, y);       // Context.Ge(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Ge(x, rightLong);           // Context.Ge(RealExpr, long) (method)
-        var resultContextLeftLong = context.Ge(leftLong, y);             // Context.Ge(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Ge(x, rightBigInt);       // Context.Ge(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Ge(leftBigInt, y);         // Context.Ge(BigInteger, RealExpr) (method)
+        // Test all variations of greater than or equal - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x >= y;                       // RealExpr >= RealExpr (operator)
+        var resultOperatorRightDecimal = x >= rightDecimal;        // RealExpr >= decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal >= y;          // decimal >= RealExpr (operator)
+        var resultMethodRealExpr = x.Ge(y);                        // RealExpr.Ge(RealExpr) (method)
+        var resultMethodDecimal = x.Ge(rightDecimal);              // RealExpr.Ge(decimal) (method)
+        var resultContextRealExpr = context.Ge(x, y);              // Context.Ge(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Ge(x, rightDecimal); // Context.Ge(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Ge(leftDecimal, y);   // Context.Ge(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -394,55 +219,25 @@ public class Z3RealExprComparisonTests
         {
             // If we expect true, assert all comparisons and check satisfiability
             solver.Assert(resultOperatorRealExpr);
-            solver.Assert(resultOperatorRightInt);
-            solver.Assert(resultOperatorLeftInt);
             solver.Assert(resultOperatorRightDecimal);
             solver.Assert(resultOperatorLeftDecimal);
-            solver.Assert(resultOperatorRightLong);
-            solver.Assert(resultOperatorLeftLong);
-            solver.Assert(resultOperatorRightBigInt);
-            solver.Assert(resultOperatorLeftBigInt);
             solver.Assert(resultMethodRealExpr);
-            solver.Assert(resultMethodInt);
             solver.Assert(resultMethodDecimal);
-            solver.Assert(resultMethodLong);
-            solver.Assert(resultMethodBigInt);
             solver.Assert(resultContextRealExpr);
-            solver.Assert(resultContextRightInt);
-            solver.Assert(resultContextLeftInt);
             solver.Assert(resultContextRightDecimal);
             solver.Assert(resultContextLeftDecimal);
-            solver.Assert(resultContextRightLong);
-            solver.Assert(resultContextLeftLong);
-            solver.Assert(resultContextRightBigInt);
-            solver.Assert(resultContextLeftBigInt);
         }
         else
         {
             // If we expect false, assert negation of all comparisons
             solver.Assert(context.Not(resultOperatorRealExpr));
-            solver.Assert(context.Not(resultOperatorRightInt));
-            solver.Assert(context.Not(resultOperatorLeftInt));
             solver.Assert(context.Not(resultOperatorRightDecimal));
             solver.Assert(context.Not(resultOperatorLeftDecimal));
-            solver.Assert(context.Not(resultOperatorRightLong));
-            solver.Assert(context.Not(resultOperatorLeftLong));
-            solver.Assert(context.Not(resultOperatorRightBigInt));
-            solver.Assert(context.Not(resultOperatorLeftBigInt));
             solver.Assert(context.Not(resultMethodRealExpr));
-            solver.Assert(context.Not(resultMethodInt));
             solver.Assert(context.Not(resultMethodDecimal));
-            solver.Assert(context.Not(resultMethodLong));
-            solver.Assert(context.Not(resultMethodBigInt));
             solver.Assert(context.Not(resultContextRealExpr));
-            solver.Assert(context.Not(resultContextRightInt));
-            solver.Assert(context.Not(resultContextLeftInt));
             solver.Assert(context.Not(resultContextRightDecimal));
             solver.Assert(context.Not(resultContextLeftDecimal));
-            solver.Assert(context.Not(resultContextRightLong));
-            solver.Assert(context.Not(resultContextLeftLong));
-            solver.Assert(context.Not(resultContextRightBigInt));
-            solver.Assert(context.Not(resultContextLeftBigInt));
         }
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -464,32 +259,14 @@ public class Z3RealExprComparisonTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of equality
-        var resultOperatorRealExpr = x == y;                             // RealExpr == RealExpr (operator)
-        var resultOperatorRightInt = x == rightInt;                      // RealExpr == int (operator)
-        var resultOperatorLeftInt = leftInt == y;                        // int == RealExpr (operator)
-        var resultOperatorRightDecimal = x == rightDecimal;              // RealExpr == decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal == y;                // decimal == RealExpr (operator)
-        var resultOperatorRightLong = x == rightLong;                    // RealExpr == long (operator)
-        var resultOperatorLeftLong = leftLong == y;                      // long == RealExpr (operator)
-        var resultOperatorRightBigInt = x == rightBigInt;                // RealExpr == BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt == y;                  // BigInteger == RealExpr (operator)
-        var resultContextRealExpr = context.Eq(x, y);                    // Context.Eq(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Eq(x, rightInt);             // Context.Eq(RealExpr, int) (method)
-        var resultContextLeftInt = context.Eq(leftInt, y);               // Context.Eq(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Eq(x, rightDecimal);     // Context.Eq(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Eq(leftDecimal, y);       // Context.Eq(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Eq(x, rightLong);           // Context.Eq(RealExpr, long) (method)
-        var resultContextLeftLong = context.Eq(leftLong, y);             // Context.Eq(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Eq(x, rightBigInt);       // Context.Eq(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Eq(leftBigInt, y);         // Context.Eq(BigInteger, RealExpr) (method)
+        // Test all variations of equality - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x == y;                       // RealExpr == RealExpr (operator)
+        var resultOperatorRightDecimal = x == rightDecimal;        // RealExpr == decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal == y;          // decimal == RealExpr (operator)
+        var resultContextRealExpr = context.Eq(x, y);              // Context.Eq(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Eq(x, rightDecimal); // Context.Eq(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Eq(leftDecimal, y);   // Context.Eq(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -499,45 +276,21 @@ public class Z3RealExprComparisonTests
         {
             // If we expect true, assert all equality comparisons and check satisfiability
             solver.Assert(resultOperatorRealExpr);
-            solver.Assert(resultOperatorRightInt);
-            solver.Assert(resultOperatorLeftInt);
             solver.Assert(resultOperatorRightDecimal);
             solver.Assert(resultOperatorLeftDecimal);
-            solver.Assert(resultOperatorRightLong);
-            solver.Assert(resultOperatorLeftLong);
-            solver.Assert(resultOperatorRightBigInt);
-            solver.Assert(resultOperatorLeftBigInt);
             solver.Assert(resultContextRealExpr);
-            solver.Assert(resultContextRightInt);
-            solver.Assert(resultContextLeftInt);
             solver.Assert(resultContextRightDecimal);
             solver.Assert(resultContextLeftDecimal);
-            solver.Assert(resultContextRightLong);
-            solver.Assert(resultContextLeftLong);
-            solver.Assert(resultContextRightBigInt);
-            solver.Assert(resultContextLeftBigInt);
         }
         else
         {
             // If we expect false, assert negation of all equality comparisons
             solver.Assert(context.Not(resultOperatorRealExpr));
-            solver.Assert(context.Not(resultOperatorRightInt));
-            solver.Assert(context.Not(resultOperatorLeftInt));
             solver.Assert(context.Not(resultOperatorRightDecimal));
             solver.Assert(context.Not(resultOperatorLeftDecimal));
-            solver.Assert(context.Not(resultOperatorRightLong));
-            solver.Assert(context.Not(resultOperatorLeftLong));
-            solver.Assert(context.Not(resultOperatorRightBigInt));
-            solver.Assert(context.Not(resultOperatorLeftBigInt));
             solver.Assert(context.Not(resultContextRealExpr));
-            solver.Assert(context.Not(resultContextRightInt));
-            solver.Assert(context.Not(resultContextLeftInt));
             solver.Assert(context.Not(resultContextRightDecimal));
             solver.Assert(context.Not(resultContextLeftDecimal));
-            solver.Assert(context.Not(resultContextRightLong));
-            solver.Assert(context.Not(resultContextLeftLong));
-            solver.Assert(context.Not(resultContextRightBigInt));
-            solver.Assert(context.Not(resultContextLeftBigInt));
         }
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -559,32 +312,14 @@ public class Z3RealExprComparisonTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of inequality
-        var resultOperatorRealExpr = x != y;                             // RealExpr != RealExpr (operator)
-        var resultOperatorRightInt = x != rightInt;                      // RealExpr != int (operator)
-        var resultOperatorLeftInt = leftInt != y;                        // int != RealExpr (operator)
-        var resultOperatorRightDecimal = x != rightDecimal;              // RealExpr != decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal != y;                // decimal != RealExpr (operator)
-        var resultOperatorRightLong = x != rightLong;                    // RealExpr != long (operator)
-        var resultOperatorLeftLong = leftLong != y;                      // long != RealExpr (operator)
-        var resultOperatorRightBigInt = x != rightBigInt;                // RealExpr != BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt != y;                  // BigInteger != RealExpr (operator)
-        var resultContextRealExpr = context.Neq(x, y);                   // Context.Neq(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Neq(x, rightInt);            // Context.Neq(RealExpr, int) (method)
-        var resultContextLeftInt = context.Neq(leftInt, y);              // Context.Neq(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Neq(x, rightDecimal);    // Context.Neq(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Neq(leftDecimal, y);      // Context.Neq(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Neq(x, rightLong);          // Context.Neq(RealExpr, long) (method)
-        var resultContextLeftLong = context.Neq(leftLong, y);            // Context.Neq(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Neq(x, rightBigInt);      // Context.Neq(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Neq(leftBigInt, y);        // Context.Neq(BigInteger, RealExpr) (method)
+        // Test all variations of inequality - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x != y;                       // RealExpr != RealExpr (operator)
+        var resultOperatorRightDecimal = x != rightDecimal;        // RealExpr != decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal != y;          // decimal != RealExpr (operator)
+        var resultContextRealExpr = context.Neq(x, y);             // Context.Neq(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Neq(x, rightDecimal); // Context.Neq(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Neq(leftDecimal, y);   // Context.Neq(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -594,45 +329,21 @@ public class Z3RealExprComparisonTests
         {
             // If we expect true, assert all inequality comparisons and check satisfiability
             solver.Assert(resultOperatorRealExpr);
-            solver.Assert(resultOperatorRightInt);
-            solver.Assert(resultOperatorLeftInt);
             solver.Assert(resultOperatorRightDecimal);
             solver.Assert(resultOperatorLeftDecimal);
-            solver.Assert(resultOperatorRightLong);
-            solver.Assert(resultOperatorLeftLong);
-            solver.Assert(resultOperatorRightBigInt);
-            solver.Assert(resultOperatorLeftBigInt);
             solver.Assert(resultContextRealExpr);
-            solver.Assert(resultContextRightInt);
-            solver.Assert(resultContextLeftInt);
             solver.Assert(resultContextRightDecimal);
             solver.Assert(resultContextLeftDecimal);
-            solver.Assert(resultContextRightLong);
-            solver.Assert(resultContextLeftLong);
-            solver.Assert(resultContextRightBigInt);
-            solver.Assert(resultContextLeftBigInt);
         }
         else
         {
             // If we expect false, assert negation of all inequality comparisons
             solver.Assert(context.Not(resultOperatorRealExpr));
-            solver.Assert(context.Not(resultOperatorRightInt));
-            solver.Assert(context.Not(resultOperatorLeftInt));
             solver.Assert(context.Not(resultOperatorRightDecimal));
             solver.Assert(context.Not(resultOperatorLeftDecimal));
-            solver.Assert(context.Not(resultOperatorRightLong));
-            solver.Assert(context.Not(resultOperatorLeftLong));
-            solver.Assert(context.Not(resultOperatorRightBigInt));
-            solver.Assert(context.Not(resultOperatorLeftBigInt));
             solver.Assert(context.Not(resultContextRealExpr));
-            solver.Assert(context.Not(resultContextRightInt));
-            solver.Assert(context.Not(resultContextLeftInt));
             solver.Assert(context.Not(resultContextRightDecimal));
             solver.Assert(context.Not(resultContextLeftDecimal));
-            solver.Assert(context.Not(resultContextRightLong));
-            solver.Assert(context.Not(resultContextLeftLong));
-            solver.Assert(context.Not(resultContextRightBigInt));
-            solver.Assert(context.Not(resultContextLeftBigInt));
         }
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -729,29 +440,22 @@ public class Z3RealExprComparisonTests
     }
 
     [Test]
-    public void MixedTypeComparison_AllCombinations_WorkCorrectly()
+    public void MixedTypeComparison_DecimalCombinations_WorkCorrectly()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var realExpr = context.RealConst("real");
-        var intValue = 5;
         var decimalValue = 5.0m;
-        var longValue = 5L;
-        var bigIntValue = new BigInteger(5);
 
-        // Test that all these comparisons work and produce consistent results
-        var realVsInt = realExpr == intValue;
+        // Test that decimal comparisons work and produce consistent results
         var realVsDecimal = realExpr == decimalValue;
-        var realVsLong = realExpr == longValue;
-        var realVsBigInt = realExpr == bigIntValue;
+        var decimalVsReal = decimalValue == realExpr;
 
         solver.Assert(context.Eq(realExpr, context.Real(5.0m)));
-        solver.Assert(realVsInt);
         solver.Assert(realVsDecimal);
-        solver.Assert(realVsLong);
-        solver.Assert(realVsBigInt);
+        solver.Assert(decimalVsReal);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

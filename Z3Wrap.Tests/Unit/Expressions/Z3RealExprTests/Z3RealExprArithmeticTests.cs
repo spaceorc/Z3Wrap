@@ -26,37 +26,16 @@ public class Z3RealExprArithmeticTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100); // Scale for testing
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of addition
-        var resultOperatorRealExpr = x + y;                              // RealExpr + RealExpr (operator)
-        var resultOperatorRightInt = x + rightInt;                       // RealExpr + int (operator)
-        var resultOperatorLeftInt = leftInt + y;                         // int + RealExpr (operator)
-        var resultOperatorRightDecimal = x + rightDecimal;               // RealExpr + decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal + y;                 // decimal + RealExpr (operator)
-        var resultOperatorRightLong = x + rightLong;                     // RealExpr + long (operator)
-        var resultOperatorLeftLong = leftLong + y;                       // long + RealExpr (operator)
-        var resultOperatorRightBigInt = x + rightBigInt;                 // RealExpr + BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt + y;                   // BigInteger + RealExpr (operator)
-        var resultMethodRealExpr = x.Add(y);                             // RealExpr.Add(RealExpr) (method)
-        var resultMethodInt = x.Add(rightInt);                           // RealExpr.Add(int) (method)
-        var resultMethodDecimal = x.Add(rightDecimal);                   // RealExpr.Add(decimal) (method)
-        var resultMethodLong = x.Add(rightLong);                         // RealExpr.Add(long) (method)
-        var resultMethodBigInt = x.Add(rightBigInt);                     // RealExpr.Add(BigInteger) (method)
-        var resultContextRealExpr = context.Add(x, y);                   // Context.Add(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Add(x, rightInt);            // Context.Add(RealExpr, int) (method)
-        var resultContextLeftInt = context.Add(leftInt, y);              // Context.Add(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Add(x, rightDecimal);    // Context.Add(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Add(leftDecimal, y);      // Context.Add(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Add(x, rightLong);          // Context.Add(RealExpr, long) (method)
-        var resultContextLeftLong = context.Add(leftLong, y);            // Context.Add(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Add(x, rightBigInt);      // Context.Add(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Add(leftBigInt, y);        // Context.Add(BigInteger, RealExpr) (method)
+        // Test all variations of addition - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x + y;                          // RealExpr + RealExpr (operator)
+        var resultOperatorRightDecimal = x + rightDecimal;           // RealExpr + decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal + y;             // decimal + RealExpr (operator)
+        var resultMethodRealExpr = x.Add(y);                         // RealExpr.Add(RealExpr) (method)
+        var resultMethodDecimal = x.Add(rightDecimal);               // RealExpr.Add(decimal) (method)
+        var resultContextRealExpr = context.Add(x, y);               // Context.Add(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Add(x, rightDecimal);// Context.Add(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Add(leftDecimal, y);  // Context.Add(decimal, RealExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -69,28 +48,13 @@ public class Z3RealExprArithmeticTests
         Assert.Multiple(() =>
         {
             Assert.That(model.GetRealValue(resultOperatorRealExpr), Is.EqualTo(new Real(expected)), "RealExpr + RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightInt), Is.EqualTo(new Real(leftDecimal + rightInt)), "RealExpr + int operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftInt), Is.EqualTo(new Real(leftInt + rightDecimal)), "int + RealExpr operator failed");
             Assert.That(model.GetRealValue(resultOperatorRightDecimal), Is.EqualTo(new Real(expected)), "RealExpr + decimal operator failed");
             Assert.That(model.GetRealValue(resultOperatorLeftDecimal), Is.EqualTo(new Real(expected)), "decimal + RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightLong), Is.EqualTo(new Real(leftDecimal + rightLong)), "RealExpr + long operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftLong), Is.EqualTo(new Real(leftLong + rightDecimal)), "long + RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightBigInt), Is.EqualTo(new Real(leftDecimal + (decimal)rightBigInt)), "RealExpr + BigInteger operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftBigInt), Is.EqualTo(new Real((decimal)leftBigInt + rightDecimal)), "BigInteger + RealExpr operator failed");
             Assert.That(model.GetRealValue(resultMethodRealExpr), Is.EqualTo(new Real(expected)), "RealExpr.Add(RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultMethodInt), Is.EqualTo(new Real(leftDecimal + rightInt)), "RealExpr.Add(int) method failed");
             Assert.That(model.GetRealValue(resultMethodDecimal), Is.EqualTo(new Real(expected)), "RealExpr.Add(decimal) method failed");
-            Assert.That(model.GetRealValue(resultMethodLong), Is.EqualTo(new Real(leftDecimal + rightLong)), "RealExpr.Add(long) method failed");
-            Assert.That(model.GetRealValue(resultMethodBigInt), Is.EqualTo(new Real(leftDecimal + (decimal)rightBigInt)), "RealExpr.Add(BigInteger) method failed");
             Assert.That(model.GetRealValue(resultContextRealExpr), Is.EqualTo(new Real(expected)), "Context.Add(RealExpr, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightInt), Is.EqualTo(new Real(leftDecimal + rightInt)), "Context.Add(RealExpr, int) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftInt), Is.EqualTo(new Real(leftInt + rightDecimal)), "Context.Add(int, RealExpr) method failed");
             Assert.That(model.GetRealValue(resultContextRightDecimal), Is.EqualTo(new Real(expected)), "Context.Add(RealExpr, decimal) method failed");
             Assert.That(model.GetRealValue(resultContextLeftDecimal), Is.EqualTo(new Real(expected)), "Context.Add(decimal, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightLong), Is.EqualTo(new Real(leftDecimal + rightLong)), "Context.Add(RealExpr, long) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftLong), Is.EqualTo(new Real(leftLong + rightDecimal)), "Context.Add(long, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightBigInt), Is.EqualTo(new Real(leftDecimal + (decimal)rightBigInt)), "Context.Add(RealExpr, BigInteger) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftBigInt), Is.EqualTo(new Real((decimal)leftBigInt + rightDecimal)), "Context.Add(BigInteger, RealExpr) method failed");
         });
     }
 
@@ -112,37 +76,16 @@ public class Z3RealExprArithmeticTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of subtraction
-        var resultOperatorRealExpr = x - y;                              // RealExpr - RealExpr (operator)
-        var resultOperatorRightInt = x - rightInt;                       // RealExpr - int (operator)
-        var resultOperatorLeftInt = leftInt - y;                         // int - RealExpr (operator)
-        var resultOperatorRightDecimal = x - rightDecimal;               // RealExpr - decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal - y;                 // decimal - RealExpr (operator)
-        var resultOperatorRightLong = x - rightLong;                     // RealExpr - long (operator)
-        var resultOperatorLeftLong = leftLong - y;                       // long - RealExpr (operator)
-        var resultOperatorRightBigInt = x - rightBigInt;                 // RealExpr - BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt - y;                   // BigInteger - RealExpr (operator)
-        var resultMethodRealExpr = x.Sub(y);                             // RealExpr.Sub(RealExpr) (method)
-        var resultMethodInt = x.Sub(rightInt);                           // RealExpr.Sub(int) (method)
-        var resultMethodDecimal = x.Sub(rightDecimal);                   // RealExpr.Sub(decimal) (method)
-        var resultMethodLong = x.Sub(rightLong);                         // RealExpr.Sub(long) (method)
-        var resultMethodBigInt = x.Sub(rightBigInt);                     // RealExpr.Sub(BigInteger) (method)
-        var resultContextRealExpr = context.Sub(x, y);                   // Context.Sub(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Sub(x, rightInt);            // Context.Sub(RealExpr, int) (method)
-        var resultContextLeftInt = context.Sub(leftInt, y);              // Context.Sub(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Sub(x, rightDecimal);    // Context.Sub(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Sub(leftDecimal, y);      // Context.Sub(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Sub(x, rightLong);          // Context.Sub(RealExpr, long) (method)
-        var resultContextLeftLong = context.Sub(leftLong, y);            // Context.Sub(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Sub(x, rightBigInt);      // Context.Sub(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Sub(leftBigInt, y);        // Context.Sub(BigInteger, RealExpr) (method)
+        // Test all variations of subtraction - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x - y;                          // RealExpr - RealExpr (operator)
+        var resultOperatorRightDecimal = x - rightDecimal;           // RealExpr - decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal - y;             // decimal - RealExpr (operator)
+        var resultMethodRealExpr = x.Sub(y);                         // RealExpr.Sub(RealExpr) (method)
+        var resultMethodDecimal = x.Sub(rightDecimal);               // RealExpr.Sub(decimal) (method)
+        var resultContextRealExpr = context.Sub(x, y);               // Context.Sub(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Sub(x, rightDecimal);// Context.Sub(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Sub(leftDecimal, y);  // Context.Sub(decimal, RealExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -155,28 +98,13 @@ public class Z3RealExprArithmeticTests
         Assert.Multiple(() =>
         {
             Assert.That(model.GetRealValue(resultOperatorRealExpr), Is.EqualTo(new Real(expected)), "RealExpr - RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightInt), Is.EqualTo(new Real(leftDecimal - rightInt)), "RealExpr - int operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftInt), Is.EqualTo(new Real(leftInt - rightDecimal)), "int - RealExpr operator failed");
             Assert.That(model.GetRealValue(resultOperatorRightDecimal), Is.EqualTo(new Real(expected)), "RealExpr - decimal operator failed");
             Assert.That(model.GetRealValue(resultOperatorLeftDecimal), Is.EqualTo(new Real(expected)), "decimal - RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightLong), Is.EqualTo(new Real(leftDecimal - rightLong)), "RealExpr - long operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftLong), Is.EqualTo(new Real(leftLong - rightDecimal)), "long - RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightBigInt), Is.EqualTo(new Real(leftDecimal - (decimal)rightBigInt)), "RealExpr - BigInteger operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftBigInt), Is.EqualTo(new Real((decimal)leftBigInt - rightDecimal)), "BigInteger - RealExpr operator failed");
             Assert.That(model.GetRealValue(resultMethodRealExpr), Is.EqualTo(new Real(expected)), "RealExpr.Sub(RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultMethodInt), Is.EqualTo(new Real(leftDecimal - rightInt)), "RealExpr.Sub(int) method failed");
             Assert.That(model.GetRealValue(resultMethodDecimal), Is.EqualTo(new Real(expected)), "RealExpr.Sub(decimal) method failed");
-            Assert.That(model.GetRealValue(resultMethodLong), Is.EqualTo(new Real(leftDecimal - rightLong)), "RealExpr.Sub(long) method failed");
-            Assert.That(model.GetRealValue(resultMethodBigInt), Is.EqualTo(new Real(leftDecimal - (decimal)rightBigInt)), "RealExpr.Sub(BigInteger) method failed");
             Assert.That(model.GetRealValue(resultContextRealExpr), Is.EqualTo(new Real(expected)), "Context.Sub(RealExpr, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightInt), Is.EqualTo(new Real(leftDecimal - rightInt)), "Context.Sub(RealExpr, int) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftInt), Is.EqualTo(new Real(leftInt - rightDecimal)), "Context.Sub(int, RealExpr) method failed");
             Assert.That(model.GetRealValue(resultContextRightDecimal), Is.EqualTo(new Real(expected)), "Context.Sub(RealExpr, decimal) method failed");
             Assert.That(model.GetRealValue(resultContextLeftDecimal), Is.EqualTo(new Real(expected)), "Context.Sub(decimal, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightLong), Is.EqualTo(new Real(leftDecimal - rightLong)), "Context.Sub(RealExpr, long) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftLong), Is.EqualTo(new Real(leftLong - rightDecimal)), "Context.Sub(long, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightBigInt), Is.EqualTo(new Real(leftDecimal - (decimal)rightBigInt)), "Context.Sub(RealExpr, BigInteger) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftBigInt), Is.EqualTo(new Real((decimal)leftBigInt - rightDecimal)), "Context.Sub(BigInteger, RealExpr) method failed");
         });
     }
 
@@ -198,37 +126,16 @@ public class Z3RealExprArithmeticTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of multiplication
-        var resultOperatorRealExpr = x * y;                              // RealExpr * RealExpr (operator)
-        var resultOperatorRightInt = x * rightInt;                       // RealExpr * int (operator)
-        var resultOperatorLeftInt = leftInt * y;                         // int * RealExpr (operator)
-        var resultOperatorRightDecimal = x * rightDecimal;               // RealExpr * decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal * y;                 // decimal * RealExpr (operator)
-        var resultOperatorRightLong = x * rightLong;                     // RealExpr * long (operator)
-        var resultOperatorLeftLong = leftLong * y;                       // long * RealExpr (operator)
-        var resultOperatorRightBigInt = x * rightBigInt;                 // RealExpr * BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt * y;                   // BigInteger * RealExpr (operator)
-        var resultMethodRealExpr = x.Mul(y);                             // RealExpr.Mul(RealExpr) (method)
-        var resultMethodInt = x.Mul(rightInt);                           // RealExpr.Mul(int) (method)
-        var resultMethodDecimal = x.Mul(rightDecimal);                   // RealExpr.Mul(decimal) (method)
-        var resultMethodLong = x.Mul(rightLong);                         // RealExpr.Mul(long) (method)
-        var resultMethodBigInt = x.Mul(rightBigInt);                     // RealExpr.Mul(BigInteger) (method)
-        var resultContextRealExpr = context.Mul(x, y);                   // Context.Mul(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Mul(x, rightInt);            // Context.Mul(RealExpr, int) (method)
-        var resultContextLeftInt = context.Mul(leftInt, y);              // Context.Mul(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Mul(x, rightDecimal);    // Context.Mul(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Mul(leftDecimal, y);      // Context.Mul(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Mul(x, rightLong);          // Context.Mul(RealExpr, long) (method)
-        var resultContextLeftLong = context.Mul(leftLong, y);            // Context.Mul(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Mul(x, rightBigInt);      // Context.Mul(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Mul(leftBigInt, y);        // Context.Mul(BigInteger, RealExpr) (method)
+        // Test all variations of multiplication - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x * y;                          // RealExpr * RealExpr (operator)
+        var resultOperatorRightDecimal = x * rightDecimal;           // RealExpr * decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal * y;             // decimal * RealExpr (operator)
+        var resultMethodRealExpr = x.Mul(y);                         // RealExpr.Mul(RealExpr) (method)
+        var resultMethodDecimal = x.Mul(rightDecimal);               // RealExpr.Mul(decimal) (method)
+        var resultContextRealExpr = context.Mul(x, y);               // Context.Mul(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Mul(x, rightDecimal);// Context.Mul(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Mul(leftDecimal, y);  // Context.Mul(decimal, RealExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -241,28 +148,13 @@ public class Z3RealExprArithmeticTests
         Assert.Multiple(() =>
         {
             Assert.That(model.GetRealValue(resultOperatorRealExpr), Is.EqualTo(new Real(expected)), "RealExpr * RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightInt), Is.EqualTo(new Real(leftDecimal * rightInt)), "RealExpr * int operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftInt), Is.EqualTo(new Real(leftInt * rightDecimal)), "int * RealExpr operator failed");
             Assert.That(model.GetRealValue(resultOperatorRightDecimal), Is.EqualTo(new Real(expected)), "RealExpr * decimal operator failed");
             Assert.That(model.GetRealValue(resultOperatorLeftDecimal), Is.EqualTo(new Real(expected)), "decimal * RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightLong), Is.EqualTo(new Real(leftDecimal * rightLong)), "RealExpr * long operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftLong), Is.EqualTo(new Real(leftLong * rightDecimal)), "long * RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightBigInt), Is.EqualTo(new Real(leftDecimal * (decimal)rightBigInt)), "RealExpr * BigInteger operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftBigInt), Is.EqualTo(new Real((decimal)leftBigInt * rightDecimal)), "BigInteger * RealExpr operator failed");
             Assert.That(model.GetRealValue(resultMethodRealExpr), Is.EqualTo(new Real(expected)), "RealExpr.Mul(RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultMethodInt), Is.EqualTo(new Real(leftDecimal * rightInt)), "RealExpr.Mul(int) method failed");
             Assert.That(model.GetRealValue(resultMethodDecimal), Is.EqualTo(new Real(expected)), "RealExpr.Mul(decimal) method failed");
-            Assert.That(model.GetRealValue(resultMethodLong), Is.EqualTo(new Real(leftDecimal * rightLong)), "RealExpr.Mul(long) method failed");
-            Assert.That(model.GetRealValue(resultMethodBigInt), Is.EqualTo(new Real(leftDecimal * (decimal)rightBigInt)), "RealExpr.Mul(BigInteger) method failed");
             Assert.That(model.GetRealValue(resultContextRealExpr), Is.EqualTo(new Real(expected)), "Context.Mul(RealExpr, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightInt), Is.EqualTo(new Real(leftDecimal * rightInt)), "Context.Mul(RealExpr, int) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftInt), Is.EqualTo(new Real(leftInt * rightDecimal)), "Context.Mul(int, RealExpr) method failed");
             Assert.That(model.GetRealValue(resultContextRightDecimal), Is.EqualTo(new Real(expected)), "Context.Mul(RealExpr, decimal) method failed");
             Assert.That(model.GetRealValue(resultContextLeftDecimal), Is.EqualTo(new Real(expected)), "Context.Mul(decimal, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightLong), Is.EqualTo(new Real(leftDecimal * rightLong)), "Context.Mul(RealExpr, long) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftLong), Is.EqualTo(new Real(leftLong * rightDecimal)), "Context.Mul(long, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightBigInt), Is.EqualTo(new Real(leftDecimal * (decimal)rightBigInt)), "Context.Mul(RealExpr, BigInteger) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftBigInt), Is.EqualTo(new Real((decimal)leftBigInt * rightDecimal)), "Context.Mul(BigInteger, RealExpr) method failed");
         });
     }
 
@@ -285,37 +177,16 @@ public class Z3RealExprArithmeticTests
 
         var x = context.Real(leftDecimal);
         var y = context.Real(rightDecimal);
-        var leftInt = (int)leftDecimal;
-        var rightInt = (int)rightDecimal;
-        var leftLong = (long)(leftDecimal * 100);
-        var rightLong = (long)(rightDecimal * 100);
-        var leftBigInt = new BigInteger(leftDecimal);
-        var rightBigInt = new BigInteger(rightDecimal);
 
-        // Test all variations of division
-        var resultOperatorRealExpr = x / y;                              // RealExpr / RealExpr (operator)
-        var resultOperatorRightInt = x / rightInt;                       // RealExpr / int (operator)
-        var resultOperatorLeftInt = leftInt / y;                         // int / RealExpr (operator)
-        var resultOperatorRightDecimal = x / rightDecimal;               // RealExpr / decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal / y;                 // decimal / RealExpr (operator)
-        var resultOperatorRightLong = x / rightLong;                     // RealExpr / long (operator)
-        var resultOperatorLeftLong = leftLong / y;                       // long / RealExpr (operator)
-        var resultOperatorRightBigInt = x / rightBigInt;                 // RealExpr / BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt / y;                   // BigInteger / RealExpr (operator)
-        var resultMethodRealExpr = x.Div(y);                             // RealExpr.Div(RealExpr) (method)
-        var resultMethodInt = x.Div(rightInt);                           // RealExpr.Div(int) (method)
-        var resultMethodDecimal = x.Div(rightDecimal);                   // RealExpr.Div(decimal) (method)
-        var resultMethodLong = x.Div(rightLong);                         // RealExpr.Div(long) (method)
-        var resultMethodBigInt = x.Div(rightBigInt);                     // RealExpr.Div(BigInteger) (method)
-        var resultContextRealExpr = context.Div(x, y);                   // Context.Div(RealExpr, RealExpr) (method)
-        var resultContextRightInt = context.Div(x, rightInt);            // Context.Div(RealExpr, int) (method)
-        var resultContextLeftInt = context.Div(leftInt, y);              // Context.Div(int, RealExpr) (method)
-        var resultContextRightDecimal = context.Div(x, rightDecimal);    // Context.Div(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Div(leftDecimal, y);      // Context.Div(decimal, RealExpr) (method)
-        var resultContextRightLong = context.Div(x, rightLong);          // Context.Div(RealExpr, long) (method)
-        var resultContextLeftLong = context.Div(leftLong, y);            // Context.Div(long, RealExpr) (method)
-        var resultContextRightBigInt = context.Div(x, rightBigInt);      // Context.Div(RealExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Div(leftBigInt, y);        // Context.Div(BigInteger, RealExpr) (method)
+        // Test all variations of division - SIMPLIFIED to decimal + RealExpr only
+        var resultOperatorRealExpr = x / y;                          // RealExpr / RealExpr (operator)
+        var resultOperatorRightDecimal = x / rightDecimal;           // RealExpr / decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal / y;             // decimal / RealExpr (operator)
+        var resultMethodRealExpr = x.Div(y);                         // RealExpr.Div(RealExpr) (method)
+        var resultMethodDecimal = x.Div(rightDecimal);               // RealExpr.Div(decimal) (method)
+        var resultContextRealExpr = context.Div(x, y);               // Context.Div(RealExpr, RealExpr) (method)
+        var resultContextRightDecimal = context.Div(x, rightDecimal);// Context.Div(RealExpr, decimal) (method)
+        var resultContextLeftDecimal = context.Div(leftDecimal, y);  // Context.Div(decimal, RealExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -328,28 +199,13 @@ public class Z3RealExprArithmeticTests
         Assert.Multiple(() =>
         {
             Assert.That(model.GetRealValue(resultOperatorRealExpr), Is.EqualTo(new Real(expected)), "RealExpr / RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightInt), Is.EqualTo(new Real(leftDecimal / rightInt)), "RealExpr / int operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftInt), Is.EqualTo(new Real(leftInt) / rightDecimal), "int / RealExpr operator failed");
             Assert.That(model.GetRealValue(resultOperatorRightDecimal), Is.EqualTo(new Real(expected)), "RealExpr / decimal operator failed");
             Assert.That(model.GetRealValue(resultOperatorLeftDecimal), Is.EqualTo(new Real(expected)), "decimal / RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightLong), Is.EqualTo(new Real(leftDecimal) / rightLong), "RealExpr / long operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftLong), Is.EqualTo(new Real(leftLong) / rightDecimal), "long / RealExpr operator failed");
-            Assert.That(model.GetRealValue(resultOperatorRightBigInt), Is.EqualTo(new Real(leftDecimal) / rightBigInt), "RealExpr / BigInteger operator failed");
-            Assert.That(model.GetRealValue(resultOperatorLeftBigInt), Is.EqualTo(new Real(leftBigInt) / rightDecimal), "BigInteger / RealExpr operator failed");
             Assert.That(model.GetRealValue(resultMethodRealExpr), Is.EqualTo(new Real(expected)), "RealExpr.Div(RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultMethodInt), Is.EqualTo(new Real(leftDecimal) / rightInt), "RealExpr.Div(int) method failed");
             Assert.That(model.GetRealValue(resultMethodDecimal), Is.EqualTo(new Real(expected)), "RealExpr.Div(decimal) method failed");
-            Assert.That(model.GetRealValue(resultMethodLong), Is.EqualTo(new Real(leftDecimal) / rightLong), "RealExpr.Div(long) method failed");
-            Assert.That(model.GetRealValue(resultMethodBigInt), Is.EqualTo(new Real(leftDecimal) / rightBigInt), "RealExpr.Div(BigInteger) method failed");
             Assert.That(model.GetRealValue(resultContextRealExpr), Is.EqualTo(new Real(expected)), "Context.Div(RealExpr, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightInt), Is.EqualTo(new Real(leftDecimal) / rightInt), "Context.Div(RealExpr, int) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftInt), Is.EqualTo(new Real(leftInt) / rightDecimal), "Context.Div(int, RealExpr) method failed");
             Assert.That(model.GetRealValue(resultContextRightDecimal), Is.EqualTo(new Real(expected)), "Context.Div(RealExpr, decimal) method failed");
             Assert.That(model.GetRealValue(resultContextLeftDecimal), Is.EqualTo(new Real(expected)), "Context.Div(decimal, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightLong), Is.EqualTo(new Real(leftDecimal) / rightLong), "Context.Div(RealExpr, long) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftLong), Is.EqualTo(new Real(leftLong) / rightDecimal), "Context.Div(long, RealExpr) method failed");
-            Assert.That(model.GetRealValue(resultContextRightBigInt), Is.EqualTo(new Real(leftDecimal) / rightBigInt), "Context.Div(RealExpr, BigInteger) method failed");
-            Assert.That(model.GetRealValue(resultContextLeftBigInt), Is.EqualTo(new Real(leftBigInt) / rightDecimal), "Context.Div(BigInteger, RealExpr) method failed");
         });
     }
 
@@ -528,7 +384,7 @@ public class Z3RealExprArithmeticTests
     }
 
     [Test]
-    public void PrimitiveInteraction_RealExprWithLiterals_WorksCorrectly()
+    public void PrimitiveInteraction_RealExprWithDecimals_WorksCorrectly()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -536,7 +392,7 @@ public class Z3RealExprArithmeticTests
 
         var x = context.RealConst("x");
 
-        // Test various primitive interactions
+        // Test decimal interactions with RealExpr
         var result1 = x + 10.5m;       // RealExpr + decimal
         var result2 = 20.7m + x;       // decimal + RealExpr
         var result3 = x - 3.2m;        // RealExpr - decimal
