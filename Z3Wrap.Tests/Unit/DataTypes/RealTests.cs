@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Numerics;
 using Z3Wrap.DataTypes;
 
@@ -429,6 +430,69 @@ public class RealTests
     }
 
     [Test]
+    public void ToString_GeneralFormat_ShowsFractionOrInteger()
+    {
+        var fraction = new Real(3, 4);
+        var integer = new Real(42);
+
+        Assert.That(fraction.ToString("G"), Is.EqualTo("3/4"));
+        Assert.That(fraction.ToString("GENERAL"), Is.EqualTo("3/4"));
+        Assert.That(integer.ToString("G"), Is.EqualTo("42"));
+        Assert.That(integer.ToString("GENERAL"), Is.EqualTo("42"));
+    }
+
+    [Test]
+    public void ToString_InvalidFormat_ThrowsFormatException()
+    {
+        var real = new Real(3, 4);
+
+        Assert.Throws<FormatException>(() => real.ToString("X"));
+        Assert.Throws<FormatException>(() => real.ToString("INVALID"));
+        Assert.Throws<FormatException>(() => real.ToString("Z"));
+    }
+
+    [Test]
+    public void ToString_CustomFormatProvider_UsesProvider()
+    {
+        var real = new Real(1, 4);
+        var germanCulture = new CultureInfo("de-DE");
+
+        // German uses comma as decimal separator
+        var result = real.ToString("D", germanCulture);
+        Assert.That(result, Is.EqualTo("0,25"));
+
+        // Test with fraction - format provider shouldn't affect fraction display
+        var fraction = new Real(3, 4);
+        var fractionResult = fraction.ToString("F", germanCulture);
+        Assert.That(fractionResult, Is.EqualTo("3/4"));
+
+        // Test with integer values
+        var integer = new Real(1234);
+        var integerResult = integer.ToString("F", germanCulture);
+        Assert.That(integerResult, Is.EqualTo("1234"));
+    }
+
+    [Test]
+    public void ToString_CaseInsensitiveFormats_WorksCorrectly()
+    {
+        var real = new Real(3, 4);
+        var decimalReal = new Real(1, 4);
+
+        // Test lowercase formats work the same as uppercase
+        Assert.That(real.ToString("f"), Is.EqualTo(real.ToString("F")));
+        Assert.That(real.ToString("fraction"), Is.EqualTo(real.ToString("FRACTION")));
+        Assert.That(decimalReal.ToString("d"), Is.EqualTo(decimalReal.ToString("D")));
+        Assert.That(decimalReal.ToString("decimal"), Is.EqualTo(decimalReal.ToString("DECIMAL")));
+        Assert.That(real.ToString("g"), Is.EqualTo(real.ToString("G")));
+        Assert.That(real.ToString("general"), Is.EqualTo(real.ToString("GENERAL")));
+
+        // Test mixed case
+        Assert.That(real.ToString("Fraction"), Is.EqualTo("3/4"));
+        Assert.That(decimalReal.ToString("Decimal"), Is.EqualTo("0.25"));
+        Assert.That(real.ToString("General"), Is.EqualTo("3/4"));
+    }
+
+    [Test]
     public void Abs_PositiveValue_ReturnsSameValue()
     {
         var positive = new Real(3, 4);
@@ -828,5 +892,15 @@ public class RealTests
         Assert.That(negativeMidpoint.Round(MidpointRounding.ToZero), Is.EqualTo(new BigInteger(-2)));
         Assert.That(negativeMidpoint.Round(MidpointRounding.ToPositiveInfinity), Is.EqualTo(new BigInteger(-2)));
         Assert.That(negativeMidpoint.Round(MidpointRounding.ToNegativeInfinity), Is.EqualTo(new BigInteger(-3)));
+    }
+
+    [Test]
+    public void Round_InvalidRoundingMode_ThrowsArgumentException()
+    {
+        var real = new Real(5, 2); // 2.5
+        var invalidMode = (MidpointRounding)999;
+
+        var ex = Assert.Throws<ArgumentException>(() => real.Round(invalidMode));
+        Assert.That(ex.Message, Does.Contain("Invalid rounding mode"));
     }
 }
