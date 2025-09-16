@@ -1,25 +1,12 @@
-namespace Z3Wrap.Tests.Unit.Expressions;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
 public class Z3BitVecEdgeCasesTests
 {
-    private Z3Context context = null!;
-
-    [SetUp]
-    public void Setup()
-    {
-        context = new Z3Context();
-    }
-
-    [TearDown]
-    public void Cleanup()
-    {
-        context.Dispose();
-    }
-
     [Test]
     public void SMod_ContextExtension_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var a = context.BitVecConst("a", 8);
         var b = context.BitVecConst("b", 8);
@@ -42,6 +29,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void SMod_WithNegativeValues_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var a = context.BitVecConst("a", 8);
         var b = context.BitVecConst("b", 8);
@@ -66,6 +54,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void Resize_EdgeCases_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Test the uncovered branches in Resize method
 
         // Test same size (should return original)
@@ -89,6 +78,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void SignedResize_EdgeCases_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Test the uncovered branches in SignedResize method
 
         // Test same size (should return original)
@@ -112,6 +102,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void SRem_SizeValidation_EdgeCase_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // This tests the partial coverage in SRem - the size validation branch
 
         // Arrange
@@ -130,6 +121,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void ComplexBitVectorOperations_LargerSizes_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Test with larger bit vector sizes to ensure our operations work beyond 8-bit
 
         // Arrange
@@ -164,6 +156,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void BitVecOperations_WithBoundaryValues_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Test operations with boundary values (0, max values)
 
         // Arrange
@@ -191,6 +184,7 @@ public class Z3BitVecEdgeCasesTests
     [Test]
     public void BitVecOperations_OverflowBehavior_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Test overflow behavior in bit vector operations
 
         // Arrange

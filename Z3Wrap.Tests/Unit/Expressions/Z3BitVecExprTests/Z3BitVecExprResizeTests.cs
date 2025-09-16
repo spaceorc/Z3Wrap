@@ -2,28 +2,71 @@
 
 using Z3Wrap.DataTypes;
 
-namespace Z3Wrap.Tests.Unit.Expressions;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
-public class Z3BitVecResizingTests
+public class Z3BitVecExprResizeTests
 {
-    private Z3Context context = null!;
-
-    [SetUp]
-    public void SetUp()
+    [TestCase(255, 8u, 16u, 255, Description = "Zero-extend 8-bit to 16-bit")]
+    [TestCase(255, 8u, 4u, 15, Description = "Truncate 8-bit to 4-bit")]
+    [TestCase(127, 8u, 16u, 127, Description = "Zero-extend positive value")]
+    public void UnsignedResize_AllVariations_ReturnsExpectedResult(int value, uint fromSize, uint toSize, int expectedResult)
     {
-        context = new Z3Context();
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.BitVec(value, fromSize);
+        var result = x.Resize(toSize, signed: false);
+
+        Assert.That(result.Size, Is.EqualTo(toSize));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetBitVec(result), Is.EqualTo(new BitVec(expectedResult, toSize)));
     }
 
-    [TearDown]
-    public void TearDown()
+    [TestCase(200, 8u, 16u, 65480, Description = "Sign-extend negative value (200 = -56 signed, extends to -56 = 65480 in 16-bit)")]
+    [TestCase(128, 8u, 16u, 65408, Description = "Sign-extend -128 to 16-bit (-128 = 65408 in 16-bit)")]
+    [TestCase(255, 8u, 4u, 15, Description = "Truncate -1 to 4-bit (-1 truncated = 15)")]
+    [TestCase(100, 8u, 16u, 100, Description = "Sign-extend positive value (same as zero-extend)")]
+    [TestCase(127, 8u, 4u, 15, Description = "Truncate positive value")]
+    public void SignedResize_AllVariations_ReturnsExpectedResult(int value, uint fromSize, uint toSize, int expectedResult)
     {
-        context.Dispose();
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.BitVec(value, fromSize);
+        var result = x.Resize(toSize, signed: true);
+
+        Assert.That(result.Size, Is.EqualTo(toSize));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetBitVec(result), Is.EqualTo(new BitVec(expectedResult, toSize)));
+    }
+
+    [TestCase(255, 7u, 0u, 255, 8u, Description = "Extract all 8 bits")]
+    [TestCase(255, 3u, 0u, 15, 4u, Description = "Extract lower 4 bits")]
+    [TestCase(255, 7u, 4u, 15, 4u, Description = "Extract upper 4 bits")]
+    [TestCase(170, 3u, 0u, 10, 4u, Description = "Extract lower bits from alternating pattern")]
+    public void Extract_AllVariations_ReturnsExpectedResult(int value, uint high, uint low, int expectedResult, uint expectedToSize)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.BitVec(value, 8);
+        var result = x.Extract(high, low);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetBitVec(result), Is.EqualTo(new BitVec(expectedResult, expectedToSize)));
     }
 
     [Test]
     public void Extend_ContextMethod_CreatesCorrectExpression()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(42, 8));
         var bv16 = context.Extend(bv8, 8); // Add 8 more bits
 
@@ -38,6 +81,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void Extend_FluentAPI_CreatesCorrectExpression()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(170, 8)); // 0b10101010
         var bv16 = bv8.Extend(8); // Add 8 bits
 
@@ -49,10 +93,10 @@ public class Z3BitVecResizingTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
-
     [Test]
     public void SignedExtend_ContextMethod_PositiveValue()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(85, 8)); // 0b01010101 (positive)
         var bv16 = context.Extend(bv8, 8, signed: true);
 
@@ -67,6 +111,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void SignedExtend_FluentAPI_NegativeValue()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(170, 8)); // 0b10101010 (negative in signed interpretation)
         var bv16 = bv8.Extend(8, signed: true);
 
@@ -83,6 +128,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void Extract_ContextMethod_MiddleBits()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(0b11010011, 8)); // 211
         var extracted = context.Extract(bv8, 5, 2); // Extract bits 5-2
 
@@ -97,6 +143,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void Extract_FluentAPI_SingleBit()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(0b10101010, 8));
         var bit7 = bv8.Extract(7, 7); // MSB
         var bit0 = bv8.Extract(0, 0); // LSB
@@ -114,6 +161,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void Int2BitVec_ContextMethod_CreatesCorrectBitVec()
     {
+        using var context = new Z3Context();
         var intExpr = context.IntConst("x");
         var bvExpr = context.ToBitVec(intExpr, 16);
 
@@ -137,6 +185,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void BitVec2Int_ContextMethod_UnsignedConversion()
     {
+        using var context = new Z3Context();
         var bvExpr = context.BitVec(new BitVec(200, 8));
         var intExpr = context.ToInt(bvExpr); // unsigned
 
@@ -155,6 +204,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void BitVec2Int_FluentAPI_SignedConversion()
     {
+        using var context = new Z3Context();
         var bvExpr = context.BitVec(new BitVec(200, 8)); // 200 unsigned, -56 signed
         var intExpr = bvExpr.ToInt(signed: true);
 
@@ -173,6 +223,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void ToInt_FluentAPI_ReturnsUnsignedValue()
     {
+        using var context = new Z3Context();
         var bvExpr = context.BitVec(new BitVec(200, 8));
         var intExpr = bvExpr.ToInt();
 
@@ -190,6 +241,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void ChainedOperations_WorkCorrectly()
     {
+        using var context = new Z3Context();
         var bv8 = context.BitVec(new BitVec(0b11110000, 8));
         var extracted = bv8.Extract(7, 4); // Get upper 4 bits -> 1111
         var extended = extracted.Extend(4); // Extend to 8 bits -> 00001111
@@ -206,6 +258,7 @@ public class Z3BitVecResizingTests
     [Test]
     public void ComplexResizingScenario_WithModel()
     {
+        using var context = new Z3Context();
         var x = context.BitVecConst("x", 8);
         var y = context.BitVecConst("y", 16);
 
@@ -227,63 +280,5 @@ public class Z3BitVecResizingTests
 
         Assert.That((int)xValue.Value, Is.EqualTo(42));
         Assert.That((int)yValue.Value, Is.EqualTo(58));
-    }
-
-    [Test]
-    public void Resize_ContextMethod_WorksCorrectly()
-    {
-        var bv8 = context.BitVec(new BitVec(42, 8));
-        var bv16 = context.Resize(bv8, 16); // Resize to 16 bits
-
-        Assert.That(bv16.Size, Is.EqualTo(16));
-
-        using var solver = context.CreateSolver();
-        solver.Assert(bv16 == context.BitVec(new BitVec(42, 16)));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Resize_FluentAPI_WorksCorrectly()
-    {
-        var bv8 = context.BitVec(new BitVec(42, 8));
-        var bv16 = bv8.Resize(16); // Resize to 16 bits
-
-        Assert.That(bv16.Size, Is.EqualTo(16));
-
-        using var solver = context.CreateSolver();
-        solver.Assert(bv16 == context.BitVec(new BitVec(42, 16)));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void SignedResize_ContextMethod_WorksCorrectly()
-    {
-        var bv8 = context.BitVec(new BitVec(200, 8)); // -56 in signed 8-bit
-        var bv16 = context.Resize(bv8, 16, signed: true); // Sign extend to 16 bits
-
-        Assert.That(bv16.Size, Is.EqualTo(16));
-
-        using var solver = context.CreateSolver();
-        var expected = new BitVec(-56, 16); // Should be sign-extended
-        solver.Assert(bv16 == context.BitVec(expected));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void SignedResize_FluentAPI_WorksCorrectly()
-    {
-        var bv8 = context.BitVec(new BitVec(200, 8)); // -56 in signed 8-bit
-        var bv16 = bv8.Resize(16, signed: true); // Sign extend to 16 bits
-
-        Assert.That(bv16.Size, Is.EqualTo(16));
-
-        using var solver = context.CreateSolver();
-        var expected = new BitVec(-56, 16); // Should be sign-extended
-        solver.Assert(bv16 == context.BitVec(expected));
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 }

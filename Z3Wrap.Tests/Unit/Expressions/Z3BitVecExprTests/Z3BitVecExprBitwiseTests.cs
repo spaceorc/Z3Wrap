@@ -1,7 +1,6 @@
-using System.Numerics;
 using Z3Wrap.DataTypes;
 
-namespace Z3Wrap.Tests.Unit.Expressions;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
 public class Z3BitVecExprBitwiseTests

@@ -6,23 +6,10 @@ namespace Z3Wrap.Tests.Unit.Extensions;
 [TestFixture]
 public class BitVecBigIntegerExtensionsTests
 {
-    private Z3Context context = null!;
-
-    [SetUp]
-    public void SetUp()
-    {
-        context = new Z3Context();
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        context.Dispose();
-    }
-
     [Test]
     public void BigIntegerArithmetic_SignedDivision_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 16);
         var bigIntValue = BigInteger.Parse("-1000");
@@ -47,6 +34,7 @@ public class BitVecBigIntegerExtensionsTests
     [Test]
     public void BigIntegerArithmetic_SignedRemainder_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test signed remainder with negative operands
         var x = context.BitVecConst("x", 16);
         var bigIntValue = new BigInteger(-23);
@@ -74,6 +62,7 @@ public class BitVecBigIntegerExtensionsTests
     [Test]
     public void BigIntegerComparison_SignedComparisons_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test with values that differ in signed vs unsigned interpretation
         var x = context.BitVecConst("x", 8);
         var signedNegative = new BigInteger(-50); // In 8-bit: 256-50 = 206
@@ -98,6 +87,7 @@ public class BitVecBigIntegerExtensionsTests
     [Test]
     public void BigIntegerShiftOperations_ArithmeticShift_PreservesSignBit()
     {
+        using var context = new Z3Context();
         // Arrange - test arithmetic right shift with BigInteger
         var x = context.BitVecConst("x", 16);
         var shiftAmount = new BigInteger(2);
@@ -124,6 +114,7 @@ public class BitVecBigIntegerExtensionsTests
     [Test]
     public void BigIntegerOperations_LargeValues_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test with large BigInteger values
         var x = context.BitVecConst("x", 64);
         var largeValue = BigInteger.Parse("9223372036854775807"); // Max long value
@@ -147,6 +138,7 @@ public class BitVecBigIntegerExtensionsTests
     [Test]
     public void BigIntegerBitwiseOperations_VariousOperators_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 16);
         var mask = new BigInteger(0xFF00); // Upper 8 bits set
@@ -176,6 +168,7 @@ public class BitVecBigIntegerExtensionsTests
     [Test]
     public void BigIntegerOperations_PowerOfTwo_EdgeCases()
     {
+        using var context = new Z3Context();
         // Arrange - test with powers of 2 which are common edge cases
         var x = context.BitVecConst("x", 32);
         var powerOf2 = BigInteger.Pow(2, 20); // 2^20 = 1048576

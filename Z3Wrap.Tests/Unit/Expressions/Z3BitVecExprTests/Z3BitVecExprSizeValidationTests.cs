@@ -1,28 +1,15 @@
 using Z3Wrap.DataTypes;
 using Z3Wrap.Expressions;
 
-namespace Z3Wrap.Tests.Unit.Expressions;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
 public class Z3BitVecExprSizeValidationTests
 {
-    private Z3Context context = null!;
-
-    [SetUp]
-    public void Setup()
-    {
-        context = new Z3Context();
-    }
-
-    [TearDown]
-    public void Cleanup()
-    {
-        context.Dispose();
-    }
-
     [Test]
     public void ArithmeticOperators_WithMismatchedSizes_ThrowArgumentException()
     {
+        using var context = new Z3Context();
         // Arrange
         var a8 = context.BitVecConst("a", 8);
         var b16 = context.BitVecConst("b", 16);
@@ -44,6 +31,7 @@ public class Z3BitVecExprSizeValidationTests
     [Test]
     public void BitwiseOperators_WithMismatchedSizes_ThrowArgumentException()
     {
+        using var context = new Z3Context();
         // Arrange
         var a8 = context.BitVecConst("a", 8);
         var b32 = context.BitVecConst("b", 32);
@@ -61,6 +49,7 @@ public class Z3BitVecExprSizeValidationTests
     [Test]
     public void ShiftOperators_WithMismatchedSizes_ThrowArgumentException()
     {
+        using var context = new Z3Context();
         // Arrange
         var a16 = context.BitVecConst("a", 16);
         var b8 = context.BitVecConst("b", 8);
@@ -76,6 +65,7 @@ public class Z3BitVecExprSizeValidationTests
     [Test]
     public void ComparisonOperators_WithMismatchedSizes_ThrowArgumentException()
     {
+        using var context = new Z3Context();
         // Arrange
         var a32 = context.BitVecConst("a", 32);
         var b64 = context.BitVecConst("b", 64);
@@ -95,6 +85,7 @@ public class Z3BitVecExprSizeValidationTests
     [Test]
     public void SignedOperations_WithMismatchedSizes_ThrowArgumentException()
     {
+        using var context = new Z3Context();
         // Arrange
         var a8 = context.BitVecConst("a", 8);
         var b16 = context.BitVecConst("b", 16);
@@ -112,6 +103,7 @@ public class Z3BitVecExprSizeValidationTests
     [Test]
     public void ContextExtensions_WithMismatchedSizes_ThrowArgumentException()
     {
+        using var context = new Z3Context();
         // Arrange
         var a8 = context.BitVecConst("a", 8);
         var b16 = context.BitVecConst("b", 16);
@@ -131,6 +123,7 @@ public class Z3BitVecExprSizeValidationTests
     [Test]
     public void SameSizeOperations_DoNotThrowExceptions()
     {
+        using var context = new Z3Context();
         // Arrange
         var a8 = context.BitVecConst("a", 8);
         var b8 = context.BitVecConst("b", 8);
@@ -138,18 +131,19 @@ public class Z3BitVecExprSizeValidationTests
         // Act & Assert - These should NOT throw
         Assert.DoesNotThrow(() =>
         {
-            var _ = a8 + b8;
-            var __ = a8 & b8;
-            var ___ = a8 << b8;
-            var ____ = a8 < b8;
-            var _____ = context.Div(a8, b8, signed: true);
-            var ______ = context.Add(a8, b8);
+            _ = a8 + b8;
+            _ = a8 & b8;
+            _ = a8 << b8;
+            _ = a8 < b8;
+            _ = context.Div(a8, b8, signed: true);
+            _ = context.Add(a8, b8);
         });
     }
 
     [Test]
     public void ImplicitConversion_FromBitVec_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         using var scope = context.SetUp();
         var bitVec = new BitVec(42, 8);

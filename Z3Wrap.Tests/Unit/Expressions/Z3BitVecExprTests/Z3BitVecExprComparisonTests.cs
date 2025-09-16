@@ -1,7 +1,6 @@
 using System.Numerics;
-using Z3Wrap.DataTypes;
 
-namespace Z3Wrap.Tests.Unit.Expressions;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
 public class Z3BitVecExprComparisonTests
@@ -260,6 +259,49 @@ public class Z3BitVecExprComparisonTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedSigned), "BitVec.Ge(BitVec, signed=true) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedSigned), "BitVec.Ge(BigInteger, signed=true) method failed");
+        });
+    }
+
+    [TestCase(42, 42, true, Description = "Equal values: 42 == 42")]
+    [TestCase(42, 100, false, Description = "Different values: 42 == 100")]
+    [TestCase(255, 255, true, Description = "Max values: 255 == 255")]
+    [TestCase(0, 0, true, Description = "Zero values: 0 == 0")]
+    public void Equality_BigIntegerOperators_ReturnsExpectedResult(int left, int right, bool expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.BitVec(left, 8);
+        var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
+
+        // Test BigInteger equality operators (these are the missing ones)
+        var resultBitVecEqBigInt = x == rightBigInt;        // BitVec == BigInteger (operator)
+        var resultBigIntEqBitVec = leftBigInt == y;         // BigInteger == BitVec (operator)
+
+        // Test BigInteger inequality operators (these are also missing)
+        var resultBitVecNeqBigInt = x != rightBigInt;       // BitVec != BigInteger (operator)
+        var resultBigIntNeqBitVec = leftBigInt != y;        // BigInteger != BitVec (operator)
+
+        // Also test regular BitVec equality for comparison
+        var resultBitVecEqBitVec = x == y;                  // BitVec == BitVec (operator)
+        var resultBitVecNeqBitVec = x != y;                 // BitVec != BitVec (operator)
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultBitVecEqBigInt), Is.EqualTo(expectedResult), "BitVec == BigInteger operator failed");
+            Assert.That(model.GetBoolValue(resultBigIntEqBitVec), Is.EqualTo(expectedResult), "BigInteger == BitVec operator failed");
+            Assert.That(model.GetBoolValue(resultBitVecNeqBigInt), Is.EqualTo(!expectedResult), "BitVec != BigInteger operator failed");
+            Assert.That(model.GetBoolValue(resultBigIntNeqBitVec), Is.EqualTo(!expectedResult), "BigInteger != BitVec operator failed");
+
+            // Verify consistency with BitVec == BitVec operators
+            Assert.That(model.GetBoolValue(resultBitVecEqBitVec), Is.EqualTo(expectedResult), "BitVec == BitVec operator consistency check failed");
+            Assert.That(model.GetBoolValue(resultBitVecNeqBitVec), Is.EqualTo(!expectedResult), "BitVec != BitVec operator consistency check failed");
         });
     }
 }

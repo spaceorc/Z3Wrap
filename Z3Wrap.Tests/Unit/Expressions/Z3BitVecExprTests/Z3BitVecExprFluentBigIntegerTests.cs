@@ -1,28 +1,15 @@
 using System.Numerics;
 using Z3Wrap.DataTypes;
 
-namespace Z3Wrap.Tests.Unit.Expressions;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
 public class Z3BitVecExprFluentBigIntegerTests
 {
-    private Z3Context context = null!;
-
-    [SetUp]
-    public void SetUp()
-    {
-        context = new Z3Context();
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        context.Dispose();
-    }
-
     [Test]
     public void FluentAPI_BigIntegerArithmetic_AllOperations_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 32);
         var bigValue1 = new BigInteger(1000000);
@@ -51,6 +38,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerBitwise_AllOperations_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 32);
         var mask = new BigInteger(0xFF00FF00);
@@ -79,6 +67,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerShift_BothDirections_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 32);
         var value = new BigInteger(0x12345678);
@@ -114,6 +103,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerComparison_SignedVsUnsigned_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test with a value that has different signed/unsigned interpretation
         var x = context.BitVecConst("x", 16);
         var negativeAsSigned = new BigInteger(-1000);
@@ -149,6 +139,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerComparison_EdgeCases_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 8);
         var zero = BigInteger.Zero;
@@ -194,6 +185,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerOverflowChecks_VariousScenarios_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 8);
         var largeValue = new BigInteger(200);
@@ -222,6 +214,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerChainedOperations_ComplexExpressions_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange
         var x = context.BitVecConst("x", 32);
         var y = context.BitVecConst("y", 32);
@@ -251,6 +244,7 @@ public class Z3BitVecExprFluentBigIntegerTests
     [Test]
     public void FluentAPI_BigIntegerLargeValues_Performance_WorkCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test with very large BigInteger values
         var x = context.BitVecConst("x", 64);
         var veryLarge = BigInteger.Pow(2, 50); // 2^50

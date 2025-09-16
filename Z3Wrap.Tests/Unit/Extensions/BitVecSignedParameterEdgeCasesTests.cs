@@ -6,23 +6,10 @@ namespace Z3Wrap.Tests.Unit.Extensions;
 [TestFixture]
 public class BitVecSignedParameterEdgeCasesTests
 {
-    private Z3Context context = null!;
-
-    [SetUp]
-    public void SetUp()
-    {
-        context = new Z3Context();
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        context.Dispose();
-    }
-
     [Test]
     public void SignedDivision_NegativeDividendAndDivisor_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test signed division with both operands negative
         var x = context.BitVecConst("x", 16);
         var y = context.BitVecConst("y", 16);
@@ -46,6 +33,7 @@ public class BitVecSignedParameterEdgeCasesTests
     [Test]
     public void SignedRemainder_NegativeDividend_FollowsSignedSemantics()
     {
+        using var context = new Z3Context();
         // Arrange - test signed remainder behavior
         var dividends = new[] { -23, -24, -25, 23, 24, 25 };
         var divisor = 7;
@@ -79,6 +67,7 @@ public class BitVecSignedParameterEdgeCasesTests
     [Test]
     public void SignedComparisons_SignBitBoundary_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test comparisons around the sign bit boundary
         var x = context.BitVecConst("x", 8);
         var y = context.BitVecConst("y", 8);
@@ -107,6 +96,7 @@ public class BitVecSignedParameterEdgeCasesTests
     [Test]
     public void ArithmeticRightShift_NegativeValues_PreservesSignBit()
     {
+        using var context = new Z3Context();
         // Arrange - test arithmetic right shift with various negative values
         var testCases = new[]
         {
@@ -146,6 +136,7 @@ public class BitVecSignedParameterEdgeCasesTests
     [Test]
     public void SignedExtension_VariousBitWidths_PreservesSignBit()
     {
+        using var context = new Z3Context();
         // Arrange - test sign extension across different bit widths
         var testCases = new[]
         {
@@ -193,6 +184,7 @@ public class BitVecSignedParameterEdgeCasesTests
     [Test]
     public void SignedResize_TruncationAndExtension_WorksCorrectly()
     {
+        using var context = new Z3Context();
         // Arrange - test resize operation with both truncation and extension
         var x16 = context.BitVecConst("x16", 16);
         var negativeValue = new BitVec(-1000, 16);
@@ -232,6 +224,7 @@ public class BitVecSignedParameterEdgeCasesTests
     [Test]
     public void SignedToIntConversion_VariousValues_PreservesSignedSemantics()
     {
+        using var context = new Z3Context();
         // Arrange - test ToInt conversion with signed parameter
         var testValues = new[] { -128, -1, 0, 1, 127, 128, 255 }; // Mix of signed/unsigned interpretations
 
