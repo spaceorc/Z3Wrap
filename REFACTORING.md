@@ -327,6 +327,26 @@ Testing both approaches ensures:
 - **Implicit conversions** work correctly within setup scope
 - **All user-expected syntaxes** are validated and supported
 
+### 4. Critical Principle: Test Implicit Conversions Explicitly
+Even when operations work through implicit conversion (rather than explicit overloads), **we must test these syntaxes explicitly** to ensure they work reliably for users.
+
+**Example:**
+```csharp
+// Even if context.Eq(BoolExpr, bool) works through implicit conversion:
+var result1 = context.Eq(boolExpr, true);          // MUST be tested
+var result2 = context.Eq(true, boolExpr);          // MUST be tested
+
+// This ensures users can write natural syntax confidently:
+var equality1 = context.Eq(someExpression, userBoolValue);    // Works
+var equality2 = context.Eq(userBoolValue, someExpression);    // Works
+```
+
+**Why This Matters:**
+- **User confidence**: Users expect natural syntax to work
+- **Regression prevention**: Changes to implicit conversion behavior get caught
+- **Documentation**: Tests serve as examples of supported syntax
+- **Completeness**: Every way a user might write the operation is validated
+
 ## Extended Pattern Recognition
 
 **Apply the complete pattern when:**
