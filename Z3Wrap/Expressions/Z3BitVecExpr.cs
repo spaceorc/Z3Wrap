@@ -41,27 +41,52 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     public Z3BoolExpr Le(BigInteger other, bool signed = false) => Context.Le(this, other, signed);
     public Z3BoolExpr Gt(BigInteger other, bool signed = false) => Context.Gt(this, other, signed);
     public Z3BoolExpr Ge(BigInteger other, bool signed = false) => Context.Ge(this, other, signed);
+    
+    // Arithmetic operations
+    public Z3BitVecExpr Add(Z3BitVecExpr other) => Context.Add(this, other);
+    public Z3BitVecExpr Sub(Z3BitVecExpr other) => Context.Sub(this, other);
+    public Z3BitVecExpr Mul(Z3BitVecExpr other) => Context.Mul(this, other);
+    public Z3BitVecExpr Div(Z3BitVecExpr other, bool signed = false) => Context.Div(this, other, signed);
+    public Z3BitVecExpr Rem(Z3BitVecExpr other, bool signed = false) => Context.Rem(this, other, signed);
+    public Z3BitVecExpr Neg() => Context.Neg(this);
+    
+    // Arithmetic operations with BigInteger
+    public Z3BitVecExpr Add(BigInteger other) => Context.Add(this, other);
+    public Z3BitVecExpr Sub(BigInteger other) => Context.Sub(this, other);
+    public Z3BitVecExpr Mul(BigInteger other) => Context.Mul(this, other);
+    public Z3BitVecExpr Div(BigInteger other, bool signed = false) => Context.Div(this, other, signed);
+    public Z3BitVecExpr Rem(BigInteger other, bool signed = false) => Context.Rem(this, other, signed);
 
     // Signed modulo method (SignedMod is inherently signed-only)
     public Z3BitVecExpr SignedMod(Z3BitVecExpr other) => Context.SignedMod(this, other);
+    public Z3BitVecExpr SignedMod(BigInteger other) => Context.SignedMod(this, other);
 
     // Shift methods (for explicit shift types)
     public Z3BitVecExpr Shl(Z3BitVecExpr amount) => Context.Shl(this, amount);
     public Z3BitVecExpr Shr(Z3BitVecExpr amount, bool signed = false) => Context.Shr(this, amount, signed);
 
+    // Shift methods with BigInteger
+    public Z3BitVecExpr Shl(BigInteger amount) => Context.Shl(this, amount);
+    public Z3BitVecExpr Shr(BigInteger amount, bool signed = false) => Context.Shr(this, amount, signed);
+
     // Overflow/underflow checking methods
     public Z3BoolExpr AddNoOverflow(Z3BitVecExpr other, bool signed = false) => Context.AddNoOverflow(this, other, signed);
+    public Z3BoolExpr SignedAddNoUnderflow(Z3BitVecExpr other) => Context.SignedAddNoUnderflow(this, other);
     public Z3BoolExpr SignedSubNoOverflow(Z3BitVecExpr other) => Context.SignedSubNoOverflow(this, other);
     public Z3BoolExpr SubNoUnderflow(Z3BitVecExpr other, bool signed = true) => Context.SubNoUnderflow(this, other, signed);
     public Z3BoolExpr MulNoOverflow(Z3BitVecExpr other, bool signed = false) => Context.MulNoOverflow(this, other, signed);
     public Z3BoolExpr SignedMulNoUnderflow(Z3BitVecExpr other) => Context.SignedMulNoUnderflow(this, other);
+    public Z3BoolExpr SignedDivNoOverflow(Z3BitVecExpr other) => Context.SignedDivNoOverflow(this, other);
+    public Z3BoolExpr SignedNegNoOverflow() => Context.SignedNegNoOverflow(this);
 
     // Overflow/underflow checking methods with BigInteger
     public Z3BoolExpr AddNoOverflow(BigInteger other, bool signed = false) => Context.AddNoOverflow(this, other, signed);
+    public Z3BoolExpr SignedAddNoUnderflow(BigInteger other) => Context.SignedAddNoUnderflow(this, other);
     public Z3BoolExpr SignedSubNoOverflow(BigInteger other) => Context.SignedSubNoOverflow(this, other);
     public Z3BoolExpr SubNoUnderflow(BigInteger other, bool signed = true) => Context.SubNoUnderflow(this, other, signed);
     public Z3BoolExpr MulNoOverflow(BigInteger other, bool signed = false) => Context.MulNoOverflow(this, other, signed);
     public Z3BoolExpr SignedMulNoUnderflow(BigInteger other) => Context.SignedMulNoUnderflow(this, other);
+    public Z3BoolExpr SignedDivNoOverflow(BigInteger other) => Context.SignedDivNoOverflow(this, other);
 
     // Arithmetic operators (unsigned by default)
     public static Z3BitVecExpr operator +(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Add(left, right);
@@ -80,6 +105,17 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
     // Shift operators (logical by default)
     public static Z3BitVecExpr operator <<(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Shl(left, right);
     public static Z3BitVecExpr operator >>(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Shr(left, right);
+
+    // Bitwise methods
+    public Z3BitVecExpr And(Z3BitVecExpr other) => Context.And(this, other);
+    public Z3BitVecExpr Or(Z3BitVecExpr other) => Context.Or(this, other);
+    public Z3BitVecExpr Xor(Z3BitVecExpr other) => Context.Xor(this, other);
+    public Z3BitVecExpr Not() => Context.Not(this);
+
+    // Bitwise methods with BigInteger
+    public Z3BitVecExpr And(BigInteger other) => Context.And(this, other);
+    public Z3BitVecExpr Or(BigInteger other) => Context.Or(this, other);
+    public Z3BitVecExpr Xor(BigInteger other) => Context.Xor(this, other);
 
     // Comparison operators (unsigned by default)
     public static Z3BoolExpr operator <(Z3BitVecExpr left, Z3BitVecExpr right) => left.Context.Lt(left, right);

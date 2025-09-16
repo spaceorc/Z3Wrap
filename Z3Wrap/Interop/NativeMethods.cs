@@ -173,10 +173,13 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bv2int");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2bv");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd_no_overflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd_no_underflow");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub_no_overflow");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub_no_underflow");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul_no_overflow");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsdiv_no_overflow");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvneg_no_overflow");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_bv_sort_size");
 
             // Solver functions
@@ -827,6 +830,27 @@ public static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    public static IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_underflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddNoUnderflowDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv_no_overflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvDivNoOverflowDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    public static IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvneg_no_overflow");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNegNoOverflowDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
     public static uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
@@ -1072,10 +1096,13 @@ public static class NativeMethods
     private delegate IntPtr Z3MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
     private delegate IntPtr Z3MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
     private delegate IntPtr Z3MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr Z3MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
     private delegate IntPtr Z3MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
     private delegate IntPtr Z3MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr Z3MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
     private delegate uint Z3GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
     
     // Solver delegates
