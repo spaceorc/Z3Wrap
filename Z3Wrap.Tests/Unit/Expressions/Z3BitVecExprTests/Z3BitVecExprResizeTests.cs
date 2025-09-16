@@ -255,6 +255,55 @@ public class Z3BitVecExprResizeTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
+    [TestCase(0b1010, 4u, 2u, 0b10101010, 8u, Description = "Repeat 4-bit pattern twice")]
+    [TestCase(0b11, 2u, 3u, 0b111111, 6u, Description = "Repeat 2-bit pattern three times")]
+    [TestCase(0b1, 1u, 8u, 0b11111111, 8u, Description = "Repeat single bit eight times")]
+    [TestCase(0b101, 3u, 1u, 0b101, 3u, Description = "Repeat once (no change)")]
+    public void Repeat_AllVariations_ReturnsExpectedResult(int value, uint originalSize, uint repeatCount, int expectedResult, uint expectedSize)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.BitVec(value, originalSize);
+        var result = x.Repeat(repeatCount);
+
+        Assert.That(result.Size, Is.EqualTo(expectedSize));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetBitVec(result), Is.EqualTo(new BitVec(expectedResult, expectedSize)));
+    }
+
+    [Test]
+    public void Repeat_ContextMethod_CreatesCorrectExpression()
+    {
+        using var context = new Z3Context();
+        var bv4 = context.BitVec(new BitVec(0b1100, 4));
+        var bv12 = context.Repeat(bv4, 3); // Repeat three times
+
+        Assert.That(bv12.Size, Is.EqualTo(12));
+
+        using var solver = context.CreateSolver();
+        solver.Assert(bv12 == context.BitVec(new BitVec(0b110011001100, 12)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Repeat_FluentAPI_CreatesCorrectExpression()
+    {
+        using var context = new Z3Context();
+        var bv3 = context.BitVec(new BitVec(0b110, 3));
+        var bv9 = bv3.Repeat(3); // Repeat three times
+
+        Assert.That(bv9.Size, Is.EqualTo(9));
+
+        using var solver = context.CreateSolver();
+        solver.Assert(bv9 == context.BitVec(new BitVec(0b110110110, 9)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
     [Test]
     public void ComplexResizingScenario_WithModel()
     {
