@@ -356,6 +356,45 @@ public class RealTests
     }
 
     [Test]
+    public void ImplicitConversion_FromLong_NegativeValue_CreatesNegativeRational()
+    {
+        Real real = -123L;
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(-123)));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsNegative, Is.True);
+    }
+
+    [Test]
+    public void ImplicitConversion_FromLong_ZeroValue_CreatesZero()
+    {
+        Real real = 0L;
+        Assert.That(real.IsZero, Is.True);
+        Assert.That(real.Numerator, Is.EqualTo(BigInteger.Zero));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromLong_MaxValue_HandlesLargeValues()
+    {
+        Real real = long.MaxValue;
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(long.MaxValue)));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsPositive, Is.True);
+    }
+
+    [Test]
+    public void ImplicitConversion_FromLong_MinValue_HandlesLargeNegativeValues()
+    {
+        Real real = long.MinValue;
+        Assert.That(real.Numerator, Is.EqualTo(new BigInteger(long.MinValue)));
+        Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
+        Assert.That(real.IsInteger, Is.True);
+        Assert.That(real.IsNegative, Is.True);
+    }
+
+    [Test]
     public void ImplicitConversion_FromDecimal_CreatesExactRational()
     {
         Real real = 0.25m; // Implicit conversion from decimal
