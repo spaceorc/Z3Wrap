@@ -19,11 +19,14 @@ public class Z3BoolExprLogicalTests
         var y = context.Bool(right);
 
         // Test all variations of AND operation
-        var resultOperatorBool = x & y;                      // Bool & Bool (operator)
-        var resultOperatorRightBool = x & right;             // Bool & bool (operator)
-        var resultOperatorLeftBool = left & y;               // bool & Bool (operator)
-        var resultMethodBool = x.And(y);                     // Bool.And(Bool) (method)
-        var resultContextMethod = context.And(x, y);         // Context.And(Bool, Bool) (method)
+        var resultOperatorBoolExpr = x & y;                  // BoolExpr & BoolExpr (operator)
+        var resultOperatorRightBool = x & right;             // BoolExpr & bool (operator)
+        var resultOperatorLeftBool = left & y;               // bool & BoolExpr (operator)
+        var resultMethodBoolExpr = x.And(y);                 // BoolExpr.And(BoolExpr) (method)
+        var resultMethodBool = x.And(right);                 // BoolExpr.And(bool) (method)
+        var resultContextBoolExpr = context.And(x, y);       // Context.And(BoolExpr, BoolExpr) (method)
+        var resultContextExprBool = context.And(x, right);   // Context.And(BoolExpr, bool) (method)
+        var resultContextBoolExpr2 = context.And(left, y);   // Context.And(bool, BoolExpr) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -31,11 +34,14 @@ public class Z3BoolExprLogicalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultOperatorBool), Is.EqualTo(expectedResult), "Bool & Bool operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorRightBool), Is.EqualTo(expectedResult), "Bool & bool operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorLeftBool), Is.EqualTo(expectedResult), "bool & Bool operator failed");
-            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "Bool.And(Bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextMethod), Is.EqualTo(expectedResult), "Context.And(Bool, Bool) method failed");
+            Assert.That(model.GetBoolValue(resultOperatorBoolExpr), Is.EqualTo(expectedResult), "BoolExpr & BoolExpr operator failed");
+            Assert.That(model.GetBoolValue(resultOperatorRightBool), Is.EqualTo(expectedResult), "BoolExpr & bool operator failed");
+            Assert.That(model.GetBoolValue(resultOperatorLeftBool), Is.EqualTo(expectedResult), "bool & BoolExpr operator failed");
+            Assert.That(model.GetBoolValue(resultMethodBoolExpr), Is.EqualTo(expectedResult), "BoolExpr.And(BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "BoolExpr.And(bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr), Is.EqualTo(expectedResult), "Context.And(BoolExpr, BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultContextExprBool), Is.EqualTo(expectedResult), "Context.And(BoolExpr, bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr2), Is.EqualTo(expectedResult), "Context.And(bool, BoolExpr) method failed");
         });
     }
 
@@ -53,22 +59,28 @@ public class Z3BoolExprLogicalTests
         var y = context.Bool(right);
 
         // Test all variations of OR operation
-        var resultOperatorBool = x | y;                      // Bool | Bool (operator)
-        var resultOperatorRightBool = x | right;             // Bool | bool (operator)
-        var resultOperatorLeftBool = left | y;               // bool | Bool (operator)
-        var resultMethodBool = x.Or(y);                      // Bool.Or(Bool) (method)
-        var resultContextMethod = context.Or(x, y);          // Context.Or(Bool, Bool) (method)
+        var resultOperatorBoolExpr = x | y;                  // BoolExpr | BoolExpr (operator)
+        var resultOperatorRightBool = x | right;             // BoolExpr | bool (operator)
+        var resultOperatorLeftBool = left | y;               // bool | BoolExpr (operator)
+        var resultMethodBoolExpr = x.Or(y);                  // BoolExpr.Or(BoolExpr) (method)
+        var resultMethodBool = x.Or(right);                  // BoolExpr.Or(bool) (method)
+        var resultContextBoolExpr = context.Or(x, y);        // Context.Or(BoolExpr, BoolExpr) (method)
+        var resultContextExprBool = context.Or(x, right);    // Context.Or(BoolExpr, bool) (method)
+        var resultContextBoolExpr2 = context.Or(left, y);    // Context.Or(bool, BoolExpr) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultOperatorBool), Is.EqualTo(expectedResult), "Bool | Bool operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorRightBool), Is.EqualTo(expectedResult), "Bool | bool operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorLeftBool), Is.EqualTo(expectedResult), "bool | Bool operator failed");
-            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "Bool.Or(Bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextMethod), Is.EqualTo(expectedResult), "Context.Or(Bool, Bool) method failed");
+            Assert.That(model.GetBoolValue(resultOperatorBoolExpr), Is.EqualTo(expectedResult), "BoolExpr | BoolExpr operator failed");
+            Assert.That(model.GetBoolValue(resultOperatorRightBool), Is.EqualTo(expectedResult), "BoolExpr | bool operator failed");
+            Assert.That(model.GetBoolValue(resultOperatorLeftBool), Is.EqualTo(expectedResult), "bool | BoolExpr operator failed");
+            Assert.That(model.GetBoolValue(resultMethodBoolExpr), Is.EqualTo(expectedResult), "BoolExpr.Or(BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "BoolExpr.Or(bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr), Is.EqualTo(expectedResult), "Context.Or(BoolExpr, BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultContextExprBool), Is.EqualTo(expectedResult), "Context.Or(BoolExpr, bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr2), Is.EqualTo(expectedResult), "Context.Or(bool, BoolExpr) method failed");
         });
     }
 

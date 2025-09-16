@@ -19,8 +19,11 @@ public class Z3BoolExprImplicationTests
         var q = context.Bool(consequent);
 
         // Test all variations of IMPLIES operation
-        var resultMethod = p.Implies(q);                     // Bool.Implies(Bool) (method)
-        var resultContextMethod = context.Implies(p, q);     // Context.Implies(Bool, Bool) (method)
+        var resultMethodBoolExpr = p.Implies(q);             // BoolExpr.Implies(BoolExpr) (method)
+        var resultMethodBool = p.Implies(consequent);        // BoolExpr.Implies(bool) (method)
+        var resultContextBoolExpr = context.Implies(p, q);   // Context.Implies(BoolExpr, BoolExpr) (method)
+        var resultContextExprBool = context.Implies(p, consequent); // Context.Implies(BoolExpr, bool) (method)
+        var resultContextBoolExpr2 = context.Implies(antecedent, q); // Context.Implies(bool, BoolExpr) (method)
 
         // Test equivalent form: p → q ≡ !p | q
         var equivalentForm = !p | q;
@@ -30,8 +33,11 @@ public class Z3BoolExprImplicationTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultMethod), Is.EqualTo(expectedResult), "Bool.Implies(Bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextMethod), Is.EqualTo(expectedResult), "Context.Implies(Bool, Bool) method failed");
+            Assert.That(model.GetBoolValue(resultMethodBoolExpr), Is.EqualTo(expectedResult), "BoolExpr.Implies(BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "BoolExpr.Implies(bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr), Is.EqualTo(expectedResult), "Context.Implies(BoolExpr, BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultContextExprBool), Is.EqualTo(expectedResult), "Context.Implies(BoolExpr, bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr2), Is.EqualTo(expectedResult), "Context.Implies(bool, BoolExpr) method failed");
             Assert.That(model.GetBoolValue(equivalentForm), Is.EqualTo(expectedResult), "Equivalent form (!p | q) failed");
         });
     }
@@ -50,8 +56,11 @@ public class Z3BoolExprImplicationTests
         var q = context.Bool(right);
 
         // Test all variations of IFF (biconditional) operation
-        var resultMethod = p.Iff(q);                         // Bool.Iff(Bool) (method)
-        var resultContextMethod = context.Iff(p, q);         // Context.Iff(Bool, Bool) (method)
+        var resultMethodBoolExpr = p.Iff(q);                 // BoolExpr.Iff(BoolExpr) (method)
+        var resultMethodBool = p.Iff(right);                 // BoolExpr.Iff(bool) (method)
+        var resultContextBoolExpr = context.Iff(p, q);       // Context.Iff(BoolExpr, BoolExpr) (method)
+        var resultContextExprBool = context.Iff(p, right);   // Context.Iff(BoolExpr, bool) (method)
+        var resultContextBoolExpr2 = context.Iff(left, q);   // Context.Iff(bool, BoolExpr) (method)
 
         // Test equivalent form: p ↔ q ≡ (p → q) & (q → p)
         var equivalentForm = p.Implies(q) & q.Implies(p);
@@ -64,8 +73,11 @@ public class Z3BoolExprImplicationTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultMethod), Is.EqualTo(expectedResult), "Bool.Iff(Bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextMethod), Is.EqualTo(expectedResult), "Context.Iff(Bool, Bool) method failed");
+            Assert.That(model.GetBoolValue(resultMethodBoolExpr), Is.EqualTo(expectedResult), "BoolExpr.Iff(BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "BoolExpr.Iff(bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr), Is.EqualTo(expectedResult), "Context.Iff(BoolExpr, BoolExpr) method failed");
+            Assert.That(model.GetBoolValue(resultContextExprBool), Is.EqualTo(expectedResult), "Context.Iff(BoolExpr, bool) method failed");
+            Assert.That(model.GetBoolValue(resultContextBoolExpr2), Is.EqualTo(expectedResult), "Context.Iff(bool, BoolExpr) method failed");
             Assert.That(model.GetBoolValue(equivalentForm), Is.EqualTo(expectedResult), "Equivalent form (p → q) & (q → p) failed");
             Assert.That(model.GetBoolValue(anotherEquivalentForm), Is.EqualTo(expectedResult), "Equivalent form (p & q) | (!p & !q) failed");
         });
