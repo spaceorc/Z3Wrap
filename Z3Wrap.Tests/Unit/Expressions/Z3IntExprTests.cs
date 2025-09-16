@@ -1,3 +1,5 @@
+using Z3Wrap.Expressions;
+
 namespace Z3Wrap.Tests.Unit.Expressions;
 
 [TestFixture]
@@ -982,6 +984,144 @@ public class Z3IntExprTests
         solver.Reset();
         solver.Assert(context.Eq(x, context.Int(7)));
         solver.Assert(context.Eq(result, context.Int(7)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_ValidSize_CreatesBitVecExpr()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var bitVecResult = x.ToBitVec(8);
+
+        Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(bitVecResult.Context, Is.SameAs(context));
+        Assert.That(bitVecResult.Size, Is.EqualTo(8u));
+
+        // Test converting integer 42 to 8-bit bitvector
+        solver.Assert(context.Eq(x, context.Int(42)));
+        var expected = context.BitVec(42, 8);
+        solver.Assert(context.Eq(bitVecResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_DifferentSizes_CreatesBitVecWithCorrectSize()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+
+        var bv16 = x.ToBitVec(16);
+        var bv32 = x.ToBitVec(32);
+        var bv64 = x.ToBitVec(64);
+
+        Assert.That(bv16.Size, Is.EqualTo(16u));
+        Assert.That(bv32.Size, Is.EqualTo(32u));
+        Assert.That(bv64.Size, Is.EqualTo(64u));
+
+        // Test that all represent the same value
+        solver.Assert(context.Eq(x, context.Int(255)));
+        solver.Assert(context.Eq(bv16, context.BitVec(255, 16)));
+        solver.Assert(context.Eq(bv32, context.BitVec(255, 32)));
+        solver.Assert(context.Eq(bv64, context.BitVec(255, 64)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToReal_IntExpr_CreatesRealExpr()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var realResult = x.ToReal();
+
+        Assert.That(realResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(realResult.Context, Is.SameAs(context));
+
+        // Test converting integer 42 to real
+        solver.Assert(context.Eq(x, context.Int(42)));
+        var expected = context.Real(42);
+        solver.Assert(context.Eq(realResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToReal_NegativeInt_CreatesNegativeReal()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var realResult = x.ToReal();
+
+        // Test converting negative integer to real
+        solver.Assert(context.Eq(x, context.Int(-15)));
+        var expected = context.Real(-15);
+        solver.Assert(context.Eq(realResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromLong_CreatesIntExpr()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Test implicit conversion from long
+        Z3IntExpr longResult = 9223372036854775807L; // long.MaxValue
+
+        Assert.That(longResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(longResult.Context, Is.SameAs(context));
+
+        // Verify the value is correct
+        var expected = context.Int(9223372036854775807L);
+        solver.Assert(context.Eq(longResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromNegativeLong_CreatesNegativeIntExpr()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Test implicit conversion from negative long
+        Z3IntExpr negativeLongResult = -9223372036854775808L; // long.MinValue
+
+        Assert.That(negativeLongResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(negativeLongResult.Context, Is.SameAs(context));
+
+        // Verify the value is correct
+        var expected = context.Int(-9223372036854775808L);
+        solver.Assert(context.Eq(negativeLongResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ImplicitConversion_LongInArithmetic_WorksCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+
+        // Test long implicit conversion in arithmetic operations
+        var result = x + 1000000000000L; // Large long value
+
+        Assert.That(result.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(result.Context, Is.SameAs(context));
+
+        // Test x + 1000000000000L where x = 5 equals 1000000000005L
+        solver.Assert(context.Eq(x, context.Int(5)));
+        solver.Assert(context.Eq(result, context.Int(1000000000005L)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 }
