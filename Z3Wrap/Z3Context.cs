@@ -9,7 +9,7 @@ public class Z3Context : IDisposable
     private readonly HashSet<IntPtr> trackedExpressions = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
     private IntPtr configHandle;
-    private IntPtr contextHandle;
+    public IntPtr contextHandle;
     private bool disposed;
 
     public Z3Context()
