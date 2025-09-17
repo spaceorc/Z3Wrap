@@ -82,7 +82,7 @@ jobs:
           # Extract content between [Unreleased] or [VERSION] and next version
           CHANGELOG_CONTENT=$(awk -v version="$VERSION" '
             BEGIN { found=0; in_section=0 }
-            /^## \[Unreleased\]/ || /^## \[0\.0\.1\]/ || $0 ~ "## \\[" version "\\]" {
+            $0 ~ "## \\[" version "\\]" || /^## \[Unreleased\]/ {
               if (!found) { found=1; in_section=1; next }
             }
             /^## \[/ && in_section && found { in_section=0 }
