@@ -1,6 +1,7 @@
+using Spaceorc.Z3Wrap;
 using System.Numerics;
-using Z3Wrap.DataTypes;
-using Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.DataTypes;
+using Spaceorc.Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BoolExprTests;
 

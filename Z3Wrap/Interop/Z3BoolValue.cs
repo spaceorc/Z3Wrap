@@ -1,4 +1,4 @@
-namespace Z3Wrap.Interop;
+namespace Spaceorc.Z3Wrap.Interop;
 
 public enum Z3BoolValue
 {

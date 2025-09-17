@@ -1,8 +1,8 @@
 using System.Numerics;
-using Z3Wrap.Expressions;
-using Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Interop;
 
-namespace Z3Wrap;
+namespace Spaceorc.Z3Wrap;
 
 public static partial class Z3ContextExtensions
 {

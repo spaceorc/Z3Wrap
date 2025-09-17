@@ -1,6 +1,6 @@
-using Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.Interop;
 
-namespace Z3Wrap;
+namespace Spaceorc.Z3Wrap;
 
 public class Z3Context : IDisposable
 {

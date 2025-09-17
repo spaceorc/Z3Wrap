@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap;
 using System.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;

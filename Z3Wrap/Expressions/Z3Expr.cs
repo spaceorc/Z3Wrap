@@ -1,6 +1,6 @@
-using Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.Interop;
 
-namespace Z3Wrap.Expressions;
+namespace Spaceorc.Z3Wrap.Expressions;
 
 public abstract partial class Z3Expr(Z3Context context, IntPtr handle)
 {

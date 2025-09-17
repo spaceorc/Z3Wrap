@@ -1,4 +1,4 @@
-namespace Z3Wrap;
+namespace Spaceorc.Z3Wrap;
 
 public enum Z3Status
 {

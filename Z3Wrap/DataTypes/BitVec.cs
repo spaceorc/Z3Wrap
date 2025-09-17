@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Text;
 
-namespace Z3Wrap.DataTypes;
+namespace Spaceorc.Z3Wrap.DataTypes;
 
 public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormattable
 {

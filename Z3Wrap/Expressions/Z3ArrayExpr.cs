@@ -1,4 +1,4 @@
-namespace Z3Wrap.Expressions;
+namespace Spaceorc.Z3Wrap.Expressions;
 
 public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3Expr(context, handle)
     where TIndex : Z3Expr

@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 
-namespace Z3Wrap.DataTypes;
+namespace Spaceorc.Z3Wrap.DataTypes;
 
 public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
 {

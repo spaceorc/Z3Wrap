@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap;
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]

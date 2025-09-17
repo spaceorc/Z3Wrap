@@ -1,9 +1,9 @@
-using Z3Wrap.DataTypes;
-using Z3Wrap.Expressions;
-using Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.DataTypes;
+using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Interop;
 using System.Numerics;
 
-namespace Z3Wrap;
+namespace Spaceorc.Z3Wrap;
 
 public static partial class Z3ContextExtensions
 {

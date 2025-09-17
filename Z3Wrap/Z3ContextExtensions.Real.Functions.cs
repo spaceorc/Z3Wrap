@@ -1,6 +1,6 @@
-using Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Expressions;
 
-namespace Z3Wrap;
+namespace Spaceorc.Z3Wrap;
 
 public static partial class Z3ContextExtensions
 {

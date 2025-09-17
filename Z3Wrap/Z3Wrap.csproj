@@ -5,6 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
+        <!-- Assembly and namespace naming -->
+        <AssemblyName>Spaceorc.Z3Wrap</AssemblyName>
+        <RootNamespace>Spaceorc.Z3Wrap</RootNamespace>
+
         <!-- NuGet Package Properties -->
         <PackageId>Spaceorc.Z3Wrap</PackageId>
         <Version>1.0.0</Version>

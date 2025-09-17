@@ -1,10 +1,10 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
-using Z3Wrap.DataTypes;
-using Z3Wrap.Expressions;
-using Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.DataTypes;
+using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Interop;
 
-namespace Z3Wrap;
+namespace Spaceorc.Z3Wrap;
 
 public sealed class Z3Model
 {

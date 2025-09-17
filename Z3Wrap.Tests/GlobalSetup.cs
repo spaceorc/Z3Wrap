@@ -1,4 +1,4 @@
-using Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.Interop;
 
 namespace Z3Wrap.Tests;
 
