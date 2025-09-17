@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 43 comprehensive unit tests covering all operations and edge cases
   - Complete API consistency with existing Z3Wrap BigInteger patterns
 
+### Changed
+- Enhanced NuGet package publishing workflow to automatically include GitHub release notes
+
 ## [0.0.4] - 2025-09-17
 
 ### Fixed
