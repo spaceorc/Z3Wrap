@@ -36,10 +36,54 @@ jobs:
       run: |
         echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
-    - name: Update project version
+    - name: Fetch release notes from GitHub
+      id: release_notes
       run: |
+        VERSION="${{ github.event.inputs.version }}"
+        TAG="v$VERSION"
+
+        # Fetch release notes from GitHub API
+        RELEASE_NOTES=$(curl -s \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG" \
+          | jq -r '.body // empty')
+
+        if [ -z "$RELEASE_NOTES" ]; then
+          echo "No release found for tag $TAG, using default release notes"
+          RELEASE_NOTES="Release $VERSION - See https://github.com/${{ github.repository }}/releases/tag/$TAG for details"
+        else
+          echo "Found release notes for $TAG"
+          # Clean up release notes for XML: escape special characters and remove markdown formatting
+          RELEASE_NOTES=$(echo "$RELEASE_NOTES" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g')
+          # Remove markdown headers and simplify formatting for NuGet
+          RELEASE_NOTES=$(echo "$RELEASE_NOTES" | sed 's/^### /- /g; s/^## /- /g; s/^# //g')
+        fi
+
+        # Save release notes to environment variable (escape for multiline)
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+        echo "$RELEASE_NOTES" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+        echo "Release notes prepared for version $VERSION"
+
+    - name: Update project version and release notes
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+
+        # Update project version
         sed -i "s/<Version>.*<\/Version>/<Version>$VERSION<\/Version>/" Z3Wrap/Z3Wrap.csproj
-        echo "Updated version to $VERSION"
+        echo "Updated project version to $VERSION"
+
+        # Add or update PackageReleaseNotes
+        if grep -q "<PackageReleaseNotes>" Z3Wrap/Z3Wrap.csproj; then
+          # Update existing PackageReleaseNotes
+          sed -i "s|<PackageReleaseNotes>.*</PackageReleaseNotes>|<PackageReleaseNotes>$RELEASE_NOTES</PackageReleaseNotes>|" Z3Wrap/Z3Wrap.csproj
+        else
+          # Add PackageReleaseNotes after Description
+          sed -i "s|</Description>|</Description>\n        <PackageReleaseNotes>$RELEASE_NOTES</PackageReleaseNotes>|" Z3Wrap/Z3Wrap.csproj
+        fi
+        echo "Updated PackageReleaseNotes with release notes from GitHub"
 
     - name: Build
       run: dotnet build --configuration Release --no-restore

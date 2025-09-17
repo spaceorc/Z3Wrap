@@ -30,7 +30,7 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-        <!-- Package Release Notes: Automatically sourced from GitHub releases -->
+        <!-- Package Release Notes: Will be updated by publish workflow -->
     </PropertyGroup>
 
     <!-- Include README in NuGet package -->
