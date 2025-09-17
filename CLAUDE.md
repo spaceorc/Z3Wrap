@@ -188,6 +188,141 @@ solver.Assert(bv + context.BitVec(5, 32) == context.BitVec(15, 32));
 - Use descriptive test method names following pattern: `MethodName_Scenario_ExpectedResult`
 - Test files are organized hierarchically by expression type and functionality
 
+## README Validation Framework
+
+**CRITICAL**: All examples in README.md are automatically validated by comprehensive tests in `Z3Wrap.Tests/Unit/ReadmeExamplesTests.cs`. This ensures users can copy-paste examples with 100% confidence they will work.
+
+### Core Principles
+
+1. **Exact README Match**: Test code must be **IDENTICAL** to README examples - no modifications, no extras
+2. **Executable Guarantee**: Every README example must compile and run successfully
+3. **Console Output Validation**: Examples with console output must produce deterministic, verifiable results
+4. **Comprehensive Verification**: Test all variables, results, and side effects from README examples
+
+### Test Structure Pattern
+
+**MANDATORY**: All README validation tests must follow this exact pattern:
+
+```csharp
+[Test]
+public void TestName_WorksCorrectly()
+{
+    #region Preparation
+
+    using var console = new ConsoleCapture();  // Only when README shows console output
+    using var context = new Z3Context();
+    using var scope = context.SetUp();
+    // ... setup variables needed for README example
+
+    #endregion
+
+    #region Example from README.md (lines X-Y)
+
+    // EXACT copy of README code - ZERO modifications
+    // This section must be copy-pastable from README
+    // No extra variables, no different syntax, no shortcuts
+
+    #endregion
+
+    #region Assertions
+
+    // Verify console output matches exactly (when applicable)
+    Assert.That(console.Output, Is.EqualTo("""
+                                           expected line 1
+                                           expected line 2
+
+                                           """));
+
+    // Verify all variables work as expected
+    Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    Assert.That(someVariable.SomeProperty, Is.EqualTo(expectedValue));
+    // ... comprehensive verification of ALL variables used in example
+
+    #endregion
+}
+```
+
+### ConsoleCapture Utility
+
+**REQUIRED**: Use the `ConsoleCapture` nested class for safe console output testing:
+
+```csharp
+private sealed class ConsoleCapture : IDisposable
+{
+    private readonly TextWriter originalOut;
+    private readonly StringWriter stringWriter;
+
+    public ConsoleCapture()
+    {
+        originalOut = Console.Out;
+        stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+    }
+
+    public string Output => stringWriter.ToString();
+
+    public void Dispose()
+    {
+        Console.SetOut(originalOut);  // CRITICAL: Restore original output
+        stringWriter.Dispose();
+    }
+}
+```
+
+**Benefits**:
+- ✅ Automatic console restoration on dispose
+- ✅ Thread-safe per-test isolation
+- ✅ No console output leakage between tests
+- ✅ Clean `using var console = new ConsoleCapture();` syntax
+
+### README Update Process
+
+**MANDATORY WORKFLOW**: When updating README.md examples:
+
+1. **Update README.md** - Make your documentation changes
+2. **Update corresponding test** - Modify `ReadmeExamplesTests.cs` to match **exactly**
+3. **Run validation** - `dotnet test --filter "ReadmeExamplesTests"`
+4. **Fix any failures** - Ensure 100% pass rate before committing
+5. **Verify full test suite** - `dotnet test` (all 1100+ tests must pass)
+
+### Validation Rules
+
+**NEVER VIOLATE**:
+- ❌ Do not modify README examples in tests - copy exactly
+- ❌ Do not add code not shown in README
+- ❌ Do not use different variable names or syntax
+- ❌ Do not skip testing any variables created in examples
+- ❌ Do not use approximate assertions - be precise
+
+**ALWAYS DO**:
+- ✅ Copy README code exactly into test `#region Example from README.md`
+- ✅ Test console output with exact string matching using raw string literals
+- ✅ Verify every variable and result from the README example
+- ✅ Use proper region organization for clean separation
+- ✅ Place `ConsoleCapture` class at the end following C# conventions
+
+### Example Coverage
+
+The `ReadmeExamplesTests.cs` currently validates:
+- **Hero Section**: Basic usage with natural syntax and console output
+- **Natural Syntax**: Comparison showing Z3Wrap vs raw Z3 API
+- **Unlimited Precision**: BigInteger and exact rational arithmetic
+- **Type Safety**: Generic arrays and seamless type conversions
+- **Custom Data Types**: Real and BitVec classes with operations
+- **BitVector Operations**: Binary operations and boundary checking
+- **Solver Backtracking**: Push/pop for constraint exploration
+- **Feature Set**: Comprehensive operator coverage across all types
+
+**RESULT**: Users can copy any README example with 100% confidence it will work exactly as shown.
+
+### Maintenance
+
+**ONGOING RESPONSIBILITY**:
+- README examples are **living documentation** - they must always work
+- CI will fail if any README example breaks
+- This validation framework prevents documentation rot
+- All future README changes must include corresponding test updates
+
 ## Git Commit Policy
 
 **❌ NEVER COMMIT WITHOUT EXPLICIT PERMISSION ❌**

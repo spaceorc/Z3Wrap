@@ -1,152 +1,142 @@
 # Z3Wrap
 
-A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision arithmetic.
+Write `x + y == 10` instead of verbose Z3 API calls. Natural C# syntax for Microsoft's Z3 theorem prover with unlimited precision arithmetic.
 
-[![CI](https://github.com/spaceorc/Z3Wrap/workflows/CI/badge.svg)](https://github.com/spaceorc/Z3Wrap/actions)
+[![NuGet](https://img.shields.io/nuget/v/Spaceorc.Z3Wrap.svg)](https://www.nuget.org/packages/Spaceorc.Z3Wrap/)
 [![Tests](https://img.shields.io/endpoint?url=https://spaceorc.github.io/Z3Wrap/badges/tests.json)](https://github.com/spaceorc/Z3Wrap/actions)
 [![Coverage](https://img.shields.io/endpoint?url=https://spaceorc.github.io/Z3Wrap/badges/coverage.json)](https://github.com/spaceorc/Z3Wrap/actions)
-[![NuGet](https://img.shields.io/nuget/v/Spaceorc.Z3Wrap.svg)](https://www.nuget.org/packages/Spaceorc.Z3Wrap/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Spaceorc.Z3Wrap.svg)](https://www.nuget.org/packages/Spaceorc.Z3Wrap/)
-[![.NET](https://img.shields.io/badge/.NET-9.0-blue.svg)]()
-
-## Features
-
-- **Unlimited Precision** - BigInteger integers, exact rational arithmetic
-- **Natural Syntax** - `x + y == 10`, `p.Implies(q)` instead of verbose Z3 API
-- **Type Safety** - Generic arrays, strongly typed expressions with operator overloading
-- **Complete Z3 Support** - Booleans, integers, reals, bitvectors, arrays with full operators
-- **Safety Checks** - Fluent boundary check API for bitvector overflow/underflow detection
-- **Zero Configuration** - Auto-discovers Z3 library on Windows, macOS, Linux
-
-## Quick Start
-
-### Installation
-
-#### Package Manager
-
-Install the NuGet package:
-
-```bash
-dotnet add package Spaceorc.Z3Wrap
-```
-
-Or via Package Manager Console in Visual Studio:
-```powershell
-Install-Package Spaceorc.Z3Wrap
-```
-
-#### Prerequisites
-
-Install Z3 (automatically discovered by Z3Wrap):
-
-```bash
-# macOS
-brew install z3
-
-# Ubuntu/Debian
-sudo apt-get install libz3-4
-
-# Windows - Download from https://github.com/Z3Prover/z3/releases
-```
-
-#### From Source (Development)
-
-```bash
-git clone https://github.com/spaceorc/Z3Wrap.git
-cd Z3Wrap
-dotnet build
-dotnet test  # 553+ comprehensive tests
-```
-
-### Basic Usage
 
 ```csharp
 using var context = new Z3Context();
-using var scope = context.SetUp();  // Enable natural syntax
+using var scope = context.SetUp();
 
 var x = context.IntConst("x");
 var y = context.IntConst("y");
 
 using var solver = context.CreateSolver();
-solver.Assert(x > 0);
-solver.Assert(y > 0);
-solver.Assert(x + y == 10);  // Natural mathematical syntax
-solver.Assert(x * 2 == y - 1);
+solver.Assert(x + y == 10);        // Natural syntax
+solver.Assert(x * 2 == y - 1);     // Mathematical operators
 
 if (solver.Check() == Z3Status.Satisfiable)
 {
     var model = solver.GetModel();
-    Console.WriteLine($"x = {model.GetIntValue(x)}");  // BigInteger result
+    Console.WriteLine($"x = {model.GetIntValue(x)}");  // BigInteger
     Console.WriteLine($"y = {model.GetIntValue(y)}");
 }
 ```
 
-## Key Examples
+## Why Z3Wrap?
+
+### Natural Syntax vs Z3 API
+```csharp
+// Z3Wrap - readable
+solver.Assert(x + y == 10);
+solver.Assert(p.Implies(q & r));
+
+// Raw Z3 - verbose
+solver.Assert(ctx.MkEq(ctx.MkAdd(x, y), ctx.MkInt(10)));
+solver.Assert(ctx.MkImplies(p, ctx.MkAnd(q, r)));
+```
 
 ### Unlimited Precision
 ```csharp
-// BigInteger integers
+using System.Numerics;
+
+// BigInteger - no integer overflow
 var huge = BigInteger.Parse("999999999999999999999999999999");
-solver.Assert(x == huge); // No overflow!
+solver.Assert(x == huge);
 
-// Exact rationals
-solver.Assert(y == new Real(1, 3));      // Exactly 1/3
-solver.Assert(y + new Real(1, 6) == new Real(1, 2)); // Exact arithmetic
+// Exact rationals - no floating point errors
+var r = context.RealConst("r");
+solver.Assert(r == new Real(1, 3));  // Exactly 1/3
+solver.Assert(r * 3 == 1);           // Perfect arithmetic
 ```
 
-### Type Conversions & Arrays
+### Type Safety
 ```csharp
-// Mixed-type arithmetic
-solver.Assert(x.ToReal() + y == 5.5m);  // Int → Real
-solver.Assert(y.ToInt() % 2 == 0);      // Real → Int
-
-// Type-safe arrays
+// Compile-time type checking
 var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
-solver.Assert(prices[0] == 10.5m);
-solver.Assert(prices[1] > prices[0]);
+solver.Assert(prices[0] == 10.5m);   // Index: Int, Value: Real
+solver.Assert(prices[1] > prices[0]); // Type-safe comparisons
+
+// Seamless conversions
+solver.Assert(x.ToReal() + r == 5.5m);  // Int → Real
 ```
 
-### BitVectors & Solver Scopes
+### Custom .NET Data Types
 ```csharp
-// BitVectors with natural operators
+// Real class - exact rational arithmetic (not decimal/double)
+var oneThird = new Real(1, 3);
+var twoThirds = new Real(2, 3);
+Console.WriteLine(oneThird + twoThirds);  // "1" (exact)
+
+// BitVec class - proper .NET bitvector type with operations
+var bv8 = new BitVec(0b10101010, 8);
+var bv16 = bv8.Resize(16);       // Zero-extend to 16 bits
+var extracted = bv8.Extract(7, 4); // Extract bits 7-4
+Console.WriteLine(bv8.ToInt());     // 170
+Console.WriteLine(bv8.ToBinaryString()); // "10101010"
+
+// Direct arithmetic and bitwise operations
+var result = bv8 + new BitVec(5, 8);   // BitVec arithmetic
+var masked = bv8 & 0xFF;               // Bitwise operations
+```
+
+## Installation
+
+```bash
+dotnet add package Spaceorc.Z3Wrap
+brew install z3  # macOS (or apt-get install libz3-4 on Linux)
+```
+
+Z3 library is auto-discovered on Windows/macOS/Linux.
+
+## Complete Feature Set
+
+- **Booleans**: `p & q`, `p | q`, `!p`, `p.Implies(q)`
+- **Integers**: BigInteger arithmetic with `+`, `-`, `*`, `/`, `%`
+- **Reals**: Exact rational arithmetic with `Real(1,3)` fractions
+- **BitVectors**: Binary ops `&`, `|`, `^`, `~`, `<<`, `>>` with overflow checks
+- **Arrays**: Generic `Z3ArrayExpr<TIndex, TValue>` with natural indexing
+- **Solver**: Push/pop scopes for constraint backtracking
+
+## Advanced Examples
+
+### BitVector Operations
+```csharp
 var bv = context.BitVecConst("bv", 32);
-solver.Assert(bv + 0x10 == 0b11010000);  // Arithmetic with literals
-solver.Assert((bv & 0xFF) != 0);         // Bitwise operations
 
-// Boundary checking with fluent API
+solver.Assert((bv & 0xFF) == 0x42);      // Bitwise operations
+solver.Assert(bv << 2 == bv * 4);        // Shift equivalence
+solver.Assert((bv ^ 0xFFFFFFFF) == ~bv); // XOR/NOT relationship
+
+// Overflow detection
 solver.Assert(context.BitVecBoundaryCheck().Add(bv, 100).NoOverflow());
-solver.Assert(context.BitVecBoundaryCheck().Mul(bv, 2).Overflow(signed: true));
+```
 
-// Solver backtracking
+### Solver Backtracking
+```csharp
 solver.Push();
 solver.Assert(x < 10);
-Console.WriteLine($"Status: {solver.Check()}");
-solver.Pop();  // Backtrack
+if (solver.Check() == Z3Status.Unsatisfiable) {
+    solver.Pop();  // Backtrack
+    solver.Assert(x >= 10);
+}
 ```
 
 ## Architecture
 
+Reference-counted contexts with automatic memory management. No manual disposal needed for expressions.
+
 ```
 Z3Expr (abstract)
-├── Z3BoolExpr     - Boolean logic with &, |, !, Implies()
-├── Z3IntExpr      - BigInteger unlimited precision arithmetic
-├── Z3RealExpr     - Exact rational arithmetic with Real class
-├── Z3BitVecExpr   - Fixed-width integers with bitwise operators
-└── Z3ArrayExpr<T> - Generic type-safe arrays with indexing
+├── Z3BoolExpr     - Boolean logic
+├── Z3IntExpr      - BigInteger arithmetic
+├── Z3RealExpr     - Exact rational arithmetic
+├── Z3BitVecExpr   - Fixed-width binary operations
+└── Z3ArrayExpr<T> - Generic type-safe arrays
 ```
 
-**Memory Management**: Reference-counted contexts automatically manage all expressions and solvers.
+**Requirements**: .NET 9.0+, Z3 library (auto-discovered)
 
-```csharp
-using var context = new Z3Context();  // Auto-disposes everything
-var solver = context.CreateSolver();  // No manual disposal needed
-```
-
-## Requirements
-
-- **.NET 9.0+**
-- **Z3 Library** - Auto-discovered or download from [Z3 releases](https://github.com/Z3Prover/z3/releases)
-
-## License
-
-MIT License
+**License**: MIT
