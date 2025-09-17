@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Fluent BitVector boundary check API with comprehensive BigInteger support
+  - New `BitVecBoundaryCheck()` extension method for natural boundary constraint syntax
+  - Support for Add, Sub, Mul, Div, Neg operations with full BigInteger overloads
+  - Both positive (`NoOverflow`, `NoUnderflow`) and negative (`Overflow`, `Underflow`) boundary checks
+  - Corrected negation boundary logic for proper signed/unsigned behavior
+  - 43 comprehensive unit tests covering all operations and edge cases
+  - Complete API consistency with existing Z3Wrap BigInteger patterns
+
 ## [0.0.4] - 2025-09-17
 
 ### Fixed
