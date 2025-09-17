@@ -5,14 +5,14 @@ This document provides the exact step-by-step process for releasing Z3Wrap versi
 ## Quick Reference
 
 ### Prerelease
-1. Add `## [0.0.2] - TBD` section to CHANGELOG.md
+1. Add changes to `## [Unreleased]` section in CHANGELOG.md
 2. GitHub Actions → Create Release → Version: `0.0.2`, Prerelease: ✅
-3. Done! (Workflows handle everything else)
+3. After release: Move changes from `[Unreleased]` to `## [0.0.2] - YYYY-MM-DD`
 
 ### Stable Release
-1. Add `## [0.0.2] - TBD` section to CHANGELOG.md
+1. Add changes to `## [Unreleased]` section in CHANGELOG.md
 2. GitHub Actions → Create Release → Version: `0.0.2`, Prerelease: ❌
-3. Done! (Workflows handle everything else)
+3. After release: Move changes from `[Unreleased]` to `## [0.0.2] - YYYY-MM-DD`
 
 ---
 
@@ -22,10 +22,10 @@ This document provides the exact step-by-step process for releasing Z3Wrap versi
 
 ### Step 1: Update CHANGELOG.md
 
-Add a new version section with `TBD` as the date:
+Add your changes to the `[Unreleased]` section:
 
 ```markdown
-## [0.0.2] - TBD
+## [Unreleased]
 
 ### Added
 - New feature X
@@ -36,13 +36,17 @@ Add a new version section with `TBD` as the date:
 
 ### Fixed
 - Fixed bug Z
+
+## [0.0.1] - 2025-09-17
+### Added
+- Previous release content...
 ```
 
 **Important Rules:**
-- ✅ Use `TBD` for the date (workflow will replace it)
-- ✅ Use the exact version you plan to release (`0.0.2`, `0.0.2-alpha.1`, etc.)
+- ✅ Always add changes to `[Unreleased]` section (not version-specific sections)
 - ✅ Follow categories: Added, Changed, Deprecated, Removed, Fixed, Security
 - ✅ Commit and push this change before releasing
+- ✅ The workflow will use `[Unreleased]` content for release notes
 
 ### Step 2: Choose Version Number
 
@@ -71,33 +75,51 @@ Add a new version section with `TBD` as the date:
 
 The workflows will automatically:
 1. ✅ Update `Z3Wrap.csproj` version number
-2. ✅ Change `## [0.0.2] - TBD` to `## [0.0.2] - 2025-09-17`
+2. ✅ Extract content from `[Unreleased]` section for release notes
 3. ✅ Create GitHub release with changelog content
 4. ✅ Create git tag `v0.0.2`
 5. ✅ Build and publish NuGet packages
 6. ✅ Publish to NuGet.org and GitHub Packages
 
+**Note:** The workflow does NOT automatically update CHANGELOG.md - you'll do that manually afterward.
+
 ---
 
 ## AFTER RELEASE: Update Changelog
 
-### Step 5: Prepare for Next Release
+### Step 5: Move Released Content to Version Section
 
-Add a new `[Unreleased]` section if needed:
+After the release is successful, manually move the content from `[Unreleased]` to a new version section:
 
+**Before (what the workflow used):**
 ```markdown
 ## [Unreleased]
 
-## [0.0.2] - 2025-09-17
 ### Fixed
-- Bug fixes from this release
+- Fixed changelog bug
+- Updated package names
 
 ## [0.0.1] - 2025-09-17
 ### Added
 - Previous features
 ```
 
-**Note:** Only add new sections when you have new changes to track.
+**After (what you should update to):**
+```markdown
+## [Unreleased]
+
+## [0.0.2] - 2025-09-17
+
+### Fixed
+- Fixed changelog bug
+- Updated package names
+
+## [0.0.1] - 2025-09-17
+### Added
+- Previous features
+```
+
+**Important:** Use the actual release date from the GitHub release, not today's date.
 
 ---
 
@@ -119,10 +141,10 @@ Add a new `[Unreleased]` section if needed:
 
 ### Automatic (Don't Edit Manually)
 - `Z3Wrap/Z3Wrap.csproj` - Version updated by workflow
-- `CHANGELOG.md` - Date changed from `TBD` to actual date
 
 ### Manual (You Must Edit)
-- `CHANGELOG.md` - Add new version section before release
+- `CHANGELOG.md` - Add changes to `[Unreleased]` before release
+- `CHANGELOG.md` - Move `[Unreleased]` content to version section after release
 
 ---
 
