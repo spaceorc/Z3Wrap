@@ -120,7 +120,7 @@ jobs:
 
           ## Installation
           ```bash
-          dotnet add package Z3Wrap --version ${{ github.event.inputs.version }}
+          dotnet add package Spaceorc.Z3Wrap --version ${{ github.event.inputs.version }}
           ```
 
           ## Quick Start

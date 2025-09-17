@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - TBD
+
+### Fixed
+- Fixed incorrect package name in GitHub release installation instructions
+- Corrected NuGet package release notes to use GitHub release notes automatically
+- Updated changelog to properly reflect 0.0.1 release history
+
+## [0.0.1] - 2025-09-17
+
 ### Added
 - Complete Z3 C API wrapper with P/Invoke bindings
 - Unlimited precision arithmetic (BigInteger integers, exact rationals)
@@ -14,17 +23,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type-safe generic arrays and strongly typed expressions
 - Cross-platform Z3 library auto-discovery
 - Memory-safe reference-counted contexts
-- 1000+ comprehensive tests with 95%+ coverage
-- Automated NuGet publishing pipeline
+- 553+ comprehensive tests with 80%+ coverage requirement
+- Automated CI/CD pipeline with GitHub Actions
+- Coverage badges and test metrics extraction
 
 ### Changed
 - Updated to .NET 9.0 target framework
 
 ### Fixed
 - Platform-specific Z3 behavior in signed multiplication overflow tests
-
-## [0.0.1] - TBD
-
-### Added
-- Initial pre-release version
-- Core Z3Wrap functionality
+- Streamlined test output by removing redundant error logging

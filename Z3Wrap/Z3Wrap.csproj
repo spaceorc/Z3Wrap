@@ -30,17 +30,7 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-        <!-- Package Release Notes -->
-        <PackageReleaseNotes>
-v1.0.0
-- Complete Z3 C API wrapper with P/Invoke bindings
-- Unlimited precision arithmetic (BigInteger integers, exact rationals)
-- Natural mathematical syntax with operator overloading
-- Type-safe generic arrays and strongly typed expressions
-- Cross-platform Z3 library auto-discovery
-- Memory-safe reference-counted contexts
-- 1000+ comprehensive tests with 95%+ coverage
-        </PackageReleaseNotes>
+        <!-- Package Release Notes: Automatically sourced from GitHub releases -->
     </PropertyGroup>
 
     <!-- Include README in NuGet package -->
