@@ -15,6 +15,7 @@ A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision a
 - **Natural Syntax** - `x + y == 10`, `p.Implies(q)` instead of verbose Z3 API
 - **Type Safety** - Generic arrays, strongly typed expressions with operator overloading
 - **Complete Z3 Support** - Booleans, integers, reals, bitvectors, arrays with full operators
+- **Safety Checks** - Fluent boundary check API for bitvector overflow/underflow detection
 - **Zero Configuration** - Auto-discovers Z3 library on Windows, macOS, Linux
 
 ## Quick Start
@@ -111,6 +112,10 @@ solver.Assert(prices[1] > prices[0]);
 var bv = context.BitVecConst("bv", 32);
 solver.Assert(bv + 0x10 == 0b11010000);  // Arithmetic with literals
 solver.Assert((bv & 0xFF) != 0);         // Bitwise operations
+
+// Boundary checking with fluent API
+solver.Assert(context.BitVecBoundaryCheck().Add(bv, 100).NoOverflow());
+solver.Assert(context.BitVecBoundaryCheck().Mul(bv, 2).Overflow(signed: true));
 
 // Solver backtracking
 solver.Push();
