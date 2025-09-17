@@ -21,8 +21,11 @@ jobs:
         
     - name: Install Z3
       run: |
-        sudo apt-get update
-        sudo apt-get install -y libz3-4
+        wget https://github.com/Z3Prover/z3/releases/download/z3-4.15.3/z3-4.15.3-x64-glibc-2.39.zip
+        unzip z3-4.15.3-x64-glibc-2.39.zip
+        sudo cp z3-4.15.3-x64-glibc-2.39/bin/libz3.so /usr/lib/
+        sudo cp z3-4.15.3-x64-glibc-2.39/include/* /usr/include/
+        sudo ldconfig
         
     - name: Restore dependencies
       run: dotnet restore
