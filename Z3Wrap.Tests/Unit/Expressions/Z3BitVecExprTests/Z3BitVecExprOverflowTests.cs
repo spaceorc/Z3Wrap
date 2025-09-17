@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
@@ -23,10 +25,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of unsigned add overflow detection
         var resultMethodBitVec = x.AddNoOverflow(y, signed: false);         // BitVec.AddNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.AddNoOverflow(right, signed: false);     // BitVec.AddNoOverflow(BigInteger, signed) (method)
+        var resultMethodBigInt = x.AddNoOverflow(rightBigInt, signed: false); // BitVec.AddNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.AddNoOverflow(x, y, signed: false); // Context.AddNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.AddNoOverflow(x, rightBigInt, signed: false); // Context.AddNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.AddNoOverflow(leftBigInt, y, signed: false); // Context.AddNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -36,6 +43,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.AddNoOverflow(BitVec, signed=false) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.AddNoOverflow(BigInteger, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.AddNoOverflow(BitVec, BitVec, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.AddNoOverflow(BitVec, BigInteger, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.AddNoOverflow(BigInteger, BitVec, signed=false) method failed");
         });
     }
 
@@ -61,10 +71,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed add overflow detection
         var resultMethodBitVec = x.AddNoOverflow(y, signed: true);          // BitVec.AddNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.AddNoOverflow(right, signed: true);      // BitVec.AddNoOverflow(BigInteger, signed) (method)
+        var resultMethodBigInt = x.AddNoOverflow(rightBigInt, signed: true); // BitVec.AddNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.AddNoOverflow(x, y, signed: true); // Context.AddNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.AddNoOverflow(x, rightBigInt, signed: true); // Context.AddNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.AddNoOverflow(leftBigInt, y, signed: true); // Context.AddNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -74,6 +89,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.AddNoOverflow(BitVec, signed=true) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.AddNoOverflow(BigInteger, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.AddNoOverflow(BitVec, BitVec, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.AddNoOverflow(BitVec, BigInteger, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.AddNoOverflow(BigInteger, BitVec, signed=true) method failed");
         });
     }
 
@@ -104,10 +122,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of unsigned multiply overflow detection
         var resultMethodBitVec = x.MulNoOverflow(y, signed: false);         // BitVec.MulNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.MulNoOverflow(right, signed: false);     // BitVec.MulNoOverflow(BigInteger, signed) (method)
+        var resultMethodBigInt = x.MulNoOverflow(rightBigInt, signed: false); // BitVec.MulNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.MulNoOverflow(x, y, signed: false); // Context.MulNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.MulNoOverflow(x, rightBigInt, signed: false); // Context.MulNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.MulNoOverflow(leftBigInt, y, signed: false); // Context.MulNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -117,6 +140,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.MulNoOverflow(BitVec, signed=false) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.MulNoOverflow(BigInteger, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.MulNoOverflow(BitVec, BitVec, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.MulNoOverflow(BitVec, BigInteger, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.MulNoOverflow(BigInteger, BitVec, signed=false) method failed");
         });
     }
 
@@ -133,10 +159,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed multiply overflow detection
         var resultMethodBitVec = x.MulNoOverflow(y, signed: true);          // BitVec.MulNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.MulNoOverflow(right, signed: true);      // BitVec.MulNoOverflow(BigInteger, signed) (method)
+        var resultMethodBigInt = x.MulNoOverflow(rightBigInt, signed: true); // BitVec.MulNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.MulNoOverflow(x, y, signed: true); // Context.MulNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.MulNoOverflow(x, rightBigInt, signed: true); // Context.MulNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.MulNoOverflow(leftBigInt, y, signed: true); // Context.MulNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -146,6 +177,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.MulNoOverflow(BitVec, signed=true) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.MulNoOverflow(BigInteger, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.MulNoOverflow(BitVec, BitVec, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.MulNoOverflow(BitVec, BigInteger, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.MulNoOverflow(BigInteger, BitVec, signed=true) method failed");
         });
     }
 
@@ -165,10 +199,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed subtract overflow detection
         var resultMethodBitVec = x.SignedSubNoOverflow(y);                  // BitVec.SignedSubNoOverflow(BitVec) (method)
-        var resultMethodBigInt = x.SignedSubNoOverflow(right);              // BitVec.SignedSubNoOverflow(BigInteger) (method)
+        var resultMethodBigInt = x.SignedSubNoOverflow(rightBigInt);        // BitVec.SignedSubNoOverflow(BigInteger) (method)
+        var resultContextBitVec = context.SignedSubNoOverflow(x, y);        // Context.SignedSubNoOverflow(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.SignedSubNoOverflow(x, rightBigInt); // Context.SignedSubNoOverflow(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.SignedSubNoOverflow(leftBigInt, y); // Context.SignedSubNoOverflow(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -178,6 +217,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.SignedSubNoOverflow(BitVec) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.SignedSubNoOverflow(BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.SignedSubNoOverflow(BitVec, BitVec) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.SignedSubNoOverflow(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.SignedSubNoOverflow(BigInteger, BitVec) method failed");
         });
     }
 
@@ -201,10 +243,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of unsigned subtract underflow detection
         var resultMethodBitVec = x.SubNoUnderflow(y, signed: false);        // BitVec.SubNoUnderflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.SubNoUnderflow(right, signed: false);    // BitVec.SubNoUnderflow(BigInteger, signed) (method)
+        var resultMethodBigInt = x.SubNoUnderflow(rightBigInt, signed: false); // BitVec.SubNoUnderflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.SubNoUnderflow(x, y, signed: false); // Context.SubNoUnderflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.SubNoUnderflow(x, rightBigInt, signed: false); // Context.SubNoUnderflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.SubNoUnderflow(leftBigInt, y, signed: false); // Context.SubNoUnderflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -214,6 +261,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.SubNoUnderflow(BitVec, signed=false) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.SubNoUnderflow(BigInteger, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.SubNoUnderflow(BitVec, BitVec, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.SubNoUnderflow(BitVec, BigInteger, signed=false) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.SubNoUnderflow(BigInteger, BitVec, signed=false) method failed");
         });
     }
 
@@ -233,10 +283,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed subtract underflow detection
         var resultMethodBitVec = x.SubNoUnderflow(y, signed: true);         // BitVec.SubNoUnderflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.SubNoUnderflow(right, signed: true);     // BitVec.SubNoUnderflow(BigInteger, signed) (method)
+        var resultMethodBigInt = x.SubNoUnderflow(rightBigInt, signed: true); // BitVec.SubNoUnderflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.SubNoUnderflow(x, y, signed: true); // Context.SubNoUnderflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.SubNoUnderflow(x, rightBigInt, signed: true); // Context.SubNoUnderflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.SubNoUnderflow(leftBigInt, y, signed: true); // Context.SubNoUnderflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -246,6 +301,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.SubNoUnderflow(BitVec, signed=true) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.SubNoUnderflow(BigInteger, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.SubNoUnderflow(BitVec, BitVec, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.SubNoUnderflow(BitVec, BigInteger, signed=true) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.SubNoUnderflow(BigInteger, BitVec, signed=true) method failed");
         });
     }
 
@@ -265,10 +323,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed multiply underflow detection
         var resultMethodBitVec = x.SignedMulNoUnderflow(y);                 // BitVec.SignedMulNoUnderflow(BitVec) (method)
-        var resultMethodBigInt = x.SignedMulNoUnderflow(right);             // BitVec.SignedMulNoUnderflow(BigInteger) (method)
+        var resultMethodBigInt = x.SignedMulNoUnderflow(rightBigInt);       // BitVec.SignedMulNoUnderflow(BigInteger) (method)
+        var resultContextBitVec = context.SignedMulNoUnderflow(x, y);       // Context.SignedMulNoUnderflow(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.SignedMulNoUnderflow(x, rightBigInt); // Context.SignedMulNoUnderflow(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.SignedMulNoUnderflow(leftBigInt, y); // Context.SignedMulNoUnderflow(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -278,6 +341,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.SignedMulNoUnderflow(BitVec) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.SignedMulNoUnderflow(BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.SignedMulNoUnderflow(BitVec, BitVec) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.SignedMulNoUnderflow(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.SignedMulNoUnderflow(BigInteger, BitVec) method failed");
         });
     }
 
@@ -297,10 +363,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed add underflow detection
         var resultMethodBitVec = x.SignedAddNoUnderflow(y);                 // BitVec.SignedAddNoUnderflow(BitVec) (method)
-        var resultMethodBigInt = x.SignedAddNoUnderflow(right);             // BitVec.SignedAddNoUnderflow(BigInteger) (method)
+        var resultMethodBigInt = x.SignedAddNoUnderflow(rightBigInt);       // BitVec.SignedAddNoUnderflow(BigInteger) (method)
+        var resultContextBitVec = context.SignedAddNoUnderflow(x, y);       // Context.SignedAddNoUnderflow(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.SignedAddNoUnderflow(x, rightBigInt); // Context.SignedAddNoUnderflow(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.SignedAddNoUnderflow(leftBigInt, y); // Context.SignedAddNoUnderflow(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -310,6 +381,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.SignedAddNoUnderflow(BitVec) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.SignedAddNoUnderflow(BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.SignedAddNoUnderflow(BitVec, BitVec) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.SignedAddNoUnderflow(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.SignedAddNoUnderflow(BigInteger, BitVec) method failed");
         });
     }
 
@@ -329,10 +403,15 @@ public class Z3BitVecExprOverflowTests
 
         var x = context.BitVec(left, 8);
         var y = context.BitVec(right, 8);
+        var leftBigInt = new BigInteger(left);
+        var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed division overflow detection
         var resultMethodBitVec = x.SignedDivNoOverflow(y);                  // BitVec.SignedDivNoOverflow(BitVec) (method)
-        var resultMethodBigInt = x.SignedDivNoOverflow(right);              // BitVec.SignedDivNoOverflow(BigInteger) (method)
+        var resultMethodBigInt = x.SignedDivNoOverflow(rightBigInt);        // BitVec.SignedDivNoOverflow(BigInteger) (method)
+        var resultContextBitVec = context.SignedDivNoOverflow(x, y);        // Context.SignedDivNoOverflow(BitVec, BitVec) (method)
+        var resultContextRightBigInt = context.SignedDivNoOverflow(x, rightBigInt); // Context.SignedDivNoOverflow(BitVec, BigInteger) (method)
+        var resultContextLeftBigInt = context.SignedDivNoOverflow(leftBigInt, y); // Context.SignedDivNoOverflow(BigInteger, BitVec) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -342,6 +421,9 @@ public class Z3BitVecExprOverflowTests
         {
             Assert.That(model.GetBoolValue(resultMethodBitVec), Is.EqualTo(expectedResult), "BitVec.SignedDivNoOverflow(BitVec) method failed");
             Assert.That(model.GetBoolValue(resultMethodBigInt), Is.EqualTo(expectedResult), "BitVec.SignedDivNoOverflow(BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextBitVec), Is.EqualTo(expectedResult), "Context.SignedDivNoOverflow(BitVec, BitVec) method failed");
+            Assert.That(model.GetBoolValue(resultContextRightBigInt), Is.EqualTo(expectedResult), "Context.SignedDivNoOverflow(BitVec, BigInteger) method failed");
+            Assert.That(model.GetBoolValue(resultContextLeftBigInt), Is.EqualTo(expectedResult), "Context.SignedDivNoOverflow(BigInteger, BitVec) method failed");
         });
     }
 
