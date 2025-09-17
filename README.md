@@ -5,6 +5,8 @@ A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision a
 [![CI](https://github.com/spaceorc/Z3Wrap/workflows/CI/badge.svg)](https://github.com/spaceorc/Z3Wrap/actions)
 [![Tests](https://img.shields.io/endpoint?url=https://spaceorc.github.io/Z3Wrap/badges/tests.json)](https://github.com/spaceorc/Z3Wrap/actions)
 [![Coverage](https://img.shields.io/endpoint?url=https://spaceorc.github.io/Z3Wrap/badges/coverage.json)](https://github.com/spaceorc/Z3Wrap/actions)
+[![NuGet](https://img.shields.io/nuget/v/Spaceorc.Z3Wrap.svg)](https://www.nuget.org/packages/Spaceorc.Z3Wrap/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Spaceorc.Z3Wrap.svg)](https://www.nuget.org/packages/Spaceorc.Z3Wrap/)
 [![.NET](https://img.shields.io/badge/.NET-9.0-blue.svg)]()
 
 ## Features
