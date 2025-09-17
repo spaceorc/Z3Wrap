@@ -1,4 +1,5 @@
 using System.Numerics;
+using Z3Wrap.Expressions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 
@@ -742,7 +743,7 @@ public class Z3IntExprArithmeticTests
     {
         using var context = new Z3Context();
 
-        Assert.Throws<InvalidOperationException>(() => context.Add(new Z3Wrap.Expressions.Z3IntExpr[0]),
+        Assert.Throws<InvalidOperationException>(() => context.Add(Array.Empty<Z3IntExpr>()),
             "Empty operands should throw InvalidOperationException");
     }
 
@@ -818,7 +819,7 @@ public class Z3IntExprArithmeticTests
     {
         using var context = new Z3Context();
 
-        Assert.Throws<InvalidOperationException>(() => context.Sub(new Z3Wrap.Expressions.Z3IntExpr[0]),
+        Assert.Throws<InvalidOperationException>(() => context.Sub(Array.Empty<Z3IntExpr>()),
             "Empty operands should throw InvalidOperationException");
     }
 
@@ -921,7 +922,7 @@ public class Z3IntExprArithmeticTests
     {
         using var context = new Z3Context();
 
-        Assert.Throws<InvalidOperationException>(() => context.Mul(new Z3Wrap.Expressions.Z3IntExpr[0]),
+        Assert.Throws<InvalidOperationException>(() => context.Mul(Array.Empty<Z3IntExpr>()),
             "Empty operands should throw InvalidOperationException");
     }
 

@@ -496,4 +496,321 @@ public class Z3RealExprArithmeticTests
             Assert.That(model.GetRealValue(result6), Is.EqualTo(new Real(40.15m)), "7.3m * x failed");
         });
     }
+
+    #region Variadic Params Tests
+
+    [Test]
+    public void Add_VariadicParams_SingleOperand_ReturnsOperand()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Real(42.5m);
+        var result = context.Add(x);
+
+        solver.Assert(context.Eq(x, context.Real(42.5m)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(42.5m)), "Single operand Add failed");
+    }
+
+    [TestCase("5.5", "3.2", "2.1", "10.8", Description = "Three operands: 5.5 + 3.2 + 2.1 = 10.8")]
+    [TestCase("1.0", "-1.5", "0.5", "0.0", Description = "Three operands with zero result")]
+    [TestCase("-5.5", "-3.3", "-2.2", "-11.0", Description = "Three negative operands")]
+    [TestCase("100.25", "-50.75", "25.50", "75.0", Description = "Mixed positive and negative")]
+    public void Add_VariadicParams_ThreeOperands_ReturnsExpectedResult(string a, string b, string c, string expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Real(decimal.Parse(a, CultureInfo.InvariantCulture));
+        var y = context.Real(decimal.Parse(b, CultureInfo.InvariantCulture));
+        var z = context.Real(decimal.Parse(c, CultureInfo.InvariantCulture));
+
+        var result = context.Add(x, y, z);
+
+        solver.Assert(context.Eq(x, context.Real(decimal.Parse(a, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(y, context.Real(decimal.Parse(b, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(z, context.Real(decimal.Parse(c, CultureInfo.InvariantCulture))));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(decimal.Parse(expectedResult, CultureInfo.InvariantCulture))), $"Three operands Add({a}, {b}, {c}) failed");
+    }
+
+    [TestCase("1.1", "2.2", "3.3", "4.4", "11.0", Description = "Four operands: 1.1 + 2.2 + 3.3 + 4.4 = 11.0")]
+    [TestCase("10.5", "-5.25", "3.75", "-2.0", "7.0", Description = "Four operands with mixed signs")]
+    [TestCase("0.0", "0.0", "0.0", "0.0", "0.0", Description = "Four zeros")]
+    public void Add_VariadicParams_FourOperands_ReturnsExpectedResult(string a, string b, string c, string d, string expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var w = context.Real(decimal.Parse(a, CultureInfo.InvariantCulture));
+        var x = context.Real(decimal.Parse(b, CultureInfo.InvariantCulture));
+        var y = context.Real(decimal.Parse(c, CultureInfo.InvariantCulture));
+        var z = context.Real(decimal.Parse(d, CultureInfo.InvariantCulture));
+
+        var result = context.Add(w, x, y, z);
+
+        solver.Assert(context.Eq(w, context.Real(decimal.Parse(a, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(x, context.Real(decimal.Parse(b, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(y, context.Real(decimal.Parse(c, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(z, context.Real(decimal.Parse(d, CultureInfo.InvariantCulture))));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(decimal.Parse(expectedResult, CultureInfo.InvariantCulture))), $"Four operands Add({a}, {b}, {c}, {d}) failed");
+    }
+
+    [Test]
+    public void Add_VariadicParams_FiveOperands_ReturnsExpectedResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(1.1m);
+        var b = context.Real(2.2m);
+        var c = context.Real(3.3m);
+        var d = context.Real(4.4m);
+        var e = context.Real(5.5m);
+
+        var result = context.Add(a, b, c, d, e);
+
+        solver.Assert(context.Eq(a, context.Real(1.1m)));
+        solver.Assert(context.Eq(b, context.Real(2.2m)));
+        solver.Assert(context.Eq(c, context.Real(3.3m)));
+        solver.Assert(context.Eq(d, context.Real(4.4m)));
+        solver.Assert(context.Eq(e, context.Real(5.5m)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(16.5m)), "Five operands Add(1.1,2.2,3.3,4.4,5.5) failed");
+    }
+
+    [Test]
+    public void Add_VariadicParams_EmptyOperands_ThrowsException()
+    {
+        using var context = new Z3Context();
+
+        Assert.Throws<InvalidOperationException>(() => context.Add(Array.Empty<Z3Wrap.Expressions.Z3RealExpr>()),
+            "Empty operands should throw InvalidOperationException");
+    }
+
+    [Test]
+    public void Sub_VariadicParams_SingleOperand_ReturnsOperand()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Real(42.7m);
+        var result = context.Sub(x);
+
+        solver.Assert(context.Eq(x, context.Real(42.7m)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(42.7m)), "Single operand Sub failed");
+    }
+
+    [TestCase("10.5", "3.2", "2.1", "5.2", Description = "Three operands: 10.5 - 3.2 - 2.1 = 5.2")]
+    [TestCase("0.0", "1.5", "-1.5", "0.0", Description = "Three operands: 0.0 - 1.5 - (-1.5) = 0.0")]
+    [TestCase("100.8", "20.3", "30.5", "50.0", Description = "Three operands: 100.8 - 20.3 - 30.5 = 50.0")]
+    [TestCase("-5.5", "-3.3", "-2.2", "0.0", Description = "Three negative operands: -5.5 - (-3.3) - (-2.2) = 0.0")]
+    public void Sub_VariadicParams_ThreeOperands_ReturnsExpectedResult(string a, string b, string c, string expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Real(decimal.Parse(a, CultureInfo.InvariantCulture));
+        var y = context.Real(decimal.Parse(b, CultureInfo.InvariantCulture));
+        var z = context.Real(decimal.Parse(c, CultureInfo.InvariantCulture));
+
+        var result = context.Sub(x, y, z);
+
+        solver.Assert(context.Eq(x, context.Real(decimal.Parse(a, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(y, context.Real(decimal.Parse(b, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(z, context.Real(decimal.Parse(c, CultureInfo.InvariantCulture))));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(decimal.Parse(expectedResult, CultureInfo.InvariantCulture))), $"Three operands Sub({a}, {b}, {c}) failed");
+    }
+
+    [Test]
+    public void Sub_VariadicParams_FourOperands_ReturnsExpectedResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(100.75m);
+        var b = context.Real(20.25m);
+        var c = context.Real(15.50m);
+        var d = context.Real(10.00m);
+
+        var result = context.Sub(a, b, c, d);
+
+        solver.Assert(context.Eq(a, context.Real(100.75m)));
+        solver.Assert(context.Eq(b, context.Real(20.25m)));
+        solver.Assert(context.Eq(c, context.Real(15.50m)));
+        solver.Assert(context.Eq(d, context.Real(10.00m)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        // 100.75 - 20.25 - 15.50 - 10.00 = 55.00
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(55.0m)), "Four operands Sub(100.75,20.25,15.50,10.00) failed");
+    }
+
+    [Test]
+    public void Sub_VariadicParams_EmptyOperands_ThrowsException()
+    {
+        using var context = new Z3Context();
+
+        Assert.Throws<InvalidOperationException>(() => context.Sub(Array.Empty<Z3Wrap.Expressions.Z3RealExpr>()),
+            "Empty operands should throw InvalidOperationException");
+    }
+
+    [Test]
+    public void Mul_VariadicParams_SingleOperand_ReturnsOperand()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Real(42.3m);
+        var result = context.Mul(x);
+
+        solver.Assert(context.Eq(x, context.Real(42.3m)));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(42.3m)), "Single operand Mul failed");
+    }
+
+    [TestCase("2.5", "3.2", "4.0", "32.0", Description = "Three operands: 2.5 * 3.2 * 4.0 = 32.0")]
+    [TestCase("1.0", "5.5", "7.2", "39.6", Description = "Three operands: 1.0 * 5.5 * 7.2 = 39.6")]
+    [TestCase("-2.5", "3.0", "4.0", "-30.0", Description = "Three operands with negative: -2.5 * 3.0 * 4.0 = -30.0")]
+    [TestCase("0.0", "100.5", "200.7", "0.0", Description = "Three operands with zero: 0.0 * 100.5 * 200.7 = 0.0")]
+    [TestCase("-1.5", "-2.0", "-3.0", "-9.0", Description = "Three negative operands: -1.5 * -2.0 * -3.0 = -9.0")]
+    public void Mul_VariadicParams_ThreeOperands_ReturnsExpectedResult(string a, string b, string c, string expectedResult)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Real(decimal.Parse(a, CultureInfo.InvariantCulture));
+        var y = context.Real(decimal.Parse(b, CultureInfo.InvariantCulture));
+        var z = context.Real(decimal.Parse(c, CultureInfo.InvariantCulture));
+
+        var result = context.Mul(x, y, z);
+
+        solver.Assert(context.Eq(x, context.Real(decimal.Parse(a, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(y, context.Real(decimal.Parse(b, CultureInfo.InvariantCulture))));
+        solver.Assert(context.Eq(z, context.Real(decimal.Parse(c, CultureInfo.InvariantCulture))));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(decimal.Parse(expectedResult, CultureInfo.InvariantCulture))), $"Three operands Mul({a}, {b}, {c}) failed");
+    }
+
+    [Test]
+    public void Mul_VariadicParams_FourOperands_ReturnsExpectedResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(2.0m);
+        var b = context.Real(3.5m);
+        var c = context.Real(4.0m);
+        var d = context.Real(5.0m);
+
+        var result = context.Mul(a, b, c, d);
+
+        solver.Assert(context.Eq(a, context.Real(2.0m)));
+        solver.Assert(context.Eq(b, context.Real(3.5m)));
+        solver.Assert(context.Eq(c, context.Real(4.0m)));
+        solver.Assert(context.Eq(d, context.Real(5.0m)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        // 2.0 * 3.5 * 4.0 * 5.0 = 140.0
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(140.0m)), "Four operands Mul(2.0,3.5,4.0,5.0) failed");
+    }
+
+    [Test]
+    public void Mul_VariadicParams_FiveOperands_WithZero_ReturnsZero()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(1.5m);
+        var b = context.Real(2.7m);
+        var c = context.Real(0.0m);  // Zero multiplicand
+        var d = context.Real(4.2m);
+        var e = context.Real(5.8m);
+
+        var result = context.Mul(a, b, c, d, e);
+
+        solver.Assert(context.Eq(a, context.Real(1.5m)));
+        solver.Assert(context.Eq(b, context.Real(2.7m)));
+        solver.Assert(context.Eq(c, context.Real(0.0m)));
+        solver.Assert(context.Eq(d, context.Real(4.2m)));
+        solver.Assert(context.Eq(e, context.Real(5.8m)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(0.0m)), "Five operands Mul with zero failed");
+    }
+
+    [Test]
+    public void Mul_VariadicParams_EmptyOperands_ThrowsException()
+    {
+        using var context = new Z3Context();
+
+        Assert.Throws<InvalidOperationException>(() => context.Mul(Array.Empty<Z3Wrap.Expressions.Z3RealExpr>()),
+            "Empty operands should throw InvalidOperationException");
+    }
+
+    [Test]
+    public void VariadicOperations_WithVariables_WorkCorrectly()
+    {
+        using var context = new Z3Context();
+        using var solver = context.CreateSolver();
+
+        var a = context.RealConst("a");
+        var b = context.RealConst("b");
+        var c = context.RealConst("c");
+
+        // Test variadic operations with variables
+        var addResult = context.Add(a, b, c);
+        var subResult = context.Sub(a, b, c);
+        var mulResult = context.Mul(a, b, c);
+
+        // Set specific values: a=10.5, b=3.2, c=2.0
+        solver.Assert(context.Eq(a, context.Real(10.5m)));
+        solver.Assert(context.Eq(b, context.Real(3.2m)));
+        solver.Assert(context.Eq(c, context.Real(2.0m)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(addResult), Is.EqualTo(new Real(15.7m)), "Variadic Add(a,b,c) with variables failed"); // 10.5+3.2+2.0=15.7
+            Assert.That(model.GetRealValue(subResult), Is.EqualTo(new Real(5.3m)), "Variadic Sub(a,b,c) with variables failed");   // 10.5-3.2-2.0=5.3
+            Assert.That(model.GetRealValue(mulResult), Is.EqualTo(new Real(67.2m)), "Variadic Mul(a,b,c) with variables failed"); // 10.5*3.2*2.0=67.2
+        });
+    }
+
+    #endregion
 }
