@@ -1,0 +1,142 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate version format
+      run: |
+        if [[ ! "${{ github.event.inputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\-\.]+)?$ ]]; then
+          echo "Invalid version format. Use semantic versioning (e.g., 1.0.0, 1.0.0-beta.1)"
+          exit 1
+        fi
+
+    - name: Check if tag exists
+      run: |
+        if git rev-parse "v${{ github.event.inputs.version }}" >/dev/null 2>&1; then
+          echo "Tag v${{ github.event.inputs.version }} already exists!"
+          exit 1
+        fi
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Install Z3
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libz3-4
+
+    - name: Update project version and changelog
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+        TODAY=$(date +'%Y-%m-%d')
+
+        # Update project version
+        sed -i "s/<Version>.*<\/Version>/<Version>$VERSION<\/Version>/" Z3Wrap/Z3Wrap.csproj
+        echo "Updated project version to $VERSION"
+
+        # Update changelog: replace TBD with today's date for this version
+        if [ -f "CHANGELOG.md" ]; then
+          sed -i "s/## \[$VERSION\] - TBD/## [$VERSION] - $TODAY/" CHANGELOG.md
+          echo "Updated changelog date for version $VERSION to $TODAY"
+        fi
+
+    - name: Build and test
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+        dotnet test --configuration Release --no-build
+
+    - name: Extract changelog for version
+      id: changelog
+      run: |
+        # Extract changelog section for the current version from CHANGELOG.md
+        VERSION="${{ github.event.inputs.version }}"
+
+        # Read changelog content for this version
+        if [ -f "CHANGELOG.md" ]; then
+          # Extract content between [Unreleased] or [VERSION] and next version
+          CHANGELOG_CONTENT=$(awk -v version="$VERSION" '
+            BEGIN { found=0; in_section=0 }
+            /^## \[Unreleased\]/ || /^## \[0\.0\.1\]/ || $0 ~ "## \\[" version "\\]" {
+              if (!found) { found=1; in_section=1; next }
+            }
+            /^## \[/ && in_section && found { in_section=0 }
+            in_section { print }
+          ' CHANGELOG.md)
+
+          # If no specific version found, use Unreleased section
+          if [ -z "$CHANGELOG_CONTENT" ]; then
+            CHANGELOG_CONTENT=$(awk '/^## \[Unreleased\]/,/^## \[/' CHANGELOG.md | sed '/^## \[/d' | head -n -1)
+          fi
+
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "## What's Changed" >> $GITHUB_OUTPUT
+          echo "- Release $VERSION" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.event.inputs.version }}
+        release_name: v${{ github.event.inputs.version }}
+        body: |
+          ## Z3Wrap v${{ github.event.inputs.version }}
+
+          A complete, modern C# wrapper for Microsoft's Z3 theorem prover.
+
+          ${{ steps.changelog.outputs.CHANGELOG }}
+
+          ## Installation
+          ```bash
+          dotnet add package Z3Wrap --version ${{ github.event.inputs.version }}
+          ```
+
+          ## Quick Start
+          ```csharp
+          using var context = new Z3Context();
+          using var scope = context.SetUp();
+
+          var x = context.IntConst("x");
+          var y = context.IntConst("y");
+
+          using var solver = context.CreateSolver();
+          solver.Assert(x + y == 10);
+          solver.Assert(x > y);
+
+          if (solver.Check() == Z3Status.Satisfiable) {
+              var model = solver.GetModel();
+              Console.WriteLine($"x = {model.GetIntValue(x)}");
+              Console.WriteLine($"y = {model.GetIntValue(y)}");
+          }
+          ```
+        draft: false
+        prerelease: ${{ github.event.inputs.prerelease }}

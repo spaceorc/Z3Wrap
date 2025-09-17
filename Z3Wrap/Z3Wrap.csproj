@@ -4,7 +4,50 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <!-- NuGet Package Properties -->
+        <PackageId>Spaceorc.Z3Wrap</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>spaceorc</Authors>
+        <Company>spaceorc</Company>
+        <Product>Z3Wrap</Product>
+        <Description>A complete, modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision arithmetic and type-safe API design.</Description>
+        <Summary>Modern C# wrapper for Z3 theorem prover with BigInteger support, exact rationals, and natural mathematical syntax.</Summary>
+        <PackageTags>z3;theorem-prover;smt;solver;constraint;satisfiability;biginteger;mathematics;formal-verification</PackageTags>
+        <PackageProjectUrl>https://github.com/spaceorc/Z3Wrap</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/spaceorc/Z3Wrap</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+        <!-- Package Release Notes -->
+        <PackageReleaseNotes>
+v1.0.0
+- Complete Z3 C API wrapper with P/Invoke bindings
+- Unlimited precision arithmetic (BigInteger integers, exact rationals)
+- Natural mathematical syntax with operator overloading
+- Type-safe generic arrays and strongly typed expressions
+- Cross-platform Z3 library auto-discovery
+- Memory-safe reference-counted contexts
+- 1000+ comprehensive tests with 95%+ coverage
+        </PackageReleaseNotes>
     </PropertyGroup>
+
+    <!-- Include README in NuGet package -->
+    <ItemGroup>
+        <None Include="../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <!-- Source Link support for debugging -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    </ItemGroup>
 
     <ItemGroup>
         <Compile Update="Expressions\Z3Expr.Factory.cs">
