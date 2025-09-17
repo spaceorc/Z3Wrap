@@ -1,8 +1,6 @@
 name: Publish NuGet Package
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       version:
@@ -34,14 +32,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Set version from release tag
-      if: github.event_name == 'release'
-      run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-
     - name: Set version from input
-      if: github.event_name == 'workflow_dispatch'
       run: |
         echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
 

@@ -71,25 +71,40 @@ Add your changes to the `[Unreleased]` section:
    - **Mark as pre-release**: ✅ for prerelease, ❌ for stable
 5. Click **"Run workflow"**
 
-### Step 4: Wait for Automation
+### Step 4: Wait for Release Creation
 
-The workflows will automatically:
+The release workflow will automatically:
 1. ✅ Update `Z3Wrap.csproj` version number
 2. ✅ Extract content from `[Unreleased]` section for release notes
 3. ✅ Create GitHub release with changelog content
 4. ✅ Create git tag `v0.0.2`
-5. ✅ Build and publish NuGet packages
-6. ✅ Publish to NuGet.org and GitHub Packages
+5. ✅ Build and test the project
 
-**Note:** The workflow does NOT automatically update CHANGELOG.md - you'll do that manually afterward.
+**Note:** The workflow does NOT automatically publish NuGet packages or update CHANGELOG.md - you'll do both manually afterward.
 
 ---
 
-## AFTER RELEASE: Update Changelog
+## AFTER RELEASE: Publish and Update
 
-### Step 5: Move Released Content to Version Section
+### Step 5: Publish NuGet Package (Manual)
 
-After the release is successful, manually move the content from `[Unreleased]` to a new version section:
+After the release is created and you've verified it looks good:
+
+1. Go to **GitHub** → **Actions** tab
+2. Click **"Publish NuGet Package"** workflow
+3. Click **"Run workflow"** button
+4. Fill in:
+   - **Package version to publish**: `0.0.2` (same version as the release)
+5. Click **"Run workflow"**
+
+The publish workflow will:
+- ✅ Build and test the project
+- ✅ Create NuGet packages
+- ✅ Publish to NuGet.org and GitHub Packages
+
+### Step 6: Move Released Content to Version Section
+
+After the NuGet packages are published successfully, manually move the content from `[Unreleased]` to a new version section:
 
 **Before (what the workflow used):**
 ```markdown
@@ -193,9 +208,11 @@ dotnet add package Spaceorc.Z3Wrap --version 0.0.2-alpha.1 --prerelease
 ### During Release
 - [ ] GitHub Actions → Create Release workflow
 - [ ] Correct version and prerelease flag
-- [ ] Wait for workflows to complete
+- [ ] Wait for release workflow to complete
 
 ### After Release
 - [ ] Verify GitHub release created
+- [ ] GitHub Actions → Publish NuGet Package workflow (manual)
 - [ ] Verify NuGet package published
 - [ ] Test installation command works
+- [ ] Move CHANGELOG.md content from [Unreleased] to version section
