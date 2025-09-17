@@ -251,7 +251,6 @@ public class Z3BoolExprCreationTests
             bool2Handle = bool2.Handle;
         }
 
-        Console.Error.WriteLine(string.Join(",", contexts));
         // Different contexts should produce different handles even for same name
         Assert.That(bool1Handle, Is.Not.EqualTo(bool2Handle));
     }
