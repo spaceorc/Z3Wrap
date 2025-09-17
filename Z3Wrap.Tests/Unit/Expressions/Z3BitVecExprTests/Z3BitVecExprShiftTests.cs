@@ -71,9 +71,9 @@ public class Z3BitVecExprShiftTests
         var resultOperatorRightBigInt = x >> shiftAmountBigInt;                     // BitVec >> BigInteger (operator)
         var resultMethodBitVec = x.Shr(shift, signed: false);                      // BitVec.Shr(BitVec, signed) (method)
         var resultMethodBigInt = x.Shr(shiftAmountBigInt, signed: false);          // BitVec.Shr(BigInteger, signed) (method)
-        var resultContextBitVec = context.LShr(x, shift);                          // Context.LShr(BitVec, BitVec) (method)
-        var resultContextRightBigInt = context.LShr(x, shiftAmountBigInt);         // Context.LShr(BitVec, BigInteger) (method)
-        var resultContextLeftBigInt = context.LShr(valueBigInt, shift);            // Context.LShr(BigInteger, BitVec) (method)
+        var resultContextBitVec = context.Shr(x, shift, signed: false);                          // Context.Shr(BitVec, BitVec, signed: false) (method)
+        var resultContextRightBigInt = context.Shr(x, shiftAmountBigInt, signed: false);         // Context.Shr(BitVec, BigInteger, signed: false) (method)
+        var resultContextLeftBigInt = context.Shr(valueBigInt, shift, signed: false);            // Context.Shr(BigInteger, BitVec, signed: false) (method)
 
         // Note: BigInteger >> Z3BitVecExpr operator doesn't exist (makes no semantic sense)
         // so we only test 7 variations instead of 8 for shift operations
@@ -88,9 +88,9 @@ public class Z3BitVecExprShiftTests
             Assert.That(model.GetBitVec(resultOperatorRightBigInt), Is.EqualTo(expected), "BitVec >> BigInteger operator failed");
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Shr(BitVec, signed=false) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Shr(BigInteger, signed=false) method failed");
-            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.LShr(BitVec, BitVec) method failed");
-            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.LShr(BitVec, BigInteger) method failed");
-            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.LShr(BigInteger, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Shr(BitVec, BitVec, signed: false) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Shr(BitVec, BigInteger, signed: false) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Shr(BigInteger, BitVec, signed: false) method failed");
         });
     }
 
@@ -114,9 +114,9 @@ public class Z3BitVecExprShiftTests
         // Note: Operators >> always do logical shift, so we only test methods for signed shift
         var resultMethodBitVec = x.Shr(shift, signed: true);                       // BitVec.Shr(BitVec, signed) (method)
         var resultMethodBigInt = x.Shr(shiftAmountBigInt, signed: true);           // BitVec.Shr(BigInteger, signed) (method)
-        var resultContextBitVec = context.AShr(x, shift);                          // Context.AShr(BitVec, BitVec) (method)
-        var resultContextRightBigInt = context.AShr(x, shiftAmountBigInt);         // Context.AShr(BitVec, BigInteger) (method)
-        var resultContextLeftBigInt = context.AShr(valueBigInt, shift);            // Context.AShr(BigInteger, BitVec) (method)
+        var resultContextBitVec = context.Shr(x, shift, signed: true);                          // Context.Shr(BitVec, BitVec, signed: true) (method)
+        var resultContextRightBigInt = context.Shr(x, shiftAmountBigInt, signed: true);         // Context.Shr(BitVec, BigInteger, signed: true) (method)
+        var resultContextLeftBigInt = context.Shr(valueBigInt, shift, signed: true);            // Context.Shr(BigInteger, BitVec, signed: true) (method)
 
         // For completeness, we also test the general Shr method with signed=true
         var resultContextShrBitVec = context.Shr(x, shift, signed: true);                        // Context.Shr(BitVec, BitVec, signed=true) (method)
@@ -134,9 +134,9 @@ public class Z3BitVecExprShiftTests
         {
             Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Shr(BitVec, signed=true) method failed");
             Assert.That(model.GetBitVec(resultMethodBigInt), Is.EqualTo(expected), "BitVec.Shr(BigInteger, signed=true) method failed");
-            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.AShr(BitVec, BitVec) method failed");
-            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.AShr(BitVec, BigInteger) method failed");
-            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.AShr(BigInteger, BitVec) method failed");
+            Assert.That(model.GetBitVec(resultContextBitVec), Is.EqualTo(expected), "Context.Shr(BitVec, BitVec, signed: true) method failed");
+            Assert.That(model.GetBitVec(resultContextRightBigInt), Is.EqualTo(expected), "Context.Shr(BitVec, BigInteger, signed: true) method failed");
+            Assert.That(model.GetBitVec(resultContextLeftBigInt), Is.EqualTo(expected), "Context.Shr(BigInteger, BitVec, signed: true) method failed");
             Assert.That(model.GetBitVec(resultContextShrBitVec), Is.EqualTo(expected), "Context.Shr(BitVec, BitVec, signed=true) method failed");
             Assert.That(model.GetBitVec(resultContextShrRightBigInt), Is.EqualTo(expected), "Context.Shr(BitVec, BigInteger, signed=true) method failed");
             Assert.That(model.GetBitVec(resultContextShrLeftBigInt), Is.EqualTo(expected), "Context.Shr(BigInteger, BitVec, signed=true) method failed");
