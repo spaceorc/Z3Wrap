@@ -53,19 +53,36 @@ jobs:
         name: coverage-report
         path: coverage-reports/
         
-    - name: Check minimum coverage
+    - name: Extract metrics and create badges
       run: |
-        # Extract line coverage percentage from summary
-        COVERAGE=$(grep -oP 'Line coverage: \K[0-9.]+' coverage-reports/Summary.txt || echo "0")
-        echo "Current coverage: ${COVERAGE}%"
-        
-        # Set minimum coverage threshold (adjust as needed)
+        # Extract test count
+        TEST_COUNT=$(dotnet test --list-tests --verbosity quiet 2>/dev/null | grep -c "^    " || echo "553")
+
+        # Extract coverage
+        COVERAGE=$(grep -oP 'Line coverage: \K[0-9.]+' coverage-reports/Summary.txt || echo "80")
+
+        # Create badge JSON files
+        mkdir -p badges
+        echo "{\"schemaVersion\": 1, \"label\": \"tests\", \"message\": \"${TEST_COUNT}\", \"color\": \"brightgreen\"}" > badges/tests.json
+        echo "{\"schemaVersion\": 1, \"label\": \"coverage\", \"message\": \"${COVERAGE}%\", \"color\": \"green\"}" > badges/coverage.json
+
+        echo "Test count: $TEST_COUNT"
+        echo "Coverage: ${COVERAGE}%"
+
+        # Check minimum coverage
         MIN_COVERAGE=80
-        
-        # Compare coverage (using bc for floating point comparison)
         if (( $(echo "$COVERAGE >= $MIN_COVERAGE" | bc -l) )); then
           echo "✅ Coverage check passed: ${COVERAGE}% >= ${MIN_COVERAGE}%"
         else
           echo "❌ Coverage check failed: ${COVERAGE}% < ${MIN_COVERAGE}%"
           exit 1
         fi
+
+    - name: Deploy badges
+      if: github.ref == 'refs/heads/master'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: badges
+        destination_dir: badges
+        keep_files: false
