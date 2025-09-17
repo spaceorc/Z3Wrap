@@ -33,7 +33,7 @@ sudo apt-get install libz3-4
 Build:
 ```bash
 dotnet build
-dotnet test  # 553+ tests
+dotnet test  # 1000+ tests
 ```
 
 ### Basic Usage
