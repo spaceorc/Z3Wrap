@@ -21,7 +21,23 @@ A modern C# wrapper for Microsoft's Z3 theorem prover with unlimited precision a
 
 ### Installation
 
-Install Z3:
+#### Package Manager
+
+Install the NuGet package:
+
+```bash
+dotnet add package Spaceorc.Z3Wrap
+```
+
+Or via Package Manager Console in Visual Studio:
+```powershell
+Install-Package Spaceorc.Z3Wrap
+```
+
+#### Prerequisites
+
+Install Z3 (automatically discovered by Z3Wrap):
+
 ```bash
 # macOS
 brew install z3
@@ -32,10 +48,13 @@ sudo apt-get install libz3-4
 # Windows - Download from https://github.com/Z3Prover/z3/releases
 ```
 
-Build:
+#### From Source (Development)
+
 ```bash
+git clone https://github.com/spaceorc/Z3Wrap.git
+cd Z3Wrap
 dotnet build
-dotnet test  # 1000+ tests
+dotnet test  # 553+ comprehensive tests
 ```
 
 ### Basic Usage
