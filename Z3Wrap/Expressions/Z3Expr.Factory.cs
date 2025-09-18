@@ -46,7 +46,7 @@ public abstract partial class Z3Expr
 
     private static class ArrayFactory<TIndex> where TIndex : Z3Expr
     {
-        public static Z3Expr CreateArray(Z3Context context, IntPtr handle, IntPtr arraySort)
+        internal static Z3Expr CreateArray(Z3Context context, IntPtr handle, IntPtr arraySort)
         {
             var rangeSort = NativeMethods.Z3GetArraySortRange(context.Handle, arraySort);
             var rangeKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, rangeSort);

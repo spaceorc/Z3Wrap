@@ -10,7 +10,7 @@ public sealed class Z3RealExpr : Z3NumericExpr
     {
     }
 
-    public new static Z3RealExpr Create(Z3Context context, IntPtr handle)
+    internal new static Z3RealExpr Create(Z3Context context, IntPtr handle)
     {
         return (Z3RealExpr)Z3Expr.Create(context, handle);
     }

@@ -13,7 +13,7 @@ public sealed class Z3BitVecExpr : Z3NumericExpr
         Size = size;
     }
 
-    public new static Z3BitVecExpr Create(Z3Context context, IntPtr handle)
+    internal new static Z3BitVecExpr Create(Z3Context context, IntPtr handle)
     {
         return (Z3BitVecExpr)Z3Expr.Create(context, handle);
     }

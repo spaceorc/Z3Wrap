@@ -27,7 +27,7 @@ public sealed class Z3Solver : IDisposable
         NativeMethods.Z3SolverIncRef(context.Handle, solverHandle);
     }
 
-    public IntPtr Handle
+    internal IntPtr Handle
     {
         get
         {

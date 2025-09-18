@@ -28,7 +28,7 @@ public sealed class Z3Model
     }
 
     // Properties
-    public IntPtr Handle
+    internal IntPtr Handle
     {
         get
         {

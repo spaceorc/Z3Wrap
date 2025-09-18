@@ -4,7 +4,7 @@ public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3E
     where TIndex : Z3Expr
     where TValue : Z3Expr
 {
-    public new static Z3ArrayExpr<TIndex, TValue> Create(Z3Context context, IntPtr handle)
+    internal new static Z3ArrayExpr<TIndex, TValue> Create(Z3Context context, IntPtr handle)
     {
         return (Z3ArrayExpr<TIndex, TValue>)Z3Expr.Create(context, handle);
     }
