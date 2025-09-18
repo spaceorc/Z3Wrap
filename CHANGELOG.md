@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.5] - 2025-09-17
+
 ### Added
 - Fluent BitVector boundary check API with comprehensive BigInteger support
   - New `BitVecBoundaryCheck()` extension method for natural boundary constraint syntax

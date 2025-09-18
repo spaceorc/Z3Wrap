@@ -3,8 +3,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build-and-test:
@@ -74,7 +72,7 @@ jobs:
         echo "Coverage: ${COVERAGE}%"
 
         # Check minimum coverage
-        MIN_COVERAGE=80
+        MIN_COVERAGE=90
         if (( $(echo "$COVERAGE >= $MIN_COVERAGE" | bc -l) )); then
           echo "✅ Coverage check passed: ${COVERAGE}% >= ${MIN_COVERAGE}%"
         else

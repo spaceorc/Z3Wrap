@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5
 		PLAN.md = PLAN.md
 		README.md = README.md
 		CHANGELOG.md = CHANGELOG.md
-		RELEASE_PROCESS.md = RELEASE_PROCESS.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{57C34814-857F-4D49-9E65-43A2B80B1DB5}"
@@ -18,8 +17,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C6907EBC-8C0D-46EF-801E-17A506DE70B6}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\ci.yml = .github\workflows\ci.yml
-		.github\workflows\publish.yml = .github\workflows\publish.yml
-		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
 Global

@@ -1,9 +1,9 @@
-using NUnit.Framework;
+using System.Numerics;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BoundaryChecks;
 using Spaceorc.Z3Wrap.Expressions;
-using System.Numerics;
 
-namespace Spaceorc.Z3Wrap.Tests.Unit.BoundaryChecks;
+namespace Z3Wrap.Tests.Unit.BoundaryChecks;
 
 [TestFixture]
 public class BitVecBoundaryCheckBuilderTests

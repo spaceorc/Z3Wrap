@@ -65,44 +65,89 @@ jobs:
           echo "Updated changelog date for version $VERSION to $TODAY"
         fi
 
+    - name: Extract changelog and update PackageReleaseNotes
+      id: changelog
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+
+        # Extract changelog content from [Unreleased] section
+        python3 << 'EOF'
+        import re
+        import html
+        import os
+
+        version = os.environ.get('VERSION', '')
+
+        # Read changelog and extract [Unreleased] section
+        try:
+            with open('CHANGELOG.md', 'r') as f:
+                changelog_content = f.read()
+
+            # Extract content between [Unreleased] and next version section
+            unreleased_match = re.search(r'## \[Unreleased\]\s*\n(.*?)(?=\n## \[|\n$)', changelog_content, re.DOTALL)
+
+            if unreleased_match:
+                changelog_section = unreleased_match.group(1).strip()
+                if not changelog_section:
+                    changelog_section = f"Release {version}"
+            else:
+                changelog_section = f"Release {version}"
+
+        except FileNotFoundError:
+            changelog_section = f"Release {version}"
+
+        print(f"Extracted changelog content: {changelog_section[:100]}...")
+
+        # Escape for XML
+        escaped_notes = html.escape(changelog_section)
+
+        # Read the .csproj file
+        with open('Z3Wrap/Z3Wrap.csproj', 'r') as f:
+            content = f.read()
+
+        # Replace empty PackageReleaseNotes
+        content = re.sub(
+            r'<PackageReleaseNotes></PackageReleaseNotes>',
+            f'<PackageReleaseNotes>{escaped_notes}</PackageReleaseNotes>',
+            content
+        )
+
+        # Write back to file
+        with open('Z3Wrap/Z3Wrap.csproj', 'w') as f:
+            f.write(content)
+
+        print("Updated PackageReleaseNotes with changelog content")
+
+        # Also save for GitHub release creation
+        with open('/tmp/changelog_output.txt', 'w') as f:
+            f.write(changelog_section)
+        EOF
+
+        # Set the changelog content for use in GitHub release
+        CHANGELOG_CONTENT=$(cat /tmp/changelog_output.txt)
+        echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+        echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
     - name: Build and test
       run: |
         dotnet restore
         dotnet build --configuration Release --no-restore
         dotnet test --configuration Release --no-build
 
-    - name: Extract changelog for version
-      id: changelog
+    - name: Pack NuGet packages
       run: |
-        # Extract changelog section for the current version from CHANGELOG.md
-        VERSION="${{ github.event.inputs.version }}"
+        dotnet pack Z3Wrap/Z3Wrap.csproj --configuration Release --no-build --output ./artifacts
+        echo "NuGet packages created in ./artifacts/"
+        ls -la ./artifacts/
 
-        # Read changelog content for this version
-        if [ -f "CHANGELOG.md" ]; then
-          # Extract content between [Unreleased] or [VERSION] and next version
-          CHANGELOG_CONTENT=$(awk -v version="$VERSION" '
-            BEGIN { found=0; in_section=0 }
-            /^## \[Unreleased\]/ {
-              if (!found) { found=1; in_section=1; next }
-            }
-            /^## \[/ && in_section && found { in_section=0 }
-            in_section { print }
-          ' CHANGELOG.md)
+    - name: Upload NuGet packages as artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages-v${{ github.event.inputs.version }}
+        path: ./artifacts/*.nupkg
+        retention-days: 90
 
-          # If no specific version found, use Unreleased section
-          if [ -z "$CHANGELOG_CONTENT" ]; then
-            CHANGELOG_CONTENT=$(awk '/^## \[Unreleased\]/,/^## \[/' CHANGELOG.md | sed '/^## \[/d' | head -n -1)
-          fi
-
-          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-        else
-          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          echo "## What's Changed" >> $GITHUB_OUTPUT
-          echo "- Release $VERSION" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-        fi
 
     - name: Create Release
       uses: actions/create-release@v1

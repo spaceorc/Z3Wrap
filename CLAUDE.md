@@ -337,22 +337,3 @@ The `ReadmeExamplesTests.cs` currently validates:
 - **PATTERN**: Brief summary, blank line, detailed explanation if needed
 
 **THIS RULE CANNOT BE OVERRIDDEN OR IGNORED UNDER ANY CIRCUMSTANCES**
-
-## Release Process
-
-**IMPORTANT**: Z3Wrap uses GitHub Actions workflows for releases with manual NuGet publishing. NEVER manually edit version numbers in `.csproj` files.
-
-For complete release instructions, see **[RELEASE_PROCESS.md](RELEASE_PROCESS.md)** which covers:
-- Version numbering strategy (semantic versioning with prerelease support)
-- Step-by-step release workflow using GitHub Actions
-- Prerelease vs stable release processes
-- Changelog management requirements
-- Manual NuGet publishing process
-- Troubleshooting common release issues
-
-**Key Points for Claude**:
-- Only update `CHANGELOG.md` manually (with `TBD` date placeholder)
-- Never modify `Z3Wrap.csproj` version numbers - workflows handle this automatically
-- Use GitHub Actions UI to trigger releases with proper version strings
-- Release workflow handles version updates, changelog dates, and git tagging
-- NuGet publishing is MANUAL ONLY - must be triggered separately after verifying the release
