@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Completely reinvented release process with MinVer for automatic semantic versioning
+- Migrated from manual version management to Git tag-based versioning
+- Enhanced CI/CD pipeline with improved coverage requirements (90% minimum)
+- Streamlined release workflow with automatic changelog integration
+
 ## [0.0.5] - 2025-09-17
 
 ### Added
