@@ -1,7 +1,7 @@
 name: Release
 
 on:
-  workflow_dispatch:   # manual trigger from GitHub Actions UI
+  workflow_dispatch:
 
 jobs:
   pack:
@@ -13,35 +13,41 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
+
       - name: Install Z3
         run: |
           sudo apt-get update
           sudo apt-get install -y libz3-4
+
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore
       - run: dotnet test -c Release --no-build
 
       - name: Extract notes from CHANGELOG [Unreleased]
-        shell: bash
         run: |
-          awk '
-            BEGIN { in=0 }
-            /^## \[Unreleased\]/ { in=1; next }
-            /^## \[/ { if (in) exit }
-            in { print }
-          ' CHANGELOG.md > RELEASE_NOTES.md
-          if [ ! -s RELEASE_NOTES.md ]; then echo "No notes under [Unreleased]." > RELEASE_NOTES.md; fi
+          python3 - <<'PY'
+          import re, pathlib
+          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          m = re.search(r'^## \[Unreleased\]\s*(.*?)^## \[', text, flags=re.M|re.S) \
+              or re.search(r'^## \[Unreleased\]\s*(.*)\Z', text, flags=re.M|re.S)
+          notes = (m.group(1).strip() if m else '')
+          pathlib.Path("RELEASE_NOTES.md").write_text(notes or "No notes under [Unreleased].", encoding="utf-8")
+          PY
 
       - name: Pack (inject release notes)
         run: |
-          NOTES="$(sed ':a;N;$!ba;s/\r//g' RELEASE_NOTES.md)"  # normalize newlines
+          NOTES="$(sed ':a;N;$!ba;s/\r//g' RELEASE_NOTES.md)"
           dotnet pack -c Release --no-build -o artifacts \
             -p:PackageReleaseNotes="$NOTES"
 
-      - run: dotnet pack -c Release --no-build -o artifacts
+      - name: Show resolved version (MinVer)
+        run: |
+          dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer || true
 
-      - name: Upload package
+      - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
           name: nuget-packages
-          path: artifacts/*.nupkg
+          path: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg

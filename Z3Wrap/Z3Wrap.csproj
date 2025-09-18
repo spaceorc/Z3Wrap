@@ -112,4 +112,8 @@
         </Compile>
     </ItemGroup>
 
+    <Target Name="PrintMinVer" DependsOnTargets="MinVer">
+        <Message Importance="High" Text="MinVer → PackageVersion=$(PackageVersion)" />
+        <Message Importance="High" Text="MinVer → InformationalVersion=$(InformationalVersion)" />
+    </Target>
 </Project>
