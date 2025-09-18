@@ -1,0 +1,50 @@
+name: Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump"
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+      prerelease:
+        description: "Create prerelease tag?"
+        type: boolean
+        default: true
+      label:
+        description: "Prerelease label (ignored if prerelease=false)"
+        type: string
+        default: beta.1
+
+permissions:
+  contents: write
+
+jobs:
+  make_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Compute next version & tag
+        id: v
+        shell: bash
+        run: |
+          set -euo pipefail
+          last=$(git describe --tags --match "v[0-9]*" --abbrev=0 2>/dev/null || echo v0.0.0)
+          base=${last#v}
+          IFS=. read -r MA MI PA <<< "$base"
+          case "${{ inputs.bump }}" in
+            major) MA=$((MA+1)); MI=0; PA=0;;
+            minor) MI=$((MI+1)); PA=0;;
+            patch) PA=$((PA+1));;
+          esac
+          ver="v${MA}.${MI}.${PA}"
+          if [[ "${{ inputs.prerelease }}" == "true" ]]; then
+            ver="${ver}-${{ inputs.label }}"
+          fi
+          echo "next=$ver" >> "$GITHUB_OUTPUT"
+          git tag -a "$ver" -m "Release $ver"
+          git push origin "$ver"
+      - name: Echo tag
+        run: echo "Created ${{ steps.v.outputs.next }}"

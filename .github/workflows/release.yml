@@ -1,4 +1,4 @@
-name: release
+name: Release
 
 on:
   workflow_dispatch:   # manual trigger from GitHub Actions UI
@@ -20,6 +20,24 @@ jobs:
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore
       - run: dotnet test -c Release --no-build
+
+      - name: Extract notes from CHANGELOG [Unreleased]
+        shell: bash
+        run: |
+          awk '
+            BEGIN { in=0 }
+            /^## \[Unreleased\]/ { in=1; next }
+            /^## \[/ { if (in) exit }
+            in { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          if [ ! -s RELEASE_NOTES.md ]; then echo "No notes under [Unreleased]." > RELEASE_NOTES.md; fi
+
+      - name: Pack (inject release notes)
+        run: |
+          NOTES="$(sed ':a;N;$!ba;s/\r//g' RELEASE_NOTES.md)"  # normalize newlines
+          dotnet pack -c Release --no-build -o artifacts \
+            -p:PackageReleaseNotes="$NOTES"
+
       - run: dotnet pack -c Release --no-build -o artifacts
 
       - name: Upload package

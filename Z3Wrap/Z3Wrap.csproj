@@ -29,7 +29,7 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-        <!-- Package Release Notes: Will be updated by publish workflow -->
+        <MinVerTagPrefix>v</MinVerTagPrefix>
     </PropertyGroup>
 
     <!-- Include README in NuGet package -->
