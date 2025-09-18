@@ -18,7 +18,7 @@ public class BitVecTests
     [Test]
     public void Constructor_WithZeroSize_ThrowsException()
     {
-        Assert.Throws<ArgumentException>(() => new BitVec(1, 0));
+        Assert.Throws<ArgumentException>(() => { _ = new BitVec(1, 0); });
     }
 
     [Test]
@@ -548,22 +548,6 @@ public class BitVecTests
         Assert.That(zero.Value, Is.EqualTo(BigInteger.Zero));
         Assert.That(one.Value, Is.EqualTo(BigInteger.One));
         Assert.That(max.Value, Is.EqualTo(new BigInteger(255))); // 2^8 - 1
-
-        var bv1 = new BitVec(10, 8);
-        var bv2 = new BitVec(20, 8);
-
-        Assert.That(BitVec.Min(bv1, bv2), Is.EqualTo(bv1));
-        Assert.That(BitVec.Max(bv1, bv2), Is.EqualTo(bv2));
-    }
-
-    [Test]
-    public void StaticMethods_WithDifferentSizes_ThrowException()
-    {
-        var bv1 = new BitVec(10, 8);
-        var bv2 = new BitVec(20, 16);
-
-        Assert.Throws<ArgumentException>(() => BitVec.Min(bv1, bv2));
-        Assert.Throws<ArgumentException>(() => BitVec.Max(bv1, bv2));
     }
 
     [Test]

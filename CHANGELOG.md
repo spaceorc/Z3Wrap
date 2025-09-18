@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Complete XML documentation for BitVec class
+
 ### Changed
 - Completely reinvented release process with MinVer for automatic semantic versioning
 - Migrated from manual version management to Git tag-based versioning
