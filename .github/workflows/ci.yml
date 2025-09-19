@@ -31,6 +31,14 @@ jobs:
 
     - name: Run CI pipeline
       run: make ci
+
+    - name: Add coverage summary to GitHub summary
+      run: |
+        echo "## 📊 Test Coverage Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        cat coverage-reports/Summary.txt >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
       
     - name: Upload coverage report as artifact
       uses: actions/upload-artifact@v4
