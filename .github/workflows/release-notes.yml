@@ -1,0 +1,44 @@
+name: Release notes
+
+on:
+  push:
+    tags:
+      - 'v*'   # runs for v1.2.3 and v1.2.3-beta.1
+
+permissions:
+  contents: write   # needed to create/edit releases
+
+jobs:
+  draft_release_with_notes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Grab the [Unreleased] section from CHANGELOG.md
+      - name: Extract notes from CHANGELOG [Unreleased]
+        run: |
+          python3 - <<'PY'
+          import re, pathlib
+          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          m = re.search(r'^## \[Unreleased\]\s*(.*?)^## \[', text, flags=re.M|re.S) \
+              or re.search(r'^## \[Unreleased\]\s*(.*)\Z', text, flags=re.M|re.S)
+          notes = (m.group(1).strip() if m else '')
+          pathlib.Path("RELEASE_NOTES.md").write_text(notes or "No notes under [Unreleased].", encoding="utf-8")
+          PY
+
+      # Mark as prerelease if tag has a dash (e.g., v1.2.3-beta.1)
+      - name: Detect prerelease
+        id: flags
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then echo "pre=true" >> $GITHUB_OUTPUT; else echo "pre=false" >> $GITHUB_OUTPUT; fi
+
+      # Create (or update) a DRAFT GitHub Release for this tag with the notes
+      - name: Create GitHub Release (draft)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          draft: true
+          prerelease: ${{ steps.flags.outputs.pre }}
+          body_path: RELEASE_NOTES.md
