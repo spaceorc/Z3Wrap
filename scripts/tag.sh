@@ -94,8 +94,8 @@ parse_arguments() {
                 ;;
             # GitHub Actions environment variables (auto-detected)
             --github-*)
-                parse_github_env_args "$@"
-                return $?
+                parse_github_env_args
+                shift
                 ;;
             *)
                 die "Unknown argument: $1"
@@ -133,7 +133,6 @@ parse_github_env_args() {
     [[ "$dry_run" != "true" ]] && DO_PUSH="true"  # Auto-push unless dry run
 
     echo "Parsed GitHub inputs: version=$version, bump=$bump, prerelease=$prerelease, label=$prerelease_label" >&2
-    return 0
 }
 
 # -----------------------------------------------------------------------------
@@ -279,14 +278,14 @@ check_tag_exists() {
 
 create_tag() {
     if [[ "$DRY_RUN" == "true" ]]; then
-        echo "DRY RUN: Would create tag '$NEW_TAG'"
+        echo "DRY RUN: Would create tag '$NEW_TAG'" >&2
         return 0
     fi
 
     # Check if tag already exists
     if check_tag_exists; then
         if [[ "$FORCE_OVERWRITE" == "true" ]]; then
-            echo "Tag '$NEW_TAG' already exists, removing..."
+            echo "Tag '$NEW_TAG' already exists, removing..." >&2
             git tag -d "$NEW_TAG" >/dev/null
             git push --delete origin "$NEW_TAG" >/dev/null 2>&1 || true
         else
@@ -295,13 +294,13 @@ create_tag() {
     fi
 
     # Create the tag
-    echo "Creating tag: $NEW_TAG"
+    echo "Creating tag: $NEW_TAG" >&2
     git tag -a "$NEW_TAG" -m "Release $NEW_TAG"
 }
 
 push_tag() {
     if [[ "$DRY_RUN" == "true" ]]; then
-        echo "DRY RUN: Would push tag '$NEW_TAG' to origin"
+        echo "DRY RUN: Would push tag '$NEW_TAG' to origin" >&2
         return 0
     fi
 
@@ -312,7 +311,7 @@ push_tag() {
             git config user.email "${GITHUB_ACTOR:-github-actions}@users.noreply.github.com"
         fi
 
-        echo "Pushing tag to remote: $NEW_TAG"
+        echo "Pushing tag to remote: $NEW_TAG" >&2
         git push origin "$NEW_TAG"
     fi
 }
@@ -332,14 +331,16 @@ print_summary() {
         status="tag created locally (not pushed)"
     fi
 
-    # Console output
-    echo
-    echo "=== TAG SUMMARY ==="
-    echo "New tag: $NEW_TAG"
-    echo "Core version: $CORE_MAJOR.$CORE_MINOR.$CORE_PATCH"
-    [[ -n "$PRERELEASE_LABEL" ]] && echo "Prerelease: $PRERELEASE_LABEL.$PRERELEASE_NUMBER"
-    echo "Status: $status"
-    echo "=================="
+    # Console output (to stderr so it doesn't interfere with stdout tag capture)
+    {
+        echo
+        echo "=== TAG SUMMARY ==="
+        echo "New tag: $NEW_TAG"
+        echo "Core version: $CORE_MAJOR.$CORE_MINOR.$CORE_PATCH"
+        [[ -n "$PRERELEASE_LABEL" ]] && echo "Prerelease: $PRERELEASE_LABEL.$PRERELEASE_NUMBER"
+        echo "Status: $status"
+        echo "=================="
+    } >&2
 
     # GitHub Actions step summary
     if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
@@ -364,20 +365,20 @@ print_summary() {
 main() {
     parse_arguments "$@"
 
-    echo "Calculating next version..."
+    echo "Calculating next version..." >&2
     calculate_next_version
 
-    echo "Creating tag..."
+    echo "Creating tag..." >&2
     create_tag
 
     if [[ "$DO_PUSH" == "true" ]]; then
-        echo "Pushing to remote..."
+        echo "Pushing to remote..." >&2
         push_tag
     fi
 
     print_summary
 
-    # Output the tag name for consumption by other scripts
+    # Output the tag name for consumption by other scripts (stdout only)
     echo "$NEW_TAG"
 }
 
