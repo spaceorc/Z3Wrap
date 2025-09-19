@@ -14,12 +14,10 @@ public sealed class Z3IntExpr : Z3NumericExpr
         return (Z3IntExpr)Z3Expr.Create(context, handle);
     }
 
-    // Implicit conversions using thread-local context
     public static implicit operator Z3IntExpr(int value) => Z3Context.Current.Int(value);
     public static implicit operator Z3IntExpr(long value) => Z3Context.Current.Int(value);
     public static implicit operator Z3IntExpr(BigInteger value) => Z3Context.Current.Int(value);
 
-    // Z3IntExpr <-> Z3IntExpr operations
     public static Z3IntExpr operator +(Z3IntExpr left, Z3IntExpr right) => left.Context.Add(left, right);
     public static Z3IntExpr operator -(Z3IntExpr left, Z3IntExpr right) => left.Context.Sub(left, right);
     public static Z3IntExpr operator *(Z3IntExpr left, Z3IntExpr right) => left.Context.Mul(left, right);
@@ -31,7 +29,6 @@ public sealed class Z3IntExpr : Z3NumericExpr
     public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right) => left.Context.Ge(left, right);
     public static Z3IntExpr operator -(Z3IntExpr expr) => expr.Context.UnaryMinus(expr);
 
-    // Mixed-type equality operations
     public static Z3BoolExpr operator ==(Z3IntExpr left, BigInteger right) => left.Context.Eq(left, right);
     public static Z3BoolExpr operator !=(Z3IntExpr left, BigInteger right) => left.Context.Neq(left, right);
     public static Z3BoolExpr operator ==(BigInteger left, Z3IntExpr right) => right.Context.Eq(left, right);

@@ -11,7 +11,6 @@ namespace Spaceorc.Z3Wrap.DataTypes;
 public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormattable
 {
     private readonly BigInteger value;
-    private readonly uint size;
 
     private static uint ValidateSize(uint leftSize, uint rightSize)
     {
@@ -34,7 +33,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         // Mask to ensure value fits in the specified bit width
         var maxValue = (BigInteger.One << (int)size) - 1;
         this.value = value & maxValue;
-        this.size = size;
+        Size = size;
     }
 
     /// <summary>
@@ -73,7 +72,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <summary>
     /// Gets the bit width of the bitvector.
     /// </summary>
-    public uint Size => size;
+    public uint Size { get; }
 
     /// <summary>
     /// Gets a value indicating whether this bitvector represents zero.
@@ -83,7 +82,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <summary>
     /// Gets the maximum value that can be represented by this bitvector size.
     /// </summary>
-    public BigInteger MaxValue => (BigInteger.One << (int)size) - 1;
+    public BigInteger MaxValue => (BigInteger.One << (int)Size) - 1;
 
     /// <summary>
     /// Creates a bitvector representing zero with the specified bit width.
@@ -209,12 +208,12 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
             return value;
 
         // For signed interpretation: check if MSB (sign bit) is set
-        var signBit = BigInteger.One << ((int)size - 1);
+        var signBit = BigInteger.One << ((int)Size - 1);
         if ((value & signBit) == 0)
             return value; // Positive number, same as unsigned
 
         // MSB is set: convert from unsigned to signed using two's complement
-        return value - (BigInteger.One << (int)size);
+        return value - (BigInteger.One << (int)Size);
     }
 
     /// <summary>
@@ -224,9 +223,9 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public string ToBinaryString()
     {
         if (value == 0)
-            return new string('0', (int)size);
+            return new string('0', (int)Size);
 
-        var sb = new StringBuilder((int)size);
+        var sb = new StringBuilder((int)Size);
         var val = value;
         while (val > 0)
         {
@@ -234,7 +233,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
             val >>= 1;
         }
 
-        return sb.ToString().PadLeft((int)size, '0');
+        return sb.ToString().PadLeft((int)Size, '0');
     }
 
     /// <summary>
@@ -243,14 +242,14 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="other">The bitvector to add.</param>
     /// <returns>A new bitvector containing the sum, masked to the bit width.</returns>
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
-    public BitVec Add(BitVec other) => new(value + other.value, ValidateSize(size, other.size));
+    public BitVec Add(BitVec other) => new(value + other.value, ValidateSize(Size, other.Size));
 
     /// <summary>
     /// Adds a BigInteger value to this bitvector.
     /// </summary>
     /// <param name="other">The BigInteger value to add.</param>
     /// <returns>A new bitvector containing the sum, masked to the bit width.</returns>
-    public BitVec Add(BigInteger other) => Add(new BitVec(other, size));
+    public BitVec Add(BigInteger other) => Add(new BitVec(other, Size));
 
     /// <summary>
     /// Subtracts another bitvector from this bitvector.
@@ -258,14 +257,14 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="other">The bitvector to subtract.</param>
     /// <returns>A new bitvector containing the difference, masked to the bit width.</returns>
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
-    public BitVec Sub(BitVec other) => new(value - other.value, ValidateSize(size, other.size));
+    public BitVec Sub(BitVec other) => new(value - other.value, ValidateSize(Size, other.Size));
 
     /// <summary>
     /// Subtracts a BigInteger value from this bitvector.
     /// </summary>
     /// <param name="other">The BigInteger value to subtract.</param>
     /// <returns>A new bitvector containing the difference, masked to the bit width.</returns>
-    public BitVec Sub(BigInteger other) => Sub(new BitVec(other, size));
+    public BitVec Sub(BigInteger other) => Sub(new BitVec(other, Size));
 
     /// <summary>
     /// Multiplies this bitvector by another bitvector.
@@ -273,14 +272,14 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="other">The bitvector to multiply by.</param>
     /// <returns>A new bitvector containing the product, masked to the bit width.</returns>
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
-    public BitVec Mul(BitVec other) => new(value * other.value, ValidateSize(size, other.size));
+    public BitVec Mul(BitVec other) => new(value * other.value, ValidateSize(Size, other.Size));
 
     /// <summary>
     /// Multiplies this bitvector by a BigInteger value.
     /// </summary>
     /// <param name="other">The BigInteger value to multiply by.</param>
     /// <returns>A new bitvector containing the product, masked to the bit width.</returns>
-    public BitVec Mul(BigInteger other) => Mul(new BitVec(other, size));
+    public BitVec Mul(BigInteger other) => Mul(new BitVec(other, Size));
 
     /// <summary>
     /// Divides this bitvector by another bitvector.
@@ -292,7 +291,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
     public BitVec Div(BitVec other, bool signed = false)
     {
-        var validSize = ValidateSize(size, other.size);
+        var validSize = ValidateSize(Size, other.Size);
         if (other.IsZero)
             throw new DivideByZeroException("Division by zero is not allowed");
         if (!signed)
@@ -309,7 +308,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="signed">Whether to perform signed division (two's complement).</param>
     /// <returns>A new bitvector containing the quotient.</returns>
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
-    public BitVec Div(BigInteger other, bool signed = false) => Div(new BitVec(other, size), signed);
+    public BitVec Div(BigInteger other, bool signed = false) => Div(new BitVec(other, Size), signed);
 
     /// <summary>
     /// Computes the remainder of dividing this bitvector by another bitvector.
@@ -321,7 +320,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
     public BitVec Rem(BitVec other, bool signed = false)
     {
-        var validSize = ValidateSize(size, other.size);
+        var validSize = ValidateSize(Size, other.Size);
         if (other.IsZero)
             throw new DivideByZeroException("Division by zero is not allowed");
         if (signed)
@@ -340,7 +339,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="signed">Whether to perform signed remainder operation (two's complement).</param>
     /// <returns>A new bitvector containing the remainder.</returns>
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
-    public BitVec Rem(BigInteger other, bool signed = false) => Rem(new BitVec(other, size), signed);
+    public BitVec Rem(BigInteger other, bool signed = false) => Rem(new BitVec(other, Size), signed);
 
     /// <summary>
     /// Computes the Z3-style signed modulo operation where the result has the same sign as the divisor.
@@ -351,7 +350,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
     public BitVec SignedMod(BitVec other)
     {
-        var validSize = ValidateSize(size, other.size);
+        var validSize = ValidateSize(Size, other.Size);
         if (other.IsZero)
             throw new DivideByZeroException("Division by zero is not allowed");
         // Convert to signed interpretation
@@ -370,14 +369,14 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="other">The bitvector to AND with.</param>
     /// <returns>A new bitvector containing the bitwise AND result.</returns>
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
-    public BitVec And(BitVec other) => new(value & other.value, ValidateSize(size, other.size));
+    public BitVec And(BitVec other) => new(value & other.value, ValidateSize(Size, other.Size));
 
     /// <summary>
     /// Performs bitwise AND operation with a BigInteger value.
     /// </summary>
     /// <param name="other">The BigInteger value to AND with.</param>
     /// <returns>A new bitvector containing the bitwise AND result.</returns>
-    public BitVec And(BigInteger other) => And(new BitVec(other, size));
+    public BitVec And(BigInteger other) => And(new BitVec(other, Size));
 
     /// <summary>
     /// Performs bitwise OR operation with another bitvector.
@@ -385,14 +384,14 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="other">The bitvector to OR with.</param>
     /// <returns>A new bitvector containing the bitwise OR result.</returns>
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
-    public BitVec Or(BitVec other) => new(value | other.value, ValidateSize(size, other.size));
+    public BitVec Or(BitVec other) => new(value | other.value, ValidateSize(Size, other.Size));
 
     /// <summary>
     /// Performs bitwise OR operation with a BigInteger value.
     /// </summary>
     /// <param name="other">The BigInteger value to OR with.</param>
     /// <returns>A new bitvector containing the bitwise OR result.</returns>
-    public BitVec Or(BigInteger other) => Or(new BitVec(other, size));
+    public BitVec Or(BigInteger other) => Or(new BitVec(other, Size));
 
     /// <summary>
     /// Performs bitwise XOR operation with another bitvector.
@@ -400,14 +399,14 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="other">The bitvector to XOR with.</param>
     /// <returns>A new bitvector containing the bitwise XOR result.</returns>
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
-    public BitVec Xor(BitVec other) => new(value ^ other.value, ValidateSize(size, other.size));
+    public BitVec Xor(BitVec other) => new(value ^ other.value, ValidateSize(Size, other.Size));
 
     /// <summary>
     /// Performs bitwise XOR operation with a BigInteger value.
     /// </summary>
     /// <param name="other">The BigInteger value to XOR with.</param>
     /// <returns>A new bitvector containing the bitwise XOR result.</returns>
-    public BitVec Xor(BigInteger other) => Xor(new BitVec(other, size));
+    public BitVec Xor(BigInteger other) => Xor(new BitVec(other, Size));
 
     /// <summary>
     /// Performs left bit shift operation.
@@ -419,7 +418,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     {
         if (shift < 0)
             throw new ArgumentException("Shift amount must be non-negative", nameof(shift));
-        return new BitVec(value << shift, size);
+        return new BitVec(value << shift, Size);
     }
 
     /// <summary>
@@ -437,13 +436,13 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         if (!signed)
         {
             // Logical right shift - fill with zeros
-            return new BitVec(value >> shift, size);
+            return new BitVec(value >> shift, Size);
         }
 
         // Arithmetic right shift - preserve sign bit
         var signedValue = ToBigInteger(signed: true);
         var result = signedValue >> shift;
-        return new BitVec(result, size);
+        return new BitVec(result, Size);
     }
 
     /// <summary>
@@ -457,9 +456,9 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         if (signed)
         {
             var signedValue = ToBigInteger(signed: true);
-            return new BitVec(signedValue, size + additionalBits);
+            return new BitVec(signedValue, Size + additionalBits);
         }
-        return new BitVec(value, size + additionalBits);
+        return new BitVec(value, Size + additionalBits);
     }
 
 
@@ -472,8 +471,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="ArgumentException">Thrown when bit positions are invalid or out of range.</exception>
     public BitVec Extract(uint high, uint low)
     {
-        if (high >= size)
-            throw new ArgumentException($"High bit {high} is out of range for {size}-bit vector");
+        if (high >= Size)
+            throw new ArgumentException($"High bit {high} is out of range for {Size}-bit vector");
         if (low > high)
             throw new ArgumentException($"Low bit {low} cannot be greater than high bit {high}");
 
@@ -490,10 +489,10 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <returns>A new bitvector with the specified bit width.</returns>
     public BitVec Resize(uint newSize, bool signed = false)
     {
-        if (newSize == size)
+        if (newSize == Size)
             return this;
-        if (newSize > size)
-            return Extend(newSize - size, signed);
+        if (newSize > Size)
+            return Extend(newSize - Size, signed);
         return new BitVec(value, newSize);
     }
 
@@ -622,7 +621,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// </summary>
     /// <param name="operand">The bitvector to negate.</param>
     /// <returns>A new bitvector containing the negated value.</returns>
-    public static BitVec operator -(BitVec operand) => new(-operand.value, operand.size);
+    public static BitVec operator -(BitVec operand) => new(-operand.value, operand.Size);
 
     /// <summary>
     /// Performs bitwise AND on two bitvectors using the &amp; operator.
@@ -701,7 +700,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// </summary>
     /// <param name="operand">The bitvector to complement.</param>
     /// <returns>A new bitvector with all bits flipped.</returns>
-    public static BitVec operator ~(BitVec operand) => new(~operand.value, operand.size);
+    public static BitVec operator ~(BitVec operand) => new(~operand.value, operand.Size);
 
     /// <summary>
     /// Performs left bit shift using the &lt;&lt; operator.
@@ -725,7 +724,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if the bitvectors have the same size and value; otherwise, false.</returns>
-    public static bool operator ==(BitVec left, BitVec right) => left.size == right.size && left.value == right.value;
+    public static bool operator ==(BitVec left, BitVec right) => left.Size == right.Size && left.value == right.value;
 
     /// <summary>
     /// Determines whether two bitvectors are not equal using the != operator.
@@ -744,7 +743,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
     public static bool operator <(BitVec left, BitVec right)
     {
-        ValidateSize(left.size, right.size);
+        ValidateSize(left.Size, right.Size);
         return left.value < right.value;
     }
 
@@ -757,7 +756,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
     public static bool operator <=(BitVec left, BitVec right)
     {
-        ValidateSize(left.size, right.size);
+        ValidateSize(left.Size, right.Size);
         return left.value <= right.value;
     }
 
@@ -770,7 +769,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
     public static bool operator >(BitVec left, BitVec right)
     {
-        ValidateSize(left.size, right.size);
+        ValidateSize(left.Size, right.Size);
         return left.value > right.value;
     }
 
@@ -783,7 +782,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
     public static bool operator >=(BitVec left, BitVec right)
     {
-        ValidateSize(left.size, right.size);
+        ValidateSize(left.Size, right.Size);
         return left.value >= right.value;
     }
 
@@ -805,7 +804,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// Returns the hash code for this bitvector.
     /// </summary>
     /// <returns>A 32-bit signed integer hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(value, size);
+    public override int GetHashCode() => HashCode.Combine(value, Size);
 
     /// <summary>
     /// Compares this bitvector to another bitvector using unsigned comparison.
@@ -815,7 +814,7 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <exception cref="ArgumentException">Thrown when bitvectors have different sizes.</exception>
     public int CompareTo(BitVec other)
     {
-        ValidateSize(size, other.size);
+        ValidateSize(Size, other.Size);
         return this < other ? -1 : this > other ? 1 : 0;
     }
 
@@ -846,9 +845,9 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
 
         return format.ToUpperInvariant() switch
         {
-            "D" or "DECIMAL" => $"{value} ({size}-bit)",
-            "B" or "BINARY" => $"0b{ToBinaryString()} ({size}-bit)",
-            "X" or "HEX" => $"0x{value.ToString("X").TrimStart('0').PadLeft(1, '0')} ({size}-bit)",
+            "D" or "DECIMAL" => $"{value} ({Size}-bit)",
+            "B" or "BINARY" => $"0b{ToBinaryString()} ({Size}-bit)",
+            "X" or "HEX" => $"0x{value.ToString("X").TrimStart('0').PadLeft(1, '0')} ({Size}-bit)",
             "V" or "VALUE" => value.ToString(formatProvider),
             _ => throw new FormatException($"Invalid format string: {format}"),
         };

@@ -1,5 +1,11 @@
 namespace Spaceorc.Z3Wrap.Expressions;
 
+/// <summary>
+/// Represents a typed array expression in Z3 with strongly-typed index and value types.
+/// Provides natural indexing syntax and functional update operations for working with Z3 array theory.
+/// </summary>
+/// <typeparam name="TIndex">The type of expressions used for array indices.</typeparam>
+/// <typeparam name="TValue">The type of expressions used for array values.</typeparam>
 public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3Expr(context, handle)
     where TIndex : Z3Expr
     where TValue : Z3Expr
@@ -9,6 +15,19 @@ public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3E
         return (Z3ArrayExpr<TIndex, TValue>)Z3Expr.Create(context, handle);
     }
 
+    /// <summary>
+    /// Gets the value at the specified index using natural indexing syntax.
+    /// Equivalent to the Z3 array select operation.
+    /// </summary>
+    /// <param name="index">The index expression.</param>
+    /// <returns>The value expression at the given index.</returns>
     public TValue this[TIndex index] => Context.Select(this, index);
+    /// <summary>
+    /// Creates a new array expression with the value at the specified index updated.
+    /// This is a functional update that does not modify the original array.
+    /// </summary>
+    /// <param name="index">The index where the value should be stored.</param>
+    /// <param name="value">The value to store at the index.</param>
+    /// <returns>A new array expression with the updated value.</returns>
     public Z3ArrayExpr<TIndex, TValue> Store(TIndex index, TValue value) => Context.Store(this, index, value);
 }

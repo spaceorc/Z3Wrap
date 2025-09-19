@@ -15,14 +15,12 @@ public sealed class Z3RealExpr : Z3NumericExpr
         return (Z3RealExpr)Z3Expr.Create(context, handle);
     }
 
-    // Implicit conversions using thread-local context
     public static implicit operator Z3RealExpr(int value) => Z3Context.Current.Real(value);
     public static implicit operator Z3RealExpr(long value) => Z3Context.Current.Real(value);
     public static implicit operator Z3RealExpr(decimal value) => Z3Context.Current.Real(value);
     public static implicit operator Z3RealExpr(BigInteger value) => Z3Context.Current.Real(value);
     public static implicit operator Z3RealExpr(Real value) => Z3Context.Current.Real(value);
 
-    // Z3RealExpr <-> Z3RealExpr operations
     public static Z3RealExpr operator +(Z3RealExpr left, Z3RealExpr right) => left.Context.Add(left, right);
     public static Z3RealExpr operator -(Z3RealExpr left, Z3RealExpr right) => left.Context.Sub(left, right);
     public static Z3RealExpr operator *(Z3RealExpr left, Z3RealExpr right) => left.Context.Mul(left, right);
@@ -33,7 +31,6 @@ public sealed class Z3RealExpr : Z3NumericExpr
     public static Z3BoolExpr operator >=(Z3RealExpr left, Z3RealExpr right) => left.Context.Ge(left, right);
     public static Z3RealExpr operator -(Z3RealExpr expr) => expr.Context.UnaryMinus(expr);
 
-    // Mixed-type equality operations (Real)
     public static Z3BoolExpr operator ==(Z3RealExpr left, Real right) => left.Context.Eq(left, right);
     public static Z3BoolExpr operator !=(Z3RealExpr left, Real right) => left.Context.Neq(left, right);
     public static Z3BoolExpr operator ==(Real left, Z3RealExpr right) => right.Context.Eq(left, right);
