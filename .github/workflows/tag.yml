@@ -52,6 +52,11 @@ jobs:
       - name: Make tag script executable
         run: chmod +x scripts/tag.sh
 
+      - name: Configure Git identity
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
       - name: Create tag using tag.sh script
         id: tag
         env:
