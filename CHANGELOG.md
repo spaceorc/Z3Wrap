@@ -9,24 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Complete XML documentation for all public APIs with IntelliSense support
-- Shell scripts for automated release note extraction and tag management
-- Coverage summary display in GitHub Actions workflow summary
-- CSharpier linting integration in CI pipeline
-
-### Changed
-- **BREAKING**: Made Handle properties and factory methods internal
-- Completely reinvented release process with MinVer for automatic semantic versioning and Git tag-based versioning
-- Enhanced CI/CD pipeline with improved coverage requirements (90% minimum) and streamlined release workflow
-- Refactored CI pipeline to use Makefile commands for consistency and improved development setup
-- Moved coverage scripts (`coverage.sh`, `coverage.ps1`) to `scripts/` directory and removed duplicate coverage report generation
-- Removed redundant null checks and cleaned up code
-
-### Fixed
-- Fixed formatting issues across multiple source files
-
-## [0.0.5] - 2025-09-17
-
-### Added
 - Fluent BitVector boundary check API with comprehensive BigInteger support
   - New `BitVecBoundaryCheck()` extension method for natural boundary constraint syntax
   - Support for Add, Sub, Mul, Div, Neg operations with full BigInteger overloads
@@ -36,7 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Complete API consistency with existing Z3Wrap BigInteger patterns
 
 ### Changed
-- Enhanced NuGet package publishing workflow to automatically include GitHub release notes
+- **BREAKING**: Made Handle properties and factory methods internal
+- Enhanced CI/CD pipeline with MinVer semantic versioning, improved coverage requirements (90% minimum), and automated release workflows
+- Removed redundant null checks and cleaned up code formatting across multiple source files
 
 ## [0.0.4] - 2025-09-17
 
