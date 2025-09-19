@@ -1,12 +1,6 @@
 name: release-notes
 
 on:
-  push:
-    tags:
-      - 'v*'                   # still works for tags you push locally
-  workflow_run:
-    workflows: ["tag"]         # <- runs after your tag workflow finishes
-    types: [completed]
   workflow_dispatch: {}        # manual fallback
 
 permissions:

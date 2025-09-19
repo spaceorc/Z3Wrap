@@ -1,10 +1,7 @@
 name: publish
 
-# Updated workflow - no inputs required
-
 on:
   workflow_dispatch:
-    inputs: {}
 
 permissions:
   contents: write
