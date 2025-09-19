@@ -6,9 +6,11 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// Base class for all Z3 expressions, providing common functionality for equality, inequality, and string representation.
 /// All Z3 expressions are immutable and associated with a specific Z3 context.
 /// </summary>
-public abstract partial class Z3Expr(Z3Context context, IntPtr handle)
+public abstract class Z3Expr(Z3Context context, IntPtr handle)
 {
-    internal IntPtr Handle { get; } = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
+    internal IntPtr Handle { get; } =
+        handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
+
     /// <summary>
     /// Gets the Z3 context that owns this expression.
     /// </summary>
@@ -22,6 +24,7 @@ public abstract partial class Z3Expr(Z3Context context, IntPtr handle)
     /// <param name="right">The right operand.</param>
     /// <returns>A Boolean expression representing left == right.</returns>
     public static Z3BoolExpr operator ==(Z3Expr left, Z3Expr right) => left.Eq(right);
+
     /// <summary>
     /// Determines whether two Z3 expressions are not equal using the != operator.
     /// Creates a Boolean expression representing the inequality constraint.
@@ -30,13 +33,14 @@ public abstract partial class Z3Expr(Z3Context context, IntPtr handle)
     /// <param name="right">The right operand.</param>
     /// <returns>A Boolean expression representing left != right.</returns>
     public static Z3BoolExpr operator !=(Z3Expr left, Z3Expr right) => left.Neq(right);
-    
+
     /// <summary>
     /// Creates a Boolean expression representing equality with another expression.
     /// </summary>
     /// <param name="other">The expression to compare with.</param>
     /// <returns>A Boolean expression representing this == other.</returns>
     public Z3BoolExpr Eq(Z3Expr other) => Context.Eq(this, other);
+
     /// <summary>
     /// Creates a Boolean expression representing inequality with another expression.
     /// </summary>
@@ -81,6 +85,61 @@ public abstract partial class Z3Expr(Z3Context context, IntPtr handle)
         catch
         {
             return "<error>";
+        }
+    }
+
+    internal static Z3Expr Create(Z3Context context, IntPtr handle)
+    {
+        context.TrackExpression(handle);
+
+        var sort = NativeMethods.Z3GetSort(context.Handle, handle);
+        var sortKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, sort);
+
+        return sortKind switch
+        {
+            Z3SortKind.Bool => new Z3BoolExpr(context, handle),
+            Z3SortKind.Int => new Z3IntExpr(context, handle),
+            Z3SortKind.Real => new Z3RealExpr(context, handle),
+            Z3SortKind.BV => CreateBitVectorExpression(context, handle, sort),
+            Z3SortKind.Array => CreateArrayExpression(context, handle, sort),
+            _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}")
+        };
+    }
+
+    private static Z3BitVecExpr CreateBitVectorExpression(Z3Context context, IntPtr handle, IntPtr bvSort)
+    {
+        var size = NativeMethods.Z3GetBvSortSize(context.Handle, bvSort);
+        return new Z3BitVecExpr(context, handle, size);
+    }
+
+    private static Z3Expr CreateArrayExpression(Z3Context context, IntPtr handle, IntPtr arraySort)
+    {
+        var domainSort = NativeMethods.Z3GetArraySortDomain(context.Handle, arraySort);
+        var domainKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, domainSort);
+
+        return domainKind switch
+        {
+            Z3SortKind.Bool => ArrayFactory<Z3BoolExpr>.CreateArray(context, handle, arraySort),
+            Z3SortKind.Int => ArrayFactory<Z3IntExpr>.CreateArray(context, handle, arraySort),
+            Z3SortKind.Real => ArrayFactory<Z3RealExpr>.CreateArray(context, handle, arraySort),
+            _ => throw new InvalidOperationException($"Unsupported array domain sort kind: {domainKind}")
+        };
+    }
+
+    private static class ArrayFactory<TIndex> where TIndex : Z3Expr
+    {
+        internal static Z3Expr CreateArray(Z3Context context, IntPtr handle, IntPtr arraySort)
+        {
+            var rangeSort = NativeMethods.Z3GetArraySortRange(context.Handle, arraySort);
+            var rangeKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, rangeSort);
+
+            return rangeKind switch
+            {
+                Z3SortKind.Bool => new Z3ArrayExpr<TIndex, Z3BoolExpr>(context, handle),
+                Z3SortKind.Int => new Z3ArrayExpr<TIndex, Z3IntExpr>(context, handle),
+                Z3SortKind.Real => new Z3ArrayExpr<TIndex, Z3RealExpr>(context, handle),
+                _ => throw new InvalidOperationException($"Unsupported array range sort kind: {rangeKind}")
+            };
         }
     }
 }

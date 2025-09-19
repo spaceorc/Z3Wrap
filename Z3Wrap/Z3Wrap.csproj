@@ -47,9 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Expressions\Z3Expr.Factory.cs">
-            <DependentUpon>Z3Expr.cs</DependentUpon>
-        </Compile>
         <Compile Update="Z3ContextExtensions.Array.cs">
           <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
         </Compile>
