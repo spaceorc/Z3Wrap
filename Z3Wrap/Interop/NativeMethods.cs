@@ -2,6 +2,10 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Interop;
 
+/// <summary>
+/// Provides native method bindings and library management for the Z3 theorem prover.
+/// Handles dynamic loading of the Z3 library and provides type-safe access to Z3 C API functions.
+/// </summary>
 public static class NativeMethods
 {
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);

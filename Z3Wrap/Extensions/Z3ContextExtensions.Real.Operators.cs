@@ -5,7 +5,13 @@ namespace Spaceorc.Z3Wrap.Extensions;
 
 public static partial class Z3ContextExtensions
 {
-    // Real arithmetic operations
+    /// <summary>
+    /// Adds multiple real expressions together.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="operands">The real expressions to add together.</param>
+    /// <returns>A Z3RealExpr representing the sum of all operands.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static Z3RealExpr Add(this Z3Context context, params Z3RealExpr[] operands)
     {
         if (operands.Length == 0)
@@ -19,6 +25,13 @@ public static partial class Z3ContextExtensions
         return Z3RealExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Subtracts multiple real expressions. For multiple operands, performs left-associative subtraction.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="operands">The real expressions to subtract. The first operand is the minuend, subsequent operands are subtracted from it.</param>
+    /// <returns>A Z3RealExpr representing the result of the subtraction.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static Z3RealExpr Sub(this Z3Context context, params Z3RealExpr[] operands)
     {
         if (operands.Length == 0)
@@ -32,6 +45,13 @@ public static partial class Z3ContextExtensions
         return Z3RealExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Multiplies multiple real expressions together.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="operands">The real expressions to multiply together.</param>
+    /// <returns>A Z3RealExpr representing the product of all operands.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static Z3RealExpr Mul(this Z3Context context, params Z3RealExpr[] operands)
     {
         if (operands.Length == 0)
@@ -45,37 +65,77 @@ public static partial class Z3ContextExtensions
         return Z3RealExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Divides one real expression by another.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The dividend (numerator).</param>
+    /// <param name="right">The divisor (denominator).</param>
+    /// <returns>A Z3RealExpr representing the quotient of left divided by right.</returns>
     public static Z3RealExpr Div(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = NativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
         return Z3RealExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Negates a real expression (unary minus operation).
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="operand">The real expression to negate.</param>
+    /// <returns>A Z3RealExpr representing the negated value of the operand.</returns>
     public static Z3RealExpr UnaryMinus(this Z3Context context, Z3RealExpr operand)
     {
         var resultHandle = NativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
         return Z3RealExpr.Create(context, resultHandle);
     }
 
-    // Real comparison operations
+    /// <summary>
+    /// Creates a boolean expression that is true if the left real expression is less than the right real expression.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A Z3BoolExpr representing left &lt; right.</returns>
     public static Z3BoolExpr Lt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = NativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Creates a boolean expression that is true if the left real expression is less than or equal to the right real expression.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A Z3BoolExpr representing left &lt;= right.</returns>
     public static Z3BoolExpr Le(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = NativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Creates a boolean expression that is true if the left real expression is greater than the right real expression.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A Z3BoolExpr representing left &gt; right.</returns>
     public static Z3BoolExpr Gt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = NativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
+    /// <summary>
+    /// Creates a boolean expression that is true if the left real expression is greater than or equal to the right real expression.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A Z3BoolExpr representing left &gt;= right.</returns>
     public static Z3BoolExpr Ge(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = NativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);

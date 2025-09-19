@@ -175,6 +175,9 @@ public class Z3Context : IDisposable
         disposed = true;
     }
 
+    /// <summary>
+    /// Finalizes the Z3Context instance, ensuring proper cleanup of native resources.
+    /// </summary>
     ~Z3Context()
     {
         DisposeCore();
