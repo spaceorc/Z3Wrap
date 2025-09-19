@@ -40,8 +40,13 @@ jobs:
           dotnet pack -c Release --no-build -o artifacts \
             -p:PackageReleaseNotes="$NOTES"
 
-      - name: Show resolved version (MinVer)
-        run: dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer -v:d || true
+      - name: Add version to job summary
+        run: |
+          VER=$(dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer -v:m \
+            | sed -n 's/.*MinVer_PackageVersion=\(.*\)$/\1/p' | tail -n1)
+          echo "### Package version" >> $GITHUB_STEP_SUMMARY
+          echo "\`$VER\`" >> $GITHUB_STEP_SUMMARY
+
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
