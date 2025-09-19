@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\tag.yml = .github\workflows\tag.yml
 		.github\workflows\release-notes.yml = .github\workflows\release-notes.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{75818AE1-5829-403C-A468-CEA764E7ED31}"

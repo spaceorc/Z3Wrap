@@ -1,0 +1,65 @@
+name: publish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate this is a valid tag
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" != "tag" ]]; then
+            echo "❌ This workflow must be run on a tag, not a branch"
+            echo "Selected ref: ${GITHUB_REF_NAME} (type: ${GITHUB_REF_TYPE})"
+            exit 1
+          fi
+
+          if [[ ! "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "❌ Tag must start with 'v' and follow semantic versioning (e.g., v1.0.0, v1.0.0-beta.1)"
+            echo "Selected tag: ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+
+          echo "✅ Running on valid tag: ${GITHUB_REF_NAME}"
+
+      # Detect prerelease from tag name
+      - name: Detect prerelease
+        id: flags
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [[ "$TAG" == *-* ]]; then
+            echo "pre=true" >> $GITHUB_OUTPUT
+            echo "🔄 Detected prerelease tag: $TAG"
+          else
+            echo "pre=false" >> $GITHUB_OUTPUT
+            echo "🎯 Detected stable release tag: $TAG"
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "ver=${TAG#v}" >> $GITHUB_OUTPUT
+
+      - name: Show detection results
+        run: |
+          echo "### 🏷️ Publish Detection Results" >> $GITHUB_STEP_SUMMARY
+          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Tag** | \`${{ steps.flags.outputs.tag }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Version** | \`${{ steps.flags.outputs.ver }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Prerelease** | \`${{ steps.flags.outputs.pre }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ steps.flags.outputs.pre }}" == "true" ]]; then
+            echo "🔄 **This will be published as a prerelease**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "🎯 **This will be published as a stable release**" >> $GITHUB_STEP_SUMMARY
+          fi
