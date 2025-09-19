@@ -67,18 +67,20 @@ format: ## Format code (requires csharpier)
 		echo "$(YELLOW)CSharpier not installed. Install with: dotnet tool install -g csharpier$(NC)"; \
 	fi
 
-lint: build ## Run static analysis (build + format check)
+lint: ## Run static analysis (format check)
 	@echo "$(BLUE)Running static analysis...$(NC)"
 	@if command -v csharpier >/dev/null 2>&1; then \
 		csharpier check .; \
 	else \
 		echo "$(YELLOW)CSharpier not available for lint check$(NC)"; \
+		echo "$(YELLOW)Install with: dotnet tool install -g csharpier$(NC)"; \
+		exit 1; \
 	fi
 
 all: restore build test ## Full build pipeline (restore, build, test)
 	@echo "$(GREEN)✅ All tasks completed successfully!$(NC)"
 
-ci: restore build test coverage ## CI pipeline (restore, build, test, coverage)
+ci: restore lint build test coverage ## CI pipeline (restore, lint, build, test, coverage)
 	@echo "$(GREEN)✅ CI pipeline completed successfully!$(NC)"
 
 # Development workflow commands

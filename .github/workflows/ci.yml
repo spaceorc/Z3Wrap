@@ -25,15 +25,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libz3-4
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-      
-    - name: Test with coverage
-      run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --logger trx --results-directory ./TestResults
+
+    - name: Setup development tools
+      run: make dev-setup
+
+    - name: Run CI pipeline
+      run: make ci
       
     - name: Install ReportGenerator
       run: dotnet tool install -g dotnet-reportgenerator-globaltool
