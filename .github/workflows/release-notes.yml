@@ -1,22 +1,35 @@
-name: Release notes
+name: release-notes
 
 on:
   push:
     tags:
-      - 'v*'   # runs for v1.2.3 and v1.2.3-beta.1
+      - 'v*'                   # still works for tags you push locally
+  workflow_run:
+    workflows: ["Tag"]         # <- runs after your tag workflow finishes
+    types: [completed]
+  workflow_dispatch: {}        # manual fallback
 
 permissions:
-  contents: write   # needed to create/edit releases
+  contents: write
 
 jobs:
   draft_release_with_notes:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        with: { fetch-depth: 0 }
 
-      # Grab the [Unreleased] section from CHANGELOG.md
+      # Determine which tag to use
+      - name: Determine tag
+        id: tag
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "name=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          else
+            echo "name=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+          fi
+
       - name: Extract notes from CHANGELOG [Unreleased]
         run: |
           python3 - <<'PY'
@@ -28,17 +41,16 @@ jobs:
           pathlib.Path("RELEASE_NOTES.md").write_text(notes or "No notes under [Unreleased].", encoding="utf-8")
           PY
 
-      # Mark as prerelease if tag has a dash (e.g., v1.2.3-beta.1)
       - name: Detect prerelease
         id: flags
         run: |
-          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then echo "pre=true" >> $GITHUB_OUTPUT; else echo "pre=false" >> $GITHUB_OUTPUT; fi
+          TAG='${{ steps.tag.outputs.name }}'
+          if [[ "$TAG" == *-* ]]; then echo "pre=true" >> $GITHUB_OUTPUT; else echo "pre=false" >> $GITHUB_OUTPUT; fi
 
-      # Create (or update) a DRAFT GitHub Release for this tag with the notes
       - name: Create GitHub Release (draft)
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ steps.tag.outputs.name }}
           draft: true
           prerelease: ${{ steps.flags.outputs.pre }}
           body_path: RELEASE_NOTES.md
