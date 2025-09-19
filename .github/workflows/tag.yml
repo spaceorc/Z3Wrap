@@ -15,7 +15,7 @@ on:
       prerelease:
         description: "Create prerelease tag?"
         type: boolean
-        default: false
+        default: true
       prerelease_label:
         description: "Prerelease label (e.g., beta, rc, alpha)"
         type: string
