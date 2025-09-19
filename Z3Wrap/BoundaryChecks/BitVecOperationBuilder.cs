@@ -13,7 +13,12 @@ public class BitVecOperationBuilder
     private readonly Z3BitVecExpr left;
     private readonly Z3BitVecExpr? right;
 
-    internal BitVecOperationBuilder(Z3Context context, BoundaryOperation operation, Z3BitVecExpr left, Z3BitVecExpr? right)
+    internal BitVecOperationBuilder(
+        Z3Context context,
+        BoundaryOperation operation,
+        Z3BitVecExpr left,
+        Z3BitVecExpr? right
+    )
     {
         this.context = context;
         this.operation = operation;

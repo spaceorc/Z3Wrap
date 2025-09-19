@@ -55,15 +55,21 @@ public static class NativeMethods
         }
 
         var searchedPaths = string.Join(", ", searchPaths);
-        var attemptDetails = loadAttempts.Count != 0
-            ? "\n\nLoad attempts:\n" + string.Join("\n", loadAttempts.Select(a => $"  {a.path}: {a.exception.Message}"))
-            : "";
+        var attemptDetails =
+            loadAttempts.Count != 0
+                ? "\n\nLoad attempts:\n"
+                    + string.Join(
+                        "\n",
+                        loadAttempts.Select(a => $"  {a.path}: {a.exception.Message}")
+                    )
+                : "";
 
         throw new InvalidOperationException(
-            $"Could not automatically locate Z3 library. " +
-            $"Searched paths: {searchedPaths}" +
-            attemptDetails +
-            "\n\nPlease ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly.");
+            $"Could not automatically locate Z3 library. "
+                + $"Searched paths: {searchedPaths}"
+                + attemptDetails
+                + "\n\nPlease ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly."
+        );
     }
 
     // Thread-safe library loading helper
@@ -71,7 +77,7 @@ public static class NativeMethods
     {
         if (loadedLibrary != null)
             return; // Fast path - already loaded
-        
+
         var newLibrary = LoadLibraryInternal(libraryPath);
         // Atomically set if still null, otherwise another thread already loaded
         if (Interlocked.CompareExchange(ref loadedLibrary, newLibrary, null) != null)
@@ -86,7 +92,7 @@ public static class NativeMethods
     {
         var handle = NativeLibrary.Load(libraryPath);
         var functionPointers = new Dictionary<string, IntPtr>();
-        
+
         try
         {
             // Load all function pointers
@@ -97,12 +103,12 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_update_param_value");
             LoadFunctionInternal(handle, functionPointers, "Z3_inc_ref");
             LoadFunctionInternal(handle, functionPointers, "Z3_dec_ref");
-            
+
             // Sort functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_bool_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_int_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_real_sort");
-            
+
             // Expression functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_const");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_string_symbol");
@@ -121,21 +127,21 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_gt");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_ge");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_numeral");
-            
+
             // Extended boolean operations
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_implies");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_iff");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_xor");
-            
+
             // Extended arithmetic operations
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_mod");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_unary_minus");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_ite");
-            
+
             // Type conversion functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2real");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_real2int");
-            
+
             // Array theory functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_array_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_select");
@@ -198,7 +204,7 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_reset");
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_reason_unknown");
-            
+
             // Model functions
             LoadFunctionInternal(handle, functionPointers, "Z3_model_inc_ref");
             LoadFunctionInternal(handle, functionPointers, "Z3_model_dec_ref");
@@ -210,7 +216,7 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_is_numeral_ast");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
-            
+
             return new LoadedLibrary(functionPointers, handle);
         }
         catch
@@ -220,8 +226,12 @@ public static class NativeMethods
             throw;
         }
     }
-    
-    private static void LoadFunctionInternal(IntPtr libraryHandle, Dictionary<string, IntPtr> functionPointers, string functionName)
+
+    private static void LoadFunctionInternal(
+        IntPtr libraryHandle,
+        Dictionary<string, IntPtr> functionPointers,
+        string functionName
+    )
     {
         var functionPtr = NativeLibrary.GetExport(libraryHandle, functionName);
         functionPointers[functionName] = functionPtr;
@@ -235,43 +245,63 @@ public static class NativeMethods
             [
                 "libz3.dll",
                 "z3.dll",
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Z3", "bin", "libz3.dll"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Z3", "bin", "z3.dll"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Z3", "bin", "libz3.dll"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Z3", "bin", "z3.dll"),
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                    "Z3",
+                    "bin",
+                    "libz3.dll"
+                ),
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                    "Z3",
+                    "bin",
+                    "z3.dll"
+                ),
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                    "Z3",
+                    "bin",
+                    "libz3.dll"
+                ),
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                    "Z3",
+                    "bin",
+                    "z3.dll"
+                ),
             ];
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             return
             [
                 "libz3.dylib",
                 "z3.dylib",
-                "/opt/homebrew/opt/z3/lib/libz3.dylib",  // Apple Silicon Homebrew
-                "/usr/local/opt/z3/lib/libz3.dylib",     // Intel Homebrew
+                "/opt/homebrew/opt/z3/lib/libz3.dylib", // Apple Silicon Homebrew
+                "/usr/local/opt/z3/lib/libz3.dylib", // Intel Homebrew
                 "/opt/homebrew/lib/libz3.dylib",
                 "/usr/local/lib/libz3.dylib",
                 "/usr/lib/libz3.dylib",
                 "/System/Library/Frameworks/libz3.dylib",
             ];
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             return
             [
                 "libz3.so",
                 "z3.so",
-                "/usr/lib/x86_64-linux-gnu/libz3.so",    // Ubuntu/Debian
-                "/usr/lib/libz3.so",                     // General Linux
-                "/usr/lib64/libz3.so",                   // 64-bit systems
-                "/usr/local/lib/libz3.so",               // User installations
-                "/opt/z3/lib/libz3.so",                  // Custom installations
-                "/snap/z3/current/lib/libz3.so",         // Snap packages
+                "/usr/lib/x86_64-linux-gnu/libz3.so", // Ubuntu/Debian
+                "/usr/lib/libz3.so", // General Linux
+                "/usr/lib64/libz3.so", // 64-bit systems
+                "/usr/local/lib/libz3.so", // User installations
+                "/opt/z3/lib/libz3.so", // Custom installations
+                "/snap/z3/current/lib/libz3.so", // Snap packages
             ];
         }
-        
+
         // Fallback for other platforms
         return ["libz3.so", "libz3.dylib", "libz3.dll", "z3.so", "z3.dylib", "z3.dll"];
     }
@@ -969,7 +999,13 @@ public static class NativeMethods
         return func(ctx, ast);
     }
 
-    internal static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    internal static bool Z3ModelEval(
+        IntPtr ctx,
+        IntPtr model,
+        IntPtr expr,
+        bool modelCompletion,
+        out IntPtr result
+    )
     {
         var funcPtr = GetFunctionPointer("Z3_model_eval");
         var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
@@ -982,8 +1018,6 @@ public static class NativeMethods
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
         return func(ctx, expr);
     }
-
-
 
     internal static int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
     {
@@ -1020,12 +1054,12 @@ public static class NativeMethods
     private delegate void Z3UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
     private delegate void Z3IncRefDelegate(IntPtr ctx, IntPtr ast);
     private delegate void Z3DecRefDelegate(IntPtr ctx, IntPtr ast);
-    
+
     // Sort delegates
     private delegate IntPtr Z3MkBoolSortDelegate(IntPtr ctx);
     private delegate IntPtr Z3MkIntSortDelegate(IntPtr ctx);
     private delegate IntPtr Z3MkRealSortDelegate(IntPtr ctx);
-    
+
     // Expression delegates
     private delegate IntPtr Z3MkConstDelegate(IntPtr ctx, IntPtr symbol, IntPtr sort);
     private delegate IntPtr Z3MkStringSymbolDelegate(IntPtr ctx, IntPtr str);
@@ -1044,21 +1078,26 @@ public static class NativeMethods
     private delegate IntPtr Z3MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkGeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
-    
+
     // Extended boolean operation delegates
     private delegate IntPtr Z3MkImpliesDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkIffDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkXorDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    
+
     // Extended arithmetic operation delegates
     private delegate IntPtr Z3MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
-    private delegate IntPtr Z3MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
-    
+    private delegate IntPtr Z3MkIteDelegate(
+        IntPtr ctx,
+        IntPtr condition,
+        IntPtr thenExpr,
+        IntPtr elseExpr
+    );
+
     // Type conversion delegates
     private delegate IntPtr Z3MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
     private delegate IntPtr Z3MkReal2IntDelegate(IntPtr ctx, IntPtr t1);
-    
+
     // Array theory delegates
     private delegate IntPtr Z3MkArraySortDelegate(IntPtr ctx, IntPtr domain, IntPtr range);
     private delegate IntPtr Z3MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
@@ -1099,16 +1138,31 @@ public static class NativeMethods
     private delegate IntPtr Z3MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
     private delegate IntPtr Z3MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
     private delegate IntPtr Z3MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
-    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(
+        IntPtr ctx,
+        IntPtr t1,
+        IntPtr t2,
+        bool signed
+    );
     private delegate IntPtr Z3MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(
+        IntPtr ctx,
+        IntPtr t1,
+        IntPtr t2,
+        bool signed
+    );
+    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(
+        IntPtr ctx,
+        IntPtr t1,
+        IntPtr t2,
+        bool signed
+    );
     private delegate IntPtr Z3MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
     private delegate uint Z3GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
-    
+
     // Solver delegates
     private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);
     private delegate IntPtr Z3MkSimpleSolverDelegate(IntPtr ctx);
@@ -1121,13 +1175,19 @@ public static class NativeMethods
     private delegate void Z3SolverResetDelegate(IntPtr ctx, IntPtr solver);
     private delegate IntPtr Z3SolverGetModelDelegate(IntPtr ctx, IntPtr solver);
     private delegate IntPtr Z3SolverGetReasonUnknownDelegate(IntPtr ctx, IntPtr solver);
-    
+
     // Model delegates
     private delegate void Z3ModelIncRefDelegate(IntPtr ctx, IntPtr model);
     private delegate void Z3ModelDecRefDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr Z3ModelToStringDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr Z3AstToStringDelegate(IntPtr ctx, IntPtr ast);
-    private delegate int Z3ModelEvalDelegate(IntPtr ctx, IntPtr model, IntPtr expr, int modelCompletion, out IntPtr result);
+    private delegate int Z3ModelEvalDelegate(
+        IntPtr ctx,
+        IntPtr model,
+        IntPtr expr,
+        int modelCompletion,
+        out IntPtr result
+    );
     private delegate IntPtr Z3GetNumeralStringDelegate(IntPtr ctx, IntPtr expr);
     private delegate int Z3GetBoolValueDelegate(IntPtr ctx, IntPtr expr);
     private delegate int Z3IsNumeralAstDelegate(IntPtr ctx, IntPtr expr);

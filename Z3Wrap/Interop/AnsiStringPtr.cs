@@ -5,7 +5,8 @@ namespace Spaceorc.Z3Wrap.Interop;
 
 internal sealed class AnsiStringPtr : SafeHandleZeroOrMinusOneIsInvalid
 {
-    public AnsiStringPtr(string str) : base(true)
+    public AnsiStringPtr(string str)
+        : base(true)
     {
         SetHandle(Marshal.StringToHGlobalAnsi(str));
     }

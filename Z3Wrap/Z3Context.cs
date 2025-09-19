@@ -39,9 +39,11 @@ public class Z3Context : IDisposable
     /// </summary>
     /// <param name="parameters">Configuration parameters as key-value pairs.</param>
     /// <exception cref="InvalidOperationException">Thrown when Z3 context creation fails.</exception>
-    public Z3Context(Dictionary<string, string> parameters) : this()
+    public Z3Context(Dictionary<string, string> parameters)
+        : this()
     {
-        foreach (var param in parameters) SetParameter(param.Key, param.Value);
+        foreach (var param in parameters)
+            SetParameter(param.Key, param.Value);
     }
 
     internal IntPtr Handle
@@ -76,7 +78,7 @@ public class Z3Context : IDisposable
         using var paramValuePtr = new AnsiStringPtr(paramValue);
         NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
-    
+
     /// <summary>
     /// Creates a new general-purpose solver that supports all Z3 theories and tactics.
     /// </summary>
@@ -130,14 +132,13 @@ public class Z3Context : IDisposable
             return;
 
         UntrackSolver(solver);
-        
+
         var solverHandle = solver.InternalHandle;
         if (solverHandle != IntPtr.Zero)
             NativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
-        
+
         solver.InternalDispose();
     }
-
 
     private void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
 
@@ -145,7 +146,7 @@ public class Z3Context : IDisposable
     {
         if (disposed)
             return;
-        
+
         if (contextHandle != IntPtr.Zero)
         {
             // First dispose all tracked solvers
@@ -187,8 +188,11 @@ public class Z3Context : IDisposable
     /// Gets the current thread-local Z3 context used for implicit conversions and natural syntax.
     /// </summary>
     /// <exception cref="InvalidOperationException">Thrown when no context is currently set up.</exception>
-    public static Z3Context Current => currentContext.Value ?? throw new InvalidOperationException(
-        "No Z3Context is currently set. Use 'using var scope = context.SetUp()' to enable implicit conversions.");
+    public static Z3Context Current =>
+        currentContext.Value
+        ?? throw new InvalidOperationException(
+            "No Z3Context is currently set. Use 'using var scope = context.SetUp()' to enable implicit conversions."
+        );
 
     /// <summary>
     /// Gets a value indicating whether a Z3 context is currently set up for this thread.

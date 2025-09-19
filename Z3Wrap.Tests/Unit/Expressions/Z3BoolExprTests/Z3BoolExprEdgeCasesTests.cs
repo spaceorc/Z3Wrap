@@ -130,10 +130,7 @@ public class Z3BoolExprEdgeCasesTests
         var cond2 = context.BoolConst("cond2");
 
         // Nested conditional: if cond1 then (if cond2 then 1 else 2) else 3
-        var nested = cond1.If(
-            cond2.If(context.Int(1), context.Int(2)),
-            context.Int(3)
-        );
+        var nested = cond1.If(cond2.If(context.Int(1), context.Int(2)), context.Int(3));
 
         Assert.That(nested, Is.TypeOf<Z3IntExpr>());
 
@@ -331,16 +328,16 @@ public class Z3BoolExprEdgeCasesTests
         var b = context.BoolConst("b");
 
         // Half adder logic
-        var sum = a ^ b;        // XOR for sum
-        var carry = a & b;      // AND for carry
+        var sum = a ^ b; // XOR for sum
+        var carry = a & b; // AND for carry
 
         // Test all combinations
         var testCases = new[]
         {
             (false, false, false, false), // 0+0=0, carry=0
-            (false, true, true, false),   // 0+1=1, carry=0
-            (true, false, true, false),   // 1+0=1, carry=0
-            (true, true, false, true)     // 1+1=0, carry=1
+            (false, true, true, false), // 0+1=1, carry=0
+            (true, false, true, false), // 1+0=1, carry=0
+            (true, true, false, true), // 1+1=0, carry=1
         };
 
         foreach (var (aVal, bVal, expectedSum, expectedCarry) in testCases)
@@ -351,8 +348,11 @@ public class Z3BoolExprEdgeCasesTests
             testSolver.Assert(sum == expectedSum);
             testSolver.Assert(carry == expectedCarry);
 
-            Assert.That(testSolver.Check(), Is.EqualTo(Z3Status.Satisfiable),
-                $"Half adder failed for a={aVal}, b={bVal}");
+            Assert.That(
+                testSolver.Check(),
+                Is.EqualTo(Z3Status.Satisfiable),
+                $"Half adder failed for a={aVal}, b={bVal}"
+            );
         }
     }
 
@@ -374,13 +374,13 @@ public class Z3BoolExprEdgeCasesTests
         var testCases = new[]
         {
             (false, false, false, false), // select=0, in0=0, in1=0 -> out=0 (select in0)
-            (true, false, false, true),   // select=0, in0=1, in1=0 -> out=1 (select in0)
-            (false, true, false, false),  // select=0, in0=0, in1=1 -> out=0 (select in0)
-            (true, true, false, true),    // select=0, in0=1, in1=1 -> out=1 (select in0)
+            (true, false, false, true), // select=0, in0=1, in1=0 -> out=1 (select in0)
+            (false, true, false, false), // select=0, in0=0, in1=1 -> out=0 (select in0)
+            (true, true, false, true), // select=0, in0=1, in1=1 -> out=1 (select in0)
             (false, false, true, false), // select=1, in0=0, in1=0 -> out=0 (select in1)
-            (true, false, true, false),   // select=1, in0=1, in1=0 -> out=0 (select in1)
-            (false, true, true, true),    // select=1, in0=0, in1=1 -> out=1 (select in1)
-            (true, true, true, true)      // select=1, in0=1, in1=1 -> out=1 (select in1)
+            (true, false, true, false), // select=1, in0=1, in1=0 -> out=0 (select in1)
+            (false, true, true, true), // select=1, in0=0, in1=1 -> out=1 (select in1)
+            (true, true, true, true), // select=1, in0=1, in1=1 -> out=1 (select in1)
         };
 
         foreach (var (in0Val, in1Val, selVal, expectedOut) in testCases)
@@ -391,8 +391,11 @@ public class Z3BoolExprEdgeCasesTests
             testSolver.Assert(select == selVal);
             testSolver.Assert(output == expectedOut);
 
-            Assert.That(testSolver.Check(), Is.EqualTo(Z3Status.Satisfiable),
-                $"Multiplexer failed for in0={in0Val}, in1={in1Val}, sel={selVal}");
+            Assert.That(
+                testSolver.Check(),
+                Is.EqualTo(Z3Status.Satisfiable),
+                $"Multiplexer failed for in0={in0Val}, in1={in1Val}, sel={selVal}"
+            );
         }
     }
 
@@ -406,10 +409,10 @@ public class Z3BoolExprEdgeCasesTests
         var p = context.BoolConst("p");
 
         // Collection of tautologies (always true formulas)
-        var tautology1 = p | !p;                    // Law of excluded middle
-        var tautology2 = !(p & !p);                 // Law of non-contradiction
-        var tautology3 = p.Implies(p | context.Bool(true));  // Weakening
-        var tautology4 = (p & context.Bool(true)).Iff(p);    // Identity
+        var tautology1 = p | !p; // Law of excluded middle
+        var tautology2 = !(p & !p); // Law of non-contradiction
+        var tautology3 = p.Implies(p | context.Bool(true)); // Weakening
+        var tautology4 = (p & context.Bool(true)).Iff(p); // Identity
 
         solver.Assert(tautology1);
         solver.Assert(tautology2);
@@ -429,11 +432,11 @@ public class Z3BoolExprEdgeCasesTests
 
         // Test individual contradictions separately
         using var solver1 = context.CreateSolver();
-        solver1.Assert(p & !p);  // Basic contradiction
+        solver1.Assert(p & !p); // Basic contradiction
         Assert.That(solver1.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
 
         using var solver2 = context.CreateSolver();
-        solver2.Assert(!(p | !p));  // Negation of tautology
+        solver2.Assert(!(p | !p)); // Negation of tautology
         Assert.That(solver2.Check(), Is.EqualTo(Z3Status.Unsatisfiable));
     }
 
@@ -448,10 +451,10 @@ public class Z3BoolExprEdgeCasesTests
         var q = context.BoolConst("q");
 
         // Test various algebraic simplifications
-        var simplification1 = (p & (p | q)).Iff(p);              // Absorption
-        var simplification2 = (p | (p & q)).Iff(p);              // Absorption
-        var simplification3 = ((p | q) & (p | !q)).Iff(p);       // Resolution
-        var simplification4 = (p & q | p & !q).Iff(p);           // Distributivity + simplification
+        var simplification1 = (p & (p | q)).Iff(p); // Absorption
+        var simplification2 = (p | (p & q)).Iff(p); // Absorption
+        var simplification3 = ((p | q) & (p | !q)).Iff(p); // Resolution
+        var simplification4 = (p & q | p & !q).Iff(p); // Distributivity + simplification
 
         solver.Assert(simplification1);
         solver.Assert(simplification2);
@@ -511,10 +514,10 @@ public class Z3BoolExprEdgeCasesTests
         var f3 = context.BoolConst("f3");
 
         // Base case and recurrence
-        solver.Assert(f0 == true);         // f(0) = true
-        solver.Assert(f1 == !f0);          // f(1) = !f(0) = false
-        solver.Assert(f2 == !f1);          // f(2) = !f(1) = true
-        solver.Assert(f3 == !f2);          // f(3) = !f(2) = false
+        solver.Assert(f0 == true); // f(0) = true
+        solver.Assert(f1 == !f0); // f(1) = !f(0) = false
+        solver.Assert(f2 == !f1); // f(2) = !f(1) = true
+        solver.Assert(f3 == !f2); // f(3) = !f(2) = false
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -536,19 +539,25 @@ public class Z3BoolExprEdgeCasesTests
         using var solver = context.CreateSolver();
 
         // 2x2 boolean matrix operations
-        var a11 = context.BoolConst("a11"); var a12 = context.BoolConst("a12");
-        var a21 = context.BoolConst("a21"); var a22 = context.BoolConst("a22");
+        var a11 = context.BoolConst("a11");
+        var a12 = context.BoolConst("a12");
+        var a21 = context.BoolConst("a21");
+        var a22 = context.BoolConst("a22");
 
-        var b11 = context.BoolConst("b11"); var b12 = context.BoolConst("b12");
-        var b21 = context.BoolConst("b21"); var b22 = context.BoolConst("b22");
+        var b11 = context.BoolConst("b11");
+        var b12 = context.BoolConst("b12");
+        var b21 = context.BoolConst("b21");
+        var b22 = context.BoolConst("b22");
 
         // Logical "multiplication" (AND operation)
-        var c11 = a11 & b11; var c12 = a12 & b12;
-        var c21 = a21 & b21; var c22 = a22 & b22;
+        var c11 = a11 & b11;
+        var c12 = a12 & b12;
+        var c21 = a21 & b21;
+        var c22 = a22 & b22;
 
         // Set up a specific case
-        solver.Assert(a11 & !a12 & a21 & !a22);  // Matrix A = [[T,F],[T,F]]
-        solver.Assert(b11 & b12 & !b21 & b22);   // Matrix B = [[T,T],[F,T]]
+        solver.Assert(a11 & !a12 & a21 & !a22); // Matrix A = [[T,F],[T,F]]
+        solver.Assert(b11 & b12 & !b21 & b22); // Matrix B = [[T,T],[F,T]]
 
         // Expected result: C = [[T,F],[F,F]]
         solver.Assert(c11 & !c12 & !c21 & !c22);

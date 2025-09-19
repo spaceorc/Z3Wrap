@@ -271,12 +271,12 @@ public class Z3BoolExprCreationTests
         var p = context.BoolConst("p");
 
         // Use implicit conversions in operations
-        var expr1 = p & true;   // Should work with implicit conversion
-        var expr2 = false | p;  // Should work with implicit conversion
+        var expr1 = p & true; // Should work with implicit conversion
+        var expr2 = false | p; // Should work with implicit conversion
 
         solver.Assert(p);
-        solver.Assert(expr1);   // p & true = p (true)
-        solver.Assert(expr2);   // false | p = p (true)
+        solver.Assert(expr1); // p & true = p (true)
+        solver.Assert(expr2); // false | p = p (true)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -293,10 +293,10 @@ public class Z3BoolExprCreationTests
         var q = context.BoolConst("q");
         var r = context.BoolConst("r");
 
-        var step1 = p & q;                    // Conjunction
-        var step2 = step1 | r;                // Add disjunction
-        var step3 = !step2;                   // Negate the whole thing
-        var step4 = step3.Implies(p);         // Add implication
+        var step1 = p & q; // Conjunction
+        var step2 = step1 | r; // Add disjunction
+        var step3 = !step2; // Negate the whole thing
+        var step4 = step3.Implies(p); // Add implication
         var final = step4.Iff(context.Bool(true)); // Final equivalence
 
         Assert.Multiple(() =>

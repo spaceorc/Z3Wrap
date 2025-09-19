@@ -20,14 +20,14 @@ public sealed class Z3Solver : IDisposable
     internal Z3Solver(Z3Context context, bool useSimpleSolver)
     {
         this.context = context;
-        
-        solverHandle = useSimpleSolver 
+
+        solverHandle = useSimpleSolver
             ? NativeMethods.Z3MkSimpleSolver(context.Handle)
             : NativeMethods.Z3MkSolver(context.Handle);
-            
+
         if (solverHandle == IntPtr.Zero)
             throw new InvalidOperationException("Failed to create Z3 solver");
-        
+
         NativeMethods.Z3SolverIncRef(context.Handle, solverHandle);
     }
 
@@ -52,7 +52,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after assertion
-        
+
         NativeMethods.Z3SolverAssert(context.Handle, solverHandle, constraint.Handle);
     }
 
@@ -65,7 +65,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after reset
-        
+
         NativeMethods.Z3SolverReset(context.Handle, solverHandle);
         lastCheckResult = null;
     }
@@ -83,14 +83,16 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
         InvalidateModel(); // Clear any previous model
-        
+
         var result = NativeMethods.Z3SolverCheck(context.Handle, solverHandle);
         lastCheckResult = (Z3BoolValue)result switch
         {
             Z3BoolValue.False => Z3Status.Unsatisfiable,
             Z3BoolValue.True => Z3Status.Satisfiable,
             Z3BoolValue.Undefined => Z3Status.Unknown,
-            _ => throw new InvalidOperationException($"Unexpected boolean value result {result} from Z3_solver_check"),
+            _ => throw new InvalidOperationException(
+                $"Unexpected boolean value result {result} from Z3_solver_check"
+            ),
         };
         return lastCheckResult.Value;
     }
@@ -104,7 +106,7 @@ public sealed class Z3Solver : IDisposable
     public string GetReasonUnknown()
     {
         ThrowIfDisposed();
-        
+
         var reasonPtr = NativeMethods.Z3SolverGetReasonUnknown(context.Handle, solverHandle);
         return Marshal.PtrToStringAnsi(reasonPtr) ?? "Unknown reason";
     }
@@ -118,7 +120,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after push
-        
+
         NativeMethods.Z3SolverPush(context.Handle, solverHandle);
     }
 
@@ -132,7 +134,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after pop
-        
+
         NativeMethods.Z3SolverPop(context.Handle, solverHandle, numScopes);
     }
 
@@ -148,25 +150,27 @@ public sealed class Z3Solver : IDisposable
     public Z3Model GetModel()
     {
         ThrowIfDisposed();
-        
+
         // Check if we have called Check() before
         if (lastCheckResult == null)
             throw new InvalidOperationException("Must call Check() before GetModel()");
-            
+
         // Check if the result was satisfiable
         if (lastCheckResult != Z3Status.Satisfiable)
-            throw new InvalidOperationException($"Cannot get model when solver status is {lastCheckResult}");
-        
+            throw new InvalidOperationException(
+                $"Cannot get model when solver status is {lastCheckResult}"
+            );
+
         // Return cached model if we have one
         if (cachedModel == null)
         {
             var modelHandle = NativeMethods.Z3SolverGetModel(context.Handle, solverHandle);
             if (modelHandle == IntPtr.Zero)
                 throw new InvalidOperationException("Failed to get model from solver");
-                
+
             cachedModel = new Z3Model(context, modelHandle);
         }
-        
+
         return cachedModel;
     }
 
@@ -200,7 +204,7 @@ public sealed class Z3Solver : IDisposable
 
         // Clean up model before solver disposal
         InvalidateModel();
-        
+
         isBeingDisposedByContext = true;
         solverHandle = IntPtr.Zero;
         disposed = true;

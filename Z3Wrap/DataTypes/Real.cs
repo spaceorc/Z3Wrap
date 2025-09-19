@@ -17,20 +17,23 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// </summary>
     /// <param name="numerator">The numerator.</param>
     /// <param name="denominator">The denominator (defaults to 1).</param>
-    public Real(int numerator, int denominator = 1) : this(new BigInteger(numerator), new BigInteger(denominator)) { }
+    public Real(int numerator, int denominator = 1)
+        : this(new BigInteger(numerator), new BigInteger(denominator)) { }
 
     /// <summary>
     /// Initializes a new rational number from long integer numerator and denominator.
     /// </summary>
     /// <param name="numerator">The numerator.</param>
     /// <param name="denominator">The denominator (defaults to 1).</param>
-    public Real(long numerator, long denominator = 1) : this(new BigInteger(numerator), new BigInteger(denominator)) { }
+    public Real(long numerator, long denominator = 1)
+        : this(new BigInteger(numerator), new BigInteger(denominator)) { }
 
     /// <summary>
     /// Initializes a new rational number from a BigInteger numerator (denominator = 1).
     /// </summary>
     /// <param name="numerator">The numerator value.</param>
-    public Real(BigInteger numerator) : this(numerator, BigInteger.One) { }
+    public Real(BigInteger numerator)
+        : this(numerator, BigInteger.One) { }
 
     /// <summary>
     /// Initializes a new rational number from a decimal value with exact precision.
@@ -41,12 +44,15 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
         var bits = decimal.GetBits(value);
         var sign = (bits[3] & 0x80000000) != 0 ? -1 : 1;
         var scale = (bits[3] >> 16) & 0x7F;
-        
-        var num = new BigInteger(sign) * 
-                  (new BigInteger((uint)bits[2]) << 64 | 
-                   new BigInteger((uint)bits[1]) << 32 | 
-                   new BigInteger((uint)bits[0]));
-        
+
+        var num =
+            new BigInteger(sign)
+            * (
+                new BigInteger((uint)bits[2]) << 64
+                | new BigInteger((uint)bits[1]) << 32
+                | new BigInteger((uint)bits[0])
+            );
+
         var den = BigInteger.Pow(10, scale);
 
         var gcd = BigInteger.GreatestCommonDivisor(BigInteger.Abs(num), den);
@@ -145,7 +151,14 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
 
         if (value.Contains('.'))
         {
-            if (!decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var decimalValue))
+            if (
+                !decimal.TryParse(
+                    value,
+                    NumberStyles.Number,
+                    CultureInfo.InvariantCulture,
+                    out var decimalValue
+                )
+            )
                 throw new FormatException($"Invalid decimal format: {value}");
 
             return new Real(decimalValue);
@@ -187,10 +200,10 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     {
         if (!IsInteger)
             throw new InvalidOperationException("Cannot convert non-integer value to int");
-        
+
         if (numerator > int.MaxValue || numerator < int.MinValue)
             throw new OverflowException($"Value {this} is outside the range of int");
-        
+
         return (int)numerator;
     }
 
@@ -204,10 +217,10 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     {
         if (!IsInteger)
             throw new InvalidOperationException("Cannot convert non-integer value to long");
-        
+
         if (numerator > long.MaxValue || numerator < long.MinValue)
             throw new OverflowException($"Value {this} is outside the range of long");
-        
+
         return (long)numerator;
     }
 
@@ -220,7 +233,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     {
         if (!IsInteger)
             throw new InvalidOperationException("Cannot convert non-integer value to BigInteger");
-        
+
         return numerator;
     }
 
@@ -260,12 +273,14 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
 
         return mode switch
         {
-            MidpointRounding.ToEven => (quotient % 2 == 0) ? quotient : (numerator >= 0 ? quotient + 1 : quotient - 1),
+            MidpointRounding.ToEven => (quotient % 2 == 0)
+                ? quotient
+                : (numerator >= 0 ? quotient + 1 : quotient - 1),
             MidpointRounding.AwayFromZero => numerator >= 0 ? quotient + 1 : quotient - 1,
             MidpointRounding.ToZero => quotient,
             MidpointRounding.ToNegativeInfinity => numerator >= 0 ? quotient : quotient - 1,
             MidpointRounding.ToPositiveInfinity => numerator >= 0 ? quotient + 1 : quotient,
-            _ => throw new ArgumentException($"Invalid rounding mode: {mode}")
+            _ => throw new ArgumentException($"Invalid rounding mode: {mode}"),
         };
     }
 
@@ -274,7 +289,7 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// </summary>
     /// <returns>A rational number representing the absolute value.</returns>
     public Real Abs() => numerator < 0 ? -this : this;
-    
+
     /// <summary>
     /// Returns the reciprocal (multiplicative inverse) of this rational number.
     /// </summary>
@@ -382,7 +397,8 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if the rational numbers are equal; otherwise, false.</returns>
-    public static bool operator ==(Real left, Real right) => left.numerator == right.numerator && left.denominator == right.denominator;
+    public static bool operator ==(Real left, Real right) =>
+        left.numerator == right.numerator && left.denominator == right.denominator;
 
     /// <summary>
     /// Determines whether two rational numbers are not equal using the != operator.
@@ -398,7 +414,8 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if left is less than right; otherwise, false.</returns>
-    public static bool operator <(Real left, Real right) => left.numerator * right.denominator < right.numerator * left.denominator;
+    public static bool operator <(Real left, Real right) =>
+        left.numerator * right.denominator < right.numerator * left.denominator;
 
     /// <summary>
     /// Determines whether the left rational number is less than or equal to the right using the &lt;= operator.
@@ -406,7 +423,8 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if left is less than or equal to right; otherwise, false.</returns>
-    public static bool operator <=(Real left, Real right) => left.numerator * right.denominator <= right.numerator * left.denominator;
+    public static bool operator <=(Real left, Real right) =>
+        left.numerator * right.denominator <= right.numerator * left.denominator;
 
     /// <summary>
     /// Determines whether the left rational number is greater than the right using the &gt; operator.
@@ -414,7 +432,8 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if left is greater than right; otherwise, false.</returns>
-    public static bool operator >(Real left, Real right) => left.numerator * right.denominator > right.numerator * left.denominator;
+    public static bool operator >(Real left, Real right) =>
+        left.numerator * right.denominator > right.numerator * left.denominator;
 
     /// <summary>
     /// Determines whether the left rational number is greater than or equal to the right using the &gt;= operator.
@@ -422,7 +441,8 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if left is greater than or equal to right; otherwise, false.</returns>
-    public static bool operator >=(Real left, Real right) => left.numerator * right.denominator >= right.numerator * left.denominator;
+    public static bool operator >=(Real left, Real right) =>
+        left.numerator * right.denominator >= right.numerator * left.denominator;
 
     /// <summary>
     /// Implicitly converts an integer to a rational number.
@@ -507,8 +527,10 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
     /// <returns>A value less than 0 if this rational number is less than other; 0 if they are equal; greater than 0 if this rational number is greater than other.</returns>
     public int CompareTo(Real other)
     {
-        if (this < other) return -1;
-        if (this > other) return 1;
+        if (this < other)
+            return -1;
+        if (this > other)
+            return 1;
         return 0;
     }
 
@@ -539,10 +561,14 @@ public readonly struct Real : IEquatable<Real>, IComparable<Real>, IFormattable
 
         return format.ToUpperInvariant() switch
         {
-            "F" or "FRACTION" => denominator == 1 ? numerator.ToString(formatProvider) : $"{numerator}/{denominator}",
+            "F" or "FRACTION" => denominator == 1
+                ? numerator.ToString(formatProvider)
+                : $"{numerator}/{denominator}",
             "D" or "DECIMAL" => ToDecimal().ToString(formatProvider),
-            "G" or "GENERAL" => denominator == 1 ? numerator.ToString(formatProvider) : $"{numerator}/{denominator}",
-            _ => throw new FormatException($"Invalid format string: {format}")
+            "G" or "GENERAL" => denominator == 1
+                ? numerator.ToString(formatProvider)
+                : $"{numerator}/{denominator}",
+            _ => throw new FormatException($"Invalid format string: {format}"),
         };
     }
 

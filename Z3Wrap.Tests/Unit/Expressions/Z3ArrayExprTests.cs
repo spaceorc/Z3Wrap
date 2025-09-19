@@ -457,8 +457,12 @@ public class Z3ArrayExprTests
 
     #region Helper Methods
 
-    private void AssertValidArrayExpression<TIndex, TValue>(Z3ArrayExpr<TIndex, TValue> array, string? expectedName = null)
-        where TIndex : Z3Expr where TValue : Z3Expr
+    private void AssertValidArrayExpression<TIndex, TValue>(
+        Z3ArrayExpr<TIndex, TValue> array,
+        string? expectedName = null
+    )
+        where TIndex : Z3Expr
+        where TValue : Z3Expr
     {
         Assert.That(array, Is.Not.Null);
         Assert.That(array.Handle, Is.Not.EqualTo(IntPtr.Zero));

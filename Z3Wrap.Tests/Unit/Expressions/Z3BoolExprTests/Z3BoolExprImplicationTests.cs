@@ -10,7 +10,11 @@ public class Z3BoolExprImplicationTests
     [TestCase(true, false, false, Description = "true IMPLIES false = false")]
     [TestCase(false, true, true, Description = "false IMPLIES true = true")]
     [TestCase(false, false, true, Description = "false IMPLIES false = true")]
-    public void Implies_AllVariations_ReturnsExpectedResult(bool antecedent, bool consequent, bool expectedResult)
+    public void Implies_AllVariations_ReturnsExpectedResult(
+        bool antecedent,
+        bool consequent,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -20,9 +24,9 @@ public class Z3BoolExprImplicationTests
         var q = context.Bool(consequent);
 
         // Test all variations of IMPLIES operation
-        var resultMethodBoolExpr = p.Implies(q);             // BoolExpr.Implies(BoolExpr) (method)
-        var resultMethodBool = p.Implies(consequent);        // BoolExpr.Implies(bool) (method)
-        var resultContextBoolExpr = context.Implies(p, q);   // Context.Implies(BoolExpr, BoolExpr) (method)
+        var resultMethodBoolExpr = p.Implies(q); // BoolExpr.Implies(BoolExpr) (method)
+        var resultMethodBool = p.Implies(consequent); // BoolExpr.Implies(bool) (method)
+        var resultContextBoolExpr = context.Implies(p, q); // Context.Implies(BoolExpr, BoolExpr) (method)
         var resultContextExprBool = context.Implies(p, consequent); // Context.Implies(BoolExpr, bool) (method)
         var resultContextBoolExpr2 = context.Implies(antecedent, q); // Context.Implies(bool, BoolExpr) (method)
 
@@ -34,12 +38,36 @@ public class Z3BoolExprImplicationTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultMethodBoolExpr), Is.EqualTo(expectedResult), "BoolExpr.Implies(BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "BoolExpr.Implies(bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextBoolExpr), Is.EqualTo(expectedResult), "Context.Implies(BoolExpr, BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(resultContextExprBool), Is.EqualTo(expectedResult), "Context.Implies(BoolExpr, bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextBoolExpr2), Is.EqualTo(expectedResult), "Context.Implies(bool, BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(equivalentForm), Is.EqualTo(expectedResult), "Equivalent form (!p | q) failed");
+            Assert.That(
+                model.GetBoolValue(resultMethodBoolExpr),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Implies(BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultMethodBool),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Implies(bool) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextBoolExpr),
+                Is.EqualTo(expectedResult),
+                "Context.Implies(BoolExpr, BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextExprBool),
+                Is.EqualTo(expectedResult),
+                "Context.Implies(BoolExpr, bool) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextBoolExpr2),
+                Is.EqualTo(expectedResult),
+                "Context.Implies(bool, BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(equivalentForm),
+                Is.EqualTo(expectedResult),
+                "Equivalent form (!p | q) failed"
+            );
         });
     }
 
@@ -57,11 +85,11 @@ public class Z3BoolExprImplicationTests
         var q = context.Bool(right);
 
         // Test all variations of IFF (biconditional) operation
-        var resultMethodBoolExpr = p.Iff(q);                 // BoolExpr.Iff(BoolExpr) (method)
-        var resultMethodBool = p.Iff(right);                 // BoolExpr.Iff(bool) (method)
-        var resultContextBoolExpr = context.Iff(p, q);       // Context.Iff(BoolExpr, BoolExpr) (method)
-        var resultContextExprBool = context.Iff(p, right);   // Context.Iff(BoolExpr, bool) (method)
-        var resultContextBoolExpr2 = context.Iff(left, q);   // Context.Iff(bool, BoolExpr) (method)
+        var resultMethodBoolExpr = p.Iff(q); // BoolExpr.Iff(BoolExpr) (method)
+        var resultMethodBool = p.Iff(right); // BoolExpr.Iff(bool) (method)
+        var resultContextBoolExpr = context.Iff(p, q); // Context.Iff(BoolExpr, BoolExpr) (method)
+        var resultContextExprBool = context.Iff(p, right); // Context.Iff(BoolExpr, bool) (method)
+        var resultContextBoolExpr2 = context.Iff(left, q); // Context.Iff(bool, BoolExpr) (method)
 
         // Test equivalent form: p ↔ q ≡ (p → q) & (q → p)
         var equivalentForm = p.Implies(q) & q.Implies(p);
@@ -74,13 +102,41 @@ public class Z3BoolExprImplicationTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultMethodBoolExpr), Is.EqualTo(expectedResult), "BoolExpr.Iff(BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(resultMethodBool), Is.EqualTo(expectedResult), "BoolExpr.Iff(bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextBoolExpr), Is.EqualTo(expectedResult), "Context.Iff(BoolExpr, BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(resultContextExprBool), Is.EqualTo(expectedResult), "Context.Iff(BoolExpr, bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextBoolExpr2), Is.EqualTo(expectedResult), "Context.Iff(bool, BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(equivalentForm), Is.EqualTo(expectedResult), "Equivalent form (p → q) & (q → p) failed");
-            Assert.That(model.GetBoolValue(anotherEquivalentForm), Is.EqualTo(expectedResult), "Equivalent form (p & q) | (!p & !q) failed");
+            Assert.That(
+                model.GetBoolValue(resultMethodBoolExpr),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Iff(BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultMethodBool),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Iff(bool) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextBoolExpr),
+                Is.EqualTo(expectedResult),
+                "Context.Iff(BoolExpr, BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextExprBool),
+                Is.EqualTo(expectedResult),
+                "Context.Iff(BoolExpr, bool) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextBoolExpr2),
+                Is.EqualTo(expectedResult),
+                "Context.Iff(bool, BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(equivalentForm),
+                Is.EqualTo(expectedResult),
+                "Equivalent form (p → q) & (q → p) failed"
+            );
+            Assert.That(
+                model.GetBoolValue(anotherEquivalentForm),
+                Is.EqualTo(expectedResult),
+                "Equivalent form (p & q) | (!p & !q) failed"
+            );
         });
     }
 
@@ -94,8 +150,8 @@ public class Z3BoolExprImplicationTests
         var p = context.BoolConst("p");
 
         // Test implications with constants
-        var alwaysTrue1 = context.Bool(false).Implies(p);    // false → anything = true
-        var alwaysTrue2 = p.Implies(context.Bool(true));     // anything → true = true
+        var alwaysTrue1 = context.Bool(false).Implies(p); // false → anything = true
+        var alwaysTrue2 = p.Implies(context.Bool(true)); // anything → true = true
         var equivalentToNegP = p.Implies(context.Bool(false)); // p → false ≡ !p
 
         solver.Assert(alwaysTrue1);
@@ -115,8 +171,8 @@ public class Z3BoolExprImplicationTests
         var p = context.BoolConst("p");
 
         // Test biconditionals with constants
-        var equivalentToP = p.Iff(context.Bool(true));       // p ↔ true ≡ p
-        var equivalentToNotP = p.Iff(context.Bool(false));   // p ↔ false ≡ !p
+        var equivalentToP = p.Iff(context.Bool(true)); // p ↔ true ≡ p
+        var equivalentToNotP = p.Iff(context.Bool(false)); // p ↔ false ≡ !p
 
         solver.Assert(equivalentToP.Iff(p));
         solver.Assert(equivalentToNotP.Iff(!p));
@@ -385,9 +441,9 @@ public class Z3BoolExprImplicationTests
         var q = context.BoolConst("q");
 
         // Collection of tautologies involving implications
-        var tautology1 = p.Implies(p | q);          // p → (p | q)
-        var tautology2 = (p & q).Implies(p);        // (p & q) → p
-        var tautology3 = (p & q).Implies(q);        // (p & q) → q
+        var tautology1 = p.Implies(p | q); // p → (p | q)
+        var tautology2 = (p & q).Implies(p); // (p & q) → p
+        var tautology3 = (p & q).Implies(q); // (p & q) → q
         var tautology4 = (!p).Implies(p.Implies(q)); // !p → (p → q)
 
         solver.Assert(tautology1);
@@ -409,10 +465,10 @@ public class Z3BoolExprImplicationTests
         var q = context.BoolConst("q");
 
         // Collection of tautologies involving biconditionals
-        var tautology1 = p.Iff(!!p);                // p ↔ !!p (double negation)
-        var tautology2 = (p & q).Iff(q & p);        // (p & q) ↔ (q & p) (commutativity)
-        var tautology3 = (p | q).Iff(q | p);        // (p | q) ↔ (q | p) (commutativity)
-        var tautology4 = (p ^ q).Iff(q ^ p);        // (p ^ q) ↔ (q ^ p) (commutativity)
+        var tautology1 = p.Iff(!!p); // p ↔ !!p (double negation)
+        var tautology2 = (p & q).Iff(q & p); // (p & q) ↔ (q & p) (commutativity)
+        var tautology3 = (p | q).Iff(q | p); // (p | q) ↔ (q | p) (commutativity)
+        var tautology4 = (p ^ q).Iff(q ^ p); // (p ^ q) ↔ (q ^ p) (commutativity)
 
         solver.Assert(tautology1);
         solver.Assert(tautology2);

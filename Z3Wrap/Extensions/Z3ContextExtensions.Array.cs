@@ -13,7 +13,10 @@ public static partial class Z3ContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr representing the array constant.</returns>
-    public static Z3ArrayExpr<TIndex, TValue> ArrayConst<TIndex, TValue>(this Z3Context context, string name)
+    public static Z3ArrayExpr<TIndex, TValue> ArrayConst<TIndex, TValue>(
+        this Z3Context context,
+        string name
+    )
         where TIndex : Z3Expr
         where TValue : Z3Expr
     {
@@ -36,7 +39,10 @@ public static partial class Z3ContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the array constant.</returns>
-    public static Z3ArrayExpr<Z3IntExpr, TValue> ArrayConst<TValue>(this Z3Context context, string name)
+    public static Z3ArrayExpr<Z3IntExpr, TValue> ArrayConst<TValue>(
+        this Z3Context context,
+        string name
+    )
         where TValue : Z3Expr
     {
         return context.ArrayConst<Z3IntExpr, TValue>(name);
@@ -50,7 +56,10 @@ public static partial class Z3ContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="defaultValue">The default value for all array indices.</param>
     /// <returns>A new Z3ArrayExpr representing the constant array.</returns>
-    public static Z3ArrayExpr<TIndex, TValue> Array<TIndex, TValue>(this Z3Context context, TValue defaultValue)
+    public static Z3ArrayExpr<TIndex, TValue> Array<TIndex, TValue>(
+        this Z3Context context,
+        TValue defaultValue
+    )
         where TIndex : Z3Expr
         where TValue : Z3Expr
     {
@@ -70,20 +79,24 @@ public static partial class Z3ContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="defaultValue">The default value for all array indices.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the constant array.</returns>
-    public static Z3ArrayExpr<Z3IntExpr, TValue> Array<TValue>(this Z3Context context, TValue defaultValue)
+    public static Z3ArrayExpr<Z3IntExpr, TValue> Array<TValue>(
+        this Z3Context context,
+        TValue defaultValue
+    )
         where TValue : Z3Expr
     {
         return context.Array<Z3IntExpr, TValue>(defaultValue);
     }
 
-    private static IntPtr GetSortForType<T>(Z3Context context) where T : Z3Expr
+    private static IntPtr GetSortForType<T>(Z3Context context)
+        where T : Z3Expr
     {
         return typeof(T).Name switch
         {
             nameof(Z3BoolExpr) => NativeMethods.Z3MkBoolSort(context.Handle),
             nameof(Z3IntExpr) => NativeMethods.Z3MkIntSort(context.Handle),
             nameof(Z3RealExpr) => NativeMethods.Z3MkRealSort(context.Handle),
-            _ => throw new ArgumentException($"Unsupported array type: {typeof(T).Name}")
+            _ => throw new ArgumentException($"Unsupported array type: {typeof(T).Name}"),
         };
     }
 }

@@ -32,6 +32,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{7581
 		scripts\coverage.ps1 = scripts\coverage.ps1
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".claude", ".claude", "{60E583E6-47DD-4B1C-83A5-69EF8FD863CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "commands", "commands", "{7BC985E1-E18A-404C-9380-AF78A0FD7A57}"
+	ProjectSection(SolutionItems) = preProject
+		.claude\commands\changelog.md = .claude\commands\changelog.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,5 +56,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C6907EBC-8C0D-46EF-801E-17A506DE70B6} = {57C34814-857F-4D49-9E65-43A2B80B1DB5}
+		{7BC985E1-E18A-404C-9380-AF78A0FD7A57} = {60E583E6-47DD-4B1C-83A5-69EF8FD863CA}
 	EndGlobalSection
 EndGlobal

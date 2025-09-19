@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap;
 using System.Numerics;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
@@ -15,54 +15,54 @@ public class Z3ModelValueExtractionTests
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
         using var scope = context.SetUp();
-        
+
         var x = context.IntConst("x");
         solver.Assert(x == 42);
-        
+
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var evaluated = model.Evaluate(x);
-        
+
         Assert.That(evaluated, Is.TypeOf<Z3IntExpr>());
         Assert.That(evaluated.ToString(), Is.EqualTo("42"));
     }
-    
+
     [Test]
     public void EvaluateBooleanExpression()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var p = context.BoolConst("p");
         solver.Assert(p);
-        
+
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var evaluated = model.Evaluate(p);
-        
+
         Assert.That(evaluated, Is.TypeOf<Z3BoolExpr>());
         Assert.That(evaluated.ToString(), Is.EqualTo("true"));
     }
-    
+
     [Test]
     public void EvaluateRealExpression()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var z = context.RealConst("z");
         solver.Assert(z == context.Real(3.14m));
-        
+
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var evaluated = model.Evaluate(z);
-        
+
         Assert.That(evaluated, Is.TypeOf<Z3RealExpr>());
         Assert.That(evaluated.ToString(), Does.Contain("157").And.Contain("50"));
     }
@@ -72,66 +72,66 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         solver.Assert(x == context.Int(123));
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var value = model.GetIntValue(x);
-        
+
         Assert.That(value, Is.EqualTo(new BigInteger(123)));
     }
-    
+
     [Test]
     public void GetBoolValue_True()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var p = context.BoolConst("p");
         solver.Assert(p);
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var value = model.GetBoolValue(p);
-        
+
         Assert.That(value, Is.True);
     }
-    
+
     [Test]
     public void GetBoolValue_False()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var p = context.BoolConst("p");
         solver.Assert(p == context.False());
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var value = model.GetBoolValue(p);
-        
+
         Assert.That(value, Is.False);
     }
-    
+
     [Test]
     public void GetRealValue()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var z = context.RealConst("z");
         solver.Assert(z == context.Real(2.718m));
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var value = model.GetRealValue(z);
-        
+
         Assert.That(value, Is.EqualTo(new Real(2.718m)));
     }
 
@@ -140,15 +140,15 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var z = context.RealConst("z");
         solver.Assert(z == context.Real(new Real(1, 3)));
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var value = model.GetRealValue(z);
-        
+
         Assert.That(value, Is.EqualTo(new Real(1, 3)));
     }
 
@@ -157,101 +157,101 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var z = context.RealConst("z");
         solver.Assert(z == context.Real(2.718m));
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var value = model.GetNumericValueAsString(z);
-        
+
         Assert.That(value, Is.EqualTo("1359/500"));
     }
-    
+
     [Test]
     public void GetIntValue_ComplexExpression()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         solver.Assert(x + y == context.Int(15));
         solver.Assert(x - y == context.Int(5));
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var xValue = model.GetIntValue(x);
         var yValue = model.GetIntValue(y);
-        
+
         Assert.That(xValue + yValue, Is.EqualTo(new BigInteger(15)));
         Assert.That(xValue - yValue, Is.EqualTo(new BigInteger(5)));
         Assert.That(xValue, Is.EqualTo(new BigInteger(10)));
         Assert.That(yValue, Is.EqualTo(new BigInteger(5)));
     }
-    
+
     [Test]
     public void GetBoolValue_ComplexExpression()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var p = context.BoolConst("p");
         var q = context.BoolConst("q");
         solver.Assert(p | q);
         solver.Assert(!p);
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var pValue = model.GetBoolValue(p);
         var qValue = model.GetBoolValue(q);
-        
+
         Assert.That(pValue, Is.False);
         Assert.That(qValue, Is.True);
     }
-    
+
     [Test]
     public void EvaluateWithModelCompletion_True()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         solver.Assert(x == context.Int(10));
         // y is not constrained, should get a value with model completion
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var xEval = model.Evaluate(x, modelCompletion: true);
         var yEval = model.Evaluate(y, modelCompletion: true);
-        
+
         Assert.That(xEval, Is.Not.Null);
         Assert.That(yEval, Is.Not.Null);
         Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(10)));
     }
-    
+
     [Test]
     public void EvaluateWithModelCompletion_False()
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         solver.Assert(x == context.Int(10));
         // y is not constrained
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
         var xEval = model.Evaluate(x, modelCompletion: false);
         var yEval = model.Evaluate(y, modelCompletion: false);
-        
+
         Assert.That(xEval, Is.Not.Null);
         Assert.That(yEval, Is.Not.Null);
         Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(10)));
@@ -262,31 +262,31 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
         using var solver = context.CreateSolver();
-        
+
         var x = context.IntConst("x");
         var y = context.IntConst("y");
         var sum = x + y; // This is not a constant
-        
+
         solver.Assert(x == context.Int(5));
         solver.Assert(y == context.Int(10));
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var model = solver.GetModel();
-        
+
         // These should work (constants)
         Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(5)));
         Assert.That(model.GetIntValue(y), Is.EqualTo(new BigInteger(10)));
-        
+
         // This should work (evaluates to a constant)
         var sumEval = model.Evaluate(sum);
         Assert.That(sumEval, Is.TypeOf<Z3IntExpr>());
-        
+
         // But trying to get value of the original sum expression might fail
         // if it doesn't evaluate to a pure numeral in the model
         Assert.DoesNotThrow(() => model.GetIntValue((Z3IntExpr)sumEval));
     }
-    
+
     [Test]
     public void EvaluateInvalidatedModel_ThrowsException()
     {
@@ -307,9 +307,13 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.GetIntValue(x));
         Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValue(context.RealConst("z")));
-        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.RealConst("z")));
+        Assert.Throws<ObjectDisposedException>(() =>
+            model.GetNumericValueAsString(context.RealConst("z"))
+        );
         Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(context.BitVecConst("bv", 8)));
-        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.BitVecConst("bv", 8)));
+        Assert.Throws<ObjectDisposedException>(() =>
+            model.GetNumericValueAsString(context.BitVecConst("bv", 8))
+        );
     }
 
     [Test]
@@ -430,7 +434,10 @@ public class Z3ModelValueExtractionTests
         var toString = bv.ToString();
 
         Assert.That(toString, Does.Contain("BitVec[8]"));
-        Assert.That(toString, Does.Contain("42") | Does.Contain("#x2a") | Does.Contain("#b00101010"));
+        Assert.That(
+            toString,
+            Does.Contain("42") | Does.Contain("#x2a") | Does.Contain("#b00101010")
+        );
     }
 
     [Test]

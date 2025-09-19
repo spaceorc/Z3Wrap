@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap;
 using System.Numerics;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Extensions;
 

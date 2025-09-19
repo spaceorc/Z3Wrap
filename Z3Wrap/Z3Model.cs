@@ -50,7 +50,15 @@ public sealed class Z3Model
     {
         ThrowIfInvalidated();
 
-        if (!NativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
+        if (
+            !NativeMethods.Z3ModelEval(
+                context.Handle,
+                modelHandle,
+                expr.Handle,
+                modelCompletion,
+                out var result
+            )
+        )
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
         return Z3Expr.Create(context, result);
@@ -69,7 +77,9 @@ public sealed class Z3Model
         var valueStr = GetNumericValueAsString(expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
-            throw new InvalidOperationException($"Failed to parse integer value '{valueStr}' from expression {expr}");
+            throw new InvalidOperationException(
+                $"Failed to parse integer value '{valueStr}' from expression {expr}"
+            );
 
         return value;
     }
@@ -90,8 +100,12 @@ public sealed class Z3Model
         {
             Z3BoolValue.False => false,
             Z3BoolValue.True => true,
-            Z3BoolValue.Undefined => throw new InvalidOperationException($"Expression {expr} does not evaluate to a boolean in this model"),
-            _ => throw new InvalidOperationException($"Unexpected boolean value result {boolValue} from Z3_get_bool_value"),
+            Z3BoolValue.Undefined => throw new InvalidOperationException(
+                $"Expression {expr} does not evaluate to a boolean in this model"
+            ),
+            _ => throw new InvalidOperationException(
+                $"Unexpected boolean value result {boolValue} from Z3_get_bool_value"
+            ),
         };
     }
 
@@ -117,7 +131,9 @@ public sealed class Z3Model
         var valueStr = GetNumericValueAsString(expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
-            throw new InvalidOperationException($"Failed to parse bitvector value '{valueStr}' from expression {expr}");
+            throw new InvalidOperationException(
+                $"Failed to parse bitvector value '{valueStr}' from expression {expr}"
+            );
 
         return new BitVec(value, expr.Size);
     }
@@ -182,15 +198,27 @@ public sealed class Z3Model
     private void ThrowIfInvalidated()
     {
         if (invalidated)
-            throw new ObjectDisposedException(nameof(Z3Model), "Model has been invalidated due to solver state change");
+            throw new ObjectDisposedException(
+                nameof(Z3Model),
+                "Model has been invalidated due to solver state change"
+            );
     }
 
-    private static string ExtractNumeralString(Z3Context context, Z3Expr evaluatedExpr, Z3NumericExpr originalExpr)
+    private static string ExtractNumeralString(
+        Z3Context context,
+        Z3Expr evaluatedExpr,
+        Z3NumericExpr originalExpr
+    )
     {
         if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
-            throw new InvalidOperationException($"Expression {originalExpr} does not evaluate to a numeric constant in this model");
+            throw new InvalidOperationException(
+                $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
+            );
 
         var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
-        return Marshal.PtrToStringAnsi(ptr) ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
+        return Marshal.PtrToStringAnsi(ptr)
+            ?? throw new InvalidOperationException(
+                $"Failed to extract numeric value from expression {originalExpr}"
+            );
     }
 }

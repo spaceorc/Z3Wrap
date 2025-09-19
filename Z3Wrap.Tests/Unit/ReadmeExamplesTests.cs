@@ -31,13 +31,13 @@ public class ReadmeExamplesTests
         var y = context.IntConst("y");
 
         using var solver = context.CreateSolver();
-        solver.Assert(x + y == 10);        // Natural syntax
-        solver.Assert(x * 2 == y - 1);     // Mathematical operators
+        solver.Assert(x + y == 10); // Natural syntax
+        solver.Assert(x * 2 == y - 1); // Mathematical operators
 
         if (solver.Check() == Z3Status.Satisfiable)
         {
             var model = solver.GetModel();
-            Console.WriteLine($"x = {model.GetIntValue(x)}");  // BigInteger
+            Console.WriteLine($"x = {model.GetIntValue(x)}"); // BigInteger
             Console.WriteLine($"y = {model.GetIntValue(y)}");
         }
 
@@ -45,11 +45,16 @@ public class ReadmeExamplesTests
 
         #region Assertions
 
-        Assert.That(console.Output, Is.EqualTo("""
-                                               x = 3
-                                               y = 7
+        Assert.That(
+            console.Output,
+            Is.EqualTo(
+                """
+                x = 3
+                y = 7
 
-                                               """));
+                """
+            )
+        );
 
         #endregion
     }
@@ -111,7 +116,6 @@ public class ReadmeExamplesTests
         // Exact rationals - no floating point errors
         solver.Assert(r == new Real(1, 3)); // Exactly 1/3
         solver.Assert(r * 3 == 1); // Perfect arithmetic
-
         #endregion
 
         #region Assertions
@@ -147,7 +151,6 @@ public class ReadmeExamplesTests
 
         // Seamless conversions
         solver.Assert(x.ToReal() + r == 5.5m); // Int → Real
-
         #endregion
 
         #region Assertions
@@ -171,29 +174,33 @@ public class ReadmeExamplesTests
         // Real class - exact rational arithmetic (not decimal/double)
         var oneThird = new Real(1, 3);
         var twoThirds = new Real(2, 3);
-        Console.WriteLine(oneThird + twoThirds);  // "1" (exact)
+        Console.WriteLine(oneThird + twoThirds); // "1" (exact)
 
         // BitVec class - proper .NET bitvector type with operations
         var bv8 = new BitVec(0b10101010, 8);
-        var bv16 = bv8.Resize(16);       // Zero-extend to 16 bits
+        var bv16 = bv8.Resize(16); // Zero-extend to 16 bits
         var extracted = bv8.Extract(7, 4); // Extract bits 7-4
-        Console.WriteLine(bv8.ToInt());     // 170
+        Console.WriteLine(bv8.ToInt()); // 170
         Console.WriteLine(bv8.ToBinaryString()); // "10101010"
 
         // Direct arithmetic and bitwise operations
-        var result = bv8 + new BitVec(5, 8);   // BitVec arithmetic
-        var masked = bv8 & 0xFF;               // Bitwise operations
-
+        var result = bv8 + new BitVec(5, 8); // BitVec arithmetic
+        var masked = bv8 & 0xFF; // Bitwise operations
         #endregion
-        
-        #region Assertions
-        
-        Assert.That(console.Output, Is.EqualTo("""
-                                               1
-                                               170
-                                               10101010
 
-                                               """));
+        #region Assertions
+
+        Assert.That(
+            console.Output,
+            Is.EqualTo(
+                """
+                1
+                170
+                10101010
+
+                """
+            )
+        );
 
         Assert.That(bv16.Size, Is.EqualTo(16U));
         Assert.That(extracted.Size, Is.EqualTo(4U));

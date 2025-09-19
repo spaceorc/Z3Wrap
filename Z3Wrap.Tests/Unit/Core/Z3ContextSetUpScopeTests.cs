@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap;
+
 namespace Z3Wrap.Tests.Unit.Core;
 
 [TestFixture]
@@ -272,8 +273,11 @@ public class Z3ContextSetUpScopeTests
         Task.WaitAll(tasks);
 
         // Should be no exceptions from concurrent access
-        Assert.That(exceptions, Is.Empty,
-            $"Concurrent access caused {exceptions.Count} exceptions: {string.Join(", ", exceptions.Select(e => e.Message))}");
+        Assert.That(
+            exceptions,
+            Is.Empty,
+            $"Concurrent access caused {exceptions.Count} exceptions: {string.Join(", ", exceptions.Select(e => e.Message))}"
+        );
 
         // Main thread should have no current context
         Assert.That(Z3Context.IsCurrentContextSet, Is.False);

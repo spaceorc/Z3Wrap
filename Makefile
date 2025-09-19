@@ -59,18 +59,18 @@ restore: ## Restore NuGet packages
 	@echo "$(BLUE)Restoring packages...$(NC)"
 	dotnet restore
 
-format: ## Format code (requires dotnet-csharpier)
+format: ## Format code (requires csharpier)
 	@echo "$(BLUE)Formatting code...$(NC)"
-	@if command -v dotnet-csharpier >/dev/null 2>&1; then \
-		dotnet csharpier .; \
+	@if command -v csharpier >/dev/null 2>&1; then \
+		csharpier format .; \
 	else \
 		echo "$(YELLOW)CSharpier not installed. Install with: dotnet tool install -g csharpier$(NC)"; \
 	fi
 
 lint: build ## Run static analysis (build + format check)
 	@echo "$(BLUE)Running static analysis...$(NC)"
-	@if command -v dotnet-csharpier >/dev/null 2>&1; then \
-		dotnet csharpier . --check; \
+	@if command -v csharpier >/dev/null 2>&1; then \
+		csharpier check .; \
 	else \
 		echo "$(YELLOW)CSharpier not available for lint check$(NC)"; \
 	fi

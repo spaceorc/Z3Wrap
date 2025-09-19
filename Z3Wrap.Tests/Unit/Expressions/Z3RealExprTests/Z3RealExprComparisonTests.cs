@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap;
 using System.Globalization;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Extensions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
@@ -12,7 +12,11 @@ public class Z3RealExprComparisonTests
     [TestCase("0.0", "0.1", true, Description = "Zero less than positive")]
     [TestCase("-2.5", "-1.0", true, Description = "Negative less than negative")]
     [TestCase("10.0", "10.0", false, Description = "Equal values - false")]
-    public void Lt_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
+    public void Lt_AllVariations_ReturnsExpectedResult(
+        string leftStr,
+        string rightStr,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -25,14 +29,14 @@ public class Z3RealExprComparisonTests
         var y = context.Real(rightDecimal);
 
         // Test all variations of less than - SIMPLIFIED to decimal + RealExpr only
-        var resultOperatorRealExpr = x < y;                        // RealExpr < RealExpr (operator)
-        var resultOperatorRightDecimal = x < rightDecimal;         // RealExpr < decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal < y;           // decimal < RealExpr (operator)
-        var resultMethodRealExpr = x.Lt(y);                        // RealExpr.Lt(RealExpr) (method)
-        var resultMethodDecimal = x.Lt(rightDecimal);              // RealExpr.Lt(decimal) (method)
-        var resultContextRealExpr = context.Lt(x, y);              // Context.Lt(RealExpr, RealExpr) (method)
+        var resultOperatorRealExpr = x < y; // RealExpr < RealExpr (operator)
+        var resultOperatorRightDecimal = x < rightDecimal; // RealExpr < decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal < y; // decimal < RealExpr (operator)
+        var resultMethodRealExpr = x.Lt(y); // RealExpr.Lt(RealExpr) (method)
+        var resultMethodDecimal = x.Lt(rightDecimal); // RealExpr.Lt(decimal) (method)
+        var resultContextRealExpr = context.Lt(x, y); // Context.Lt(RealExpr, RealExpr) (method)
         var resultContextRightDecimal = context.Lt(x, rightDecimal); // Context.Lt(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Lt(leftDecimal, y);   // Context.Lt(decimal, RealExpr) (method)
+        var resultContextLeftDecimal = context.Lt(leftDecimal, y); // Context.Lt(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -71,7 +75,11 @@ public class Z3RealExprComparisonTests
     [TestCase("5.5", "3.3", false, Description = "Greater than - false")]
     [TestCase("-2.5", "-1.0", true, Description = "Negative less than equal")]
     [TestCase("0.0", "0.0", true, Description = "Zero equal")]
-    public void Le_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
+    public void Le_AllVariations_ReturnsExpectedResult(
+        string leftStr,
+        string rightStr,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -84,14 +92,14 @@ public class Z3RealExprComparisonTests
         var y = context.Real(rightDecimal);
 
         // Test all variations of less than or equal - SIMPLIFIED to decimal + RealExpr only
-        var resultOperatorRealExpr = x <= y;                       // RealExpr <= RealExpr (operator)
-        var resultOperatorRightDecimal = x <= rightDecimal;        // RealExpr <= decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal <= y;          // decimal <= RealExpr (operator)
-        var resultMethodRealExpr = x.Le(y);                        // RealExpr.Le(RealExpr) (method)
-        var resultMethodDecimal = x.Le(rightDecimal);              // RealExpr.Le(decimal) (method)
-        var resultContextRealExpr = context.Le(x, y);              // Context.Le(RealExpr, RealExpr) (method)
+        var resultOperatorRealExpr = x <= y; // RealExpr <= RealExpr (operator)
+        var resultOperatorRightDecimal = x <= rightDecimal; // RealExpr <= decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal <= y; // decimal <= RealExpr (operator)
+        var resultMethodRealExpr = x.Le(y); // RealExpr.Le(RealExpr) (method)
+        var resultMethodDecimal = x.Le(rightDecimal); // RealExpr.Le(decimal) (method)
+        var resultContextRealExpr = context.Le(x, y); // Context.Le(RealExpr, RealExpr) (method)
         var resultContextRightDecimal = context.Le(x, rightDecimal); // Context.Le(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Le(leftDecimal, y);   // Context.Le(decimal, RealExpr) (method)
+        var resultContextLeftDecimal = context.Le(leftDecimal, y); // Context.Le(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -130,7 +138,11 @@ public class Z3RealExprComparisonTests
     [TestCase("5.5", "5.5", false, Description = "Equal values - false")]
     [TestCase("-1.0", "-2.5", true, Description = "Negative greater than negative")]
     [TestCase("0.0", "-0.1", true, Description = "Zero greater than negative")]
-    public void Gt_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
+    public void Gt_AllVariations_ReturnsExpectedResult(
+        string leftStr,
+        string rightStr,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -143,14 +155,14 @@ public class Z3RealExprComparisonTests
         var y = context.Real(rightDecimal);
 
         // Test all variations of greater than - SIMPLIFIED to decimal + RealExpr only
-        var resultOperatorRealExpr = x > y;                        // RealExpr > RealExpr (operator)
-        var resultOperatorRightDecimal = x > rightDecimal;         // RealExpr > decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal > y;           // decimal > RealExpr (operator)
-        var resultMethodRealExpr = x.Gt(y);                        // RealExpr.Gt(RealExpr) (method)
-        var resultMethodDecimal = x.Gt(rightDecimal);              // RealExpr.Gt(decimal) (method)
-        var resultContextRealExpr = context.Gt(x, y);              // Context.Gt(RealExpr, RealExpr) (method)
+        var resultOperatorRealExpr = x > y; // RealExpr > RealExpr (operator)
+        var resultOperatorRightDecimal = x > rightDecimal; // RealExpr > decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal > y; // decimal > RealExpr (operator)
+        var resultMethodRealExpr = x.Gt(y); // RealExpr.Gt(RealExpr) (method)
+        var resultMethodDecimal = x.Gt(rightDecimal); // RealExpr.Gt(decimal) (method)
+        var resultContextRealExpr = context.Gt(x, y); // Context.Gt(RealExpr, RealExpr) (method)
         var resultContextRightDecimal = context.Gt(x, rightDecimal); // Context.Gt(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Gt(leftDecimal, y);   // Context.Gt(decimal, RealExpr) (method)
+        var resultContextLeftDecimal = context.Gt(leftDecimal, y); // Context.Gt(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -189,7 +201,11 @@ public class Z3RealExprComparisonTests
     [TestCase("2.1", "2.2", false, Description = "Less than - false")]
     [TestCase("-1.0", "-2.5", true, Description = "Negative greater than equal")]
     [TestCase("0.0", "0.0", true, Description = "Zero equal")]
-    public void Ge_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
+    public void Ge_AllVariations_ReturnsExpectedResult(
+        string leftStr,
+        string rightStr,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -202,14 +218,14 @@ public class Z3RealExprComparisonTests
         var y = context.Real(rightDecimal);
 
         // Test all variations of greater than or equal - SIMPLIFIED to decimal + RealExpr only
-        var resultOperatorRealExpr = x >= y;                       // RealExpr >= RealExpr (operator)
-        var resultOperatorRightDecimal = x >= rightDecimal;        // RealExpr >= decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal >= y;          // decimal >= RealExpr (operator)
-        var resultMethodRealExpr = x.Ge(y);                        // RealExpr.Ge(RealExpr) (method)
-        var resultMethodDecimal = x.Ge(rightDecimal);              // RealExpr.Ge(decimal) (method)
-        var resultContextRealExpr = context.Ge(x, y);              // Context.Ge(RealExpr, RealExpr) (method)
+        var resultOperatorRealExpr = x >= y; // RealExpr >= RealExpr (operator)
+        var resultOperatorRightDecimal = x >= rightDecimal; // RealExpr >= decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal >= y; // decimal >= RealExpr (operator)
+        var resultMethodRealExpr = x.Ge(y); // RealExpr.Ge(RealExpr) (method)
+        var resultMethodDecimal = x.Ge(rightDecimal); // RealExpr.Ge(decimal) (method)
+        var resultContextRealExpr = context.Ge(x, y); // Context.Ge(RealExpr, RealExpr) (method)
         var resultContextRightDecimal = context.Ge(x, rightDecimal); // Context.Ge(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Ge(leftDecimal, y);   // Context.Ge(decimal, RealExpr) (method)
+        var resultContextLeftDecimal = context.Ge(leftDecimal, y); // Context.Ge(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -248,7 +264,11 @@ public class Z3RealExprComparisonTests
     [TestCase("1.0", "2.0", false, Description = "Different values - false")]
     [TestCase("-5.5", "-5.5", true, Description = "Equal negative values - true")]
     [TestCase("0.0", "0.0", true, Description = "Zero equals zero")]
-    public void Eq_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
+    public void Eq_AllVariations_ReturnsExpectedResult(
+        string leftStr,
+        string rightStr,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -261,12 +281,12 @@ public class Z3RealExprComparisonTests
         var y = context.Real(rightDecimal);
 
         // Test all variations of equality - SIMPLIFIED to decimal + RealExpr only
-        var resultOperatorRealExpr = x == y;                       // RealExpr == RealExpr (operator)
-        var resultOperatorRightDecimal = x == rightDecimal;        // RealExpr == decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal == y;          // decimal == RealExpr (operator)
-        var resultContextRealExpr = context.Eq(x, y);              // Context.Eq(RealExpr, RealExpr) (method)
+        var resultOperatorRealExpr = x == y; // RealExpr == RealExpr (operator)
+        var resultOperatorRightDecimal = x == rightDecimal; // RealExpr == decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal == y; // decimal == RealExpr (operator)
+        var resultContextRealExpr = context.Eq(x, y); // Context.Eq(RealExpr, RealExpr) (method)
         var resultContextRightDecimal = context.Eq(x, rightDecimal); // Context.Eq(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Eq(leftDecimal, y);   // Context.Eq(decimal, RealExpr) (method)
+        var resultContextLeftDecimal = context.Eq(leftDecimal, y); // Context.Eq(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));
@@ -301,7 +321,11 @@ public class Z3RealExprComparisonTests
     [TestCase("3.14", "3.14", false, Description = "Equal values - false")]
     [TestCase("-5.5", "-6.6", true, Description = "Different negative values - true")]
     [TestCase("0.0", "0.0", false, Description = "Zero not equals zero - false")]
-    public void Neq_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
+    public void Neq_AllVariations_ReturnsExpectedResult(
+        string leftStr,
+        string rightStr,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -314,12 +338,12 @@ public class Z3RealExprComparisonTests
         var y = context.Real(rightDecimal);
 
         // Test all variations of inequality - SIMPLIFIED to decimal + RealExpr only
-        var resultOperatorRealExpr = x != y;                       // RealExpr != RealExpr (operator)
-        var resultOperatorRightDecimal = x != rightDecimal;        // RealExpr != decimal (operator)
-        var resultOperatorLeftDecimal = leftDecimal != y;          // decimal != RealExpr (operator)
-        var resultContextRealExpr = context.Neq(x, y);             // Context.Neq(RealExpr, RealExpr) (method)
+        var resultOperatorRealExpr = x != y; // RealExpr != RealExpr (operator)
+        var resultOperatorRightDecimal = x != rightDecimal; // RealExpr != decimal (operator)
+        var resultOperatorLeftDecimal = leftDecimal != y; // decimal != RealExpr (operator)
+        var resultContextRealExpr = context.Neq(x, y); // Context.Neq(RealExpr, RealExpr) (method)
         var resultContextRightDecimal = context.Neq(x, rightDecimal); // Context.Neq(RealExpr, decimal) (method)
-        var resultContextLeftDecimal = context.Neq(leftDecimal, y);   // Context.Neq(decimal, RealExpr) (method)
+        var resultContextLeftDecimal = context.Neq(leftDecimal, y); // Context.Neq(decimal, RealExpr) (method)
 
         // Set up constraints
         solver.Assert(context.Eq(x, context.Real(leftDecimal)));

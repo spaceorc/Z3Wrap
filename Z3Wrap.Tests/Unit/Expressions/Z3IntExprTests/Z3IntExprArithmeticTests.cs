@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap;
 using System.Numerics;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -28,19 +28,19 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of addition
-        var resultOperatorIntExpr = x + y;                           // IntExpr + IntExpr (operator)
-        var resultOperatorRightInt = x + rightInt;                   // IntExpr + int (operator)
-        var resultOperatorLeftInt = leftInt + y;                     // int + IntExpr (operator)
-        var resultOperatorRightBigInt = x + rightBigInt;             // IntExpr + BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt + y;               // BigInteger + IntExpr (operator)
-        var resultMethodIntExpr = x.Add(y);                          // IntExpr.Add(IntExpr) (method)
-        var resultMethodInt = x.Add(rightInt);                       // IntExpr.Add(int) (method)
-        var resultMethodBigInt = x.Add(rightBigInt);                 // IntExpr.Add(BigInteger) (method)
-        var resultContextIntExpr = context.Add(x, y);                // Context.Add(IntExpr, IntExpr) (method)
-        var resultContextRightInt = context.Add(x, rightInt);        // Context.Add(IntExpr, int) (method)
-        var resultContextLeftInt = context.Add(leftInt, y);          // Context.Add(int, IntExpr) (method)
-        var resultContextRightBigInt = context.Add(x, rightBigInt);  // Context.Add(IntExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Add(leftBigInt, y);    // Context.Add(BigInteger, IntExpr) (method)
+        var resultOperatorIntExpr = x + y; // IntExpr + IntExpr (operator)
+        var resultOperatorRightInt = x + rightInt; // IntExpr + int (operator)
+        var resultOperatorLeftInt = leftInt + y; // int + IntExpr (operator)
+        var resultOperatorRightBigInt = x + rightBigInt; // IntExpr + BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt + y; // BigInteger + IntExpr (operator)
+        var resultMethodIntExpr = x.Add(y); // IntExpr.Add(IntExpr) (method)
+        var resultMethodInt = x.Add(rightInt); // IntExpr.Add(int) (method)
+        var resultMethodBigInt = x.Add(rightBigInt); // IntExpr.Add(BigInteger) (method)
+        var resultContextIntExpr = context.Add(x, y); // Context.Add(IntExpr, IntExpr) (method)
+        var resultContextRightInt = context.Add(x, rightInt); // Context.Add(IntExpr, int) (method)
+        var resultContextLeftInt = context.Add(leftInt, y); // Context.Add(int, IntExpr) (method)
+        var resultContextRightBigInt = context.Add(x, rightBigInt); // Context.Add(IntExpr, BigInteger) (method)
+        var resultContextLeftBigInt = context.Add(leftBigInt, y); // Context.Add(BigInteger, IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -52,19 +52,71 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultOperatorIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr + IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightInt), Is.EqualTo(new BigInteger(expected)), "IntExpr + int operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftInt), Is.EqualTo(new BigInteger(expected)), "int + IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr + BigInteger operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftBigInt), Is.EqualTo(new BigInteger(expected)), "BigInteger + IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultMethodIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr.Add(IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultMethodInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Add(int) method failed");
-            Assert.That(model.GetIntValue(resultMethodBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Add(BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Add(IntExpr, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Add(IntExpr, int) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Add(int, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Add(IntExpr, BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Add(BigInteger, IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultOperatorIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr + IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr + int operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "int + IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr + BigInteger operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "BigInteger + IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Add(IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Add(int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Add(BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Add(IntExpr, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Add(IntExpr, int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Add(int, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Add(IntExpr, BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Add(BigInteger, IntExpr) method failed"
+            );
         });
     }
 
@@ -88,19 +140,19 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of subtraction
-        var resultOperatorIntExpr = x - y;                           // IntExpr - IntExpr (operator)
-        var resultOperatorRightInt = x - rightInt;                   // IntExpr - int (operator)
-        var resultOperatorLeftInt = leftInt - y;                     // int - IntExpr (operator)
-        var resultOperatorRightBigInt = x - rightBigInt;             // IntExpr - BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt - y;               // BigInteger - IntExpr (operator)
-        var resultMethodIntExpr = x.Sub(y);                          // IntExpr.Sub(IntExpr) (method)
-        var resultMethodInt = x.Sub(rightInt);                       // IntExpr.Sub(int) (method)
-        var resultMethodBigInt = x.Sub(rightBigInt);                 // IntExpr.Sub(BigInteger) (method)
-        var resultContextIntExpr = context.Sub(x, y);                // Context.Sub(IntExpr, IntExpr) (method)
-        var resultContextRightInt = context.Sub(x, rightInt);        // Context.Sub(IntExpr, int) (method)
-        var resultContextLeftInt = context.Sub(leftInt, y);          // Context.Sub(int, IntExpr) (method)
-        var resultContextRightBigInt = context.Sub(x, rightBigInt);  // Context.Sub(IntExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Sub(leftBigInt, y);    // Context.Sub(BigInteger, IntExpr) (method)
+        var resultOperatorIntExpr = x - y; // IntExpr - IntExpr (operator)
+        var resultOperatorRightInt = x - rightInt; // IntExpr - int (operator)
+        var resultOperatorLeftInt = leftInt - y; // int - IntExpr (operator)
+        var resultOperatorRightBigInt = x - rightBigInt; // IntExpr - BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt - y; // BigInteger - IntExpr (operator)
+        var resultMethodIntExpr = x.Sub(y); // IntExpr.Sub(IntExpr) (method)
+        var resultMethodInt = x.Sub(rightInt); // IntExpr.Sub(int) (method)
+        var resultMethodBigInt = x.Sub(rightBigInt); // IntExpr.Sub(BigInteger) (method)
+        var resultContextIntExpr = context.Sub(x, y); // Context.Sub(IntExpr, IntExpr) (method)
+        var resultContextRightInt = context.Sub(x, rightInt); // Context.Sub(IntExpr, int) (method)
+        var resultContextLeftInt = context.Sub(leftInt, y); // Context.Sub(int, IntExpr) (method)
+        var resultContextRightBigInt = context.Sub(x, rightBigInt); // Context.Sub(IntExpr, BigInteger) (method)
+        var resultContextLeftBigInt = context.Sub(leftBigInt, y); // Context.Sub(BigInteger, IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -112,19 +164,71 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultOperatorIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr - IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightInt), Is.EqualTo(new BigInteger(expected)), "IntExpr - int operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftInt), Is.EqualTo(new BigInteger(expected)), "int - IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr - BigInteger operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftBigInt), Is.EqualTo(new BigInteger(expected)), "BigInteger - IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultMethodIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr.Sub(IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultMethodInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Sub(int) method failed");
-            Assert.That(model.GetIntValue(resultMethodBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Sub(BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Sub(IntExpr, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Sub(IntExpr, int) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Sub(int, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Sub(IntExpr, BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Sub(BigInteger, IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultOperatorIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr - IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr - int operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "int - IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr - BigInteger operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "BigInteger - IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Sub(IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Sub(int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Sub(BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Sub(IntExpr, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Sub(IntExpr, int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Sub(int, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Sub(IntExpr, BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Sub(BigInteger, IntExpr) method failed"
+            );
         });
     }
 
@@ -148,19 +252,19 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of multiplication
-        var resultOperatorIntExpr = x * y;                           // IntExpr * IntExpr (operator)
-        var resultOperatorRightInt = x * rightInt;                   // IntExpr * int (operator)
-        var resultOperatorLeftInt = leftInt * y;                     // int * IntExpr (operator)
-        var resultOperatorRightBigInt = x * rightBigInt;             // IntExpr * BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt * y;               // BigInteger * IntExpr (operator)
-        var resultMethodIntExpr = x.Mul(y);                          // IntExpr.Mul(IntExpr) (method)
-        var resultMethodInt = x.Mul(rightInt);                       // IntExpr.Mul(int) (method)
-        var resultMethodBigInt = x.Mul(rightBigInt);                 // IntExpr.Mul(BigInteger) (method)
-        var resultContextIntExpr = context.Mul(x, y);                // Context.Mul(IntExpr, IntExpr) (method)
-        var resultContextRightInt = context.Mul(x, rightInt);        // Context.Mul(IntExpr, int) (method)
-        var resultContextLeftInt = context.Mul(leftInt, y);          // Context.Mul(int, IntExpr) (method)
-        var resultContextRightBigInt = context.Mul(x, rightBigInt);  // Context.Mul(IntExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Mul(leftBigInt, y);    // Context.Mul(BigInteger, IntExpr) (method)
+        var resultOperatorIntExpr = x * y; // IntExpr * IntExpr (operator)
+        var resultOperatorRightInt = x * rightInt; // IntExpr * int (operator)
+        var resultOperatorLeftInt = leftInt * y; // int * IntExpr (operator)
+        var resultOperatorRightBigInt = x * rightBigInt; // IntExpr * BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt * y; // BigInteger * IntExpr (operator)
+        var resultMethodIntExpr = x.Mul(y); // IntExpr.Mul(IntExpr) (method)
+        var resultMethodInt = x.Mul(rightInt); // IntExpr.Mul(int) (method)
+        var resultMethodBigInt = x.Mul(rightBigInt); // IntExpr.Mul(BigInteger) (method)
+        var resultContextIntExpr = context.Mul(x, y); // Context.Mul(IntExpr, IntExpr) (method)
+        var resultContextRightInt = context.Mul(x, rightInt); // Context.Mul(IntExpr, int) (method)
+        var resultContextLeftInt = context.Mul(leftInt, y); // Context.Mul(int, IntExpr) (method)
+        var resultContextRightBigInt = context.Mul(x, rightBigInt); // Context.Mul(IntExpr, BigInteger) (method)
+        var resultContextLeftBigInt = context.Mul(leftBigInt, y); // Context.Mul(BigInteger, IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -172,19 +276,71 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultOperatorIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr * IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightInt), Is.EqualTo(new BigInteger(expected)), "IntExpr * int operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftInt), Is.EqualTo(new BigInteger(expected)), "int * IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr * BigInteger operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftBigInt), Is.EqualTo(new BigInteger(expected)), "BigInteger * IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultMethodIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr.Mul(IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultMethodInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Mul(int) method failed");
-            Assert.That(model.GetIntValue(resultMethodBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Mul(BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Mul(IntExpr, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Mul(IntExpr, int) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Mul(int, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Mul(IntExpr, BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Mul(BigInteger, IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultOperatorIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr * IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr * int operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "int * IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr * BigInteger operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "BigInteger * IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Mul(IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Mul(int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Mul(BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mul(IntExpr, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mul(IntExpr, int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mul(int, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mul(IntExpr, BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mul(BigInteger, IntExpr) method failed"
+            );
         });
     }
 
@@ -209,19 +365,19 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of division
-        var resultOperatorIntExpr = x / y;                           // IntExpr / IntExpr (operator)
-        var resultOperatorRightInt = x / rightInt;                   // IntExpr / int (operator)
-        var resultOperatorLeftInt = leftInt / y;                     // int / IntExpr (operator)
-        var resultOperatorRightBigInt = x / rightBigInt;             // IntExpr / BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt / y;               // BigInteger / IntExpr (operator)
-        var resultMethodIntExpr = x.Div(y);                          // IntExpr.Div(IntExpr) (method)
-        var resultMethodInt = x.Div(rightInt);                       // IntExpr.Div(int) (method)
-        var resultMethodBigInt = x.Div(rightBigInt);                 // IntExpr.Div(BigInteger) (method)
-        var resultContextIntExpr = context.Div(x, y);                // Context.Div(IntExpr, IntExpr) (method)
-        var resultContextRightInt = context.Div(x, rightInt);        // Context.Div(IntExpr, int) (method)
-        var resultContextLeftInt = context.Div(leftInt, y);          // Context.Div(int, IntExpr) (method)
-        var resultContextRightBigInt = context.Div(x, rightBigInt);  // Context.Div(IntExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Div(leftBigInt, y);    // Context.Div(BigInteger, IntExpr) (method)
+        var resultOperatorIntExpr = x / y; // IntExpr / IntExpr (operator)
+        var resultOperatorRightInt = x / rightInt; // IntExpr / int (operator)
+        var resultOperatorLeftInt = leftInt / y; // int / IntExpr (operator)
+        var resultOperatorRightBigInt = x / rightBigInt; // IntExpr / BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt / y; // BigInteger / IntExpr (operator)
+        var resultMethodIntExpr = x.Div(y); // IntExpr.Div(IntExpr) (method)
+        var resultMethodInt = x.Div(rightInt); // IntExpr.Div(int) (method)
+        var resultMethodBigInt = x.Div(rightBigInt); // IntExpr.Div(BigInteger) (method)
+        var resultContextIntExpr = context.Div(x, y); // Context.Div(IntExpr, IntExpr) (method)
+        var resultContextRightInt = context.Div(x, rightInt); // Context.Div(IntExpr, int) (method)
+        var resultContextLeftInt = context.Div(leftInt, y); // Context.Div(int, IntExpr) (method)
+        var resultContextRightBigInt = context.Div(x, rightBigInt); // Context.Div(IntExpr, BigInteger) (method)
+        var resultContextLeftBigInt = context.Div(leftBigInt, y); // Context.Div(BigInteger, IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -233,19 +389,71 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultOperatorIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr / IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightInt), Is.EqualTo(new BigInteger(expected)), "IntExpr / int operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftInt), Is.EqualTo(new BigInteger(expected)), "int / IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr / BigInteger operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftBigInt), Is.EqualTo(new BigInteger(expected)), "BigInteger / IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultMethodIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr.Div(IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultMethodInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Div(int) method failed");
-            Assert.That(model.GetIntValue(resultMethodBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Div(BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Div(IntExpr, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Div(IntExpr, int) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Div(int, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Div(IntExpr, BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Div(BigInteger, IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultOperatorIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr / IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr / int operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "int / IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr / BigInteger operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "BigInteger / IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Div(IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Div(int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Div(BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Div(IntExpr, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Div(IntExpr, int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Div(int, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Div(IntExpr, BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Div(BigInteger, IntExpr) method failed"
+            );
         });
     }
 
@@ -270,19 +478,19 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of modulo
-        var resultOperatorIntExpr = x % y;                           // IntExpr % IntExpr (operator)
-        var resultOperatorRightInt = x % rightInt;                   // IntExpr % int (operator)
-        var resultOperatorLeftInt = leftInt % y;                     // int % IntExpr (operator)
-        var resultOperatorRightBigInt = x % rightBigInt;             // IntExpr % BigInteger (operator)
-        var resultOperatorLeftBigInt = leftBigInt % y;               // BigInteger % IntExpr (operator)
-        var resultMethodIntExpr = x.Mod(y);                          // IntExpr.Mod(IntExpr) (method)
-        var resultMethodInt = x.Mod(rightInt);                       // IntExpr.Mod(int) (method)
-        var resultMethodBigInt = x.Mod(rightBigInt);                 // IntExpr.Mod(BigInteger) (method)
-        var resultContextIntExpr = context.Mod(x, y);                // Context.Mod(IntExpr, IntExpr) (method)
-        var resultContextRightInt = context.Mod(x, rightInt);        // Context.Mod(IntExpr, int) (method)
-        var resultContextLeftInt = context.Mod(leftInt, y);          // Context.Mod(int, IntExpr) (method)
-        var resultContextRightBigInt = context.Mod(x, rightBigInt);  // Context.Mod(IntExpr, BigInteger) (method)
-        var resultContextLeftBigInt = context.Mod(leftBigInt, y);    // Context.Mod(BigInteger, IntExpr) (method)
+        var resultOperatorIntExpr = x % y; // IntExpr % IntExpr (operator)
+        var resultOperatorRightInt = x % rightInt; // IntExpr % int (operator)
+        var resultOperatorLeftInt = leftInt % y; // int % IntExpr (operator)
+        var resultOperatorRightBigInt = x % rightBigInt; // IntExpr % BigInteger (operator)
+        var resultOperatorLeftBigInt = leftBigInt % y; // BigInteger % IntExpr (operator)
+        var resultMethodIntExpr = x.Mod(y); // IntExpr.Mod(IntExpr) (method)
+        var resultMethodInt = x.Mod(rightInt); // IntExpr.Mod(int) (method)
+        var resultMethodBigInt = x.Mod(rightBigInt); // IntExpr.Mod(BigInteger) (method)
+        var resultContextIntExpr = context.Mod(x, y); // Context.Mod(IntExpr, IntExpr) (method)
+        var resultContextRightInt = context.Mod(x, rightInt); // Context.Mod(IntExpr, int) (method)
+        var resultContextLeftInt = context.Mod(leftInt, y); // Context.Mod(int, IntExpr) (method)
+        var resultContextRightBigInt = context.Mod(x, rightBigInt); // Context.Mod(IntExpr, BigInteger) (method)
+        var resultContextLeftBigInt = context.Mod(leftBigInt, y); // Context.Mod(BigInteger, IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -294,19 +502,71 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultOperatorIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr % IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightInt), Is.EqualTo(new BigInteger(expected)), "IntExpr % int operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftInt), Is.EqualTo(new BigInteger(expected)), "int % IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultOperatorRightBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr % BigInteger operator failed");
-            Assert.That(model.GetIntValue(resultOperatorLeftBigInt), Is.EqualTo(new BigInteger(expected)), "BigInteger % IntExpr operator failed");
-            Assert.That(model.GetIntValue(resultMethodIntExpr), Is.EqualTo(new BigInteger(expected)), "IntExpr.Mod(IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultMethodInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Mod(int) method failed");
-            Assert.That(model.GetIntValue(resultMethodBigInt), Is.EqualTo(new BigInteger(expected)), "IntExpr.Mod(BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Mod(IntExpr, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Mod(IntExpr, int) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Mod(int, IntExpr) method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Mod(IntExpr, BigInteger) method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Mod(BigInteger, IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultOperatorIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr % IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr % int operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "int % IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr % BigInteger operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultOperatorLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "BigInteger % IntExpr operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Mod(IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Mod(int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethodBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Mod(BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mod(IntExpr, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mod(IntExpr, int) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mod(int, IntExpr) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mod(IntExpr, BigInteger) method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Mod(BigInteger, IntExpr) method failed"
+            );
         });
     }
 
@@ -324,9 +584,9 @@ public class Z3IntExprArithmeticTests
         var expected = expectedResult;
 
         // Test all variations of negation
-        var resultOperator = -x;               // -IntExpr (unary operator)
-        var resultMethod = x.UnaryMinus();     // IntExpr.UnaryMinus() (method)
-        var resultContext = context.UnaryMinus(x);   // Context.UnaryMinus(IntExpr) (method)
+        var resultOperator = -x; // -IntExpr (unary operator)
+        var resultMethod = x.UnaryMinus(); // IntExpr.UnaryMinus() (method)
+        var resultContext = context.UnaryMinus(x); // Context.UnaryMinus(IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(value)));
@@ -336,9 +596,21 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultOperator), Is.EqualTo(new BigInteger(expected)), "-IntExpr unary operator failed");
-            Assert.That(model.GetIntValue(resultMethod), Is.EqualTo(new BigInteger(expected)), "IntExpr.UnaryMinus() method failed");
-            Assert.That(model.GetIntValue(resultContext), Is.EqualTo(new BigInteger(expected)), "Context.UnaryMinus(IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultOperator),
+                Is.EqualTo(new BigInteger(expected)),
+                "-IntExpr unary operator failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultMethod),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.UnaryMinus() method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContext),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.UnaryMinus(IntExpr) method failed"
+            );
         });
     }
 
@@ -357,8 +629,8 @@ public class Z3IntExprArithmeticTests
         var expected = expectedResult;
 
         // Test all variations of absolute value
-        var resultMethod = x.Abs();            // IntExpr.Abs() (method)
-        var resultContext = context.Abs(x);    // Context.Abs(IntExpr) (method)
+        var resultMethod = x.Abs(); // IntExpr.Abs() (method)
+        var resultContext = context.Abs(x); // Context.Abs(IntExpr) (method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(value)));
@@ -368,8 +640,16 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultMethod), Is.EqualTo(new BigInteger(expected)), "IntExpr.Abs() method failed");
-            Assert.That(model.GetIntValue(resultContext), Is.EqualTo(new BigInteger(expected)), "Context.Abs(IntExpr) method failed");
+            Assert.That(
+                model.GetIntValue(resultMethod),
+                Is.EqualTo(new BigInteger(expected)),
+                "IntExpr.Abs() method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContext),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Abs(IntExpr) method failed"
+            );
         });
     }
 
@@ -518,11 +798,11 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of minimum (extension methods)
-        var resultContextIntExpr = context.Min(x, y);                // Context.Min(IntExpr, IntExpr) (extension method)
-        var resultContextRightInt = context.Min(x, rightInt);        // Context.Min(IntExpr, int) (extension method)
-        var resultContextLeftInt = context.Min(leftInt, y);          // Context.Min(int, IntExpr) (extension method)
-        var resultContextRightBigInt = context.Min(x, rightBigInt);  // Context.Min(IntExpr, BigInteger) (extension method)
-        var resultContextLeftBigInt = context.Min(leftBigInt, y);    // Context.Min(BigInteger, IntExpr) (extension method)
+        var resultContextIntExpr = context.Min(x, y); // Context.Min(IntExpr, IntExpr) (extension method)
+        var resultContextRightInt = context.Min(x, rightInt); // Context.Min(IntExpr, int) (extension method)
+        var resultContextLeftInt = context.Min(leftInt, y); // Context.Min(int, IntExpr) (extension method)
+        var resultContextRightBigInt = context.Min(x, rightBigInt); // Context.Min(IntExpr, BigInteger) (extension method)
+        var resultContextLeftBigInt = context.Min(leftBigInt, y); // Context.Min(BigInteger, IntExpr) (extension method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -534,11 +814,31 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Min(IntExpr, IntExpr) extension method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(IntExpr, int) extension method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(int, IntExpr) extension method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(IntExpr, BigInteger) extension method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Min(BigInteger, IntExpr) extension method failed");
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Min(IntExpr, IntExpr) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Min(IntExpr, int) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Min(int, IntExpr) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Min(IntExpr, BigInteger) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Min(BigInteger, IntExpr) extension method failed"
+            );
         });
     }
 
@@ -561,11 +861,11 @@ public class Z3IntExprArithmeticTests
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of maximum (extension methods)
-        var resultContextIntExpr = context.Max(x, y);                // Context.Max(IntExpr, IntExpr) (extension method)
-        var resultContextRightInt = context.Max(x, rightInt);        // Context.Max(IntExpr, int) (extension method)
-        var resultContextLeftInt = context.Max(leftInt, y);          // Context.Max(int, IntExpr) (extension method)
-        var resultContextRightBigInt = context.Max(x, rightBigInt);  // Context.Max(IntExpr, BigInteger) (extension method)
-        var resultContextLeftBigInt = context.Max(leftBigInt, y);    // Context.Max(BigInteger, IntExpr) (extension method)
+        var resultContextIntExpr = context.Max(x, y); // Context.Max(IntExpr, IntExpr) (extension method)
+        var resultContextRightInt = context.Max(x, rightInt); // Context.Max(IntExpr, int) (extension method)
+        var resultContextLeftInt = context.Max(leftInt, y); // Context.Max(int, IntExpr) (extension method)
+        var resultContextRightBigInt = context.Max(x, rightBigInt); // Context.Max(IntExpr, BigInteger) (extension method)
+        var resultContextLeftBigInt = context.Max(leftBigInt, y); // Context.Max(BigInteger, IntExpr) (extension method)
 
         // Set up constraints to get specific values for evaluation
         solver.Assert(context.Eq(x, context.Int(left)));
@@ -577,11 +877,31 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultContextIntExpr), Is.EqualTo(new BigInteger(expected)), "Context.Max(IntExpr, IntExpr) extension method failed");
-            Assert.That(model.GetIntValue(resultContextRightInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(IntExpr, int) extension method failed");
-            Assert.That(model.GetIntValue(resultContextLeftInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(int, IntExpr) extension method failed");
-            Assert.That(model.GetIntValue(resultContextRightBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(IntExpr, BigInteger) extension method failed");
-            Assert.That(model.GetIntValue(resultContextLeftBigInt), Is.EqualTo(new BigInteger(expected)), "Context.Max(BigInteger, IntExpr) extension method failed");
+            Assert.That(
+                model.GetIntValue(resultContextIntExpr),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Max(IntExpr, IntExpr) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Max(IntExpr, int) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Max(int, IntExpr) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextRightBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Max(IntExpr, BigInteger) extension method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextLeftBigInt),
+                Is.EqualTo(new BigInteger(expected)),
+                "Context.Max(BigInteger, IntExpr) extension method failed"
+            );
         });
     }
 
@@ -620,12 +940,12 @@ public class Z3IntExprArithmeticTests
         var x = context.IntConst("x");
 
         // Test various primitive interactions from the original tests
-        var result1 = x + 10;    // IntExpr + int
-        var result2 = 20 + x;    // int + IntExpr
-        var result3 = x - 3;     // IntExpr - int
-        var result4 = 100 - x;   // int - IntExpr
-        var result5 = x * 4;     // IntExpr * int
-        var result6 = 7 * x;     // int * IntExpr
+        var result1 = x + 10; // IntExpr + int
+        var result2 = 20 + x; // int + IntExpr
+        var result3 = x - 3; // IntExpr - int
+        var result4 = 100 - x; // int - IntExpr
+        var result5 = x * 4; // IntExpr * int
+        var result6 = 7 * x; // int * IntExpr
 
         // Set x = 5 for testing
         solver.Assert(context.Eq(x, context.Int(5)));
@@ -635,10 +955,22 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(result1), Is.EqualTo(new BigInteger(15)), "x + 10 failed");
-            Assert.That(model.GetIntValue(result2), Is.EqualTo(new BigInteger(25)), "20 + x failed");
+            Assert.That(
+                model.GetIntValue(result1),
+                Is.EqualTo(new BigInteger(15)),
+                "x + 10 failed"
+            );
+            Assert.That(
+                model.GetIntValue(result2),
+                Is.EqualTo(new BigInteger(25)),
+                "20 + x failed"
+            );
             Assert.That(model.GetIntValue(result3), Is.EqualTo(new BigInteger(2)), "x - 3 failed");
-            Assert.That(model.GetIntValue(result4), Is.EqualTo(new BigInteger(95)), "100 - x failed");
+            Assert.That(
+                model.GetIntValue(result4),
+                Is.EqualTo(new BigInteger(95)),
+                "100 - x failed"
+            );
             Assert.That(model.GetIntValue(result5), Is.EqualTo(new BigInteger(20)), "x * 4 failed");
             Assert.That(model.GetIntValue(result6), Is.EqualTo(new BigInteger(35)), "7 * x failed");
         });
@@ -660,14 +992,23 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)), "Single operand Add failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(42)),
+            "Single operand Add failed"
+        );
     }
 
     [TestCase(5, 3, 2, 10, Description = "Three operands: 5 + 3 + 2 = 10")]
     [TestCase(1, -1, 0, 0, Description = "Three operands with zero result")]
     [TestCase(-5, -3, -2, -10, Description = "Three negative operands")]
     [TestCase(100, -50, 25, 75, Description = "Mixed positive and negative")]
-    public void Add_VariadicParams_ThreeOperands_ReturnsExpectedResult(int a, int b, int c, int expectedResult)
+    public void Add_VariadicParams_ThreeOperands_ReturnsExpectedResult(
+        int a,
+        int b,
+        int c,
+        int expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -685,13 +1026,23 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(expectedResult)), $"Three operands Add({a}, {b}, {c}) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(expectedResult)),
+            $"Three operands Add({a}, {b}, {c}) failed"
+        );
     }
 
     [TestCase(1, 2, 3, 4, 10, Description = "Four operands: 1 + 2 + 3 + 4 = 10")]
     [TestCase(10, -5, 3, -2, 6, Description = "Four operands with mixed signs")]
     [TestCase(0, 0, 0, 0, 0, Description = "Four zeros")]
-    public void Add_VariadicParams_FourOperands_ReturnsExpectedResult(int a, int b, int c, int d, int expectedResult)
+    public void Add_VariadicParams_FourOperands_ReturnsExpectedResult(
+        int a,
+        int b,
+        int c,
+        int d,
+        int expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -711,7 +1062,11 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(expectedResult)), $"Four operands Add({a}, {b}, {c}, {d}) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(expectedResult)),
+            $"Four operands Add({a}, {b}, {c}, {d}) failed"
+        );
     }
 
     [Test]
@@ -737,7 +1092,11 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(15)), "Five operands Add(1,2,3,4,5) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(15)),
+            "Five operands Add(1,2,3,4,5) failed"
+        );
     }
 
     [Test]
@@ -745,8 +1104,10 @@ public class Z3IntExprArithmeticTests
     {
         using var context = new Z3Context();
 
-        Assert.Throws<InvalidOperationException>(() => context.Add(Array.Empty<Z3IntExpr>()),
-            "Empty operands should throw InvalidOperationException");
+        Assert.Throws<InvalidOperationException>(
+            () => context.Add(Array.Empty<Z3IntExpr>()),
+            "Empty operands should throw InvalidOperationException"
+        );
     }
 
     [Test]
@@ -763,14 +1124,23 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)), "Single operand Sub failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(42)),
+            "Single operand Sub failed"
+        );
     }
 
     [TestCase(10, 3, 2, 5, Description = "Three operands: 10 - 3 - 2 = 5")]
     [TestCase(0, 1, -1, 0, Description = "Three operands: 0 - 1 - (-1) = 0")]
     [TestCase(100, 20, 30, 50, Description = "Three operands: 100 - 20 - 30 = 50")]
     [TestCase(-5, -3, -2, 0, Description = "Three negative operands: -5 - (-3) - (-2) = 0")]
-    public void Sub_VariadicParams_ThreeOperands_ReturnsExpectedResult(int a, int b, int c, int expectedResult)
+    public void Sub_VariadicParams_ThreeOperands_ReturnsExpectedResult(
+        int a,
+        int b,
+        int c,
+        int expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -788,7 +1158,11 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(expectedResult)), $"Three operands Sub({a}, {b}, {c}) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(expectedResult)),
+            $"Three operands Sub({a}, {b}, {c}) failed"
+        );
     }
 
     [Test]
@@ -813,7 +1187,11 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         // 100 - 20 - 15 - 10 = 55
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(55)), "Four operands Sub(100,20,15,10) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(55)),
+            "Four operands Sub(100,20,15,10) failed"
+        );
     }
 
     [Test]
@@ -821,8 +1199,10 @@ public class Z3IntExprArithmeticTests
     {
         using var context = new Z3Context();
 
-        Assert.Throws<InvalidOperationException>(() => context.Sub(Array.Empty<Z3IntExpr>()),
-            "Empty operands should throw InvalidOperationException");
+        Assert.Throws<InvalidOperationException>(
+            () => context.Sub(Array.Empty<Z3IntExpr>()),
+            "Empty operands should throw InvalidOperationException"
+        );
     }
 
     [Test]
@@ -839,7 +1219,11 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)), "Single operand Mul failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(42)),
+            "Single operand Mul failed"
+        );
     }
 
     [TestCase(2, 3, 4, 24, Description = "Three operands: 2 * 3 * 4 = 24")]
@@ -847,7 +1231,12 @@ public class Z3IntExprArithmeticTests
     [TestCase(-2, 3, 4, -24, Description = "Three operands with negative: -2 * 3 * 4 = -24")]
     [TestCase(0, 100, 200, 0, Description = "Three operands with zero: 0 * 100 * 200 = 0")]
     [TestCase(-1, -2, -3, -6, Description = "Three negative operands: -1 * -2 * -3 = -6")]
-    public void Mul_VariadicParams_ThreeOperands_ReturnsExpectedResult(int a, int b, int c, int expectedResult)
+    public void Mul_VariadicParams_ThreeOperands_ReturnsExpectedResult(
+        int a,
+        int b,
+        int c,
+        int expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -865,7 +1254,11 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(expectedResult)), $"Three operands Mul({a}, {b}, {c}) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(expectedResult)),
+            $"Three operands Mul({a}, {b}, {c}) failed"
+        );
     }
 
     [Test]
@@ -890,7 +1283,11 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         // 2 * 3 * 4 * 5 = 120
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(120)), "Four operands Mul(2,3,4,5) failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(120)),
+            "Four operands Mul(2,3,4,5) failed"
+        );
     }
 
     [Test]
@@ -902,7 +1299,7 @@ public class Z3IntExprArithmeticTests
 
         var a = context.Int(1);
         var b = context.Int(2);
-        var c = context.Int(0);  // Zero multiplicand
+        var c = context.Int(0); // Zero multiplicand
         var d = context.Int(4);
         var e = context.Int(5);
 
@@ -916,7 +1313,11 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(0)), "Five operands Mul with zero failed");
+        Assert.That(
+            model.GetIntValue(result),
+            Is.EqualTo(new BigInteger(0)),
+            "Five operands Mul with zero failed"
+        );
     }
 
     [Test]
@@ -924,8 +1325,10 @@ public class Z3IntExprArithmeticTests
     {
         using var context = new Z3Context();
 
-        Assert.Throws<InvalidOperationException>(() => context.Mul(Array.Empty<Z3IntExpr>()),
-            "Empty operands should throw InvalidOperationException");
+        Assert.Throws<InvalidOperationException>(
+            () => context.Mul(Array.Empty<Z3IntExpr>()),
+            "Empty operands should throw InvalidOperationException"
+        );
     }
 
     [Test]
@@ -953,9 +1356,21 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(addResult), Is.EqualTo(new BigInteger(15)), "Variadic Add(a,b,c) with variables failed"); // 10+3+2=15
-            Assert.That(model.GetIntValue(subResult), Is.EqualTo(new BigInteger(5)), "Variadic Sub(a,b,c) with variables failed");   // 10-3-2=5
-            Assert.That(model.GetIntValue(mulResult), Is.EqualTo(new BigInteger(60)), "Variadic Mul(a,b,c) with variables failed"); // 10*3*2=60
+            Assert.That(
+                model.GetIntValue(addResult),
+                Is.EqualTo(new BigInteger(15)),
+                "Variadic Add(a,b,c) with variables failed"
+            ); // 10+3+2=15
+            Assert.That(
+                model.GetIntValue(subResult),
+                Is.EqualTo(new BigInteger(5)),
+                "Variadic Sub(a,b,c) with variables failed"
+            ); // 10-3-2=5
+            Assert.That(
+                model.GetIntValue(mulResult),
+                Is.EqualTo(new BigInteger(60)),
+                "Variadic Mul(a,b,c) with variables failed"
+            ); // 10*3*2=60
         });
     }
 

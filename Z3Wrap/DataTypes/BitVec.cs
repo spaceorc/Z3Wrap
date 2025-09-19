@@ -41,28 +41,32 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// </summary>
     /// <param name="value">The integer value.</param>
     /// <param name="size">The bit width of the bitvector.</param>
-    public BitVec(int value, uint size) : this(new BigInteger(value), size) { }
+    public BitVec(int value, uint size)
+        : this(new BigInteger(value), size) { }
 
     /// <summary>
     /// Initializes a new bitvector from a 32-bit unsigned integer.
     /// </summary>
     /// <param name="value">The unsigned integer value.</param>
     /// <param name="size">The bit width of the bitvector.</param>
-    public BitVec(uint value, uint size) : this(new BigInteger(value), size) { }
+    public BitVec(uint value, uint size)
+        : this(new BigInteger(value), size) { }
 
     /// <summary>
     /// Initializes a new bitvector from a 64-bit signed integer.
     /// </summary>
     /// <param name="value">The long integer value.</param>
     /// <param name="size">The bit width of the bitvector.</param>
-    public BitVec(long value, uint size) : this(new BigInteger(value), size) { }
+    public BitVec(long value, uint size)
+        : this(new BigInteger(value), size) { }
 
     /// <summary>
     /// Initializes a new bitvector from a 64-bit unsigned integer.
     /// </summary>
     /// <param name="value">The unsigned long integer value.</param>
     /// <param name="size">The bit width of the bitvector.</param>
-    public BitVec(ulong value, uint size) : this(new BigInteger(value), size) { }
+    public BitVec(ulong value, uint size)
+        : this(new BigInteger(value), size) { }
 
     /// <summary>
     /// Gets the underlying value of the bitvector as a BigInteger.
@@ -155,7 +159,9 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     {
         var bigIntValue = ToBigInteger(signed);
         if (bigIntValue > int.MaxValue || bigIntValue < int.MinValue)
-            throw new OverflowException($"{(signed ? "Signed" : "Unsigned")} value {bigIntValue} is outside the range of int");
+            throw new OverflowException(
+                $"{(signed ? "Signed" : "Unsigned")} value {bigIntValue} is outside the range of int"
+            );
         return (int)bigIntValue;
     }
 
@@ -181,7 +187,9 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     {
         var bigIntValue = ToBigInteger(signed);
         if (bigIntValue > long.MaxValue || bigIntValue < long.MinValue)
-            throw new OverflowException($"{(signed ? "Signed" : "Unsigned")} value {bigIntValue} is outside the range of long");
+            throw new OverflowException(
+                $"{(signed ? "Signed" : "Unsigned")} value {bigIntValue} is outside the range of long"
+            );
         return (long)bigIntValue;
     }
 
@@ -308,7 +316,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="signed">Whether to perform signed division (two's complement).</param>
     /// <returns>A new bitvector containing the quotient.</returns>
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
-    public BitVec Div(BigInteger other, bool signed = false) => Div(new BitVec(other, Size), signed);
+    public BitVec Div(BigInteger other, bool signed = false) =>
+        Div(new BitVec(other, Size), signed);
 
     /// <summary>
     /// Computes the remainder of dividing this bitvector by another bitvector.
@@ -339,7 +348,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="signed">Whether to perform signed remainder operation (two's complement).</param>
     /// <returns>A new bitvector containing the remainder.</returns>
     /// <exception cref="DivideByZeroException">Thrown when dividing by zero.</exception>
-    public BitVec Rem(BigInteger other, bool signed = false) => Rem(new BitVec(other, Size), signed);
+    public BitVec Rem(BigInteger other, bool signed = false) =>
+        Rem(new BitVec(other, Size), signed);
 
     /// <summary>
     /// Computes the Z3-style signed modulo operation where the result has the same sign as the divisor.
@@ -461,7 +471,6 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
         return new BitVec(value, Size + additionalBits);
     }
 
-
     /// <summary>
     /// Extracts a range of bits from the bitvector.
     /// </summary>
@@ -542,7 +551,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="left">The BigInteger operand (minuend).</param>
     /// <param name="right">The bitvector operand (subtrahend).</param>
     /// <returns>A new bitvector containing the difference.</returns>
-    public static BitVec operator -(BigInteger left, BitVec right) => new BitVec(left, right.Size).Sub(right);
+    public static BitVec operator -(BigInteger left, BitVec right) =>
+        new BitVec(left, right.Size).Sub(right);
 
     /// <summary>
     /// Multiplies two bitvectors using the * operator.
@@ -590,7 +600,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="left">The BigInteger operand (dividend).</param>
     /// <param name="right">The bitvector operand (divisor).</param>
     /// <returns>A new bitvector containing the quotient.</returns>
-    public static BitVec operator /(BigInteger left, BitVec right) => new BitVec(left, right.Size).Div(right);
+    public static BitVec operator /(BigInteger left, BitVec right) =>
+        new BitVec(left, right.Size).Div(right);
 
     /// <summary>
     /// Computes the remainder of dividing one bitvector by another using the % operator (unsigned remainder).
@@ -614,7 +625,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="left">The BigInteger operand (dividend).</param>
     /// <param name="right">The bitvector operand (divisor).</param>
     /// <returns>A new bitvector containing the remainder.</returns>
-    public static BitVec operator %(BigInteger left, BitVec right) => new BitVec(left, right.Size).Rem(right);
+    public static BitVec operator %(BigInteger left, BitVec right) =>
+        new BitVec(left, right.Size).Rem(right);
 
     /// <summary>
     /// Negates a bitvector using the unary - operator (two's complement negation).
@@ -724,7 +736,8 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>true if the bitvectors have the same size and value; otherwise, false.</returns>
-    public static bool operator ==(BitVec left, BitVec right) => left.Size == right.Size && left.value == right.value;
+    public static bool operator ==(BitVec left, BitVec right) =>
+        left.Size == right.Size && left.value == right.value;
 
     /// <summary>
     /// Determines whether two bitvectors are not equal using the != operator.
@@ -815,7 +828,9 @@ public readonly struct BitVec : IEquatable<BitVec>, IComparable<BitVec>, IFormat
     public int CompareTo(BitVec other)
     {
         ValidateSize(Size, other.Size);
-        return this < other ? -1 : this > other ? 1 : 0;
+        return this < other ? -1
+            : this > other ? 1
+            : 0;
     }
 
     /// <summary>

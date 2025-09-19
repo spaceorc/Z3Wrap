@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap;
 using System.Numerics;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -97,7 +97,9 @@ public class Z3BitVecExprFluentBigIntegerTests
 
         // For arithmetic shift, the result should preserve the sign bit
         var expectedRightArithmetic = -1000 >> (int)shiftAmount;
-        solver.Assert(rightShiftArithmetic == context.BitVec(new BitVec(expectedRightArithmetic, 32)));
+        solver.Assert(
+            rightShiftArithmetic == context.BitVec(new BitVec(expectedRightArithmetic, 32))
+        );
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

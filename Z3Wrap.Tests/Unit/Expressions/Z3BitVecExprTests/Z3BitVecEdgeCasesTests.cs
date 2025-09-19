@@ -44,7 +44,7 @@ public class Z3BitVecEdgeCasesTests
         using var solver = context.CreateSolver();
 
         // In 8-bit signed, -7 is represented as 249 (256-7)
-        solver.Assert(a == 249);  // -7 in 8-bit two's complement
+        solver.Assert(a == 249); // -7 in 8-bit two's complement
         solver.Assert(b == 3);
 
         // Signed modulo of -7 mod 3 should be 2 (not -1)
@@ -178,8 +178,8 @@ public class Z3BitVecEdgeCasesTests
         var or = context.Or(a8, b8);
 
         solver.Assert(add == 255); // 0 + 255 = 255
-        solver.Assert(and == 0);   // 0 & 255 = 0
-        solver.Assert(or == 255);  // 0 | 255 = 255
+        solver.Assert(and == 0); // 0 & 255 = 0
+        solver.Assert(or == 255); // 0 | 255 = 255
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -200,10 +200,10 @@ public class Z3BitVecEdgeCasesTests
         solver.Assert(a8 == 200);
         solver.Assert(b8 == 100);
 
-        var add = context.Add(a8, b8);    // 200 + 100 = 300, wraps to 44
-        var mul = context.Mul(a8, b8);    // 200 * 100 = 20000, wraps significantly
+        var add = context.Add(a8, b8); // 200 + 100 = 300, wraps to 44
+        var mul = context.Mul(a8, b8); // 200 * 100 = 20000, wraps significantly
 
-        solver.Assert(add == 44);         // (200 + 100) % 256 = 44
+        solver.Assert(add == 44); // (200 + 100) % 256 = 44
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

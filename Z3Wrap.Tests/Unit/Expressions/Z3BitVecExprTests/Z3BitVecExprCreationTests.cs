@@ -58,7 +58,10 @@ public class Z3BitVecExprCreationTests
     [TestCase(0, 8u, Description = "Zero value")]
     [TestCase(-50, 32u, Description = "Negative value")]
     [TestCase(65535, 16u, Description = "Max 16-bit unsigned")]
-    public void BitVecExpr_ImplicitConversionFromBitVec_CreatesCorrectExpression(int value, uint size)
+    public void BitVecExpr_ImplicitConversionFromBitVec_CreatesCorrectExpression(
+        int value,
+        uint size
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

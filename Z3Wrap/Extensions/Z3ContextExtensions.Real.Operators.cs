@@ -15,7 +15,9 @@ public static partial class Z3ContextExtensions
     public static Z3RealExpr Add(this Z3Context context, params Z3RealExpr[] operands)
     {
         if (operands.Length == 0)
-            throw new InvalidOperationException("Add requires at least one operand. Z3 does not support empty addition.");
+            throw new InvalidOperationException(
+                "Add requires at least one operand. Z3 does not support empty addition."
+            );
 
         var args = new IntPtr[operands.Length];
         for (int i = 0; i < operands.Length; i++)
@@ -35,7 +37,9 @@ public static partial class Z3ContextExtensions
     public static Z3RealExpr Sub(this Z3Context context, params Z3RealExpr[] operands)
     {
         if (operands.Length == 0)
-            throw new InvalidOperationException("Sub requires at least one operand. Z3 does not support empty subtraction.");
+            throw new InvalidOperationException(
+                "Sub requires at least one operand. Z3 does not support empty subtraction."
+            );
 
         var args = new IntPtr[operands.Length];
         for (int i = 0; i < operands.Length; i++)
@@ -55,7 +59,9 @@ public static partial class Z3ContextExtensions
     public static Z3RealExpr Mul(this Z3Context context, params Z3RealExpr[] operands)
     {
         if (operands.Length == 0)
-            throw new InvalidOperationException("Mul requires at least one operand. Z3 does not support empty multiplication.");
+            throw new InvalidOperationException(
+                "Mul requires at least one operand. Z3 does not support empty multiplication."
+            );
 
         var args = new IntPtr[operands.Length];
         for (int i = 0; i < operands.Length; i++)

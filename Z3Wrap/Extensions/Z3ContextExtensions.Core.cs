@@ -40,8 +40,8 @@ public static partial class Z3ContextExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A new Z3BoolExpr representing left == right.</returns>
-    public static Z3BoolExpr Eq<T>(this Z3Context context, T left, T right) where T : Z3Expr =>
-        context.Eq((Z3Expr)left, right);
+    public static Z3BoolExpr Eq<T>(this Z3Context context, T left, T right)
+        where T : Z3Expr => context.Eq((Z3Expr)left, right);
 
     /// <summary>
     /// Creates a type-safe not-equal expression between two expressions of the same type.
@@ -51,6 +51,6 @@ public static partial class Z3ContextExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A new Z3BoolExpr representing left != right.</returns>
-    public static Z3BoolExpr Neq<T>(this Z3Context context, T left, T right) where T : Z3Expr =>
-        context.Neq((Z3Expr)left, right);
+    public static Z3BoolExpr Neq<T>(this Z3Context context, T left, T right)
+        where T : Z3Expr => context.Neq((Z3Expr)left, right);
 }

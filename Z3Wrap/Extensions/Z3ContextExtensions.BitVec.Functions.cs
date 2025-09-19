@@ -13,8 +13,12 @@ public static partial class Z3ContextExtensions
     /// <param name="additionalBits">The number of additional bits to add.</param>
     /// <param name="signed">If true, performs sign extension; otherwise zero extension.</param>
     /// <returns>A Z3 bitvector expression with the extended width.</returns>
-    public static Z3BitVecExpr Extend(this Z3Context context, Z3BitVecExpr expr, uint additionalBits,
-        bool signed = false)
+    public static Z3BitVecExpr Extend(
+        this Z3Context context,
+        Z3BitVecExpr expr,
+        uint additionalBits,
+        bool signed = false
+    )
     {
         var handle = signed
             ? NativeMethods.Z3MkSignExt(context.Handle, additionalBits, expr.Handle)
@@ -30,7 +34,12 @@ public static partial class Z3ContextExtensions
     /// <param name="newSize">The target bit width.</param>
     /// <param name="signed">If true, performs sign extension when enlarging; otherwise zero extension.</param>
     /// <returns>A Z3 bitvector expression with the specified width.</returns>
-    public static Z3BitVecExpr Resize(this Z3Context context, Z3BitVecExpr expr, uint newSize, bool signed = false)
+    public static Z3BitVecExpr Resize(
+        this Z3Context context,
+        Z3BitVecExpr expr,
+        uint newSize,
+        bool signed = false
+    )
     {
         if (newSize == expr.Size)
             return expr;
@@ -53,7 +62,12 @@ public static partial class Z3ContextExtensions
     /// <param name="high">The high bit index (inclusive).</param>
     /// <param name="low">The low bit index (inclusive).</param>
     /// <returns>A Z3 bitvector expression containing the extracted bits.</returns>
-    public static Z3BitVecExpr Extract(this Z3Context context, Z3BitVecExpr expr, uint high, uint low)
+    public static Z3BitVecExpr Extract(
+        this Z3Context context,
+        Z3BitVecExpr expr,
+        uint high,
+        uint low
+    )
     {
         var handle = NativeMethods.Z3MkExtract(context.Handle, high, low, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);

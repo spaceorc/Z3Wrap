@@ -10,7 +10,11 @@ public class Z3BoolExprComparisonTests
     [TestCase(true, false, false, Description = "true == false = false")]
     [TestCase(false, true, false, Description = "false == true = false")]
     [TestCase(false, false, true, Description = "false == false = true")]
-    public void Equality_BoolExprEqualsBool_ReturnsExpectedResult(bool left, bool right, bool expectedResult)
+    public void Equality_BoolExprEqualsBool_ReturnsExpectedResult(
+        bool left,
+        bool right,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -21,28 +25,60 @@ public class Z3BoolExprComparisonTests
         var rightExpr = context.Bool(right);
 
         // Test all variations of equality with bool literal
-        var resultOperatorBool = leftExpr == rightExpr;           // BoolExpr == BoolExpr (operator)
-        var resultOperatorRightLiteral = leftExpr == right;      // BoolExpr == bool (operator)
-        var resultOperatorLeftLiteral = left == rightExpr;       // bool == BoolExpr (operator)
-        var resultInstanceEq = leftExpr.Eq(rightExpr);           // BoolExpr.Eq(BoolExpr) (instance method)
-        var resultInstanceEqLiteral = leftExpr.Eq(right);        // BoolExpr.Eq(bool) (instance method)
+        var resultOperatorBool = leftExpr == rightExpr; // BoolExpr == BoolExpr (operator)
+        var resultOperatorRightLiteral = leftExpr == right; // BoolExpr == bool (operator)
+        var resultOperatorLeftLiteral = left == rightExpr; // bool == BoolExpr (operator)
+        var resultInstanceEq = leftExpr.Eq(rightExpr); // BoolExpr.Eq(BoolExpr) (instance method)
+        var resultInstanceEqLiteral = leftExpr.Eq(right); // BoolExpr.Eq(bool) (instance method)
         var resultContextEqExpr = context.Eq(leftExpr, rightExpr); // Context.Eq(BoolExpr, BoolExpr) (method)
         var resultContextEqRightBool = context.Eq(leftExpr, right); // Context.Eq(BoolExpr, bool) (method)
-        var resultContextEqLeftBool = context.Eq(left, rightExpr);  // Context.Eq(bool, BoolExpr) (method)
+        var resultContextEqLeftBool = context.Eq(left, rightExpr); // Context.Eq(bool, BoolExpr) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultOperatorBool), Is.EqualTo(expectedResult), "BoolExpr == BoolExpr operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorRightLiteral), Is.EqualTo(expectedResult), "BoolExpr == bool operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorLeftLiteral), Is.EqualTo(expectedResult), "bool == BoolExpr operator failed");
-            Assert.That(model.GetBoolValue(resultInstanceEq), Is.EqualTo(expectedResult), "BoolExpr.Eq(BoolExpr) instance method failed");
-            Assert.That(model.GetBoolValue(resultInstanceEqLiteral), Is.EqualTo(expectedResult), "BoolExpr.Eq(bool) instance method failed");
-            Assert.That(model.GetBoolValue(resultContextEqExpr), Is.EqualTo(expectedResult), "Context.Eq(BoolExpr, BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(resultContextEqRightBool), Is.EqualTo(expectedResult), "Context.Eq(BoolExpr, bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextEqLeftBool), Is.EqualTo(expectedResult), "Context.Eq(bool, BoolExpr) method failed");
+            Assert.That(
+                model.GetBoolValue(resultOperatorBool),
+                Is.EqualTo(expectedResult),
+                "BoolExpr == BoolExpr operator failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultOperatorRightLiteral),
+                Is.EqualTo(expectedResult),
+                "BoolExpr == bool operator failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultOperatorLeftLiteral),
+                Is.EqualTo(expectedResult),
+                "bool == BoolExpr operator failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultInstanceEq),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Eq(BoolExpr) instance method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultInstanceEqLiteral),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Eq(bool) instance method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextEqExpr),
+                Is.EqualTo(expectedResult),
+                "Context.Eq(BoolExpr, BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextEqRightBool),
+                Is.EqualTo(expectedResult),
+                "Context.Eq(BoolExpr, bool) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextEqLeftBool),
+                Is.EqualTo(expectedResult),
+                "Context.Eq(bool, BoolExpr) method failed"
+            );
         });
     }
 
@@ -50,7 +86,11 @@ public class Z3BoolExprComparisonTests
     [TestCase(true, false, true, Description = "true != false = true")]
     [TestCase(false, true, true, Description = "false != true = true")]
     [TestCase(false, false, false, Description = "false != false = false")]
-    public void Inequality_BoolExprNotEqualsBool_ReturnsExpectedResult(bool left, bool right, bool expectedResult)
+    public void Inequality_BoolExprNotEqualsBool_ReturnsExpectedResult(
+        bool left,
+        bool right,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -61,31 +101,62 @@ public class Z3BoolExprComparisonTests
         var rightExpr = context.Bool(right);
 
         // Test all variations of inequality with bool literal
-        var resultOperatorBool = leftExpr != rightExpr;          // BoolExpr != BoolExpr (operator)
-        var resultOperatorRightLiteral = leftExpr != right;     // BoolExpr != bool (operator)
-        var resultOperatorLeftLiteral = left != rightExpr;      // bool != BoolExpr (operator)
-        var resultInstanceNeq = leftExpr.Neq(rightExpr);        // BoolExpr.Neq(BoolExpr) (instance method)
-        var resultInstanceNeqLiteral = leftExpr.Neq(right);     // BoolExpr.Neq(bool) (instance method)
+        var resultOperatorBool = leftExpr != rightExpr; // BoolExpr != BoolExpr (operator)
+        var resultOperatorRightLiteral = leftExpr != right; // BoolExpr != bool (operator)
+        var resultOperatorLeftLiteral = left != rightExpr; // bool != BoolExpr (operator)
+        var resultInstanceNeq = leftExpr.Neq(rightExpr); // BoolExpr.Neq(BoolExpr) (instance method)
+        var resultInstanceNeqLiteral = leftExpr.Neq(right); // BoolExpr.Neq(bool) (instance method)
         var resultContextNeqExpr = context.Neq(leftExpr, rightExpr); // Context.Neq(BoolExpr, BoolExpr) (method)
         var resultContextNeqRightBool = context.Neq(leftExpr, right); // Context.Neq(BoolExpr, bool) (method)
-        var resultContextNeqLeftBool = context.Neq(left, rightExpr);  // Context.Neq(bool, BoolExpr) (method)
+        var resultContextNeqLeftBool = context.Neq(left, rightExpr); // Context.Neq(bool, BoolExpr) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultOperatorBool), Is.EqualTo(expectedResult), "BoolExpr != BoolExpr operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorRightLiteral), Is.EqualTo(expectedResult), "BoolExpr != bool operator failed");
-            Assert.That(model.GetBoolValue(resultOperatorLeftLiteral), Is.EqualTo(expectedResult), "bool != BoolExpr operator failed");
-            Assert.That(model.GetBoolValue(resultInstanceNeq), Is.EqualTo(expectedResult), "BoolExpr.Neq(BoolExpr) instance method failed");
-            Assert.That(model.GetBoolValue(resultInstanceNeqLiteral), Is.EqualTo(expectedResult), "BoolExpr.Neq(bool) instance method failed");
-            Assert.That(model.GetBoolValue(resultContextNeqExpr), Is.EqualTo(expectedResult), "Context.Neq(BoolExpr, BoolExpr) method failed");
-            Assert.That(model.GetBoolValue(resultContextNeqRightBool), Is.EqualTo(expectedResult), "Context.Neq(BoolExpr, bool) method failed");
-            Assert.That(model.GetBoolValue(resultContextNeqLeftBool), Is.EqualTo(expectedResult), "Context.Neq(bool, BoolExpr) method failed");
+            Assert.That(
+                model.GetBoolValue(resultOperatorBool),
+                Is.EqualTo(expectedResult),
+                "BoolExpr != BoolExpr operator failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultOperatorRightLiteral),
+                Is.EqualTo(expectedResult),
+                "BoolExpr != bool operator failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultOperatorLeftLiteral),
+                Is.EqualTo(expectedResult),
+                "bool != BoolExpr operator failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultInstanceNeq),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Neq(BoolExpr) instance method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultInstanceNeqLiteral),
+                Is.EqualTo(expectedResult),
+                "BoolExpr.Neq(bool) instance method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextNeqExpr),
+                Is.EqualTo(expectedResult),
+                "Context.Neq(BoolExpr, BoolExpr) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextNeqRightBool),
+                Is.EqualTo(expectedResult),
+                "Context.Neq(BoolExpr, bool) method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextNeqLeftBool),
+                Is.EqualTo(expectedResult),
+                "Context.Neq(bool, BoolExpr) method failed"
+            );
         });
     }
-
 
     [Test]
     public void Equality_WithBoolConstants_AllCombinations_Work()
@@ -172,7 +243,7 @@ public class Z3BoolExprComparisonTests
         solver.Assert(q);
         solver.Assert(p == true);
         solver.Assert(q != false);
-        solver.Assert(context.Eq(p, q));  // Both should be equal (both true)
+        solver.Assert(context.Eq(p, q)); // Both should be equal (both true)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -195,13 +266,13 @@ public class Z3BoolExprComparisonTests
         var q = context.BoolConst("q");
 
         // Test complex comparison expressions
-        var expr1 = (p & q) == true;     // Conjunction equals true
-        var expr2 = (p | q) != false;    // Disjunction not equals false
-        var expr3 = (!p) == false;       // Negation equals false (so p is true)
+        var expr1 = (p & q) == true; // Conjunction equals true
+        var expr2 = (p | q) != false; // Disjunction not equals false
+        var expr3 = (!p) == false; // Negation equals false (so p is true)
 
-        solver.Assert(expr1);  // p & q must be true, so both p and q are true
-        solver.Assert(expr2);  // p | q is not false, so at least one is true (already satisfied)
-        solver.Assert(expr3);  // !p is false, so p is true (already satisfied)
+        solver.Assert(expr1); // p & q must be true, so both p and q are true
+        solver.Assert(expr2); // p | q is not false, so at least one is true (already satisfied)
+        solver.Assert(expr3); // !p is false, so p is true (already satisfied)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -273,9 +344,9 @@ public class Z3BoolExprComparisonTests
 
         // Test complex nested comparisons that should be satisfiable
         // Set up: p=true, q=false, r=true
-        solver.Assert(p);       // p is true
-        solver.Assert(!q);      // q is false
-        solver.Assert(r);       // r is true
+        solver.Assert(p); // p is true
+        solver.Assert(!q); // q is false
+        solver.Assert(r); // r is true
 
         // With p=true, q=false, r=true:
         // - (p & q) == false: (true & false) == false = false == false ✓
@@ -302,7 +373,7 @@ public class Z3BoolExprComparisonTests
         var p = context.BoolConst("p");
 
         // Test reflexivity of equality
-        var reflexive = context.Eq(p, p);  // p == p should always be true
+        var reflexive = context.Eq(p, p); // p == p should always be true
         solver.Assert(reflexive);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -387,8 +458,8 @@ public class Z3BoolExprComparisonTests
         var q = context.BoolConst("q");
 
         // Test that comparison works with De Morgan's equivalences
-        var expr1 = !(p & q) == (!p | !q);     // De Morgan's law as equality
-        var expr2 = !(p | q) == (!p & !q);     // De Morgan's law as equality
+        var expr1 = !(p & q) == (!p | !q); // De Morgan's law as equality
+        var expr2 = !(p | q) == (!p & !q); // De Morgan's law as equality
 
         solver.Assert(expr1);
         solver.Assert(expr2);
@@ -406,15 +477,15 @@ public class Z3BoolExprComparisonTests
         var p = context.BoolConst("p");
 
         // Test tautologies and contradictions
-        var tautology1 = (p | !p) == true;         // Always true
-        var tautology2 = (p & !p) == false;        // Always true
-        var contradiction1 = (p | !p) != true;     // Always false
-        var contradiction2 = (p & !p) != false;    // Always false
+        var tautology1 = (p | !p) == true; // Always true
+        var tautology2 = (p & !p) == false; // Always true
+        var contradiction1 = (p | !p) != true; // Always false
+        var contradiction2 = (p & !p) != false; // Always false
 
         solver.Assert(tautology1);
         solver.Assert(tautology2);
-        solver.Assert(!contradiction1);  // Assert negation of contradiction
-        solver.Assert(!contradiction2);  // Assert negation of contradiction
+        solver.Assert(!contradiction1); // Assert negation of contradiction
+        solver.Assert(!contradiction2); // Assert negation of contradiction
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }

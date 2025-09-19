@@ -10,7 +10,9 @@ namespace Spaceorc.Z3Wrap.Expressions;
 public abstract class Z3Expr(Z3Context context, IntPtr handle)
 {
     internal IntPtr Handle { get; } =
-        handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
+        handle != IntPtr.Zero
+            ? handle
+            : throw new ArgumentException("Invalid handle", nameof(handle));
 
     /// <summary>
     /// Gets the Z3 context that owns this expression.
@@ -103,11 +105,15 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
             Z3SortKind.Real => new Z3RealExpr(context, handle),
             Z3SortKind.BV => CreateBitVectorExpression(context, handle, sort),
             Z3SortKind.Array => CreateArrayExpression(context, handle, sort),
-            _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}")
+            _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}"),
         };
     }
 
-    private static Z3BitVecExpr CreateBitVectorExpression(Z3Context context, IntPtr handle, IntPtr bvSort)
+    private static Z3BitVecExpr CreateBitVectorExpression(
+        Z3Context context,
+        IntPtr handle,
+        IntPtr bvSort
+    )
     {
         var size = NativeMethods.Z3GetBvSortSize(context.Handle, bvSort);
         return new Z3BitVecExpr(context, handle, size);
@@ -123,11 +129,14 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
             Z3SortKind.Bool => ArrayFactory<Z3BoolExpr>.CreateArray(context, handle, arraySort),
             Z3SortKind.Int => ArrayFactory<Z3IntExpr>.CreateArray(context, handle, arraySort),
             Z3SortKind.Real => ArrayFactory<Z3RealExpr>.CreateArray(context, handle, arraySort),
-            _ => throw new InvalidOperationException($"Unsupported array domain sort kind: {domainKind}")
+            _ => throw new InvalidOperationException(
+                $"Unsupported array domain sort kind: {domainKind}"
+            ),
         };
     }
 
-    private static class ArrayFactory<TIndex> where TIndex : Z3Expr
+    private static class ArrayFactory<TIndex>
+        where TIndex : Z3Expr
     {
         internal static Z3Expr CreateArray(Z3Context context, IntPtr handle, IntPtr arraySort)
         {
@@ -139,7 +148,9 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
                 Z3SortKind.Bool => new Z3ArrayExpr<TIndex, Z3BoolExpr>(context, handle),
                 Z3SortKind.Int => new Z3ArrayExpr<TIndex, Z3IntExpr>(context, handle),
                 Z3SortKind.Real => new Z3ArrayExpr<TIndex, Z3RealExpr>(context, handle),
-                _ => throw new InvalidOperationException($"Unsupported array range sort kind: {rangeKind}")
+                _ => throw new InvalidOperationException(
+                    $"Unsupported array range sort kind: {rangeKind}"
+                ),
             };
         }
     }

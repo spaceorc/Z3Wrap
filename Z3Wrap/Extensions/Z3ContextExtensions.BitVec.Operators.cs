@@ -56,7 +56,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Add(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvAdd(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -71,7 +73,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Sub(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvSub(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -86,7 +90,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Mul(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvMul(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -99,10 +105,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 bitvector expression representing the division.</returns>
-    public static Z3BitVecExpr Div(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BitVecExpr Div(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvSDiv(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvUDiv(context.Handle, left.Handle, right.Handle);
@@ -117,10 +130,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 bitvector expression representing the remainder.</returns>
-    public static Z3BitVecExpr Rem(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BitVecExpr Rem(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvSRem(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvURem(context.Handle, left.Handle, right.Handle);
@@ -134,10 +154,16 @@ public static partial class Z3ContextExtensions
     /// <param name="left">The left bitvector expression.</param>
     /// <param name="right">The right bitvector expression.</param>
     /// <returns>A Z3 bitvector expression representing the signed modulo operation.</returns>
-    public static Z3BitVecExpr SignedMod(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
+    public static Z3BitVecExpr SignedMod(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvSMod(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -164,7 +190,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr And(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvAnd(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -179,7 +207,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Or(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvOr(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -194,7 +224,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Xor(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvXor(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -221,7 +253,9 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr Shl(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right)
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = NativeMethods.Z3MkBvShl(context.Handle, left.Handle, right.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -234,10 +268,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The bitvector expression specifying the shift amount.</param>
     /// <param name="signed">If true, performs arithmetic right shift; otherwise logical right shift.</param>
     /// <returns>A Z3 bitvector expression representing the right shift.</returns>
-    public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BitVecExpr Shr(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvAShr(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvLShr(context.Handle, left.Handle, right.Handle);
@@ -252,10 +293,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the less-than comparison.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BoolExpr Lt(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvSLt(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
@@ -270,10 +318,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the less-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BoolExpr Le(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvSLe(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
@@ -288,10 +343,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the greater-than comparison.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BoolExpr Gt(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvSGt(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
@@ -306,10 +368,17 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the greater-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, Z3BitVecExpr left, Z3BitVecExpr right, bool signed = false)
+    public static Z3BoolExpr Ge(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        Z3BitVecExpr right,
+        bool signed = false
+    )
     {
         if (left.Size != right.Size)
-            throw new ArgumentException($"BitVector size mismatch: left={left.Size}, right={right.Size}");
+            throw new ArgumentException(
+                $"BitVector size mismatch: left={left.Size}, right={right.Size}"
+            );
         var handle = signed
             ? NativeMethods.Z3MkBvSGe(context.Handle, left.Handle, right.Handle)
             : NativeMethods.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
@@ -358,8 +427,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right BigInteger value.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 bitvector expression representing the division.</returns>
-    public static Z3BitVecExpr Div(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Div(left, context.BitVec(right, left.Size), signed);
+    public static Z3BitVecExpr Div(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Div(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Creates a remainder expression between a bitvector expression and a BigInteger value.
@@ -370,8 +443,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right BigInteger value.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 bitvector expression representing the remainder.</returns>
-    public static Z3BitVecExpr Rem(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Rem(left, context.BitVec(right, left.Size), signed);
+    public static Z3BitVecExpr Rem(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Rem(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Creates a signed modulo expression between a bitvector expression and a BigInteger value.
@@ -381,8 +458,11 @@ public static partial class Z3ContextExtensions
     /// <param name="left">The left bitvector expression.</param>
     /// <param name="right">The right BigInteger value.</param>
     /// <returns>A Z3 bitvector expression representing the signed modulo operation.</returns>
-    public static Z3BitVecExpr SignedMod(this Z3Context context, Z3BitVecExpr left, BigInteger right) =>
-        context.SignedMod(left, context.BitVec(right, left.Size));
+    public static Z3BitVecExpr SignedMod(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right
+    ) => context.SignedMod(left, context.BitVec(right, left.Size));
 
     /// <summary>
     /// Creates an addition expression between a BigInteger value and a bitvector expression.
@@ -426,8 +506,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 bitvector expression representing the division.</returns>
-    public static Z3BitVecExpr Div(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Div(context.BitVec(left, right.Size), right, signed);
+    public static Z3BitVecExpr Div(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Div(context.BitVec(left, right.Size), right, signed);
 
     /// <summary>
     /// Creates a remainder expression between a BigInteger value and a bitvector expression.
@@ -438,8 +522,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 bitvector expression representing the remainder.</returns>
-    public static Z3BitVecExpr Rem(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Rem(context.BitVec(left, right.Size), right, signed);
+    public static Z3BitVecExpr Rem(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Rem(context.BitVec(left, right.Size), right, signed);
 
     /// <summary>
     /// Creates a signed modulo expression between a BigInteger value and a bitvector expression.
@@ -449,8 +537,11 @@ public static partial class Z3ContextExtensions
     /// <param name="left">The left BigInteger value.</param>
     /// <param name="right">The right bitvector expression.</param>
     /// <returns>A Z3 bitvector expression representing the signed modulo operation.</returns>
-    public static Z3BitVecExpr SignedMod(this Z3Context context, BigInteger left, Z3BitVecExpr right) =>
-        context.SignedMod(context.BitVec(left, right.Size), right);
+    public static Z3BitVecExpr SignedMod(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right
+    ) => context.SignedMod(context.BitVec(left, right.Size), right);
 
     /// <summary>
     /// Performs bitwise AND between a bitvector expression and a BigInteger value.
@@ -538,8 +629,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The BigInteger value specifying the shift amount.</param>
     /// <param name="signed">If true, performs arithmetic right shift; otherwise logical right shift.</param>
     /// <returns>A Z3 bitvector expression representing the right shift.</returns>
-    public static Z3BitVecExpr Shr(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Shr(left, context.BitVec(right, left.Size), signed);
+    public static Z3BitVecExpr Shr(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Shr(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Performs left shift operation on a BigInteger value with a bitvector expression shift amount.
@@ -561,8 +656,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The bitvector expression specifying the shift amount.</param>
     /// <param name="signed">If true, performs arithmetic right shift; otherwise logical right shift.</param>
     /// <returns>A Z3 bitvector expression representing the right shift.</returns>
-    public static Z3BitVecExpr Shr(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Shr(context.BitVec(left, right.Size), right, signed);
+    public static Z3BitVecExpr Shr(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Shr(context.BitVec(left, right.Size), right, signed);
 
     /// <summary>
     /// Creates a less-than comparison expression between a bitvector expression and a BigInteger value.
@@ -573,8 +672,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right BigInteger value.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the less-than comparison.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Lt(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Lt(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Lt(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Creates a less-than-or-equal comparison expression between a bitvector expression and a BigInteger value.
@@ -585,8 +688,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right BigInteger value.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the less-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Le(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Le(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Le(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Creates a greater-than comparison expression between a bitvector expression and a BigInteger value.
@@ -597,8 +704,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right BigInteger value.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the greater-than comparison.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Gt(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Gt(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Gt(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Creates a greater-than-or-equal comparison expression between a bitvector expression and a BigInteger value.
@@ -609,8 +720,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right BigInteger value.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the greater-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, Z3BitVecExpr left, BigInteger right, bool signed = false) =>
-        context.Ge(left, context.BitVec(right, left.Size), signed);
+    public static Z3BoolExpr Ge(
+        this Z3Context context,
+        Z3BitVecExpr left,
+        BigInteger right,
+        bool signed = false
+    ) => context.Ge(left, context.BitVec(right, left.Size), signed);
 
     /// <summary>
     /// Creates a less-than comparison expression between a BigInteger value and a bitvector expression.
@@ -621,8 +736,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the less-than comparison.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Lt(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Lt(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Lt(context.BitVec(left, right.Size), right, signed);
 
     /// <summary>
     /// Creates a less-than-or-equal comparison expression between a BigInteger value and a bitvector expression.
@@ -633,8 +752,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the less-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Le(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Le(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Le(context.BitVec(left, right.Size), right, signed);
 
     /// <summary>
     /// Creates a greater-than comparison expression between a BigInteger value and a bitvector expression.
@@ -645,8 +768,12 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the greater-than comparison.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Gt(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Gt(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Gt(context.BitVec(left, right.Size), right, signed);
 
     /// <summary>
     /// Creates a greater-than-or-equal comparison expression between a BigInteger value and a bitvector expression.
@@ -657,6 +784,10 @@ public static partial class Z3ContextExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression representing the greater-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, BigInteger left, Z3BitVecExpr right, bool signed = false) =>
-        context.Ge(context.BitVec(left, right.Size), right, signed);
+    public static Z3BoolExpr Ge(
+        this Z3Context context,
+        BigInteger left,
+        Z3BitVecExpr right,
+        bool signed = false
+    ) => context.Ge(context.BitVec(left, right.Size), right, signed);
 }

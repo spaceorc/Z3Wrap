@@ -14,9 +14,15 @@ public static partial class Z3ContextExtensions
     /// <param name="thenExpr">The expression to return if condition is true.</param>
     /// <param name="elseExpr">The expression to return if condition is false.</param>
     /// <returns>A new expression of type T representing if condition then thenExpr else elseExpr.</returns>
-    public static T Ite<T>(this Z3Context context, Z3BoolExpr condition, T thenExpr, T elseExpr) where T : Z3Expr
+    public static T Ite<T>(this Z3Context context, Z3BoolExpr condition, T thenExpr, T elseExpr)
+        where T : Z3Expr
     {
-        var resultHandle = NativeMethods.Z3MkIte(context.Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
+        var resultHandle = NativeMethods.Z3MkIte(
+            context.Handle,
+            condition.Handle,
+            thenExpr.Handle,
+            elseExpr.Handle
+        );
         return (T)Z3Expr.Create(context, resultHandle);
     }
 }

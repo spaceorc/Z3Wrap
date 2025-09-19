@@ -12,7 +12,7 @@ public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3E
     where TIndex : Z3Expr
     where TValue : Z3Expr
 {
-    internal new static Z3ArrayExpr<TIndex, TValue> Create(Z3Context context, IntPtr handle)
+    internal static new Z3ArrayExpr<TIndex, TValue> Create(Z3Context context, IntPtr handle)
     {
         return (Z3ArrayExpr<TIndex, TValue>)Z3Expr.Create(context, handle);
     }
@@ -24,6 +24,7 @@ public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3E
     /// <param name="index">The index expression.</param>
     /// <returns>The value expression at the given index.</returns>
     public TValue this[TIndex index] => Context.Select(this, index);
+
     /// <summary>
     /// Creates a new array expression with the value at the specified index updated.
     /// This is a functional update that does not modify the original array.
@@ -31,5 +32,6 @@ public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3E
     /// <param name="index">The index where the value should be stored.</param>
     /// <param name="value">The value to store at the index.</param>
     /// <returns>A new array expression with the updated value.</returns>
-    public Z3ArrayExpr<TIndex, TValue> Store(TIndex index, TValue value) => Context.Store(this, index, value);
+    public Z3ArrayExpr<TIndex, TValue> Store(TIndex index, TValue value) =>
+        Context.Store(this, index, value);
 }

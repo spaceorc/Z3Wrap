@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap;
 using System.Numerics;
+using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
@@ -13,7 +13,12 @@ public class Z3BoolExprConditionalTests
     [TestCase(false, 10, 20, 20, Description = "false ? 10 : 20 = 20")]
     [TestCase(true, -5, 100, -5, Description = "true ? -5 : 100 = -5")]
     [TestCase(false, -5, 100, 100, Description = "false ? -5 : 100 = 100")]
-    public void If_WithIntegerExpressions_AllVariations_ReturnsExpectedResult(bool conditionValue, int thenValue, int elseValue, int expectedResult)
+    public void If_WithIntegerExpressions_AllVariations_ReturnsExpectedResult(
+        bool conditionValue,
+        int thenValue,
+        int elseValue,
+        int expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -24,7 +29,7 @@ public class Z3BoolExprConditionalTests
         var elseExpr = context.Int(elseValue);
 
         // Test all variations of conditional operations with integers
-        var resultInstanceMethod = condition.If(thenExpr, elseExpr);    // Bool.If<T>(T, T) (method)
+        var resultInstanceMethod = condition.If(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
         var resultContextMethod = context.Ite(condition, thenExpr, elseExpr); // Context.Ite(Bool, T, T) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -33,8 +38,16 @@ public class Z3BoolExprConditionalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(resultInstanceMethod), Is.EqualTo(new BigInteger(expectedResult)), "Bool.If<Z3IntExpr> method failed");
-            Assert.That(model.GetIntValue(resultContextMethod), Is.EqualTo(new BigInteger(expectedResult)), "Context.Ite method failed");
+            Assert.That(
+                model.GetIntValue(resultInstanceMethod),
+                Is.EqualTo(new BigInteger(expectedResult)),
+                "Bool.If<Z3IntExpr> method failed"
+            );
+            Assert.That(
+                model.GetIntValue(resultContextMethod),
+                Is.EqualTo(new BigInteger(expectedResult)),
+                "Context.Ite method failed"
+            );
         });
     }
 
@@ -42,7 +55,12 @@ public class Z3BoolExprConditionalTests
     [TestCase(false, 1.5, 2.5, 2.5, Description = "false ? 1.5 : 2.5 = 2.5")]
     [TestCase(true, -3.14, 3.14, -3.14, Description = "true ? -3.14 : 3.14 = -3.14")]
     [TestCase(false, -3.14, 3.14, 3.14, Description = "false ? -3.14 : 3.14 = 3.14")]
-    public void If_WithRealExpressions_AllVariations_ReturnsExpectedResult(bool conditionValue, double thenValue, double elseValue, double expectedResult)
+    public void If_WithRealExpressions_AllVariations_ReturnsExpectedResult(
+        bool conditionValue,
+        double thenValue,
+        double elseValue,
+        double expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -53,7 +71,7 @@ public class Z3BoolExprConditionalTests
         var elseExpr = context.Real((decimal)elseValue);
 
         // Test all variations of conditional operations with reals
-        var resultInstanceMethod = condition.If(thenExpr, elseExpr);    // Bool.If<T>(T, T) (method)
+        var resultInstanceMethod = condition.If(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
         var resultContextMethod = context.Ite(condition, thenExpr, elseExpr); // Context.Ite(Bool, T, T) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -61,8 +79,16 @@ public class Z3BoolExprConditionalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetRealValue(resultInstanceMethod), Is.EqualTo(new Real((decimal)expectedResult)), "Bool.If<Z3RealExpr> method failed");
-            Assert.That(model.GetRealValue(resultContextMethod), Is.EqualTo(new Real((decimal)expectedResult)), "Context.Ite method failed");
+            Assert.That(
+                model.GetRealValue(resultInstanceMethod),
+                Is.EqualTo(new Real((decimal)expectedResult)),
+                "Bool.If<Z3RealExpr> method failed"
+            );
+            Assert.That(
+                model.GetRealValue(resultContextMethod),
+                Is.EqualTo(new Real((decimal)expectedResult)),
+                "Context.Ite method failed"
+            );
         });
     }
 
@@ -70,7 +96,12 @@ public class Z3BoolExprConditionalTests
     [TestCase(false, true, false, false, Description = "false ? true : false = false")]
     [TestCase(true, false, true, false, Description = "true ? false : true = false")]
     [TestCase(false, false, true, true, Description = "false ? false : true = true")]
-    public void If_WithBooleanExpressions_AllVariations_ReturnsExpectedResult(bool conditionValue, bool thenValue, bool elseValue, bool expectedResult)
+    public void If_WithBooleanExpressions_AllVariations_ReturnsExpectedResult(
+        bool conditionValue,
+        bool thenValue,
+        bool elseValue,
+        bool expectedResult
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -81,7 +112,7 @@ public class Z3BoolExprConditionalTests
         var elseExpr = context.Bool(elseValue);
 
         // Test all variations of conditional operations with booleans
-        var resultInstanceMethod = condition.If(thenExpr, elseExpr);    // Bool.If<T>(T, T) (method)
+        var resultInstanceMethod = condition.If(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
         var resultContextMethod = context.Ite(condition, thenExpr, elseExpr); // Context.Ite(Bool, T, T) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -89,8 +120,16 @@ public class Z3BoolExprConditionalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBoolValue(resultInstanceMethod), Is.EqualTo(expectedResult), "Bool.If<Z3BoolExpr> method failed");
-            Assert.That(model.GetBoolValue(resultContextMethod), Is.EqualTo(expectedResult), "Context.Ite method failed");
+            Assert.That(
+                model.GetBoolValue(resultInstanceMethod),
+                Is.EqualTo(expectedResult),
+                "Bool.If<Z3BoolExpr> method failed"
+            );
+            Assert.That(
+                model.GetBoolValue(resultContextMethod),
+                Is.EqualTo(expectedResult),
+                "Context.Ite method failed"
+            );
         });
     }
 
@@ -225,12 +264,12 @@ public class Z3BoolExprConditionalTests
 
         // Chained conditionals simulating if-else-if logic
         var result = cond1.If(
-            context.Int(100),  // if x > 10 then 100
+            context.Int(100), // if x > 10 then 100
             cond2.If(
                 context.Int(50), // else if x > 5 then 50
                 cond3.If(
                     context.Int(10), // else if x > 0 then 10
-                    context.Int(0)   // else 0
+                    context.Int(0) // else 0
                 )
             )
         );

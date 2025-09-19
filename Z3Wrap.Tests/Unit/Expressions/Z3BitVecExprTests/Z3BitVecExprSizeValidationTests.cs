@@ -17,11 +17,26 @@ public class Z3BitVecExprSizeValidationTests
         var b16 = context.BitVecConst("b", 16);
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a8 + b16; });
-        var ex2 = Assert.Throws<ArgumentException>(() => { _ = a8 - b16; });
-        var ex3 = Assert.Throws<ArgumentException>(() => { _ = a8 * b16; });
-        var ex4 = Assert.Throws<ArgumentException>(() => { _ = a8 / b16; });
-        var ex5 = Assert.Throws<ArgumentException>(() => { _ = a8 % b16; });
+        var ex1 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 + b16;
+        });
+        var ex2 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 - b16;
+        });
+        var ex3 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 * b16;
+        });
+        var ex4 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 / b16;
+        });
+        var ex5 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 % b16;
+        });
 
         Assert.That(ex1!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
         Assert.That(ex2!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
@@ -39,9 +54,18 @@ public class Z3BitVecExprSizeValidationTests
         var b32 = context.BitVecConst("b", 32);
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a8 & b32; });
-        var ex2 = Assert.Throws<ArgumentException>(() => { _ = a8 | b32; });
-        var ex3 = Assert.Throws<ArgumentException>(() => { _ = a8 ^ b32; });
+        var ex1 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 & b32;
+        });
+        var ex2 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 | b32;
+        });
+        var ex3 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8 ^ b32;
+        });
 
         Assert.That(ex1!.Message, Contains.Substring("BitVector size mismatch: left=8, right=32"));
         Assert.That(ex2!.Message, Contains.Substring("BitVector size mismatch: left=8, right=32"));
@@ -57,8 +81,14 @@ public class Z3BitVecExprSizeValidationTests
         var b8 = context.BitVecConst("b", 8);
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a16 << b8; });
-        var ex2 = Assert.Throws<ArgumentException>(() => { _ = a16 >> b8; });
+        var ex1 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a16 << b8;
+        });
+        var ex2 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a16 >> b8;
+        });
 
         Assert.That(ex1!.Message, Contains.Substring("BitVector size mismatch: left=16, right=8"));
         Assert.That(ex2!.Message, Contains.Substring("BitVector size mismatch: left=16, right=8"));
@@ -73,10 +103,22 @@ public class Z3BitVecExprSizeValidationTests
         var b64 = context.BitVecConst("b", 64);
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a32 < b64; });
-        var ex2 = Assert.Throws<ArgumentException>(() => { _ = a32 <= b64; });
-        var ex3 = Assert.Throws<ArgumentException>(() => { _ = a32 > b64; });
-        var ex4 = Assert.Throws<ArgumentException>(() => { _ = a32 >= b64; });
+        var ex1 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a32 < b64;
+        });
+        var ex2 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a32 <= b64;
+        });
+        var ex3 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a32 > b64;
+        });
+        var ex4 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a32 >= b64;
+        });
 
         Assert.That(ex1!.Message, Contains.Substring("BitVector size mismatch: left=32, right=64"));
         Assert.That(ex2!.Message, Contains.Substring("BitVector size mismatch: left=32, right=64"));
@@ -93,9 +135,18 @@ public class Z3BitVecExprSizeValidationTests
         var b16 = context.BitVecConst("b", 16);
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentException>(() => { _ = a8.Lt(b16, signed: true); });
-        var ex2 = Assert.Throws<ArgumentException>(() => { _ = context.Div(a8, b16, signed: true); });
-        var ex3 = Assert.Throws<ArgumentException>(() => { _ = a8.Shl(b16); });
+        var ex1 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8.Lt(b16, signed: true);
+        });
+        var ex2 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = context.Div(a8, b16, signed: true);
+        });
+        var ex3 = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = a8.Shl(b16);
+        });
 
         Assert.That(ex1!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
         Assert.That(ex2!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));

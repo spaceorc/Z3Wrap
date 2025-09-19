@@ -18,7 +18,10 @@ public class BitVecTests
     [Test]
     public void Constructor_WithZeroSize_ThrowsException()
     {
-        Assert.Throws<ArgumentException>(() => { _ = new BitVec(1, 0); });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = new BitVec(1, 0);
+        });
     }
 
     [Test]
@@ -265,11 +268,26 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        Assert.Throws<ArgumentException>(() => { _ = bv1 + bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 - bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 * bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 / bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 % bv2; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 + bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 - bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 * bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 / bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 % bv2;
+        });
     }
 
     [Test]
@@ -359,8 +377,14 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(0, 8);
 
-        Assert.Throws<DivideByZeroException>(() => { _ = bv1 / bv2; });
-        Assert.Throws<DivideByZeroException>(() => { _ = bv1 % bv2; });
+        Assert.Throws<DivideByZeroException>(() =>
+        {
+            _ = bv1 / bv2;
+        });
+        Assert.Throws<DivideByZeroException>(() =>
+        {
+            _ = bv1 % bv2;
+        });
         Assert.Throws<DivideByZeroException>(() => bv1.Div(bv2, signed: true));
         Assert.Throws<DivideByZeroException>(() => bv1.Rem(bv2, signed: true));
         Assert.Throws<DivideByZeroException>(() => bv1.SignedMod(bv2));
@@ -372,8 +396,14 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        Assert.Throws<ArgumentException>(() => { _ = bv1 / bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 % bv2; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 / bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 % bv2;
+        });
         Assert.Throws<ArgumentException>(() => bv1.Div(bv2, signed: true));
         Assert.Throws<ArgumentException>(() => bv1.Rem(bv2, signed: true));
         Assert.Throws<ArgumentException>(() => bv1.SignedMod(bv2));
@@ -393,12 +423,12 @@ public class BitVecTests
     public void BitwiseOperators_WorkCorrectly()
     {
         var bv1 = new BitVec(170, 8); // 10101010
-        var bv2 = new BitVec(85, 8);  // 01010101
+        var bv2 = new BitVec(85, 8); // 01010101
 
-        Assert.That((bv1 & bv2).Value, Is.EqualTo(new BigInteger(0)));     // 00000000
-        Assert.That((bv1 | bv2).Value, Is.EqualTo(new BigInteger(255)));   // 11111111
-        Assert.That((bv1 ^ bv2).Value, Is.EqualTo(new BigInteger(255)));   // 11111111
-        Assert.That((~bv1).Value, Is.EqualTo(new BigInteger(85)));         // 01010101
+        Assert.That((bv1 & bv2).Value, Is.EqualTo(new BigInteger(0))); // 00000000
+        Assert.That((bv1 | bv2).Value, Is.EqualTo(new BigInteger(255))); // 11111111
+        Assert.That((bv1 ^ bv2).Value, Is.EqualTo(new BigInteger(255))); // 11111111
+        Assert.That((~bv1).Value, Is.EqualTo(new BigInteger(85))); // 01010101
     }
 
     [Test]
@@ -406,10 +436,10 @@ public class BitVecTests
     {
         var bv = new BitVec(5, 8); // 00000101
 
-        var leftShift = bv << 2;   // 00010100 = 20
+        var leftShift = bv << 2; // 00010100 = 20
         Assert.That(leftShift.Value, Is.EqualTo(new BigInteger(20)));
 
-        var rightShift = bv >> 1;  // 00000010 = 2
+        var rightShift = bv >> 1; // 00000010 = 2
         Assert.That(rightShift.Value, Is.EqualTo(new BigInteger(2)));
     }
 
@@ -418,8 +448,14 @@ public class BitVecTests
     {
         var bv = new BitVec(5, 8);
 
-        Assert.Throws<ArgumentException>(() => { _ = bv << -1; });
-        Assert.Throws<ArgumentException>(() => { _ = bv >> -1; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv << -1;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv >> -1;
+        });
     }
 
     [Test]
@@ -445,10 +481,22 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        Assert.Throws<ArgumentException>(() => { _ = bv1 < bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 <= bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 > bv2; });
-        Assert.Throws<ArgumentException>(() => { _ = bv1 >= bv2; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 < bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 <= bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 > bv2;
+        });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 >= bv2;
+        });
     }
 
     [Test]
@@ -669,7 +717,10 @@ public class BitVecTests
 
         // Test large bit width
         var large = new BitVec(1, 64);
-        Assert.That(large.ToBinaryString(), Is.EqualTo("0000000000000000000000000000000000000000000000000000000000000001"));
+        Assert.That(
+            large.ToBinaryString(),
+            Is.EqualTo("0000000000000000000000000000000000000000000000000000000000000001")
+        );
 
         // Test all bits set
         var allSet = new BitVec(15, 4); // 1111 in 4 bits
@@ -683,14 +734,20 @@ public class BitVecTests
         var bv1 = new BitVec(10, 8);
         var bv2 = new BitVec(5, 16);
 
-        var ex = Assert.Throws<ArgumentException>(() => { _ = bv1 + bv2; });
+        var ex = Assert.Throws<ArgumentException>(() =>
+        {
+            _ = bv1 + bv2;
+        });
         Assert.That(ex.Message, Does.Contain("Size mismatch"));
 
         // Test division by zero messages
         var zero = new BitVec(0, 8);
         var nonZero = new BitVec(10, 8);
 
-        var divEx = Assert.Throws<DivideByZeroException>(() => { _ = nonZero / zero; });
+        var divEx = Assert.Throws<DivideByZeroException>(() =>
+        {
+            _ = nonZero / zero;
+        });
         Assert.That(divEx.Message, Does.Contain("Division by zero is not allowed"));
 
         // Test overflow messages
@@ -707,7 +764,10 @@ public class BitVecTests
         var bv = new BitVec(largeValue, 64);
 
         var ex = Assert.Throws<OverflowException>(() => bv.ToInt());
-        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of int"));
+        Assert.That(
+            ex.Message,
+            Does.Contain($"Unsigned value {largeValue} is outside the range of int")
+        );
     }
 
     [Test]
@@ -755,7 +815,10 @@ public class BitVecTests
         var bv = new BitVec(largeValue, 64);
 
         var ex = Assert.Throws<OverflowException>(() => bv.ToUInt());
-        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of uint"));
+        Assert.That(
+            ex.Message,
+            Does.Contain($"Unsigned value {largeValue} is outside the range of uint")
+        );
     }
 
     [Test]
@@ -774,7 +837,10 @@ public class BitVecTests
         var bv = new BitVec(largeValue, 128);
 
         var ex = Assert.Throws<OverflowException>(() => bv.ToLong());
-        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of long"));
+        Assert.That(
+            ex.Message,
+            Does.Contain($"Unsigned value {largeValue} is outside the range of long")
+        );
     }
 
     [Test]
@@ -818,7 +884,10 @@ public class BitVecTests
         var bv = new BitVec(largeValue, 128);
 
         var ex = Assert.Throws<OverflowException>(() => bv.ToULong());
-        Assert.That(ex.Message, Does.Contain($"Unsigned value {largeValue} is outside the range of ulong"));
+        Assert.That(
+            ex.Message,
+            Does.Contain($"Unsigned value {largeValue} is outside the range of ulong")
+        );
     }
 
     [Test]
@@ -997,7 +1066,7 @@ public class BitVecTests
     public void BitwiseOperations_Methods_WorkCorrectly()
     {
         var bv1 = new BitVec(170, 8); // 10101010
-        var bv2 = new BitVec(85, 8);  // 01010101
+        var bv2 = new BitVec(85, 8); // 01010101
         var bigInt = new BigInteger(85);
 
         // AND operations
@@ -1057,7 +1126,7 @@ public class BitVecTests
 
         // Bitwise operators (BitVec on left)
         var bv2 = new BitVec(170, 8); // 10101010
-        var mask = new BigInteger(85);  // 01010101
+        var mask = new BigInteger(85); // 01010101
 
         Assert.That((bv2 & mask).Value, Is.EqualTo(new BigInteger(0)));
         Assert.That((bv2 | mask).Value, Is.EqualTo(new BigInteger(255)));
@@ -1204,8 +1273,12 @@ public class BitVecTests
     {
         var bv = new BitVec(42, 8);
 
-        Assert.That(() => bv.Extract(8, 0),
-            Throws.ArgumentException.With.Message.Contains("High bit 8 is out of range for 8-bit vector"));
+        Assert.That(
+            () => bv.Extract(8, 0),
+            Throws.ArgumentException.With.Message.Contains(
+                "High bit 8 is out of range for 8-bit vector"
+            )
+        );
     }
 
     [Test]
@@ -1213,8 +1286,12 @@ public class BitVecTests
     {
         var bv = new BitVec(42, 8);
 
-        Assert.That(() => bv.Extract(2, 5),
-            Throws.ArgumentException.With.Message.Contains("Low bit 5 cannot be greater than high bit 2"));
+        Assert.That(
+            () => bv.Extract(2, 5),
+            Throws.ArgumentException.With.Message.Contains(
+                "Low bit 5 cannot be greater than high bit 2"
+            )
+        );
     }
 
     [Test]

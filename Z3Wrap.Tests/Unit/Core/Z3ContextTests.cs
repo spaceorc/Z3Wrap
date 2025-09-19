@@ -1,10 +1,10 @@
 using Spaceorc.Z3Wrap;
+
 namespace Z3Wrap.Tests.Unit.Core;
 
 [TestFixture]
 public class Z3ContextTests
 {
-
     [Test]
     public void Constructor_DefaultConfig_CreatesAndDisposesSuccessfully()
     {

@@ -13,7 +13,9 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing the boolean value.</returns>
     public static Z3BoolExpr Bool(this Z3Context context, bool value)
     {
-        var handle = value ? NativeMethods.Z3MkTrue(context.Handle) : NativeMethods.Z3MkFalse(context.Handle);
+        var handle = value
+            ? NativeMethods.Z3MkTrue(context.Handle)
+            : NativeMethods.Z3MkFalse(context.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 

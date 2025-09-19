@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Complete XML documentation for all public APIs with IntelliSense support
+- Shell scripts for automated release note extraction and tag management
 
 ### Changed
 - **BREAKING**: Made Handle properties and factory methods internal

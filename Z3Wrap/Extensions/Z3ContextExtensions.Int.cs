@@ -34,5 +34,4 @@ public static partial class Z3ContextExtensions
         var handle = NativeMethods.Z3MkConst(context.Handle, symbol, intSort);
         return Z3IntExpr.Create(context, handle);
     }
-
 }

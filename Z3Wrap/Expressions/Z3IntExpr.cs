@@ -11,11 +11,10 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// </summary>
 public sealed class Z3IntExpr : Z3NumericExpr
 {
-    internal Z3IntExpr(Z3Context context, IntPtr handle) : base(context, handle)
-    {
-    }
+    internal Z3IntExpr(Z3Context context, IntPtr handle)
+        : base(context, handle) { }
 
-    internal new static Z3IntExpr Create(Z3Context context, IntPtr handle)
+    internal static new Z3IntExpr Create(Z3Context context, IntPtr handle)
     {
         return (Z3IntExpr)Z3Expr.Create(context, handle);
     }
@@ -50,7 +49,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>An integer expression representing left + right.</returns>
-    public static Z3IntExpr operator +(Z3IntExpr left, Z3IntExpr right) => left.Context.Add(left, right);
+    public static Z3IntExpr operator +(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Add(left, right);
 
     /// <summary>
     /// Subtracts two integer expressions using the - operator.
@@ -58,7 +58,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>An integer expression representing left - right.</returns>
-    public static Z3IntExpr operator -(Z3IntExpr left, Z3IntExpr right) => left.Context.Sub(left, right);
+    public static Z3IntExpr operator -(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Sub(left, right);
 
     /// <summary>
     /// Multiplies two integer expressions using the * operator.
@@ -66,7 +67,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>An integer expression representing left * right.</returns>
-    public static Z3IntExpr operator *(Z3IntExpr left, Z3IntExpr right) => left.Context.Mul(left, right);
+    public static Z3IntExpr operator *(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Mul(left, right);
 
     /// <summary>
     /// Divides two integer expressions using the / operator (integer division).
@@ -74,7 +76,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand (dividend).</param>
     /// <param name="right">The right operand (divisor).</param>
     /// <returns>An integer expression representing left / right.</returns>
-    public static Z3IntExpr operator /(Z3IntExpr left, Z3IntExpr right) => left.Context.Div(left, right);
+    public static Z3IntExpr operator /(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Div(left, right);
 
     /// <summary>
     /// Computes the modulo of two integer expressions using the % operator.
@@ -82,7 +85,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand (dividend).</param>
     /// <param name="right">The right operand (divisor).</param>
     /// <returns>An integer expression representing left % right.</returns>
-    public static Z3IntExpr operator %(Z3IntExpr left, Z3IntExpr right) => left.Context.Mod(left, right);
+    public static Z3IntExpr operator %(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Mod(left, right);
 
     /// <summary>
     /// Compares two integer expressions using the &lt; operator.
@@ -90,7 +94,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt; right.</returns>
-    public static Z3BoolExpr operator <(Z3IntExpr left, Z3IntExpr right) => left.Context.Lt(left, right);
+    public static Z3BoolExpr operator <(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Lt(left, right);
 
     /// <summary>
     /// Compares two integer expressions using the &lt;= operator.
@@ -98,7 +103,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt;= right.</returns>
-    public static Z3BoolExpr operator <=(Z3IntExpr left, Z3IntExpr right) => left.Context.Le(left, right);
+    public static Z3BoolExpr operator <=(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Le(left, right);
 
     /// <summary>
     /// Compares two integer expressions using the &gt; operator.
@@ -106,7 +112,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt; right.</returns>
-    public static Z3BoolExpr operator >(Z3IntExpr left, Z3IntExpr right) => left.Context.Gt(left, right);
+    public static Z3BoolExpr operator >(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Gt(left, right);
 
     /// <summary>
     /// Compares two integer expressions using the &gt;= operator.
@@ -114,7 +121,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt;= right.</returns>
-    public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right) => left.Context.Ge(left, right);
+    public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right) =>
+        left.Context.Ge(left, right);
 
     /// <summary>
     /// Negates an integer expression using the unary - operator.
@@ -129,7 +137,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The integer expression.</param>
     /// <param name="right">The BigInteger value.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(Z3IntExpr left, BigInteger right) => left.Context.Eq(left, right);
+    public static Z3BoolExpr operator ==(Z3IntExpr left, BigInteger right) =>
+        left.Context.Eq(left, right);
 
     /// <summary>
     /// Checks inequality between an integer expression and a BigInteger using the != operator.
@@ -137,7 +146,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The integer expression.</param>
     /// <param name="right">The BigInteger value.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(Z3IntExpr left, BigInteger right) => left.Context.Neq(left, right);
+    public static Z3BoolExpr operator !=(Z3IntExpr left, BigInteger right) =>
+        left.Context.Neq(left, right);
 
     /// <summary>
     /// Checks equality between a BigInteger and an integer expression using the == operator.
@@ -145,7 +155,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The BigInteger value.</param>
     /// <param name="right">The integer expression.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(BigInteger left, Z3IntExpr right) => right.Context.Eq(left, right);
+    public static Z3BoolExpr operator ==(BigInteger left, Z3IntExpr right) =>
+        right.Context.Eq(left, right);
 
     /// <summary>
     /// Checks inequality between a BigInteger and an integer expression using the != operator.
@@ -153,8 +164,9 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <param name="left">The BigInteger value.</param>
     /// <param name="right">The integer expression.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(BigInteger left, Z3IntExpr right) => right.Context.Neq(left, right);
-    
+    public static Z3BoolExpr operator !=(BigInteger left, Z3IntExpr right) =>
+        right.Context.Neq(left, right);
+
     /// <summary>
     /// Adds this integer expression to another integer expression.
     /// </summary>
@@ -229,7 +241,7 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// </summary>
     /// <returns>An integer expression representing |this|.</returns>
     public Z3IntExpr Abs() => Context.Abs(this);
-    
+
     /// <summary>
     /// Converts this integer expression to a real (rational) number expression.
     /// </summary>

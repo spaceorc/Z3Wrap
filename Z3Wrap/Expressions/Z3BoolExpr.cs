@@ -9,11 +9,10 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// </summary>
 public sealed class Z3BoolExpr : Z3Expr
 {
-    internal Z3BoolExpr(Z3Context context, IntPtr handle) : base(context, handle)
-    {
-    }
+    internal Z3BoolExpr(Z3Context context, IntPtr handle)
+        : base(context, handle) { }
 
-    internal new static Z3BoolExpr Create(Z3Context context, IntPtr handle)
+    internal static new Z3BoolExpr Create(Z3Context context, IntPtr handle)
     {
         return (Z3BoolExpr)Z3Expr.Create(context, handle);
     }
@@ -33,6 +32,7 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="right">The right operand.</param>
     /// <returns>A Boolean expression representing left AND right.</returns>
     public static Z3BoolExpr operator &(Z3BoolExpr left, Z3BoolExpr right) => left.And(right);
+
     /// <summary>
     /// Performs logical OR operation using the | operator.
     /// </summary>
@@ -40,6 +40,7 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="right">The right operand.</param>
     /// <returns>A Boolean expression representing left OR right.</returns>
     public static Z3BoolExpr operator |(Z3BoolExpr left, Z3BoolExpr right) => left.Or(right);
+
     /// <summary>
     /// Performs logical XOR operation using the ^ operator.
     /// </summary>
@@ -47,6 +48,7 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="right">The right operand.</param>
     /// <returns>A Boolean expression representing left XOR right.</returns>
     public static Z3BoolExpr operator ^(Z3BoolExpr left, Z3BoolExpr right) => left.Xor(right);
+
     /// <summary>
     /// Performs logical NOT operation using the ! operator.
     /// </summary>
@@ -60,7 +62,8 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="left">The Z3BoolExpr operand.</param>
     /// <param name="right">The bool operand.</param>
     /// <returns>A Boolean expression representing the equality comparison.</returns>
-    public static Z3BoolExpr operator ==(Z3BoolExpr left, bool right) => left.Context.Eq(left, left.Context.Bool(right));
+    public static Z3BoolExpr operator ==(Z3BoolExpr left, bool right) =>
+        left.Context.Eq(left, left.Context.Bool(right));
 
     /// <summary>
     /// Compares a Z3BoolExpr with a bool value for inequality using the != operator.
@@ -68,7 +71,8 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="left">The Z3BoolExpr operand.</param>
     /// <param name="right">The bool operand.</param>
     /// <returns>A Boolean expression representing the inequality comparison.</returns>
-    public static Z3BoolExpr operator !=(Z3BoolExpr left, bool right) => left.Context.Neq(left, left.Context.Bool(right));
+    public static Z3BoolExpr operator !=(Z3BoolExpr left, bool right) =>
+        left.Context.Neq(left, left.Context.Bool(right));
 
     /// <summary>
     /// Compares a bool value with a Z3BoolExpr for equality using the == operator.
@@ -76,7 +80,8 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="left">The bool operand.</param>
     /// <param name="right">The Z3BoolExpr operand.</param>
     /// <returns>A Boolean expression representing the equality comparison.</returns>
-    public static Z3BoolExpr operator ==(bool left, Z3BoolExpr right) => right.Context.Eq(right.Context.Bool(left), right);
+    public static Z3BoolExpr operator ==(bool left, Z3BoolExpr right) =>
+        right.Context.Eq(right.Context.Bool(left), right);
 
     /// <summary>
     /// Compares a bool value with a Z3BoolExpr for inequality using the != operator.
@@ -84,7 +89,8 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="left">The bool operand.</param>
     /// <param name="right">The Z3BoolExpr operand.</param>
     /// <returns>A Boolean expression representing the inequality comparison.</returns>
-    public static Z3BoolExpr operator !=(bool left, Z3BoolExpr right) => right.Context.Neq(right.Context.Bool(left), right);
+    public static Z3BoolExpr operator !=(bool left, Z3BoolExpr right) =>
+        right.Context.Neq(right.Context.Bool(left), right);
 
     /// <summary>
     /// Creates a Boolean expression representing the logical AND of this expression and another.
@@ -140,7 +146,7 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="other">The bool value to compare with.</param>
     /// <returns>A Boolean expression representing this != other.</returns>
     public Z3BoolExpr Neq(bool other) => Context.Neq(this, other);
-    
+
     /// <summary>
     /// Creates a conditional expression (if-then-else) using this Boolean expression as the condition.
     /// </summary>
@@ -148,5 +154,6 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="thenExpr">The expression to return when this condition is true.</param>
     /// <param name="elseExpr">The expression to return when this condition is false.</param>
     /// <returns>An expression representing: if (this) then thenExpr else elseExpr.</returns>
-    public T If<T>(T thenExpr, T elseExpr) where T : Z3Expr => Context.Ite(this, thenExpr, elseExpr);
+    public T If<T>(T thenExpr, T elseExpr)
+        where T : Z3Expr => Context.Ite(this, thenExpr, elseExpr);
 }

@@ -23,7 +23,11 @@ public class Z3IntegrationTests
 
         var result = solver.Check();
 
-        Assert.That(result, Is.EqualTo(Z3Status.Unsatisfiable), "x > 0 and x < 1 should be unsatisfiable for integers");
+        Assert.That(
+            result,
+            Is.EqualTo(Z3Status.Unsatisfiable),
+            "x > 0 and x < 1 should be unsatisfiable for integers"
+        );
     }
 
     [Test]
