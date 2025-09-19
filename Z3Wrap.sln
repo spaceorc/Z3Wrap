@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{75818AE1-5829-403C-A468-CEA764E7ED31}"
 	ProjectSection(SolutionItems) = preProject
 		scripts\tag.sh = scripts\tag.sh
+		scripts\extract-notes.sh = scripts\extract-notes.sh
 	EndProjectSection
 EndProject
 Global

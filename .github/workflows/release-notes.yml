@@ -31,15 +31,7 @@ jobs:
           fi
 
       - name: Extract notes from CHANGELOG [Unreleased]
-        run: |
-          python3 - <<'PY'
-          import re, pathlib
-          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
-          m = re.search(r'^## \[Unreleased\]\s*(.*?)^## \[', text, flags=re.M|re.S) \
-              or re.search(r'^## \[Unreleased\]\s*(.*)\Z', text, flags=re.M|re.S)
-          notes = (m.group(1).strip() if m else '')
-          pathlib.Path("RELEASE_NOTES.md").write_text(notes or "No notes under [Unreleased].", encoding="utf-8")
-          PY
+        run: scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES.md"
 
       - name: Detect prerelease
         id: flags
