@@ -1,7 +1,7 @@
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Extensions;
 
 public static partial class Z3ContextExtensions
 {

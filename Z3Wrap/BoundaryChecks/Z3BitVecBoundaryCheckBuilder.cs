@@ -1,16 +1,17 @@
 using Spaceorc.Z3Wrap.Expressions;
 using System.Numerics;
+using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.BoundaryChecks;
 
 /// <summary>
 /// Provides a fluent API for creating bitvector boundary check expressions.
 /// </summary>
-public class BitVecBoundaryCheckBuilder
+public class Z3BitVecBoundaryCheckBuilder
 {
     private readonly Z3Context context;
 
-    internal BitVecBoundaryCheckBuilder(Z3Context context)
+    internal Z3BitVecBoundaryCheckBuilder(Z3Context context)
     {
         this.context = context;
     }

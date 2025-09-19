@@ -1,6 +1,6 @@
 using Spaceorc.Z3Wrap.BoundaryChecks;
 
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Extensions;
 
 public static partial class Z3ContextExtensions
 {
@@ -9,8 +9,8 @@ public static partial class Z3ContextExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <returns>A builder for constructing boundary check expressions.</returns>
-    public static BitVecBoundaryCheckBuilder BitVecBoundaryCheck(this Z3Context context)
+    public static Z3BitVecBoundaryCheckBuilder BitVecBoundaryCheck(this Z3Context context)
     {
-        return new BitVecBoundaryCheckBuilder(context);
+        return new Z3BitVecBoundaryCheckBuilder(context);
     }
 }

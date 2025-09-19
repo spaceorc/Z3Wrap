@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap;
 using System.Globalization;
+using Spaceorc.Z3Wrap.Extensions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
 

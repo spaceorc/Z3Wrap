@@ -1,6 +1,7 @@
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Extensions;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 

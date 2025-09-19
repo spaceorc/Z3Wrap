@@ -1,4 +1,5 @@
 using System.Numerics;
+using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.Expressions;
 

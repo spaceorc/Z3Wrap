@@ -2,14 +2,15 @@ using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BoundaryChecks;
 using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Extensions;
 
-namespace Z3Wrap.Tests.Unit.BoundaryChecks;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
 [TestFixture]
-public class BitVecBoundaryCheckBuilderTests
+public class Z3BitVecBoundaryCheckBuilderTests
 {
     private Z3Context context = null!;
-    private BitVecBoundaryCheckBuilder builder = null!;
+    private Z3BitVecBoundaryCheckBuilder builder = null!;
 
     [SetUp]
     public void SetUp()
@@ -29,7 +30,7 @@ public class BitVecBoundaryCheckBuilderTests
     {
         var result = context.BitVecBoundaryCheck();
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecBoundaryCheckBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecBoundaryCheckBuilder>());
     }
 
     [Test]
