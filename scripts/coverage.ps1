@@ -4,7 +4,7 @@
 Write-Host "🧪 Running tests with coverage collection..." -ForegroundColor Blue
 
 # Clean previous coverage data
-Remove-Item -Path "tests/TestResults" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "Z3Wrap.Tests/TestResults" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "coverage-reports" -Recurse -Force -ErrorAction SilentlyContinue
 
 # Run tests with code coverage collection
@@ -19,7 +19,7 @@ Write-Host "📊 Generating coverage report..." -ForegroundColor Blue
 
 # Generate HTML coverage report
 reportgenerator `
-    -reports:"tests/TestResults/*/coverage.cobertura.xml" `
+    -reports:"Z3Wrap.Tests/TestResults/*/coverage.cobertura.xml" `
     -targetdir:"coverage-reports" `
     -reporttypes:"Html;TextSummary;Badges" `
     -title:"Z3 Library Coverage Report"

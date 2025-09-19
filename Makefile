@@ -38,7 +38,7 @@ test-verbose: ## Run tests with detailed output
 
 coverage: ## Run tests with coverage and generate HTML report
 	@echo "$(BLUE)Running test coverage analysis...$(NC)"
-	@./coverage.sh
+	@./scripts/coverage.sh
 
 coverage-open: coverage ## Run coverage and open HTML report (macOS)
 	@echo "$(GREEN)Opening coverage report...$(NC)"

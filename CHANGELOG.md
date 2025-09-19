@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced CI/CD pipeline with improved coverage requirements (90% minimum)
 - Streamlined release workflow with automatic changelog integration
 - Removed redundant null checks and cleaned up code
+- Moved coverage scripts (`coverage.sh`, `coverage.ps1`) to `scripts/` directory for better organization
 
 ## [0.0.5] - 2025-09-17
 
