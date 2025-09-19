@@ -10,15 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Complete XML documentation for all public APIs with IntelliSense support
 - Shell scripts for automated release note extraction and tag management
+- Coverage summary display in GitHub Actions workflow summary
+- CSharpier linting integration in CI pipeline
 
 ### Changed
 - **BREAKING**: Made Handle properties and factory methods internal
-- Completely reinvented release process with MinVer for automatic semantic versioning
-- Migrated from manual version management to Git tag-based versioning
-- Enhanced CI/CD pipeline with improved coverage requirements (90% minimum)
-- Streamlined release workflow with automatic changelog integration
+- Completely reinvented release process with MinVer for automatic semantic versioning and Git tag-based versioning
+- Enhanced CI/CD pipeline with improved coverage requirements (90% minimum) and streamlined release workflow
+- Refactored CI pipeline to use Makefile commands for consistency and improved development setup
+- Moved coverage scripts (`coverage.sh`, `coverage.ps1`) to `scripts/` directory and removed duplicate coverage report generation
 - Removed redundant null checks and cleaned up code
-- Moved coverage scripts (`coverage.sh`, `coverage.ps1`) to `scripts/` directory for better organization
+
+### Fixed
+- Fixed formatting issues across multiple source files
 
 ## [0.0.5] - 2025-09-17
 
