@@ -42,7 +42,7 @@ jobs:
 
       - name: Show resolved version (MinVer)
         run: |
-          dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer || true
+          - run: dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer -v:d || true
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
