@@ -41,8 +41,7 @@ jobs:
             -p:PackageReleaseNotes="$NOTES"
 
       - name: Show resolved version (MinVer)
-        run: |
-          - run: dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer -v:d || true
+        run: dotnet msbuild Z3Wrap/Z3Wrap.csproj -t:PrintMinVer -v:d || true
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
