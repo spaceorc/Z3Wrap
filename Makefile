@@ -83,6 +83,13 @@ all: restore build test ## Full build pipeline (restore, build, test)
 ci: restore lint build test coverage ## CI pipeline (restore, lint, build, test, coverage)
 	@echo "$(GREEN)✅ CI pipeline completed successfully!$(NC)"
 
+publish-build: restore release test-release ## Build for publishing (restore, release build, release test)
+	@echo "$(GREEN)✅ Publish build completed successfully!$(NC)"
+
+test-release: ## Run tests in release mode
+	@echo "$(BLUE)Running tests (Release mode)...$(NC)"
+	dotnet test --configuration Release --no-build --logger:"console;verbosity=minimal"
+
 # Development workflow commands
 dev-setup: ## Setup development environment
 	@echo "$(BLUE)Setting up development environment...$(NC)"
