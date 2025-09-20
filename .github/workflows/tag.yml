@@ -20,10 +20,6 @@ on:
         description: "Prerelease label (e.g., beta, rc, alpha)"
         type: string
         default: beta
-      prefix:
-        description: "Tag prefix"
-        type: string
-        default: v
       dry_run:
         description: "Dry run (show what would happen)"
         type: boolean
@@ -60,7 +56,7 @@ jobs:
           INPUT_BUMP: ${{ inputs.bump }}
           INPUT_PRERELEASE: ${{ inputs.prerelease }}
           INPUT_PRERELEASE_LABEL: ${{ inputs.prerelease_label }}
-          INPUT_PREFIX: ${{ inputs.prefix }}
+          INPUT_PREFIX: v
           INPUT_DRY_RUN: ${{ inputs.dry_run }}
         run: |
           # Execute tag script in GitHub Actions mode
