@@ -150,7 +150,7 @@ jobs:
           echo "#### 📦 Published Packages" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- 🐙 **GitHub Release:** [Release $TAG](https://github.com/${{ github.repository }}/releases/tag/$TAG)" >> $GITHUB_STEP_SUMMARY
-          echo "- 📦 **NuGet Package:** [$PACKAGE_ID](https://www.nuget.org/packages/$PACKAGE_ID)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 **NuGet Package:** [$PACKAGE_ID ${{ steps.flags.outputs.ver }}](https://www.nuget.org/packages/$PACKAGE_ID/${{ steps.flags.outputs.ver }})" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload packages for inspection
