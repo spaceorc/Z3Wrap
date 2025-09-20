@@ -102,6 +102,44 @@ jobs:
               artifacts/*.nupkg artifacts/*.snupkg
           fi
 
+      - name: Publish to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          TAG="${{ steps.flags.outputs.tag }}"
+          PRERELEASE="${{ steps.flags.outputs.pre }}"
+
+          echo "Publishing packages to NuGet for $TAG (prerelease: $PRERELEASE)"
+
+          # Publish main package (.nupkg)
+          dotnet nuget push artifacts/*.nupkg \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+          # Publish symbol package (.snupkg)
+          dotnet nuget push artifacts/*.snupkg \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+          echo "✅ Successfully published packages to NuGet"
+
+      - name: Update GitHub Actions Summary
+        run: |
+          TAG="${{ steps.flags.outputs.tag }}"
+          PACKAGE_ID="Spaceorc.Z3Wrap"
+
+          echo "### 🎉 Publish Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag:** \`$TAG\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### 📦 Published Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 🐙 **GitHub Release:** [Release $TAG](https://github.com/${{ github.repository }}/releases/tag/$TAG)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 **NuGet Package:** [$PACKAGE_ID](https://www.nuget.org/packages/$PACKAGE_ID)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload packages for inspection
         uses: actions/upload-artifact@v4
         with:
