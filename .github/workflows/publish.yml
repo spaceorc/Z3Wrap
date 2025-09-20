@@ -77,17 +77,8 @@ jobs:
       - name: Setup development tools
         run: make dev-setup
 
-      - name: Build for publishing
-        run: make publish-build
-
-      - name: Extract notes from CHANGELOG [Unreleased]
-        run: scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES.md"
-
       - name: Create NuGet packages with release notes
-        run: |
-          # Read and properly format release notes for make
-          RELEASE_NOTES="$(cat RELEASE_NOTES.md | tr '\n' ' ' | tr '\r' ' ' | sed 's/"/\\"/g' | sed "s/'/\\'/g")"
-          make pack NOTES="$RELEASE_NOTES"
+        run: make pack
 
       - name: Upload packages for inspection
         uses: actions/upload-artifact@v4

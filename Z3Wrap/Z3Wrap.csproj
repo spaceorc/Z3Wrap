@@ -26,6 +26,10 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <MinVerTagPrefix>v</MinVerTagPrefix>
+    <!-- Read release notes content from the file created by workflow -->
+    <PackageReleaseNotes Condition="Exists('$(MSBuildProjectDirectory)/../RELEASE_NOTES.md')"
+      >$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../RELEASE_NOTES.md'))</PackageReleaseNotes
+    >
   </PropertyGroup>
   <!-- Include README in NuGet package -->
   <ItemGroup>

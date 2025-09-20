@@ -26,3 +26,7 @@ NuGet.config
 # Temporary files
 *.tmp
 *~
+
+# Generated files
+RELEASE_NOTES.md
+artifacts/

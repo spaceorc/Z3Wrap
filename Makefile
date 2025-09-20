@@ -1,7 +1,7 @@
 # Z3 Library Makefile
 # Provides convenient commands for building, testing, and coverage
 
-.PHONY: help build test clean coverage coverage-open restore format lint release debug all ci publish-build test-release pack dev-setup quick watch info version
+.PHONY: help build test clean coverage coverage-open restore format lint release all ci test-release release-notes pack publish-build dev-setup quick watch info version
 .DEFAULT_GOAL := help
 
 # Colors for output
@@ -16,25 +16,72 @@ help: ## Show this help message
 	@echo ""
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  $(GREEN)%-15s$(NC) %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build: ## Build the library
+# =============================================================================
+# Core Build Commands
+# =============================================================================
+
+restore: ## Restore NuGet packages
+	@echo "$(BLUE)Restoring packages...$(NC)"
+	dotnet restore
+
+clean: ## Clean build artifacts
+	@echo "$(BLUE)Cleaning build artifacts...$(NC)"
+	dotnet clean
+	rm -rf Z3Wrap.Tests/TestResults coverage-reports
+
+build: restore ## Build the library (debug mode)
 	@echo "$(BLUE)Building Z3 Library...$(NC)"
-	dotnet build
+	dotnet build --no-restore
 
-debug: ## Build in debug mode
-	@echo "$(BLUE)Building Z3 Library (Debug)...$(NC)"
-	dotnet build --configuration Debug
+release-notes: ## Generate RELEASE_NOTES.md from CHANGELOG [Unreleased]
+	@echo "$(BLUE)Generating release notes from CHANGELOG...$(NC)"
+	scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES.md"
 
-release: ## Build in release mode
+release: restore release-notes ## Build in release mode
 	@echo "$(BLUE)Building Z3 Library (Release)...$(NC)"
-	dotnet build --configuration Release
+	dotnet build --configuration Release --no-restore
 
-test: ## Run all tests
+# =============================================================================
+# Test Commands
+# =============================================================================
+
+test: build ## Run all tests
 	@echo "$(BLUE)Running tests...$(NC)"
-	dotnet test --logger:"console;verbosity=minimal"
+	dotnet test --no-restore --no-build --logger:"console;verbosity=minimal"
 
-test-verbose: ## Run tests with detailed output
+test-verbose: build ## Run tests with detailed output
 	@echo "$(BLUE)Running tests (verbose)...$(NC)"
-	dotnet test --logger:"console;verbosity=detailed"
+	dotnet test --no-restore --no-build --logger:"console;verbosity=detailed"
+
+test-release: release ## Run tests in release mode
+	@echo "$(BLUE)Running tests (Release mode)...$(NC)"
+	dotnet test --configuration Release --no-build --logger:"console;verbosity=minimal"
+
+watch: ## Run tests in watch mode
+	@echo "$(BLUE)Running tests in watch mode (Ctrl+C to stop)...$(NC)"
+	dotnet test --watch
+
+# =============================================================================
+# Quality & Coverage Commands
+# =============================================================================
+
+format: ## Format code (requires csharpier)
+	@echo "$(BLUE)Formatting code...$(NC)"
+	@if command -v csharpier >/dev/null 2>&1; then \
+		csharpier format .; \
+	else \
+		echo "$(YELLOW)CSharpier not installed. Run: make dev-setup$(NC)"; \
+	fi
+
+lint: ## Run static analysis (format check)
+	@echo "$(BLUE)Running static analysis...$(NC)"
+	@if command -v csharpier >/dev/null 2>&1; then \
+		csharpier check .; \
+	else \
+		echo "$(YELLOW)CSharpier not available for lint check$(NC)"; \
+		echo "$(YELLOW)Install with: make dev-setup$(NC)"; \
+		exit 1; \
+	fi
 
 coverage: ## Run tests with coverage and generate HTML report
 	@echo "$(BLUE)Running test coverage analysis...$(NC)"
@@ -50,32 +97,20 @@ coverage-open: coverage ## Run coverage and open HTML report (macOS)
 		echo "$(YELLOW)Please open coverage-reports/index.html manually$(NC)"; \
 	fi
 
-clean: ## Clean build artifacts
-	@echo "$(BLUE)Cleaning build artifacts...$(NC)"
-	dotnet clean
-	rm -rf Z3Wrap.Tests/TestResults coverage-reports
+# =============================================================================
+# Publishing Commands
+# =============================================================================
 
-restore: ## Restore NuGet packages
-	@echo "$(BLUE)Restoring packages...$(NC)"
-	dotnet restore
+pack: test-release ## Create NuGet packages (includes generated release notes)
+	@echo "$(BLUE)Creating NuGet packages...$(NC)"
+	dotnet pack -c Release --no-build -o artifacts
 
-format: ## Format code (requires csharpier)
-	@echo "$(BLUE)Formatting code...$(NC)"
-	@if command -v csharpier >/dev/null 2>&1; then \
-		csharpier format .; \
-	else \
-		echo "$(YELLOW)CSharpier not installed. Install with: dotnet tool install -g csharpier$(NC)"; \
-	fi
+# =============================================================================
+# Workflow Commands
+# =============================================================================
 
-lint: ## Run static analysis (format check)
-	@echo "$(BLUE)Running static analysis...$(NC)"
-	@if command -v csharpier >/dev/null 2>&1; then \
-		csharpier check .; \
-	else \
-		echo "$(YELLOW)CSharpier not available for lint check$(NC)"; \
-		echo "$(YELLOW)Install with: dotnet tool install -g csharpier$(NC)"; \
-		exit 1; \
-	fi
+quick: build test ## Quick test (build + test without coverage)
+	@echo "$(GREEN)✅ Quick validation passed!$(NC)"
 
 all: restore build test ## Full build pipeline (restore, build, test)
 	@echo "$(GREEN)✅ All tasks completed successfully!$(NC)"
@@ -86,38 +121,16 @@ ci: restore lint build test coverage ## CI pipeline (restore, lint, build, test,
 publish-build: restore release test-release ## Build for publishing (restore, release build, release test)
 	@echo "$(GREEN)✅ Publish build completed successfully!$(NC)"
 
-test-release: ## Run tests in release mode
-	@echo "$(BLUE)Running tests (Release mode)...$(NC)"
-	dotnet test --configuration Release --no-build --logger:"console;verbosity=minimal"
+# =============================================================================
+# Setup & Info Commands
+# =============================================================================
 
-pack: ## Create NuGet packages (use NOTES="..." to include release notes)
-	@echo "$(BLUE)Creating NuGet packages...$(NC)"
-	@if [ -n "$(NOTES)" ]; then \
-		echo "$(YELLOW)Including release notes in package$(NC)"; \
-		dotnet pack -c Release --no-build -o artifacts -p:PackageReleaseNotes="$(NOTES)"; \
-	else \
-		echo "$(YELLOW)No release notes specified (use NOTES=\"...\" to include)$(NC)"; \
-		dotnet pack -c Release --no-build -o artifacts; \
-	fi
-
-# Development workflow commands
 dev-setup: ## Setup development environment
 	@echo "$(BLUE)Setting up development environment...$(NC)"
 	dotnet tool install --global dotnet-reportgenerator-globaltool || true
 	dotnet tool install --global csharpier || true
 	@echo "$(GREEN)✅ Development tools installed$(NC)"
 
-quick: ## Quick test (build + test without coverage)  
-	@echo "$(BLUE)Running quick validation...$(NC)"
-	@$(MAKE) build
-	@$(MAKE) test
-	@echo "$(GREEN)✅ Quick validation passed!$(NC)"
-
-watch: ## Run tests in watch mode
-	@echo "$(BLUE)Running tests in watch mode (Ctrl+C to stop)...$(NC)"
-	dotnet test --watch
-
-# Info commands
 info: ## Show project information
 	@echo "$(BLUE)Z3 Library Project Information$(NC)"
 	@echo ""
