@@ -169,16 +169,7 @@ public sealed class Z3Model
     {
         if (!invalidated && modelHandle != IntPtr.Zero)
         {
-            try
-            {
-                NativeMethods.Z3ModelDecRef(context.Handle, modelHandle);
-            }
-            catch
-            {
-                // Context might be disposed, ignore cleanup errors
-                // The native Z3 context cleanup will handle the model cleanup
-            }
-
+            NativeMethods.Z3ModelDecRef(context.Handle, modelHandle);
             modelHandle = IntPtr.Zero;
             invalidated = true;
         }
