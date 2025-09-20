@@ -16,7 +16,7 @@ set -euo pipefail
 #   --section SECTION   Extract notes for specific section (default: Unreleased)
 #   --output FILE       Output file path (default: RELEASE_NOTES.md)
 #   --changelog FILE    Changelog file path (default: CHANGELOG.md)
-#   --format FORMAT     Output format: markdown|plain (default: markdown)
+#   --format FORMAT     Output format: markdown|plain|xml-escaped (default: markdown)
 #   --dry-run          Show what would be extracted without writing file
 #   -h, --help         Show this help
 #
@@ -25,6 +25,7 @@ set -euo pipefail
 #   scripts/extract-notes.sh --section "1.2.3"        # Extract [1.2.3] section
 #   scripts/extract-notes.sh --output notes.txt       # Custom output file
 #   scripts/extract-notes.sh --format plain           # Plain text output
+#   scripts/extract-notes.sh --format xml-escaped    # XML-escaped plain text
 #   scripts/extract-notes.sh --dry-run                # Preview extraction
 #
 # =============================================================================
@@ -121,7 +122,7 @@ show_help() {
 }
 
 is_valid_format() {
-    [[ "$1" =~ ^(markdown|plain)$ ]]
+    [[ "$1" =~ ^(markdown|plain|xml-escaped)$ ]]
 }
 
 # -----------------------------------------------------------------------------
@@ -136,7 +137,7 @@ validate_inputs() {
 
     # Validate output format
     if ! is_valid_format "$OUTPUT_FORMAT"; then
-        die "Invalid format: $OUTPUT_FORMAT (must be markdown or plain)"
+        die "Invalid format: $OUTPUT_FORMAT (must be markdown, plain, or xml-escaped)"
     fi
 
     echo "Validating inputs: changelog=$CHANGELOG_FILE, section=[$SECTION], format=$OUTPUT_FORMAT" >&2
@@ -201,6 +202,21 @@ format_content() {
                 -e 's/\*\([^*]*\)\*/\1/g' \
                 -e 's/`\([^`]*\)`/\1/g' \
                 "$input_file" > "$output_file"
+            ;;
+        xml-escaped)
+            # Strip markdown formatting and escape XML entities
+            sed -e 's/^### //' \
+                -e 's/^## //' \
+                -e 's/^\* /- /' \
+                -e 's/\*\*\([^*]*\)\*\*/\1/g' \
+                -e 's/\*\([^*]*\)\*/\1/g' \
+                -e 's/`\([^`]*\)`/\1/g' \
+                "$input_file" \
+            | sed -e 's/&/\&amp;/g' \
+                  -e 's/</\&lt;/g' \
+                  -e 's/>/\&gt;/g' \
+                  -e 's/"/\&quot;/g' \
+                  -e "s/'/\&#39;/g" > "$output_file"
             ;;
     esac
 }

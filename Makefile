@@ -33,9 +33,11 @@ build: restore ## Build the library (debug mode)
 	@echo "$(BLUE)Building Z3 Library...$(NC)"
 	dotnet build --no-restore
 
-release-notes: ## Generate RELEASE_NOTES.md from CHANGELOG [Unreleased]
+release-notes: ## Generate RELEASE_NOTES.md and RELEASE_NOTES_ESCAPED.txt from CHANGELOG [Unreleased]
 	@echo "$(BLUE)Generating release notes from CHANGELOG...$(NC)"
 	scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES.md"
+	@echo "$(BLUE)Generating XML-escaped release notes for NuGet...$(NC)"
+	scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES_ESCAPED.txt" --format "xml-escaped"
 
 release: restore release-notes ## Build in release mode
 	@echo "$(BLUE)Building Z3 Library (Release)...$(NC)"
