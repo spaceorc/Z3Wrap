@@ -161,19 +161,8 @@ public sealed class Z3Model
         if (invalidated)
             return "<invalidated>";
 
-        try
-        {
-            var ptr = NativeMethods.Z3ModelToString(context.Handle, modelHandle);
-            return Marshal.PtrToStringAnsi(ptr) ?? "<invalid>";
-        }
-        catch (ObjectDisposedException)
-        {
-            return "<disposed>";
-        }
-        catch
-        {
-            return "<error>";
-        }
+        var ptr = NativeMethods.Z3ModelToString(context.Handle, modelHandle);
+        return Marshal.PtrToStringAnsi(ptr) ?? "<invalid>";
     }
 
     internal void Invalidate()

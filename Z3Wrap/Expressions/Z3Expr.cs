@@ -85,10 +85,6 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
         {
             return "<disposed>";
         }
-        catch
-        {
-            return "<error>";
-        }
     }
 
     internal static Z3Expr Create(Z3Context context, IntPtr handle)

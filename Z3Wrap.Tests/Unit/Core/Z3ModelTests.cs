@@ -145,4 +145,31 @@ public class Z3ModelTests
         Assert.That(modelString, Is.Not.Null);
         Assert.That(modelString.Length, Is.GreaterThan(0));
     }
+
+    [Test]
+    public void ToString_DisposedContext_ReturnsInvalidatedStatus()
+    {
+        Z3Model model;
+
+        // Create model, then dispose context which invalidates the model
+        {
+            using var context = new Z3Context();
+            using var solver = context.CreateSolver();
+
+            var x = context.IntConst("x");
+            solver.Assert(context.Eq(x, context.Int(42)));
+
+            Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+            model = solver.GetModel();
+
+            // Model should work initially
+            var initialString = model.ToString();
+            Assert.That(initialString, Is.Not.Null);
+            Assert.That(initialString.Length, Is.GreaterThan(0));
+        } // Context disposed here, which invalidates the model
+
+        // Model is automatically invalidated when context is disposed
+        var disposedString = model.ToString();
+        Assert.That(disposedString, Is.EqualTo("<invalidated>"));
+    }
 }
