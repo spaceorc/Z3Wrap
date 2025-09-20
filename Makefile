@@ -39,6 +39,10 @@ release-notes: ## Generate RELEASE_NOTES.md and RELEASE_NOTES_ESCAPED.txt from C
 	@echo "$(BLUE)Generating XML-escaped release notes for NuGet...$(NC)"
 	scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES_ESCAPED.txt" --format "xml-escaped"
 
+update-changelog: ## Update CHANGELOG.md: move [Unreleased] to latest git tag
+	@echo "$(BLUE)Updating CHANGELOG.md with latest tag...$(NC)"
+	scripts/update-changelog.sh
+
 release: restore release-notes ## Build in release mode
 	@echo "$(BLUE)Building Z3 Library (Release)...$(NC)"
 	dotnet build --configuration Release --no-restore

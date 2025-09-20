@@ -86,16 +86,23 @@ show_help() {
 get_version_info() {
     # Auto-detect tag if not provided
     if [[ -z "$TAG" ]]; then
-        TAG="$(git describe --tags --abbrev=0 2>/dev/null || echo "")"
-        [[ -z "$TAG" ]] && die "No git tags found and no --tag specified"
-        echo "Auto-detected tag: $TAG" >&2
+        # Find latest STABLE tag only (no prerelease suffix)
+        TAG="$(git tag -l 'v[0-9]*' --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || echo "")"
+        [[ -z "$TAG" ]] && die "No stable release tags found (format: v1.0.0) and no --tag specified"
+        echo "Auto-detected latest stable tag: $TAG" >&2
     fi
 
     # Extract version number (remove 'v' prefix if present)
     VER="${TAG#v}"
+
+    # Validate this is a stable release (no prerelease suffix)
+    if [[ "$VER" == *-* ]]; then
+        die "Changelog updates are only allowed for stable releases. Got prerelease version: $VER"
+    fi
+
     DATE="$(date +%Y-%m-%d)"
 
-    echo "Using version: $VER, date: $DATE" >&2
+    echo "Using stable version: $VER, date: $DATE" >&2
 }
 
 # -----------------------------------------------------------------------------
@@ -108,6 +115,13 @@ validate_file() {
     # Check if [Unreleased] section exists
     if ! grep -q '^## \[Unreleased\]$' "$FILE"; then
         echo "Warning: No [Unreleased] section found in $FILE" >&2
+    fi
+}
+
+validate_version() {
+    # Check if this version already exists in changelog
+    if grep -q "^## \[$VER\]" "$FILE"; then
+        die "Version [$VER] already exists in $FILE. Changelog updates should only be done once per stable release."
     fi
 }
 
@@ -226,6 +240,9 @@ main() {
 
     echo "Getting version information..." >&2
     get_version_info
+
+    echo "Validating version..." >&2
+    validate_version
 
     echo "Updating changelog..." >&2
     update_changelog

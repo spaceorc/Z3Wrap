@@ -125,6 +125,19 @@ jobs:
 
           echo "✅ Successfully published packages to NuGet"
 
+      - name: Update CHANGELOG.md for stable releases
+        if: steps.flags.outputs.pre == 'false'
+        run: |
+          echo "📝 Updating CHANGELOG.md (stable release only)"
+          make update-changelog
+
+          # Commit and push the changelog update
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "docs(changelog): release ${{ steps.flags.outputs.tag }}"
+          git push
+
       - name: Update GitHub Actions Summary
         run: |
           TAG="${{ steps.flags.outputs.tag }}"
