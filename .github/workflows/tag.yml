@@ -24,10 +24,6 @@ on:
         description: "Tag prefix"
         type: string
         default: v
-      force:
-        description: "Force overwrite existing tag?"
-        type: boolean
-        default: false
       dry_run:
         description: "Dry run (show what would happen)"
         type: boolean
@@ -65,7 +61,6 @@ jobs:
           INPUT_PRERELEASE: ${{ inputs.prerelease }}
           INPUT_PRERELEASE_LABEL: ${{ inputs.prerelease_label }}
           INPUT_PREFIX: ${{ inputs.prefix }}
-          INPUT_FORCE: ${{ inputs.force }}
           INPUT_DRY_RUN: ${{ inputs.dry_run }}
         run: |
           # Execute tag script in GitHub Actions mode

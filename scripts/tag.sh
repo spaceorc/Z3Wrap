@@ -19,7 +19,6 @@ set -euo pipefail
 #   --prefix PREFIX     Tag prefix (default: v)
 #   --dry-run          Show what would be done without creating tag
 #   --push             Push tag to remote after creation
-#   --force            Replace existing tag if it exists
 #   -h, --help         Show this help
 #
 # Examples:
@@ -42,7 +41,6 @@ PRERELEASE_LABEL=""            # Prerelease label (empty = stable release)
 TAG_PREFIX="v"                 # Tag prefix
 DRY_RUN="false"                # Dry run mode
 DO_PUSH="false"                # Push to remote
-FORCE_OVERWRITE="false"        # Force overwrite existing tag
 
 # -----------------------------------------------------------------------------
 # Argument Parsing
@@ -84,10 +82,6 @@ parse_arguments() {
                 DO_PUSH="true"
                 shift
                 ;;
-            --force)
-                FORCE_OVERWRITE="true"
-                shift
-                ;;
             -h|--help)
                 show_help
                 exit 0
@@ -114,7 +108,6 @@ parse_github_env_args() {
     local prerelease="${INPUT_PRERELEASE:-false}"
     local prerelease_label="${INPUT_PRERELEASE_LABEL:-beta}"
     local prefix="${INPUT_PREFIX:-v}"
-    local force="${INPUT_FORCE:-false}"
     local dry_run="${INPUT_DRY_RUN:-false}"
 
     # Convert to internal variables
@@ -128,11 +121,10 @@ parse_github_env_args() {
     fi
 
     # Handle boolean flags
-    [[ "$force" == "true" ]] && FORCE_OVERWRITE="true"
     [[ "$dry_run" == "true" ]] && DRY_RUN="true"
     [[ "$dry_run" != "true" ]] && DO_PUSH="true"  # Auto-push unless dry run
 
-    echo "Parsed GitHub inputs: version=$version, bump=$bump, prerelease=$prerelease, label=$prerelease_label" >&2
+    echo "Parsed GitHub inputs: version=$version, bump=$bump, prerelease=$prerelease, label=$prerelease_label, dry_run=$dry_run" >&2
 }
 
 # -----------------------------------------------------------------------------
@@ -284,13 +276,7 @@ create_tag() {
 
     # Check if tag already exists
     if check_tag_exists; then
-        if [[ "$FORCE_OVERWRITE" == "true" ]]; then
-            echo "Tag '$NEW_TAG' already exists, removing..." >&2
-            git tag -d "$NEW_TAG" >/dev/null
-            git push --delete origin "$NEW_TAG" >/dev/null 2>&1 || true
-        else
-            die "Tag '$NEW_TAG' already exists. Use --force to overwrite."
-        fi
+        die "Tag '$NEW_TAG' already exists."
     fi
 
     # Create the tag
