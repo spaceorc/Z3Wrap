@@ -85,7 +85,8 @@ jobs:
 
       - name: Build packages with release notes
         run: |
-          NOTES="$(sed ':a;N;$!ba;s/\r//g' RELEASE_NOTES.md)"
+          # Escape release notes for MSBuild property
+          NOTES="$(cat RELEASE_NOTES.md | tr '\n' ' ' | tr '\r' ' ' | sed 's/"/\\"/g')"
           dotnet pack -c Release --no-build -o artifacts \
             -p:PackageReleaseNotes="$NOTES"
 
