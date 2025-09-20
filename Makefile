@@ -1,7 +1,7 @@
 # Z3 Library Makefile
 # Provides convenient commands for building, testing, and coverage
 
-.PHONY: help build test clean coverage coverage-open restore format lint release debug all ci publish-build test-release dev-setup quick watch info version
+.PHONY: help build test clean coverage coverage-open restore format lint release debug all ci publish-build test-release pack dev-setup quick watch info version
 .DEFAULT_GOAL := help
 
 # Colors for output
@@ -89,6 +89,16 @@ publish-build: restore release test-release ## Build for publishing (restore, re
 test-release: ## Run tests in release mode
 	@echo "$(BLUE)Running tests (Release mode)...$(NC)"
 	dotnet test --configuration Release --no-build --logger:"console;verbosity=minimal"
+
+pack: ## Create NuGet packages (use NOTES="..." to include release notes)
+	@echo "$(BLUE)Creating NuGet packages...$(NC)"
+	@if [ -n "$(NOTES)" ]; then \
+		echo "$(YELLOW)Including release notes in package$(NC)"; \
+		dotnet pack -c Release --no-build -o artifacts -p:PackageReleaseNotes="$(NOTES)"; \
+	else \
+		echo "$(YELLOW)No release notes specified (use NOTES=\"...\" to include)$(NC)"; \
+		dotnet pack -c Release --no-build -o artifacts; \
+	fi
 
 # Development workflow commands
 dev-setup: ## Setup development environment

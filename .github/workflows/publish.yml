@@ -83,12 +83,11 @@ jobs:
       - name: Extract notes from CHANGELOG [Unreleased]
         run: scripts/extract-notes.sh --section "Unreleased" --output "RELEASE_NOTES.md"
 
-      - name: Build packages with release notes
+      - name: Create NuGet packages with release notes
         run: |
-          # Escape release notes for MSBuild property
-          NOTES="$(cat RELEASE_NOTES.md | tr '\n' ' ' | tr '\r' ' ' | sed 's/"/\\"/g')"
-          dotnet pack -c Release --no-build -o artifacts \
-            -p:PackageReleaseNotes="$NOTES"
+          # Read and properly format release notes for make
+          RELEASE_NOTES="$(cat RELEASE_NOTES.md | tr '\n' ' ' | tr '\r' ' ' | sed 's/"/\\"/g' | sed "s/'/\\'/g")"
+          make pack NOTES="$RELEASE_NOTES"
 
       - name: Upload packages for inspection
         uses: actions/upload-artifact@v4
