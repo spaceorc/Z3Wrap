@@ -1,7 +1,7 @@
 # Z3 Library Makefile
 # Provides convenient commands for building, testing, and coverage
 
-.PHONY: help build test clean coverage coverage-open restore format lint release debug
+.PHONY: help build test clean coverage coverage-open restore format lint release debug all ci publish-build test-release dev-setup quick watch info version
 .DEFAULT_GOAL := help
 
 # Colors for output
