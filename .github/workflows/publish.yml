@@ -80,6 +80,28 @@ jobs:
       - name: Create NuGet packages with release notes
         run: make pack
 
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.flags.outputs.tag }}"
+          PRERELEASE="${{ steps.flags.outputs.pre }}"
+
+          echo "Creating GitHub release for $TAG (prerelease: $PRERELEASE)"
+
+          if [[ "$PRERELEASE" == "true" ]]; then
+            gh release create "$TAG" \
+              --title "Release $TAG" \
+              --notes-file "RELEASE_NOTES.md" \
+              --prerelease \
+              artifacts/*.nupkg artifacts/*.snupkg
+          else
+            gh release create "$TAG" \
+              --title "Release $TAG" \
+              --notes-file "RELEASE_NOTES.md" \
+              artifacts/*.nupkg artifacts/*.snupkg
+          fi
+
       - name: Upload packages for inspection
         uses: actions/upload-artifact@v4
         with:
