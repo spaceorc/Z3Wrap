@@ -15,7 +15,7 @@ public static partial class Z3ContextExtensions
     public static Z3BoolExpr ForAll(this Z3Context context, Z3Expr boundVar, Z3BoolExpr body)
     {
         var bound = new[] { boundVar.Handle };
-        var handle = NativeMethods.Z3MkForallConst(
+        var handle = SafeNativeMethods.Z3MkForallConst(
             context.Handle,
             0, // weight
             1, // numBound
@@ -37,7 +37,7 @@ public static partial class Z3ContextExtensions
     public static Z3BoolExpr Exists(this Z3Context context, Z3Expr boundVar, Z3BoolExpr body)
     {
         var bound = new[] { boundVar.Handle };
-        var handle = NativeMethods.Z3MkExistsConst(
+        var handle = SafeNativeMethods.Z3MkExistsConst(
             context.Handle,
             0, // weight
             1, // numBound
@@ -65,7 +65,7 @@ public static partial class Z3ContextExtensions
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle };
-        var handle = NativeMethods.Z3MkForallConst(
+        var handle = SafeNativeMethods.Z3MkForallConst(
             context.Handle,
             0, // weight
             2, // numBound
@@ -93,7 +93,7 @@ public static partial class Z3ContextExtensions
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle };
-        var handle = NativeMethods.Z3MkExistsConst(
+        var handle = SafeNativeMethods.Z3MkExistsConst(
             context.Handle,
             0, // weight
             2, // numBound
@@ -123,7 +123,7 @@ public static partial class Z3ContextExtensions
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle, boundVar3.Handle };
-        var handle = NativeMethods.Z3MkForallConst(
+        var handle = SafeNativeMethods.Z3MkForallConst(
             context.Handle,
             0, // weight
             3, // numBound
@@ -153,7 +153,7 @@ public static partial class Z3ContextExtensions
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle, boundVar3.Handle };
-        var handle = NativeMethods.Z3MkExistsConst(
+        var handle = SafeNativeMethods.Z3MkExistsConst(
             context.Handle,
             0, // weight
             3, // numBound
@@ -191,7 +191,7 @@ public static partial class Z3ContextExtensions
             boundVar3.Handle,
             boundVar4.Handle,
         };
-        var handle = NativeMethods.Z3MkForallConst(
+        var handle = SafeNativeMethods.Z3MkForallConst(
             context.Handle,
             0, // weight
             4, // numBound
@@ -229,7 +229,7 @@ public static partial class Z3ContextExtensions
             boundVar3.Handle,
             boundVar4.Handle,
         };
-        var handle = NativeMethods.Z3MkExistsConst(
+        var handle = SafeNativeMethods.Z3MkExistsConst(
             context.Handle,
             0, // weight
             4, // numBound

@@ -22,14 +22,14 @@ public class Z3Context : IDisposable
     /// <exception cref="InvalidOperationException">Thrown when Z3 context creation fails.</exception>
     public Z3Context()
     {
-        configHandle = NativeMethods.Z3MkConfig();
+        configHandle = SafeNativeMethods.Z3MkConfig();
         if (configHandle == IntPtr.Zero)
             throw new InvalidOperationException("Failed to create Z3 configuration");
 
-        contextHandle = NativeMethods.Z3MkContextRc(configHandle);
+        contextHandle = SafeNativeMethods.Z3MkContextRc(configHandle);
         if (contextHandle == IntPtr.Zero)
         {
-            NativeMethods.Z3DelConfig(configHandle);
+            SafeNativeMethods.Z3DelConfig(configHandle);
             throw new InvalidOperationException("Failed to create Z3 context");
         }
     }
@@ -76,7 +76,7 @@ public class Z3Context : IDisposable
 
         using var paramNamePtr = new AnsiStringPtr(paramName);
         using var paramValuePtr = new AnsiStringPtr(paramValue);
-        NativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
+        SafeNativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public class Z3Context : IDisposable
         if (handle == IntPtr.Zero)
             throw new ArgumentException("Invalid expression handle", nameof(handle));
 
-        NativeMethods.Z3IncRef(contextHandle, handle);
+        SafeNativeMethods.Z3IncRef(contextHandle, handle);
         trackedExpressions.Add(handle);
     }
 
@@ -135,7 +135,7 @@ public class Z3Context : IDisposable
 
         var solverHandle = solver.InternalHandle;
         if (solverHandle != IntPtr.Zero)
-            NativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
+            SafeNativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
 
         solver.InternalDispose();
     }
@@ -158,18 +158,18 @@ public class Z3Context : IDisposable
 
             // Then clean up all tracked expressions
             foreach (var exprHandle in trackedExpressions)
-                NativeMethods.Z3DecRef(contextHandle, exprHandle);
+                SafeNativeMethods.Z3DecRef(contextHandle, exprHandle);
 
             trackedExpressions.Clear();
 
             // Finally dispose the context itself
-            NativeMethods.Z3DelContext(contextHandle);
+            SafeNativeMethods.Z3DelContext(contextHandle);
             contextHandle = IntPtr.Zero;
         }
 
         if (configHandle != IntPtr.Zero)
         {
-            NativeMethods.Z3DelConfig(configHandle);
+            SafeNativeMethods.Z3DelConfig(configHandle);
             configHandle = IntPtr.Zero;
         }
 

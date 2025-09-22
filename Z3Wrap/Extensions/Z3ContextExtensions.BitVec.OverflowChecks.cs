@@ -25,7 +25,7 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvAddNoOverflow(
+        var handle = SafeNativeMethods.Z3MkBvAddNoOverflow(
             context.Handle,
             left.Handle,
             right.Handle,
@@ -51,7 +51,11 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvSubNoOverflow(context.Handle, left.Handle, right.Handle);
+        var handle = SafeNativeMethods.Z3MkBvSubNoOverflow(
+            context.Handle,
+            left.Handle,
+            right.Handle
+        );
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -74,7 +78,7 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvSubNoUnderflow(
+        var handle = SafeNativeMethods.Z3MkBvSubNoUnderflow(
             context.Handle,
             left.Handle,
             right.Handle,
@@ -102,7 +106,7 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvMulNoOverflow(
+        var handle = SafeNativeMethods.Z3MkBvMulNoOverflow(
             context.Handle,
             left.Handle,
             right.Handle,
@@ -128,7 +132,11 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvMulNoUnderflow(context.Handle, left.Handle, right.Handle);
+        var handle = SafeNativeMethods.Z3MkBvMulNoUnderflow(
+            context.Handle,
+            left.Handle,
+            right.Handle
+        );
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -149,7 +157,11 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvAddNoUnderflow(context.Handle, left.Handle, right.Handle);
+        var handle = SafeNativeMethods.Z3MkBvAddNoUnderflow(
+            context.Handle,
+            left.Handle,
+            right.Handle
+        );
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -170,7 +182,11 @@ public static partial class Z3ContextExtensions
             throw new ArgumentException(
                 $"BitVector size mismatch: left={left.Size}, right={right.Size}"
             );
-        var handle = NativeMethods.Z3MkBvSDivNoOverflow(context.Handle, left.Handle, right.Handle);
+        var handle = SafeNativeMethods.Z3MkBvSDivNoOverflow(
+            context.Handle,
+            left.Handle,
+            right.Handle
+        );
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -182,7 +198,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A Z3 boolean expression that is true if signed negation would not overflow.</returns>
     public static Z3BoolExpr SignedNegNoOverflow(this Z3Context context, Z3BitVecExpr operand)
     {
-        var handle = NativeMethods.Z3MkBvNegNoOverflow(context.Handle, operand.Handle);
+        var handle = SafeNativeMethods.Z3MkBvNegNoOverflow(context.Handle, operand.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 

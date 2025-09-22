@@ -23,11 +23,11 @@ public static partial class Z3ContextExtensions
         var indexSort = GetSortForType<TIndex>(context);
         var valueSort = GetSortForType<TValue>(context);
 
-        var arraySort = NativeMethods.Z3MkArraySort(context.Handle, indexSort, valueSort);
+        var arraySort = SafeNativeMethods.Z3MkArraySort(context.Handle, indexSort, valueSort);
 
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = NativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var handle = NativeMethods.Z3MkConst(context.Handle, symbol, arraySort);
+        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, arraySort);
 
         return Z3ArrayExpr<TIndex, TValue>.Create(context, handle);
     }
@@ -66,8 +66,12 @@ public static partial class Z3ContextExtensions
         var indexSort = GetSortForType<TIndex>(context);
         var valueSort = GetSortForType<TValue>(context);
 
-        var arraySort = NativeMethods.Z3MkArraySort(context.Handle, indexSort, valueSort);
-        var handle = NativeMethods.Z3MkConstArray(context.Handle, indexSort, defaultValue.Handle);
+        var arraySort = SafeNativeMethods.Z3MkArraySort(context.Handle, indexSort, valueSort);
+        var handle = SafeNativeMethods.Z3MkConstArray(
+            context.Handle,
+            indexSort,
+            defaultValue.Handle
+        );
 
         return Z3ArrayExpr<TIndex, TValue>.Create(context, handle);
     }
@@ -93,9 +97,9 @@ public static partial class Z3ContextExtensions
     {
         return typeof(T).Name switch
         {
-            nameof(Z3BoolExpr) => NativeMethods.Z3MkBoolSort(context.Handle),
-            nameof(Z3IntExpr) => NativeMethods.Z3MkIntSort(context.Handle),
-            nameof(Z3RealExpr) => NativeMethods.Z3MkRealSort(context.Handle),
+            nameof(Z3BoolExpr) => SafeNativeMethods.Z3MkBoolSort(context.Handle),
+            nameof(Z3IntExpr) => SafeNativeMethods.Z3MkIntSort(context.Handle),
+            nameof(Z3RealExpr) => SafeNativeMethods.Z3MkRealSort(context.Handle),
             _ => throw new ArgumentException($"Unsupported array type: {typeof(T).Name}"),
         };
     }

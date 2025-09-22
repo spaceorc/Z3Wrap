@@ -24,7 +24,7 @@ public enum Z3SortKind
     /// <summary>
     /// Bitvector sort for fixed-width binary sequences (Z3_BV_SORT).
     /// </summary>
-    BV = 4,
+    Bv = 4,
 
     /// <summary>
     /// Array sort for indexed collections (Z3_ARRAY_SORT).

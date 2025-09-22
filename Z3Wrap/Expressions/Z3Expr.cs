@@ -78,7 +78,7 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     {
         try
         {
-            var stringPtr = NativeMethods.Z3AstToString(Context.Handle, Handle);
+            var stringPtr = SafeNativeMethods.Z3AstToString(Context.Handle, Handle);
             return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(stringPtr) ?? "<invalid>";
         }
         catch (ObjectDisposedException)
@@ -91,15 +91,15 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     {
         context.TrackExpression(handle);
 
-        var sort = NativeMethods.Z3GetSort(context.Handle, handle);
-        var sortKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, sort);
+        var sort = SafeNativeMethods.Z3GetSort(context.Handle, handle);
+        var sortKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, sort);
 
         return sortKind switch
         {
             Z3SortKind.Bool => new Z3BoolExpr(context, handle),
             Z3SortKind.Int => new Z3IntExpr(context, handle),
             Z3SortKind.Real => new Z3RealExpr(context, handle),
-            Z3SortKind.BV => CreateBitVectorExpression(context, handle, sort),
+            Z3SortKind.Bv => CreateBitVectorExpression(context, handle, sort),
             Z3SortKind.Array => CreateArrayExpression(context, handle, sort),
             _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}"),
         };
@@ -111,14 +111,14 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
         IntPtr bvSort
     )
     {
-        var size = NativeMethods.Z3GetBvSortSize(context.Handle, bvSort);
+        var size = SafeNativeMethods.Z3GetBvSortSize(context.Handle, bvSort);
         return new Z3BitVecExpr(context, handle, size);
     }
 
     private static Z3Expr CreateArrayExpression(Z3Context context, IntPtr handle, IntPtr arraySort)
     {
-        var domainSort = NativeMethods.Z3GetArraySortDomain(context.Handle, arraySort);
-        var domainKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, domainSort);
+        var domainSort = SafeNativeMethods.Z3GetArraySortDomain(context.Handle, arraySort);
+        var domainKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, domainSort);
 
         return domainKind switch
         {
@@ -136,8 +136,8 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     {
         internal static Z3Expr CreateArray(Z3Context context, IntPtr handle, IntPtr arraySort)
         {
-            var rangeSort = NativeMethods.Z3GetArraySortRange(context.Handle, arraySort);
-            var rangeKind = (Z3SortKind)NativeMethods.Z3GetSortKind(context.Handle, rangeSort);
+            var rangeSort = SafeNativeMethods.Z3GetArraySortRange(context.Handle, arraySort);
+            var rangeKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, rangeSort);
 
             return rangeKind switch
             {

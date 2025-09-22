@@ -26,7 +26,7 @@ public sealed class Z3Model
         modelHandle = handle;
 
         // Critical: increment ref count immediately to keep model alive
-        NativeMethods.Z3ModelIncRef(context.Handle, handle);
+        SafeNativeMethods.Z3ModelIncRef(context.Handle, handle);
     }
 
     internal IntPtr Handle
@@ -51,7 +51,7 @@ public sealed class Z3Model
         ThrowIfInvalidated();
 
         if (
-            !NativeMethods.Z3ModelEval(
+            !SafeNativeMethods.Z3ModelEval(
                 context.Handle,
                 modelHandle,
                 expr.Handle,
@@ -95,7 +95,7 @@ public sealed class Z3Model
     {
         var evaluated = Evaluate(expr);
 
-        var boolValue = NativeMethods.Z3GetBoolValue(context.Handle, evaluated.Handle);
+        var boolValue = SafeNativeMethods.Z3GetBoolValue(context.Handle, evaluated.Handle);
         return (Z3BoolValue)boolValue switch
         {
             Z3BoolValue.False => false,
@@ -161,7 +161,7 @@ public sealed class Z3Model
         if (invalidated)
             return "<invalidated>";
 
-        var ptr = NativeMethods.Z3ModelToString(context.Handle, modelHandle);
+        var ptr = SafeNativeMethods.Z3ModelToString(context.Handle, modelHandle);
         return Marshal.PtrToStringAnsi(ptr) ?? "<invalid>";
     }
 
@@ -169,7 +169,7 @@ public sealed class Z3Model
     {
         if (!invalidated && modelHandle != IntPtr.Zero)
         {
-            NativeMethods.Z3ModelDecRef(context.Handle, modelHandle);
+            SafeNativeMethods.Z3ModelDecRef(context.Handle, modelHandle);
             modelHandle = IntPtr.Zero;
             invalidated = true;
         }
@@ -190,12 +190,12 @@ public sealed class Z3Model
         Z3NumericExpr originalExpr
     )
     {
-        if (!NativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
+        if (!SafeNativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
             throw new InvalidOperationException(
                 $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
             );
 
-        var ptr = NativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
+        var ptr = SafeNativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
         return Marshal.PtrToStringAnsi(ptr)
             ?? throw new InvalidOperationException(
                 $"Failed to extract numeric value from expression {originalExpr}"

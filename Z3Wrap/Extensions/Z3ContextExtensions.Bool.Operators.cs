@@ -17,7 +17,7 @@ public static partial class Z3ContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = NativeMethods.Z3MkAnd(context.Handle, (uint)args.Length, args);
+        var resultHandle = SafeNativeMethods.Z3MkAnd(context.Handle, (uint)args.Length, args);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -33,7 +33,7 @@ public static partial class Z3ContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = NativeMethods.Z3MkOr(context.Handle, (uint)args.Length, args);
+        var resultHandle = SafeNativeMethods.Z3MkOr(context.Handle, (uint)args.Length, args);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -46,7 +46,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing left XOR right.</returns>
     public static Z3BoolExpr Xor(this Z3Context context, Z3BoolExpr left, Z3BoolExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkXor(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkXor(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -58,7 +58,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing NOT operand.</returns>
     public static Z3BoolExpr Not(this Z3Context context, Z3BoolExpr operand)
     {
-        var resultHandle = NativeMethods.Z3MkNot(context.Handle, operand.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkNot(context.Handle, operand.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -71,7 +71,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing left implies right.</returns>
     public static Z3BoolExpr Implies(this Z3Context context, Z3BoolExpr left, Z3BoolExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkImplies(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkImplies(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -84,7 +84,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing left if-and-only-if right.</returns>
     public static Z3BoolExpr Iff(this Z3Context context, Z3BoolExpr left, Z3BoolExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkIff(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkIff(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 }

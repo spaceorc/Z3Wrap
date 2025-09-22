@@ -14,8 +14,8 @@ public static partial class Z3ContextExtensions
     public static Z3BoolExpr Bool(this Z3Context context, bool value)
     {
         var handle = value
-            ? NativeMethods.Z3MkTrue(context.Handle)
-            : NativeMethods.Z3MkFalse(context.Handle);
+            ? SafeNativeMethods.Z3MkTrue(context.Handle)
+            : SafeNativeMethods.Z3MkFalse(context.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -26,7 +26,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing true.</returns>
     public static Z3BoolExpr True(this Z3Context context)
     {
-        var handle = NativeMethods.Z3MkTrue(context.Handle);
+        var handle = SafeNativeMethods.Z3MkTrue(context.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -37,7 +37,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing false.</returns>
     public static Z3BoolExpr False(this Z3Context context)
     {
-        var handle = NativeMethods.Z3MkFalse(context.Handle);
+        var handle = SafeNativeMethods.Z3MkFalse(context.Handle);
         return Z3BoolExpr.Create(context, handle);
     }
 
@@ -50,9 +50,9 @@ public static partial class Z3ContextExtensions
     public static Z3BoolExpr BoolConst(this Z3Context context, string name)
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = NativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var boolSort = NativeMethods.Z3MkBoolSort(context.Handle);
-        var handle = NativeMethods.Z3MkConst(context.Handle, symbol, boolSort);
+        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var boolSort = SafeNativeMethods.Z3MkBoolSort(context.Handle);
+        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, boolSort);
         return Z3BoolExpr.Create(context, handle);
     }
 }

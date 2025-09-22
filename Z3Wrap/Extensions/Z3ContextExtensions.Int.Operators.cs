@@ -24,7 +24,7 @@ public static partial class Z3ContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = NativeMethods.Z3MkAdd(context.Handle, (uint)args.Length, args);
+        var resultHandle = SafeNativeMethods.Z3MkAdd(context.Handle, (uint)args.Length, args);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
@@ -46,7 +46,7 @@ public static partial class Z3ContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = NativeMethods.Z3MkSub(context.Handle, (uint)args.Length, args);
+        var resultHandle = SafeNativeMethods.Z3MkSub(context.Handle, (uint)args.Length, args);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
@@ -68,7 +68,7 @@ public static partial class Z3ContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = NativeMethods.Z3MkMul(context.Handle, (uint)args.Length, args);
+        var resultHandle = SafeNativeMethods.Z3MkMul(context.Handle, (uint)args.Length, args);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
@@ -81,7 +81,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new integer expression representing left divided by right.</returns>
     public static Z3IntExpr Div(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
@@ -94,7 +94,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new integer expression representing left modulo right.</returns>
     public static Z3IntExpr Mod(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkMod(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkMod(context.Handle, left.Handle, right.Handle);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
@@ -107,7 +107,7 @@ public static partial class Z3ContextExtensions
     public static Z3IntExpr UnaryMinus(this Z3Context context, Z3IntExpr operand)
     {
         var args = new[] { operand.Handle };
-        var resultHandle = NativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
         return Z3IntExpr.Create(context, resultHandle);
     }
 
@@ -120,7 +120,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new boolean expression representing left &lt; right.</returns>
     public static Z3BoolExpr Lt(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -133,7 +133,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new boolean expression representing left &lt;= right.</returns>
     public static Z3BoolExpr Le(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -146,7 +146,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new boolean expression representing left &gt; right.</returns>
     public static Z3BoolExpr Gt(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -159,7 +159,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new boolean expression representing left &gt;= right.</returns>
     public static Z3BoolExpr Ge(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
-        var resultHandle = NativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 

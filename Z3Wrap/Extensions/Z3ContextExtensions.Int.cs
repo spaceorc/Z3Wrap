@@ -15,8 +15,8 @@ public static partial class Z3ContextExtensions
     public static Z3IntExpr Int(this Z3Context context, BigInteger value)
     {
         using var valueStr = new AnsiStringPtr(value.ToString());
-        var intSort = NativeMethods.Z3MkIntSort(context.Handle);
-        var handle = NativeMethods.Z3MkNumeral(context.Handle, valueStr, intSort);
+        var intSort = SafeNativeMethods.Z3MkIntSort(context.Handle);
+        var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, valueStr, intSort);
         return Z3IntExpr.Create(context, handle);
     }
 
@@ -29,9 +29,9 @@ public static partial class Z3ContextExtensions
     public static Z3IntExpr IntConst(this Z3Context context, string name)
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = NativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var intSort = NativeMethods.Z3MkIntSort(context.Handle);
-        var handle = NativeMethods.Z3MkConst(context.Handle, symbol, intSort);
+        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var intSort = SafeNativeMethods.Z3MkIntSort(context.Handle);
+        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, intSort);
         return Z3IntExpr.Create(context, handle);
     }
 }

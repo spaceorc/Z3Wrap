@@ -15,8 +15,8 @@ public static partial class Z3ContextExtensions
     public static Z3RealExpr Real(this Z3Context context, Real value)
     {
         using var valueStr = new AnsiStringPtr(value.ToString());
-        var realSort = NativeMethods.Z3MkRealSort(context.Handle);
-        var handle = NativeMethods.Z3MkNumeral(context.Handle, valueStr, realSort);
+        var realSort = SafeNativeMethods.Z3MkRealSort(context.Handle);
+        var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, valueStr, realSort);
         return Z3RealExpr.Create(context, handle);
     }
 
@@ -29,9 +29,9 @@ public static partial class Z3ContextExtensions
     public static Z3RealExpr RealConst(this Z3Context context, string name)
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = NativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var realSort = NativeMethods.Z3MkRealSort(context.Handle);
-        var handle = NativeMethods.Z3MkConst(context.Handle, symbol, realSort);
+        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var realSort = SafeNativeMethods.Z3MkRealSort(context.Handle);
+        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, realSort);
         return Z3RealExpr.Create(context, handle);
     }
 }

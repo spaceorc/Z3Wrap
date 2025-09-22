@@ -105,6 +105,9 @@
     <Compile Update="Extensions\Z3ContextExtensions.Real.cs">
       <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
     </Compile>
+    <Compile Update="Extensions\Z3ContextExtensions.Quantifiers.cs">
+      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />

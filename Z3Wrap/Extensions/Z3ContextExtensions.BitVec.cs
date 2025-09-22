@@ -16,10 +16,10 @@ public static partial class Z3ContextExtensions
     /// <returns>A Z3 bitvector expression representing the constant.</returns>
     public static Z3BitVecExpr BitVecConst(this Z3Context context, string name, uint size)
     {
-        var sort = NativeMethods.Z3MkBvSort(context.Handle, size);
+        var sort = SafeNativeMethods.Z3MkBvSort(context.Handle, size);
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = NativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var handle = NativeMethods.Z3MkConst(context.Handle, symbol, sort);
+        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, sort);
 
         return Z3BitVecExpr.Create(context, handle);
     }
@@ -33,8 +33,8 @@ public static partial class Z3ContextExtensions
     public static Z3BitVecExpr BitVec(this Z3Context context, BitVec value)
     {
         using var numeralPtr = new AnsiStringPtr(value.ToString());
-        var sort = NativeMethods.Z3MkBvSort(context.Handle, value.Size);
-        var handle = NativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sort);
+        var sort = SafeNativeMethods.Z3MkBvSort(context.Handle, value.Size);
+        var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sort);
 
         return Z3BitVecExpr.Create(context, handle);
     }

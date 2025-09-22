@@ -222,6 +222,11 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_exists_const");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_pattern");
 
+            // Error handling functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_set_error_handler");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_error_code");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_error_msg");
+
             return new LoadedLibrary(functionPointers, handle);
         }
         catch
@@ -1257,4 +1262,35 @@ public static class NativeMethods
         IntPtr body
     );
     private delegate IntPtr Z3MkPatternDelegate(IntPtr ctx, uint numPatterns, IntPtr[] terms);
+
+    // Error handling delegates
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void Z3ErrorHandlerDelegate(IntPtr ctx, int errorCode);
+
+    private delegate void Z3SetErrorHandlerDelegate(IntPtr ctx, Z3ErrorHandlerDelegate? handler);
+    private delegate int Z3GetErrorCodeDelegate(IntPtr ctx);
+    private delegate IntPtr Z3GetErrorMsgDelegate(IntPtr ctx, int errorCode);
+
+    // Error handling methods
+    internal static void Z3SetErrorHandler(IntPtr ctx, Z3ErrorHandlerDelegate? handler)
+    {
+        var funcPtr = GetFunctionPointer("Z3_set_error_handler");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SetErrorHandlerDelegate>(funcPtr);
+        func(ctx, handler);
+    }
+
+    internal static Z3ErrorCode Z3GetErrorCode(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_error_code");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorCodeDelegate>(funcPtr);
+        return (Z3ErrorCode)func(ctx);
+    }
+
+    internal static string Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_error_msg");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorMsgDelegate>(funcPtr);
+        var msgPtr = func(ctx, (int)errorCode);
+        return Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
+    }
 }

@@ -14,7 +14,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A Z3 integer expression representing the converted value.</returns>
     public static Z3IntExpr ToInt(this Z3Context context, Z3BitVecExpr expr, bool signed = false)
     {
-        var handle = NativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, signed);
+        var handle = SafeNativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, signed);
         return Z3IntExpr.Create(context, handle);
     }
 }

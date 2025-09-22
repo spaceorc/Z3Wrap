@@ -13,7 +13,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A real expression representing the same value as the input integer expression.</returns>
     public static Z3RealExpr ToReal(this Z3Context context, Z3IntExpr expr)
     {
-        var handle = NativeMethods.Z3MkInt2Real(context.Handle, expr.Handle);
+        var handle = SafeNativeMethods.Z3MkInt2Real(context.Handle, expr.Handle);
         return Z3RealExpr.Create(context, handle);
     }
 
@@ -26,7 +26,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A bitvector expression representing the integer value with the specified bit width.</returns>
     public static Z3BitVecExpr ToBitVec(this Z3Context context, Z3IntExpr expr, uint size)
     {
-        var handle = NativeMethods.Z3MkInt2Bv(context.Handle, size, expr.Handle);
+        var handle = SafeNativeMethods.Z3MkInt2Bv(context.Handle, size, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 }

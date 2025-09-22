@@ -14,7 +14,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing left == right.</returns>
     public static Z3BoolExpr Eq(this Z3Context context, Z3Expr left, Z3Expr right)
     {
-        var resultHandle = NativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 
@@ -27,8 +27,8 @@ public static partial class Z3ContextExtensions
     /// <returns>A new Z3BoolExpr representing left != right.</returns>
     public static Z3BoolExpr Neq(this Z3Context context, Z3Expr left, Z3Expr right)
     {
-        var eqHandle = NativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
-        var resultHandle = NativeMethods.Z3MkNot(context.Handle, eqHandle);
+        var eqHandle = SafeNativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
+        var resultHandle = SafeNativeMethods.Z3MkNot(context.Handle, eqHandle);
         return Z3BoolExpr.Create(context, resultHandle);
     }
 

@@ -21,8 +21,8 @@ public static partial class Z3ContextExtensions
     )
     {
         var handle = signed
-            ? NativeMethods.Z3MkSignExt(context.Handle, additionalBits, expr.Handle)
-            : NativeMethods.Z3MkZeroExt(context.Handle, additionalBits, expr.Handle);
+            ? SafeNativeMethods.Z3MkSignExt(context.Handle, additionalBits, expr.Handle)
+            : SafeNativeMethods.Z3MkZeroExt(context.Handle, additionalBits, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -69,7 +69,7 @@ public static partial class Z3ContextExtensions
         uint low
     )
     {
-        var handle = NativeMethods.Z3MkExtract(context.Handle, high, low, expr.Handle);
+        var handle = SafeNativeMethods.Z3MkExtract(context.Handle, high, low, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 
@@ -82,7 +82,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A Z3 bitvector expression containing the repeated pattern.</returns>
     public static Z3BitVecExpr Repeat(this Z3Context context, Z3BitVecExpr expr, uint count)
     {
-        var handle = NativeMethods.Z3MkRepeat(context.Handle, count, expr.Handle);
+        var handle = SafeNativeMethods.Z3MkRepeat(context.Handle, count, expr.Handle);
         return Z3BitVecExpr.Create(context, handle);
     }
 }

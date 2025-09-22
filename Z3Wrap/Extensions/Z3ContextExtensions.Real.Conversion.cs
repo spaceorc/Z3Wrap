@@ -14,7 +14,7 @@ public static partial class Z3ContextExtensions
     /// <returns>A Z3IntExpr representing the truncated integer value of the real expression.</returns>
     public static Z3IntExpr ToInt(this Z3Context context, Z3RealExpr expr)
     {
-        var handle = NativeMethods.Z3MkReal2Int(context.Handle, expr.Handle);
+        var handle = SafeNativeMethods.Z3MkReal2Int(context.Handle, expr.Handle);
         return Z3IntExpr.Create(context, handle);
     }
 }
