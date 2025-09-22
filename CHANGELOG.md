@@ -8,19 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Complete XML documentation for all public APIs with IntelliSense support
-- Fluent BitVector boundary check API with comprehensive BigInteger support
-  - New `BitVecBoundaryCheck()` extension method for natural boundary constraint syntax
-  - Support for Add, Sub, Mul, Div, Neg operations with full BigInteger overloads
-  - Both positive (`NoOverflow`, `NoUnderflow`) and negative (`Overflow`, `Underflow`) boundary checks
-  - Corrected negation boundary logic for proper signed/unsigned behavior
-  - 43 comprehensive unit tests covering all operations and edge cases
-  - Complete API consistency with existing Z3Wrap BigInteger patterns
+- **Robust Z3 error handling system with process safety**
+  - `Z3Exception` class with structured error reporting and `Z3ErrorCode` enum
+  - Safe wrapper layer (`SafeNativeMethods`) with automatic Z3 error detection after each operation
+  - Converts Z3 crashes into managed exceptions preventing process termination
+- **Universal and existential quantifier support**
+  - `ForAll()` and `Exists()` extension methods for Z3Context with 1-3 variable overloads
+  - Natural mathematical syntax with nested quantifier support and type mixing
+- **BitVector boundary check API**
+  - `BitVecBoundaryCheck()` extension method with BigInteger support
+  - Overflow and underflow detection for all BitVector operations
+  - Corrected signed/unsigned negation logic
 
 ### Changed
 - **BREAKING**: Made Handle properties and factory methods internal
-- Enhanced CI/CD pipeline with MinVer semantic versioning, improved coverage requirements (90% minimum), and automated release workflows
-- Removed redundant null checks and cleaned up code formatting across multiple source files
+- **BREAKING**: Renamed `Z3SortKind.BV` to `Z3SortKind.Bv`
+- **Migrated to SafeNativeMethods** for all Z3 P/Invoke calls with automatic error checking
 
 ## [0.0.4] - 2025-09-17
 
@@ -43,11 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unlimited precision arithmetic (BigInteger integers, exact rationals)
 - Natural mathematical syntax with operator overloading
 - Type-safe generic arrays and strongly typed expressions
+- **Complete BitVector theory support** with arithmetic, bitwise, and comparison operations
 - Cross-platform Z3 library auto-discovery
 - Memory-safe reference-counted contexts
-- 553+ comprehensive tests with 80%+ coverage requirement
-- Automated CI/CD pipeline with GitHub Actions
-- Coverage badges and test metrics extraction
 
 ### Changed
 - Updated to .NET 9.0 target framework
