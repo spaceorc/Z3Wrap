@@ -51,21 +51,21 @@ release: restore release-notes ## Build in release mode
 # Test Commands
 # =============================================================================
 
-test: build ## Run all tests
+test: build ## Run all tests (use TEST_FILTER=name to run specific tests)
 	@echo "$(BLUE)Running tests...$(NC)"
-	dotnet test --no-restore --no-build --logger:"console;verbosity=minimal"
+	dotnet test --no-restore --no-build --logger:"console;verbosity=minimal" $(if $(TEST_FILTER),--filter "$(TEST_FILTER)",)
 
-test-verbose: build ## Run tests with detailed output
+test-verbose: build ## Run tests with detailed output (use TEST_FILTER=name to run specific tests)
 	@echo "$(BLUE)Running tests (verbose)...$(NC)"
-	dotnet test --no-restore --no-build --logger:"console;verbosity=detailed"
+	dotnet test --no-restore --no-build --logger:"console;verbosity=detailed" $(if $(TEST_FILTER),--filter "$(TEST_FILTER)",)
 
-test-release: release ## Run tests in release mode
+test-release: release ## Run tests in release mode (use TEST_FILTER=name to run specific tests)
 	@echo "$(BLUE)Running tests (Release mode)...$(NC)"
-	dotnet test --configuration Release --no-build --logger:"console;verbosity=minimal"
+	dotnet test --configuration Release --no-build --logger:"console;verbosity=minimal" $(if $(TEST_FILTER),--filter "$(TEST_FILTER)",)
 
-watch: ## Run tests in watch mode
+watch: ## Run tests in watch mode (use TEST_FILTER=name to run specific tests)
 	@echo "$(BLUE)Running tests in watch mode (Ctrl+C to stop)...$(NC)"
-	dotnet test --watch
+	dotnet test --watch $(if $(TEST_FILTER),--filter "$(TEST_FILTER)",)
 
 # =============================================================================
 # Quality & Coverage Commands
