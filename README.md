@@ -98,6 +98,7 @@ Z3 library is auto-discovered on Windows/macOS/Linux.
 - **Reals**: Exact rational arithmetic with `Real(1,3)` fractions
 - **BitVectors**: Binary ops `&`, `|`, `^`, `~`, `<<`, `>>` with overflow checks
 - **Arrays**: Generic `Z3ArrayExpr<TIndex, TValue>` with natural indexing
+- **Quantifiers**: First-order logic with `ForAll` and `Exists`
 - **Solver**: Push/pop scopes for constraint backtracking
 
 ## Advanced Examples
@@ -112,6 +113,29 @@ solver.Assert((bv ^ 0xFFFFFFFF) == ~bv); // XOR/NOT relationship
 
 // Overflow detection
 solver.Assert(context.BitVecBoundaryCheck().Add(bv, 100).NoOverflow());
+```
+
+### Quantifiers (First-Order Logic)
+```csharp
+var x = context.IntConst("x");
+var y = context.IntConst("y");
+
+// Universal quantification: ∀x. x + 0 = x
+var identity = context.ForAll(x, x + 0 == x);
+solver.Assert(identity);
+
+// Existential quantification: ∃y. x + y = 10
+var existsSolution = context.Exists(y, x + y == 10);
+solver.Assert(existsSolution);
+
+// Multiple variables: ∀x,y. x * y = y * x
+var commutativity = context.ForAll(x, y, x * y == y * x);
+solver.Assert(commutativity);
+
+// Nested quantifiers: ∀x. ∃y. x + y = 0
+var innerExists = context.Exists(y, x + y == 0);
+var additive_inverse = context.ForAll(x, innerExists);
+solver.Assert(additive_inverse);
 ```
 
 ### Solver Backtracking

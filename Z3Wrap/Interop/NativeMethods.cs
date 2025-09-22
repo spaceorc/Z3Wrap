@@ -217,6 +217,11 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
 
+            // Quantifier functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_forall_const");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_exists_const");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_pattern");
+
             return new LoadedLibrary(functionPointers, handle);
         }
         catch
@@ -1047,6 +1052,44 @@ public static class NativeMethods
         return func(ctx, sort);
     }
 
+    // Quantifier functions
+    internal static IntPtr Z3MkForallConst(
+        IntPtr ctx,
+        uint weight,
+        uint numBound,
+        IntPtr[] bound,
+        uint numPatterns,
+        IntPtr[] patterns,
+        IntPtr body
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_forall_const");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkForallConstDelegate>(funcPtr);
+        return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
+    }
+
+    internal static IntPtr Z3MkExistsConst(
+        IntPtr ctx,
+        uint weight,
+        uint numBound,
+        IntPtr[] bound,
+        uint numPatterns,
+        IntPtr[] patterns,
+        IntPtr body
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_exists_const");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkExistsConstDelegate>(funcPtr);
+        return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
+    }
+
+    internal static IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_pattern");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkPatternDelegate>(funcPtr);
+        return func(ctx, numPatterns, terms);
+    }
+
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextRcDelegate(IntPtr cfg);
@@ -1193,4 +1236,25 @@ public static class NativeMethods
     private delegate int Z3IsNumeralAstDelegate(IntPtr ctx, IntPtr expr);
     private delegate IntPtr Z3GetSortDelegate(IntPtr ctx, IntPtr expr);
     private delegate int Z3GetSortKindDelegate(IntPtr ctx, IntPtr sort);
+
+    // Quantifier delegates
+    private delegate IntPtr Z3MkForallConstDelegate(
+        IntPtr ctx,
+        uint weight,
+        uint numBound,
+        IntPtr[] bound,
+        uint numPatterns,
+        IntPtr[] patterns,
+        IntPtr body
+    );
+    private delegate IntPtr Z3MkExistsConstDelegate(
+        IntPtr ctx,
+        uint weight,
+        uint numBound,
+        IntPtr[] bound,
+        uint numPatterns,
+        IntPtr[] patterns,
+        IntPtr body
+    );
+    private delegate IntPtr Z3MkPatternDelegate(IntPtr ctx, uint numPatterns, IntPtr[] terms);
 }

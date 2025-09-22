@@ -344,6 +344,53 @@ public class ReadmeExamplesTests
         #endregion
     }
 
+    [Test]
+    public void Quantifiers_FirstOrderLogic_WorkCorrectly()
+    {
+        #region Preparation
+
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        #endregion
+
+        #region Example from README.md (lines 118-139)
+
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+
+        // Universal quantification: ∀x. x + 0 = x
+        var identity = context.ForAll(x, x + 0 == x);
+        solver.Assert(identity);
+
+        // Existential quantification: ∃y. x + y = 10
+        var existsSolution = context.Exists(y, x + y == 10);
+        solver.Assert(existsSolution);
+
+        // Multiple variables: ∀x,y. x * y = y * x
+        var commutativity = context.ForAll(x, y, x * y == y * x);
+        solver.Assert(commutativity);
+
+        // Nested quantifiers: ∀x. ∃y. x + y = 0
+        var innerExists = context.Exists(y, x + y == 0);
+        var additive_inverse = context.ForAll(x, innerExists);
+        solver.Assert(additive_inverse);
+
+        #endregion
+
+        #region Assertions
+
+        // All quantified formulas should be satisfiable (they express mathematical truths)
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        // The solver should find a model that satisfies all quantifiers
+        var model = solver.GetModel();
+        Assert.That(model, Is.Not.Null);
+
+        #endregion
+    }
+
     private sealed class ConsoleCapture : IDisposable
     {
         private readonly TextWriter originalOut;
