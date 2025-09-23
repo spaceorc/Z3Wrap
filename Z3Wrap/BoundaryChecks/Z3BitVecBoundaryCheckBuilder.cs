@@ -22,8 +22,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the addition.</param>
     /// <param name="right">The right operand of the addition.</param>
     /// <returns>An operation builder for the addition operation.</returns>
-    public BitVecOperationBuilder Add(Z3BitVecExpr left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Add, left, right);
+    public Z3BitVecOperationBoundaryCheckBuilder Add(Z3BitVecExpr left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Add, left, right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector subtraction.
@@ -31,8 +31,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the subtraction.</param>
     /// <param name="right">The right operand of the subtraction.</param>
     /// <returns>An operation builder for the subtraction operation.</returns>
-    public BitVecOperationBuilder Sub(Z3BitVecExpr left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Sub, left, right);
+    public Z3BitVecOperationBoundaryCheckBuilder Sub(Z3BitVecExpr left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Sub, left, right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector multiplication.
@@ -40,8 +40,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the multiplication.</param>
     /// <param name="right">The right operand of the multiplication.</param>
     /// <returns>An operation builder for the multiplication operation.</returns>
-    public BitVecOperationBuilder Mul(Z3BitVecExpr left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Mul, left, right);
+    public Z3BitVecOperationBoundaryCheckBuilder Mul(Z3BitVecExpr left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Mul, left, right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector division.
@@ -49,16 +49,16 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the division.</param>
     /// <param name="right">The right operand of the division.</param>
     /// <returns>An operation builder for the division operation.</returns>
-    public BitVecOperationBuilder Div(Z3BitVecExpr left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Div, left, right);
+    public Z3BitVecOperationBoundaryCheckBuilder Div(Z3BitVecExpr left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Div, left, right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector negation.
     /// </summary>
     /// <param name="operand">The operand to negate.</param>
     /// <returns>An operation builder for the negation operation.</returns>
-    public BitVecOperationBuilder Neg(Z3BitVecExpr operand) =>
-        new(context, BoundaryOperation.Neg, operand, null);
+    public Z3BitVecOperationBoundaryCheckBuilder Neg(Z3BitVecExpr operand) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Neg, operand, null);
 
     // BigInteger overloads
 
@@ -68,8 +68,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the addition.</param>
     /// <param name="right">The right operand of the addition.</param>
     /// <returns>An operation builder for the addition operation.</returns>
-    public BitVecOperationBuilder Add(Z3BitVecExpr left, BigInteger right) =>
-        new(context, BoundaryOperation.Add, left, context.BitVec(right, left.Size));
+    public Z3BitVecOperationBoundaryCheckBuilder Add(Z3BitVecExpr left, BigInteger right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Add, left, context.BitVec(right, left.Size));
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector addition with BigInteger.
@@ -77,8 +77,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the addition.</param>
     /// <param name="right">The right operand of the addition.</param>
     /// <returns>An operation builder for the addition operation.</returns>
-    public BitVecOperationBuilder Add(BigInteger left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Add, context.BitVec(left, right.Size), right);
+    public Z3BitVecOperationBoundaryCheckBuilder Add(BigInteger left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Add, context.BitVec(left, right.Size), right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector subtraction with BigInteger.
@@ -86,8 +86,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the subtraction.</param>
     /// <param name="right">The right operand of the subtraction.</param>
     /// <returns>An operation builder for the subtraction operation.</returns>
-    public BitVecOperationBuilder Sub(Z3BitVecExpr left, BigInteger right) =>
-        new(context, BoundaryOperation.Sub, left, context.BitVec(right, left.Size));
+    public Z3BitVecOperationBoundaryCheckBuilder Sub(Z3BitVecExpr left, BigInteger right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Sub, left, context.BitVec(right, left.Size));
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector subtraction with BigInteger.
@@ -95,8 +95,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the subtraction.</param>
     /// <param name="right">The right operand of the subtraction.</param>
     /// <returns>An operation builder for the subtraction operation.</returns>
-    public BitVecOperationBuilder Sub(BigInteger left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Sub, context.BitVec(left, right.Size), right);
+    public Z3BitVecOperationBoundaryCheckBuilder Sub(BigInteger left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Sub, context.BitVec(left, right.Size), right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector multiplication with BigInteger.
@@ -104,8 +104,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the multiplication.</param>
     /// <param name="right">The right operand of the multiplication.</param>
     /// <returns>An operation builder for the multiplication operation.</returns>
-    public BitVecOperationBuilder Mul(Z3BitVecExpr left, BigInteger right) =>
-        new(context, BoundaryOperation.Mul, left, context.BitVec(right, left.Size));
+    public Z3BitVecOperationBoundaryCheckBuilder Mul(Z3BitVecExpr left, BigInteger right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Mul, left, context.BitVec(right, left.Size));
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector multiplication with BigInteger.
@@ -113,8 +113,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the multiplication.</param>
     /// <param name="right">The right operand of the multiplication.</param>
     /// <returns>An operation builder for the multiplication operation.</returns>
-    public BitVecOperationBuilder Mul(BigInteger left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Mul, context.BitVec(left, right.Size), right);
+    public Z3BitVecOperationBoundaryCheckBuilder Mul(BigInteger left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Mul, context.BitVec(left, right.Size), right);
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector division with BigInteger.
@@ -122,8 +122,8 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the division.</param>
     /// <param name="right">The right operand of the division.</param>
     /// <returns>An operation builder for the division operation.</returns>
-    public BitVecOperationBuilder Div(Z3BitVecExpr left, BigInteger right) =>
-        new(context, BoundaryOperation.Div, left, context.BitVec(right, left.Size));
+    public Z3BitVecOperationBoundaryCheckBuilder Div(Z3BitVecExpr left, BigInteger right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Div, left, context.BitVec(right, left.Size));
 
     /// <summary>
     /// Creates a builder for checking boundary conditions on bitvector division with BigInteger.
@@ -131,6 +131,6 @@ public class Z3BitVecBoundaryCheckBuilder
     /// <param name="left">The left operand of the division.</param>
     /// <param name="right">The right operand of the division.</param>
     /// <returns>An operation builder for the division operation.</returns>
-    public BitVecOperationBuilder Div(BigInteger left, Z3BitVecExpr right) =>
-        new(context, BoundaryOperation.Div, context.BitVec(left, right.Size), right);
+    public Z3BitVecOperationBoundaryCheckBuilder Div(BigInteger left, Z3BitVecExpr right) =>
+        new(context, Z3BitVecBoundaryCheckOperation.Div, context.BitVec(left, right.Size), right);
 }

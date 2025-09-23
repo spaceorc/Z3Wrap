@@ -42,7 +42,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Add(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -54,7 +54,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Sub(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Mul(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -78,7 +78,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Div(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -89,7 +89,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Neg(a);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -425,7 +425,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Add(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -437,7 +437,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Add(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -449,7 +449,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Sub(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -461,7 +461,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Sub(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -473,7 +473,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Mul(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -485,7 +485,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Mul(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -497,7 +497,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Div(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
@@ -509,7 +509,7 @@ public class Z3BitVecBoundaryCheckBuilderTests
         var result = builder.Div(a, b);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<BitVecOperationBuilder>());
+        Assert.That(result, Is.InstanceOf<Z3BitVecOperationBoundaryCheckBuilder>());
     }
 
     [Test]
