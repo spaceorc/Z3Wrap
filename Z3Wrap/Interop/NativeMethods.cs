@@ -217,6 +217,10 @@ public static class NativeMethods
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
 
+            // Function declaration and application
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_func_decl");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_app");
+
             // Quantifier functions
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_forall_const");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_exists_const");
@@ -1095,6 +1099,27 @@ public static class NativeMethods
         return func(ctx, numPatterns, terms);
     }
 
+    // Function declaration and application methods
+    internal static IntPtr Z3MkFuncDecl(
+        IntPtr ctx,
+        IntPtr symbol,
+        uint domainSize,
+        IntPtr[] domain,
+        IntPtr range
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkFuncDeclDelegate>(funcPtr);
+        return func(ctx, symbol, domainSize, domain, range);
+    }
+
+    internal static IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_app");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkAppDelegate>(funcPtr);
+        return func(ctx, funcDecl, numArgs, args);
+    }
+
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
     private delegate IntPtr Z3MkContextRcDelegate(IntPtr cfg);
@@ -1262,6 +1287,21 @@ public static class NativeMethods
         IntPtr body
     );
     private delegate IntPtr Z3MkPatternDelegate(IntPtr ctx, uint numPatterns, IntPtr[] terms);
+
+    // Function declaration and application delegates
+    private delegate IntPtr Z3MkFuncDeclDelegate(
+        IntPtr ctx,
+        IntPtr symbol,
+        uint domainSize,
+        IntPtr[] domain,
+        IntPtr range
+    );
+    private delegate IntPtr Z3MkAppDelegate(
+        IntPtr ctx,
+        IntPtr funcDecl,
+        uint numArgs,
+        IntPtr[] args
+    );
 
     // Error handling delegates
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

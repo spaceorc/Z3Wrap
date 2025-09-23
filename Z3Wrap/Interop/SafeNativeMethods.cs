@@ -333,6 +333,27 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    // Function declaration and application operations
+    internal static IntPtr Z3MkFuncDecl(
+        IntPtr ctx,
+        IntPtr symbol,
+        uint domainSize,
+        IntPtr[] domain,
+        IntPtr range
+    )
+    {
+        var result = NativeMethods.Z3MkFuncDecl(ctx, symbol, domainSize, domain, range);
+        CheckError(ctx);
+        return result;
+    }
+
+    internal static IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
+    {
+        var result = NativeMethods.Z3MkApp(ctx, funcDecl, numArgs, args);
+        CheckError(ctx);
+        return result;
+    }
+
     // Solver operations
     internal static IntPtr Z3MkSolver(IntPtr ctx)
     {
