@@ -89,7 +89,7 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
 
     internal static Z3Expr Create(Z3Context context, IntPtr handle)
     {
-        context.TrackExpression(handle);
+        context.TrackAstNode(handle);
 
         var sort = SafeNativeMethods.Z3GetSort(context.Handle, handle);
         var sortKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, sort);
