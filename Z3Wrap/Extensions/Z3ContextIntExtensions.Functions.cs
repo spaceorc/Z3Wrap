@@ -2,7 +2,7 @@ using Spaceorc.Z3Wrap.Expressions;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+public static partial class Z3ContextIntExtensions
 {
     /// <summary>
     /// Computes the absolute value of an integer expression.

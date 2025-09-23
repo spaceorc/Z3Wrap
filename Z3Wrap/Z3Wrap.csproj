@@ -45,71 +45,44 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Extensions\Z3ContextExtensions.Array.Operators.cs">
+    <Compile Update="Extensions\Z3ContextArrayExtensions.Operators.cs">
       <DependentUpon>Z3ContextExtensions.Array.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.BitVec.Conversion.cs">
-      <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextBoolExtensions.Functions.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.BitVec.Functions.cs">
-      <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextBoolExtensions.Operators.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.BitVec.Operators.cs">
-      <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextIntExtensions.Functions.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.BitVec.OverflowChecks.cs">
-      <DependentUpon>Z3ContextExtensions.BitVec.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextIntExtensions.Operators.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Bool.Functions.cs">
-      <DependentUpon>Z3ContextExtensions.Bool.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextRealExtensions.Functions.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Bool.Operators.cs">
-      <DependentUpon>Z3ContextExtensions.Bool.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextRealExtensions.Operators.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Int.Conversion.cs">
-      <DependentUpon>Z3ContextExtensions.Int.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextBitVecExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Int.Functions.cs">
-      <DependentUpon>Z3ContextExtensions.Int.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextBitVecExtensions.Functions.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Int.Operators.cs">
-      <DependentUpon>Z3ContextExtensions.Int.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextBitVecExtensions.Operators.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Real.Conversion.cs">
-      <DependentUpon>Z3ContextExtensions.Real.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextBitVecExtensions.OverflowChecks.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Real.Functions.cs">
-      <DependentUpon>Z3ContextExtensions.Real.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextIntExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Real.Operators.cs">
-      <DependentUpon>Z3ContextExtensions.Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Array.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.BitVec.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Bool.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.BoundaryChecks.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Core.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Int.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Real.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Quantifiers.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextExtensions.Functions.cs">
-      <DependentUpon>Z3ContextExtensions.cs</DependentUpon>
+    <Compile Update="Extensions\Z3ContextRealExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">

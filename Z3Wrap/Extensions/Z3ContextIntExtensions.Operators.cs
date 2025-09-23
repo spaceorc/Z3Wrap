@@ -4,7 +4,7 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+public static partial class Z3ContextIntExtensions
 {
     /// <summary>
     /// Creates an addition expression from multiple integer operands.

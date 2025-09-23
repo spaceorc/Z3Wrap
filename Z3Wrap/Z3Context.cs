@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap;
@@ -232,5 +233,17 @@ public class Z3Context : IDisposable
         {
             currentContext.Value = previousContext;
         }
+    }
+
+    internal IntPtr GetSortForType<T>()
+        where T : Z3Expr
+    {
+        return typeof(T).Name switch
+        {
+            nameof(Z3BoolExpr) => SafeNativeMethods.Z3MkBoolSort(Handle),
+            nameof(Z3IntExpr) => SafeNativeMethods.Z3MkIntSort(Handle),
+            nameof(Z3RealExpr) => SafeNativeMethods.Z3MkRealSort(Handle),
+            _ => throw new ArgumentException($"Unsupported array type: {typeof(T).Name}"),
+        };
     }
 }

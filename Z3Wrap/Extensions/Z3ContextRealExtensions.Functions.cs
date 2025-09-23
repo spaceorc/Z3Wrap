@@ -2,7 +2,7 @@ using Spaceorc.Z3Wrap.Expressions;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+public static partial class Z3ContextRealExtensions
 {
     /// <summary>
     /// Returns the absolute value of a real expression.

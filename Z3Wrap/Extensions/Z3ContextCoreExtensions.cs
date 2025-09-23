@@ -3,7 +3,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides core extension methods for Z3Context including fundamental operations like equality,
+/// inequality, and type-safe comparisons that work across all Z3 expression types.
+/// </summary>
+public static class Z3ContextCoreExtensions
 {
     /// <summary>
     /// Creates an equality expression between two Z3 expressions.

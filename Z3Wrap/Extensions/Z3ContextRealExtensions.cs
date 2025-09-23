@@ -4,7 +4,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides extension methods for Z3Context to work with real number expressions, constants, and arithmetic operations.
+/// Supports exact rational arithmetic with unlimited precision and conversion operations to other numeric types.
+/// </summary>
+public static partial class Z3ContextRealExtensions
 {
     /// <summary>
     /// Creates a real number expression from a Real value with unlimited precision.

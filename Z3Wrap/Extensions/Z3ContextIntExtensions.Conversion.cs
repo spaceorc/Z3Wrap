@@ -3,7 +3,7 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+public static partial class Z3ContextIntExtensions
 {
     /// <summary>
     /// Converts an integer expression to a real expression using Z3's integer-to-real conversion.

@@ -4,7 +4,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides extension methods for Z3Context to work with integer expressions, constants, and arithmetic operations.
+/// Supports unlimited precision integer arithmetic and conversion operations to other numeric types.
+/// </summary>
+public static partial class Z3ContextIntExtensions
 {
     /// <summary>
     /// Creates an integer expression from a BigInteger value.

@@ -3,7 +3,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides extension methods for Z3Context to work with boolean expressions, constants, and literals.
+/// Supports boolean logic operations including true/false constants and boolean variables.
+/// </summary>
+public static partial class Z3ContextBoolExtensions
 {
     /// <summary>
     /// Creates a boolean expression from the specified boolean value.

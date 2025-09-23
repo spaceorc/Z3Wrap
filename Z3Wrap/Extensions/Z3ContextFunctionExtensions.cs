@@ -3,7 +3,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides extension methods for Z3Context to work with uninterpreted functions and function applications.
+/// Supports creating function declarations with various arities and applying them to create expressions.
+/// </summary>
+public static class Z3ContextFunctionExtensions
 {
     /// <summary>
     /// Creates a function declaration for a constant (0-arity function).
@@ -17,7 +21,7 @@ public static partial class Z3ContextExtensions
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var rangeSort = GetSortForType<TResult>(context);
+        var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
             context.Handle,
@@ -44,8 +48,8 @@ public static partial class Z3ContextExtensions
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var domainSorts = new[] { GetSortForType<T1>(context) };
-        var rangeSort = GetSortForType<TResult>(context);
+        var domainSorts = new[] { context.GetSortForType<T1>() };
+        var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
             context.Handle,
@@ -77,8 +81,8 @@ public static partial class Z3ContextExtensions
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var domainSorts = new[] { GetSortForType<T1>(context), GetSortForType<T2>(context) };
-        var rangeSort = GetSortForType<TResult>(context);
+        var domainSorts = new[] { context.GetSortForType<T1>(), context.GetSortForType<T2>() };
+        var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
             context.Handle,
@@ -114,11 +118,11 @@ public static partial class Z3ContextExtensions
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var domainSorts = new[]
         {
-            GetSortForType<T1>(context),
-            GetSortForType<T2>(context),
-            GetSortForType<T3>(context),
+            context.GetSortForType<T1>(),
+            context.GetSortForType<T2>(),
+            context.GetSortForType<T3>(),
         };
-        var rangeSort = GetSortForType<TResult>(context);
+        var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
             context.Handle,

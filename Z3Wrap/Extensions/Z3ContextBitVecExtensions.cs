@@ -5,7 +5,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides extension methods for Z3Context to work with bitvector expressions, constants, and operations.
+/// Supports fixed-width integer arithmetic with overflow semantics and conversion operations.
+/// </summary>
+public static partial class Z3ContextBitVecExtensions
 {
     /// <summary>
     /// Creates a bitvector constant with the specified name and bit width.

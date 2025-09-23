@@ -3,7 +3,7 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+public static partial class Z3ContextBoolExtensions
 {
     /// <summary>
     /// Creates a logical AND expression from multiple boolean expressions.

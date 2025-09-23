@@ -3,7 +3,7 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+public static partial class Z3ContextArrayExtensions
 {
     /// <summary>
     /// Creates a new array that is the same as the given array except that the value at the specified index is updated.

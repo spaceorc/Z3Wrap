@@ -3,7 +3,11 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
-public static partial class Z3ContextExtensions
+/// <summary>
+/// Provides extension methods for Z3Context to work with quantified expressions including universal (ForAll)
+/// and existential (Exists) quantifiers. Supports quantification over one to four bound variables.
+/// </summary>
+public static partial class Z3ContextQuantifiersExtensions
 {
     /// <summary>
     /// Creates a universal quantifier (ForAll) expression with one bound variable.
@@ -209,7 +213,7 @@ public static partial class Z3ContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="boundVar1">The first variable to be existentially quantified.</param>
     /// <param name="boundVar2">The second variable to be existentially quantified.</param>
-    /// <param name="boundVar3">The third variable to be universally quantified.</param>
+    /// <param name="boundVar3">The third variable to be existentially quantified.</param>
     /// <param name="boundVar4">The fourth variable to be existentially quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3BoolExpr representing the existential quantifier.</returns>
