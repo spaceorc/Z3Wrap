@@ -133,9 +133,9 @@ publish-build: restore release test-release ## Build for publishing (restore, re
 
 dev-setup: ## Setup development environment
 	@echo "$(BLUE)Setting up development environment...$(NC)"
-	dotnet tool install --global dotnet-reportgenerator-globaltool || true
-	dotnet tool install --global csharpier || true
-	@echo "$(GREEN)✅ Development tools installed$(NC)"
+	dotnet tool update --global dotnet-reportgenerator-globaltool || dotnet tool install --global dotnet-reportgenerator-globaltool || true
+	dotnet tool update --global csharpier || dotnet tool install --global csharpier || true
+	@echo "$(GREEN)✅ Development tools installed/updated$(NC)"
 
 info: ## Show project information
 	@echo "$(BLUE)Z3 Library Project Information$(NC)"
