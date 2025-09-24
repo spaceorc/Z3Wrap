@@ -84,6 +84,30 @@
     <Compile Update="Extensions\Z3ContextRealExtensions.Conversion.cs">
       <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
     </Compile>
+    <Compile Update="BitVectors\BitVec.Arithmetic.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Bitwise.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Cast.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Comparison.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Conversion.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Equality.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Factory.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Manipulation.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
