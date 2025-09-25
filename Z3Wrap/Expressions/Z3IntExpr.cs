@@ -1,5 +1,7 @@
 using System.Numerics;
+using Spaceorc.Z3Wrap.BitVectors;
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Expressions;
 
@@ -9,15 +11,16 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// Supports natural mathematical operations, comparisons, and conversions to other numeric types.
 /// All arithmetic is performed with unlimited precision - no overflow or underflow occurs.
 /// </summary>
-public sealed class Z3IntExpr : Z3NumericExpr
+public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
 {
-    internal Z3IntExpr(Z3Context context, IntPtr handle)
+    private Z3IntExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
 
-    internal static new Z3IntExpr Create(Z3Context context, IntPtr handle)
-    {
-        return (Z3IntExpr)Z3Expr.Create(context, handle);
-    }
+    static Z3IntExpr IZ3ExprType<Z3IntExpr>.Create(Z3Context context, IntPtr handle) =>
+        new(context, handle);
+
+    static IntPtr IZ3ExprType<Z3IntExpr>.GetSort(Z3Context context) =>
+        SafeNativeMethods.Z3MkIntSort(context.Handle);
 
     /// <summary>
     /// Implicitly converts an integer value to a Z3IntExpr using the current thread-local context.
@@ -251,7 +254,8 @@ public sealed class Z3IntExpr : Z3NumericExpr
     /// <summary>
     /// Converts this integer expression to a bitvector expression with the specified bit width.
     /// </summary>
-    /// <param name="size">The bit width of the resulting bitvector.</param>
+    /// <typeparam name="TSize">The size type that determines the bit width of the resulting bitvector.</typeparam>
     /// <returns>A bitvector expression representing this integer value.</returns>
-    public Z3BitVecExpr ToBitVec(uint size) => Context.ToBitVec(this, size);
+    public Z3BitVec<TSize> ToBitVec<TSize>()
+        where TSize : ISize => Context.ToBitVec<TSize>(this);
 }
