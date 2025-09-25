@@ -21,7 +21,7 @@ public static partial class Z3ContextIntExtensions
         using var valueStr = new AnsiStringPtr(value.ToString());
         var intSort = SafeNativeMethods.Z3MkIntSort(context.Handle);
         var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, valueStr, intSort);
-        return Z3IntExpr.Create(context, handle);
+        return Z3Expr.Create<Z3IntExpr>(context, handle);
     }
 
     /// <summary>
@@ -36,6 +36,6 @@ public static partial class Z3ContextIntExtensions
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var intSort = SafeNativeMethods.Z3MkIntSort(context.Handle);
         var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, intSort);
-        return Z3IntExpr.Create(context, handle);
+        return Z3Expr.Create<Z3IntExpr>(context, handle);
     }
 }

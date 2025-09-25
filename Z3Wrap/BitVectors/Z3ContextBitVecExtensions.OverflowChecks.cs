@@ -1,4 +1,3 @@
-using Spaceorc.Z3Wrap.BoundaryChecks;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
@@ -6,6 +5,16 @@ namespace Spaceorc.Z3Wrap.BitVectors;
 
 public static partial class Z3ContextBitVecExtensions2
 {
+    /// <summary>
+    /// Creates a fluent boundary check builder for bitvector operations.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <returns>A builder for constructing boundary check expressions.</returns>
+    public static Z3BitVecBoundaryCheckBuilder BitVecBoundaryCheck(this Z3Context context)
+    {
+        return new Z3BitVecBoundaryCheckBuilder(context);
+    }
+
     /// <summary>
     /// Checks if addition would cause overflow between two compile-time size-validated bitvector expressions.
     /// </summary>
@@ -29,7 +38,7 @@ public static partial class Z3ContextBitVecExtensions2
             right.Handle,
             signed
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -52,7 +61,7 @@ public static partial class Z3ContextBitVecExtensions2
             left.Handle,
             right.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -78,7 +87,7 @@ public static partial class Z3ContextBitVecExtensions2
             right.Handle,
             signed
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -104,7 +113,7 @@ public static partial class Z3ContextBitVecExtensions2
             right.Handle,
             signed
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -127,7 +136,7 @@ public static partial class Z3ContextBitVecExtensions2
             left.Handle,
             right.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -150,7 +159,7 @@ public static partial class Z3ContextBitVecExtensions2
             left.Handle,
             right.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -173,7 +182,7 @@ public static partial class Z3ContextBitVecExtensions2
             left.Handle,
             right.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -190,6 +199,6 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvNegNoOverflow(context.Handle, operand.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 }

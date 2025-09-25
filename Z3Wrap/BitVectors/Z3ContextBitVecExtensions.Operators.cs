@@ -21,7 +21,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvAdd(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvSub(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvMul(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSDiv(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvUDiv(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSRem(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvURem(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvSMod(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -138,7 +138,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvNeg(context.Handle, expr.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvAnd(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvOr(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvXor(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -209,7 +209,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvNot(context.Handle, expr.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvShl(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -251,7 +251,7 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvAShr(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvLShr(context.Handle, left.Handle, right.Handle);
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSLt(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSLe(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSGt(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -343,6 +343,6 @@ public static partial class Z3ContextBitVecExtensions2
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSGe(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 }

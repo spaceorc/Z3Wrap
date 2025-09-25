@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Expressions;
 
@@ -10,15 +11,16 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// Supports unlimited precision rational arithmetic operations, comparisons, and conversions.
 /// All operations maintain exact precision without floating-point approximation errors.
 /// </summary>
-public sealed class Z3RealExpr : Z3NumericExpr
+public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
 {
-    internal Z3RealExpr(Z3Context context, IntPtr handle)
+    private Z3RealExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
 
-    internal static new Z3RealExpr Create(Z3Context context, IntPtr handle)
-    {
-        return (Z3RealExpr)Z3Expr.Create(context, handle);
-    }
+    static Z3RealExpr IZ3ExprType<Z3RealExpr>.Create(Z3Context context, IntPtr handle) =>
+        new(context, handle);
+
+    static IntPtr IZ3ExprType<Z3RealExpr>.GetSort(Z3Context context) =>
+        SafeNativeMethods.Z3MkRealSort(context.Handle);
 
     /// <summary>
     /// Implicitly converts an integer value to a Z3RealExpr using the current thread-local context.

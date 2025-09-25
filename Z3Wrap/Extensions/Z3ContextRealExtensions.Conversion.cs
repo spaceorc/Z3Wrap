@@ -15,6 +15,6 @@ public static partial class Z3ContextRealExtensions
     public static Z3IntExpr ToInt(this Z3Context context, Z3RealExpr expr)
     {
         var handle = SafeNativeMethods.Z3MkReal2Int(context.Handle, expr.Handle);
-        return Z3IntExpr.Create(context, handle);
+        return Z3Expr.Create<Z3IntExpr>(context, handle);
     }
 }

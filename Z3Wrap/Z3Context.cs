@@ -236,14 +236,5 @@ public class Z3Context : IDisposable
     }
 
     internal IntPtr GetSortForType<T>()
-        where T : Z3Expr
-    {
-        return typeof(T).Name switch
-        {
-            nameof(Z3BoolExpr) => SafeNativeMethods.Z3MkBoolSort(Handle),
-            nameof(Z3IntExpr) => SafeNativeMethods.Z3MkIntSort(Handle),
-            nameof(Z3RealExpr) => SafeNativeMethods.Z3MkRealSort(Handle),
-            _ => throw new ArgumentException($"Unsupported array type: {typeof(T).Name}"),
-        };
-    }
+        where T : Z3Expr, IZ3ExprType<T> => T.GetSort(this);
 }

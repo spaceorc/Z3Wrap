@@ -7,7 +7,7 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// </summary>
 /// <typeparam name="TResult">The result type of the constant.</typeparam>
 public sealed class Z3FuncDecl<TResult> : Z3FuncDeclBase<TResult>
-    where TResult : Z3Expr
+    where TResult : Z3Expr, IZ3ExprType<TResult>
 {
     internal Z3FuncDecl(Z3Context context, IntPtr handle, string name)
         : base(context, handle, name, 0) { }
@@ -28,8 +28,8 @@ public sealed class Z3FuncDecl<TResult> : Z3FuncDeclBase<TResult>
 /// <typeparam name="T1">The type of the function parameter.</typeparam>
 /// <typeparam name="TResult">The result type of the function.</typeparam>
 public sealed class Z3FuncDecl<T1, TResult> : Z3FuncDeclBase<TResult>
-    where T1 : Z3Expr
-    where TResult : Z3Expr
+    where T1 : Z3Expr, IZ3ExprType<T1>
+    where TResult : Z3Expr, IZ3ExprType<TResult>
 {
     internal Z3FuncDecl(Z3Context context, IntPtr handle, string name)
         : base(context, handle, name, 1) { }
@@ -52,9 +52,9 @@ public sealed class Z3FuncDecl<T1, TResult> : Z3FuncDeclBase<TResult>
 /// <typeparam name="T2">The type of the second parameter.</typeparam>
 /// <typeparam name="TResult">The result type of the function.</typeparam>
 public sealed class Z3FuncDecl<T1, T2, TResult> : Z3FuncDeclBase<TResult>
-    where T1 : Z3Expr
-    where T2 : Z3Expr
-    where TResult : Z3Expr
+    where T1 : Z3Expr, IZ3ExprType<T1>
+    where T2 : Z3Expr, IZ3ExprType<T2>
+    where TResult : Z3Expr, IZ3ExprType<TResult>
 {
     internal Z3FuncDecl(Z3Context context, IntPtr handle, string name)
         : base(context, handle, name, 2) { }
@@ -79,10 +79,10 @@ public sealed class Z3FuncDecl<T1, T2, TResult> : Z3FuncDeclBase<TResult>
 /// <typeparam name="T3">The type of the third parameter.</typeparam>
 /// <typeparam name="TResult">The result type of the function.</typeparam>
 public sealed class Z3FuncDecl<T1, T2, T3, TResult> : Z3FuncDeclBase<TResult>
-    where T1 : Z3Expr
-    where T2 : Z3Expr
-    where T3 : Z3Expr
-    where TResult : Z3Expr
+    where T1 : Z3Expr, IZ3ExprType<T1>
+    where T2 : Z3Expr, IZ3ExprType<T2>
+    where T3 : Z3Expr, IZ3ExprType<T3>
+    where TResult : Z3Expr, IZ3ExprType<TResult>
 {
     internal Z3FuncDecl(Z3Context context, IntPtr handle, string name)
         : base(context, handle, name, 3) { }

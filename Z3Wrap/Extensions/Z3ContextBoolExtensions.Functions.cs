@@ -15,7 +15,7 @@ public static partial class Z3ContextBoolExtensions
     /// <param name="elseExpr">The expression to return if condition is false.</param>
     /// <returns>A new expression of type T representing if condition then thenExpr else elseExpr.</returns>
     public static T Ite<T>(this Z3Context context, Z3BoolExpr condition, T thenExpr, T elseExpr)
-        where T : Z3Expr
+        where T : Z3Expr, IZ3ExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkIte(
             context.Handle,
@@ -23,6 +23,6 @@ public static partial class Z3ContextBoolExtensions
             thenExpr.Handle,
             elseExpr.Handle
         );
-        return (T)Z3Expr.Create(context, resultHandle);
+        return Z3Expr.Create<T>(context, resultHandle);
     }
 }

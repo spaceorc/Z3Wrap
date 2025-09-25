@@ -28,7 +28,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -204,7 +204,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -242,6 +242,6 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 }

@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
@@ -22,7 +23,7 @@ public static partial class Z3ContextBitVecExtensions2
         where TOutputSize : ISize
     {
         if (TOutputSize.Size == TInputSize.Size)
-            return Z3BitVec<TOutputSize>.Create(context, expr.Handle);
+            return Z3Expr.Create<Z3BitVec<TOutputSize>>(context, expr.Handle);
 
         if (TOutputSize.Size > TInputSize.Size)
         {
@@ -30,7 +31,7 @@ public static partial class Z3ContextBitVecExtensions2
             var handle = signed
                 ? SafeNativeMethods.Z3MkSignExt(context.Handle, additionalBits, expr.Handle)
                 : SafeNativeMethods.Z3MkZeroExt(context.Handle, additionalBits, expr.Handle);
-            return Z3BitVec<TOutputSize>.Create(context, handle);
+            return Z3Expr.Create<Z3BitVec<TOutputSize>>(context, handle);
         }
 
         // Truncate by extracting lower bits
@@ -61,7 +62,7 @@ public static partial class Z3ContextBitVecExtensions2
 
         var high = startBit + TOutputSize.Size - 1;
         var handle = SafeNativeMethods.Z3MkExtract(context.Handle, high, startBit, expr.Handle);
-        return Z3BitVec<TOutputSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TOutputSize>>(context, handle);
     }
 
     /// <summary>
@@ -86,6 +87,6 @@ public static partial class Z3ContextBitVecExtensions2
 
         var count = TOutputSize.Size / TInputSize.Size;
         var handle = SafeNativeMethods.Z3MkRepeat(context.Handle, count, expr.Handle);
-        return Z3BitVec<TOutputSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TOutputSize>>(context, handle);
     }
 }

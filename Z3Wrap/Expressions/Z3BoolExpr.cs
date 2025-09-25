@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Expressions;
 
@@ -7,15 +8,16 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// Represents a Boolean expression in Z3 with support for logical operations, comparisons, and natural syntax.
 /// Supports implicit conversion from bool values and provides comprehensive logical operators.
 /// </summary>
-public sealed class Z3BoolExpr : Z3Expr
+public sealed class Z3BoolExpr : Z3Expr, IZ3ExprType<Z3BoolExpr>
 {
-    internal Z3BoolExpr(Z3Context context, IntPtr handle)
+    private Z3BoolExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
 
-    internal static new Z3BoolExpr Create(Z3Context context, IntPtr handle)
-    {
-        return (Z3BoolExpr)Z3Expr.Create(context, handle);
-    }
+    static Z3BoolExpr IZ3ExprType<Z3BoolExpr>.Create(Z3Context context, IntPtr handle) =>
+        new(context, handle);
+
+    static IntPtr IZ3ExprType<Z3BoolExpr>.GetSort(Z3Context context) =>
+        SafeNativeMethods.Z3MkBoolSort(context.Handle);
 
     /// <summary>
     /// Implicitly converts a Boolean value to a Z3BoolExpr using the current thread-local context.
@@ -155,5 +157,5 @@ public sealed class Z3BoolExpr : Z3Expr
     /// <param name="elseExpr">The expression to return when this condition is false.</param>
     /// <returns>An expression representing: if (this) then thenExpr else elseExpr.</returns>
     public T If<T>(T thenExpr, T elseExpr)
-        where T : Z3Expr => Context.Ite(this, thenExpr, elseExpr);
+        where T : Z3Expr, IZ3ExprType<T> => Context.Ite(this, thenExpr, elseExpr);
 }

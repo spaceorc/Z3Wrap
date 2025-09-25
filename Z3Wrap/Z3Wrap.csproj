@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Extensions\Z3ContextArrayExtensions.Operators.cs">
-      <DependentUpon>Z3ContextExtensions.Array.cs</DependentUpon>
+      <DependentUpon>Z3ContextArrayExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Extensions\Z3ContextBoolExtensions.Functions.cs">
       <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
@@ -65,18 +65,6 @@
     </Compile>
     <Compile Update="Extensions\Z3ContextRealExtensions.Operators.cs">
       <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextBitVecExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextBitVecExtensions.Functions.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextBitVecExtensions.Operators.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextBitVecExtensions.OverflowChecks.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Extensions\Z3ContextIntExtensions.Conversion.cs">
       <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
@@ -107,6 +95,24 @@
     </Compile>
     <Compile Update="BitVectors\BitVec.Manipulation.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Functions.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Operators.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.OverflowChecks.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVecBoundaryCheckBuilder.OperationBuilder.cs">
+      <DependentUpon>Z3BitVecBoundaryCheckBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVecBoundaryCheckBuilder.OperationType.cs">
+      <DependentUpon>Z3BitVecBoundaryCheckBuilder.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">

@@ -21,7 +21,7 @@ public static partial class Z3ContextRealExtensions
         using var valueStr = new AnsiStringPtr(value.ToString());
         var realSort = SafeNativeMethods.Z3MkRealSort(context.Handle);
         var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, valueStr, realSort);
-        return Z3RealExpr.Create(context, handle);
+        return Z3Expr.Create<Z3RealExpr>(context, handle);
     }
 
     /// <summary>
@@ -36,6 +36,6 @@ public static partial class Z3ContextRealExtensions
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var realSort = SafeNativeMethods.Z3MkRealSort(context.Handle);
         var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, realSort);
-        return Z3RealExpr.Create(context, handle);
+        return Z3Expr.Create<Z3RealExpr>(context, handle);
     }
 }

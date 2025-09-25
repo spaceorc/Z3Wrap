@@ -21,6 +21,6 @@ public static partial class Z3ContextBitVecExtensions2
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, signed);
-        return Z3IntExpr.Create(context, handle);
+        return Z3Expr.Create<Z3IntExpr>(context, handle);
     }
 }

@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
@@ -23,7 +24,7 @@ public static partial class Z3ContextBitVecExtensions2
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, sort);
 
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 
     /// <summary>
@@ -40,6 +41,6 @@ public static partial class Z3ContextBitVecExtensions2
         var sort = SafeNativeMethods.Z3MkBvSort(context.Handle, TSize.Size);
         var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sort);
 
-        return Z3BitVec<TSize>.Create(context, handle);
+        return Z3Expr.Create<Z3BitVec<TSize>>(context, handle);
     }
 }

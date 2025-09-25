@@ -7,17 +7,34 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// Base class for all Z3 expressions, providing common functionality for equality, inequality, and string representation.
 /// All Z3 expressions are immutable and associated with a specific Z3 context.
 /// </summary>
-public abstract class Z3Expr(Z3Context context, IntPtr handle)
+public abstract class Z3Expr
 {
-    internal IntPtr Handle { get; } =
-        handle != IntPtr.Zero
-            ? handle
-            : throw new ArgumentException("Invalid handle", nameof(handle));
+    /// <summary>
+    /// Base class for all Z3 expressions, providing common functionality for equality, inequality, and string representation.
+    /// All Z3 expressions are immutable and associated with a specific Z3 context.
+    /// </summary>
+    protected Z3Expr(Z3Context context, IntPtr handle)
+    {
+        Handle =
+            handle != IntPtr.Zero
+                ? handle
+                : throw new ArgumentException("Invalid handle", nameof(handle));
+        context.TrackAstNode(handle);
+        Context = context;
+    }
+
+    internal static T Create<T>(Z3Context context, IntPtr handle)
+        where T : Z3Expr, IZ3ExprType<T>
+    {
+        return T.Create(context, handle);
+    }
+
+    internal IntPtr Handle { get; }
 
     /// <summary>
     /// Gets the Z3 context that owns this expression.
     /// </summary>
-    public Z3Context Context { get; } = context;
+    public Z3Context Context { get; }
 
     /// <summary>
     /// Determines whether two Z3 expressions are equal using the == operator.
@@ -68,7 +85,7 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
     /// Returns the hash code for this expression based on its Z3 handle.
     /// </summary>
     /// <returns>A 32-bit signed integer hash code.</returns>
-    public override int GetHashCode() => handle.GetHashCode();
+    public override int GetHashCode() => Handle.GetHashCode();
 
     /// <summary>
     /// Returns a string representation of this expression in Z3's native format.
@@ -84,70 +101,6 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle)
         catch (ObjectDisposedException)
         {
             return "<disposed>";
-        }
-    }
-
-    internal static Z3Expr Create(Z3Context context, IntPtr handle)
-    {
-        context.TrackAstNode(handle);
-
-        var sort = SafeNativeMethods.Z3GetSort(context.Handle, handle);
-        var sortKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, sort);
-
-        return sortKind switch
-        {
-            Z3SortKind.Bool => new Z3BoolExpr(context, handle),
-            Z3SortKind.Int => new Z3IntExpr(context, handle),
-            Z3SortKind.Real => new Z3RealExpr(context, handle),
-            Z3SortKind.Bv => CreateBitVectorExpression(context, handle, sort),
-            Z3SortKind.Array => CreateArrayExpression(context, handle, sort),
-            _ => throw new InvalidOperationException($"Unsupported sort kind: {sortKind}"),
-        };
-    }
-
-    private static Z3BitVecExpr CreateBitVectorExpression(
-        Z3Context context,
-        IntPtr handle,
-        IntPtr bvSort
-    )
-    {
-        var size = SafeNativeMethods.Z3GetBvSortSize(context.Handle, bvSort);
-        return new Z3BitVecExpr(context, handle, size);
-    }
-
-    private static Z3Expr CreateArrayExpression(Z3Context context, IntPtr handle, IntPtr arraySort)
-    {
-        var domainSort = SafeNativeMethods.Z3GetArraySortDomain(context.Handle, arraySort);
-        var domainKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, domainSort);
-
-        return domainKind switch
-        {
-            Z3SortKind.Bool => ArrayFactory<Z3BoolExpr>.CreateArray(context, handle, arraySort),
-            Z3SortKind.Int => ArrayFactory<Z3IntExpr>.CreateArray(context, handle, arraySort),
-            Z3SortKind.Real => ArrayFactory<Z3RealExpr>.CreateArray(context, handle, arraySort),
-            _ => throw new InvalidOperationException(
-                $"Unsupported array domain sort kind: {domainKind}"
-            ),
-        };
-    }
-
-    private static class ArrayFactory<TIndex>
-        where TIndex : Z3Expr
-    {
-        internal static Z3Expr CreateArray(Z3Context context, IntPtr handle, IntPtr arraySort)
-        {
-            var rangeSort = SafeNativeMethods.Z3GetArraySortRange(context.Handle, arraySort);
-            var rangeKind = (Z3SortKind)SafeNativeMethods.Z3GetSortKind(context.Handle, rangeSort);
-
-            return rangeKind switch
-            {
-                Z3SortKind.Bool => new Z3ArrayExpr<TIndex, Z3BoolExpr>(context, handle),
-                Z3SortKind.Int => new Z3ArrayExpr<TIndex, Z3IntExpr>(context, handle),
-                Z3SortKind.Real => new Z3ArrayExpr<TIndex, Z3RealExpr>(context, handle),
-                _ => throw new InvalidOperationException(
-                    $"Unsupported array range sort kind: {rangeKind}"
-                ),
-            };
         }
     }
 }

@@ -1,8 +1,8 @@
 namespace Spaceorc.Z3Wrap.Expressions;
 
-internal interface IZ3ExprCreate<out T>
+public interface IZ3ExprType<out T>
     where T : Z3Expr
 {
-    static abstract T Create(Z3Context context, IntPtr handle);
-    static abstract IntPtr GetSort(Z3Context context);
+    internal static abstract T Create(Z3Context context, IntPtr handle);
+    internal static abstract IntPtr GetSort(Z3Context context);
 }

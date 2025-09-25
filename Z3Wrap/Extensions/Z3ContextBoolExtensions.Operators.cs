@@ -18,7 +18,7 @@ public static partial class Z3ContextBoolExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkAnd(context.Handle, (uint)args.Length, args);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public static partial class Z3ContextBoolExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkOr(context.Handle, (uint)args.Length, args);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public static partial class Z3ContextBoolExtensions
     public static Z3BoolExpr Xor(this Z3Context context, Z3BoolExpr left, Z3BoolExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkXor(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public static partial class Z3ContextBoolExtensions
     public static Z3BoolExpr Not(this Z3Context context, Z3BoolExpr operand)
     {
         var resultHandle = SafeNativeMethods.Z3MkNot(context.Handle, operand.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public static partial class Z3ContextBoolExtensions
     public static Z3BoolExpr Implies(this Z3Context context, Z3BoolExpr left, Z3BoolExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkImplies(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -85,6 +85,6 @@ public static partial class Z3ContextBoolExtensions
     public static Z3BoolExpr Iff(this Z3Context context, Z3BoolExpr left, Z3BoolExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkIff(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 }

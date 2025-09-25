@@ -21,8 +21,8 @@ public static partial class Z3ContextArrayExtensions
         TIndex index,
         TValue value
     )
-        where TIndex : Z3Expr
-        where TValue : Z3Expr
+        where TIndex : Z3Expr, IZ3ExprType<TIndex>
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         var handle = SafeNativeMethods.Z3MkStore(
             context.Handle,
@@ -30,7 +30,7 @@ public static partial class Z3ContextArrayExtensions
             index.Handle,
             value.Handle
         );
-        return Z3ArrayExpr<TIndex, TValue>.Create(context, handle);
+        return Z3Expr.Create<Z3ArrayExpr<TIndex, TValue>>(context, handle);
     }
 
     /// <summary>
@@ -47,10 +47,10 @@ public static partial class Z3ContextArrayExtensions
         Z3ArrayExpr<TIndex, TValue> array,
         TIndex index
     )
-        where TIndex : Z3Expr
-        where TValue : Z3Expr
+        where TIndex : Z3Expr, IZ3ExprType<TIndex>
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         var handle = SafeNativeMethods.Z3MkSelect(context.Handle, array.Handle, index.Handle);
-        return (TValue)Z3Expr.Create(context, handle);
+        return Z3Expr.Create<TValue>(context, handle);
     }
 }

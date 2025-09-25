@@ -20,7 +20,7 @@ public static partial class Z3ContextBoolExtensions
         var handle = value
             ? SafeNativeMethods.Z3MkTrue(context.Handle)
             : SafeNativeMethods.Z3MkFalse(context.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Z3ContextBoolExtensions
     public static Z3BoolExpr True(this Z3Context context)
     {
         var handle = SafeNativeMethods.Z3MkTrue(context.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public static partial class Z3ContextBoolExtensions
     public static Z3BoolExpr False(this Z3Context context)
     {
         var handle = SafeNativeMethods.Z3MkFalse(context.Handle);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -57,6 +57,6 @@ public static partial class Z3ContextBoolExtensions
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var boolSort = SafeNativeMethods.Z3MkBoolSort(context.Handle);
         var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, boolSort);
-        return Z3BoolExpr.Create(context, handle);
+        return Z3Expr.Create<Z3BoolExpr>(context, handle);
     }
 }

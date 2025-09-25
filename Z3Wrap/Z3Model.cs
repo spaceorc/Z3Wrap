@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
+using Spaceorc.Z3Wrap.BitVectors;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
@@ -46,7 +47,8 @@ public sealed class Z3Model
     /// <returns>A concrete Z3 expression representing the evaluated result.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when expression evaluation fails.</exception>
-    public Z3Expr Evaluate(Z3Expr expr, bool modelCompletion = true)
+    public T Evaluate<T>(T expr, bool modelCompletion = true)
+        where T : Z3Expr, IZ3ExprType<T>
     {
         ThrowIfInvalidated();
 
@@ -61,7 +63,7 @@ public sealed class Z3Model
         )
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
-        return Z3Expr.Create(context, result);
+        return Z3Expr.Create<T>(context, result);
     }
 
     /// <summary>
@@ -126,7 +128,7 @@ public sealed class Z3Model
     /// <returns>The BitVec value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a bitvector or parsing fails.</exception>
-    public BitVec GetBitVec(Z3BitVecExpr expr)
+    public BitVec<TSize> GetBitVec<TSize>(Z3BitVec<TSize> expr) where TSize : ISize
     {
         var valueStr = GetNumericValueAsString(expr);
 
@@ -135,7 +137,7 @@ public sealed class Z3Model
                 $"Failed to parse bitvector value '{valueStr}' from expression {expr}"
             );
 
-        return new BitVec(value, expr.Size);
+        return new BitVec<TSize>(value);
     }
 
     /// <summary>
@@ -146,7 +148,8 @@ public sealed class Z3Model
     /// <returns>The string representation of the numeric value.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a numeric value.</exception>
-    public string GetNumericValueAsString(Z3NumericExpr expr)
+    public string GetNumericValueAsString<T>(T expr)
+        where T : Z3NumericExpr, IZ3ExprType<T>
     {
         var evaluated = Evaluate(expr);
         return ExtractNumeralString(context, evaluated, expr);

@@ -138,7 +138,7 @@ public class Z3BoolExprCreationTests
         var originalBool = context.Bool(true);
         var handle = originalBool.Handle;
 
-        var recreatedBool = Z3BoolExpr.Create(context, handle);
+        var recreatedBool = Z3Expr.Create<Z3BoolExpr>(context, handle);
 
         Assert.Multiple(() =>
         {

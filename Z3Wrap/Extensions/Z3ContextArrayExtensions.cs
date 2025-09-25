@@ -21,19 +21,16 @@ public static partial class Z3ContextArrayExtensions
         this Z3Context context,
         string name
     )
-        where TIndex : Z3Expr
-        where TValue : Z3Expr
+        where TIndex : Z3Expr, IZ3ExprType<TIndex>
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
-        var indexSort = context.GetSortForType<TIndex>();
-        var valueSort = context.GetSortForType<TValue>();
-
-        var arraySort = SafeNativeMethods.Z3MkArraySort(context.Handle, indexSort, valueSort);
+        var arraySort = context.GetSortForType<Z3ArrayExpr<TIndex, TValue>>();
 
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
         var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, arraySort);
 
-        return Z3ArrayExpr<TIndex, TValue>.Create(context, handle);
+        return Z3Expr.Create<Z3ArrayExpr<TIndex, TValue>>(context, handle);
     }
 
     /// <summary>
@@ -47,7 +44,7 @@ public static partial class Z3ContextArrayExtensions
         this Z3Context context,
         string name
     )
-        where TValue : Z3Expr
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         return context.ArrayConst<Z3IntExpr, TValue>(name);
     }
@@ -64,20 +61,18 @@ public static partial class Z3ContextArrayExtensions
         this Z3Context context,
         TValue defaultValue
     )
-        where TIndex : Z3Expr
-        where TValue : Z3Expr
+        where TIndex : Z3Expr, IZ3ExprType<TIndex>
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         var indexSort = context.GetSortForType<TIndex>();
-        var valueSort = context.GetSortForType<TValue>();
 
-        var arraySort = SafeNativeMethods.Z3MkArraySort(context.Handle, indexSort, valueSort);
         var handle = SafeNativeMethods.Z3MkConstArray(
             context.Handle,
             indexSort,
             defaultValue.Handle
         );
 
-        return Z3ArrayExpr<TIndex, TValue>.Create(context, handle);
+        return Z3Expr.Create<Z3ArrayExpr<TIndex, TValue>>(context, handle);
     }
 
     /// <summary>
@@ -91,7 +86,7 @@ public static partial class Z3ContextArrayExtensions
         this Z3Context context,
         TValue defaultValue
     )
-        where TValue : Z3Expr
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         return context.Array<Z3IntExpr, TValue>(defaultValue);
     }

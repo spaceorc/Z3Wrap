@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Expressions;
 
@@ -8,14 +9,24 @@ namespace Spaceorc.Z3Wrap.Expressions;
 /// </summary>
 /// <typeparam name="TIndex">The type of expressions used for array indices.</typeparam>
 /// <typeparam name="TValue">The type of expressions used for array values.</typeparam>
-public class Z3ArrayExpr<TIndex, TValue>(Z3Context context, IntPtr handle) : Z3Expr(context, handle)
-    where TIndex : Z3Expr
-    where TValue : Z3Expr
+public class Z3ArrayExpr<TIndex, TValue> : Z3Expr, IZ3ExprType<Z3ArrayExpr<TIndex, TValue>>
+    where TIndex : Z3Expr, IZ3ExprType<TIndex>
+    where TValue : Z3Expr, IZ3ExprType<TValue>
 {
-    internal static new Z3ArrayExpr<TIndex, TValue> Create(Z3Context context, IntPtr handle)
-    {
-        return (Z3ArrayExpr<TIndex, TValue>)Z3Expr.Create(context, handle);
-    }
+    private Z3ArrayExpr(Z3Context context, IntPtr handle)
+        : base(context, handle) { }
+
+    static Z3ArrayExpr<TIndex, TValue> IZ3ExprType<Z3ArrayExpr<TIndex, TValue>>.Create(
+        Z3Context context,
+        IntPtr handle
+    ) => new(context, handle);
+
+    static IntPtr IZ3ExprType<Z3ArrayExpr<TIndex, TValue>>.GetSort(Z3Context context) =>
+        SafeNativeMethods.Z3MkArraySort(
+            context.Handle,
+            TIndex.GetSort(context),
+            TValue.GetSort(context)
+        );
 
     /// <summary>
     /// Gets the value at the specified index using natural indexing syntax.

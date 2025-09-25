@@ -19,7 +19,7 @@ public static class Z3ContextCoreExtensions
     public static Z3BoolExpr Eq(this Z3Context context, Z3Expr left, Z3Expr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class Z3ContextCoreExtensions
     {
         var eqHandle = SafeNativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
         var resultHandle = SafeNativeMethods.Z3MkNot(context.Handle, eqHandle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>

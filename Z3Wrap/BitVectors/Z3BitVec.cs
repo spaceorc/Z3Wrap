@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
 
@@ -11,7 +12,7 @@ namespace Spaceorc.Z3Wrap.BitVectors;
 /// Supports both unsigned and signed operations, bit manipulation, and conversion to other numeric types.
 /// </summary>
 /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
-public sealed class Z3BitVec<TSize> : Z3NumericExpr
+public sealed class Z3BitVec<TSize> : Z3NumericExpr, IZ3ExprType<Z3BitVec<TSize>>
     where TSize : ISize
 {
     /// <summary>
@@ -19,18 +20,14 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// </summary>
     public static uint Size => TSize.Size;
 
-    /// <summary>
-    /// Gets the bit width of this specific bitvector instance.
-    /// </summary>
-    public uint BitSize => Size;
-
-    internal Z3BitVec(Z3Context context, IntPtr handle)
+    private Z3BitVec(Z3Context context, IntPtr handle)
         : base(context, handle) { }
 
-    internal static new Z3BitVec<TSize> Create(Z3Context context, IntPtr handle)
-    {
-        return new Z3BitVec<TSize>(context, handle);
-    }
+    static Z3BitVec<TSize> IZ3ExprType<Z3BitVec<TSize>>.Create(Z3Context context, IntPtr handle) =>
+        new(context, handle);
+
+    static IntPtr IZ3ExprType<Z3BitVec<TSize>>.GetSort(Z3Context context) =>
+        SafeNativeMethods.Z3MkBvSort(context.Handle, TSize.Size);
 
     /// <summary>
     /// Creates a bitvector representing zero with the compile-time specified bit width.

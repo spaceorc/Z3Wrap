@@ -24,7 +24,7 @@ public static partial class Z3ContextRealExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkAdd(context.Handle, (uint)args.Length, args);
-        return Z3RealExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public static partial class Z3ContextRealExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkSub(context.Handle, (uint)args.Length, args);
-        return Z3RealExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public static partial class Z3ContextRealExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkMul(context.Handle, (uint)args.Length, args);
-        return Z3RealExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public static partial class Z3ContextRealExtensions
     public static Z3RealExpr Div(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
-        return Z3RealExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public static partial class Z3ContextRealExtensions
     public static Z3RealExpr UnaryMinus(this Z3Context context, Z3RealExpr operand)
     {
         var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
-        return Z3RealExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static partial class Z3ContextRealExtensions
     public static Z3BoolExpr Lt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public static partial class Z3ContextRealExtensions
     public static Z3BoolExpr Le(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static partial class Z3ContextRealExtensions
     public static Z3BoolExpr Gt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 
     /// <summary>
@@ -145,6 +145,6 @@ public static partial class Z3ContextRealExtensions
     public static Z3BoolExpr Ge(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
-        return Z3BoolExpr.Create(context, resultHandle);
+        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
     }
 }
