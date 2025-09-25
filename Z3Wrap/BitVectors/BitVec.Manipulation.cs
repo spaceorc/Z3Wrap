@@ -239,7 +239,9 @@ public readonly partial struct BitVec<TSize>
         var resultSize = TResultSize.Size;
 
         if (resultSize % inputSize != 0)
-            throw new ArgumentException($"Target size {resultSize} must be a multiple of source size {inputSize}");
+            throw new ArgumentException(
+                $"Target size {resultSize} must be a multiple of source size {inputSize}"
+            );
 
         var repeatCount = resultSize / inputSize;
         if (repeatCount == 1)

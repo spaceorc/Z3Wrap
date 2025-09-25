@@ -1,5 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
 
@@ -44,14 +45,12 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <summary>
     /// Creates a bitvector with the maximum possible value (all bits set to 1).
     /// </summary>
-    public static Z3BitVec<TSize> Max =>
-        Z3Context.Current.BitVec(BitVec<TSize>.Max);
+    public static Z3BitVec<TSize> Max => Z3Context.Current.BitVec(BitVec<TSize>.Max);
 
     /// <summary>
     /// Creates a bitvector with only the sign bit set (most significant bit).
     /// </summary>
-    public static Z3BitVec<TSize> SignBit =>
-        Z3Context.Current.BitVec(BitVec<TSize>.SignBit);
+    public static Z3BitVec<TSize> SignBit => Z3Context.Current.BitVec(BitVec<TSize>.SignBit);
 
     /// <summary>
     /// Creates a bitvector with all bits set to 1 (alias for Max).
@@ -124,8 +123,8 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <typeparam name="TOutputSize">The output size specification implementing ISize for compile-time validation.</typeparam>
     /// <param name="startBit">The starting bit index (inclusive).</param>
     /// <returns>A type-safe Z3 bitvector expression containing the extracted bits.</returns>
-    public Z3BitVec<TOutputSize> Extract<TOutputSize>(uint startBit) where TOutputSize : ISize =>
-        Context.Extract<TSize, TOutputSize>(this, startBit);
+    public Z3BitVec<TOutputSize> Extract<TOutputSize>(uint startBit)
+        where TOutputSize : ISize => Context.Extract<TSize, TOutputSize>(this, startBit);
 
     /// <summary>
     /// Resizes this bitvector to a compile-time validated target size by truncating or extending.
@@ -133,16 +132,16 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <typeparam name="TOutputSize">The target size specification implementing ISize for compile-time validation.</typeparam>
     /// <param name="signed">Whether to sign-extend when growing or truncate when shrinking.</param>
     /// <returns>A type-safe Z3 bitvector expression with the target size.</returns>
-    public Z3BitVec<TOutputSize> Resize<TOutputSize>(bool signed = false) where TOutputSize : ISize =>
-        Context.Resize<TSize, TOutputSize>(this, signed);
+    public Z3BitVec<TOutputSize> Resize<TOutputSize>(bool signed = false)
+        where TOutputSize : ISize => Context.Resize<TSize, TOutputSize>(this, signed);
 
     /// <summary>
     /// Repeats this bitvector to create a larger compile-time size-validated bitvector expression.
     /// </summary>
     /// <typeparam name="TOutputSize">The target size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A type-safe Z3 bitvector expression containing the repeated pattern.</returns>
-    public Z3BitVec<TOutputSize> Repeat<TOutputSize>() where TOutputSize : ISize =>
-        Context.Repeat<TSize, TOutputSize>(this);
+    public Z3BitVec<TOutputSize> Repeat<TOutputSize>()
+        where TOutputSize : ISize => Context.Repeat<TSize, TOutputSize>(this);
 
     /// <summary>
     /// Converts this bitvector to an integer expression.
@@ -186,7 +185,6 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <returns>A boolean expression representing this &gt;= other.</returns>
     public Z3BoolExpr Ge(Z3BitVec<TSize> other, bool signed = false) =>
         Context.Ge(this, other, signed);
-
 
     /// <summary>
     /// Adds this bitvector to another bitvector expression of the same size.
@@ -233,15 +231,12 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <returns>A bitvector expression representing -this.</returns>
     public Z3BitVec<TSize> Neg() => Context.Neg(this);
 
-
     /// <summary>
     /// Computes the signed modulo of this bitvector with another bitvector expression of the same size.
     /// </summary>
     /// <param name="other">The bitvector to compute modulo with.</param>
     /// <returns>A bitvector expression representing signed this mod other.</returns>
-    public Z3BitVec<TSize> SignedMod(Z3BitVec<TSize> other) =>
-        Context.SignedMod(this, other);
-
+    public Z3BitVec<TSize> SignedMod(Z3BitVec<TSize> other) => Context.SignedMod(this, other);
 
     /// <summary>
     /// Performs bitwise AND with another bitvector expression of the same size.
@@ -270,7 +265,6 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <returns>A bitvector expression representing ~this.</returns>
     public Z3BitVec<TSize> Not() => Context.Not(this);
 
-
     /// <summary>
     /// Left-shifts this bitvector by the specified amount.
     /// </summary>
@@ -286,5 +280,41 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr
     /// <returns>A bitvector expression representing this &gt;&gt; amount.</returns>
     public Z3BitVec<TSize> Shr(Z3BitVec<TSize> amount, bool signed = false) =>
         Context.Shr(this, amount, signed);
+
+    /// <summary>
+    /// Checks equality between a bitvector expression and a BigInteger using the == operator.
+    /// </summary>
+    /// <param name="left">The bitvector operand.</param>
+    /// <param name="right">The BigInteger operand.</param>
+    /// <returns>A boolean expression representing left == right.</returns>
+    public static Z3BoolExpr operator ==(Z3BitVec<TSize> left, BigInteger right) =>
+        left.Context.Eq(left, right);
+
+    /// <summary>
+    /// Checks equality between a BigInteger and a bitvector expression using the == operator.
+    /// </summary>
+    /// <param name="left">The BigInteger operand.</param>
+    /// <param name="right">The bitvector operand.</param>
+    /// <returns>A boolean expression representing left == right.</returns>
+    public static Z3BoolExpr operator ==(BigInteger left, Z3BitVec<TSize> right) =>
+        right.Context.Eq(left, right);
+
+    /// <summary>
+    /// Checks inequality between a bitvector expression and a BigInteger using the != operator.
+    /// </summary>
+    /// <param name="left">The bitvector operand.</param>
+    /// <param name="right">The BigInteger operand.</param>
+    /// <returns>A boolean expression representing left != right.</returns>
+    public static Z3BoolExpr operator !=(Z3BitVec<TSize> left, BigInteger right) =>
+        left.Context.Neq(left, right);
+
+    /// <summary>
+    /// Checks inequality between a BigInteger and a bitvector expression using the != operator.
+    /// </summary>
+    /// <param name="left">The BigInteger operand.</param>
+    /// <param name="right">The bitvector operand.</param>
+    /// <returns>A boolean expression representing left != right.</returns>
+    public static Z3BoolExpr operator !=(BigInteger left, Z3BitVec<TSize> right) =>
+        right.Context.Neq(left, right);
 }
 #pragma warning restore CS0660, CS0661

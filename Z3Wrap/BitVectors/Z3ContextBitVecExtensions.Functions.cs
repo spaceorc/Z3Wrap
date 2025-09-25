@@ -55,7 +55,9 @@ public static partial class Z3ContextBitVecExtensions2
         where TOutputSize : ISize
     {
         if (startBit + TOutputSize.Size > TInputSize.Size)
-            throw new ArgumentException($"Extraction would exceed input bounds: startBit({startBit}) + outputSize({TOutputSize.Size}) > inputSize({TInputSize.Size})");
+            throw new ArgumentException(
+                $"Extraction would exceed input bounds: startBit({startBit}) + outputSize({TOutputSize.Size}) > inputSize({TInputSize.Size})"
+            );
 
         var high = startBit + TOutputSize.Size - 1;
         var handle = SafeNativeMethods.Z3MkExtract(context.Handle, high, startBit, expr.Handle);
@@ -78,7 +80,9 @@ public static partial class Z3ContextBitVecExtensions2
         where TOutputSize : ISize
     {
         if (TOutputSize.Size % TInputSize.Size != 0)
-            throw new ArgumentException($"Target size {TOutputSize.Size} must be a multiple of source size {TInputSize.Size}");
+            throw new ArgumentException(
+                $"Target size {TOutputSize.Size} must be a multiple of source size {TInputSize.Size}"
+            );
 
         var count = TOutputSize.Size / TInputSize.Size;
         var handle = SafeNativeMethods.Z3MkRepeat(context.Handle, count, expr.Handle);
