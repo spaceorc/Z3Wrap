@@ -19,7 +19,7 @@ public readonly partial struct BitVec<TSize>
     /// <summary>
     /// Gets the bit width of this bitvector type.
     /// </summary>
-    public static uint Size => TSize.Value;
+    public static uint Size => TSize.Size;
 
     /// <summary>
     /// Gets the underlying value of the bitvector as a BigInteger.

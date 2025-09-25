@@ -367,7 +367,7 @@ public class BitVecSyntaxTests
 
         // These should work - within bounds
         var valid1 = bv32.Extract<Size8>(24); // bits [31:24] - exactly at boundary
-        var valid2 = bv32.Extract<Size8>(0);  // bits [7:0] - full byte
+        var valid2 = bv32.Extract<Size8>(0); // bits [7:0] - full byte
 
         Assert.That(valid1.Value, Is.EqualTo(new BigInteger(0x12)));
         Assert.That(valid2.Value, Is.EqualTo(new BigInteger(0x78))); // bits [7:0] of 0x12345678

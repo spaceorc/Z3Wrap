@@ -9,5 +9,5 @@ public interface ISize
     /// <summary>
     /// Gets the bit width of the bitvector size.
     /// </summary>
-    static abstract uint Value { get; }
+    static abstract uint Size { get; }
 }

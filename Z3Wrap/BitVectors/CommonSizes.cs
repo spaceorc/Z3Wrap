@@ -8,7 +8,7 @@ public readonly struct Size8 : ISize
     /// <summary>
     /// Gets the bit width (8 bits).
     /// </summary>
-    public static uint Value => 8;
+    public static uint Size => 8;
 }
 
 /// <summary>
@@ -19,7 +19,7 @@ public readonly struct Size16 : ISize
     /// <summary>
     /// Gets the bit width (16 bits).
     /// </summary>
-    public static uint Value => 16;
+    public static uint Size => 16;
 }
 
 /// <summary>
@@ -30,7 +30,7 @@ public readonly struct Size32 : ISize
     /// <summary>
     /// Gets the bit width (32 bits).
     /// </summary>
-    public static uint Value => 32;
+    public static uint Size => 32;
 }
 
 /// <summary>
@@ -41,7 +41,7 @@ public readonly struct Size64 : ISize
     /// <summary>
     /// Gets the bit width (64 bits).
     /// </summary>
-    public static uint Value => 64;
+    public static uint Size => 64;
 }
 
 /// <summary>
@@ -52,5 +52,5 @@ public readonly struct Size128 : ISize
     /// <summary>
     /// Gets the bit width (128 bits).
     /// </summary>
-    public static uint Value => 128;
+    public static uint Size => 128;
 }

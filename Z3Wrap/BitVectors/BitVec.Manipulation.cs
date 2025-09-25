@@ -23,7 +23,7 @@ public readonly partial struct BitVec<TSize>
     public BitVec<TNewSize> Resize<TNewSize>(bool signed)
         where TNewSize : ISize
     {
-        var newSize = TNewSize.Value;
+        var newSize = TNewSize.Size;
         var currentSize = Size;
 
         if (newSize == currentSize)
@@ -78,7 +78,7 @@ public readonly partial struct BitVec<TSize>
     public BitVec<TResultSize> Extract<TResultSize>(uint startBit)
         where TResultSize : ISize
     {
-        var extractSize = TResultSize.Value;
+        var extractSize = TResultSize.Size;
         var currentSize = Size;
 
         // Validate extraction bounds
@@ -204,8 +204,8 @@ public readonly partial struct BitVec<TSize>
         where TResultSize : ISize
     {
         var highSize = Size;
-        var lowSize = TLowSize.Value;
-        var resultSize = TResultSize.Value;
+        var lowSize = TLowSize.Size;
+        var resultSize = TResultSize.Size;
 
         if (resultSize != highSize + lowSize)
         {
@@ -217,6 +217,39 @@ public readonly partial struct BitVec<TSize>
         // Shift this bitvector to the high bits and OR with low bitvector
         var highValue = value << (int)lowSize;
         var result = highValue | low.Value;
+
+        return new BitVec<TResultSize>(result);
+    }
+
+    /// <summary>
+    /// Repeats this bitvector multiple times to create a larger bitvector with compile-time type safety.
+    /// </summary>
+    /// <typeparam name="TResultSize">The size type of the result bitvector.</typeparam>
+    /// <returns>A new bitvector containing this bitvector repeated to fill the target size.</returns>
+    /// <exception cref="ArgumentException">Thrown when the result size is not a multiple of this bitvector's size.</exception>
+    /// <remarks>
+    /// The result size must be an exact multiple of this bitvector's size.
+    /// For example, an 8-bit bitvector can be repeated to create 16, 24, 32-bit results, but not 12 or 20-bit.
+    /// The pattern is repeated from LSB to MSB: repeat(0x3, 4→8) = 0x33, repeat(0x3, 4→12) = 0x333.
+    /// </remarks>
+    public BitVec<TResultSize> Repeat<TResultSize>()
+        where TResultSize : ISize
+    {
+        var inputSize = Size;
+        var resultSize = TResultSize.Size;
+
+        if (resultSize % inputSize != 0)
+            throw new ArgumentException($"Target size {resultSize} must be a multiple of source size {inputSize}");
+
+        var repeatCount = resultSize / inputSize;
+        if (repeatCount == 1)
+            return new BitVec<TResultSize>(value);
+
+        BigInteger result = 0;
+        for (uint i = 0; i < repeatCount; i++)
+        {
+            result |= value << (int)(i * inputSize);
+        }
 
         return new BitVec<TResultSize>(result);
     }
