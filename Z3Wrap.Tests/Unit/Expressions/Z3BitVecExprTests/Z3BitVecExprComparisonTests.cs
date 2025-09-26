@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVecTheory;
+using Spaceorc.Z3Wrap.Values;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 

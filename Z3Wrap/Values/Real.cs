@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Spaceorc.Z3Wrap.RealTheory;
+namespace Spaceorc.Z3Wrap.Values;
 
 /// <summary>
 /// Represents an exact rational number with unlimited precision arithmetic.

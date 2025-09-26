@@ -1,3 +1,5 @@
+using Spaceorc.Z3Wrap.Values;
+
 namespace Spaceorc.Z3Wrap.BitVecTheory;
 
 public sealed partial class Z3BitVec<TSize>

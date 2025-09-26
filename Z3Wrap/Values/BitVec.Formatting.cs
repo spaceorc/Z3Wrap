@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Spaceorc.Z3Wrap.BitVecTheory;
+namespace Spaceorc.Z3Wrap.Values;
 
 public readonly partial struct BitVec<TSize>
     where TSize : ISize

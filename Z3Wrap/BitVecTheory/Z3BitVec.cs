@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.Values;
 
 namespace Spaceorc.Z3Wrap.BitVecTheory;
 

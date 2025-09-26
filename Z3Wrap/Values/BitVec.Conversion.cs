@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Spaceorc.Z3Wrap.BitVecTheory;
+namespace Spaceorc.Z3Wrap.Values;
 
 public readonly partial struct BitVec<TSize>
 {

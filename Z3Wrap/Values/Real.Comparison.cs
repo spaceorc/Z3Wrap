@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap.RealTheory;
+namespace Spaceorc.Z3Wrap.Values;
 
 public readonly partial struct Real
 {

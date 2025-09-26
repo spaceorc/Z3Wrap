@@ -1,4 +1,5 @@
 using System.Numerics;
+using Spaceorc.Z3Wrap.Values;
 
 namespace Spaceorc.Z3Wrap.RealTheory;
 

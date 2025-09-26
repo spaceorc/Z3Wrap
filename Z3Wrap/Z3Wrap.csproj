@@ -45,33 +45,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="BitVecTheory\BitVec.Arithmetic.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Bitwise.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Comparison.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Conversion.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Equality.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Factory.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Implicit.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Manipulation.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Shift.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
     <Compile Update="BitVecTheory\Z3BitVec.Arithmetic.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
@@ -144,33 +117,6 @@
     <Compile Update="BoolTheory\Z3ContextBoolExtensions.Logical.cs">
       <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="RealTheory\Real.Arithmetic.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Comparison.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Conversion.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Factory.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Functions.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Implicit.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Equality.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\BitVec.Formatting.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Real.Formatting.cs">
-      <DependentUpon>Real.cs</DependentUpon>
-    </Compile>
     <Compile Update="RealTheory\Z3ContextRealExtensions.Arithmetic.cs">
       <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
     </Compile>
@@ -236,6 +182,60 @@
     </Compile>
     <Compile Update="IntTheory\Z3Int.Implicit.cs">
       <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Arithmetic.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Bitwise.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Comparison.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Conversion.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Equality.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Factory.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Formatting.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Implicit.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Manipulation.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVec.Shift.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Arithmetic.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Comparison.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Conversion.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Equality.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Factory.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Formatting.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Functions.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Real.Implicit.cs">
+      <DependentUpon>Real.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">

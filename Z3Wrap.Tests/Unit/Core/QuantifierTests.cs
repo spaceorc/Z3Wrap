@@ -4,6 +4,7 @@ using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.IntTheory;
 using Spaceorc.Z3Wrap.RealTheory;
+using Spaceorc.Z3Wrap.Values;
 
 namespace Z3Wrap.Tests.Unit.Core;
 

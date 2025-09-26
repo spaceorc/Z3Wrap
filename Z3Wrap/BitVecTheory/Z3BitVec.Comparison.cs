@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap.BoolTheory;
+using Spaceorc.Z3Wrap.Values;
 
 namespace Spaceorc.Z3Wrap.BitVecTheory;
 

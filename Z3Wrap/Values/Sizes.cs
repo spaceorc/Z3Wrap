@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap.BitVecTheory;
+namespace Spaceorc.Z3Wrap.Values;
 
 /// <summary>
 /// Represents an 8-bit bitvector size.

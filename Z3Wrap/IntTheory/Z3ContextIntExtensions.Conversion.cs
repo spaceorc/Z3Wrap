@@ -2,6 +2,7 @@ using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 using Spaceorc.Z3Wrap.RealTheory;
+using Spaceorc.Z3Wrap.Values;
 
 namespace Spaceorc.Z3Wrap.IntTheory;
 

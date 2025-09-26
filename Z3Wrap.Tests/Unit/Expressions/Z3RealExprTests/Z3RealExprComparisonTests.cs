@@ -3,7 +3,7 @@ using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.RealTheory;
 
-namespace Z3Wrap.Tests.Unit.Expressions.Z3RealTests;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
 
 [TestFixture]
 public class Z3RealComparisonTests

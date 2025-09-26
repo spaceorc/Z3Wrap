@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVecTheory;
+using Spaceorc.Z3Wrap.Values;
 
 #pragma warning disable NUnit2021 // Comparison of value types is allowed here for BitVec tests
 
