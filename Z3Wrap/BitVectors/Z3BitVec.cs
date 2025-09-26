@@ -313,5 +313,169 @@ public sealed class Z3BitVec<TSize> : Z3NumericExpr, IZ3ExprType<Z3BitVec<TSize>
     /// <returns>A boolean expression representing left != right.</returns>
     public static Z3BoolExpr operator !=(BigInteger left, Z3BitVec<TSize> right) =>
         right.Context.Neq(left, right);
+
+    // === Arithmetic Operators ===
+
+    /// <summary>
+    /// Adds two bitvector expressions using the + operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left + right.</returns>
+    public static Z3BitVec<TSize> operator +(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Add(right);
+
+    /// <summary>
+    /// Subtracts two bitvector expressions using the - operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left - right.</returns>
+    public static Z3BitVec<TSize> operator -(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Sub(right);
+
+    /// <summary>
+    /// Multiplies two bitvector expressions using the * operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left * right.</returns>
+    public static Z3BitVec<TSize> operator *(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Mul(right);
+
+    /// <summary>
+    /// Divides two bitvector expressions using the / operator (unsigned division).
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left / right.</returns>
+    public static Z3BitVec<TSize> operator /(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Div(right);
+
+    /// <summary>
+    /// Computes the remainder of two bitvector expressions using the % operator (unsigned remainder).
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left % right.</returns>
+    public static Z3BitVec<TSize> operator %(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Rem(right);
+
+    /// <summary>
+    /// Negates a bitvector expression using the unary - operator (two's complement).
+    /// </summary>
+    /// <param name="operand">The operand to negate.</param>
+    /// <returns>A bitvector expression representing -operand.</returns>
+    public static Z3BitVec<TSize> operator -(Z3BitVec<TSize> operand) => operand.Neg();
+
+    // === Bitwise Operators ===
+
+    /// <summary>
+    /// Performs bitwise AND between two bitvector expressions using the & operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left & right.</returns>
+    public static Z3BitVec<TSize> operator &(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.And(right);
+
+    /// <summary>
+    /// Performs bitwise OR between two bitvector expressions using the | operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left | right.</returns>
+    public static Z3BitVec<TSize> operator |(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Or(right);
+
+    /// <summary>
+    /// Performs bitwise XOR between two bitvector expressions using the ^ operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A bitvector expression representing left ^ right.</returns>
+    public static Z3BitVec<TSize> operator ^(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Xor(right);
+
+    /// <summary>
+    /// Performs bitwise NOT of a bitvector expression using the ~ operator.
+    /// </summary>
+    /// <param name="operand">The operand to negate.</param>
+    /// <returns>A bitvector expression representing ~operand.</returns>
+    public static Z3BitVec<TSize> operator ~(Z3BitVec<TSize> operand) => operand.Not();
+
+    /// <summary>
+    /// Left-shifts a bitvector expression using the << operator.
+    /// </summary>
+    /// <param name="left">The operand to shift.</param>
+    /// <param name="right">The shift amount.</param>
+    /// <returns>A bitvector expression representing left << right.</returns>
+    public static Z3BitVec<TSize> operator <<(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Shl(right);
+
+    /// <summary>
+    /// Right-shifts a bitvector expression using the >> operator (logical shift).
+    /// </summary>
+    /// <param name="left">The operand to shift.</param>
+    /// <param name="right">The shift amount.</param>
+    /// <returns>A bitvector expression representing left >> right.</returns>
+    public static Z3BitVec<TSize> operator >>(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Shr(right);
+
+    // === Comparison Operators ===
+
+    /// <summary>
+    /// Compares two bitvector expressions for equality using the == operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A boolean expression representing left == right.</returns>
+    public static Z3BoolExpr operator ==(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Context.Eq(left, right);
+
+    /// <summary>
+    /// Compares two bitvector expressions for inequality using the != operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A boolean expression representing left != right.</returns>
+    public static Z3BoolExpr operator !=(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Context.Neq(left, right);
+
+    /// <summary>
+    /// Compares two bitvector expressions using the < operator (unsigned comparison).
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A boolean expression representing left < right.</returns>
+    public static Z3BoolExpr operator <(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Lt(right);
+
+    /// <summary>
+    /// Compares two bitvector expressions using the <= operator (unsigned comparison).
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A boolean expression representing left <= right.</returns>
+    public static Z3BoolExpr operator <=(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Le(right);
+
+    /// <summary>
+    /// Compares two bitvector expressions using the > operator (unsigned comparison).
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A boolean expression representing left > right.</returns>
+    public static Z3BoolExpr operator >(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Gt(right);
+
+    /// <summary>
+    /// Compares two bitvector expressions using the >= operator (unsigned comparison).
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>A boolean expression representing left >= right.</returns>
+    public static Z3BoolExpr operator >=(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+        left.Ge(right);
 }
 #pragma warning restore CS0660, CS0661

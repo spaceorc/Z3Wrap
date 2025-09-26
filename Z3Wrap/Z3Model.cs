@@ -128,7 +128,8 @@ public sealed class Z3Model
     /// <returns>The BitVec value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a bitvector or parsing fails.</exception>
-    public BitVec<TSize> GetBitVec<TSize>(Z3BitVec<TSize> expr) where TSize : ISize
+    public BitVec<TSize> GetBitVec<TSize>(Z3BitVec<TSize> expr)
+        where TSize : ISize
     {
         var valueStr = GetNumericValueAsString(expr);
 
