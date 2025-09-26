@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap.Values;
+namespace Spaceorc.Z3Wrap.Values.BitVectors;
 
 /// <summary>
 /// Represents a compile-time bit vector size specification.

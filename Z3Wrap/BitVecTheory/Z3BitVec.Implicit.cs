@@ -1,5 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.BitVecTheory;
 

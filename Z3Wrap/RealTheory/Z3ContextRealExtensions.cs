@@ -1,6 +1,7 @@
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Spaceorc.Z3Wrap.RealTheory;
 

@@ -183,58 +183,58 @@
     <Compile Update="IntTheory\Z3Int.Implicit.cs">
       <DependentUpon>Z3Int.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVec.Arithmetic.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Bitwise.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Comparison.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Conversion.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Equality.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Factory.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Formatting.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Implicit.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Manipulation.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\BitVec.Shift.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Values\Real.Arithmetic.cs">
+    <Compile Update="Values\Numerics\Real.Arithmetic.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Comparison.cs">
+    <Compile Update="Values\BitVectors\BitVec.Arithmetic.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Bitwise.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Comparison.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Conversion.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Equality.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Factory.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Formatting.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Implicit.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Manipulation.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\BitVectors\BitVec.Shift.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Values\Numerics\Real.Comparison.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Conversion.cs">
+    <Compile Update="Values\Numerics\Real.Conversion.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Equality.cs">
+    <Compile Update="Values\Numerics\Real.Equality.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Factory.cs">
+    <Compile Update="Values\Numerics\Real.Factory.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Formatting.cs">
+    <Compile Update="Values\Numerics\Real.Formatting.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Functions.cs">
+    <Compile Update="Values\Numerics\Real.Functions.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\Real.Implicit.cs">
+    <Compile Update="Values\Numerics\Real.Implicit.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
   </ItemGroup>

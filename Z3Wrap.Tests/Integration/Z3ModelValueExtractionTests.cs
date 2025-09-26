@@ -5,6 +5,8 @@ using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.IntTheory;
 using Spaceorc.Z3Wrap.RealTheory;
 using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Values.BitVectors;
+using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Integration;
 

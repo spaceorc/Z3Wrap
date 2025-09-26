@@ -1,6 +1,7 @@
 using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.RealTheory;
 using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.IntTheory;
 

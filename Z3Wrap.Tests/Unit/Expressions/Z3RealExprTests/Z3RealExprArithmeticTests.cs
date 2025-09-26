@@ -2,6 +2,7 @@ using System.Globalization;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.RealTheory;
 using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
 

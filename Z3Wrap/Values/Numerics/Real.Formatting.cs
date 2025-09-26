@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Spaceorc.Z3Wrap.Values;
+namespace Spaceorc.Z3Wrap.Values.Numerics;
 
 public readonly partial struct Real
 {

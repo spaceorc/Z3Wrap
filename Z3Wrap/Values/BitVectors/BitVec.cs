@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Spaceorc.Z3Wrap.Values;
+namespace Spaceorc.Z3Wrap.Values.BitVectors;
 
 /// <summary>
 /// Represents a strongly-typed fixed-width bitvector with compile-time size validation.

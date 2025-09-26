@@ -4,6 +4,7 @@ using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.IntTheory;
 using Spaceorc.Z3Wrap.RealTheory;
 using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 

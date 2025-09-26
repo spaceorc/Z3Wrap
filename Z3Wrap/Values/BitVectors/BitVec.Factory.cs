@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 
-namespace Spaceorc.Z3Wrap.Values;
+namespace Spaceorc.Z3Wrap.Values.BitVectors;
 
 public readonly partial struct BitVec<TSize>
 {
