@@ -55,7 +55,7 @@ public class Z3ModelTests
         var model = solver.GetModel();
 
         var value = model.GetRealValue(x);
-        Assert.That((decimal)value, Is.EqualTo(3.14m));
+        Assert.That(value.ToDecimal(), Is.EqualTo(3.14m));
     }
 
     [Test]

@@ -4,10 +4,10 @@ using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.RealTheory;
 
-namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3RealTests;
 
 [TestFixture]
-public class Z3RealExprArithmeticTests
+public class Z3RealArithmeticTests
 {
     [TestCase("2.5", "3.7", "6.2", Description = "Basic decimal addition")]
     [TestCase("10.8", "4.3", "15.1", Description = "Another decimal addition")]

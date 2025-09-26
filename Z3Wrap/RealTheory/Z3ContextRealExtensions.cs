@@ -14,7 +14,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="value">The Real value to create an expression from.</param>
-    /// <returns>A Z3RealExpr representing the given Real value.</returns>
+    /// <returns>A Z3Real representing the given Real value.</returns>
     public static Z3Real Real(this Z3Context context, Real value)
     {
         using var valueStr = new AnsiStringPtr(value.ToString());
@@ -28,7 +28,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the real constant.</param>
-    /// <returns>A Z3RealExpr representing a real constant with the given name.</returns>
+    /// <returns>A Z3Real representing a real constant with the given name.</returns>
     public static Z3Real RealConst(this Z3Context context, string name)
     {
         using var namePtr = new AnsiStringPtr(name);

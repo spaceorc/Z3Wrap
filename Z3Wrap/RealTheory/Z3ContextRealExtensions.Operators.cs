@@ -11,7 +11,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The real expressions to add together.</param>
-    /// <returns>A Z3RealExpr representing the sum of all operands.</returns>
+    /// <returns>A Z3Real representing the sum of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static Z3Real Add(this Z3Context context, params Z3Real[] operands)
     {
@@ -33,7 +33,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The real expressions to subtract. The first operand is the minuend, subsequent operands are subtracted from it.</param>
-    /// <returns>A Z3RealExpr representing the result of the subtraction.</returns>
+    /// <returns>A Z3Real representing the result of the subtraction.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static Z3Real Sub(this Z3Context context, params Z3Real[] operands)
     {
@@ -55,7 +55,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The real expressions to multiply together.</param>
-    /// <returns>A Z3RealExpr representing the product of all operands.</returns>
+    /// <returns>A Z3Real representing the product of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static Z3Real Mul(this Z3Context context, params Z3Real[] operands)
     {
@@ -78,7 +78,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The dividend (numerator).</param>
     /// <param name="right">The divisor (denominator).</param>
-    /// <returns>A Z3RealExpr representing the quotient of left divided by right.</returns>
+    /// <returns>A Z3Real representing the quotient of left divided by right.</returns>
     public static Z3Real Div(this Z3Context context, Z3Real left, Z3Real right)
     {
         var resultHandle = SafeNativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
@@ -90,7 +90,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="operand">The real expression to negate.</param>
-    /// <returns>A Z3RealExpr representing the negated value of the operand.</returns>
+    /// <returns>A Z3Real representing the negated value of the operand.</returns>
     public static Z3Real UnaryMinus(this Z3Context context, Z3Real operand)
     {
         var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);

@@ -28,31 +28,6 @@ public sealed partial class Z3BitVec<TSize> : Z3NumericExpr, IZ3ExprType<Z3BitVe
         SafeNativeMethods.Z3MkBvSort(context.Handle, TSize.Size);
 
     /// <summary>
-    /// Creates a bitvector representing zero with the compile-time specified bit width.
-    /// </summary>
-    public static Z3BitVec<TSize> Zero => Z3Context.Current.BitVec(BitVec<TSize>.Zero);
-
-    /// <summary>
-    /// Creates a bitvector representing one with the compile-time specified bit width.
-    /// </summary>
-    public static Z3BitVec<TSize> One => Z3Context.Current.BitVec(BitVec<TSize>.One);
-
-    /// <summary>
-    /// Creates a bitvector with the maximum possible value (all bits set to 1).
-    /// </summary>
-    public static Z3BitVec<TSize> Max => Z3Context.Current.BitVec(BitVec<TSize>.Max);
-
-    /// <summary>
-    /// Creates a bitvector with only the sign bit set (most significant bit).
-    /// </summary>
-    public static Z3BitVec<TSize> SignBit => Z3Context.Current.BitVec(BitVec<TSize>.SignBit);
-
-    /// <summary>
-    /// Creates a bitvector with all bits set to 1 (alias for Max).
-    /// </summary>
-    public static Z3BitVec<TSize> AllOnes => Max;
-
-    /// <summary>
     /// Returns a string representation of this bitvector expression including its bit width.
     /// </summary>
     /// <returns>A string in the format "Z3BitVec[size](expression)".</returns>

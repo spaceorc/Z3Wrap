@@ -4,10 +4,10 @@ using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.RealTheory;
 
-namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3RealTests;
 
 [TestFixture]
-public class Z3RealExprComparisonTests
+public class Z3RealComparisonTests
 {
     [TestCase("2.1", "2.2", true, Description = "Basic less than - true")]
     [TestCase("5.5", "3.3", false, Description = "Basic less than - false")]

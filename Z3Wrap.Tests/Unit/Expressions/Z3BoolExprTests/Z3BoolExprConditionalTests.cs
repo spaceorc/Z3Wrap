@@ -85,7 +85,7 @@ public class Z3BoolExprConditionalTests
             Assert.That(
                 model.GetRealValue(resultInstanceMethod),
                 Is.EqualTo(new Real((decimal)expectedResult)),
-                "Bool.If<Z3RealExpr> method failed"
+                "Bool.If<Z3Real> method failed"
             );
             Assert.That(
                 model.GetRealValue(resultContextMethod),

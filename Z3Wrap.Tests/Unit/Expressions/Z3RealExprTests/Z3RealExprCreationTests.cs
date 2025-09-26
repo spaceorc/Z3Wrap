@@ -5,10 +5,10 @@ using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.IntTheory;
 using Spaceorc.Z3Wrap.RealTheory;
 
-namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
+namespace Z3Wrap.Tests.Unit.Expressions.Z3RealTests;
 
 [TestFixture]
-public class Z3RealExprCreationTests
+public class Z3RealCreationTests
 {
     [Test]
     public void RealConst_CreatesRealConstant_WithCorrectProperties()
@@ -292,7 +292,7 @@ public class Z3RealExprCreationTests
         Z3Real negativeDecimal = -3.14159m;
         Z3Real negativeBigInteger = new BigInteger(-123456789012345678L);
 
-        // All should be valid Z3RealExpr instances
+        // All should be valid Z3Real instances
         Assert.Multiple(() =>
         {
             Assert.That(negativeInt.Handle, Is.Not.EqualTo(IntPtr.Zero));

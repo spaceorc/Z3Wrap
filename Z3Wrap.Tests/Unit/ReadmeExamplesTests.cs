@@ -141,7 +141,7 @@ public class ReadmeExamplesTests
         #region Example from README.md (lines 55-63)
 
         // Compile-time type checking
-        var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
+        var prices = context.ArrayConst<Z3IntExpr, Z3Real>("prices");
         solver.Assert(prices[0] == 10.5m); // Index: Int, Value: Real
         solver.Assert(prices[1] > prices[0]); // Type-safe comparisons
 

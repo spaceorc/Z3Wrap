@@ -55,7 +55,7 @@ solver.Assert(r * 3 == 1);           // Perfect arithmetic
 ### Type Safety
 ```csharp
 // Compile-time type checking
-var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
+var prices = context.ArrayConst<Z3IntExpr, Z3Real>("prices");
 solver.Assert(prices[0] == 10.5m);   // Index: Int, Value: Real
 solver.Assert(prices[1] > prices[0]); // Type-safe comparisons
 
@@ -156,7 +156,7 @@ Reference-counted contexts with automatic memory management. No manual disposal 
 Z3Expr (abstract)
 ├── Z3Bool     - Boolean logic
 ├── Z3IntExpr      - BigInteger arithmetic
-├── Z3RealExpr     - Exact rational arithmetic
+├── Z3Real     - Exact rational arithmetic
 ├── Z3BitVecExpr   - Fixed-width binary operations
 └── Z3ArrayExpr<T> - Generic type-safe arrays
 ```

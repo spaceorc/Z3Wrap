@@ -10,7 +10,7 @@ public static partial class Z3ContextRealExtensions
     /// </summary>
     /// <param name="context">The Z3 context.</param>
     /// <param name="operand">The real expression to get the absolute value of.</param>
-    /// <returns>A Z3RealExpr representing the absolute value of the operand.</returns>
+    /// <returns>A Z3Real representing the absolute value of the operand.</returns>
     public static Z3Real Abs(this Z3Context context, Z3Real operand) =>
         context.Ite(operand >= 0, operand, -operand);
 
@@ -21,7 +21,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The first real expression to compare.</param>
     /// <param name="right">The second real expression to compare.</param>
-    /// <returns>A Z3RealExpr representing the minimum of left and right.</returns>
+    /// <returns>A Z3Real representing the minimum of left and right.</returns>
     public static Z3Real Min(this Z3Context context, Z3Real left, Z3Real right) =>
         context.Ite(left < right, left, right);
 
@@ -32,7 +32,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The first real expression to compare.</param>
     /// <param name="right">The second real expression to compare.</param>
-    /// <returns>A Z3RealExpr representing the maximum of left and right.</returns>
+    /// <returns>A Z3Real representing the maximum of left and right.</returns>
     public static Z3Real Max(this Z3Context context, Z3Real left, Z3Real right) =>
         context.Ite(left > right, left, right);
 }

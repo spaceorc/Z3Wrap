@@ -6,6 +6,31 @@ namespace Spaceorc.Z3Wrap.BitVecTheory;
 public readonly partial struct BitVec<TSize>
 {
     /// <summary>
+    /// Creates a bitvector representing zero.
+    /// </summary>
+    public static readonly BitVec<TSize> Zero = new(0);
+
+    /// <summary>
+    /// Creates a bitvector representing one.
+    /// </summary>
+    public static readonly BitVec<TSize> One = new(1);
+
+    /// <summary>
+    /// Creates a bitvector with the maximum possible value (all bits set to 1).
+    /// </summary>
+    public static readonly BitVec<TSize> Max = new((BigInteger.One << (int)Size) - 1);
+
+    /// <summary>
+    /// Creates a bitvector with only the sign bit set (most significant bit).
+    /// </summary>
+    public static readonly BitVec<TSize> SignBit = new(BigInteger.One << ((int)Size - 1));
+
+    /// <summary>
+    /// Creates a bitvector with all bits set to 1 (alias for Max).
+    /// </summary>
+    public static readonly BitVec<TSize> AllOnes = Max;
+
+    /// <summary>
     /// Creates a bitvector from a byte array, interpreting bytes in little-endian order.
     /// </summary>
     /// <param name="bytes">The byte array to convert (little-endian).</param>

@@ -45,119 +45,131 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Extensions\Z3ContextArrayExtensions.Operators.cs">
-      <DependentUpon>Z3ContextArrayExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextBoolExtensions.Functions.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextBoolExtensions.Operators.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\BitVec.Arithmetic.cs">
+    <Compile Update="BitVecTheory\BitVec.Arithmetic.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Bitwise.cs">
+    <Compile Update="BitVecTheory\BitVec.Bitwise.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Implicit.cs">
+    <Compile Update="BitVecTheory\BitVec.Comparison.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Comparison.cs">
+    <Compile Update="BitVecTheory\BitVec.Conversion.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Conversion.cs">
+    <Compile Update="BitVecTheory\BitVec.Equality.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Equality.cs">
+    <Compile Update="BitVecTheory\BitVec.Factory.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Factory.cs">
+    <Compile Update="BitVecTheory\BitVec.Implicit.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Manipulation.cs">
+    <Compile Update="BitVecTheory\BitVec.Manipulation.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Manipulation.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Operators.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.OverflowChecks.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Arithmetic.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Bitwise.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Comparison.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Shift.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Equality.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Equality.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Cast.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Conversion.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Implicit.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVectors\BitVec.Shift.cs">
+    <Compile Update="BitVecTheory\BitVec.Shift.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Shift.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Arithmetic.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Arithmetic.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Bitwise.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Comparison.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Comparison.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Bitwise.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Conversion.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVec.Manipulation.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Equality.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVec.OverflowChecks.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Implicit.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3ContextBoolExtensions.Functions.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    <Compile Update="BitVecTheory\Z3BitVec.Manipulation.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3ContextBoolExtensions.Logical.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    <Compile Update="BitVecTheory\Z3BitVec.OverflowChecks.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3Bool.Equality.cs">
+    <Compile Update="BitVecTheory\Z3BitVec.Shift.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Arithmetic.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Bitwise.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Comparison.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Equality.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Manipulation.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.OverflowChecks.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Shift.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BoolTheory\Z3Bool.Equality.cs">
       <DependentUpon>Z3Bool.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3Bool.Functions.cs">
+    <Compile Update="BoolTheory\Z3Bool.Functions.cs">
       <DependentUpon>Z3Bool.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3Bool.Logical.cs">
+    <Compile Update="BoolTheory\Z3Bool.Implicit.cs">
       <DependentUpon>Z3Bool.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3Bool.Implicit.cs">
+    <Compile Update="BoolTheory\Z3Bool.Logical.cs">
       <DependentUpon>Z3Bool.cs</DependentUpon>
     </Compile>
-    <Compile Update="Booleans\Z3ContextBoolExtensions.Equality.cs">
+    <Compile Update="BoolTheory\Z3ContextBoolExtensions.Equality.cs">
       <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BoolTheory\Z3ContextBoolExtensions.Functions.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BoolTheory\Z3ContextBoolExtensions.Logical.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Arithmetic.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Comparison.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Conversion.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Factory.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Functions.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Implicit.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Equality.cs">
+      <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVecTheory\BitVec.Formatting.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Real.Formatting.cs">
+      <DependentUpon>Real.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
