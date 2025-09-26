@@ -171,6 +171,18 @@
     <Compile Update="RealTheory\Real.Formatting.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
+    <Compile Update="RealTheory\Z3ContextRealExtensions.Arithmetic.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Z3ContextRealExtensions.Comparison.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Z3ContextRealExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RealTheory\Z3ContextRealExtensions.Functions.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
