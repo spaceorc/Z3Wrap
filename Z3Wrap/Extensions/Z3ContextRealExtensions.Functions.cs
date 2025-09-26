@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Booleans;
+using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.Expressions;
 
 namespace Spaceorc.Z3Wrap.Extensions;

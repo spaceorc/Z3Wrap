@@ -1,7 +1,7 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.BitVectors;
-using Spaceorc.Z3Wrap.Booleans;
+using Spaceorc.Z3Wrap.BitVecTheory;
+using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;

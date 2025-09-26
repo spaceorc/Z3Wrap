@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.BitVectors;
+using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 

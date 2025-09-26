@@ -1,7 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVectors;
-using Spaceorc.Z3Wrap.Booleans;
+using Spaceorc.Z3Wrap.BitVecTheory;
+using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.Extensions;
 
 namespace Z3Wrap.Tests.Unit.Core;

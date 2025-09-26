@@ -1,5 +1,5 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.Booleans;
+using Spaceorc.Z3Wrap.BoolTheory;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BoolExprTests;
 
