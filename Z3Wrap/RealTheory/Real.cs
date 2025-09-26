@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 
-namespace Spaceorc.Z3Wrap.DataTypes;
+namespace Spaceorc.Z3Wrap.RealTheory;
 
 /// <summary>
 /// Represents an exact rational number with unlimited precision arithmetic.

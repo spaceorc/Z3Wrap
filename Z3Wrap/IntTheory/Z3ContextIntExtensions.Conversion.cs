@@ -1,8 +1,9 @@
 using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.RealTheory;
 
-namespace Spaceorc.Z3Wrap.Extensions;
+namespace Spaceorc.Z3Wrap.IntTheory;
 
 public static partial class Z3ContextIntExtensions
 {
@@ -12,10 +13,10 @@ public static partial class Z3ContextIntExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="expr">The integer expression to convert.</param>
     /// <returns>A real expression representing the same value as the input integer expression.</returns>
-    public static Z3RealExpr ToReal(this Z3Context context, Z3IntExpr expr)
+    public static Z3Real ToReal(this Z3Context context, Z3Int expr)
     {
         var handle = SafeNativeMethods.Z3MkInt2Real(context.Handle, expr.Handle);
-        return Z3Expr.Create<Z3RealExpr>(context, handle);
+        return Z3Expr.Create<Z3Real>(context, handle);
     }
 
     /// <summary>
@@ -25,7 +26,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="expr">The integer expression to convert.</param>
     /// <typeparam name="TSize">The size type that determines the bit width of the resulting bitvector.</typeparam>
     /// <returns>A bitvector expression representing the integer value with the specified bit width.</returns>
-    public static Z3BitVec<TSize> ToBitVec<TSize>(this Z3Context context, Z3IntExpr expr)
+    public static Z3BitVec<TSize> ToBitVec<TSize>(this Z3Context context, Z3Int expr)
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkInt2Bv(context.Handle, TSize.Size, expr.Handle);

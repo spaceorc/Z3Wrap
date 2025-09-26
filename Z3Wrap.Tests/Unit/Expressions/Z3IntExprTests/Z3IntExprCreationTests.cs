@@ -3,6 +3,8 @@ using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.IntTheory;
+using Spaceorc.Z3Wrap.RealTheory;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 
@@ -191,7 +193,7 @@ public class Z3IntExprCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from long
-        Z3IntExpr longResult = value;
+        Z3Int longResult = value;
 
         Assert.That(longResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(longResult.Context, Is.SameAs(context));
@@ -214,7 +216,7 @@ public class Z3IntExprCreationTests
         var bigIntValue = new BigInteger(value);
 
         // Test implicit conversion from BigInteger
-        Z3IntExpr bigIntResult = bigIntValue;
+        Z3Int bigIntResult = bigIntValue;
 
         Assert.That(bigIntResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bigIntResult.Context, Is.SameAs(context));
@@ -235,7 +237,7 @@ public class Z3IntExprCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from int
-        Z3IntExpr intResult = value;
+        Z3Int intResult = value;
 
         Assert.That(intResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(intResult.Context, Is.SameAs(context));

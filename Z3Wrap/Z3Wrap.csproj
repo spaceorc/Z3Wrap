@@ -54,24 +54,6 @@
     <Compile Update="Extensions\Z3ContextBoolExtensions.Operators.cs">
       <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\Z3ContextIntExtensions.Functions.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextIntExtensions.Operators.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextRealExtensions.Functions.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextRealExtensions.Operators.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextIntExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\Z3ContextRealExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
     <Compile Update="BitVectors\BitVec.Arithmetic.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>

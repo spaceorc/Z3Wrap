@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.IntTheory;
 
 namespace Spaceorc.Z3Wrap.BitVecTheory;
 
@@ -13,7 +14,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats the bitvector as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 integer expression representing the converted value.</returns>
-    public static Z3IntExpr ToInt<TSize>(
+    public static Z3Int ToInt<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> expr,
         bool signed = false
@@ -21,6 +22,6 @@ public static partial class Z3ContextBitVecExtensions
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, signed);
-        return Z3Expr.Create<Z3IntExpr>(context, handle);
+        return Z3Expr.Create<Z3Int>(context, handle);
     }
 }

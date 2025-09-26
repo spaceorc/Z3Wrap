@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Numerics;
-using Spaceorc.Z3Wrap.DataTypes;
+using Spaceorc.Z3Wrap.RealTheory;
 
 namespace Z3Wrap.Tests.Unit.DataTypes;
 

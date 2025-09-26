@@ -1,7 +1,8 @@
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.IntTheory;
 
-namespace Spaceorc.Z3Wrap.Extensions;
+namespace Spaceorc.Z3Wrap.RealTheory;
 
 public static partial class Z3ContextRealExtensions
 {
@@ -12,9 +13,9 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="expr">The real expression to convert.</param>
     /// <returns>A Z3IntExpr representing the truncated integer value of the real expression.</returns>
-    public static Z3IntExpr ToInt(this Z3Context context, Z3RealExpr expr)
+    public static Z3Int ToInt(this Z3Context context, Z3Real expr)
     {
         var handle = SafeNativeMethods.Z3MkReal2Int(context.Handle, expr.Handle);
-        return Z3Expr.Create<Z3IntExpr>(context, handle);
+        return Z3Expr.Create<Z3Int>(context, handle);
     }
 }

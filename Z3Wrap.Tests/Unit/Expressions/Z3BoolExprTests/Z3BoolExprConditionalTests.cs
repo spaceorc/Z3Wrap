@@ -2,9 +2,10 @@ using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.IntTheory;
+using Spaceorc.Z3Wrap.RealTheory;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BoolExprTests;
 
@@ -163,13 +164,13 @@ public class Z3BoolExprConditionalTests
         using var solver = context.CreateSolver();
 
         var condition = context.Bool(false);
-        var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
-        var arr2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
+        var arr1 = context.ArrayConst<Z3Int, Z3Int>("arr1");
+        var arr2 = context.ArrayConst<Z3Int, Z3Int>("arr2");
 
         var result = condition.Ite(arr1, arr2);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3IntExpr>>());
+        Assert.That(result, Is.TypeOf<Z3ArrayExpr<Z3Int, Z3Int>>());
 
         solver.Assert(arr1[0] == context.Int(10));
         solver.Assert(arr2[0] == context.Int(20));
@@ -386,9 +387,9 @@ public class Z3BoolExprConditionalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(intResult, Is.TypeOf<Z3IntExpr>());
+            Assert.That(intResult, Is.TypeOf<Z3Int>());
             Assert.That(boolResult, Is.TypeOf<Z3Bool>());
-            Assert.That(realResult, Is.TypeOf<Z3RealExpr>());
+            Assert.That(realResult, Is.TypeOf<Z3Real>());
         });
     }
 

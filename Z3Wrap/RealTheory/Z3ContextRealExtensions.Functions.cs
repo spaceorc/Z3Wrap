@@ -1,7 +1,6 @@
 using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
 
-namespace Spaceorc.Z3Wrap.Extensions;
+namespace Spaceorc.Z3Wrap.RealTheory;
 
 public static partial class Z3ContextRealExtensions
 {
@@ -12,7 +11,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operand">The real expression to get the absolute value of.</param>
     /// <returns>A Z3RealExpr representing the absolute value of the operand.</returns>
-    public static Z3RealExpr Abs(this Z3Context context, Z3RealExpr operand) =>
+    public static Z3Real Abs(this Z3Context context, Z3Real operand) =>
         context.Ite(operand >= 0, operand, -operand);
 
     /// <summary>
@@ -23,7 +22,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The first real expression to compare.</param>
     /// <param name="right">The second real expression to compare.</param>
     /// <returns>A Z3RealExpr representing the minimum of left and right.</returns>
-    public static Z3RealExpr Min(this Z3Context context, Z3RealExpr left, Z3RealExpr right) =>
+    public static Z3Real Min(this Z3Context context, Z3Real left, Z3Real right) =>
         context.Ite(left < right, left, right);
 
     /// <summary>
@@ -34,6 +33,6 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The first real expression to compare.</param>
     /// <param name="right">The second real expression to compare.</param>
     /// <returns>A Z3RealExpr representing the maximum of left and right.</returns>
-    public static Z3RealExpr Max(this Z3Context context, Z3RealExpr left, Z3RealExpr right) =>
+    public static Z3Real Max(this Z3Context context, Z3Real left, Z3Real right) =>
         context.Ite(left > right, left, right);
 }

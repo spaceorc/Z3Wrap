@@ -1,7 +1,6 @@
 using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
 
-namespace Spaceorc.Z3Wrap.Extensions;
+namespace Spaceorc.Z3Wrap.IntTheory;
 
 public static partial class Z3ContextIntExtensions
 {
@@ -11,7 +10,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operand">The integer expression to compute the absolute value of.</param>
     /// <returns>An integer expression representing |operand|.</returns>
-    public static Z3IntExpr Abs(this Z3Context context, Z3IntExpr operand) =>
+    public static Z3Int Abs(this Z3Context context, Z3Int operand) =>
         context.Ite(operand >= 0, operand, -operand);
 
     /// <summary>
@@ -21,7 +20,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The first integer expression.</param>
     /// <param name="right">The second integer expression.</param>
     /// <returns>An integer expression representing min(left, right).</returns>
-    public static Z3IntExpr Min(this Z3Context context, Z3IntExpr left, Z3IntExpr right) =>
+    public static Z3Int Min(this Z3Context context, Z3Int left, Z3Int right) =>
         context.Ite(left < right, left, right);
 
     /// <summary>
@@ -31,6 +30,6 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The first integer expression.</param>
     /// <param name="right">The second integer expression.</param>
     /// <returns>An integer expression representing max(left, right).</returns>
-    public static Z3IntExpr Max(this Z3Context context, Z3IntExpr left, Z3IntExpr right) =>
+    public static Z3Int Max(this Z3Context context, Z3Int left, Z3Int right) =>
         context.Ite(left > right, left, right);
 }

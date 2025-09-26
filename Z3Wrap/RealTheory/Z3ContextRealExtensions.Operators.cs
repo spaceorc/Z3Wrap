@@ -2,7 +2,7 @@ using Spaceorc.Z3Wrap.BoolTheory;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
-namespace Spaceorc.Z3Wrap.Extensions;
+namespace Spaceorc.Z3Wrap.RealTheory;
 
 public static partial class Z3ContextRealExtensions
 {
@@ -13,7 +13,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="operands">The real expressions to add together.</param>
     /// <returns>A Z3RealExpr representing the sum of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
-    public static Z3RealExpr Add(this Z3Context context, params Z3RealExpr[] operands)
+    public static Z3Real Add(this Z3Context context, params Z3Real[] operands)
     {
         if (operands.Length == 0)
             throw new InvalidOperationException(
@@ -25,7 +25,7 @@ public static partial class Z3ContextRealExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkAdd(context.Handle, (uint)args.Length, args);
-        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Real>(context, resultHandle);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="operands">The real expressions to subtract. The first operand is the minuend, subsequent operands are subtracted from it.</param>
     /// <returns>A Z3RealExpr representing the result of the subtraction.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
-    public static Z3RealExpr Sub(this Z3Context context, params Z3RealExpr[] operands)
+    public static Z3Real Sub(this Z3Context context, params Z3Real[] operands)
     {
         if (operands.Length == 0)
             throw new InvalidOperationException(
@@ -47,7 +47,7 @@ public static partial class Z3ContextRealExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkSub(context.Handle, (uint)args.Length, args);
-        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Real>(context, resultHandle);
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="operands">The real expressions to multiply together.</param>
     /// <returns>A Z3RealExpr representing the product of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
-    public static Z3RealExpr Mul(this Z3Context context, params Z3RealExpr[] operands)
+    public static Z3Real Mul(this Z3Context context, params Z3Real[] operands)
     {
         if (operands.Length == 0)
             throw new InvalidOperationException(
@@ -69,7 +69,7 @@ public static partial class Z3ContextRealExtensions
             args[i] = operands[i].Handle;
 
         var resultHandle = SafeNativeMethods.Z3MkMul(context.Handle, (uint)args.Length, args);
-        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Real>(context, resultHandle);
     }
 
     /// <summary>
@@ -79,10 +79,10 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The dividend (numerator).</param>
     /// <param name="right">The divisor (denominator).</param>
     /// <returns>A Z3RealExpr representing the quotient of left divided by right.</returns>
-    public static Z3RealExpr Div(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    public static Z3Real Div(this Z3Context context, Z3Real left, Z3Real right)
     {
         var resultHandle = SafeNativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Real>(context, resultHandle);
     }
 
     /// <summary>
@@ -91,10 +91,10 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operand">The real expression to negate.</param>
     /// <returns>A Z3RealExpr representing the negated value of the operand.</returns>
-    public static Z3RealExpr UnaryMinus(this Z3Context context, Z3RealExpr operand)
+    public static Z3Real UnaryMinus(this Z3Context context, Z3Real operand)
     {
         var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
-        return Z3Expr.Create<Z3RealExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Real>(context, resultHandle);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A Z3Bool representing left &lt; right.</returns>
-    public static Z3Bool Lt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    public static Z3Bool Lt(this Z3Context context, Z3Real left, Z3Real right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<Z3Bool>(context, resultHandle);
@@ -117,7 +117,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A Z3Bool representing left &lt;= right.</returns>
-    public static Z3Bool Le(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    public static Z3Bool Le(this Z3Context context, Z3Real left, Z3Real right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<Z3Bool>(context, resultHandle);
@@ -130,7 +130,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A Z3Bool representing left &gt; right.</returns>
-    public static Z3Bool Gt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    public static Z3Bool Gt(this Z3Context context, Z3Real left, Z3Real right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<Z3Bool>(context, resultHandle);
@@ -143,7 +143,7 @@ public static partial class Z3ContextRealExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A Z3Bool representing left &gt;= right.</returns>
-    public static Z3Bool Ge(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    public static Z3Bool Ge(this Z3Context context, Z3Real left, Z3Real right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<Z3Bool>(context, resultHandle);

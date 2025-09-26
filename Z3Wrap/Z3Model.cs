@@ -2,9 +2,10 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Spaceorc.Z3Wrap.BitVecTheory;
 using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.IntTheory;
+using Spaceorc.Z3Wrap.RealTheory;
 
 namespace Spaceorc.Z3Wrap;
 
@@ -75,7 +76,7 @@ public sealed class Z3Model
     /// <returns>The BigInteger value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to an integer or parsing fails.</exception>
-    public BigInteger GetIntValue(Z3IntExpr expr)
+    public BigInteger GetIntValue(Z3Int expr)
     {
         var valueStr = GetNumericValueAsString(expr);
 
@@ -120,7 +121,7 @@ public sealed class Z3Model
     /// <returns>The exact Real value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a real number or parsing fails.</exception>
-    public Real GetRealValue(Z3RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
+    public Real GetRealValue(Z3Real expr) => Real.Parse(GetNumericValueAsString(expr));
 
     /// <summary>
     /// Extracts the bitvector value of a bitvector expression from this model.

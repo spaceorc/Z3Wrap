@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
+using Spaceorc.Z3Wrap.IntTheory;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
@@ -40,13 +41,13 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the array constant.</returns>
-    public static Z3ArrayExpr<Z3IntExpr, TValue> ArrayConst<TValue>(
+    public static Z3ArrayExpr<Z3Int, TValue> ArrayConst<TValue>(
         this Z3Context context,
         string name
     )
         where TValue : Z3Expr, IZ3ExprType<TValue>
     {
-        return context.ArrayConst<Z3IntExpr, TValue>(name);
+        return context.ArrayConst<Z3Int, TValue>(name);
     }
 
     /// <summary>
@@ -82,12 +83,12 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="defaultValue">The default value for all array indices.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the constant array.</returns>
-    public static Z3ArrayExpr<Z3IntExpr, TValue> Array<TValue>(
+    public static Z3ArrayExpr<Z3Int, TValue> Array<TValue>(
         this Z3Context context,
         TValue defaultValue
     )
         where TValue : Z3Expr, IZ3ExprType<TValue>
     {
-        return context.Array<Z3IntExpr, TValue>(defaultValue);
+        return context.Array<Z3Int, TValue>(defaultValue);
     }
 }

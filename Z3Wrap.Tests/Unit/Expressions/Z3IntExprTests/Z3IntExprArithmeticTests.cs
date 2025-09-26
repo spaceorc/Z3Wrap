@@ -2,6 +2,7 @@ using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.IntTheory;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 
@@ -1105,7 +1106,7 @@ public class Z3IntExprArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Add(Array.Empty<Z3IntExpr>()),
+            () => context.Add(Array.Empty<Z3Int>()),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -1200,7 +1201,7 @@ public class Z3IntExprArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Sub(Array.Empty<Z3IntExpr>()),
+            () => context.Sub(Array.Empty<Z3Int>()),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -1326,7 +1327,7 @@ public class Z3IntExprArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Mul(Array.Empty<Z3IntExpr>()),
+            () => context.Mul(Array.Empty<Z3Int>()),
             "Empty operands should throw InvalidOperationException"
         );
     }
