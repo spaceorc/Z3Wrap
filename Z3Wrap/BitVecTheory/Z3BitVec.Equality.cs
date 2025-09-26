@@ -25,8 +25,7 @@ public sealed partial class Z3BitVec<TSize>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3Bool operator ==(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
-        left.Eq(right);
+    public static Z3Bool operator ==(Z3BitVec<TSize> left, Z3BitVec<TSize> right) => left.Eq(right);
 
     /// <summary>
     /// Compares two bitvector expressions for inequality using the != operator.

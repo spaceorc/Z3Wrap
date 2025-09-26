@@ -6,38 +6,32 @@ namespace Spaceorc.Z3Wrap.RealTheory;
 public sealed partial class Z3Real
 {
     /// <summary>
-    /// Checks equality between a real expression and a Real value using the == operator.
+    /// Checks equality between this real expression and another real expression.
     /// </summary>
-    /// <param name="left">The real expression.</param>
-    /// <param name="right">The Real value.</param>
+    /// <param name="other">The other real expression to compare with.</param>
+    /// <returns>A boolean expression representing this == other.</returns>
+    public Z3Bool Eq(Z3Real other) => Context.Eq(this, other);
+
+    /// <summary>
+    /// Checks inequality between this real expression and another real expression.
+    /// </summary>
+    /// <param name="other">The other real expression to compare with.</param>
+    /// <returns>A boolean expression representing this != other.</returns>
+    public Z3Bool Neq(Z3Real other) => Context.Neq(this, other);
+
+    /// <summary>
+    /// Compares two real expressions for equality using the == operator.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3Bool operator ==(Z3Real left, Real right) =>
-        left.Eq(left.Context.Real(right));
+    public static Z3Bool operator ==(Z3Real left, Z3Real right) => left.Eq(right);
 
     /// <summary>
-    /// Checks inequality between a real expression and a Real value using the != operator.
+    /// Compares two real expressions for inequality using the != operator.
     /// </summary>
-    /// <param name="left">The real expression.</param>
-    /// <param name="right">The Real value.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3Bool operator !=(Z3Real left, Real right) =>
-        left.Neq(left.Context.Real(right));
-
-    /// <summary>
-    /// Checks equality between a Real value and a real expression using the == operator.
-    /// </summary>
-    /// <param name="left">The Real value.</param>
-    /// <param name="right">The real expression.</param>
-    /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3Bool operator ==(Real left, Z3Real right) =>
-        right.Context.Real(left).Eq(right);
-
-    /// <summary>
-    /// Checks inequality between a Real value and a real expression using the != operator.
-    /// </summary>
-    /// <param name="left">The Real value.</param>
-    /// <param name="right">The real expression.</param>
-    /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3Bool operator !=(Real left, Z3Real right) =>
-        right.Context.Real(left).Neq(right);
+    public static Z3Bool operator !=(Z3Real left, Z3Real right) => left.Neq(right);
 }

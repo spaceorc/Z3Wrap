@@ -183,10 +183,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="operand">The bitvector expression to negate.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if signed negation would not overflow.</returns>
-    public static Z3Bool SignedNegNoOverflow<TSize>(
-        this Z3Context context,
-        Z3BitVec<TSize> operand
-    )
+    public static Z3Bool SignedNegNoOverflow<TSize>(this Z3Context context, Z3BitVec<TSize> operand)
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvNegNoOverflow(context.Handle, operand.Handle);

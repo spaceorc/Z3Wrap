@@ -41,10 +41,7 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the array constant.</returns>
-    public static Z3ArrayExpr<Z3Int, TValue> ArrayConst<TValue>(
-        this Z3Context context,
-        string name
-    )
+    public static Z3ArrayExpr<Z3Int, TValue> ArrayConst<TValue>(this Z3Context context, string name)
         where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         return context.ArrayConst<Z3Int, TValue>(name);

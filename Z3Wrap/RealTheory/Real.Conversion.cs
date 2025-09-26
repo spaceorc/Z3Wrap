@@ -62,5 +62,4 @@ public readonly partial struct Real
 
         return (decimal)numerator / (decimal)denominator;
     }
-
 }

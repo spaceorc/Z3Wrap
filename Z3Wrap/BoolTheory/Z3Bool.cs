@@ -18,6 +18,5 @@ public sealed partial class Z3Bool : Z3Expr, IZ3ExprType<Z3Bool>
 
     static IntPtr IZ3ExprType<Z3Bool>.GetSort(Z3Context context) =>
         SafeNativeMethods.Z3MkBoolSort(context.Handle);
-
 }
 #pragma warning restore CS0660, CS0661

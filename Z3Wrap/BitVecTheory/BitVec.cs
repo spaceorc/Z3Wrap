@@ -41,5 +41,4 @@ public readonly partial struct BitVec<TSize>
         var maxValue = (BigInteger.One << (int)Size) - 1;
         this.value = value & maxValue;
     }
-
 }

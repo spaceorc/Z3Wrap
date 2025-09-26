@@ -9,8 +9,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A real expression representing left + right.</returns>
-    public static Z3Real operator +(Z3Real left, Z3Real right) =>
-        left.Context.Add(left, right);
+    public static Z3Real operator +(Z3Real left, Z3Real right) => left.Add(right);
 
     /// <summary>
     /// Subtracts two real expressions using the - operator.
@@ -18,8 +17,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A real expression representing left - right.</returns>
-    public static Z3Real operator -(Z3Real left, Z3Real right) =>
-        left.Context.Sub(left, right);
+    public static Z3Real operator -(Z3Real left, Z3Real right) => left.Sub(right);
 
     /// <summary>
     /// Multiplies two real expressions using the * operator.
@@ -27,8 +25,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A real expression representing left * right.</returns>
-    public static Z3Real operator *(Z3Real left, Z3Real right) =>
-        left.Context.Mul(left, right);
+    public static Z3Real operator *(Z3Real left, Z3Real right) => left.Mul(right);
 
     /// <summary>
     /// Divides two real expressions using the / operator (exact rational division).
@@ -36,15 +33,14 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand (dividend).</param>
     /// <param name="right">The right operand (divisor).</param>
     /// <returns>A real expression representing left / right.</returns>
-    public static Z3Real operator /(Z3Real left, Z3Real right) =>
-        left.Context.Div(left, right);
+    public static Z3Real operator /(Z3Real left, Z3Real right) => left.Div(right);
 
     /// <summary>
     /// Negates a real expression using the unary - operator.
     /// </summary>
     /// <param name="expr">The real expression to negate.</param>
     /// <returns>A real expression representing -expr.</returns>
-    public static Z3Real operator -(Z3Real expr) => expr.Context.UnaryMinus(expr);
+    public static Z3Real operator -(Z3Real expr) => expr.UnaryMinus();
 
     /// <summary>
     /// Adds this real expression to another real expression.

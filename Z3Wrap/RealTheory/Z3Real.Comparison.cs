@@ -11,8 +11,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt; right.</returns>
-    public static Z3Bool operator <(Z3Real left, Z3Real right) =>
-        left.Context.Lt(left, right);
+    public static Z3Bool operator <(Z3Real left, Z3Real right) => left.Lt(right);
 
     /// <summary>
     /// Compares two real expressions using the &lt;= operator.
@@ -20,8 +19,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt;= right.</returns>
-    public static Z3Bool operator <=(Z3Real left, Z3Real right) =>
-        left.Context.Le(left, right);
+    public static Z3Bool operator <=(Z3Real left, Z3Real right) => left.Le(right);
 
     /// <summary>
     /// Compares two real expressions using the &gt; operator.
@@ -29,8 +27,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt; right.</returns>
-    public static Z3Bool operator >(Z3Real left, Z3Real right) =>
-        left.Context.Gt(left, right);
+    public static Z3Bool operator >(Z3Real left, Z3Real right) => left.Gt(right);
 
     /// <summary>
     /// Compares two real expressions using the &gt;= operator.
@@ -38,8 +35,7 @@ public sealed partial class Z3Real
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt;= right.</returns>
-    public static Z3Bool operator >=(Z3Real left, Z3Real right) =>
-        left.Context.Ge(left, right);
+    public static Z3Bool operator >=(Z3Real left, Z3Real right) => left.Ge(right);
 
     /// <summary>
     /// Creates a less-than comparison with another real expression.
