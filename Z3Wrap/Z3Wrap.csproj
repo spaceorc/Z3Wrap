@@ -183,6 +183,9 @@
     <Compile Update="RealTheory\Z3ContextRealExtensions.Functions.cs">
       <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
     </Compile>
+    <Compile Update="RealTheory\Z3ContextRealExtensions.Equality.cs">
+      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />

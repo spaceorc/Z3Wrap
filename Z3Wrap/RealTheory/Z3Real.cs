@@ -19,25 +19,4 @@ public sealed partial class Z3Real : Z3NumericExpr, IZ3ExprType<Z3Real>
 
     static IntPtr IZ3ExprType<Z3Real>.GetSort(Z3Context context) =>
         SafeNativeMethods.Z3MkRealSort(context.Handle);
-
-    /// <summary>
-    /// Creates a real expression representing zero.
-    /// </summary>
-    public static Z3Real Zero => Z3Context.Current.Real(Real.Zero);
-
-    /// <summary>
-    /// Creates a real expression representing one.
-    /// </summary>
-    public static Z3Real One => Z3Context.Current.Real(Real.One);
-
-    /// <summary>
-    /// Creates a real expression representing minus one.
-    /// </summary>
-    public static Z3Real MinusOne => Z3Context.Current.Real(Real.MinusOne);
-
-    /// <summary>
-    /// Returns a string representation of this real expression.
-    /// </summary>
-    /// <returns>A string representation of the real expression.</returns>
-    public override string ToString() => base.ToString();
 }
