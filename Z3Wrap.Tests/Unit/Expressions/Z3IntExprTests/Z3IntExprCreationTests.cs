@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.IntTheory;
 using Spaceorc.Z3Wrap.RealTheory;

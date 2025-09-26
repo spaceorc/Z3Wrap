@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Numerics;
 
 namespace Spaceorc.Z3Wrap.BitVecTheory;
 

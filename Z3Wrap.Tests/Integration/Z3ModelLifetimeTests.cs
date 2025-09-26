@@ -1,5 +1,4 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.IntTheory;
 
 namespace Z3Wrap.Tests.Integration;

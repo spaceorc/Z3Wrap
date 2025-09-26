@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace Spaceorc.Z3Wrap.RealTheory;
 
 public readonly partial struct Real

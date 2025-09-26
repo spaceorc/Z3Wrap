@@ -1,4 +1,3 @@
-using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.IntTheory;
 
 namespace Spaceorc.Z3Wrap.BitVecTheory;
