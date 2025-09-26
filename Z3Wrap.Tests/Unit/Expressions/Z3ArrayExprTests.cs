@@ -168,6 +168,8 @@ public class Z3ArrayExprTests
     [Test]
     public void Select_ExtensionMethodVsIndexer_ProduceEquivalentResults()
     {
+        using var scope = context.SetUp();
+
         var array = context.ArrayConst<Z3Int, Z3Bool>("arr");
         var index = context.Int(42);
 

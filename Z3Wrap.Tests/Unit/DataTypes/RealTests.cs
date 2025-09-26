@@ -613,7 +613,7 @@ public class RealTests
         // Test with integer values
         var integer = new Real(1234);
         var integerResult = integer.ToString("F", germanCulture);
-        Assert.That(integerResult, Is.EqualTo("1234"));
+        Assert.That(integerResult, Is.EqualTo("1234/1"));
     }
 
     [Test]

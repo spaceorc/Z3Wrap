@@ -26,14 +26,12 @@ public readonly partial struct Real
     /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
     public string ToString(string? format, IFormatProvider? formatProvider)
     {
-        format ??= "F";
+        format ??= "G";
         formatProvider ??= CultureInfo.InvariantCulture;
 
         return format.ToUpperInvariant() switch
         {
-            "F" or "FRACTION" => denominator == 1
-                ? numerator.ToString(formatProvider)
-                : $"{numerator}/{denominator}",
+            "F" or "FRACTION" => $"{numerator}/{denominator}",
             "D" or "DECIMAL" => ToDecimal().ToString(formatProvider),
             "G" or "GENERAL" => denominator == 1
                 ? numerator.ToString(formatProvider)
