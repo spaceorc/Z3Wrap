@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Booleans;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
 
@@ -10,14 +10,14 @@ public sealed partial class Z3BitVec<TSize>
     /// </summary>
     /// <param name="other">The other bitvector to compare with.</param>
     /// <returns>A boolean expression representing this == other.</returns>
-    public Z3BoolExpr Eq(Z3BitVec<TSize> other) => Context.Eq(this, other);
+    public Z3Bool Eq(Z3BitVec<TSize> other) => Context.Eq(this, other);
 
     /// <summary>
     /// Checks inequality between this bitvector and another bitvector.
     /// </summary>
     /// <param name="other">The other bitvector to compare with.</param>
     /// <returns>A boolean expression representing this != other.</returns>
-    public Z3BoolExpr Neq(Z3BitVec<TSize> other) => Context.Neq(this, other);
+    public Z3Bool Neq(Z3BitVec<TSize> other) => Context.Neq(this, other);
 
     /// <summary>
     /// Compares two bitvector expressions for equality using the == operator.
@@ -25,7 +25,7 @@ public sealed partial class Z3BitVec<TSize>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+    public static Z3Bool operator ==(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
         left.Eq(right);
 
     /// <summary>
@@ -34,6 +34,6 @@ public sealed partial class Z3BitVec<TSize>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
+    public static Z3Bool operator !=(Z3BitVec<TSize> left, Z3BitVec<TSize> right) =>
         left.Neq(right);
 }

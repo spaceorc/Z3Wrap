@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Booleans;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
 
@@ -11,7 +11,7 @@ public sealed partial class Z3BitVec<TSize>
     /// <param name="other">The bitvector to add.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression that is true if addition would not overflow.</returns>
-    public Z3BoolExpr AddNoOverflow(Z3BitVec<TSize> other, bool signed = false) =>
+    public Z3Bool AddNoOverflow(Z3BitVec<TSize> other, bool signed = false) =>
         Context.AddNoOverflow(this, other, signed);
 
     /// <summary>
@@ -19,7 +19,7 @@ public sealed partial class Z3BitVec<TSize>
     /// </summary>
     /// <param name="other">The bitvector to subtract.</param>
     /// <returns>A Z3 boolean expression that is true if signed subtraction would not overflow.</returns>
-    public Z3BoolExpr SignedSubNoOverflow(Z3BitVec<TSize> other) =>
+    public Z3Bool SignedSubNoOverflow(Z3BitVec<TSize> other) =>
         Context.SignedSubNoOverflow(this, other);
 
     /// <summary>
@@ -28,7 +28,7 @@ public sealed partial class Z3BitVec<TSize>
     /// <param name="other">The bitvector to subtract.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression that is true if subtraction would not underflow.</returns>
-    public Z3BoolExpr SubNoUnderflow(Z3BitVec<TSize> other, bool signed = true) =>
+    public Z3Bool SubNoUnderflow(Z3BitVec<TSize> other, bool signed = true) =>
         Context.SubNoUnderflow(this, other, signed);
 
     /// <summary>
@@ -37,7 +37,7 @@ public sealed partial class Z3BitVec<TSize>
     /// <param name="other">The bitvector to multiply by.</param>
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <returns>A Z3 boolean expression that is true if multiplication would not overflow.</returns>
-    public Z3BoolExpr MulNoOverflow(Z3BitVec<TSize> other, bool signed = false) =>
+    public Z3Bool MulNoOverflow(Z3BitVec<TSize> other, bool signed = false) =>
         Context.MulNoOverflow(this, other, signed);
 
     /// <summary>
@@ -45,7 +45,7 @@ public sealed partial class Z3BitVec<TSize>
     /// </summary>
     /// <param name="other">The bitvector to multiply by.</param>
     /// <returns>A Z3 boolean expression that is true if signed multiplication would not underflow.</returns>
-    public Z3BoolExpr SignedMulNoUnderflow(Z3BitVec<TSize> other) =>
+    public Z3Bool SignedMulNoUnderflow(Z3BitVec<TSize> other) =>
         Context.SignedMulNoUnderflow(this, other);
 
     /// <summary>
@@ -53,7 +53,7 @@ public sealed partial class Z3BitVec<TSize>
     /// </summary>
     /// <param name="other">The bitvector to add.</param>
     /// <returns>A Z3 boolean expression that is true if signed addition would not underflow.</returns>
-    public Z3BoolExpr SignedAddNoUnderflow(Z3BitVec<TSize> other) =>
+    public Z3Bool SignedAddNoUnderflow(Z3BitVec<TSize> other) =>
         Context.SignedAddNoUnderflow(this, other);
 
     /// <summary>
@@ -61,12 +61,12 @@ public sealed partial class Z3BitVec<TSize>
     /// </summary>
     /// <param name="other">The bitvector to divide by.</param>
     /// <returns>A Z3 boolean expression that is true if signed division would not overflow.</returns>
-    public Z3BoolExpr SignedDivNoOverflow(Z3BitVec<TSize> other) =>
+    public Z3Bool SignedDivNoOverflow(Z3BitVec<TSize> other) =>
         Context.SignedDivNoOverflow(this, other);
 
     /// <summary>
     /// Checks if signed negation of this bitvector would cause overflow.
     /// </summary>
     /// <returns>A Z3 boolean expression that is true if signed negation would not overflow.</returns>
-    public Z3BoolExpr SignedNegNoOverflow() => Context.SignedNegNoOverflow(this);
+    public Z3Bool SignedNegNoOverflow() => Context.SignedNegNoOverflow(this);
 }

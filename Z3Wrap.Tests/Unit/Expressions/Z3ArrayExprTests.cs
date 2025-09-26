@@ -1,5 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -29,10 +30,10 @@ public class Z3ArrayExprTests
     [TestCase("arr")]
     public void ArrayConst_IntToBool_CreatesVariable(string name)
     {
-        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>(name);
+        var array = context.ArrayConst<Z3IntExpr, Z3Bool>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3Bool>>());
     }
 
     [TestCase("prices")]
@@ -49,20 +50,20 @@ public class Z3ArrayExprTests
     [TestCase("conditions")]
     public void ArrayConst_BoolToInt_CreatesVariable(string name)
     {
-        var array = context.ArrayConst<Z3BoolExpr, Z3IntExpr>(name);
+        var array = context.ArrayConst<Z3Bool, Z3IntExpr>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3BoolExpr, Z3IntExpr>>());
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3Bool, Z3IntExpr>>());
     }
 
     [TestCase("arr")]
     [TestCase("data")]
     public void ArrayConst_SingleGeneric_IntToBool_CreatesVariable(string name)
     {
-        var array = context.ArrayConst<Z3BoolExpr>(name);
+        var array = context.ArrayConst<Z3Bool>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3Bool>>());
     }
 
     [TestCase("prices")]
@@ -79,20 +80,20 @@ public class Z3ArrayExprTests
     public void Array_BooleanDefault_CreatesConstantArray()
     {
         var defaultValue = context.Bool(true);
-        var array = context.Array<Z3IntExpr, Z3BoolExpr>(defaultValue);
+        var array = context.Array<Z3IntExpr, Z3Bool>(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3Bool>>());
     }
 
     [Test]
     public void Array_IntegerDefault_CreatesConstantArray()
     {
         var defaultValue = context.Int(42);
-        var array = context.Array<Z3BoolExpr, Z3IntExpr>(defaultValue);
+        var array = context.Array<Z3Bool, Z3IntExpr>(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3BoolExpr, Z3IntExpr>>());
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3Bool, Z3IntExpr>>());
     }
 
     [Test]
@@ -102,7 +103,7 @@ public class Z3ArrayExprTests
         var array = context.Array(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        Assert.That(array, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3Bool>>());
     }
 
     [Test]
@@ -141,13 +142,13 @@ public class Z3ArrayExprTests
     [Test]
     public void IndexerAccess_Z3IntExpr_Works()
     {
-        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3Bool>("arr");
         var index = context.Int(5);
 
         var element = array[index];
 
         AssertValidExpression(element);
-        Assert.That(element, Is.TypeOf<Z3BoolExpr>());
+        Assert.That(element, Is.TypeOf<Z3Bool>());
     }
 
     [Test]
@@ -165,7 +166,7 @@ public class Z3ArrayExprTests
     [Test]
     public void Select_ExtensionMethodVsIndexer_ProduceEquivalentResults()
     {
-        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3Bool>("arr");
         var index = context.Int(42);
 
         var elementViaExtension = context.Select(array, index);
@@ -173,8 +174,8 @@ public class Z3ArrayExprTests
 
         AssertValidExpression(elementViaExtension);
         AssertValidExpression(elementViaIndexer);
-        Assert.That(elementViaExtension, Is.TypeOf<Z3BoolExpr>());
-        Assert.That(elementViaIndexer, Is.TypeOf<Z3BoolExpr>());
+        Assert.That(elementViaExtension, Is.TypeOf<Z3Bool>());
+        Assert.That(elementViaIndexer, Is.TypeOf<Z3Bool>());
 
         // Both should work in solver contexts
         using var solver = context.CreateSolver();
@@ -193,12 +194,12 @@ public class Z3ArrayExprTests
     public void Store_IntegerLiteralIndexAndValue_ReturnsNewArray(int index, bool value)
     {
         using var scope = context.SetUp();
-        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var array = context.ArrayConst<Z3IntExpr, Z3Bool>("arr");
 
         var updatedArray = array.Store(index, value);
 
         AssertValidArrayExpression(updatedArray);
-        Assert.That(updatedArray, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3BoolExpr>>());
+        Assert.That(updatedArray, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3Bool>>());
         Assert.That(updatedArray.Handle, Is.Not.EqualTo(array.Handle)); // Functional update
 
         // Verify the stored value can be retrieved
@@ -361,7 +362,7 @@ public class Z3ArrayExprTests
     [Test]
     public void BooleanArrays_LogicalConstraints_Works()
     {
-        var flags = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("flags");
+        var flags = context.ArrayConst<Z3IntExpr, Z3Bool>("flags");
         var idx0 = context.Int(0);
         var idx1 = context.Int(1);
 
@@ -390,7 +391,7 @@ public class Z3ArrayExprTests
     [Test]
     public void ArrayEquality_SameReference_Equal()
     {
-        var array1 = context.ArrayConst<Z3IntExpr, Z3BoolExpr>("arr");
+        var array1 = context.ArrayConst<Z3IntExpr, Z3Bool>("arr");
         var array2 = array1; // Same reference
 
         using var solver = context.CreateSolver();
@@ -445,7 +446,7 @@ public class Z3ArrayExprTests
     [TestCase("data")]
     public void ArrayToString_ValidOutput_ContainsArrayName(string arrayName)
     {
-        var array = context.ArrayConst<Z3IntExpr, Z3BoolExpr>(arrayName);
+        var array = context.ArrayConst<Z3IntExpr, Z3Bool>(arrayName);
         var stringRepresentation = array.ToString();
 
         Assert.That(stringRepresentation, Is.Not.Null);

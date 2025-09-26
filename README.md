@@ -154,7 +154,7 @@ Reference-counted contexts with automatic memory management. No manual disposal 
 
 ```
 Z3Expr (abstract)
-├── Z3BoolExpr     - Boolean logic
+├── Z3Bool     - Boolean logic
 ├── Z3IntExpr      - BigInteger arithmetic
 ├── Z3RealExpr     - Exact rational arithmetic
 ├── Z3BitVecExpr   - Fixed-width binary operations

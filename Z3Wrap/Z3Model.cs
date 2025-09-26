@@ -1,6 +1,7 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Spaceorc.Z3Wrap.BitVectors;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
@@ -93,7 +94,7 @@ public sealed class Z3Model
     /// <returns>The Boolean value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a Boolean value.</exception>
-    public bool GetBoolValue(Z3BoolExpr expr)
+    public bool GetBoolValue(Z3Bool expr)
     {
         var evaluated = Evaluate(expr);
 

@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
@@ -14,7 +15,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if addition would not overflow.</returns>
-    public static Z3BoolExpr AddNoOverflow<TSize>(
+    public static Z3Bool AddNoOverflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -28,7 +29,7 @@ public static partial class Z3ContextBitVecExtensions
             right.Handle,
             signed
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -39,7 +40,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if signed subtraction would not overflow.</returns>
-    public static Z3BoolExpr SignedSubNoOverflow<TSize>(
+    public static Z3Bool SignedSubNoOverflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right
@@ -51,7 +52,7 @@ public static partial class Z3ContextBitVecExtensions
             left.Handle,
             right.Handle
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if subtraction would not underflow.</returns>
-    public static Z3BoolExpr SubNoUnderflow<TSize>(
+    public static Z3Bool SubNoUnderflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -77,7 +78,7 @@ public static partial class Z3ContextBitVecExtensions
             right.Handle,
             signed
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -89,7 +90,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if multiplication would not overflow.</returns>
-    public static Z3BoolExpr MulNoOverflow<TSize>(
+    public static Z3Bool MulNoOverflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -103,7 +104,7 @@ public static partial class Z3ContextBitVecExtensions
             right.Handle,
             signed
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -114,7 +115,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if signed multiplication would not underflow.</returns>
-    public static Z3BoolExpr SignedMulNoUnderflow<TSize>(
+    public static Z3Bool SignedMulNoUnderflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right
@@ -126,7 +127,7 @@ public static partial class Z3ContextBitVecExtensions
             left.Handle,
             right.Handle
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -137,7 +138,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if signed addition would not underflow.</returns>
-    public static Z3BoolExpr SignedAddNoUnderflow<TSize>(
+    public static Z3Bool SignedAddNoUnderflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right
@@ -149,7 +150,7 @@ public static partial class Z3ContextBitVecExtensions
             left.Handle,
             right.Handle
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -160,7 +161,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="right">The right bitvector expression.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if signed division would not overflow.</returns>
-    public static Z3BoolExpr SignedDivNoOverflow<TSize>(
+    public static Z3Bool SignedDivNoOverflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right
@@ -172,7 +173,7 @@ public static partial class Z3ContextBitVecExtensions
             left.Handle,
             right.Handle
         );
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -182,13 +183,13 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="operand">The bitvector expression to negate.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression that is true if signed negation would not overflow.</returns>
-    public static Z3BoolExpr SignedNegNoOverflow<TSize>(
+    public static Z3Bool SignedNegNoOverflow<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> operand
     )
         where TSize : ISize
     {
         var handle = SafeNativeMethods.Z3MkBvNegNoOverflow(context.Handle, operand.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 }

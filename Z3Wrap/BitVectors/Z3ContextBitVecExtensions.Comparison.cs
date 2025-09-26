@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
@@ -14,7 +15,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression representing the less-than comparison.</returns>
-    public static Z3BoolExpr Lt<TSize>(
+    public static Z3Bool Lt<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -25,7 +26,7 @@ public static partial class Z3ContextBitVecExtensions
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSLt(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -37,7 +38,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression representing the less-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Le<TSize>(
+    public static Z3Bool Le<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -48,7 +49,7 @@ public static partial class Z3ContextBitVecExtensions
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSLe(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -60,7 +61,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression representing the greater-than comparison.</returns>
-    public static Z3BoolExpr Gt<TSize>(
+    public static Z3Bool Gt<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -71,7 +72,7 @@ public static partial class Z3ContextBitVecExtensions
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSGt(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 
     /// <summary>
@@ -83,7 +84,7 @@ public static partial class Z3ContextBitVecExtensions
     /// <param name="signed">If true, treats operands as signed; otherwise as unsigned.</param>
     /// <typeparam name="TSize">The size specification implementing ISize for compile-time validation.</typeparam>
     /// <returns>A Z3 boolean expression representing the greater-than-or-equal comparison.</returns>
-    public static Z3BoolExpr Ge<TSize>(
+    public static Z3Bool Ge<TSize>(
         this Z3Context context,
         Z3BitVec<TSize> left,
         Z3BitVec<TSize> right,
@@ -94,6 +95,6 @@ public static partial class Z3ContextBitVecExtensions
         var handle = signed
             ? SafeNativeMethods.Z3MkBvSGe(context.Handle, left.Handle, right.Handle)
             : SafeNativeMethods.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, handle);
+        return Z3Expr.Create<Z3Bool>(context, handle);
     }
 }

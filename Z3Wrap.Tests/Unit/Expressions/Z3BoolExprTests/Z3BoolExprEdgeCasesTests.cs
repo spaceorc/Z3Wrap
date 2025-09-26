@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -22,7 +23,7 @@ public class Z3BoolExprEdgeCasesTests
         var expr = (p & q) | (r ^ !p);
 
         Assert.That(expr, Is.Not.Null);
-        Assert.That(expr, Is.TypeOf<Z3BoolExpr>());
+        Assert.That(expr, Is.TypeOf<Z3Bool>());
 
         // Test case: p=false, q=true, r=false
         // !p = true, so r ^ !p = false ^ true = true
@@ -130,7 +131,7 @@ public class Z3BoolExprEdgeCasesTests
         var cond2 = context.BoolConst("cond2");
 
         // Nested conditional: if cond1 then (if cond2 then 1 else 2) else 3
-        var nested = cond1.If(cond2.If(context.Int(1), context.Int(2)), context.Int(3));
+        var nested = cond1.Ite(cond2.Ite(context.Int(1), context.Int(2)), context.Int(3));
 
         Assert.That(nested, Is.TypeOf<Z3IntExpr>());
 
@@ -368,7 +369,7 @@ public class Z3BoolExprEdgeCasesTests
         var select = context.BoolConst("select");
 
         // 2-to-1 multiplexer: output = select ? input1 : input0
-        var output = select.If(input1, input0);
+        var output = select.Ite(input1, input0);
 
         // Test all combinations
         var testCases = new[]

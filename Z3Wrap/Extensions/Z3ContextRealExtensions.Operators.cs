@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
@@ -102,11 +103,11 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A Z3BoolExpr representing left &lt; right.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    /// <returns>A Z3Bool representing left &lt; right.</returns>
+    public static Z3Bool Lt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -115,11 +116,11 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A Z3BoolExpr representing left &lt;= right.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    /// <returns>A Z3Bool representing left &lt;= right.</returns>
+    public static Z3Bool Le(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -128,11 +129,11 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A Z3BoolExpr representing left &gt; right.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    /// <returns>A Z3Bool representing left &gt; right.</returns>
+    public static Z3Bool Gt(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -141,10 +142,10 @@ public static partial class Z3ContextRealExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A Z3BoolExpr representing left &gt;= right.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
+    /// <returns>A Z3Bool representing left &gt;= right.</returns>
+    public static Z3Bool Ge(this Z3Context context, Z3RealExpr left, Z3RealExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 }

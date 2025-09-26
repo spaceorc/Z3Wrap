@@ -1,5 +1,5 @@
 using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap;
@@ -48,7 +48,7 @@ public sealed class Z3Solver : IDisposable
     /// </summary>
     /// <param name="constraint">The Boolean expression constraint to assert.</param>
     /// <exception cref="ObjectDisposedException">Thrown when the solver has been disposed.</exception>
-    public void Assert(Z3BoolExpr constraint)
+    public void Assert(Z3Bool constraint)
     {
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after assertion

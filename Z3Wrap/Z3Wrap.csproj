@@ -156,6 +156,27 @@
     <Compile Update="BitVectors\Z3BitVec.OverflowChecks.cs">
       <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
+    <Compile Update="Booleans\Z3ContextBoolExtensions.Functions.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Booleans\Z3ContextBoolExtensions.Logical.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Booleans\Z3Bool.Equality.cs">
+      <DependentUpon>Z3Bool.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Booleans\Z3Bool.Functions.cs">
+      <DependentUpon>Z3Bool.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Booleans\Z3Bool.Logical.cs">
+      <DependentUpon>Z3Bool.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Booleans\Z3Bool.Implicit.cs">
+      <DependentUpon>Z3Bool.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Booleans\Z3ContextBoolExtensions.Equality.cs">
+      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />

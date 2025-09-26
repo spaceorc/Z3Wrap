@@ -1,4 +1,5 @@
 using System.Numerics;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
@@ -118,10 +119,10 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A new boolean expression representing left &lt; right.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3Bool Lt(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -131,10 +132,10 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A new boolean expression representing left &lt;= right.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3Bool Le(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -144,10 +145,10 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A new boolean expression representing left &gt; right.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3Bool Gt(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -157,10 +158,10 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A new boolean expression representing left &gt;= right.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
+    public static Z3Bool Ge(this Z3Context context, Z3IntExpr left, Z3IntExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -270,7 +271,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The integer expression (left operand).</param>
     /// <param name="right">The BigInteger value (right operand).</param>
     /// <returns>A new boolean expression representing left &lt; right.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, Z3IntExpr left, BigInteger right) =>
+    public static Z3Bool Lt(this Z3Context context, Z3IntExpr left, BigInteger right) =>
         context.Lt(left, context.Int(right));
 
     /// <summary>
@@ -280,7 +281,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The BigInteger value (left operand).</param>
     /// <param name="right">The integer expression (right operand).</param>
     /// <returns>A new boolean expression representing left &lt; right.</returns>
-    public static Z3BoolExpr Lt(this Z3Context context, BigInteger left, Z3IntExpr right) =>
+    public static Z3Bool Lt(this Z3Context context, BigInteger left, Z3IntExpr right) =>
         context.Lt(context.Int(left), right);
 
     /// <summary>
@@ -290,7 +291,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The integer expression (left operand).</param>
     /// <param name="right">The BigInteger value (right operand).</param>
     /// <returns>A new boolean expression representing left &lt;= right.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, Z3IntExpr left, BigInteger right) =>
+    public static Z3Bool Le(this Z3Context context, Z3IntExpr left, BigInteger right) =>
         context.Le(left, context.Int(right));
 
     /// <summary>
@@ -300,7 +301,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The BigInteger value (left operand).</param>
     /// <param name="right">The integer expression (right operand).</param>
     /// <returns>A new boolean expression representing left &lt;= right.</returns>
-    public static Z3BoolExpr Le(this Z3Context context, BigInteger left, Z3IntExpr right) =>
+    public static Z3Bool Le(this Z3Context context, BigInteger left, Z3IntExpr right) =>
         context.Le(context.Int(left), right);
 
     /// <summary>
@@ -310,7 +311,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The integer expression (left operand).</param>
     /// <param name="right">The BigInteger value (right operand).</param>
     /// <returns>A new boolean expression representing left &gt; right.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, Z3IntExpr left, BigInteger right) =>
+    public static Z3Bool Gt(this Z3Context context, Z3IntExpr left, BigInteger right) =>
         context.Gt(left, context.Int(right));
 
     /// <summary>
@@ -320,7 +321,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The BigInteger value (left operand).</param>
     /// <param name="right">The integer expression (right operand).</param>
     /// <returns>A new boolean expression representing left &gt; right.</returns>
-    public static Z3BoolExpr Gt(this Z3Context context, BigInteger left, Z3IntExpr right) =>
+    public static Z3Bool Gt(this Z3Context context, BigInteger left, Z3IntExpr right) =>
         context.Gt(context.Int(left), right);
 
     /// <summary>
@@ -330,7 +331,7 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The integer expression (left operand).</param>
     /// <param name="right">The BigInteger value (right operand).</param>
     /// <returns>A new boolean expression representing left &gt;= right.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, Z3IntExpr left, BigInteger right) =>
+    public static Z3Bool Ge(this Z3Context context, Z3IntExpr left, BigInteger right) =>
         context.Ge(left, context.Int(right));
 
     /// <summary>
@@ -340,6 +341,6 @@ public static partial class Z3ContextIntExtensions
     /// <param name="left">The BigInteger value (left operand).</param>
     /// <param name="right">The integer expression (right operand).</param>
     /// <returns>A new boolean expression representing left &gt;= right.</returns>
-    public static Z3BoolExpr Ge(this Z3Context context, BigInteger left, Z3IntExpr right) =>
+    public static Z3Bool Ge(this Z3Context context, BigInteger left, Z3IntExpr right) =>
         context.Ge(context.Int(left), right);
 }

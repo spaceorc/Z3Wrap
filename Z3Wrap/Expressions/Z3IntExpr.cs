@@ -1,5 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.BitVectors;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Interop;
 
@@ -97,7 +98,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt; right.</returns>
-    public static Z3BoolExpr operator <(Z3IntExpr left, Z3IntExpr right) =>
+    public static Z3Bool operator <(Z3IntExpr left, Z3IntExpr right) =>
         left.Context.Lt(left, right);
 
     /// <summary>
@@ -106,7 +107,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt;= right.</returns>
-    public static Z3BoolExpr operator <=(Z3IntExpr left, Z3IntExpr right) =>
+    public static Z3Bool operator <=(Z3IntExpr left, Z3IntExpr right) =>
         left.Context.Le(left, right);
 
     /// <summary>
@@ -115,7 +116,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt; right.</returns>
-    public static Z3BoolExpr operator >(Z3IntExpr left, Z3IntExpr right) =>
+    public static Z3Bool operator >(Z3IntExpr left, Z3IntExpr right) =>
         left.Context.Gt(left, right);
 
     /// <summary>
@@ -124,7 +125,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt;= right.</returns>
-    public static Z3BoolExpr operator >=(Z3IntExpr left, Z3IntExpr right) =>
+    public static Z3Bool operator >=(Z3IntExpr left, Z3IntExpr right) =>
         left.Context.Ge(left, right);
 
     /// <summary>
@@ -140,7 +141,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The integer expression.</param>
     /// <param name="right">The BigInteger value.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(Z3IntExpr left, BigInteger right) =>
+    public static Z3Bool operator ==(Z3IntExpr left, BigInteger right) =>
         left.Context.Eq(left, right);
 
     /// <summary>
@@ -149,7 +150,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The integer expression.</param>
     /// <param name="right">The BigInteger value.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(Z3IntExpr left, BigInteger right) =>
+    public static Z3Bool operator !=(Z3IntExpr left, BigInteger right) =>
         left.Context.Neq(left, right);
 
     /// <summary>
@@ -158,7 +159,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The BigInteger value.</param>
     /// <param name="right">The integer expression.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(BigInteger left, Z3IntExpr right) =>
+    public static Z3Bool operator ==(BigInteger left, Z3IntExpr right) =>
         right.Context.Eq(left, right);
 
     /// <summary>
@@ -167,7 +168,7 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// <param name="left">The BigInteger value.</param>
     /// <param name="right">The integer expression.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(BigInteger left, Z3IntExpr right) =>
+    public static Z3Bool operator !=(BigInteger left, Z3IntExpr right) =>
         right.Context.Neq(left, right);
 
     /// <summary>
@@ -210,28 +211,28 @@ public sealed class Z3IntExpr : Z3NumericExpr, IZ3ExprType<Z3IntExpr>
     /// </summary>
     /// <param name="other">The integer expression to compare with.</param>
     /// <returns>A boolean expression representing this &lt; other.</returns>
-    public Z3BoolExpr Lt(Z3IntExpr other) => Context.Lt(this, other);
+    public Z3Bool Lt(Z3IntExpr other) => Context.Lt(this, other);
 
     /// <summary>
     /// Creates a less-than-or-equal comparison with another integer expression.
     /// </summary>
     /// <param name="other">The integer expression to compare with.</param>
     /// <returns>A boolean expression representing this &lt;= other.</returns>
-    public Z3BoolExpr Le(Z3IntExpr other) => Context.Le(this, other);
+    public Z3Bool Le(Z3IntExpr other) => Context.Le(this, other);
 
     /// <summary>
     /// Creates a greater-than comparison with another integer expression.
     /// </summary>
     /// <param name="other">The integer expression to compare with.</param>
     /// <returns>A boolean expression representing this &gt; other.</returns>
-    public Z3BoolExpr Gt(Z3IntExpr other) => Context.Gt(this, other);
+    public Z3Bool Gt(Z3IntExpr other) => Context.Gt(this, other);
 
     /// <summary>
     /// Creates a greater-than-or-equal comparison with another integer expression.
     /// </summary>
     /// <param name="other">The integer expression to compare with.</param>
     /// <returns>A boolean expression representing this &gt;= other.</returns>
-    public Z3BoolExpr Ge(Z3IntExpr other) => Context.Ge(this, other);
+    public Z3Bool Ge(Z3IntExpr other) => Context.Ge(this, other);
 
     /// <summary>
     /// Negates this integer expression (computes the unary minus).

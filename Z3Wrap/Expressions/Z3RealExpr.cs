@@ -1,4 +1,5 @@
 using System.Numerics;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Interop;
@@ -104,7 +105,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt; right.</returns>
-    public static Z3BoolExpr operator <(Z3RealExpr left, Z3RealExpr right) =>
+    public static Z3Bool operator <(Z3RealExpr left, Z3RealExpr right) =>
         left.Context.Lt(left, right);
 
     /// <summary>
@@ -113,7 +114,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &lt;= right.</returns>
-    public static Z3BoolExpr operator <=(Z3RealExpr left, Z3RealExpr right) =>
+    public static Z3Bool operator <=(Z3RealExpr left, Z3RealExpr right) =>
         left.Context.Le(left, right);
 
     /// <summary>
@@ -122,7 +123,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt; right.</returns>
-    public static Z3BoolExpr operator >(Z3RealExpr left, Z3RealExpr right) =>
+    public static Z3Bool operator >(Z3RealExpr left, Z3RealExpr right) =>
         left.Context.Gt(left, right);
 
     /// <summary>
@@ -131,7 +132,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
     /// <returns>A boolean expression representing left &gt;= right.</returns>
-    public static Z3BoolExpr operator >=(Z3RealExpr left, Z3RealExpr right) =>
+    public static Z3Bool operator >=(Z3RealExpr left, Z3RealExpr right) =>
         left.Context.Ge(left, right);
 
     /// <summary>
@@ -147,7 +148,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The real expression.</param>
     /// <param name="right">The Real value.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(Z3RealExpr left, Real right) =>
+    public static Z3Bool operator ==(Z3RealExpr left, Real right) =>
         left.Context.Eq(left, right);
 
     /// <summary>
@@ -156,7 +157,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The real expression.</param>
     /// <param name="right">The Real value.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(Z3RealExpr left, Real right) =>
+    public static Z3Bool operator !=(Z3RealExpr left, Real right) =>
         left.Context.Neq(left, right);
 
     /// <summary>
@@ -165,7 +166,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The Real value.</param>
     /// <param name="right">The real expression.</param>
     /// <returns>A boolean expression representing left == right.</returns>
-    public static Z3BoolExpr operator ==(Real left, Z3RealExpr right) =>
+    public static Z3Bool operator ==(Real left, Z3RealExpr right) =>
         right.Context.Eq(left, right);
 
     /// <summary>
@@ -174,7 +175,7 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// <param name="left">The Real value.</param>
     /// <param name="right">The real expression.</param>
     /// <returns>A boolean expression representing left != right.</returns>
-    public static Z3BoolExpr operator !=(Real left, Z3RealExpr right) =>
+    public static Z3Bool operator !=(Real left, Z3RealExpr right) =>
         right.Context.Neq(left, right);
 
     /// <summary>
@@ -210,28 +211,28 @@ public sealed class Z3RealExpr : Z3NumericExpr, IZ3ExprType<Z3RealExpr>
     /// </summary>
     /// <param name="other">The real expression to compare with.</param>
     /// <returns>A boolean expression representing this &lt; other.</returns>
-    public Z3BoolExpr Lt(Z3RealExpr other) => Context.Lt(this, other);
+    public Z3Bool Lt(Z3RealExpr other) => Context.Lt(this, other);
 
     /// <summary>
     /// Creates a less-than-or-equal comparison with another real expression.
     /// </summary>
     /// <param name="other">The real expression to compare with.</param>
     /// <returns>A boolean expression representing this &lt;= other.</returns>
-    public Z3BoolExpr Le(Z3RealExpr other) => Context.Le(this, other);
+    public Z3Bool Le(Z3RealExpr other) => Context.Le(this, other);
 
     /// <summary>
     /// Creates a greater-than comparison with another real expression.
     /// </summary>
     /// <param name="other">The real expression to compare with.</param>
     /// <returns>A boolean expression representing this &gt; other.</returns>
-    public Z3BoolExpr Gt(Z3RealExpr other) => Context.Gt(this, other);
+    public Z3Bool Gt(Z3RealExpr other) => Context.Gt(this, other);
 
     /// <summary>
     /// Creates a greater-than-or-equal comparison with another real expression.
     /// </summary>
     /// <param name="other">The real expression to compare with.</param>
     /// <returns>A boolean expression representing this &gt;= other.</returns>
-    public Z3BoolExpr Ge(Z3RealExpr other) => Context.Ge(this, other);
+    public Z3Bool Ge(Z3RealExpr other) => Context.Ge(this, other);
 
     /// <summary>
     /// Negates this real expression (computes the unary minus).

@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVectors;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
@@ -30,7 +31,7 @@ public class Z3BoolExprConditionalTests
         var elseExpr = context.Int(elseValue);
 
         // Test all variations of conditional operations with integers
-        var resultInstanceMethod = condition.If(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
+        var resultInstanceMethod = condition.Ite(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
         var resultContextMethod = context.Ite(condition, thenExpr, elseExpr); // Context.Ite(Bool, T, T) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -72,7 +73,7 @@ public class Z3BoolExprConditionalTests
         var elseExpr = context.Real((decimal)elseValue);
 
         // Test all variations of conditional operations with reals
-        var resultInstanceMethod = condition.If(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
+        var resultInstanceMethod = condition.Ite(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
         var resultContextMethod = context.Ite(condition, thenExpr, elseExpr); // Context.Ite(Bool, T, T) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -113,7 +114,7 @@ public class Z3BoolExprConditionalTests
         var elseExpr = context.Bool(elseValue);
 
         // Test all variations of conditional operations with booleans
-        var resultInstanceMethod = condition.If(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
+        var resultInstanceMethod = condition.Ite(thenExpr, elseExpr); // Bool.If<T>(T, T) (method)
         var resultContextMethod = context.Ite(condition, thenExpr, elseExpr); // Context.Ite(Bool, T, T) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -124,7 +125,7 @@ public class Z3BoolExprConditionalTests
             Assert.That(
                 model.GetBoolValue(resultInstanceMethod),
                 Is.EqualTo(expectedResult),
-                "Bool.If<Z3BoolExpr> method failed"
+                "Bool.If<Z3Bool> method failed"
             );
             Assert.That(
                 model.GetBoolValue(resultContextMethod),
@@ -145,7 +146,7 @@ public class Z3BoolExprConditionalTests
         var thenExpr = context.BitVec<Size8>(42);
         var elseExpr = context.BitVec<Size8>(99);
 
-        var result = condition.If(thenExpr, elseExpr);
+        var result = condition.Ite(thenExpr, elseExpr);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.TypeOf<Z3BitVec<Size8>>());
@@ -165,7 +166,7 @@ public class Z3BoolExprConditionalTests
         var arr1 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr1");
         var arr2 = context.ArrayConst<Z3IntExpr, Z3IntExpr>("arr2");
 
-        var result = condition.If(arr1, arr2);
+        var result = condition.Ite(arr1, arr2);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.TypeOf<Z3ArrayExpr<Z3IntExpr, Z3IntExpr>>());
@@ -188,7 +189,7 @@ public class Z3BoolExprConditionalTests
         var thenValue = context.IntConst("thenValue");
         var elseValue = context.IntConst("elseValue");
 
-        var result = condition.If(thenValue, elseValue);
+        var result = condition.Ite(thenValue, elseValue);
 
         // Test when condition is true
         solver.Assert(condition);
@@ -220,9 +221,9 @@ public class Z3BoolExprConditionalTests
         var cond3 = context.BoolConst("cond3");
 
         // Nested: if cond1 then (if cond2 then 1 else 2) else (if cond3 then 3 else 4)
-        var nested = cond1.If(
-            cond2.If(context.Int(1), context.Int(2)),
-            cond3.If(context.Int(3), context.Int(4))
+        var nested = cond1.Ite(
+            cond2.Ite(context.Int(1), context.Int(2)),
+            cond3.Ite(context.Int(3), context.Int(4))
         );
 
         // Test case: cond1=true, cond2=true -> result should be 1
@@ -264,11 +265,11 @@ public class Z3BoolExprConditionalTests
         var cond3 = x > context.Int(0);
 
         // Chained conditionals simulating if-else-if logic
-        var result = cond1.If(
+        var result = cond1.Ite(
             context.Int(100), // if x > 10 then 100
-            cond2.If(
+            cond2.Ite(
                 context.Int(50), // else if x > 5 then 50
-                cond3.If(
+                cond3.Ite(
                     context.Int(10), // else if x > 0 then 10
                     context.Int(0) // else 0
                 )
@@ -312,7 +313,7 @@ public class Z3BoolExprConditionalTests
 
         // Complex condition: (p & q) | (!p & r)
         var complexCondition = (p & q) | (!p & r);
-        var result = complexCondition.If(context.Int(42), context.Int(99));
+        var result = complexCondition.Ite(context.Int(42), context.Int(99));
 
         // Test case where condition should be true: p=true, q=true, r=false
         solver.Assert(p);
@@ -353,7 +354,7 @@ public class Z3BoolExprConditionalTests
 
         // Use a comparison as the condition
         var condition = x > y;
-        var result = condition.If(context.Int(100), context.Int(200));
+        var result = condition.Ite(context.Int(100), context.Int(200));
 
         solver.Assert(x == context.Int(10));
         solver.Assert(y == context.Int(5));
@@ -379,14 +380,14 @@ public class Z3BoolExprConditionalTests
         var condition = context.Bool(true);
 
         // Both branches must be the same type
-        var intResult = condition.If(context.Int(1), context.Int(2));
-        var boolResult = condition.If(context.Bool(true), context.Bool(false));
-        var realResult = condition.If(context.Real(1.5m), context.Real(2.5m));
+        var intResult = condition.Ite(context.Int(1), context.Int(2));
+        var boolResult = condition.Ite(context.Bool(true), context.Bool(false));
+        var realResult = condition.Ite(context.Real(1.5m), context.Real(2.5m));
 
         Assert.Multiple(() =>
         {
             Assert.That(intResult, Is.TypeOf<Z3IntExpr>());
-            Assert.That(boolResult, Is.TypeOf<Z3BoolExpr>());
+            Assert.That(boolResult, Is.TypeOf<Z3Bool>());
             Assert.That(realResult, Is.TypeOf<Z3RealExpr>());
         });
     }
@@ -402,7 +403,7 @@ public class Z3BoolExprConditionalTests
         var a = context.IntConst("a");
         var b = context.IntConst("b");
 
-        var conditional = p.If(a, b);
+        var conditional = p.Ite(a, b);
 
         // Test equivalence: if p then a else b ≡ (p & (result == a)) | (!p & (result == b))
         var equivalence = (p & (conditional == a)) | (!p & (conditional == b));
@@ -423,11 +424,11 @@ public class Z3BoolExprConditionalTests
         var b = context.IntConst("b");
 
         // if true then a else b should be equivalent to a
-        var trueCondition = context.Bool(true).If(a, b);
+        var trueCondition = context.Bool(true).Ite(a, b);
         var trueEquivalence = trueCondition == a;
 
         // if false then a else b should be equivalent to b
-        var falseCondition = context.Bool(false).If(a, b);
+        var falseCondition = context.Bool(false).Ite(a, b);
         var falseEquivalence = falseCondition == b;
 
         solver.Assert(trueEquivalence);
@@ -447,7 +448,7 @@ public class Z3BoolExprConditionalTests
         var a = context.IntConst("a");
 
         // if p then a else a should be equivalent to a (regardless of p)
-        var conditional = p.If(a, a);
+        var conditional = p.Ite(a, a);
         var equivalence = conditional == a;
 
         solver.Assert(equivalence);
@@ -469,11 +470,11 @@ public class Z3BoolExprConditionalTests
         var c = context.IntConst("c");
 
         // Composition: if p then (if q then a else b) else c
-        var inner = q.If(a, b);
-        var outer = p.If(inner, c);
+        var inner = q.Ite(a, b);
+        var outer = p.Ite(inner, c);
 
         // Should be equivalent to: if (p & q) then a else if p then b else c
-        var equivalent = (p & q).If(a, p.If(b, c));
+        var equivalent = (p & q).Ite(a, p.Ite(b, c));
 
         solver.Assert(outer == equivalent);
 

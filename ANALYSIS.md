@@ -260,7 +260,7 @@ This roadmap would transform Z3Wrap from a solid core SMT library (~60% coverage
 ### **Expression Type Hierarchy**
 ```
 Z3Expr (abstract base)
-├── Z3BoolExpr - Boolean expressions
+├── Z3Bool - Boolean expressions
 ├── Z3NumericExpr (abstract)
 │   ├── Z3IntExpr - Integer expressions
 │   └── Z3RealExpr - Real number expressions

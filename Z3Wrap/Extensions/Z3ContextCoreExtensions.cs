@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Interop;
 
@@ -15,11 +16,11 @@ public static class Z3ContextCoreExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A new Z3BoolExpr representing left == right.</returns>
-    public static Z3BoolExpr Eq(this Z3Context context, Z3Expr left, Z3Expr right)
+    /// <returns>A new Z3Bool representing left == right.</returns>
+    public static Z3Bool Eq(this Z3Context context, Z3Expr left, Z3Expr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -28,12 +29,12 @@ public static class Z3ContextCoreExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A new Z3BoolExpr representing left != right.</returns>
-    public static Z3BoolExpr Neq(this Z3Context context, Z3Expr left, Z3Expr right)
+    /// <returns>A new Z3Bool representing left != right.</returns>
+    public static Z3Bool Neq(this Z3Context context, Z3Expr left, Z3Expr right)
     {
         var eqHandle = SafeNativeMethods.Z3MkEq(context.Handle, left.Handle, right.Handle);
         var resultHandle = SafeNativeMethods.Z3MkNot(context.Handle, eqHandle);
-        return Z3Expr.Create<Z3BoolExpr>(context, resultHandle);
+        return Z3Expr.Create<Z3Bool>(context, resultHandle);
     }
 
     /// <summary>
@@ -43,8 +44,8 @@ public static class Z3ContextCoreExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A new Z3BoolExpr representing left == right.</returns>
-    public static Z3BoolExpr Eq<T>(this Z3Context context, T left, T right)
+    /// <returns>A new Z3Bool representing left == right.</returns>
+    public static Z3Bool Eq<T>(this Z3Context context, T left, T right)
         where T : Z3Expr => context.Eq((Z3Expr)left, right);
 
     /// <summary>
@@ -54,7 +55,7 @@ public static class Z3ContextCoreExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="left">The left operand.</param>
     /// <param name="right">The right operand.</param>
-    /// <returns>A new Z3BoolExpr representing left != right.</returns>
-    public static Z3BoolExpr Neq<T>(this Z3Context context, T left, T right)
+    /// <returns>A new Z3Bool representing left != right.</returns>
+    public static Z3Bool Neq<T>(this Z3Context context, T left, T right)
         where T : Z3Expr => context.Neq((Z3Expr)left, right);
 }

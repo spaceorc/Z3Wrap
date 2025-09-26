@@ -4,7 +4,6 @@ using Spaceorc.Z3Wrap.Interop;
 namespace Spaceorc.Z3Wrap.BitVectors;
 
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
-
 /// <summary>
 /// Represents a compile-time size-validated bitvector expression in Z3 with comprehensive bitwise and arithmetic operations.
 /// Provides type-safe operations where size mismatches are caught at compile time.

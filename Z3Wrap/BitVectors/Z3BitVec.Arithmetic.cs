@@ -1,7 +1,6 @@
 namespace Spaceorc.Z3Wrap.BitVectors;
 
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
-
 public sealed partial class Z3BitVec<TSize>
     where TSize : ISize
 {

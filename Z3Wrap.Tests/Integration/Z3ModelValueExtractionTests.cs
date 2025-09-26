@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.BitVectors;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
@@ -46,7 +47,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var evaluated = model.Evaluate(p);
 
-        Assert.That(evaluated, Is.TypeOf<Z3BoolExpr>());
+        Assert.That(evaluated, Is.TypeOf<Z3Bool>());
         Assert.That(evaluated.ToString(), Is.EqualTo("true"));
     }
 

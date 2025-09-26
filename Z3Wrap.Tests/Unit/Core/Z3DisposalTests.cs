@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.Booleans;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -288,7 +289,7 @@ public class Z3DisposalTests
         Assert.DoesNotThrow(() => context.Int(5));
     }
 
-    private static Z3BoolExpr CreateBoolExprFromAnotherContext()
+    private static Z3Bool CreateBoolExprFromAnotherContext()
     {
         using var tempContext = new Z3Context();
         return tempContext.True();

@@ -37,18 +37,18 @@ Create a research document answering:
 Design the C# API that would look like:
 ```csharp
 // Target API design to research:
-public static Z3BoolExpr ForAll<T>(this Z3Context context,
+public static Z3Bool ForAll<T>(this Z3Context context,
     Z3Expr<T> boundVar,
-    Z3BoolExpr body)
+    Z3Bool body)
 
-public static Z3BoolExpr Exists<T>(this Z3Context context,
+public static Z3Bool Exists<T>(this Z3Context context,
     Z3Expr<T> boundVar,
-    Z3BoolExpr body)
+    Z3Bool body)
 
 // Multi-variable version:
-public static Z3BoolExpr ForAll<T1, T2>(this Z3Context context,
+public static Z3Bool ForAll<T1, T2>(this Z3Context context,
     Z3Expr<T1> var1, Z3Expr<T2> var2,
-    Z3BoolExpr body)
+    Z3Bool body)
 ```
 
 ### **Task 1C: Study Pattern Requirements**
