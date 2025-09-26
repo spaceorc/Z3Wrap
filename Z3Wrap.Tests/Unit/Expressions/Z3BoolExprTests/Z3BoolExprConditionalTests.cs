@@ -1,5 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.BitVectors;
 using Spaceorc.Z3Wrap.DataTypes;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
@@ -141,15 +142,15 @@ public class Z3BoolExprConditionalTests
         using var solver = context.CreateSolver();
 
         var condition = context.Bool(true);
-        var thenExpr = context.BitVec(42, 8);
-        var elseExpr = context.BitVec(99, 8);
+        var thenExpr = context.BitVec<Size8>(42);
+        var elseExpr = context.BitVec<Size8>(99);
 
         var result = condition.If(thenExpr, elseExpr);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<Z3BitVecExpr>());
+        Assert.That(result, Is.TypeOf<Z3BitVec<Size8>>());
 
-        solver.Assert(result == context.BitVec(42, 8));
+        solver.Assert(result == context.BitVec(new BitVec<Size8>(42)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 

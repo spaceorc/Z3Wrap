@@ -1,6 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.DataTypes;
+using Spaceorc.Z3Wrap.BitVectors;
 using Spaceorc.Z3Wrap.Extensions;
 
 namespace Z3Wrap.Tests.Unit.Core;
@@ -59,10 +59,11 @@ public class Z3ModelTests
     public void GetNumericValueAsString_BitVecConstant_ReturnsCorrectValue()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVecConst("x", 8);
-        solver.Assert(context.Eq(x, context.BitVec(new BitVec(255, 8))));
+        var x = context.BitVecConst<Size8>("x");
+        solver.Assert(x == 255);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();

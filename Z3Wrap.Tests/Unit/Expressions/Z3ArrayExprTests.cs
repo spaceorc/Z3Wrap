@@ -461,8 +461,8 @@ public class Z3ArrayExprTests
         Z3ArrayExpr<TIndex, TValue> array,
         string? expectedName = null
     )
-        where TIndex : Z3Expr
-        where TValue : Z3Expr
+        where TIndex : Z3Expr, IZ3ExprType<TIndex>
+        where TValue : Z3Expr, IZ3ExprType<TValue>
     {
         Assert.That(array, Is.Not.Null);
         Assert.That(array.Handle, Is.Not.EqualTo(IntPtr.Zero));

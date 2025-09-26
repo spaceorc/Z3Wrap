@@ -78,7 +78,7 @@
     <Compile Update="BitVectors\BitVec.Bitwise.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\BitVec.Cast.cs">
+    <Compile Update="BitVectors\BitVec.Implicit.cs">
       <DependentUpon>BitVec.cs</DependentUpon>
     </Compile>
     <Compile Update="BitVectors\BitVec.Comparison.cs">
@@ -99,7 +99,7 @@
     <Compile Update="BitVectors\Z3ContextBitVecExtensions.Conversion.cs">
       <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Functions.cs">
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Manipulation.cs">
       <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="BitVectors\Z3ContextBitVecExtensions.Operators.cs">
@@ -108,11 +108,53 @@
     <Compile Update="BitVectors\Z3ContextBitVecExtensions.OverflowChecks.cs">
       <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVecBoundaryCheckBuilder.OperationBuilder.cs">
-      <DependentUpon>Z3BitVecBoundaryCheckBuilder.cs</DependentUpon>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Arithmetic.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="BitVectors\Z3BitVecBoundaryCheckBuilder.OperationType.cs">
-      <DependentUpon>Z3BitVecBoundaryCheckBuilder.cs</DependentUpon>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Bitwise.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Comparison.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Shift.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3ContextBitVecExtensions.Equality.cs">
+      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Equality.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Cast.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Conversion.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Implicit.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\BitVec.Shift.cs">
+      <DependentUpon>BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Shift.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Arithmetic.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Comparison.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Bitwise.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.Manipulation.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
+    </Compile>
+    <Compile Update="BitVectors\Z3BitVec.OverflowChecks.cs">
+      <DependentUpon>Z3BitVec.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">

@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.DataTypes;
-using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
@@ -22,8 +21,8 @@ public class Z3BitVecExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec(new BitVec<Size8>(left));
+        var y = context.BitVec(new BitVec<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -39,7 +38,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec(expectedResult, 8);
+        var expected = new BitVec<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -100,8 +99,8 @@ public class Z3BitVecExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec(new BitVec<Size8>(left));
+        var y = context.BitVec(new BitVec<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -117,7 +116,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec(expectedResult, 8);
+        var expected = new BitVec<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -178,8 +177,8 @@ public class Z3BitVecExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec(new BitVec<Size8>(left));
+        var y = context.BitVec(new BitVec<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -195,7 +194,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec(expectedResult, 8);
+        var expected = new BitVec<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -252,7 +251,7 @@ public class Z3BitVecExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(value, 8);
+        var x = context.BitVec(new BitVec<Size8>(value));
 
         // Test all variations of bitwise NOT (unary operation)
         var resultOperator = ~x; // ~BitVec (operator)
@@ -261,7 +260,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec(expectedResult, 8);
+        var expected = new BitVec<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {

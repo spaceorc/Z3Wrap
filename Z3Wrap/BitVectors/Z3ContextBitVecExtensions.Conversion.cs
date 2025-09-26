@@ -3,7 +3,7 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
 
-public static partial class Z3ContextBitVecExtensions2
+public static partial class Z3ContextBitVecExtensions
 {
     /// <summary>
     /// Converts a compile-time size-validated bitvector expression to an integer expression.

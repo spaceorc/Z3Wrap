@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.BitVectors;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -243,8 +244,8 @@ public class QuantifierTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVecConst("x", 8);
-        var y = context.BitVecConst("y", 8);
+        var x = context.BitVecConst<Size8>("x");
+        var y = context.BitVecConst<Size8>("y");
         var body = (x & y) == (y & x); // bitwise AND commutativity
 
         var forall = context.ForAll(x, y, body);

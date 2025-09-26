@@ -1,5 +1,5 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
 
@@ -10,15 +10,13 @@ public class Z3BitVecEdgeCasesTests
     public void SMod_ContextExtension_WorksCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         // Arrange
-        var a = context.BitVecConst("a", 8);
-        var b = context.BitVecConst("b", 8);
+        var a = context.BitVecConst<Size8>("a");
+        var b = context.BitVecConst<Size8>("b");
 
         // Act - This was completely uncovered in the coverage report
         var smod = context.SignedMod(a, b);
-
-        // Assert
-        Assert.That(smod.Size, Is.EqualTo(8));
 
         // Verify with solver using signed modulo semantics
         using var solver = context.CreateSolver();
@@ -33,9 +31,10 @@ public class Z3BitVecEdgeCasesTests
     public void SMod_WithNegativeValues_WorksCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         // Arrange
-        var a = context.BitVecConst("a", 8);
-        var b = context.BitVecConst("b", 8);
+        var a = context.BitVecConst<Size8>("a");
+        var b = context.BitVecConst<Size8>("b");
 
         // Act
         var smod = context.SignedMod(a, b);
@@ -58,22 +57,22 @@ public class Z3BitVecEdgeCasesTests
     public void Resize_EdgeCases_WorkCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         // Test the uncovered branches in Resize method
 
         // Test same size (should return original)
-        var a8 = context.BitVecConst("a", 8);
-        var resized8 = context.Resize(a8, 8);
+        var a8 = context.BitVecConst<Size8>("a");
+        var resized8 = a8.Resize<Size8>();
         Assert.That(resized8, Is.EqualTo(a8)); // Should be same instance
 
         // Test size reduction (extract lower bits) - this was uncovered
-        var a16 = context.BitVecConst("a", 16);
-        var resized8from16 = context.Resize(a16, 8);
-        Assert.That(resized8from16.Size, Is.EqualTo(8));
+        var a16 = context.BitVecConst<Size16>("a");
+        var resized8From16 = a16.Resize<Size8>();
 
         // Verify with solver
         using var solver = context.CreateSolver();
         solver.Assert(a16 == 0x1234);
-        solver.Assert(resized8from16 == 0x34); // Lower 8 bits
+        solver.Assert(resized8From16 == 0x34); // Lower 8 bits
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -82,67 +81,43 @@ public class Z3BitVecEdgeCasesTests
     public void SignedResize_EdgeCases_WorkCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         // Test the uncovered branches in SignedResize method
 
         // Test same size (should return original)
-        var a16 = context.BitVecConst("a", 16);
-        var resized16 = context.Resize(a16, 16, signed: true);
+        var a16 = context.BitVecConst<Size16>("a");
+        var resized16 = a16.Resize<Size16>(signed: true);
         Assert.That(resized16, Is.EqualTo(a16)); // Should be same instance
 
         // Test size reduction with sign extension - this was uncovered
-        var a32 = context.BitVecConst("a", 32);
-        var resized16from32 = context.Resize(a32, 16, signed: true);
-        Assert.That(resized16from32.Size, Is.EqualTo(16));
+        var a32 = context.BitVecConst<Size32>("a");
+        var resized16From32 = a32.Resize<Size16>(signed: true);
 
         // Verify with solver
         using var solver = context.CreateSolver();
         solver.Assert(a32 == 0x8000ABCD); // Negative number in 32-bit
-        solver.Assert(resized16from32 == 0xABCD); // Lower 16 bits
+        solver.Assert(resized16From32 == 0xABCD); // Lower 16 bits
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void SRem_SizeValidation_EdgeCase_WorksCorrectly()
-    {
-        using var context = new Z3Context();
-        // This tests the partial coverage in SRem - the size validation branch
-
-        // Arrange
-        var a8 = context.BitVecConst("a", 8);
-        var b8 = context.BitVecConst("b", 8);
-        var b16 = context.BitVecConst("c", 16);
-
-        // Act & Assert - Size validation should work
-        Assert.DoesNotThrow(() => context.Rem(a8, b8, signed: true));
-
-        // Size mismatch should throw
-        var ex = Assert.Throws<ArgumentException>(() => context.Rem(a8, b16, signed: true));
-        Assert.That(ex!.Message, Contains.Substring("BitVector size mismatch: left=8, right=16"));
     }
 
     [Test]
     public void ComplexBitVectorOperations_LargerSizes_WorkCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         // Test with larger bit vector sizes to ensure our operations work beyond 8-bit
 
         // Arrange
-        var a64 = context.BitVecConst("a", 64);
-        var b64 = context.BitVecConst("b", 64);
+        var a64 = context.BitVecConst<Size64>("a");
+        var b64 = context.BitVecConst<Size64>("b");
 
         // Act - Test all major operation types
         var add = context.Add(a64, b64);
         var smod = context.SignedMod(a64, b64);
-        var and = context.And(a64, b64);
-        var shl = context.Shl(a64, b64);
-        var ult = context.Lt(a64, b64);
-
-        // Assert
-        Assert.That(add.Size, Is.EqualTo(64));
-        Assert.That(smod.Size, Is.EqualTo(64));
-        Assert.That(and.Size, Is.EqualTo(64));
-        Assert.That(shl.Size, Is.EqualTo(64));
+        var and = a64 & b64;
+        var shl = a64 << b64;
+        var ult = a64 < b64;
 
         // Verify with solver using large values
         using var solver = context.CreateSolver();
@@ -160,11 +135,12 @@ public class Z3BitVecEdgeCasesTests
     public void BitVecOperations_WithBoundaryValues_WorkCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         // Test operations with boundary values (0, max values)
 
         // Arrange
-        var a8 = context.BitVecConst("a", 8);
-        var b8 = context.BitVecConst("b", 8);
+        var a8 = context.BitVecConst<Size8>("a");
+        var b8 = context.BitVecConst<Size8>("b");
 
         // Act & Assert - Test with boundary values
         using var solver = context.CreateSolver();
@@ -188,11 +164,13 @@ public class Z3BitVecEdgeCasesTests
     public void BitVecOperations_OverflowBehavior_WorksCorrectly()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
+
         // Test overflow behavior in bit vector operations
 
         // Arrange
-        var a8 = context.BitVecConst("a", 8);
-        var b8 = context.BitVecConst("b", 8);
+        var a8 = context.BitVecConst<Size8>("a");
+        var b8 = context.BitVecConst<Size8>("b");
 
         // Act & Assert - Test overflow wrapping
         using var solver = context.CreateSolver();

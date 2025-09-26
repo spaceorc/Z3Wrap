@@ -3,18 +3,8 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.BitVectors;
 
-public static partial class Z3ContextBitVecExtensions2
+public static partial class Z3ContextBitVecExtensions
 {
-    /// <summary>
-    /// Creates a fluent boundary check builder for bitvector operations.
-    /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <returns>A builder for constructing boundary check expressions.</returns>
-    public static Z3BitVecBoundaryCheckBuilder BitVecBoundaryCheck(this Z3Context context)
-    {
-        return new Z3BitVecBoundaryCheckBuilder(context);
-    }
-
     /// <summary>
     /// Checks if addition would cause overflow between two compile-time size-validated bitvector expressions.
     /// </summary>

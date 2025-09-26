@@ -1,5 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.BitVectors;
 using Spaceorc.Z3Wrap.Expressions;
 using Spaceorc.Z3Wrap.Extensions;
 
@@ -8,45 +9,151 @@ namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 [TestFixture]
 public class Z3IntExprCreationTests
 {
-    [TestCase(8u, Description = "8-bit conversion")]
-    [TestCase(16u, Description = "16-bit conversion")]
-    [TestCase(32u, Description = "32-bit conversion")]
-    [TestCase(64u, Description = "64-bit conversion")]
-    public void ToBitVec_ValidSize_CreatesBitVecExpr(uint size)
+    [Test]
+    public void ToBitVec_Size8_CreatesBitVecExpr()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.IntConst("x");
-        var bitVecResult = x.ToBitVec(size);
+        var bitVecResult = x.ToBitVec<Size8>();
 
         Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bitVecResult.Context, Is.SameAs(context));
-        Assert.That(bitVecResult.Size, Is.EqualTo(size));
+        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
 
-        // Test converting integer 42 to specified bit-vector size
-        solver.Assert(context.Eq(x, context.Int(42)));
-        var expected = context.BitVec(42, size);
+        // Test converting integer 42 to 8-bit
+        solver.Assert(x == 42);
+        solver.Assert(bitVecResult == 42);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_Size16_CreatesBitVecExpr()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var bitVecResult = x.ToBitVec<Size16>();
+
+        Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(bitVecResult.Context, Is.SameAs(context));
+        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
+
+        solver.Assert(x == 42);
+        solver.Assert(bitVecResult == 42);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_Size32_CreatesBitVecExpr()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var bitVecResult = x.ToBitVec<Size32>();
+
+        Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(bitVecResult.Context, Is.SameAs(context));
+        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+
+        solver.Assert(x == 42);
+        solver.Assert(bitVecResult == 42);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_Size64_CreatesBitVecExpr()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var bitVecResult = x.ToBitVec<Size64>();
+
+        Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
+        Assert.That(bitVecResult.Context, Is.SameAs(context));
+        Assert.That(Z3BitVec<Size64>.Size, Is.EqualTo(64u));
+
+        solver.Assert(x == 42);
+        solver.Assert(bitVecResult == 42);
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_255_Size8_CreatesBitVecWithCorrectValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Int(255);
+        var bitVecResult = x.ToBitVec<Size8>();
+
+        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+
+        // Test that the bit-vector represents the same value
+        var expected = context.BitVec(new BitVec<Size8>(255));
         solver.Assert(context.Eq(bitVecResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
-    [TestCase(255, 8u, Description = "255 to 8-bit")]
-    [TestCase(65535, 16u, Description = "65535 to 16-bit")]
-    [TestCase(-1, 32u, Description = "-1 to 32-bit")]
-    [TestCase(0, 64u, Description = "0 to 64-bit")]
-    public void ToBitVec_SpecificValues_CreatesBitVecWithCorrectValue(int value, uint size)
+    [Test]
+    public void ToBitVec_65535_Size16_CreatesBitVecWithCorrectValue()
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.Int(value);
-        var bitVecResult = x.ToBitVec(size);
+        var x = context.Int(65535);
+        var bitVecResult = x.ToBitVec<Size16>();
 
-        Assert.That(bitVecResult.Size, Is.EqualTo(size));
+        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
 
         // Test that the bit-vector represents the same value
-        var expected = context.BitVec(value, size);
+        var expected = context.BitVec(new BitVec<Size16>(65535));
+        solver.Assert(context.Eq(bitVecResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_NegativeOne_Size32_CreatesBitVecWithCorrectValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Int(-1);
+        var bitVecResult = x.ToBitVec<Size32>();
+
+        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+
+        // Test that the bit-vector represents the same value
+        var expected = context.BitVec(new BitVec<Size32>(-1));
+        solver.Assert(context.Eq(bitVecResult, expected));
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToBitVec_Zero_Size64_CreatesBitVecWithCorrectValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.Int(0);
+        var bitVecResult = x.ToBitVec<Size64>();
+
+        Assert.That(Z3BitVec<Size64>.Size, Is.EqualTo(64u));
+
+        // Test that the bit-vector represents the same value
+        var expected = context.BitVec(new BitVec<Size64>(0));
         solver.Assert(context.Eq(bitVecResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -58,6 +165,7 @@ public class Z3IntExprCreationTests
     public void ToReal_IntExpr_CreatesRealExpr(int value)
     {
         using var context = new Z3Context();
+        using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
         var x = context.Int(value);

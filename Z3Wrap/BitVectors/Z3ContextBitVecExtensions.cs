@@ -7,7 +7,7 @@ namespace Spaceorc.Z3Wrap.BitVectors;
 /// Provides extension methods for Z3Context to work with compile-time size-validated bitvector expressions.
 /// Supports type-safe bitvector operations where size mismatches are caught at compile time.
 /// </summary>
-public static partial class Z3ContextBitVecExtensions2
+public static partial class Z3ContextBitVecExtensions
 {
     /// <summary>
     /// Creates a compile-time size-validated bitvector constant with the specified name.
