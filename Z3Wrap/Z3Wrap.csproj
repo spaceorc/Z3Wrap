@@ -204,6 +204,39 @@
     <Compile Update="RealTheory\Z3Real.Functions.cs">
       <DependentUpon>Z3Real.cs</DependentUpon>
     </Compile>
+    <Compile Update="IntTheory\Z3ContextIntExtensions.Arithmetic.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3ContextIntExtensions.Comparison.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3ContextIntExtensions.Conversion.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3ContextIntExtensions.Equality.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3ContextIntExtensions.Functions.cs">
+      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3Int.Arithmetic.cs">
+      <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3Int.Comparison.cs">
+      <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3Int.Conversion.cs">
+      <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3Int.Equality.cs">
+      <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3Int.Functions.cs">
+      <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
+    <Compile Update="IntTheory\Z3Int.Implicit.cs">
+      <DependentUpon>Z3Int.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />

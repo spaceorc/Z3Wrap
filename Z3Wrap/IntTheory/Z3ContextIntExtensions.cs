@@ -25,6 +25,24 @@ public static partial class Z3ContextIntExtensions
     }
 
     /// <summary>
+    /// Creates an integer expression from an int value.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="value">The integer value to create an expression for.</param>
+    /// <returns>A Z3 integer expression representing the given value.</returns>
+    public static Z3Int Int(this Z3Context context, int value) =>
+        context.Int(new BigInteger(value));
+
+    /// <summary>
+    /// Creates an integer expression from a long value.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="value">The long integer value to create an expression for.</param>
+    /// <returns>A Z3 integer expression representing the given value.</returns>
+    public static Z3Int Int(this Z3Context context, long value) =>
+        context.Int(new BigInteger(value));
+
+    /// <summary>
     /// Creates a named integer constant (variable) that can be used in expressions.
     /// </summary>
     /// <param name="context">The Z3 context.</param>
