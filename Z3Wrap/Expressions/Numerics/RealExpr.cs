@@ -13,8 +13,6 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// </summary>
 public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<RealExpr>
 {
-    #region Core Implementation
-
     private RealExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
 
@@ -25,10 +23,6 @@ public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<Real
         SafeNativeMethods.Z3MkRealSort(context.Handle);
 
     static RealExpr IArithmeticExpr<RealExpr>.Zero(Z3Context context) => context.Real(0);
-
-    #endregion
-
-    #region Implicit Conversions
 
     /// <summary>
     /// Converts integer to real expression.
@@ -70,10 +64,6 @@ public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<Real
     /// <exception cref="InvalidOperationException">Thrown when no current context is set.</exception>
     public static implicit operator RealExpr(Real value) => Z3Context.Current.Real(value);
 
-    #endregion
-
-    #region Arithmetic Operators
-
     /// <summary>
     /// Adds two real expressions.
     /// </summary>
@@ -113,10 +103,6 @@ public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<Real
     /// <returns>Expression representing -expr.</returns>
     public static RealExpr operator -(RealExpr expr) => expr.UnaryMinus();
 
-    #endregion
-
-    #region Comparison Operators
-
     /// <summary>
     /// Creates less-than comparison between real expressions.
     /// </summary>
@@ -149,10 +135,6 @@ public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<Real
     /// <returns>Boolean expression representing left ≥ right.</returns>
     public static BoolExpr operator >=(RealExpr left, RealExpr right) => left.Ge(right);
 
-    #endregion
-
-    #region Equality Operators
-
     /// <summary>
     /// Creates equality comparison between real expressions.
     /// </summary>
@@ -168,7 +150,5 @@ public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<Real
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left != right.</returns>
     public static BoolExpr operator !=(RealExpr left, RealExpr right) => left.Neq(right);
-
-    #endregion
 }
 #pragma warning restore CS0660, CS0661

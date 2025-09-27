@@ -14,8 +14,6 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// </summary>
 public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExpr>
 {
-    #region Core Implementation
-
     private IntExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
 
@@ -26,10 +24,6 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
         SafeNativeMethods.Z3MkIntSort(context.Handle);
 
     static IntExpr IArithmeticExpr<IntExpr>.Zero(Z3Context context) => context.Int(0);
-
-    #endregion
-
-    #region Implicit Conversions
 
     /// <summary>
     /// Implicitly converts an integer value to a Z3Int using the current thread-local context.
@@ -54,10 +48,6 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     /// <returns>A Z3Int representing the integer constant.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no current context is set.</exception>
     public static implicit operator IntExpr(BigInteger value) => Z3Context.Current.Int(value);
-
-    #endregion
-
-    #region Arithmetic Operators
 
     /// <summary>
     /// Addition operator for integer expressions.
@@ -106,10 +96,6 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     /// <returns>Expression representing -expr.</returns>
     public static IntExpr operator -(IntExpr expr) => expr.UnaryMinus();
 
-    #endregion
-
-    #region Comparison Operators
-
     /// <summary>
     /// Less-than operator for integer expressions.
     /// </summary>
@@ -142,10 +128,6 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     /// <returns>Boolean expression representing left &gt;= right.</returns>
     public static BoolExpr operator >=(IntExpr left, IntExpr right) => left.Ge(right);
 
-    #endregion
-
-    #region Equality Operators
-
     /// <summary>
     /// Equality operator for integer expressions.
     /// </summary>
@@ -161,7 +143,5 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left != right.</returns>
     public static BoolExpr operator !=(IntExpr left, IntExpr right) => left.Neq(right);
-
-    #endregion
 }
 #pragma warning restore CS0660, CS0661
