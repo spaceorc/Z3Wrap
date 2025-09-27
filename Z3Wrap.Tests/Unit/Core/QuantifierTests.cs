@@ -1,6 +1,7 @@
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Arrays;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Functions;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Expressions.Quantifiers;
@@ -318,5 +319,23 @@ public class QuantifierTests
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ForAll_WithSinglePattern_CreatesQuantifierWithPattern()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        var x = context.IntConst("x");
+        var f = context.Func<IntExpr, IntExpr>("f");
+        var fx = f.Apply(x);
+
+        var body = fx == x + 1;
+
+        var forall = context.ForAll(0, [x], [fx], body);
+
+        Assert.That(forall, Is.Not.Null);
+        Assert.That(forall.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
 }
