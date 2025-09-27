@@ -3,16 +3,8 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Core;
 
-/// <summary>
-/// Base class for all Z3 expressions, providing common functionality for equality, inequality, and string representation.
-/// All Z3 expressions are immutable and associated with a specific Z3 context.
-/// </summary>
 public abstract class Z3Expr
 {
-    /// <summary>
-    /// Base class for all Z3 expressions, providing common functionality for equality, inequality, and string representation.
-    /// All Z3 expressions are immutable and associated with a specific Z3 context.
-    /// </summary>
     protected Z3Expr(Z3Context context, IntPtr handle)
     {
         Handle = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
@@ -28,17 +20,8 @@ public abstract class Z3Expr
 
     internal IntPtr Handle { get; }
 
-    /// <summary>
-    /// Gets the Z3 context that owns this expression.
-    /// </summary>
     public Z3Context Context { get; }
 
-    /// <summary>
-    /// Determines whether this expression is equal to the specified object.
-    /// Uses handle-based equality for Z3 expressions.
-    /// </summary>
-    /// <param name="obj">The object to compare with this expression.</param>
-    /// <returns>true if the object is a Z3Expr with the same handle; otherwise, false.</returns>
     public override bool Equals(object? obj)
     {
         if (obj is Z3Expr expr)
@@ -46,16 +29,8 @@ public abstract class Z3Expr
         return false;
     }
 
-    /// <summary>
-    /// Returns the hash code for this expression based on its Z3 handle.
-    /// </summary>
-    /// <returns>A 32-bit signed integer hash code.</returns>
     public override int GetHashCode() => Handle.GetHashCode();
 
-    /// <summary>
-    /// Returns a string representation of this expression in Z3's native format.
-    /// </summary>
-    /// <returns>A string representation of the expression, or status information if disposed/invalid.</returns>
     public override string ToString()
     {
         try

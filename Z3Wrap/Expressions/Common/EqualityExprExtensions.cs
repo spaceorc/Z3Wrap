@@ -4,7 +4,7 @@ using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.Expressions.Common;
 
-public static class ExprEqualityExtensions
+public static class EqualityExprExtensions
 {
     public static BoolExpr Eq<T>(this T left, T right)
         where T : Z3Expr, IExprType<T> => left.Context.Eq(left, right);

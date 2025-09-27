@@ -10,10 +10,6 @@ using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Spaceorc.Z3Wrap.Core;
 
-/// <summary>
-/// Represents a Z3 model that provides variable assignments satisfying a set of constraints.
-/// Supports extraction of values for Boolean, integer, real, and bitvector expressions with unlimited precision.
-/// </summary>
 public sealed class Z3Model
 {
     private readonly Z3Context context;
@@ -42,14 +38,6 @@ public sealed class Z3Model
         }
     }
 
-    /// <summary>
-    /// Evaluates an expression in this model, returning a concrete value expression.
-    /// </summary>
-    /// <param name="expr">The expression to evaluate.</param>
-    /// <param name="modelCompletion">Whether to use model completion for undefined values (defaults to true).</param>
-    /// <returns>A concrete Z3 expression representing the evaluated result.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when expression evaluation fails.</exception>
     public T Evaluate<T>(T expr, bool modelCompletion = true)
         where T : Z3Expr, IExprType<T>
     {
@@ -61,14 +49,6 @@ public sealed class Z3Model
         return Z3Expr.Create<T>(context, result);
     }
 
-    /// <summary>
-    /// Extracts the integer value of an integer expression from this model.
-    /// Supports unlimited precision using BigInteger.
-    /// </summary>
-    /// <param name="expr">The integer expression to evaluate.</param>
-    /// <returns>The BigInteger value of the expression in this model.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to an integer or parsing fails.</exception>
     public BigInteger GetIntValue(IntExpr expr)
     {
         var valueStr = GetNumericValueAsString(expr);
@@ -79,13 +59,6 @@ public sealed class Z3Model
         return value;
     }
 
-    /// <summary>
-    /// Extracts the Boolean value of a Boolean expression from this model.
-    /// </summary>
-    /// <param name="expr">The Boolean expression to evaluate.</param>
-    /// <returns>The Boolean value of the expression in this model.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a Boolean value.</exception>
     public bool GetBoolValue(BoolExpr expr)
     {
         var evaluated = Evaluate(expr);
@@ -104,23 +77,8 @@ public sealed class Z3Model
         };
     }
 
-    /// <summary>
-    /// Extracts the real number value of a real expression from this model.
-    /// Returns an exact rational number with unlimited precision.
-    /// </summary>
-    /// <param name="expr">The real expression to evaluate.</param>
-    /// <returns>The exact Real value of the expression in this model.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a real number or parsing fails.</exception>
     public Real GetRealValue(RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
 
-    /// <summary>
-    /// Extracts the bitvector value of a bitvector expression from this model.
-    /// </summary>
-    /// <param name="expr">The bitvector expression to evaluate.</param>
-    /// <returns>The BitVec value of the expression in this model.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a bitvector or parsing fails.</exception>
     public Bv<TSize> GetBitVec<TSize>(BvExpr<TSize> expr)
         where TSize : ISize
     {
@@ -132,14 +90,6 @@ public sealed class Z3Model
         return new Bv<TSize>(value);
     }
 
-    /// <summary>
-    /// Extracts the string representation of a numeric expression's value from this model.
-    /// Useful for custom parsing or when exact string representation is needed.
-    /// </summary>
-    /// <param name="expr">The numeric expression to evaluate.</param>
-    /// <returns>The string representation of the numeric value.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a numeric value.</exception>
     public string GetNumericValueAsString<T>(T expr)
         where T : Z3Expr, INumericExpr, IExprType<T>
     {
@@ -147,10 +97,6 @@ public sealed class Z3Model
         return ExtractNumeralString(context, evaluated, expr);
     }
 
-    /// <summary>
-    /// Returns a string representation of this model showing all variable assignments.
-    /// </summary>
-    /// <returns>A human-readable string representation of the model, or status information if invalidated/disposed.</returns>
     public override string ToString()
     {
         if (invalidated)

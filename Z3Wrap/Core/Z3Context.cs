@@ -3,10 +3,6 @@ using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Core;
 
-/// <summary>
-/// Represents a Z3 theorem prover context that manages expressions, solvers, and memory.
-/// Provides thread-local scoped setup for natural mathematical syntax and automatic resource cleanup.
-/// </summary>
 public class Z3Context : IDisposable
 {
     private static readonly ThreadLocal<Z3Context?> currentContext = new(() => null);
@@ -17,10 +13,6 @@ public class Z3Context : IDisposable
     private IntPtr contextHandle;
     private bool disposed;
 
-    /// <summary>
-    /// Initializes a new Z3 context with default configuration.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when Z3 context creation fails.</exception>
     public Z3Context()
     {
         configHandle = SafeNativeMethods.Z3MkConfig();
@@ -35,11 +27,6 @@ public class Z3Context : IDisposable
         }
     }
 
-    /// <summary>
-    /// Initializes a new Z3 context with the specified parameters.
-    /// </summary>
-    /// <param name="parameters">Configuration parameters as key-value pairs.</param>
-    /// <exception cref="InvalidOperationException">Thrown when Z3 context creation fails.</exception>
     public Z3Context(Dictionary<string, string> parameters)
         : this()
     {
@@ -56,21 +43,12 @@ public class Z3Context : IDisposable
         }
     }
 
-    /// <summary>
-    /// Releases all resources used by the Z3 context, including tracked expressions and solvers.
-    /// </summary>
     public void Dispose()
     {
         DisposeCore();
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>
-    /// Sets a configuration parameter for this Z3 context.
-    /// </summary>
-    /// <param name="paramName">The parameter name.</param>
-    /// <param name="paramValue">The parameter value.</param>
-    /// <exception cref="ObjectDisposedException">Thrown when the context has been disposed.</exception>
     public void SetParameter(string paramName, string paramValue)
     {
         ThrowIfDisposed();
@@ -80,11 +58,6 @@ public class Z3Context : IDisposable
         SafeNativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
-    /// <summary>
-    /// Creates a new general-purpose solver that supports all Z3 theories and tactics.
-    /// </summary>
-    /// <returns>A new Z3 solver instance.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the context has been disposed.</exception>
     public Z3Solver CreateSolver()
     {
         var solver = new Z3Solver(this, false);
@@ -92,12 +65,6 @@ public class Z3Context : IDisposable
         return solver;
     }
 
-    /// <summary>
-    /// Creates a new simplified solver optimized for basic satisfiability checking.
-    /// Faster than the general solver but with limited functionality.
-    /// </summary>
-    /// <returns>A new simplified Z3 solver instance.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the context has been disposed.</exception>
     public Z3Solver CreateSimpleSolver()
     {
         var solver = new Z3Solver(this, true);
@@ -155,6 +122,7 @@ public class Z3Context : IDisposable
             {
                 DisposeSolver(solver);
             }
+
             trackedSolvers.Clear();
 
             // Then clean up all tracked AST nodes
@@ -177,45 +145,25 @@ public class Z3Context : IDisposable
         disposed = true;
     }
 
-    /// <summary>
-    /// Finalizes the Z3Context instance, ensuring proper cleanup of native resources.
-    /// </summary>
     ~Z3Context()
     {
         DisposeCore();
     }
 
-    /// <summary>
-    /// Gets the current thread-local Z3 context used for implicit conversions and natural syntax.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when no context is currently set up.</exception>
     public static Z3Context Current =>
         currentContext.Value
         ?? throw new InvalidOperationException(
             "No Z3Context is currently set. Use 'using var scope = context.SetUp()' to enable implicit conversions."
         );
 
-    /// <summary>
-    /// Gets a value indicating whether a Z3 context is currently set up for this thread.
-    /// </summary>
     public static bool IsCurrentContextSet => currentContext.Value != null;
 
-    /// <summary>
-    /// Sets up this context as the current thread-local context, enabling natural mathematical syntax.
-    /// Use within a using statement to automatically restore the previous context.
-    /// </summary>
-    /// <returns>A disposable scope that restores the previous context when disposed.</returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the context has been disposed.</exception>
     public SetUpScope SetUp()
     {
         ThrowIfDisposed();
         return new SetUpScope(this);
     }
 
-    /// <summary>
-    /// Represents a scoped context setup that enables natural mathematical syntax within its lifetime.
-    /// Automatically restores the previous thread-local context when disposed.
-    /// </summary>
     public sealed class SetUpScope : IDisposable
     {
         private readonly Z3Context? previousContext;
@@ -226,9 +174,6 @@ public class Z3Context : IDisposable
             currentContext.Value = context;
         }
 
-        /// <summary>
-        /// Restores the previous thread-local Z3 context.
-        /// </summary>
         public void Dispose()
         {
             currentContext.Value = previousContext;
