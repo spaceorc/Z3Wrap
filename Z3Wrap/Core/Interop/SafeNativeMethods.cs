@@ -3,10 +3,13 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal static class SafeNativeMethods
 {
     // Configuration and context methods
+    /// <inheritdoc cref="NativeMethods.Z3MkConfig"/>
     internal static IntPtr Z3MkConfig() => NativeMethods.Z3MkConfig();
 
+    /// <inheritdoc cref="NativeMethods.Z3DelConfig"/>
     internal static void Z3DelConfig(IntPtr cfg) => NativeMethods.Z3DelConfig(cfg);
 
+    /// <inheritdoc cref="NativeMethods.Z3MkContextRc"/>
     internal static IntPtr Z3MkContextRc(IntPtr cfg)
     {
         var result = NativeMethods.Z3MkContextRc(cfg);
@@ -19,12 +22,14 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3DelContext"/>
     internal static void Z3DelContext(IntPtr ctx)
     {
         NativeMethods.Z3DelContext(ctx);
         // No error check needed for deletion
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3UpdateParamValue"/>
     internal static void Z3UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
     {
         NativeMethods.Z3UpdateParamValue(ctx, paramId, paramValue);
@@ -32,12 +37,14 @@ internal static class SafeNativeMethods
     }
 
     // Reference counting
+    /// <inheritdoc cref="NativeMethods.Z3IncRef"/>
     internal static void Z3IncRef(IntPtr ctx, IntPtr ast)
     {
         NativeMethods.Z3IncRef(ctx, ast);
         // No error check needed for ref counting
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3DecRef"/>
     internal static void Z3DecRef(IntPtr ctx, IntPtr ast)
     {
         NativeMethods.Z3DecRef(ctx, ast);
@@ -45,6 +52,7 @@ internal static class SafeNativeMethods
     }
 
     // Symbol creation
+    /// <inheritdoc cref="NativeMethods.Z3MkStringSymbol"/>
     internal static IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
     {
         var result = NativeMethods.Z3MkStringSymbol(ctx, str);
@@ -53,6 +61,7 @@ internal static class SafeNativeMethods
     }
 
     // Sort creation
+    /// <inheritdoc cref="NativeMethods.Z3MkBoolSort"/>
     internal static IntPtr Z3MkBoolSort(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkBoolSort(ctx);
@@ -60,6 +69,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkIntSort"/>
     internal static IntPtr Z3MkIntSort(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkIntSort(ctx);
@@ -67,6 +77,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkRealSort"/>
     internal static IntPtr Z3MkRealSort(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkRealSort(ctx);
@@ -74,6 +85,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSort"/>
     internal static IntPtr Z3MkBvSort(IntPtr ctx, uint size)
     {
         var result = NativeMethods.Z3MkBvSort(ctx, size);
@@ -81,6 +93,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkArraySort"/>
     internal static IntPtr Z3MkArraySort(IntPtr ctx, IntPtr indexSort, IntPtr valueSort)
     {
         var result = NativeMethods.Z3MkArraySort(ctx, indexSort, valueSort);
@@ -89,6 +102,7 @@ internal static class SafeNativeMethods
     }
 
     // Expression creation
+    /// <inheritdoc cref="NativeMethods.Z3MkConst"/>
     internal static IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
     {
         var result = NativeMethods.Z3MkConst(ctx, symbol, sort);
@@ -96,6 +110,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkTrue"/>
     internal static IntPtr Z3MkTrue(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkTrue(ctx);
@@ -103,6 +118,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkFalse"/>
     internal static IntPtr Z3MkFalse(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkFalse(ctx);
@@ -110,6 +126,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkNumeral"/>
     internal static IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
     {
         var result = NativeMethods.Z3MkNumeral(ctx, numeral, sort);
@@ -118,6 +135,7 @@ internal static class SafeNativeMethods
     }
 
     // Boolean operations
+    /// <inheritdoc cref="NativeMethods.Z3MkAnd"/>
     internal static IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = NativeMethods.Z3MkAnd(ctx, numArgs, args);
@@ -125,6 +143,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkOr"/>
     internal static IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = NativeMethods.Z3MkOr(ctx, numArgs, args);
@@ -132,6 +151,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkNot"/>
     internal static IntPtr Z3MkNot(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3MkNot(ctx, expr);
@@ -139,6 +159,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkImplies"/>
     internal static IntPtr Z3MkImplies(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkImplies(ctx, t1, t2);
@@ -146,6 +167,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkIff"/>
     internal static IntPtr Z3MkIff(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkIff(ctx, t1, t2);
@@ -153,6 +175,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkXor"/>
     internal static IntPtr Z3MkXor(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkXor(ctx, t1, t2);
@@ -160,6 +183,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkIte"/>
     internal static IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
     {
         var result = NativeMethods.Z3MkIte(ctx, condition, thenExpr, elseExpr);
@@ -168,6 +192,7 @@ internal static class SafeNativeMethods
     }
 
     // Arithmetic operations
+    /// <inheritdoc cref="NativeMethods.Z3MkAdd"/>
     internal static IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = NativeMethods.Z3MkAdd(ctx, numArgs, args);
@@ -175,6 +200,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkSub"/>
     internal static IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = NativeMethods.Z3MkSub(ctx, numArgs, args);
@@ -182,6 +208,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkMul"/>
     internal static IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = NativeMethods.Z3MkMul(ctx, numArgs, args);
@@ -189,6 +216,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkDiv"/>
     internal static IntPtr Z3MkDiv(IntPtr ctx, IntPtr arg1, IntPtr arg2)
     {
         var result = NativeMethods.Z3MkDiv(ctx, arg1, arg2);
@@ -196,6 +224,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkMod"/>
     internal static IntPtr Z3MkMod(IntPtr ctx, IntPtr arg1, IntPtr arg2)
     {
         var result = NativeMethods.Z3MkMod(ctx, arg1, arg2);
@@ -203,6 +232,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkUnaryMinus"/>
     internal static IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
     {
         var result = NativeMethods.Z3MkUnaryMinus(ctx, arg);
@@ -211,6 +241,7 @@ internal static class SafeNativeMethods
     }
 
     // Comparison operations
+    /// <inheritdoc cref="NativeMethods.Z3MkEq"/>
     internal static IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkEq(ctx, left, right);
@@ -218,6 +249,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkLt"/>
     internal static IntPtr Z3MkLt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkLt(ctx, t1, t2);
@@ -225,6 +257,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkLe"/>
     internal static IntPtr Z3MkLe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkLe(ctx, t1, t2);
@@ -232,6 +265,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkGt"/>
     internal static IntPtr Z3MkGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkGt(ctx, t1, t2);
@@ -239,6 +273,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkGe"/>
     internal static IntPtr Z3MkGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = NativeMethods.Z3MkGe(ctx, t1, t2);
@@ -247,6 +282,7 @@ internal static class SafeNativeMethods
     }
 
     // Type conversions
+    /// <inheritdoc cref="NativeMethods.Z3MkInt2Real"/>
     internal static IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr term)
     {
         var result = NativeMethods.Z3MkInt2Real(ctx, term);
@@ -254,6 +290,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkReal2Int"/>
     internal static IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr term)
     {
         var result = NativeMethods.Z3MkReal2Int(ctx, term);
@@ -261,6 +298,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkInt2Bv"/>
     internal static IntPtr Z3MkInt2Bv(IntPtr ctx, uint size, IntPtr term)
     {
         var result = NativeMethods.Z3MkInt2Bv(ctx, size, term);
@@ -268,6 +306,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBv2Int"/>
     internal static IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr term, bool isSigned)
     {
         var result = NativeMethods.Z3MkBv2Int(ctx, term, isSigned);
@@ -276,6 +315,7 @@ internal static class SafeNativeMethods
     }
 
     // Quantifier operations
+    /// <inheritdoc cref="NativeMethods.Z3MkForallConst"/>
     internal static IntPtr Z3MkForallConst(
         IntPtr ctx,
         uint weight,
@@ -291,6 +331,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkExistsConst"/>
     internal static IntPtr Z3MkExistsConst(
         IntPtr ctx,
         uint weight,
@@ -306,6 +347,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkPattern"/>
     internal static IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
     {
         var result = NativeMethods.Z3MkPattern(ctx, numPatterns, terms);
@@ -314,6 +356,7 @@ internal static class SafeNativeMethods
     }
 
     // Function declaration and application operations
+    /// <inheritdoc cref="NativeMethods.Z3MkFuncDecl"/>
     internal static IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var result = NativeMethods.Z3MkFuncDecl(ctx, symbol, domainSize, domain, range);
@@ -321,6 +364,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkApp"/>
     internal static IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
     {
         var result = NativeMethods.Z3MkApp(ctx, funcDecl, numArgs, args);
@@ -329,6 +373,7 @@ internal static class SafeNativeMethods
     }
 
     // Solver operations
+    /// <inheritdoc cref="NativeMethods.Z3MkSolver"/>
     internal static IntPtr Z3MkSolver(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkSolver(ctx);
@@ -336,6 +381,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkSimpleSolver"/>
     internal static IntPtr Z3MkSimpleSolver(IntPtr ctx)
     {
         var result = NativeMethods.Z3MkSimpleSolver(ctx);
@@ -343,24 +389,28 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverIncRef"/>
     internal static void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
     {
         NativeMethods.Z3SolverIncRef(ctx, solver);
         // No error check needed for ref counting
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverDecRef"/>
     internal static void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
     {
         NativeMethods.Z3SolverDecRef(ctx, solver);
         // No error check needed for ref counting
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverAssert"/>
     internal static void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr expr)
     {
         NativeMethods.Z3SolverAssert(ctx, solver, expr);
         CheckError(ctx);
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverCheck"/>
     internal static int Z3SolverCheck(IntPtr ctx, IntPtr solver)
     {
         var result = NativeMethods.Z3SolverCheck(ctx, solver);
@@ -368,18 +418,21 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverPush"/>
     internal static void Z3SolverPush(IntPtr ctx, IntPtr solver)
     {
         NativeMethods.Z3SolverPush(ctx, solver);
         CheckError(ctx);
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverPop"/>
     internal static void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
     {
         NativeMethods.Z3SolverPop(ctx, solver, numScopes);
         CheckError(ctx);
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverGetModel"/>
     internal static IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
     {
         var result = NativeMethods.Z3SolverGetModel(ctx, solver);
@@ -388,18 +441,21 @@ internal static class SafeNativeMethods
     }
 
     // Model operations
+    /// <inheritdoc cref="NativeMethods.Z3ModelIncRef"/>
     internal static void Z3ModelIncRef(IntPtr ctx, IntPtr model)
     {
         NativeMethods.Z3ModelIncRef(ctx, model);
         // No error check needed for ref counting
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3ModelDecRef"/>
     internal static void Z3ModelDecRef(IntPtr ctx, IntPtr model)
     {
         NativeMethods.Z3ModelDecRef(ctx, model);
         // No error check needed for ref counting
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3ModelToString"/>
     internal static IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
     {
         var result = NativeMethods.Z3ModelToString(ctx, model);
@@ -407,6 +463,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3AstToString"/>
     internal static IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
     {
         var result = NativeMethods.Z3AstToString(ctx, ast);
@@ -414,6 +471,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3ModelEval"/>
     internal static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
         var returnValue = NativeMethods.Z3ModelEval(ctx, model, expr, modelCompletion, out result);
@@ -421,6 +479,7 @@ internal static class SafeNativeMethods
         return returnValue;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetNumeralString"/>
     internal static IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3GetNumeralString(ctx, expr);
@@ -428,6 +487,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetBoolValue"/>
     internal static int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3GetBoolValue(ctx, expr);
@@ -435,6 +495,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3IsNumeralAst"/>
     internal static bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3IsNumeralAst(ctx, expr);
@@ -442,6 +503,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetSort"/>
     internal static IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3GetSort(ctx, expr);
@@ -449,6 +511,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetSortKind"/>
     internal static int Z3GetSortKind(IntPtr ctx, IntPtr sort)
     {
         var result = NativeMethods.Z3GetSortKind(ctx, sort);
@@ -457,6 +520,7 @@ internal static class SafeNativeMethods
     }
 
     // Array operations
+    /// <inheritdoc cref="NativeMethods.Z3MkConstArray"/>
     internal static IntPtr Z3MkConstArray(IntPtr ctx, IntPtr sort, IntPtr value)
     {
         var result = NativeMethods.Z3MkConstArray(ctx, sort, value);
@@ -464,6 +528,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkStore"/>
     internal static IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
     {
         var result = NativeMethods.Z3MkStore(ctx, array, index, value);
@@ -471,6 +536,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkSelect"/>
     internal static IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
     {
         var result = NativeMethods.Z3MkSelect(ctx, array, index);
@@ -478,6 +544,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetArraySortDomain"/>
     internal static IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr sort)
     {
         var result = NativeMethods.Z3GetArraySortDomain(ctx, sort);
@@ -485,6 +552,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetArraySortRange"/>
     internal static IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr sort)
     {
         var result = NativeMethods.Z3GetArraySortRange(ctx, sort);
@@ -493,6 +561,7 @@ internal static class SafeNativeMethods
     }
 
     // BitVector operations
+    /// <inheritdoc cref="NativeMethods.Z3MkBvAdd"/>
     internal static IntPtr Z3MkBvAdd(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvAdd(ctx, left, right);
@@ -500,6 +569,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSub"/>
     internal static IntPtr Z3MkBvSub(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSub(ctx, left, right);
@@ -507,6 +577,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvMul"/>
     internal static IntPtr Z3MkBvMul(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvMul(ctx, left, right);
@@ -514,6 +585,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSDiv"/>
     internal static IntPtr Z3MkBvSDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSDiv(ctx, left, right);
@@ -521,6 +593,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvUDiv"/>
     internal static IntPtr Z3MkBvUDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvUDiv(ctx, left, right);
@@ -528,6 +601,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSRem"/>
     internal static IntPtr Z3MkBvSRem(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSRem(ctx, left, right);
@@ -535,6 +609,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvURem"/>
     internal static IntPtr Z3MkBvURem(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvURem(ctx, left, right);
@@ -542,6 +617,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSMod"/>
     internal static IntPtr Z3MkBvSMod(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSMod(ctx, left, right);
@@ -549,6 +625,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvNeg"/>
     internal static IntPtr Z3MkBvNeg(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3MkBvNeg(ctx, expr);
@@ -556,6 +633,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvAnd"/>
     internal static IntPtr Z3MkBvAnd(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvAnd(ctx, left, right);
@@ -563,6 +641,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvOr"/>
     internal static IntPtr Z3MkBvOr(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvOr(ctx, left, right);
@@ -570,6 +649,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvXor"/>
     internal static IntPtr Z3MkBvXor(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvXor(ctx, left, right);
@@ -577,6 +657,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvNot"/>
     internal static IntPtr Z3MkBvNot(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3MkBvNot(ctx, expr);
@@ -584,6 +665,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvShl"/>
     internal static IntPtr Z3MkBvShl(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvShl(ctx, left, right);
@@ -591,6 +673,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvAShr"/>
     internal static IntPtr Z3MkBvAShr(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvAShr(ctx, left, right);
@@ -598,6 +681,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvLShr"/>
     internal static IntPtr Z3MkBvLShr(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvLShr(ctx, left, right);
@@ -605,6 +689,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSLt"/>
     internal static IntPtr Z3MkBvSLt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSLt(ctx, left, right);
@@ -612,6 +697,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvULt"/>
     internal static IntPtr Z3MkBvULt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvULt(ctx, left, right);
@@ -619,6 +705,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSLe"/>
     internal static IntPtr Z3MkBvSLe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSLe(ctx, left, right);
@@ -626,6 +713,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvULe"/>
     internal static IntPtr Z3MkBvULe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvULe(ctx, left, right);
@@ -633,6 +721,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSGt"/>
     internal static IntPtr Z3MkBvSGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSGt(ctx, left, right);
@@ -640,6 +729,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvUGt"/>
     internal static IntPtr Z3MkBvUGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvUGt(ctx, left, right);
@@ -647,6 +737,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSGe"/>
     internal static IntPtr Z3MkBvSGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSGe(ctx, left, right);
@@ -654,6 +745,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvUGe"/>
     internal static IntPtr Z3MkBvUGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvUGe(ctx, left, right);
@@ -662,6 +754,7 @@ internal static class SafeNativeMethods
     }
 
     // BitVector functions
+    /// <inheritdoc cref="NativeMethods.Z3MkSignExt"/>
     internal static IntPtr Z3MkSignExt(IntPtr ctx, uint extra, IntPtr expr)
     {
         var result = NativeMethods.Z3MkSignExt(ctx, extra, expr);
@@ -669,6 +762,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkZeroExt"/>
     internal static IntPtr Z3MkZeroExt(IntPtr ctx, uint extra, IntPtr expr)
     {
         var result = NativeMethods.Z3MkZeroExt(ctx, extra, expr);
@@ -676,6 +770,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkExtract"/>
     internal static IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr expr)
     {
         var result = NativeMethods.Z3MkExtract(ctx, high, low, expr);
@@ -683,6 +778,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkRepeat"/>
     internal static IntPtr Z3MkRepeat(IntPtr ctx, uint count, IntPtr expr)
     {
         var result = NativeMethods.Z3MkRepeat(ctx, count, expr);
@@ -690,6 +786,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3GetBvSortSize"/>
     internal static uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
     {
         var result = NativeMethods.Z3GetBvSortSize(ctx, sort);
@@ -698,6 +795,7 @@ internal static class SafeNativeMethods
     }
 
     // BitVector overflow checks
+    /// <inheritdoc cref="NativeMethods.Z3MkBvAddNoOverflow"/>
     internal static IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
         var result = NativeMethods.Z3MkBvAddNoOverflow(ctx, left, right, isSigned);
@@ -705,6 +803,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSubNoOverflow"/>
     internal static IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSubNoOverflow(ctx, left, right);
@@ -712,6 +811,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSubNoUnderflow"/>
     internal static IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
         var result = NativeMethods.Z3MkBvSubNoUnderflow(ctx, left, right, isSigned);
@@ -719,6 +819,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvMulNoOverflow"/>
     internal static IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
         var result = NativeMethods.Z3MkBvMulNoOverflow(ctx, left, right, isSigned);
@@ -726,6 +827,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvMulNoUnderflow"/>
     internal static IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvMulNoUnderflow(ctx, left, right);
@@ -733,6 +835,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvAddNoUnderflow"/>
     internal static IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvAddNoUnderflow(ctx, left, right);
@@ -740,6 +843,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvSDivNoOverflow"/>
     internal static IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = NativeMethods.Z3MkBvSDivNoOverflow(ctx, left, right);
@@ -747,6 +851,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3MkBvNegNoOverflow"/>
     internal static IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr expr)
     {
         var result = NativeMethods.Z3MkBvNegNoOverflow(ctx, expr);
@@ -755,6 +860,7 @@ internal static class SafeNativeMethods
     }
 
     // Solver operations - add missing methods
+    /// <inheritdoc cref="NativeMethods.Z3SolverGetReasonUnknown"/>
     internal static IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
         var result = NativeMethods.Z3SolverGetReasonUnknown(ctx, solver);
@@ -762,6 +868,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
+    /// <inheritdoc cref="NativeMethods.Z3SolverReset"/>
     internal static void Z3SolverReset(IntPtr ctx, IntPtr solver)
     {
         NativeMethods.Z3SolverReset(ctx, solver);

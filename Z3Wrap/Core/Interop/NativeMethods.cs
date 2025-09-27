@@ -307,6 +307,14 @@ internal static class NativeMethods
         return ptr;
     }
 
+    /// <summary>
+    /// Creates a Z3 configuration object that can be used to configure various solver settings.
+    /// </summary>
+    /// <returns>Handle to the created Z3 configuration object.</returns>
+    /// <remarks>
+    /// The configuration object must be deleted using Z3DelConfig when no longer needed.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkConfig()
     {
         var funcPtr = GetFunctionPointer("Z3_mk_config");
@@ -314,6 +322,14 @@ internal static class NativeMethods
         return func();
     }
 
+    /// <summary>
+    /// Deletes a Z3 configuration object and releases its memory.
+    /// </summary>
+    /// <param name="cfg">The Z3 configuration handle to delete.</param>
+    /// <remarks>
+    /// Should be called for every configuration object created with Z3MkConfig.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3DelConfig(IntPtr cfg)
     {
         var funcPtr = GetFunctionPointer("Z3_del_config");
@@ -321,6 +337,16 @@ internal static class NativeMethods
         func(cfg);
     }
 
+    /// <summary>
+    /// Creates a Z3 context with reference counting enabled for automatic memory management.
+    /// </summary>
+    /// <param name="cfg">The Z3 configuration handle to use for context creation.</param>
+    /// <returns>Handle to the created Z3 context with reference counting.</returns>
+    /// <remarks>
+    /// Reference counting automatically manages memory for AST nodes created within this context.
+    /// The context must be deleted using Z3DelContext when no longer needed.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkContextRc(IntPtr cfg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_context_rc");
@@ -328,6 +354,15 @@ internal static class NativeMethods
         return func(cfg);
     }
 
+    /// <summary>
+    /// Deletes a Z3 context and releases all associated memory.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle to delete.</param>
+    /// <remarks>
+    /// All objects created within this context become invalid after deletion.
+    /// Should be called for every context created with Z3MkContextRc.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3DelContext(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_del_context");
@@ -335,6 +370,16 @@ internal static class NativeMethods
         func(ctx);
     }
 
+    /// <summary>
+    /// Updates a parameter value in the Z3 context configuration.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramId">The parameter identifier to update.</param>
+    /// <param name="paramValue">The new parameter value to set.</param>
+    /// <remarks>
+    /// Used to dynamically modify Z3 solver behavior and optimization settings.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_update_param_value");
@@ -342,6 +387,16 @@ internal static class NativeMethods
         func(ctx, paramId, paramValue);
     }
 
+    /// <summary>
+    /// Increments the reference counter of a Z3 AST node to prevent premature deallocation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The Z3 AST node handle to increment reference count for.</param>
+    /// <remarks>
+    /// Z3 uses reference counting for memory management. Must be paired with Z3DecRef
+    /// when the AST node is no longer needed to prevent memory leaks.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3IncRef(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_inc_ref");
@@ -349,6 +404,16 @@ internal static class NativeMethods
         func(ctx, ast);
     }
 
+    /// <summary>
+    /// Decrements the reference counter of a Z3 AST node, potentially allowing its deallocation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The Z3 AST node handle to decrement reference count for.</param>
+    /// <remarks>
+    /// Should be called for every Z3IncRef to properly manage memory and prevent leaks.
+    /// When reference count reaches zero, the AST node may be garbage collected.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3DecRef(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_dec_ref");
@@ -357,6 +422,15 @@ internal static class NativeMethods
     }
 
     // Sort functions
+    /// <summary>
+    /// Creates a Boolean sort (type) for Z3 expressions.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created Boolean sort.</returns>
+    /// <remarks>
+    /// Boolean sorts are used for creating Boolean expressions and constraints.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBoolSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bool_sort");
@@ -364,6 +438,16 @@ internal static class NativeMethods
         return func(ctx);
     }
 
+    /// <summary>
+    /// Creates an integer sort (type) for Z3 expressions.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created integer sort.</returns>
+    /// <remarks>
+    /// Integer sorts are used for creating integer expressions and arithmetic constraints.
+    /// Z3 integers have unlimited precision (BigInteger semantics).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkIntSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_sort");
@@ -371,6 +455,16 @@ internal static class NativeMethods
         return func(ctx);
     }
 
+    /// <summary>
+    /// Creates a real number sort (type) for Z3 expressions.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created real sort.</returns>
+    /// <remarks>
+    /// Real sorts are used for creating real number expressions and arithmetic constraints.
+    /// Z3 reals support exact rational arithmetic with unlimited precision.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkRealSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real_sort");
@@ -379,6 +473,17 @@ internal static class NativeMethods
     }
 
     // Expression functions
+    /// <summary>
+    /// Creates a Z3 constant expression with the specified name and sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="symbol">The symbol name for the constant.</param>
+    /// <param name="sort">The sort (type) of the constant.</param>
+    /// <returns>Handle to the created constant expression.</returns>
+    /// <remarks>
+    /// Constants are free variables that can be assigned values during solving.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const");
@@ -386,6 +491,16 @@ internal static class NativeMethods
         return func(ctx, symbol, sort);
     }
 
+    /// <summary>
+    /// Creates a Z3 symbol from a string name.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="str">Pointer to the null-terminated string name.</param>
+    /// <returns>Handle to the created Z3 symbol.</returns>
+    /// <remarks>
+    /// Symbols are used to name constants, functions, and other Z3 objects.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_symbol");
@@ -393,6 +508,12 @@ internal static class NativeMethods
         return func(ctx, str);
     }
 
+    /// <summary>
+    /// Creates a Z3 Boolean expression representing the constant true.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created true Boolean expression.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkTrue(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_true");
@@ -400,6 +521,12 @@ internal static class NativeMethods
         return func(ctx);
     }
 
+    /// <summary>
+    /// Creates a Z3 Boolean expression representing the constant false.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created false Boolean expression.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkFalse(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_false");
@@ -407,6 +534,17 @@ internal static class NativeMethods
         return func(ctx);
     }
 
+    /// <summary>
+    /// Creates a Z3 equality expression between two terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side expression.</param>
+    /// <param name="right">The right-hand side expression.</param>
+    /// <returns>Handle to the created equality expression (left == right).</returns>
+    /// <remarks>
+    /// Both expressions must have the same sort for the equality to be valid.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_eq");
@@ -414,6 +552,17 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 logical AND expression over multiple Boolean terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numArgs">The number of Boolean expressions in the array.</param>
+    /// <param name="args">Array of Boolean expressions to combine with AND.</param>
+    /// <returns>Handle to the created AND expression.</returns>
+    /// <remarks>
+    /// All arguments must be Boolean expressions. Returns true if all arguments are true.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_and");
@@ -421,6 +570,17 @@ internal static class NativeMethods
         return func(ctx, numArgs, args);
     }
 
+    /// <summary>
+    /// Creates a Z3 logical OR expression over multiple Boolean terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numArgs">The number of Boolean expressions in the array.</param>
+    /// <param name="args">Array of Boolean expressions to combine with OR.</param>
+    /// <returns>Handle to the created OR expression.</returns>
+    /// <remarks>
+    /// All arguments must be Boolean expressions. Returns true if any argument is true.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_or");
@@ -428,6 +588,16 @@ internal static class NativeMethods
         return func(ctx, numArgs, args);
     }
 
+    /// <summary>
+    /// Creates a Z3 logical NOT expression that negates a Boolean term.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arg">The Boolean expression to negate.</param>
+    /// <returns>Handle to the created NOT expression.</returns>
+    /// <remarks>
+    /// The argument must be a Boolean expression. Returns the logical negation of the input.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkNot(IntPtr ctx, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_not");
@@ -435,6 +605,18 @@ internal static class NativeMethods
         return func(ctx, arg);
     }
 
+    /// <summary>
+    /// Creates a Z3 addition expression over multiple numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numArgs">The number of numeric expressions in the array.</param>
+    /// <param name="args">Array of numeric expressions to add together.</param>
+    /// <returns>Handle to the created addition expression.</returns>
+    /// <remarks>
+    /// All arguments must have the same numeric sort (integer or real).
+    /// Supports unlimited precision arithmetic.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_add");
@@ -442,6 +624,18 @@ internal static class NativeMethods
         return func(ctx, numArgs, args);
     }
 
+    /// <summary>
+    /// Creates a Z3 subtraction expression over multiple numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numArgs">The number of numeric expressions in the array.</param>
+    /// <param name="args">Array of numeric expressions for subtraction (left-associative).</param>
+    /// <returns>Handle to the created subtraction expression.</returns>
+    /// <remarks>
+    /// All arguments must have the same numeric sort (integer or real).
+    /// With multiple args, performs left-associative subtraction: ((a - b) - c) - d.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sub");
@@ -449,6 +643,18 @@ internal static class NativeMethods
         return func(ctx, numArgs, args);
     }
 
+    /// <summary>
+    /// Creates a Z3 multiplication expression over multiple numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numArgs">The number of numeric expressions in the array.</param>
+    /// <param name="args">Array of numeric expressions to multiply together.</param>
+    /// <returns>Handle to the created multiplication expression.</returns>
+    /// <remarks>
+    /// All arguments must have the same numeric sort (integer or real).
+    /// Supports unlimited precision arithmetic.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mul");
@@ -456,6 +662,18 @@ internal static class NativeMethods
         return func(ctx, numArgs, args);
     }
 
+    /// <summary>
+    /// Creates a Z3 division expression between two numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The dividend (numerator) expression.</param>
+    /// <param name="right">The divisor (denominator) expression.</param>
+    /// <returns>Handle to the created division expression (left / right).</returns>
+    /// <remarks>
+    /// Both expressions must have the same numeric sort. For integers, performs
+    /// real division returning a rational result. Division by zero is undefined.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_div");
@@ -463,6 +681,17 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 less-than comparison expression between two numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side numeric expression.</param>
+    /// <param name="right">The right-hand side numeric expression.</param>
+    /// <returns>Handle to the created Boolean expression (left < right).</returns>
+    /// <remarks>
+    /// Both expressions must have the same numeric sort (integer or real).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkLt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lt");
@@ -470,6 +699,17 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 less-than-or-equal comparison expression between two numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side numeric expression.</param>
+    /// <param name="right">The right-hand side numeric expression.</param>
+    /// <returns>Handle to the created Boolean expression (left <= right).</returns>
+    /// <remarks>
+    /// Both expressions must have the same numeric sort (integer or real).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkLe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_le");
@@ -477,6 +717,17 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 greater-than comparison expression between two numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side numeric expression.</param>
+    /// <param name="right">The right-hand side numeric expression.</param>
+    /// <returns>Handle to the created Boolean expression (left > right).</returns>
+    /// <remarks>
+    /// Both expressions must have the same numeric sort (integer or real).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_gt");
@@ -484,6 +735,17 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 greater-than-or-equal comparison expression between two numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side numeric expression.</param>
+    /// <param name="right">The right-hand side numeric expression.</param>
+    /// <returns>Handle to the created Boolean expression (left >= right).</returns>
+    /// <remarks>
+    /// Both expressions must have the same numeric sort (integer or real).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ge");
@@ -491,6 +753,18 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 numeric literal expression from a string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numeral">Pointer to the null-terminated string representation of the number.</param>
+    /// <param name="sort">The numeric sort (integer or real) for the literal.</param>
+    /// <returns>Handle to the created numeric literal expression.</returns>
+    /// <remarks>
+    /// The numeral string format depends on the sort. Integers use decimal notation,
+    /// reals can use decimal or fractional notation (e.g., "3.14" or "22/7").
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_numeral");
@@ -499,6 +773,18 @@ internal static class NativeMethods
     }
 
     // Extended boolean operations
+    /// <summary>
+    /// Creates a Z3 logical implication expression between two Boolean terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The antecedent (premise) Boolean expression.</param>
+    /// <param name="right">The consequent (conclusion) Boolean expression.</param>
+    /// <returns>Handle to the created implication expression (left => right).</returns>
+    /// <remarks>
+    /// Logical implication is false only when the antecedent is true and the consequent is false.
+    /// Equivalent to (!left || right).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkImplies(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_implies");
@@ -506,6 +792,18 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 logical biconditional (if-and-only-if) expression between two Boolean terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side Boolean expression.</param>
+    /// <param name="right">The right-hand side Boolean expression.</param>
+    /// <returns>Handle to the created biconditional expression (left <=> right).</returns>
+    /// <remarks>
+    /// Biconditional is true when both sides have the same truth value.
+    /// Equivalent to (left && right) || (!left && !right).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkIff(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_iff");
@@ -513,6 +811,18 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 logical exclusive-or (XOR) expression between two Boolean terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The left-hand side Boolean expression.</param>
+    /// <param name="right">The right-hand side Boolean expression.</param>
+    /// <returns>Handle to the created XOR expression (left XOR right).</returns>
+    /// <remarks>
+    /// XOR is true when exactly one of the two operands is true.
+    /// Equivalent to (left && !right) || (!left && right).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkXor(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_xor");
@@ -521,6 +831,18 @@ internal static class NativeMethods
     }
 
     // Extended arithmetic operations
+    /// <summary>
+    /// Creates a Z3 modulo expression between two integer terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The dividend integer expression.</param>
+    /// <param name="right">The divisor integer expression.</param>
+    /// <returns>Handle to the created modulo expression (left mod right).</returns>
+    /// <remarks>
+    /// Both expressions must be integers. Returns the remainder of integer division.
+    /// The result has the same sign as the divisor in Z3's modulo semantics.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkMod(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mod");
@@ -528,6 +850,17 @@ internal static class NativeMethods
         return func(ctx, left, right);
     }
 
+    /// <summary>
+    /// Creates a Z3 unary minus (negation) expression for a numeric term.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arg">The numeric expression to negate.</param>
+    /// <returns>Handle to the created unary minus expression (-arg).</returns>
+    /// <remarks>
+    /// The argument must be a numeric expression (integer or real).
+    /// Returns the arithmetic negation of the input.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unary_minus");
@@ -535,6 +868,19 @@ internal static class NativeMethods
         return func(ctx, arg);
     }
 
+    /// <summary>
+    /// Creates a Z3 if-then-else (conditional) expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="condition">The Boolean condition expression.</param>
+    /// <param name="thenExpr">The expression to return when condition is true.</param>
+    /// <param name="elseExpr">The expression to return when condition is false.</param>
+    /// <returns>Handle to the created conditional expression (condition ? thenExpr : elseExpr).</returns>
+    /// <remarks>
+    /// The condition must be Boolean, and both branches must have the same sort.
+    /// Used for conditional logic and piecewise function definitions.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ite");
@@ -543,6 +889,17 @@ internal static class NativeMethods
     }
 
     // Type conversion functions
+    /// <summary>
+    /// Creates a Z3 type conversion expression from integer to real.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The integer expression to convert.</param>
+    /// <returns>Handle to the created real expression with the same numeric value.</returns>
+    /// <remarks>
+    /// Converts an integer expression to its real number equivalent.
+    /// The numeric value is preserved in the conversion.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2real");
@@ -550,6 +907,17 @@ internal static class NativeMethods
         return func(ctx, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 type conversion expression from real to integer.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The real expression to convert.</param>
+    /// <returns>Handle to the created integer expression truncated towards zero.</returns>
+    /// <remarks>
+    /// Converts a real expression to integer by truncating towards zero.
+    /// For example, 3.7 becomes 3, and -2.9 becomes -2.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real2int");
@@ -558,6 +926,18 @@ internal static class NativeMethods
     }
 
     // Array theory functions
+    /// <summary>
+    /// Creates a Z3 array sort with specified domain and range sorts.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="domain">The sort for array indices (keys).</param>
+    /// <param name="range">The sort for array values.</param>
+    /// <returns>Handle to the created array sort.</returns>
+    /// <remarks>
+    /// Array sorts define mappings from domain elements to range elements.
+    /// Used for creating array expressions and constants.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
@@ -565,6 +945,17 @@ internal static class NativeMethods
         return func(ctx, domain, range);
     }
 
+    /// <summary>
+    /// Creates a Z3 array select expression that reads a value at a given index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="array">The array expression to read from.</param>
+    /// <param name="index">The index expression specifying the position to read.</param>
+    /// <returns>Handle to the created select expression (array[index]).</returns>
+    /// <remarks>
+    /// The index must match the array's domain sort, and the result has the array's range sort.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_select");
@@ -572,6 +963,19 @@ internal static class NativeMethods
         return func(ctx, array, index);
     }
 
+    /// <summary>
+    /// Creates a Z3 array store expression that writes a value at a given index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="array">The original array expression.</param>
+    /// <param name="index">The index expression specifying where to write.</param>
+    /// <param name="value">The value expression to store at the index.</param>
+    /// <returns>Handle to the created array expression with updated value (array[index := value]).</returns>
+    /// <remarks>
+    /// Creates a new array identical to the original except at the specified index.
+    /// The index must match the domain sort and value must match the range sort.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_store");
@@ -579,6 +983,18 @@ internal static class NativeMethods
         return func(ctx, array, index, value);
     }
 
+    /// <summary>
+    /// Creates a Z3 constant array expression where all elements have the same value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="domain">The sort for array indices (keys).</param>
+    /// <param name="value">The constant value for all array elements.</param>
+    /// <returns>Handle to the created constant array expression.</returns>
+    /// <remarks>
+    /// Creates an array where every possible index maps to the same value.
+    /// Useful for initializing arrays with default values.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkConstArray(IntPtr ctx, IntPtr domain, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const_array");
@@ -586,6 +1002,16 @@ internal static class NativeMethods
         return func(ctx, domain, value);
     }
 
+    /// <summary>
+    /// Retrieves the domain sort (index type) of an array sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arraySort">The array sort to query.</param>
+    /// <returns>Handle to the domain sort of the array.</returns>
+    /// <remarks>
+    /// Returns the sort used for array indices. Used for type checking and sort queries.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr arraySort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_domain");
@@ -593,6 +1019,16 @@ internal static class NativeMethods
         return func(ctx, arraySort);
     }
 
+    /// <summary>
+    /// Retrieves the range sort (value type) of an array sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arraySort">The array sort to query.</param>
+    /// <returns>Handle to the range sort of the array.</returns>
+    /// <remarks>
+    /// Returns the sort used for array values. Used for type checking and sort queries.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr arraySort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_range");
@@ -601,6 +1037,17 @@ internal static class NativeMethods
     }
 
     // Bitvector theory methods
+    /// <summary>
+    /// Creates a Z3 bitvector sort with the specified bit width.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sz">The bit width of the bitvector (must be greater than 0).</param>
+    /// <returns>Handle to the created bitvector sort.</returns>
+    /// <remarks>
+    /// Bitvector sorts represent fixed-width binary numbers used for modeling
+    /// machine arithmetic and bitwise operations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSort(IntPtr ctx, uint sz)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
@@ -608,6 +1055,18 @@ internal static class NativeMethods
         return func(ctx, sz);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector addition expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to the created bitvector addition expression (t1 + t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Addition uses modular arithmetic
+    /// with overflow wrapping around.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvAdd(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd");
@@ -615,6 +1074,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector subtraction expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The minuend bitvector operand.</param>
+    /// <param name="t2">The subtrahend bitvector operand.</param>
+    /// <returns>Handle to the created bitvector subtraction expression (t1 - t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Subtraction uses modular arithmetic
+    /// with underflow wrapping around.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSub(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub");
@@ -622,6 +1093,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector multiplication expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to the created bitvector multiplication expression (t1 * t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Multiplication uses modular arithmetic
+    /// with overflow wrapping around.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvMul(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul");
@@ -629,6 +1112,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector unsigned division expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The dividend bitvector operand.</param>
+    /// <param name="t2">The divisor bitvector operand.</param>
+    /// <returns>Handle to the created unsigned division expression (t1 /u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
+    /// Division by zero returns all 1s (maximum unsigned value).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvUDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvudiv");
@@ -636,6 +1131,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed division expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The dividend bitvector operand.</param>
+    /// <param name="t2">The divisor bitvector operand.</param>
+    /// <returns>Handle to the created signed division expression (t1 /s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
+    /// using two's complement representation. Division by zero has undefined behavior.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv");
@@ -643,6 +1150,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector unsigned remainder expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The dividend bitvector operand.</param>
+    /// <param name="t2">The divisor bitvector operand.</param>
+    /// <returns>Handle to the created unsigned remainder expression (t1 %u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
+    /// Remainder by zero returns the dividend unchanged.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvURem(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvurem");
@@ -650,6 +1169,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed remainder expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The dividend bitvector operand.</param>
+    /// <param name="t2">The divisor bitvector operand.</param>
+    /// <returns>Handle to the created signed remainder expression (t1 %s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers.
+    /// The result has the same sign as the dividend.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSRem(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsrem");
@@ -657,6 +1188,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed modulo expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The dividend bitvector operand.</param>
+    /// <param name="t2">The divisor bitvector operand.</param>
+    /// <returns>Handle to the created signed modulo expression (t1 mod t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. The result has the same sign as the divisor.
+    /// Different from signed remainder in how negative numbers are handled.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSMod(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsmod");
@@ -664,6 +1207,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector bitwise AND expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to the created bitwise AND expression (t1 & t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Performs bitwise AND operation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvAnd(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvand");
@@ -671,6 +1225,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector bitwise OR expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to the created bitwise OR expression (t1 | t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Performs bitwise OR operation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvOr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvor");
@@ -678,6 +1243,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector bitwise XOR expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to the created bitwise XOR expression (t1 ^ t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Performs bitwise XOR operation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvXor(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvxor");
@@ -685,6 +1261,16 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector bitwise NOT expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector operand to negate.</param>
+    /// <returns>Handle to the created bitwise NOT expression (~t1).</returns>
+    /// <remarks>
+    /// Performs bitwise complement, flipping all bits in the bitvector.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvNot(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvnot");
@@ -692,6 +1278,16 @@ internal static class NativeMethods
         return func(ctx, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector arithmetic negation expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector operand to negate.</param>
+    /// <returns>Handle to the created arithmetic negation expression (-t1).</returns>
+    /// <remarks>
+    /// Performs two's complement negation, equivalent to (~t1 + 1).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvNeg(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg");
@@ -699,6 +1295,17 @@ internal static class NativeMethods
         return func(ctx, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector left shift expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector to shift.</param>
+    /// <param name="t2">The number of positions to shift left.</param>
+    /// <returns>Handle to the created left shift expression (t1 << t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Fills with zeros from the right.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvShl(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvshl");
@@ -706,6 +1313,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector logical right shift expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector to shift.</param>
+    /// <param name="t2">The number of positions to shift right.</param>
+    /// <returns>Handle to the created logical right shift expression (t1 >>u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Fills with zeros from the left.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvLShr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvlshr");
@@ -713,6 +1331,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector arithmetic right shift expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector to shift.</param>
+    /// <param name="t2">The number of positions to shift right.</param>
+    /// <returns>Handle to the created arithmetic right shift expression (t1 >>s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Preserves the sign bit when shifting.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvAShr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvashr");
@@ -720,6 +1349,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector unsigned less-than comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 <u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvULt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvult");
@@ -727,6 +1367,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed less-than comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 <s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
+    /// using two's complement representation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSLt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvslt");
@@ -734,6 +1386,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector unsigned less-than-or-equal comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 <=u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvULe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvule");
@@ -741,6 +1404,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed less-than-or-equal comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 <=s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
+    /// using two's complement representation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSLe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsle");
@@ -748,6 +1423,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector unsigned greater-than comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 >u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvUGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvugt");
@@ -755,6 +1441,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed greater-than comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 >s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
+    /// using two's complement representation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsgt");
@@ -762,6 +1460,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector unsigned greater-than-or-equal comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 >=u t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvUGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvuge");
@@ -769,6 +1478,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector signed greater-than-or-equal comparison expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The left-hand side bitvector operand.</param>
+    /// <param name="t2">The right-hand side bitvector operand.</param>
+    /// <returns>Handle to the created Boolean expression (t1 >=s t2).</returns>
+    /// <remarks>
+    /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
+    /// using two's complement representation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsge");
@@ -776,6 +1497,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector sign extension expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="i">The number of bits to extend.</param>
+    /// <param name="t1">The bitvector operand to extend.</param>
+    /// <returns>Handle to the created sign-extended bitvector expression.</returns>
+    /// <remarks>
+    /// Extends the bitvector by replicating the sign bit (most significant bit) i times.
+    /// The resulting bitvector has width = original_width + i.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkSignExt(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sign_ext");
@@ -783,6 +1516,18 @@ internal static class NativeMethods
         return func(ctx, i, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector zero extension expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="i">The number of bits to extend.</param>
+    /// <param name="t1">The bitvector operand to extend.</param>
+    /// <returns>Handle to the created zero-extended bitvector expression.</returns>
+    /// <remarks>
+    /// Extends the bitvector by adding i zero bits at the most significant positions.
+    /// The resulting bitvector has width = original_width + i.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkZeroExt(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_zero_ext");
@@ -790,6 +1535,19 @@ internal static class NativeMethods
         return func(ctx, i, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector bit extraction expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="high">The highest bit index to extract (inclusive).</param>
+    /// <param name="low">The lowest bit index to extract (inclusive).</param>
+    /// <param name="t1">The bitvector operand to extract bits from.</param>
+    /// <returns>Handle to the created bit extraction expression (t1[high:low]).</returns>
+    /// <remarks>
+    /// Extracts bits from position low to high (inclusive). The resulting bitvector
+    /// has width = high - low + 1. Bit indexing starts from 0.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_extract");
@@ -797,6 +1555,17 @@ internal static class NativeMethods
         return func(ctx, high, low, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector repeat expression that concatenates a bitvector with itself.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="i">The number of times to repeat the bitvector.</param>
+    /// <param name="t1">The bitvector operand to repeat.</param>
+    /// <returns>Handle to the created repeat expression.</returns>
+    /// <remarks>
+    /// The resulting bitvector has width = original_width * i.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkRepeat(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_repeat");
@@ -804,6 +1573,18 @@ internal static class NativeMethods
         return func(ctx, i, t1);
     }
 
+    /// <summary>
+    /// Creates a Z3 bitvector to integer conversion expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector operand to convert.</param>
+    /// <param name="signed">True for signed interpretation, false for unsigned.</param>
+    /// <returns>Handle to the created integer conversion expression.</returns>
+    /// <remarks>
+    /// Converts a bitvector to its integer representation. When signed is true,
+    /// uses two's complement interpretation for negative values.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr t1, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
@@ -811,6 +1592,17 @@ internal static class NativeMethods
         return func(ctx, t1, signed);
     }
 
+    /// <summary>
+    /// Creates a Z3 integer to bitvector conversion expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="n">The bit width of the resulting bitvector.</param>
+    /// <param name="t1">The integer operand to convert.</param>
+    /// <returns>Handle to the created bitvector conversion expression.</returns>
+    /// <remarks>
+    /// Converts an integer to a bitvector of width n. The integer value is taken modulo 2^n.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkInt2Bv(IntPtr ctx, uint n, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2bv");
@@ -818,6 +1610,19 @@ internal static class NativeMethods
         return func(ctx, n, t1);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if bitvector addition does not overflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <param name="signed">If true, checks signed overflow; if false, checks unsigned overflow.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 + t2 does not overflow.</returns>
+    /// <remarks>
+    /// For signed arithmetic, overflow occurs when the result exceeds the maximum or minimum representable value.
+    /// For unsigned arithmetic, overflow occurs when the result cannot fit in the bitvector width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
@@ -825,6 +1630,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2, signed);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if bitvector subtraction does not overflow in signed arithmetic.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand (minuend).</param>
+    /// <param name="t2">The second bitvector operand (subtrahend).</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 - t2 does not overflow in signed arithmetic.</returns>
+    /// <remarks>
+    /// This predicate is useful for verification of arithmetic properties in signed bitvector operations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_overflow");
@@ -832,6 +1648,19 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if bitvector subtraction does not underflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand (minuend).</param>
+    /// <param name="t2">The second bitvector operand (subtrahend).</param>
+    /// <param name="signed">If true, checks signed underflow; if false, checks unsigned underflow.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 - t2 does not underflow.</returns>
+    /// <remarks>
+    /// For signed arithmetic, underflow occurs when the result is less than the minimum representable value.
+    /// For unsigned arithmetic, underflow occurs when t1 &lt; t2.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
@@ -839,6 +1668,19 @@ internal static class NativeMethods
         return func(ctx, t1, t2, signed);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if bitvector multiplication does not overflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <param name="signed">If true, checks signed overflow; if false, checks unsigned overflow.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 * t2 does not overflow.</returns>
+    /// <remarks>
+    /// For signed arithmetic, overflow occurs when the result exceeds the representable range.
+    /// For unsigned arithmetic, overflow occurs when the result cannot fit in the bitvector width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
@@ -846,6 +1688,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2, signed);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if signed bitvector multiplication does not underflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 * t2 does not underflow in signed arithmetic.</returns>
+    /// <remarks>
+    /// Signed multiplication underflow occurs when the result is less than the minimum representable signed value.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_underflow");
@@ -853,6 +1706,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if signed bitvector addition does not underflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The first bitvector operand.</param>
+    /// <param name="t2">The second bitvector operand.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 + t2 does not underflow in signed arithmetic.</returns>
+    /// <remarks>
+    /// Signed addition underflow occurs when the result is less than the minimum representable signed value.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_underflow");
@@ -860,6 +1724,18 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if signed bitvector division does not overflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The dividend bitvector operand.</param>
+    /// <param name="t2">The divisor bitvector operand.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if t1 / t2 does not overflow in signed arithmetic.</returns>
+    /// <remarks>
+    /// Signed division overflow occurs when dividing the minimum signed value by -1,
+    /// which would result in a value that cannot be represented in the same bit width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv_no_overflow");
@@ -867,6 +1743,17 @@ internal static class NativeMethods
         return func(ctx, t1, t2);
     }
 
+    /// <summary>
+    /// Creates a Boolean expression checking if signed bitvector negation does not overflow.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The bitvector operand to negate.</param>
+    /// <returns>Handle to a Boolean Z3 expression that is true if -t1 does not overflow in signed arithmetic.</returns>
+    /// <remarks>
+    /// Signed negation overflow occurs when negating the minimum signed value,
+    /// as the positive equivalent cannot be represented in the same bit width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg_no_overflow");
@@ -874,6 +1761,16 @@ internal static class NativeMethods
         return func(ctx, t1);
     }
 
+    /// <summary>
+    /// Retrieves the bit width of a bitvector sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The bitvector sort to query.</param>
+    /// <returns>The bit width of the bitvector sort.</returns>
+    /// <remarks>
+    /// Used to determine the size of bitvector expressions for type checking and operations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
@@ -882,6 +1779,16 @@ internal static class NativeMethods
     }
 
     // Solver functions
+    /// <summary>
+    /// Creates a Z3 solver instance for satisfiability checking.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created Z3 solver.</returns>
+    /// <remarks>
+    /// The solver must be disposed using reference counting. Use this for general
+    /// satisfiability checking with full Z3 capabilities.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkSolver(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_solver");
@@ -889,6 +1796,16 @@ internal static class NativeMethods
         return func(ctx);
     }
 
+    /// <summary>
+    /// Creates a Z3 simple solver instance with reduced functionality for basic satisfiability checking.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created Z3 simple solver.</returns>
+    /// <remarks>
+    /// Simple solvers have fewer features but may be more efficient for basic use cases.
+    /// Prefer Z3MkSolver for full functionality.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkSimpleSolver(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_simple_solver");
@@ -896,6 +1813,17 @@ internal static class NativeMethods
         return func(ctx);
     }
 
+    /// <summary>
+    /// Increments the reference counter of the given solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle to increment reference count for.</param>
+    /// <remarks>
+    /// Z3 uses reference counting for memory management. When you receive a solver object,
+    /// increment its reference count to prevent premature deallocation. Must be paired
+    /// with Z3SolverDecRef when the solver is no longer needed.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_inc_ref");
@@ -903,6 +1831,16 @@ internal static class NativeMethods
         func(ctx, solver);
     }
 
+    /// <summary>
+    /// Decrements the reference counter of the given solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle to decrement reference count for.</param>
+    /// <remarks>
+    /// Must be paired with Z3SolverIncRef to properly manage memory. When reference
+    /// count reaches zero, the solver may be garbage collected.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_dec_ref");
@@ -910,6 +1848,17 @@ internal static class NativeMethods
         func(ctx, solver);
     }
 
+    /// <summary>
+    /// Asserts a Boolean constraint to the solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="formula">The Boolean formula to assert as a constraint.</param>
+    /// <remarks>
+    /// The formula must be a Boolean expression. Asserted formulas are added to the
+    /// solver's constraint set for satisfiability checking.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr formula)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_assert");
@@ -917,6 +1866,17 @@ internal static class NativeMethods
         func(ctx, solver, formula);
     }
 
+    /// <summary>
+    /// Checks the satisfiability of the asserted constraints in the solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <returns>Satisfiability result: 1 (satisfiable), -1 (unsatisfiable), 0 (unknown).</returns>
+    /// <remarks>
+    /// Returns Z3_L_TRUE (1) if satisfiable, Z3_L_FALSE (-1) if unsatisfiable,
+    /// or Z3_L_UNDEF (0) if the result is unknown (e.g., due to timeout).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static int Z3SolverCheck(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check");
@@ -924,6 +1884,16 @@ internal static class NativeMethods
         return func(ctx, solver);
     }
 
+    /// <summary>
+    /// Pushes a new scope level onto the solver's assertion stack.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <remarks>
+    /// Creates a backtracking point. Assertions added after push can be removed with pop.
+    /// Used for incremental solving and backtracking search.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SolverPush(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_push");
@@ -931,6 +1901,17 @@ internal static class NativeMethods
         func(ctx, solver);
     }
 
+    /// <summary>
+    /// Pops scope levels from the solver's assertion stack, removing recent assertions.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="numScopes">The number of scope levels to pop.</param>
+    /// <remarks>
+    /// Removes assertions added after the corresponding push operations.
+    /// Must have at least numScopes push operations to pop from.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_pop");
@@ -938,6 +1919,16 @@ internal static class NativeMethods
         func(ctx, solver, numScopes);
     }
 
+    /// <summary>
+    /// Resets the solver by removing all asserted constraints and clearing the assertion stack.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <remarks>
+    /// Removes all asserted formulas and resets the solver to its initial state.
+    /// More efficient than creating a new solver for reuse scenarios.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SolverReset(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_reset");
@@ -945,6 +1936,17 @@ internal static class NativeMethods
         func(ctx, solver);
     }
 
+    /// <summary>
+    /// Retrieves a satisfying model from the solver after a successful satisfiability check.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <returns>Handle to the model, or null if no model is available.</returns>
+    /// <remarks>
+    /// Only valid after Z3SolverCheck returns satisfiable (1). The model contains
+    /// variable assignments that satisfy all asserted constraints.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_model");
@@ -952,6 +1954,17 @@ internal static class NativeMethods
         return func(ctx, solver);
     }
 
+    /// <summary>
+    /// Retrieves the reason why the solver returned an unknown result.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <returns>Handle to a string describing the reason for unknown result.</returns>
+    /// <remarks>
+    /// Only valid after Z3SolverCheck returns unknown (0). Provides information
+    /// about why the solver could not determine satisfiability (e.g., timeout, incomplete theory).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_reason_unknown");
@@ -960,6 +1973,16 @@ internal static class NativeMethods
     }
 
     // Model functions
+    /// <summary>
+    /// Increments the reference counter of the given model.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle to increment reference count for.</param>
+    /// <remarks>
+    /// Z3 uses reference counting for memory management. Must be paired with
+    /// Z3ModelDecRef when the model is no longer needed.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3ModelIncRef(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_inc_ref");
@@ -967,6 +1990,16 @@ internal static class NativeMethods
         func(ctx, model);
     }
 
+    /// <summary>
+    /// Decrements the reference counter of the given model.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle to decrement reference count for.</param>
+    /// <remarks>
+    /// Must be paired with Z3ModelIncRef to properly manage memory. When reference
+    /// count reaches zero, the model may be garbage collected.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3ModelDecRef(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_dec_ref");
@@ -974,6 +2007,17 @@ internal static class NativeMethods
         func(ctx, model);
     }
 
+    /// <summary>
+    /// Converts a Z3 model to its string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle to convert.</param>
+    /// <returns>Handle to a null-terminated string representation of the model.</returns>
+    /// <remarks>
+    /// Provides a human-readable representation showing variable assignments.
+    /// The string is managed by Z3 and valid until the context is deleted.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_to_string");
@@ -981,6 +2025,17 @@ internal static class NativeMethods
         return func(ctx, model);
     }
 
+    /// <summary>
+    /// Converts a Z3 AST node to its string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The AST node handle to convert.</param>
+    /// <returns>Handle to a null-terminated string representation of the AST.</returns>
+    /// <remarks>
+    /// Provides a human-readable representation of expressions, formulas, and other AST nodes.
+    /// The string is managed by Z3 and valid until the context is deleted.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_to_string");
@@ -988,6 +2043,19 @@ internal static class NativeMethods
         return func(ctx, ast);
     }
 
+    /// <summary>
+    /// Evaluates an expression in the given model to obtain its value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle containing variable assignments.</param>
+    /// <param name="expr">The expression to evaluate.</param>
+    /// <param name="modelCompletion">Whether to use model completion for undefined values.</param>
+    /// <param name="result">Output parameter receiving the evaluated expression result.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <remarks>
+    /// Model completion assigns default values to variables not explicitly defined in the model.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
         var funcPtr = GetFunctionPointer("Z3_model_eval");
@@ -995,6 +2063,17 @@ internal static class NativeMethods
         return func(ctx, model, expr, modelCompletion ? 1 : 0, out result) != 0;
     }
 
+    /// <summary>
+    /// Retrieves the string representation of a numeric expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="expr">The numeric expression to convert.</param>
+    /// <returns>Handle to a null-terminated string representation of the numeric value.</returns>
+    /// <remarks>
+    /// Works with integer and real number expressions. For rationals, returns fractional
+    /// notation (e.g., "22/7"). The string is managed by Z3.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
@@ -1002,6 +2081,17 @@ internal static class NativeMethods
         return func(ctx, expr);
     }
 
+    /// <summary>
+    /// Retrieves the Boolean value of a Boolean expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="expr">The Boolean expression to evaluate.</param>
+    /// <returns>1 for true, -1 for false, 0 for unknown/undef.</returns>
+    /// <remarks>
+    /// Only valid for Boolean expressions that evaluate to concrete true or false values.
+    /// Returns Z3_L_UNDEF (0) if the expression is not a concrete Boolean value.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bool_value");
@@ -1009,6 +2099,16 @@ internal static class NativeMethods
         return func(ctx, expr);
     }
 
+    /// <summary>
+    /// Checks whether an expression is a numeric literal.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="expr">The expression to check.</param>
+    /// <returns>True if the expression is a numeric literal, false otherwise.</returns>
+    /// <remarks>
+    /// Identifies concrete numeric values (integers and reals) as opposed to variables or operations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_is_numeral_ast");
@@ -1016,6 +2116,16 @@ internal static class NativeMethods
         return func(ctx, expr) != 0;
     }
 
+    /// <summary>
+    /// Retrieves the sort (type) of a Z3 expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="expr">The expression to get the sort for.</param>
+    /// <returns>Handle to the sort of the expression.</returns>
+    /// <remarks>
+    /// Used for type checking and determining the kind of expression (Boolean, integer, real, etc.).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort");
@@ -1023,6 +2133,16 @@ internal static class NativeMethods
         return func(ctx, expr);
     }
 
+    /// <summary>
+    /// Retrieves the kind of a Z3 sort (type identifier).
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The sort to get the kind for.</param>
+    /// <returns>Integer representing the sort kind (e.g., Z3_BOOL_SORT, Z3_INT_SORT, Z3_REAL_SORT).</returns>
+    /// <remarks>
+    /// Used to determine the specific type of a sort for type checking and dispatch logic.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static int Z3GetSortKind(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_kind");
@@ -1031,6 +2151,21 @@ internal static class NativeMethods
     }
 
     // Quantifier functions
+    /// <summary>
+    /// Creates a universal quantifier (for-all) expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="weight">Quantifier weight for instantiation heuristics (0 for default).</param>
+    /// <param name="numBound">The number of bound variables.</param>
+    /// <param name="bound">Array of bound variable constants.</param>
+    /// <param name="numPatterns">The number of patterns for instantiation.</param>
+    /// <param name="patterns">Array of pattern expressions (can be null).</param>
+    /// <param name="body">The Boolean formula body of the quantifier.</param>
+    /// <returns>Handle to the created universal quantifier expression.</returns>
+    /// <remarks>
+    /// Creates ∀ bound_vars : body. Patterns help guide quantifier instantiation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkForallConst(
         IntPtr ctx,
         uint weight,
@@ -1046,6 +2181,21 @@ internal static class NativeMethods
         return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
     }
 
+    /// <summary>
+    /// Creates an existential quantifier (there-exists) expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="weight">Quantifier weight for instantiation heuristics (0 for default).</param>
+    /// <param name="numBound">The number of bound variables.</param>
+    /// <param name="bound">Array of bound variable constants.</param>
+    /// <param name="numPatterns">The number of patterns for instantiation.</param>
+    /// <param name="patterns">Array of pattern expressions (can be null).</param>
+    /// <param name="body">The Boolean formula body of the quantifier.</param>
+    /// <returns>Handle to the created existential quantifier expression.</returns>
+    /// <remarks>
+    /// Creates ∃ bound_vars : body. Patterns help guide quantifier instantiation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkExistsConst(
         IntPtr ctx,
         uint weight,
@@ -1061,6 +2211,18 @@ internal static class NativeMethods
         return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
     }
 
+    /// <summary>
+    /// Creates a pattern for quantifier instantiation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numPatterns">The number of terms in the pattern.</param>
+    /// <param name="terms">Array of expressions forming the pattern.</param>
+    /// <returns>Handle to the created pattern.</returns>
+    /// <remarks>
+    /// Patterns guide Z3's quantifier instantiation by specifying which terms
+    /// should trigger instantiation of the quantified formula.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pattern");
@@ -1069,6 +2231,20 @@ internal static class NativeMethods
     }
 
     // Function declaration and application methods
+    /// <summary>
+    /// Creates a function declaration with specified domain and range sorts.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="symbol">The function name symbol.</param>
+    /// <param name="domainSize">The number of argument sorts.</param>
+    /// <param name="domain">Array of argument sorts.</param>
+    /// <param name="range">The return sort of the function.</param>
+    /// <returns>Handle to the created function declaration.</returns>
+    /// <remarks>
+    /// Function declarations define the signature of uninterpreted functions.
+    /// Used with Z3MkApp to create function application expressions.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
@@ -1076,6 +2252,19 @@ internal static class NativeMethods
         return func(ctx, symbol, domainSize, domain, range);
     }
 
+    /// <summary>
+    /// Creates a function application expression by applying arguments to a function declaration.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="funcDecl">The function declaration to apply.</param>
+    /// <param name="numArgs">The number of arguments.</param>
+    /// <param name="args">Array of argument expressions.</param>
+    /// <returns>Handle to the created function application expression.</returns>
+    /// <remarks>
+    /// Creates f(args) where f is the function declaration. Arguments must match
+    /// the function's domain sorts in number and type.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_app");
@@ -1250,6 +2439,16 @@ internal static class NativeMethods
     private delegate IntPtr Z3GetErrorMsgDelegate(IntPtr ctx, int errorCode);
 
     // Error handling methods
+    /// <summary>
+    /// Sets a custom error handler for the Z3 context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="handler">The error handler delegate, or null to remove current handler.</param>
+    /// <remarks>
+    /// The error handler is called when Z3 encounters internal errors.
+    /// Provides custom error handling instead of default Z3 behavior.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static void Z3SetErrorHandler(IntPtr ctx, Z3ErrorHandlerDelegate? handler)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error_handler");
@@ -1257,6 +2456,16 @@ internal static class NativeMethods
         func(ctx, handler);
     }
 
+    /// <summary>
+    /// Retrieves the error code from the last Z3 operation on the context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>The error code from the last operation.</returns>
+    /// <remarks>
+    /// Returns Z3_OK if no error occurred. Use Z3GetErrorMsg to get
+    /// a human-readable description of the error.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static Z3ErrorCode Z3GetErrorCode(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_code");
@@ -1264,6 +2473,17 @@ internal static class NativeMethods
         return (Z3ErrorCode)func(ctx);
     }
 
+    /// <summary>
+    /// Retrieves a human-readable error message for the given error code.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="errorCode">The error code to get a message for.</param>
+    /// <returns>String description of the error, or "Unknown error" if unavailable.</returns>
+    /// <remarks>
+    /// Provides detailed information about Z3 errors for debugging and user feedback.
+    /// The returned string is managed by Z3.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static string Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_msg");
