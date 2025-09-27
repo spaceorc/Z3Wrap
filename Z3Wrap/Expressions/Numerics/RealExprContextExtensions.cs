@@ -5,17 +5,17 @@ using Spaceorc.Z3Wrap.Values.Numerics;
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 
 /// <summary>
-/// Provides extension methods for Z3Context to work with real number expressions, constants, and arithmetic operations.
-/// Supports exact rational arithmetic with unlimited precision and conversion operations to other numeric types.
+/// Provides extension methods for Z3Context to create real number expressions and constants.
+/// Supports exact rational arithmetic with unlimited precision and type conversions.
 /// </summary>
-public static partial class RealExprContextExtensions
+public static class RealExprContextExtensions
 {
     /// <summary>
-    /// Creates a real number expression from a Real value with unlimited precision.
+    /// Creates a real expression from a Real value.
     /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="value">The Real value to create an expression from.</param>
-    /// <returns>A Z3Real representing the given Real value.</returns>
+    /// <param name="context">Z3 context.</param>
+    /// <param name="value">Real value to convert.</param>
+    /// <returns>RealExpr representing the Real value.</returns>
     public static RealExpr Real(this Z3Context context, Real value)
     {
         using var valueStr = new AnsiStringPtr(value.ToString());
@@ -25,11 +25,11 @@ public static partial class RealExprContextExtensions
     }
 
     /// <summary>
-    /// Creates a real number constant expression with the specified name.
+    /// Creates a real constant (variable) with the specified name.
     /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="name">The name of the real constant.</param>
-    /// <returns>A Z3Real representing a real constant with the given name.</returns>
+    /// <param name="context">Z3 context.</param>
+    /// <param name="name">Name of the real constant.</param>
+    /// <returns>RealExpr representing the real constant.</returns>
     public static RealExpr RealConst(this Z3Context context, string name)
     {
         using var namePtr = new AnsiStringPtr(name);
@@ -37,5 +37,17 @@ public static partial class RealExprContextExtensions
         var realSort = SafeNativeMethods.Z3MkRealSort(context.Handle);
         var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, realSort);
         return Z3Expr.Create<RealExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Converts a real expression to integer by truncating towards zero.
+    /// </summary>
+    /// <param name="context">Z3 context.</param>
+    /// <param name="expr">Real expression to convert.</param>
+    /// <returns>IntExpr representing the truncated integer value.</returns>
+    public static IntExpr ToInt(this Z3Context context, RealExpr expr)
+    {
+        var handle = SafeNativeMethods.Z3MkReal2Int(context.Handle, expr.Handle);
+        return Z3Expr.Create<IntExpr>(context, handle);
     }
 }

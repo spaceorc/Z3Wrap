@@ -171,9 +171,6 @@
     <Compile Update="Expressions\Numerics\IntExprContextExtensions.comparison.cs">
       <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\Numerics\IntExprContextExtensions.conversion.cs">
-      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
-    </Compile>
     <Compile Update="Expressions\Numerics\IntExprContextExtensions.Functions.cs">
       <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
     </Compile>
@@ -199,9 +196,6 @@
       <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\RealExprContextExtensions.comparison.cs">
-      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\Numerics\RealExprContextExtensions.conversion.cs">
       <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\RealExprContextExtensions.Functions.cs">
