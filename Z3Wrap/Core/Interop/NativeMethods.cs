@@ -2,34 +2,18 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Provides native method bindings and library management for the Z3 theorem prover.
-/// Handles dynamic loading of the Z3 library and provides type-safe access to Z3 C API functions.
-/// </summary>
-public static class NativeMethods
+internal static class NativeMethods
 {
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
 
     private static LoadedLibrary? loadedLibrary;
 
-    /// <summary>
-    /// Loads the Z3 library from the specified path.
-    /// </summary>
-    /// <param name="libraryPath">The path to the Z3 library file.</param>
-    /// <exception cref="DllNotFoundException">Thrown when the library cannot be found at the specified path.</exception>
-    /// <exception cref="BadImageFormatException">Thrown when the library is not a valid native library.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when required Z3 functions cannot be loaded from the library.</exception>
-    public static void LoadLibrary(string libraryPath)
+    internal static void LoadLibrary(string libraryPath)
     {
         LoadLibrarySafe(libraryPath);
     }
 
-    /// <summary>
-    /// Automatically discovers and loads the Z3 library for the current platform.
-    /// Searches common installation paths for each platform.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when library cannot be found or loaded.</exception>
-    public static void LoadLibraryAuto()
+    internal static void LoadLibraryAuto()
     {
         if (loadedLibrary != null)
             return; // Fast path - already loaded
