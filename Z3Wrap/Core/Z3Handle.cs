@@ -3,6 +3,9 @@ using Spaceorc.Z3Wrap.Core.Interop;
 
 namespace Spaceorc.Z3Wrap.Core;
 
+/// <summary>
+/// Represents base class for Z3 resource management and handle tracking.
+/// </summary>
 public abstract class Z3Handle
 {
     protected Z3Handle(Z3Context context, IntPtr handle)
@@ -14,8 +17,16 @@ public abstract class Z3Handle
 
     internal IntPtr Handle { get; }
 
+    /// <summary>
+    /// Gets the Z3 context that owns this handle.
+    /// </summary>
     public Z3Context Context { get; }
 
+    /// <summary>
+    /// Determines whether this handle equals another object.
+    /// </summary>
+    /// <param name="obj">The object to compare with.</param>
+    /// <returns>True if objects are equal; otherwise false.</returns>
     public override bool Equals(object? obj)
     {
         if (obj is Z3Handle expr)
@@ -23,11 +34,19 @@ public abstract class Z3Handle
         return false;
     }
 
+    /// <summary>
+    /// Gets the hash code for this handle.
+    /// </summary>
+    /// <returns>The hash code of the native handle.</returns>
     public override int GetHashCode()
     {
         return Handle.GetHashCode();
     }
 
+    /// <summary>
+    /// Returns the string representation of this Z3 object.
+    /// </summary>
+    /// <returns>The Z3 string representation.</returns>
     public override string ToString()
     {
         try

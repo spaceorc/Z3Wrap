@@ -3,6 +3,9 @@ using Spaceorc.Z3Wrap.Expressions.Common;
 
 namespace Spaceorc.Z3Wrap.Core;
 
+/// <summary>
+/// Represents the main entry point for Z3 theorem prover operations and expression creation.
+/// </summary>
 public class Z3Context : IDisposable
 {
     private static readonly ThreadLocal<Z3Context?> currentContext = new(() => null);
@@ -13,6 +16,9 @@ public class Z3Context : IDisposable
     private IntPtr contextHandle;
     private bool disposed;
 
+    /// <summary>
+    /// Initializes a new Z3 context with default configuration.
+    /// </summary>
     public Z3Context()
     {
         configHandle = SafeNativeMethods.Z3MkConfig();
@@ -27,6 +33,10 @@ public class Z3Context : IDisposable
         }
     }
 
+    /// <summary>
+    /// Initializes a new Z3 context with specified configuration parameters.
+    /// </summary>
+    /// <param name="parameters">Configuration parameters to set.</param>
     public Z3Context(Dictionary<string, string> parameters)
         : this()
     {
@@ -43,12 +53,20 @@ public class Z3Context : IDisposable
         }
     }
 
+    /// <summary>
+    /// Releases all resources used by this Z3 context.
+    /// </summary>
     public void Dispose()
     {
         DisposeCore();
         GC.SuppressFinalize(this);
     }
 
+    /// <summary>
+    /// Sets a configuration parameter for this Z3 context.
+    /// </summary>
+    /// <param name="paramName">The parameter name.</param>
+    /// <param name="paramValue">The parameter value.</param>
     public void SetParameter(string paramName, string paramValue)
     {
         ThrowIfDisposed();
@@ -58,6 +76,10 @@ public class Z3Context : IDisposable
         SafeNativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
+    /// <summary>
+    /// Creates a new solver instance for this context.
+    /// </summary>
+    /// <returns>A new solver instance.</returns>
     public Z3Solver CreateSolver()
     {
         var solver = new Z3Solver(this, false);
@@ -65,6 +87,10 @@ public class Z3Context : IDisposable
         return solver;
     }
 
+    /// <summary>
+    /// Creates a new simple solver instance for this context.
+    /// </summary>
+    /// <returns>A new simple solver instance.</returns>
     public Z3Solver CreateSimpleSolver()
     {
         var solver = new Z3Solver(this, true);
@@ -150,21 +176,31 @@ public class Z3Context : IDisposable
         DisposeCore();
     }
 
+    /// <summary>
+    /// Gets the currently active Z3 context for implicit operations.
+    /// </summary>
     public static Z3Context Current =>
         currentContext.Value
         ?? throw new InvalidOperationException(
             "No Z3Context is currently set. Use 'using var scope = context.SetUp()' to enable implicit conversions."
         );
 
+    /// <summary>
+    /// Gets whether a current context is set for implicit operations.
+    /// </summary>
     public static bool IsCurrentContextSet => currentContext.Value != null;
 
-    public SetUpScope SetUp()
+    /// <summary>
+    /// Sets up this context as the current context for natural syntax operations.
+    /// </summary>
+    /// <returns>A scope that restores the previous context when disposed.</returns>
+    public IDisposable SetUp()
     {
         ThrowIfDisposed();
         return new SetUpScope(this);
     }
 
-    public sealed class SetUpScope : IDisposable
+    private sealed class SetUpScope : IDisposable
     {
         private readonly Z3Context? previousContext;
 

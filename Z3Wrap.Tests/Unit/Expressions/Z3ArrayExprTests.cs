@@ -11,7 +11,7 @@ namespace Z3Wrap.Tests.Unit.Expressions;
 public class Z3ArrayExprTests
 {
     private Z3Context context = null!;
-    private Z3Context.SetUpScope setUpScope = null!;
+    private IDisposable setUpScope = null!;
 
     [SetUp]
     public void SetUp()

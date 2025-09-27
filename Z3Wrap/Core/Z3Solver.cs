@@ -4,6 +4,9 @@ using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Spaceorc.Z3Wrap.Core;
 
+/// <summary>
+/// Represents a Z3 solver for checking satisfiability of logical constraints.
+/// </summary>
 public sealed class Z3Solver : IDisposable
 {
     private readonly Z3Context context;
@@ -38,6 +41,10 @@ public sealed class Z3Solver : IDisposable
 
     internal IntPtr InternalHandle => solverHandle;
 
+    /// <summary>
+    /// Adds a constraint to the solver.
+    /// </summary>
+    /// <param name="constraint">The boolean constraint to add.</param>
     public void Assert(BoolExpr constraint)
     {
         ThrowIfDisposed();
@@ -46,6 +53,9 @@ public sealed class Z3Solver : IDisposable
         SafeNativeMethods.Z3SolverAssert(context.Handle, solverHandle, constraint.Handle);
     }
 
+    /// <summary>
+    /// Resets the solver by removing all constraints.
+    /// </summary>
     public void Reset()
     {
         ThrowIfDisposed();
@@ -55,6 +65,10 @@ public sealed class Z3Solver : IDisposable
         lastCheckResult = null;
     }
 
+    /// <summary>
+    /// Checks the satisfiability of the current constraints.
+    /// </summary>
+    /// <returns>The satisfiability status.</returns>
     public Z3Status Check()
     {
         ThrowIfDisposed();
@@ -71,6 +85,10 @@ public sealed class Z3Solver : IDisposable
         return lastCheckResult.Value;
     }
 
+    /// <summary>
+    /// Gets the reason why the solver returned unknown status.
+    /// </summary>
+    /// <returns>The reason for unknown status.</returns>
     public string GetReasonUnknown()
     {
         ThrowIfDisposed();
@@ -79,6 +97,9 @@ public sealed class Z3Solver : IDisposable
         return Marshal.PtrToStringAnsi(reasonPtr) ?? "Unknown reason";
     }
 
+    /// <summary>
+    /// Pushes a new scope onto the solver stack.
+    /// </summary>
     public void Push()
     {
         ThrowIfDisposed();
@@ -87,6 +108,10 @@ public sealed class Z3Solver : IDisposable
         SafeNativeMethods.Z3SolverPush(context.Handle, solverHandle);
     }
 
+    /// <summary>
+    /// Pops scopes from the solver stack, removing constraints added in those scopes.
+    /// </summary>
+    /// <param name="numScopes">Number of scopes to pop.</param>
     public void Pop(uint numScopes = 1)
     {
         ThrowIfDisposed();
@@ -95,6 +120,10 @@ public sealed class Z3Solver : IDisposable
         SafeNativeMethods.Z3SolverPop(context.Handle, solverHandle, numScopes);
     }
 
+    /// <summary>
+    /// Gets the model from the solver after a satisfiable check result.
+    /// </summary>
+    /// <returns>The satisfying model.</returns>
     public Z3Model GetModel()
     {
         ThrowIfDisposed();
@@ -126,6 +155,9 @@ public sealed class Z3Solver : IDisposable
         cachedModel = null;
     }
 
+    /// <summary>
+    /// Releases all resources used by this solver.
+    /// </summary>
     public void Dispose()
     {
         if (disposed)

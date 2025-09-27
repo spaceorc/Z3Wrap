@@ -16,6 +16,7 @@ public interface IExprType<out T>
     /// <param name="handle">The Z3 expression handle.</param>
     /// <returns>A typed expression instance.</returns>
     internal static abstract T Create(Z3Context context, IntPtr handle);
+
     /// <summary>
     /// Gets the Z3 sort handle for this expression type.
     /// </summary>

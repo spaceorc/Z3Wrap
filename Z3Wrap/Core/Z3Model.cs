@@ -10,6 +10,9 @@ using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Spaceorc.Z3Wrap.Core;
 
+/// <summary>
+/// Represents a Z3 model containing satisfying assignments for variables in constraints.
+/// </summary>
 public sealed class Z3Model
 {
     private readonly Z3Context context;
@@ -38,6 +41,13 @@ public sealed class Z3Model
         }
     }
 
+    /// <summary>
+    /// Evaluates an expression in this model.
+    /// </summary>
+    /// <typeparam name="T">The expression type.</typeparam>
+    /// <param name="expr">The expression to evaluate.</param>
+    /// <param name="modelCompletion">Whether to use model completion for undefined values.</param>
+    /// <returns>The evaluated expression.</returns>
     public T Evaluate<T>(T expr, bool modelCompletion = true)
         where T : Z3Expr, IExprType<T>
     {
@@ -49,6 +59,11 @@ public sealed class Z3Model
         return Z3Expr.Create<T>(context, result);
     }
 
+    /// <summary>
+    /// Gets the integer value of an integer expression in this model.
+    /// </summary>
+    /// <param name="expr">The integer expression.</param>
+    /// <returns>The integer value.</returns>
     public BigInteger GetIntValue(IntExpr expr)
     {
         var valueStr = GetNumericValueAsString(expr);
@@ -59,6 +74,11 @@ public sealed class Z3Model
         return value;
     }
 
+    /// <summary>
+    /// Gets the boolean value of a boolean expression in this model.
+    /// </summary>
+    /// <param name="expr">The boolean expression.</param>
+    /// <returns>The boolean value.</returns>
     public bool GetBoolValue(BoolExpr expr)
     {
         var evaluated = Evaluate(expr);
@@ -77,8 +97,19 @@ public sealed class Z3Model
         };
     }
 
+    /// <summary>
+    /// Gets the real value of a real expression in this model.
+    /// </summary>
+    /// <param name="expr">The real expression.</param>
+    /// <returns>The real value.</returns>
     public Real GetRealValue(RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
 
+    /// <summary>
+    /// Gets the bit-vector value of a bit-vector expression in this model.
+    /// </summary>
+    /// <typeparam name="TSize">The bit-vector size type.</typeparam>
+    /// <param name="expr">The bit-vector expression.</param>
+    /// <returns>The bit-vector value.</returns>
     public Bv<TSize> GetBitVec<TSize>(BvExpr<TSize> expr)
         where TSize : ISize
     {
@@ -90,6 +121,12 @@ public sealed class Z3Model
         return new Bv<TSize>(value);
     }
 
+    /// <summary>
+    /// Gets the string representation of a numeric expression's value in this model.
+    /// </summary>
+    /// <typeparam name="T">The numeric expression type.</typeparam>
+    /// <param name="expr">The numeric expression.</param>
+    /// <returns>The string representation of the value.</returns>
     public string GetNumericValueAsString<T>(T expr)
         where T : Z3Expr, INumericExpr, IExprType<T>
     {
@@ -97,6 +134,10 @@ public sealed class Z3Model
         return ExtractNumeralString(context, evaluated, expr);
     }
 
+    /// <summary>
+    /// Returns the string representation of this model.
+    /// </summary>
+    /// <returns>String representation of the model.</returns>
     public override string ToString()
     {
         if (invalidated)
