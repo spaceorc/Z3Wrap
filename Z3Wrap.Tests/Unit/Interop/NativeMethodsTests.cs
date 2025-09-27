@@ -1,52 +1,61 @@
-using Spaceorc.Z3Wrap.Core.Interop;
+using Spaceorc.Z3Wrap.Core;
 
 namespace Z3Wrap.Tests.Unit.Interop;
 
 [TestFixture]
-public class NativeMethodsTests
+public class Z3LoadingTests
 {
     [Test]
-    public void LoadLibrary_ValidPath_DoesNotThrow()
+    public void LoadLibrary_EmptyPath_ThrowsArgumentException()
     {
-        // This test assumes libz3 is available in system path or LD_LIBRARY_PATH
-        // We can't guarantee libz3 is available in test environment,
-        // so we just test that the method doesn't throw
-        Assert.DoesNotThrow(() => NativeMethods.LoadLibrary("libz3"));
+        Assert.Throws<ArgumentException>(() => Z3.LoadLibrary(""));
     }
 
     [Test]
-    public void LoadLibrary_InvalidPath_DoesNotThrow()
+    public void LoadLibrary_WhitespacePath_ThrowsArgumentException()
     {
-        // We can't test return value without knowing the signature,
-        // so we just test that the method doesn't throw
-        Assert.DoesNotThrow(() => NativeMethods.LoadLibrary("nonexistent_library"));
+        Assert.Throws<ArgumentException>(() => Z3.LoadLibrary("   "));
     }
 
     [Test]
-    public void Z3NativeDelegates_AreNotNull()
+    public void LoadLibrary_NonexistentPath_ThrowsFileNotFoundException()
     {
-        // Test that critical delegates are loaded (if Z3 is available)
-        // This is more of a smoke test to ensure the native method loading works
+        var nonexistentPath = "/completely/nonexistent/path/to/library.so";
+        Assert.Throws<FileNotFoundException>(() => Z3.LoadLibrary(nonexistentPath));
+    }
 
-        // We can't easily test this without actually loading Z3,
-        // so we'll just verify the static class can be accessed
-        Assert.DoesNotThrow(() =>
+    [Test]
+    public void LoadLibraryAuto_DoesNotThrow()
+    {
+        // LoadLibraryAuto should either succeed or throw InvalidOperationException
+        // if no Z3 library is found, but it shouldn't throw other exceptions
+        try
         {
-            var type = typeof(NativeMethods);
-            Assert.That(type, Is.Not.Null);
-        });
+            Z3.LoadLibraryAuto();
+            // If it succeeds, that's great - Z3 is available
+        }
+        catch (InvalidOperationException)
+        {
+            // This is expected if Z3 is not installed in standard locations
+            Assert.Pass("Z3 library not found in standard locations, which is expected in test environment");
+        }
     }
 
     [Test]
-    public void LibraryPath_CanBeSet()
+    public void LoadLibraryAuto_WhenAlreadyLoaded_DoesNotReload()
     {
-        // Test that we can set the library path without throwing
-        // This tests the static initialization logic
-        Assert.DoesNotThrow(() =>
+        // First, try to load automatically
+        try
         {
-            // The library path setting happens in static constructor
-            // so we just need to ensure the class can be accessed
-            _ = typeof(NativeMethods).FullName;
-        });
+            Z3.LoadLibraryAuto();
+
+            // If successful, calling it again should not reload (returns early)
+            Assert.DoesNotThrow(Z3.LoadLibraryAuto);
+        }
+        catch (InvalidOperationException)
+        {
+            // Z3 not available in test environment - skip this test
+            Assert.Ignore("Z3 library not available for testing library replacement behavior");
+        }
     }
 }

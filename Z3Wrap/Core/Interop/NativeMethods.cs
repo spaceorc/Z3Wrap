@@ -10,7 +10,7 @@ internal static class NativeMethods
 
     internal static void LoadLibrary(string libraryPath)
     {
-        LoadLibrarySafe(libraryPath);
+        LoadLibraryReplace(libraryPath);
     }
 
     internal static void LoadLibraryAuto()
@@ -64,6 +64,28 @@ internal static class NativeMethods
         {
             // Another thread already loaded - clean up our library handle
             NativeLibrary.Free(newLibrary.LibraryHandle);
+        }
+    }
+
+    // Thread-safe library replacement helper
+    private static void LoadLibraryReplace(string libraryPath)
+    {
+        if (string.IsNullOrWhiteSpace(libraryPath))
+            throw new ArgumentException("Library path cannot be null, empty, or whitespace", nameof(libraryPath));
+
+        if (!File.Exists(libraryPath))
+            throw new FileNotFoundException($"Z3 library not found at path: {libraryPath}", libraryPath);
+
+        // Load the new library first to validate it before unloading the current one
+        var newLibrary = LoadLibraryInternal(libraryPath);
+
+        // Atomically replace the current library
+        var oldLibrary = Interlocked.Exchange(ref loadedLibrary, newLibrary);
+
+        // Clean up the old library if it existed
+        if (oldLibrary != null)
+        {
+            NativeLibrary.Free(oldLibrary.LibraryHandle);
         }
     }
 
