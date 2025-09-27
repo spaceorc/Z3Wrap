@@ -8,7 +8,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Common;
 /// Provides extension methods for Z3Context to create arithmetic operations for numeric expressions.
 /// Supports basic arithmetic operations (+, -, *, /, unary-) for integer and real expressions.
 /// </summary>
-public static class ArithmeticContextExtensions
+public static class ArithmeticOperationsContextExtensions
 {
     /// <summary>
     /// Adds multiple arithmetic expressions together (operand₁ + operand₂ + ... + operandₙ).
