@@ -1,6 +1,6 @@
 using Spaceorc.Z3Wrap.Core.Interop;
 
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Exception thrown when a Z3 native operation fails.
