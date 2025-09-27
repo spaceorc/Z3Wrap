@@ -153,9 +153,6 @@
     <Compile Update="Expressions\Numerics\IntExpr.comparison.cs">
       <DependentUpon>IntExpr.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\Numerics\IntExpr.conversion.cs">
-      <DependentUpon>IntExpr.cs</DependentUpon>
-    </Compile>
     <Compile Update="Expressions\Numerics\IntExpr.Equality.cs">
       <DependentUpon>IntExpr.cs</DependentUpon>
     </Compile>

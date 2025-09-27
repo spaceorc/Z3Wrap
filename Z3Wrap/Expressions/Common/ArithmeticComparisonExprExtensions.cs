@@ -16,8 +16,7 @@ public static class ArithmeticComparisonExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left &lt; right.</returns>
     public static BoolExpr Lt<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Lt(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Lt(left, right);
 
     /// <summary>
     /// Creates less-than-or-equal comparison between arithmetic expressions.
@@ -27,8 +26,7 @@ public static class ArithmeticComparisonExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left ≤ right.</returns>
     public static BoolExpr Le<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Le(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Le(left, right);
 
     /// <summary>
     /// Creates greater-than comparison between arithmetic expressions.
@@ -38,8 +36,7 @@ public static class ArithmeticComparisonExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left &gt; right.</returns>
     public static BoolExpr Gt<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Gt(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Gt(left, right);
 
     /// <summary>
     /// Creates greater-than-or-equal comparison between arithmetic expressions.
@@ -49,6 +46,5 @@ public static class ArithmeticComparisonExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left ≥ right.</returns>
     public static BoolExpr Ge<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Ge(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Ge(left, right);
 }

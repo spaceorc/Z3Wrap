@@ -7,7 +7,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Logic;
 /// Provides extension methods for Z3Context to create Boolean expressions, constants, and literals.
 /// Supports Boolean constant creation including true/false values and named variables.
 /// </summary>
-public static class BoolExprFactoryContextExtensions
+public static class BoolContextExtensions
 {
     /// <summary>
     /// Creates a Boolean expression from the specified Boolean value.

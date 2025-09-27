@@ -15,8 +15,7 @@ public static class ArithmeticOperationsExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Expression representing left + right.</returns>
     public static T Add<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Add(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Add(left, right);
 
     /// <summary>
     /// Subtracts two arithmetic expressions.
@@ -26,8 +25,7 @@ public static class ArithmeticOperationsExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Expression representing left - right.</returns>
     public static T Sub<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Sub(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Sub(left, right);
 
     /// <summary>
     /// Multiplies two arithmetic expressions.
@@ -37,8 +35,7 @@ public static class ArithmeticOperationsExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Expression representing left * right.</returns>
     public static T Mul<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Mul(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Mul(left, right);
 
     /// <summary>
     /// Divides two arithmetic expressions.
@@ -48,8 +45,7 @@ public static class ArithmeticOperationsExprExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Expression representing left / right.</returns>
     public static T Div<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => left.Context.Div(left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Div(left, right);
 
     /// <summary>
     /// Negates an arithmetic expression.
@@ -58,6 +54,5 @@ public static class ArithmeticOperationsExprExtensions
     /// <param name="operand">Expression to negate.</param>
     /// <returns>Expression representing -operand.</returns>
     public static T UnaryMinus<T>(this T operand)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
-        => operand.Context.UnaryMinus(operand);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => operand.Context.UnaryMinus(operand);
 }

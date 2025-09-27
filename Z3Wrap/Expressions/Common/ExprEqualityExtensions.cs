@@ -17,8 +17,7 @@ public static class ExprEqualityExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left == right.</returns>
     public static BoolExpr Eq<T>(this T left, T right)
-        where T : Z3Expr, IExprType<T>
-        => left.Context.Eq(left, right);
+        where T : Z3Expr, IExprType<T> => left.Context.Eq(left, right);
 
     /// <summary>
     /// Creates inequality comparison between expressions.
@@ -28,6 +27,5 @@ public static class ExprEqualityExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression representing left != right.</returns>
     public static BoolExpr Neq<T>(this T left, T right)
-        where T : Z3Expr, IExprType<T>
-        => left.Context.Neq(left, right);
+        where T : Z3Expr, IExprType<T> => left.Context.Neq(left, right);
 }
