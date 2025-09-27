@@ -1,9 +1,8 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BoolTheory;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Interop;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
 
 namespace Z3Wrap.Tests.Unit.Core;
 

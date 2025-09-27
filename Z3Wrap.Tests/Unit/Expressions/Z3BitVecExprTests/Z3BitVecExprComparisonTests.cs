@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
@@ -23,8 +22,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -120,8 +119,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -184,8 +183,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -270,8 +269,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -334,8 +333,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -425,8 +424,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -489,8 +488,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -575,8 +574,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -639,8 +638,8 @@ public class Z3BitVecExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 

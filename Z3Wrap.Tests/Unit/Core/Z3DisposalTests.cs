@@ -1,8 +1,7 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Core;
 
@@ -290,7 +289,7 @@ public class Z3DisposalTests
         Assert.DoesNotThrow(() => context.Int(5));
     }
 
-    private static Z3Bool CreateBoolExprFromAnotherContext()
+    private static BoolExpr CreateBoolExprFromAnotherContext()
     {
         using var tempContext = new Z3Context();
         return tempContext.True();

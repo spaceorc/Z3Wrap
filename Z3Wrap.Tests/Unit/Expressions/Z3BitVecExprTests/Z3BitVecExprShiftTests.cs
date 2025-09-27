@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
@@ -23,8 +22,8 @@ public class Z3BitVecExprShiftTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(value));
-        var shift = context.BitVec(new BitVec<Size8>(shiftAmount));
+        var x = context.BitVec(new Bv<Size8>(value));
+        var shift = context.BitVec(new Bv<Size8>(shiftAmount));
         var valueBigInt = new BigInteger(value);
         var shiftAmountBigInt = new BigInteger(shiftAmount);
 
@@ -43,7 +42,7 @@ public class Z3BitVecExprShiftTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec<Size8>(expectedResult);
+        var expected = new Bv<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -99,8 +98,8 @@ public class Z3BitVecExprShiftTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(value));
-        var shift = context.BitVec(new BitVec<Size8>(shiftAmount));
+        var x = context.BitVec(new Bv<Size8>(value));
+        var shift = context.BitVec(new Bv<Size8>(shiftAmount));
         var valueBigInt = new BigInteger(value);
         var shiftAmountBigInt = new BigInteger(shiftAmount);
 
@@ -118,7 +117,7 @@ public class Z3BitVecExprShiftTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec<Size8>(expectedResult);
+        var expected = new Bv<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -180,8 +179,8 @@ public class Z3BitVecExprShiftTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(value));
-        var shift = context.BitVec(new BitVec<Size8>(shiftAmount));
+        var x = context.BitVec(new Bv<Size8>(value));
+        var shift = context.BitVec(new Bv<Size8>(shiftAmount));
         var valueBigInt = new BigInteger(value);
         var shiftAmountBigInt = new BigInteger(shiftAmount);
 
@@ -203,7 +202,7 @@ public class Z3BitVecExprShiftTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec<Size8>(expectedResult);
+        var expected = new Bv<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {

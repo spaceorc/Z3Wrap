@@ -1,6 +1,5 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
@@ -17,7 +16,7 @@ public class Z3BitVecExprCreationTests
         Assert.That(bv, Is.Not.Null);
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bv.Context, Is.EqualTo(context));
-        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+        Assert.That(BvExpr<Size32>.Size, Is.EqualTo(32u));
     }
 
     [Test]
@@ -26,7 +25,7 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         var bv = context.BitVecConst<Size8>("x");
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
 
@@ -36,7 +35,7 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         var bv = context.BitVecConst<Size16>("x");
 
-        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
+        Assert.That(BvExpr<Size16>.Size, Is.EqualTo(16u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
 
@@ -46,7 +45,7 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         var bv = context.BitVecConst<Size32>("x");
 
-        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+        Assert.That(BvExpr<Size32>.Size, Is.EqualTo(32u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
 
@@ -56,7 +55,7 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         var bv = context.BitVecConst<Size64>("x");
 
-        Assert.That(Z3BitVec<Size64>.Size, Is.EqualTo(64u));
+        Assert.That(BvExpr<Size64>.Size, Is.EqualTo(64u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
 
@@ -64,9 +63,9 @@ public class Z3BitVecExprCreationTests
     public void BitVec_SmallPositiveValue_Size8_CreatesCorrectExpression()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(new BitVec<Size8>(42));
+        var bv = context.BitVec(new Bv<Size8>(42));
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Verify the actual value via model evaluation
@@ -74,16 +73,16 @@ public class Z3BitVecExprCreationTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         var actualValue = model.GetBitVec(bv);
-        Assert.That(actualValue, Is.EqualTo(new BitVec<Size8>(42)));
+        Assert.That(actualValue, Is.EqualTo(new Bv<Size8>(42)));
     }
 
     [Test]
     public void BitVec_Zero_Size8_CreatesCorrectExpression()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(new BitVec<Size8>(0));
+        var bv = context.BitVec(new Bv<Size8>(0));
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Verify the actual value via model evaluation
@@ -91,16 +90,16 @@ public class Z3BitVecExprCreationTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         var actualValue = model.GetBitVec(bv);
-        Assert.That(actualValue, Is.EqualTo(new BitVec<Size8>(0)));
+        Assert.That(actualValue, Is.EqualTo(new Bv<Size8>(0)));
     }
 
     [Test]
     public void BitVec_NegativeValue_Size8_CreatesCorrectExpression()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(new BitVec<Size8>(-1));
+        var bv = context.BitVec(new Bv<Size8>(-1));
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Verify the actual value via model evaluation
@@ -108,16 +107,16 @@ public class Z3BitVecExprCreationTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         var actualValue = model.GetBitVec(bv);
-        Assert.That(actualValue, Is.EqualTo(new BitVec<Size8>(-1)));
+        Assert.That(actualValue, Is.EqualTo(new Bv<Size8>(-1)));
     }
 
     [Test]
     public void BitVec_Max8BitUnsigned_CreatesCorrectExpression()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(new BitVec<Size8>(255));
+        var bv = context.BitVec(new Bv<Size8>(255));
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Verify the actual value via model evaluation
@@ -125,16 +124,16 @@ public class Z3BitVecExprCreationTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         var actualValue = model.GetBitVec(bv);
-        Assert.That(actualValue, Is.EqualTo(new BitVec<Size8>(255)));
+        Assert.That(actualValue, Is.EqualTo(new Bv<Size8>(255)));
     }
 
     [Test]
     public void BitVec_Min8BitSigned_CreatesCorrectExpression()
     {
         using var context = new Z3Context();
-        var bv = context.BitVec(new BitVec<Size8>(-128));
+        var bv = context.BitVec(new Bv<Size8>(-128));
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bv.Handle, Is.Not.EqualTo(IntPtr.Zero));
 
         // Verify the actual value via model evaluation
@@ -142,7 +141,7 @@ public class Z3BitVecExprCreationTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         var actualValue = model.GetBitVec(bv);
-        Assert.That(actualValue, Is.EqualTo(new BitVec<Size8>(-128)));
+        Assert.That(actualValue, Is.EqualTo(new Bv<Size8>(-128)));
     }
 
     [Test]
@@ -151,10 +150,10 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bitVec = new BitVec<Size16>(100);
-        Z3BitVec<Size16> bvExpr = bitVec; // Implicit conversion
+        var bitVec = new Bv<Size16>(100);
+        BvExpr<Size16> bvExpr = bitVec; // Implicit conversion
 
-        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
+        Assert.That(BvExpr<Size16>.Size, Is.EqualTo(16u));
         Assert.That(bvExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bvExpr.Context, Is.EqualTo(context));
 
@@ -172,10 +171,10 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bitVec = new BitVec<Size8>(0);
-        Z3BitVec<Size8> bvExpr = bitVec; // Implicit conversion
+        var bitVec = new Bv<Size8>(0);
+        BvExpr<Size8> bvExpr = bitVec; // Implicit conversion
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
         Assert.That(bvExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bvExpr.Context, Is.EqualTo(context));
 
@@ -193,10 +192,10 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bitVec = new BitVec<Size32>(-50);
-        Z3BitVec<Size32> bvExpr = bitVec; // Implicit conversion
+        var bitVec = new Bv<Size32>(-50);
+        BvExpr<Size32> bvExpr = bitVec; // Implicit conversion
 
-        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+        Assert.That(BvExpr<Size32>.Size, Is.EqualTo(32u));
         Assert.That(bvExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bvExpr.Context, Is.EqualTo(context));
 
@@ -214,10 +213,10 @@ public class Z3BitVecExprCreationTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bitVec = new BitVec<Size16>(65535);
-        Z3BitVec<Size16> bvExpr = bitVec; // Implicit conversion
+        var bitVec = new Bv<Size16>(65535);
+        BvExpr<Size16> bvExpr = bitVec; // Implicit conversion
 
-        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
+        Assert.That(BvExpr<Size16>.Size, Is.EqualTo(16u));
         Assert.That(bvExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bvExpr.Context, Is.EqualTo(context));
 

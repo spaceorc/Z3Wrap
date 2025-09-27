@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap;
@@ -236,5 +236,5 @@ public class Z3Context : IDisposable
     }
 
     internal IntPtr GetSortForType<T>()
-        where T : Z3Expr, IZ3ExprType<T> => T.GetSort(this);
+        where T : Z3Expr, IExprType<T> => T.Sort(this);
 }

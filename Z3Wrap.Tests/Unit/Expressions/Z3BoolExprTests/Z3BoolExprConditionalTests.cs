@@ -1,12 +1,10 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Extensions;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
@@ -153,9 +151,9 @@ public class Z3BoolExprConditionalTests
         var result = condition.Ite(thenExpr, elseExpr);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<Z3BitVec<Size8>>());
+        Assert.That(result, Is.TypeOf<BvExpr<Size8>>());
 
-        solver.Assert(result == context.BitVec(new BitVec<Size8>(42)));
+        solver.Assert(result == context.BitVec(new Bv<Size8>(42)));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
@@ -167,13 +165,13 @@ public class Z3BoolExprConditionalTests
         using var solver = context.CreateSolver();
 
         var condition = context.Bool(false);
-        var arr1 = context.ArrayConst<Z3Int, Z3Int>("arr1");
-        var arr2 = context.ArrayConst<Z3Int, Z3Int>("arr2");
+        var arr1 = context.ArrayConst<IntExpr, IntExpr>("arr1");
+        var arr2 = context.ArrayConst<IntExpr, IntExpr>("arr2");
 
         var result = condition.Ite(arr1, arr2);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<Z3ArrayExpr<Z3Int, Z3Int>>());
+        Assert.That(result, Is.TypeOf<Z3ArrayExpr<IntExpr, IntExpr>>());
 
         solver.Assert(arr1[0] == context.Int(10));
         solver.Assert(arr2[0] == context.Int(20));
@@ -390,9 +388,9 @@ public class Z3BoolExprConditionalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(intResult, Is.TypeOf<Z3Int>());
-            Assert.That(boolResult, Is.TypeOf<Z3Bool>());
-            Assert.That(realResult, Is.TypeOf<Z3Real>());
+            Assert.That(intResult, Is.TypeOf<IntExpr>());
+            Assert.That(boolResult, Is.TypeOf<BoolExpr>());
+            Assert.That(realResult, Is.TypeOf<RealExpr>());
         });
     }
 

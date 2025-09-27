@@ -1,6 +1,6 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.IntTheory;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BoolExprTests;
 
@@ -22,7 +22,7 @@ public class Z3BoolExprEdgeCasesTests
         var expr = (p & q) | (r ^ !p);
 
         Assert.That(expr, Is.Not.Null);
-        Assert.That(expr, Is.TypeOf<Z3Bool>());
+        Assert.That(expr, Is.TypeOf<BoolExpr>());
 
         // Test case: p=false, q=true, r=false
         // !p = true, so r ^ !p = false ^ true = true
@@ -132,7 +132,7 @@ public class Z3BoolExprEdgeCasesTests
         // Nested conditional: if cond1 then (if cond2 then 1 else 2) else 3
         var nested = cond1.Ite(cond2.Ite(context.Int(1), context.Int(2)), context.Int(3));
 
-        Assert.That(nested, Is.TypeOf<Z3Int>());
+        Assert.That(nested, Is.TypeOf<IntExpr>());
 
         solver.Assert(cond1);
         solver.Assert(cond2);

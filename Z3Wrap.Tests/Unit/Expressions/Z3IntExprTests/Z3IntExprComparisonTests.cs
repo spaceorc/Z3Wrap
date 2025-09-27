@@ -1,7 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.IntTheory;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
 

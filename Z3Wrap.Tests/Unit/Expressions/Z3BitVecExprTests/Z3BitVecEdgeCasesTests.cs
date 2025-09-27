@@ -1,6 +1,5 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;

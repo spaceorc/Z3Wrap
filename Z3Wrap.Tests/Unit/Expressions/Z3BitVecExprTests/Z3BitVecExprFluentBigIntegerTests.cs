@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
@@ -89,7 +88,7 @@ public class Z3BitVecExprFluentBigIntegerTests
 
         // Note: For right shift with signed parameter, we need to use the method form
         var y = context.BitVecConst<Size32>("y");
-        var negativeValue = new BitVec<Size32>(-1000);
+        var negativeValue = new Bv<Size32>(-1000);
         solver.Assert(y == context.BitVec(negativeValue));
         var rightShiftArithmetic = y.Shr(shiftAmount, signed: true);
 
@@ -121,7 +120,7 @@ public class Z3BitVecExprFluentBigIntegerTests
         using var solver = context.CreateSolver();
 
         // Set x to the unsigned representation of -1000
-        solver.Assert(x == context.BitVec(new BitVec<Size16>(sameAsUnsigned)));
+        solver.Assert(x == context.BitVec(new Bv<Size16>(sameAsUnsigned)));
 
         // Test unsigned comparisons using fluent API
         solver.Assert(x > positiveValue); // Unsigned: large positive > small positive

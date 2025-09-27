@@ -1,10 +1,8 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.BoolTheory;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Extensions;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Core;
@@ -266,7 +264,7 @@ public class QuantifierTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var arr = context.ArrayConst<Z3Int, Z3Int>("arr");
+        var arr = context.ArrayConst<IntExpr, IntExpr>("arr");
         var i = context.IntConst("i");
 
         // There exists an index i such that arr[i] = 10

@@ -1,10 +1,8 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
@@ -29,7 +27,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var evaluated = model.Evaluate(x);
 
-        Assert.That(evaluated, Is.TypeOf<Z3Int>());
+        Assert.That(evaluated, Is.TypeOf<IntExpr>());
         Assert.That(evaluated.ToString(), Is.EqualTo("42"));
     }
 
@@ -49,7 +47,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var evaluated = model.Evaluate(p);
 
-        Assert.That(evaluated, Is.TypeOf<Z3Bool>());
+        Assert.That(evaluated, Is.TypeOf<BoolExpr>());
         Assert.That(evaluated.ToString(), Is.EqualTo("true"));
     }
 
@@ -69,7 +67,7 @@ public class Z3ModelValueExtractionTests
         var model = solver.GetModel();
         var evaluated = model.Evaluate(z);
 
-        Assert.That(evaluated, Is.TypeOf<Z3Real>());
+        Assert.That(evaluated, Is.TypeOf<RealExpr>());
         Assert.That(evaluated.ToString(), Does.Contain("157").And.Contain("50"));
     }
 
@@ -297,7 +295,7 @@ public class Z3ModelValueExtractionTests
 
         // This should work (evaluates to a constant)
         var sumEval = model.Evaluate(sum);
-        Assert.That(sumEval, Is.TypeOf<Z3Int>());
+        Assert.That(sumEval, Is.TypeOf<IntExpr>());
 
         // But trying to get value of the original sum expression might fail
         // if it doesn't evaluate to a pure numeral in the model

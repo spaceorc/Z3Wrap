@@ -1,9 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;
@@ -23,7 +21,7 @@ public class Z3IntExprCreationTests
 
         Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bitVecResult.Context, Is.SameAs(context));
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
 
         // Test converting integer 42 to 8-bit
         solver.Assert(x == 42);
@@ -43,7 +41,7 @@ public class Z3IntExprCreationTests
 
         Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bitVecResult.Context, Is.SameAs(context));
-        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
+        Assert.That(BvExpr<Size16>.Size, Is.EqualTo(16u));
 
         solver.Assert(x == 42);
         solver.Assert(bitVecResult == 42);
@@ -62,7 +60,7 @@ public class Z3IntExprCreationTests
 
         Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bitVecResult.Context, Is.SameAs(context));
-        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+        Assert.That(BvExpr<Size32>.Size, Is.EqualTo(32u));
 
         solver.Assert(x == 42);
         solver.Assert(bitVecResult == 42);
@@ -81,7 +79,7 @@ public class Z3IntExprCreationTests
 
         Assert.That(bitVecResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bitVecResult.Context, Is.SameAs(context));
-        Assert.That(Z3BitVec<Size64>.Size, Is.EqualTo(64u));
+        Assert.That(BvExpr<Size64>.Size, Is.EqualTo(64u));
 
         solver.Assert(x == 42);
         solver.Assert(bitVecResult == 42);
@@ -98,10 +96,10 @@ public class Z3IntExprCreationTests
         var x = context.Int(255);
         var bitVecResult = x.ToBitVec<Size8>();
 
-        Assert.That(Z3BitVec<Size8>.Size, Is.EqualTo(8u));
+        Assert.That(BvExpr<Size8>.Size, Is.EqualTo(8u));
 
         // Test that the bit-vector represents the same value
-        var expected = context.BitVec(new BitVec<Size8>(255));
+        var expected = context.BitVec(new Bv<Size8>(255));
         solver.Assert(context.Eq(bitVecResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -116,10 +114,10 @@ public class Z3IntExprCreationTests
         var x = context.Int(65535);
         var bitVecResult = x.ToBitVec<Size16>();
 
-        Assert.That(Z3BitVec<Size16>.Size, Is.EqualTo(16u));
+        Assert.That(BvExpr<Size16>.Size, Is.EqualTo(16u));
 
         // Test that the bit-vector represents the same value
-        var expected = context.BitVec(new BitVec<Size16>(65535));
+        var expected = context.BitVec(new Bv<Size16>(65535));
         solver.Assert(context.Eq(bitVecResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -134,10 +132,10 @@ public class Z3IntExprCreationTests
         var x = context.Int(-1);
         var bitVecResult = x.ToBitVec<Size32>();
 
-        Assert.That(Z3BitVec<Size32>.Size, Is.EqualTo(32u));
+        Assert.That(BvExpr<Size32>.Size, Is.EqualTo(32u));
 
         // Test that the bit-vector represents the same value
-        var expected = context.BitVec(new BitVec<Size32>(-1));
+        var expected = context.BitVec(new Bv<Size32>(-1));
         solver.Assert(context.Eq(bitVecResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -152,10 +150,10 @@ public class Z3IntExprCreationTests
         var x = context.Int(0);
         var bitVecResult = x.ToBitVec<Size64>();
 
-        Assert.That(Z3BitVec<Size64>.Size, Is.EqualTo(64u));
+        Assert.That(BvExpr<Size64>.Size, Is.EqualTo(64u));
 
         // Test that the bit-vector represents the same value
-        var expected = context.BitVec(new BitVec<Size64>(0));
+        var expected = context.BitVec(new Bv<Size64>(0));
         solver.Assert(context.Eq(bitVecResult, expected));
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
@@ -193,7 +191,7 @@ public class Z3IntExprCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from long
-        Z3Int longResult = value;
+        IntExpr longResult = value;
 
         Assert.That(longResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(longResult.Context, Is.SameAs(context));
@@ -216,7 +214,7 @@ public class Z3IntExprCreationTests
         var bigIntValue = new BigInteger(value);
 
         // Test implicit conversion from BigInteger
-        Z3Int bigIntResult = bigIntValue;
+        IntExpr bigIntResult = bigIntValue;
 
         Assert.That(bigIntResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bigIntResult.Context, Is.SameAs(context));
@@ -237,7 +235,7 @@ public class Z3IntExprCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from int
-        Z3Int intResult = value;
+        IntExpr intResult = value;
 
         Assert.That(intResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(intResult.Context, Is.SameAs(context));

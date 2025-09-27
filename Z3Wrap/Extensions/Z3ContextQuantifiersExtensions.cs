@@ -1,5 +1,5 @@
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
@@ -17,7 +17,7 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar">The variable to be universally quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the universal quantifier.</returns>
-    public static Z3Bool ForAll(this Z3Context context, Z3Expr boundVar, Z3Bool body)
+    public static BoolExpr ForAll(this Z3Context context, Z3Expr boundVar, BoolExpr body)
     {
         var bound = new[] { boundVar.Handle };
         var handle = SafeNativeMethods.Z3MkForallConst(
@@ -29,7 +29,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar">The variable to be existentially quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the existential quantifier.</returns>
-    public static Z3Bool Exists(this Z3Context context, Z3Expr boundVar, Z3Bool body)
+    public static BoolExpr Exists(this Z3Context context, Z3Expr boundVar, BoolExpr body)
     {
         var bound = new[] { boundVar.Handle };
         var handle = SafeNativeMethods.Z3MkExistsConst(
@@ -51,7 +51,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -62,11 +62,11 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar2">The second variable to be universally quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the universal quantifier.</returns>
-    public static Z3Bool ForAll(
+    public static BoolExpr ForAll(
         this Z3Context context,
         Z3Expr boundVar1,
         Z3Expr boundVar2,
-        Z3Bool body
+        BoolExpr body
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle };
@@ -79,7 +79,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -90,11 +90,11 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar2">The second variable to be existentially quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the existential quantifier.</returns>
-    public static Z3Bool Exists(
+    public static BoolExpr Exists(
         this Z3Context context,
         Z3Expr boundVar1,
         Z3Expr boundVar2,
-        Z3Bool body
+        BoolExpr body
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle };
@@ -107,7 +107,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -119,12 +119,12 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar3">The third variable to be universally quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the universal quantifier.</returns>
-    public static Z3Bool ForAll(
+    public static BoolExpr ForAll(
         this Z3Context context,
         Z3Expr boundVar1,
         Z3Expr boundVar2,
         Z3Expr boundVar3,
-        Z3Bool body
+        BoolExpr body
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle, boundVar3.Handle };
@@ -137,7 +137,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -149,12 +149,12 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar3">The third variable to be existentially quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the existential quantifier.</returns>
-    public static Z3Bool Exists(
+    public static BoolExpr Exists(
         this Z3Context context,
         Z3Expr boundVar1,
         Z3Expr boundVar2,
         Z3Expr boundVar3,
-        Z3Bool body
+        BoolExpr body
     )
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle, boundVar3.Handle };
@@ -167,7 +167,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -180,13 +180,13 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar4">The fourth variable to be universally quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the universal quantifier.</returns>
-    public static Z3Bool ForAll(
+    public static BoolExpr ForAll(
         this Z3Context context,
         Z3Expr boundVar1,
         Z3Expr boundVar2,
         Z3Expr boundVar3,
         Z3Expr boundVar4,
-        Z3Bool body
+        BoolExpr body
     )
     {
         var bound = new[]
@@ -205,7 +205,7 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
     /// <summary>
@@ -218,13 +218,13 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar4">The fourth variable to be existentially quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the existential quantifier.</returns>
-    public static Z3Bool Exists(
+    public static BoolExpr Exists(
         this Z3Context context,
         Z3Expr boundVar1,
         Z3Expr boundVar2,
         Z3Expr boundVar3,
         Z3Expr boundVar4,
-        Z3Bool body
+        BoolExpr body
     )
     {
         var bound = new[]
@@ -243,6 +243,6 @@ public static partial class Z3ContextQuantifiersExtensions
             [], // patterns
             body.Handle
         );
-        return Z3Expr.Create<Z3Bool>(context, handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 }

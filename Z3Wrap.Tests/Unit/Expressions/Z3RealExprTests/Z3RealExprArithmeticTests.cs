@@ -1,7 +1,6 @@
 using System.Globalization;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
@@ -859,7 +858,7 @@ public class Z3RealArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Add(Array.Empty<Z3Real>()),
+            () => context.Add(Array.Empty<RealExpr>()),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -972,7 +971,7 @@ public class Z3RealArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Sub(Array.Empty<Z3Real>()),
+            () => context.Sub(Array.Empty<RealExpr>()),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -1116,7 +1115,7 @@ public class Z3RealArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Mul(Array.Empty<Z3Real>()),
+            () => context.Mul(Array.Empty<RealExpr>()),
             "Empty operands should throw InvalidOperationException"
         );
     }

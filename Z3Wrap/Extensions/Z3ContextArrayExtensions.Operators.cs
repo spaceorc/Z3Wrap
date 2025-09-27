@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
@@ -21,8 +21,8 @@ public static partial class Z3ContextArrayExtensions
         TIndex index,
         TValue value
     )
-        where TIndex : Z3Expr, IZ3ExprType<TIndex>
-        where TValue : Z3Expr, IZ3ExprType<TValue>
+        where TIndex : Z3Expr, IExprType<TIndex>
+        where TValue : Z3Expr, IExprType<TValue>
     {
         var handle = SafeNativeMethods.Z3MkStore(
             context.Handle,
@@ -47,8 +47,8 @@ public static partial class Z3ContextArrayExtensions
         Z3ArrayExpr<TIndex, TValue> array,
         TIndex index
     )
-        where TIndex : Z3Expr, IZ3ExprType<TIndex>
-        where TValue : Z3Expr, IZ3ExprType<TValue>
+        where TIndex : Z3Expr, IExprType<TIndex>
+        where TValue : Z3Expr, IExprType<TValue>
     {
         var handle = SafeNativeMethods.Z3MkSelect(context.Handle, array.Handle, index.Handle);
         return Z3Expr.Create<TValue>(context, handle);

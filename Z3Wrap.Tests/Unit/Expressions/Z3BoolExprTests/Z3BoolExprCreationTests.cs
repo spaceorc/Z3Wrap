@@ -1,7 +1,7 @@
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
-using Spaceorc.Z3Wrap.IntTheory;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BoolExprTests;
 
@@ -21,7 +21,7 @@ public class Z3BoolExprCreationTests
         Assert.Multiple(() =>
         {
             Assert.That(boolExpr, Is.Not.Null);
-            Assert.That(boolExpr, Is.TypeOf<Z3Bool>());
+            Assert.That(boolExpr, Is.TypeOf<BoolExpr>());
             Assert.That(boolExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
             Assert.That(boolExpr.Context, Is.SameAs(context));
         });
@@ -42,7 +42,7 @@ public class Z3BoolExprCreationTests
         Assert.Multiple(() =>
         {
             Assert.That(boolConst, Is.Not.Null);
-            Assert.That(boolConst, Is.TypeOf<Z3Bool>());
+            Assert.That(boolConst, Is.TypeOf<BoolExpr>());
             Assert.That(boolConst.Handle, Is.Not.EqualTo(IntPtr.Zero));
             Assert.That(boolConst.Context, Is.SameAs(context));
         });
@@ -63,7 +63,7 @@ public class Z3BoolExprCreationTests
         Assert.Multiple(() =>
         {
             Assert.That(boolConst, Is.Not.Null);
-            Assert.That(boolConst, Is.TypeOf<Z3Bool>());
+            Assert.That(boolConst, Is.TypeOf<BoolExpr>());
             Assert.That(boolConst.Handle, Is.Not.EqualTo(IntPtr.Zero));
         });
 
@@ -85,12 +85,12 @@ public class Z3BoolExprCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion using thread-local context
-        Z3Bool implicitExpr = value;
+        BoolExpr implicitExpr = value;
 
         Assert.Multiple(() =>
         {
             Assert.That(implicitExpr, Is.Not.Null);
-            Assert.That(implicitExpr, Is.TypeOf<Z3Bool>());
+            Assert.That(implicitExpr, Is.TypeOf<BoolExpr>());
             Assert.That(implicitExpr.Handle, Is.Not.EqualTo(IntPtr.Zero));
             Assert.That(implicitExpr.Context, Is.SameAs(context));
         });
@@ -113,9 +113,9 @@ public class Z3BoolExprCreationTests
         Assert.Multiple(() =>
         {
             Assert.That(trueExpr, Is.Not.Null);
-            Assert.That(trueExpr, Is.TypeOf<Z3Bool>());
+            Assert.That(trueExpr, Is.TypeOf<BoolExpr>());
             Assert.That(falseExpr, Is.Not.Null);
-            Assert.That(falseExpr, Is.TypeOf<Z3Bool>());
+            Assert.That(falseExpr, Is.TypeOf<BoolExpr>());
         });
 
         solver.Assert(trueExpr);
@@ -139,12 +139,12 @@ public class Z3BoolExprCreationTests
         var originalBool = context.Bool(true);
         var handle = originalBool.Handle;
 
-        var recreatedBool = Z3Expr.Create<Z3Bool>(context, handle);
+        var recreatedBool = Z3Expr.Create<BoolExpr>(context, handle);
 
         Assert.Multiple(() =>
         {
             Assert.That(recreatedBool, Is.Not.Null);
-            Assert.That(recreatedBool, Is.TypeOf<Z3Bool>());
+            Assert.That(recreatedBool, Is.TypeOf<BoolExpr>());
             Assert.That(recreatedBool.Handle, Is.EqualTo(handle));
             Assert.That(recreatedBool.Context, Is.SameAs(context));
         });
@@ -201,9 +201,9 @@ public class Z3BoolExprCreationTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(greaterThan, Is.TypeOf<Z3Bool>());
-            Assert.That(lessThan, Is.TypeOf<Z3Bool>());
-            Assert.That(equals, Is.TypeOf<Z3Bool>());
+            Assert.That(greaterThan, Is.TypeOf<BoolExpr>());
+            Assert.That(lessThan, Is.TypeOf<BoolExpr>());
+            Assert.That(equals, Is.TypeOf<BoolExpr>());
         });
 
         solver.Assert(x == context.Int(10));
@@ -266,8 +266,8 @@ public class Z3BoolExprCreationTests
         using var solver = context.CreateSolver();
 
         // Test that implicit conversion works with thread-local context
-        Z3Bool trueExpr = true;
-        Z3Bool falseExpr = false;
+        BoolExpr trueExpr = true;
+        BoolExpr falseExpr = false;
 
         var p = context.BoolConst("p");
 
@@ -302,11 +302,11 @@ public class Z3BoolExprCreationTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(step1, Is.TypeOf<Z3Bool>());
-            Assert.That(step2, Is.TypeOf<Z3Bool>());
-            Assert.That(step3, Is.TypeOf<Z3Bool>());
-            Assert.That(step4, Is.TypeOf<Z3Bool>());
-            Assert.That(final, Is.TypeOf<Z3Bool>());
+            Assert.That(step1, Is.TypeOf<BoolExpr>());
+            Assert.That(step2, Is.TypeOf<BoolExpr>());
+            Assert.That(step3, Is.TypeOf<BoolExpr>());
+            Assert.That(step4, Is.TypeOf<BoolExpr>());
+            Assert.That(final, Is.TypeOf<BoolExpr>());
         });
 
         solver.Assert(final);
@@ -364,7 +364,7 @@ public class Z3BoolExprCreationTests
         Assert.That(emptyNameVar, Is.Not.Null);
 
         // Test creating many variables
-        var manyVars = new List<Z3Bool>();
+        var manyVars = new List<BoolExpr>();
         for (int i = 0; i < 100; i++)
         {
             manyVars.Add(context.BoolConst($"var_{i}"));
@@ -386,7 +386,7 @@ public class Z3BoolExprCreationTests
         using var scope = context.SetUp();
 
         // Create many expressions to test that memory is handled properly
-        var expressions = new List<Z3Bool>();
+        var expressions = new List<BoolExpr>();
 
         for (int i = 0; i < 1000; i++)
         {

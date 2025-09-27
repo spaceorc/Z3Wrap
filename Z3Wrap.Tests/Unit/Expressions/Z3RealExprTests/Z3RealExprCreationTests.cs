@@ -1,8 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3RealExprTests;
@@ -105,7 +103,7 @@ public class Z3RealCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from int
-        Z3Real intResult = 42;
+        RealExpr intResult = 42;
 
         Assert.That(intResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(intResult.Context, Is.SameAs(context));
@@ -124,7 +122,7 @@ public class Z3RealCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from long
-        Z3Real longResult = 9876543210L;
+        RealExpr longResult = 9876543210L;
 
         Assert.That(longResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(longResult.Context, Is.SameAs(context));
@@ -143,7 +141,7 @@ public class Z3RealCreationTests
         using var solver = context.CreateSolver();
 
         // Test implicit conversion from decimal
-        Z3Real decimalResult = 3.14159m;
+        RealExpr decimalResult = 3.14159m;
 
         Assert.That(decimalResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(decimalResult.Context, Is.SameAs(context));
@@ -163,7 +161,7 @@ public class Z3RealCreationTests
 
         // Test implicit conversion from BigInteger
         var bigInt = new BigInteger(long.MaxValue) * 1000;
-        Z3Real bigIntegerResult = bigInt;
+        RealExpr bigIntegerResult = bigInt;
 
         Assert.That(bigIntegerResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(bigIntegerResult.Context, Is.SameAs(context));
@@ -183,7 +181,7 @@ public class Z3RealCreationTests
 
         // Test implicit conversion from Real data type
         var realValue = new Real(22, 7); // Approximation of pi
-        Z3Real realResult = realValue;
+        RealExpr realResult = realValue;
 
         Assert.That(realResult.Handle, Is.Not.EqualTo(IntPtr.Zero));
         Assert.That(realResult.Context, Is.SameAs(context));
@@ -287,10 +285,10 @@ public class Z3RealCreationTests
         using var solver = context.CreateSolver();
 
         // Test negative implicit conversions
-        Z3Real negativeInt = -42;
-        Z3Real negativeLong = -9876543210L;
-        Z3Real negativeDecimal = -3.14159m;
-        Z3Real negativeBigInteger = new BigInteger(-123456789012345678L);
+        RealExpr negativeInt = -42;
+        RealExpr negativeLong = -9876543210L;
+        RealExpr negativeDecimal = -3.14159m;
+        RealExpr negativeBigInteger = new BigInteger(-123456789012345678L);
 
         // All should be valid Z3Real instances
         Assert.Multiple(() =>
@@ -319,10 +317,10 @@ public class Z3RealCreationTests
         using var solver = context.CreateSolver();
 
         // Test zero implicit conversions
-        Z3Real zeroInt = 0;
-        Z3Real zeroLong = 0L;
-        Z3Real zeroDecimal = 0.0m;
-        Z3Real zeroBigInteger = BigInteger.Zero;
+        RealExpr zeroInt = 0;
+        RealExpr zeroLong = 0L;
+        RealExpr zeroDecimal = 0.0m;
+        RealExpr zeroBigInteger = BigInteger.Zero;
 
         // All zeros should be equivalent
         solver.Assert(context.Eq(zeroInt, zeroLong));
@@ -344,7 +342,7 @@ public class Z3RealCreationTests
         var negativeRealType = context.Real(new Real(-22, 7));
 
         // Test implicit conversions with negative values
-        Z3Real implicitNegativeDecimal = -2.718m;
+        RealExpr implicitNegativeDecimal = -2.718m;
 
         Assert.Multiple(() =>
         {
@@ -374,8 +372,8 @@ public class Z3RealCreationTests
         var zeroReal = context.Real(Real.Zero);
 
         // Test implicit conversions with zero values
-        Z3Real implicitZeroDecimal = 0.0m;
-        Z3Real implicitZeroReal = Real.Zero;
+        RealExpr implicitZeroDecimal = 0.0m;
+        RealExpr implicitZeroReal = Real.Zero;
 
         // All zeros should be equivalent
         solver.Assert(context.Eq(zeroDecimal, zeroReal));

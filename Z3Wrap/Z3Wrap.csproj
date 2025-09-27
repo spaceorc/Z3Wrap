@@ -45,176 +45,38 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="BitVecTheory\Z3BitVec.Arithmetic.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Bitwise.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Comparison.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Conversion.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Equality.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Implicit.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Manipulation.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.OverflowChecks.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3BitVec.Shift.cs">
-      <DependentUpon>Z3BitVec.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Arithmetic.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Bitwise.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Comparison.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Equality.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Manipulation.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.OverflowChecks.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BitVecTheory\Z3ContextBitVecExtensions.Shift.cs">
-      <DependentUpon>Z3ContextBitVecExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3Bool.Equality.cs">
-      <DependentUpon>Z3Bool.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3Bool.Functions.cs">
-      <DependentUpon>Z3Bool.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3Bool.Implicit.cs">
-      <DependentUpon>Z3Bool.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3Bool.Logical.cs">
-      <DependentUpon>Z3Bool.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3ContextBoolExtensions.Equality.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3ContextBoolExtensions.Functions.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="BoolTheory\Z3ContextBoolExtensions.Logical.cs">
-      <DependentUpon>Z3ContextBoolExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3ContextRealExtensions.Arithmetic.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3ContextRealExtensions.Comparison.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3ContextRealExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3ContextRealExtensions.Functions.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3ContextRealExtensions.Equality.cs">
-      <DependentUpon>Z3ContextRealExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3Real.Arithmetic.cs">
-      <DependentUpon>Z3Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3Real.Comparison.cs">
-      <DependentUpon>Z3Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3Real.Implicit.cs">
-      <DependentUpon>Z3Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3Real.Conversion.cs">
-      <DependentUpon>Z3Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3Real.Equality.cs">
-      <DependentUpon>Z3Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RealTheory\Z3Real.Functions.cs">
-      <DependentUpon>Z3Real.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3ContextIntExtensions.Arithmetic.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3ContextIntExtensions.Comparison.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3ContextIntExtensions.Conversion.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3ContextIntExtensions.Equality.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3ContextIntExtensions.Functions.cs">
-      <DependentUpon>Z3ContextIntExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3Int.Arithmetic.cs">
-      <DependentUpon>Z3Int.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3Int.Comparison.cs">
-      <DependentUpon>Z3Int.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3Int.Conversion.cs">
-      <DependentUpon>Z3Int.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3Int.Equality.cs">
-      <DependentUpon>Z3Int.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3Int.Functions.cs">
-      <DependentUpon>Z3Int.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IntTheory\Z3Int.Implicit.cs">
-      <DependentUpon>Z3Int.cs</DependentUpon>
-    </Compile>
     <Compile Update="Values\Numerics\Real.Arithmetic.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Arithmetic.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Arithmetic.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Bitwise.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Bitwise.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Comparison.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Comparison.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Conversion.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Conversion.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Equality.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Equality.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Factory.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Factory.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Formatting.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Formatting.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Implicit.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Implicit.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Manipulation.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Manipulation.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
-    <Compile Update="Values\BitVectors\BitVec.Shift.cs">
-      <DependentUpon>BitVec.cs</DependentUpon>
+    <Compile Update="Values\BitVectors\Bv.Shift.cs">
+      <DependentUpon>Bv.cs</DependentUpon>
     </Compile>
     <Compile Update="Values\Numerics\Real.Comparison.cs">
       <DependentUpon>Real.cs</DependentUpon>
@@ -236,6 +98,123 @@
     </Compile>
     <Compile Update="Values\Numerics\Real.Implicit.cs">
       <DependentUpon>Real.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.Arithmetic.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.Bitwise.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.comparison.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.conversion.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.Equality.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.Implicit.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.Manipulation.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.OverflowChecks.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExpr.Shift.cs">
+      <DependentUpon>BvExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Arithmetic.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Bitwise.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.comparison.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.conversion.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Equality.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Manipulation.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.OverflowChecks.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Shift.cs">
+      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExpr.Arithmetic.cs">
+      <DependentUpon>IntExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExpr.comparison.cs">
+      <DependentUpon>IntExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExpr.conversion.cs">
+      <DependentUpon>IntExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExpr.Equality.cs">
+      <DependentUpon>IntExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExpr.Functions.cs">
+      <DependentUpon>IntExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExpr.Implicit.cs">
+      <DependentUpon>IntExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExprContextExtensions.Arithmetic.cs">
+      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExprContextExtensions.comparison.cs">
+      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExprContextExtensions.conversion.cs">
+      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExprContextExtensions.Equality.cs">
+      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\IntExprContextExtensions.Functions.cs">
+      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExpr.Arithmetic.cs">
+      <DependentUpon>RealExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExpr.comparison.cs">
+      <DependentUpon>RealExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExpr.conversion.cs">
+      <DependentUpon>RealExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExpr.Equality.cs">
+      <DependentUpon>RealExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExpr.Functions.cs">
+      <DependentUpon>RealExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExpr.Implicit.cs">
+      <DependentUpon>RealExpr.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExprContextExtensions.Arithmetic.cs">
+      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExprContextExtensions.comparison.cs">
+      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExprContextExtensions.conversion.cs">
+      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExprContextExtensions.Equality.cs">
+      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\Numerics\RealExprContextExtensions.Functions.cs">
+      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">

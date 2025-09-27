@@ -1,6 +1,6 @@
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Interop;
-using Spaceorc.Z3Wrap.IntTheory;
 
 namespace Spaceorc.Z3Wrap.Extensions;
 
@@ -22,8 +22,8 @@ public static partial class Z3ContextArrayExtensions
         this Z3Context context,
         string name
     )
-        where TIndex : Z3Expr, IZ3ExprType<TIndex>
-        where TValue : Z3Expr, IZ3ExprType<TValue>
+        where TIndex : Z3Expr, IExprType<TIndex>
+        where TValue : Z3Expr, IExprType<TValue>
     {
         var arraySort = context.GetSortForType<Z3ArrayExpr<TIndex, TValue>>();
 
@@ -41,10 +41,13 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the array constant.</returns>
-    public static Z3ArrayExpr<Z3Int, TValue> ArrayConst<TValue>(this Z3Context context, string name)
-        where TValue : Z3Expr, IZ3ExprType<TValue>
+    public static Z3ArrayExpr<IntExpr, TValue> ArrayConst<TValue>(
+        this Z3Context context,
+        string name
+    )
+        where TValue : Z3Expr, IExprType<TValue>
     {
-        return context.ArrayConst<Z3Int, TValue>(name);
+        return context.ArrayConst<IntExpr, TValue>(name);
     }
 
     /// <summary>
@@ -59,8 +62,8 @@ public static partial class Z3ContextArrayExtensions
         this Z3Context context,
         TValue defaultValue
     )
-        where TIndex : Z3Expr, IZ3ExprType<TIndex>
-        where TValue : Z3Expr, IZ3ExprType<TValue>
+        where TIndex : Z3Expr, IExprType<TIndex>
+        where TValue : Z3Expr, IExprType<TValue>
     {
         var indexSort = context.GetSortForType<TIndex>();
 
@@ -80,12 +83,12 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="defaultValue">The default value for all array indices.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the constant array.</returns>
-    public static Z3ArrayExpr<Z3Int, TValue> Array<TValue>(
+    public static Z3ArrayExpr<IntExpr, TValue> Array<TValue>(
         this Z3Context context,
         TValue defaultValue
     )
-        where TValue : Z3Expr, IZ3ExprType<TValue>
+        where TValue : Z3Expr, IExprType<TValue>
     {
-        return context.Array<Z3Int, TValue>(defaultValue);
+        return context.Array<IntExpr, TValue>(defaultValue);
     }
 }

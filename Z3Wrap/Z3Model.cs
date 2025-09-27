@@ -1,12 +1,11 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.BoolTheory;
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Common;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Interop;
-using Spaceorc.Z3Wrap.IntTheory;
-using Spaceorc.Z3Wrap.RealTheory;
-using Spaceorc.Z3Wrap.Values;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
@@ -53,7 +52,7 @@ public sealed class Z3Model
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when expression evaluation fails.</exception>
     public T Evaluate<T>(T expr, bool modelCompletion = true)
-        where T : Z3Expr, IZ3ExprType<T>
+        where T : Z3Expr, IExprType<T>
     {
         ThrowIfInvalidated();
 
@@ -79,7 +78,7 @@ public sealed class Z3Model
     /// <returns>The BigInteger value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to an integer or parsing fails.</exception>
-    public BigInteger GetIntValue(Z3Int expr)
+    public BigInteger GetIntValue(IntExpr expr)
     {
         var valueStr = GetNumericValueAsString(expr);
 
@@ -98,7 +97,7 @@ public sealed class Z3Model
     /// <returns>The Boolean value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a Boolean value.</exception>
-    public bool GetBoolValue(Z3Bool expr)
+    public bool GetBoolValue(BoolExpr expr)
     {
         var evaluated = Evaluate(expr);
 
@@ -124,7 +123,7 @@ public sealed class Z3Model
     /// <returns>The exact Real value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a real number or parsing fails.</exception>
-    public Real GetRealValue(Z3Real expr) => Real.Parse(GetNumericValueAsString(expr));
+    public Real GetRealValue(RealExpr expr) => Real.Parse(GetNumericValueAsString(expr));
 
     /// <summary>
     /// Extracts the bitvector value of a bitvector expression from this model.
@@ -133,7 +132,7 @@ public sealed class Z3Model
     /// <returns>The BitVec value of the expression in this model.</returns>
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a bitvector or parsing fails.</exception>
-    public BitVec<TSize> GetBitVec<TSize>(Z3BitVec<TSize> expr)
+    public Bv<TSize> GetBitVec<TSize>(BvExpr<TSize> expr)
         where TSize : ISize
     {
         var valueStr = GetNumericValueAsString(expr);
@@ -143,7 +142,7 @@ public sealed class Z3Model
                 $"Failed to parse bitvector value '{valueStr}' from expression {expr}"
             );
 
-        return new BitVec<TSize>(value);
+        return new Bv<TSize>(value);
     }
 
     /// <summary>
@@ -155,7 +154,7 @@ public sealed class Z3Model
     /// <exception cref="ObjectDisposedException">Thrown when the model has been invalidated.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the expression does not evaluate to a numeric value.</exception>
     public string GetNumericValueAsString<T>(T expr)
-        where T : Z3NumericExpr, IZ3ExprType<T>
+        where T : Z3Expr, INumericExpr, IExprType<T>
     {
         var evaluated = Evaluate(expr);
         return ExtractNumeralString(context, evaluated, expr);
@@ -193,11 +192,12 @@ public sealed class Z3Model
             );
     }
 
-    private static string ExtractNumeralString(
+    private static string ExtractNumeralString<TExpr>(
         Z3Context context,
-        Z3Expr evaluatedExpr,
-        Z3NumericExpr originalExpr
+        TExpr evaluatedExpr,
+        TExpr originalExpr
     )
+        where TExpr : Z3Expr, INumericExpr, IExprType<TExpr>
     {
         if (!SafeNativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
             throw new InvalidOperationException(

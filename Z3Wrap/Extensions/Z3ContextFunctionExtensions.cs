@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Expressions;
+using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Extensions;
@@ -17,7 +17,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the constant function.</returns>
     public static Z3FuncDecl<TResult> Func<TResult>(this Z3Context context, string name)
-        where TResult : Z3Expr, IZ3ExprType<TResult>
+        where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
@@ -43,8 +43,8 @@ public static class Z3ContextFunctionExtensions
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the unary function.</returns>
     public static Z3FuncDecl<T1, TResult> Func<T1, TResult>(this Z3Context context, string name)
-        where T1 : Z3Expr, IZ3ExprType<T1>
-        where TResult : Z3Expr, IZ3ExprType<TResult>
+        where T1 : Z3Expr, IExprType<T1>
+        where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
@@ -75,9 +75,9 @@ public static class Z3ContextFunctionExtensions
         this Z3Context context,
         string name
     )
-        where T1 : Z3Expr, IZ3ExprType<T1>
-        where T2 : Z3Expr, IZ3ExprType<T2>
-        where TResult : Z3Expr, IZ3ExprType<TResult>
+        where T1 : Z3Expr, IExprType<T1>
+        where T2 : Z3Expr, IExprType<T2>
+        where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
@@ -109,10 +109,10 @@ public static class Z3ContextFunctionExtensions
         this Z3Context context,
         string name
     )
-        where T1 : Z3Expr, IZ3ExprType<T1>
-        where T2 : Z3Expr, IZ3ExprType<T2>
-        where T3 : Z3Expr, IZ3ExprType<T3>
-        where TResult : Z3Expr, IZ3ExprType<TResult>
+        where T1 : Z3Expr, IExprType<T1>
+        where T2 : Z3Expr, IExprType<T2>
+        where T3 : Z3Expr, IExprType<T3>
+        where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
         var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
@@ -148,7 +148,7 @@ public static class Z3ContextFunctionExtensions
         Z3FuncDeclBase<TResult> funcDecl,
         params Z3Expr[] args
     )
-        where TResult : Z3Expr, IZ3ExprType<TResult>
+        where TResult : Z3Expr, IExprType<TResult>
     {
         if (args.Length != funcDecl.Arity)
             throw new ArgumentException(

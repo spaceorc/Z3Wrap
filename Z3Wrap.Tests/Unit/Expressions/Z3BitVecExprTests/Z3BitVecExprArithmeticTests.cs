@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.BitVecTheory;
-using Spaceorc.Z3Wrap.Values;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3BitVecExprTests;
@@ -19,8 +18,8 @@ public class Z3BitVecExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -36,7 +35,7 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec<Size8>(expectedResult);
+        var expected = new Bv<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -93,8 +92,8 @@ public class Z3BitVecExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -110,7 +109,7 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec<Size8>(expectedResult);
+        var expected = new Bv<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -167,8 +166,8 @@ public class Z3BitVecExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(left));
-        var y = context.BitVec(new BitVec<Size8>(right));
+        var x = context.BitVec(new Bv<Size8>(left));
+        var y = context.BitVec(new Bv<Size8>(right));
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -184,7 +183,7 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        var expected = new BitVec<Size8>(expectedResult);
+        var expected = new Bv<Size8>(expectedResult);
 
         Assert.Multiple(() =>
         {
@@ -248,8 +247,8 @@ public class Z3BitVecExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(dividend));
-        var y = context.BitVec(new BitVec<Size8>(divisor));
+        var x = context.BitVec(new Bv<Size8>(dividend));
+        var y = context.BitVec(new Bv<Size8>(divisor));
         var left = new BigInteger(dividend);
         var right = new BigInteger(divisor);
 
@@ -275,8 +274,8 @@ public class Z3BitVecExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
 
-        var expectedDivBitVec = new BitVec<Size8>(expectedDiv);
-        var expectedRemBitVec = new BitVec<Size8>(expectedRem);
+        var expectedDivBitVec = new Bv<Size8>(expectedDiv);
+        var expectedRemBitVec = new Bv<Size8>(expectedRem);
 
         Assert.Multiple(() =>
         {
@@ -416,13 +415,13 @@ public class Z3BitVecExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(dividend));
-        var y = context.BitVec(new BitVec<Size8>(divisor));
+        var x = context.BitVec(new Bv<Size8>(dividend));
+        var y = context.BitVec(new Bv<Size8>(divisor));
         var left = new BigInteger(dividend);
         var right = new BigInteger(divisor);
-        var expected = new BitVec<Size8>(expectedDiv);
-        var expectedRemBitVec = new BitVec<Size8>(expectedRem);
-        var expectedSignedModBitVec = new BitVec<Size8>(expectedSignedMod);
+        var expected = new Bv<Size8>(expectedDiv);
+        var expectedRemBitVec = new Bv<Size8>(expectedRem);
+        var expectedSignedModBitVec = new Bv<Size8>(expectedSignedMod);
 
         // Test all variations of signed division operations
         var divResultBitVec = x.Div(y, signed: true); // BitVec.Div(BitVec, signed) (method)
@@ -541,8 +540,8 @@ public class Z3BitVecExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(new BitVec<Size8>(value));
-        var expected = new BitVec<Size8>(expectedResult);
+        var x = context.BitVec(new Bv<Size8>(value));
+        var expected = new Bv<Size8>(expectedResult);
 
         // Test all variations of negation
         var resultOperator = -x; // -BitVec (unary operator)
