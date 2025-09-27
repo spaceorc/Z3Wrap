@@ -159,9 +159,6 @@
     <Compile Update="Expressions\Numerics\IntExpr.Equality.cs">
       <DependentUpon>IntExpr.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\Numerics\IntExpr.Functions.cs">
-      <DependentUpon>IntExpr.cs</DependentUpon>
-    </Compile>
     <Compile Update="Expressions\Numerics\IntExpr.Implicit.cs">
       <DependentUpon>IntExpr.cs</DependentUpon>
     </Compile>
@@ -184,9 +181,6 @@
       <DependentUpon>RealExpr.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\RealExpr.Equality.cs">
-      <DependentUpon>RealExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\Numerics\RealExpr.Functions.cs">
       <DependentUpon>RealExpr.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\RealExpr.Implicit.cs">

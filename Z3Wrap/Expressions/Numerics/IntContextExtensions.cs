@@ -10,7 +10,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// Provides extension methods for Z3Context to create integer expressions and constants.
 /// Supports unlimited precision integer arithmetic and type conversions.
 /// </summary>
-public static class IntExprContextExtensions
+public static class IntContextExtensions
 {
     /// <summary>
     /// Creates an integer expression from a BigInteger value.

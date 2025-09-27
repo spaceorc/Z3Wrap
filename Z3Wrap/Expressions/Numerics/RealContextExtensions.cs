@@ -8,7 +8,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// Provides extension methods for Z3Context to create real number expressions and constants.
 /// Supports exact rational arithmetic with unlimited precision and type conversions.
 /// </summary>
-public static class RealExprContextExtensions
+public static class RealContextExtensions
 {
     /// <summary>
     /// Creates a real expression from a Real value.
