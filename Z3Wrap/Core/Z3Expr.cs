@@ -38,38 +38,6 @@ public abstract class Z3Expr
     public Z3Context Context { get; }
 
     /// <summary>
-    /// Determines whether two Z3 expressions are equal using the == operator.
-    /// Creates a Boolean expression representing the equality constraint.
-    /// </summary>
-    /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
-    /// <returns>A Boolean expression representing left == right.</returns>
-    public static BoolExpr operator ==(Z3Expr left, Z3Expr right) => left.Eq(right);
-
-    /// <summary>
-    /// Determines whether two Z3 expressions are not equal using the != operator.
-    /// Creates a Boolean expression representing the inequality constraint.
-    /// </summary>
-    /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
-    /// <returns>A Boolean expression representing left != right.</returns>
-    public static BoolExpr operator !=(Z3Expr left, Z3Expr right) => left.Neq(right);
-
-    /// <summary>
-    /// Creates a Boolean expression representing equality with another expression.
-    /// </summary>
-    /// <param name="other">The expression to compare with.</param>
-    /// <returns>A Boolean expression representing this == other.</returns>
-    public BoolExpr Eq(Z3Expr other) => Context.Eq(this, other);
-
-    /// <summary>
-    /// Creates a Boolean expression representing inequality with another expression.
-    /// </summary>
-    /// <param name="other">The expression to compare with.</param>
-    /// <returns>A Boolean expression representing this != other.</returns>
-    public BoolExpr Neq(Z3Expr other) => Context.Neq(this, other);
-
-    /// <summary>
     /// Determines whether this expression is equal to the specified object.
     /// Uses handle-based equality for Z3 expressions.
     /// </summary>

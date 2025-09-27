@@ -11,16 +11,19 @@ namespace Z3Wrap.Tests.Unit.Expressions;
 public class Z3ArrayExprTests
 {
     private Z3Context context = null!;
+    private Z3Context.SetUpScope setUpScope = null!;
 
     [SetUp]
     public void SetUp()
     {
         context = new Z3Context();
+        setUpScope = context.SetUp();
     }
 
     [TearDown]
     public void TearDown()
     {
+        setUpScope.Dispose();
         context.Dispose();
     }
 
@@ -126,7 +129,6 @@ public class Z3ArrayExprTests
     [TestCase(-1)]
     public void IndexerAccess_IntegerLiteral_WorksWithImplicitConversion(int index)
     {
-        using var scope = context.SetUp();
         var array = context.ArrayConst<IntExpr, IntExpr>("arr");
 
         var element = array[index];
@@ -167,8 +169,6 @@ public class Z3ArrayExprTests
     [Test]
     public void Select_ExtensionMethodVsIndexer_ProduceEquivalentResults()
     {
-        using var scope = context.SetUp();
-
         var array = context.ArrayConst<IntExpr, BoolExpr>("arr");
         var index = context.Int(42);
 
@@ -196,7 +196,6 @@ public class Z3ArrayExprTests
     [TestCase(-5, true)]
     public void Store_IntegerLiteralIndexAndValue_ReturnsNewArray(int index, bool value)
     {
-        using var scope = context.SetUp();
         var array = context.ArrayConst<IntExpr, BoolExpr>("arr");
 
         var updatedArray = array.Store(index, value);
@@ -277,7 +276,6 @@ public class Z3ArrayExprTests
     [Test]
     public void ArrayConstraints_ConstantArrayAllIndices_SameValue()
     {
-        using var scope = context.SetUp();
         var array = context.Array<IntExpr, IntExpr>(99);
 
         using var solver = context.CreateSolver();

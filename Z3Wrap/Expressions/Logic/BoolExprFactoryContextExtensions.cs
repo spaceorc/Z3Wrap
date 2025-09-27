@@ -4,17 +4,17 @@ using Spaceorc.Z3Wrap.Interop;
 namespace Spaceorc.Z3Wrap.Expressions.Logic;
 
 /// <summary>
-/// Provides extension methods for Z3Context to work with boolean expressions, constants, and literals.
-/// Supports boolean logic operations including true/false constants and boolean variables.
+/// Provides extension methods for Z3Context to create Boolean expressions, constants, and literals.
+/// Supports Boolean constant creation including true/false values and named variables.
 /// </summary>
-public static partial class Z3ContextBoolExtensions
+public static class BoolExprFactoryContextExtensions
 {
     /// <summary>
-    /// Creates a boolean expression from the specified boolean value.
+    /// Creates a Boolean expression from the specified Boolean value.
     /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="value">The boolean value to convert.</param>
-    /// <returns>A new Z3Bool representing the boolean value.</returns>
+    /// <param name="context">Z3 context.</param>
+    /// <param name="value">Boolean value to convert.</param>
+    /// <returns>A BoolExpr representing the Boolean value.</returns>
     public static BoolExpr Bool(this Z3Context context, bool value)
     {
         var handle = value
@@ -24,10 +24,10 @@ public static partial class Z3ContextBoolExtensions
     }
 
     /// <summary>
-    /// Creates a boolean expression representing the value true.
+    /// Creates a Boolean expression representing the value true.
     /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <returns>A new Z3Bool representing true.</returns>
+    /// <param name="context">Z3 context.</param>
+    /// <returns>A BoolExpr representing true.</returns>
     public static BoolExpr True(this Z3Context context)
     {
         var handle = SafeNativeMethods.Z3MkTrue(context.Handle);
@@ -35,10 +35,10 @@ public static partial class Z3ContextBoolExtensions
     }
 
     /// <summary>
-    /// Creates a boolean expression representing the value false.
+    /// Creates a Boolean expression representing the value false.
     /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <returns>A new Z3Bool representing false.</returns>
+    /// <param name="context">Z3 context.</param>
+    /// <returns>A BoolExpr representing false.</returns>
     public static BoolExpr False(this Z3Context context)
     {
         var handle = SafeNativeMethods.Z3MkFalse(context.Handle);
@@ -46,11 +46,11 @@ public static partial class Z3ContextBoolExtensions
     }
 
     /// <summary>
-    /// Creates a boolean constant (variable) with the specified name.
+    /// Creates a Boolean constant (variable) with the specified name.
     /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="name">The name of the boolean constant.</param>
-    /// <returns>A new Z3Bool representing the boolean constant.</returns>
+    /// <param name="context">Z3 context.</param>
+    /// <param name="name">Name of the Boolean constant.</param>
+    /// <returns>A BoolExpr representing the Boolean constant.</returns>
     public static BoolExpr BoolConst(this Z3Context context, string name)
     {
         using var namePtr = new AnsiStringPtr(name);

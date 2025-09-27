@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Expressions.Logic;
@@ -156,9 +157,9 @@ public sealed class BoolExpr : Z3Expr, IExprType<BoolExpr>
     #region Functions
 
     /// <summary>
-    /// Creates an if-then-else expression using this as the condition.
+    /// Creates a conditional expression (if-then-else) using this Boolean expression as the condition.
     /// </summary>
-    /// <typeparam name="T">The type of expressions for the branches.</typeparam>
+    /// <typeparam name="T">The type of expressions for the branches (must inherit from Z3Expr).</typeparam>
     /// <param name="thenExpr">The expression to return when this condition is true.</param>
     /// <param name="elseExpr">The expression to return when this condition is false.</param>
     /// <returns>An expression representing: if (this) then thenExpr else elseExpr.</returns>
