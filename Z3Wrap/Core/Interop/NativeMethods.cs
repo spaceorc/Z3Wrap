@@ -709,7 +709,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="left">The left-hand side numeric expression.</param>
     /// <param name="right">The right-hand side numeric expression.</param>
-    /// <returns>Handle to the created Boolean expression (left < right).</returns>
+    /// <returns>Handle to the created Boolean expression (left &lt; right).</returns>
     /// <remarks>
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
@@ -727,7 +727,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="left">The left-hand side numeric expression.</param>
     /// <param name="right">The right-hand side numeric expression.</param>
-    /// <returns>Handle to the created Boolean expression (left <= right).</returns>
+    /// <returns>Handle to the created Boolean expression (left &lt;= right).</returns>
     /// <remarks>
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
@@ -745,7 +745,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="left">The left-hand side numeric expression.</param>
     /// <param name="right">The right-hand side numeric expression.</param>
-    /// <returns>Handle to the created Boolean expression (left > right).</returns>
+    /// <returns>Handle to the created Boolean expression (left &gt; right).</returns>
     /// <remarks>
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
@@ -763,7 +763,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="left">The left-hand side numeric expression.</param>
     /// <param name="right">The right-hand side numeric expression.</param>
-    /// <returns>Handle to the created Boolean expression (left >= right).</returns>
+    /// <returns>Handle to the created Boolean expression (left &gt;= right).</returns>
     /// <remarks>
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
@@ -801,7 +801,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="left">The antecedent (premise) Boolean expression.</param>
     /// <param name="right">The consequent (conclusion) Boolean expression.</param>
-    /// <returns>Handle to the created implication expression (left => right).</returns>
+    /// <returns>Handle to the created implication expression (left =&gt; right).</returns>
     /// <remarks>
     /// Logical implication is false only when the antecedent is true and the consequent is false.
     /// Equivalent to (!left || right).
@@ -820,10 +820,10 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="left">The left-hand side Boolean expression.</param>
     /// <param name="right">The right-hand side Boolean expression.</param>
-    /// <returns>Handle to the created biconditional expression (left <=> right).</returns>
+    /// <returns>Handle to the created biconditional expression (left &lt;=&gt; right).</returns>
     /// <remarks>
     /// Biconditional is true when both sides have the same truth value.
-    /// Equivalent to (left && right) || (!left && !right).
+    /// Equivalent to (left &amp;&amp; right) || (!left &amp;&amp; !right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkIff(IntPtr ctx, IntPtr left, IntPtr right)
@@ -842,7 +842,7 @@ internal static class NativeMethods
     /// <returns>Handle to the created XOR expression (left XOR right).</returns>
     /// <remarks>
     /// XOR is true when exactly one of the two operands is true.
-    /// Equivalent to (left && !right) || (!left && right).
+    /// Equivalent to (left &amp;&amp; !right) || (!left &amp;&amp; right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
     internal static IntPtr Z3MkXor(IntPtr ctx, IntPtr left, IntPtr right)
@@ -1235,7 +1235,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The first bitvector operand.</param>
     /// <param name="t2">The second bitvector operand.</param>
-    /// <returns>Handle to the created bitwise AND expression (t1 & t2).</returns>
+    /// <returns>Handle to the created bitwise AND expression (t1 &amp; t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Performs bitwise AND operation.
     /// </remarks>
@@ -1323,7 +1323,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The bitvector to shift.</param>
     /// <param name="t2">The number of positions to shift left.</param>
-    /// <returns>Handle to the created left shift expression (t1 << t2).</returns>
+    /// <returns>Handle to the created left shift expression (t1 &lt;&lt; t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Fills with zeros from the right.
     /// </remarks>
@@ -1341,7 +1341,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The bitvector to shift.</param>
     /// <param name="t2">The number of positions to shift right.</param>
-    /// <returns>Handle to the created logical right shift expression (t1 >>u t2).</returns>
+    /// <returns>Handle to the created logical right shift expression (t1 &gt;&gt;u t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Fills with zeros from the left.
     /// </remarks>
@@ -1359,7 +1359,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The bitvector to shift.</param>
     /// <param name="t2">The number of positions to shift right.</param>
-    /// <returns>Handle to the created arithmetic right shift expression (t1 >>s t2).</returns>
+    /// <returns>Handle to the created arithmetic right shift expression (t1 &gt;&gt;s t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Preserves the sign bit when shifting.
     /// </remarks>
@@ -1377,7 +1377,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The left-hand side bitvector operand.</param>
     /// <param name="t2">The right-hand side bitvector operand.</param>
-    /// <returns>Handle to the created Boolean expression (t1 <u t2).</returns>
+    /// <returns>Handle to the created Boolean expression (t1 &lt;u t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
@@ -1395,7 +1395,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The left-hand side bitvector operand.</param>
     /// <param name="t2">The right-hand side bitvector operand.</param>
-    /// <returns>Handle to the created Boolean expression (t1 <s t2).</returns>
+    /// <returns>Handle to the created Boolean expression (t1 &lt;s t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
     /// using two's complement representation.
@@ -1414,7 +1414,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The left-hand side bitvector operand.</param>
     /// <param name="t2">The right-hand side bitvector operand.</param>
-    /// <returns>Handle to the created Boolean expression (t1 <=u t2).</returns>
+    /// <returns>Handle to the created Boolean expression (t1 &lt;=u t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
@@ -1432,7 +1432,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The left-hand side bitvector operand.</param>
     /// <param name="t2">The right-hand side bitvector operand.</param>
-    /// <returns>Handle to the created Boolean expression (t1 <=s t2).</returns>
+    /// <returns>Handle to the created Boolean expression (t1 &lt;=s t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
     /// using two's complement representation.
@@ -1488,7 +1488,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The left-hand side bitvector operand.</param>
     /// <param name="t2">The right-hand side bitvector operand.</param>
-    /// <returns>Handle to the created Boolean expression (t1 >=u t2).</returns>
+    /// <returns>Handle to the created Boolean expression (t1 &gt;=u t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
@@ -1506,7 +1506,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="t1">The left-hand side bitvector operand.</param>
     /// <param name="t2">The right-hand side bitvector operand.</param>
-    /// <returns>Handle to the created Boolean expression (t1 >=s t2).</returns>
+    /// <returns>Handle to the created Boolean expression (t1 &gt;=s t2).</returns>
     /// <remarks>
     /// Both operands must be bitvectors of the same width. Treats bitvectors as signed integers
     /// using two's complement representation.

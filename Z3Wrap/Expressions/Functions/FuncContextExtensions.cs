@@ -6,6 +6,12 @@ namespace Spaceorc.Z3Wrap.Expressions.Functions;
 
 public static class FuncContextExtensions
 {
+    public static FuncDeclBuilder<TResult> FuncBuilder<TResult>(this Z3Context context, string name)
+        where TResult : Z3Expr, IExprType<TResult>
+    {
+        return new FuncDeclBuilder<TResult>(context, name);
+    }
+
     public static FuncDecl<TResult> Func<TResult>(this Z3Context context, string name)
         where TResult : Z3Expr, IExprType<TResult>
     {

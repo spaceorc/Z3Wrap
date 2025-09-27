@@ -5,6 +5,7 @@ using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Spaceorc.Z3Wrap.Expressions.Arrays;
 
+#pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
 public class ArrayExpr<TIndex, TValue> : Z3Expr, IExprType<ArrayExpr<TIndex, TValue>>
     where TIndex : Z3Expr, IExprType<TIndex>
     where TValue : Z3Expr, IExprType<TValue>
