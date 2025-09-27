@@ -223,10 +223,7 @@ public class Z3BoolExprConditionalTests
         var cond3 = context.BoolConst("cond3");
 
         // Nested: if cond1 then (if cond2 then 1 else 2) else (if cond3 then 3 else 4)
-        var nested = cond1.Ite(
-            cond2.Ite(context.Int(1), context.Int(2)),
-            cond3.Ite(context.Int(3), context.Int(4))
-        );
+        var nested = cond1.Ite(cond2.Ite(context.Int(1), context.Int(2)), cond3.Ite(context.Int(3), context.Int(4)));
 
         // Test case: cond1=true, cond2=true -> result should be 1
         solver.Assert(cond1);

@@ -3,43 +3,15 @@ using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Spaceorc.Z3Wrap.Expressions.Common;
 
-/// <summary>
-/// Context extension methods for arithmetic expression mathematical functions.
-/// </summary>
 public static class ArithmeticFunctionsContextExtensions
 {
-    /// <summary>
-    /// Computes absolute value of arithmetic expression.
-    /// </summary>
-    /// <typeparam name="T">Arithmetic expression type.</typeparam>
-    /// <param name="context">Z3 context.</param>
-    /// <param name="operand">Expression to compute absolute value of.</param>
-    /// <returns>Expression representing |operand|.</returns>
     public static T Abs<T>(this Z3Context context, T operand)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> =>
         context.Ite(context.Ge(operand, T.Zero(context)), operand, context.UnaryMinus(operand));
 
-    /// <summary>
-    /// Computes minimum of two arithmetic expressions.
-    /// </summary>
-    /// <typeparam name="T">Arithmetic expression type.</typeparam>
-    /// <param name="context">Z3 context.</param>
-    /// <param name="left">Left operand.</param>
-    /// <param name="right">Right operand.</param>
-    /// <returns>Expression representing min(left, right).</returns>
     public static T Min<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> =>
-        context.Ite(context.Lt(left, right), left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => context.Ite(context.Lt(left, right), left, right);
 
-    /// <summary>
-    /// Computes maximum of two arithmetic expressions.
-    /// </summary>
-    /// <typeparam name="T">Arithmetic expression type.</typeparam>
-    /// <param name="context">Z3 context.</param>
-    /// <param name="left">Left operand.</param>
-    /// <param name="right">Right operand.</param>
-    /// <returns>Expression representing max(left, right).</returns>
     public static T Max<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> =>
-        context.Ite(context.Gt(left, right), left, right);
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => context.Ite(context.Gt(left, right), left, right);
 }

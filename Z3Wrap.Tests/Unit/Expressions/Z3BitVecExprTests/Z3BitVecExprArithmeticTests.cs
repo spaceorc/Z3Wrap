@@ -39,11 +39,7 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperatorBitVec),
-                Is.EqualTo(expected),
-                "BitVec + BitVec operator failed"
-            );
+            Assert.That(model.GetBitVec(resultOperatorBitVec), Is.EqualTo(expected), "BitVec + BitVec operator failed");
             Assert.That(
                 model.GetBitVec(resultOperatorRightBigInt),
                 Is.EqualTo(expected),
@@ -54,11 +50,7 @@ public class Z3BitVecExprArithmeticTests
                 Is.EqualTo(expected),
                 "BigInteger + BitVec operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.Add(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Add(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -113,11 +105,7 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperatorBitVec),
-                Is.EqualTo(expected),
-                "BitVec - BitVec operator failed"
-            );
+            Assert.That(model.GetBitVec(resultOperatorBitVec), Is.EqualTo(expected), "BitVec - BitVec operator failed");
             Assert.That(
                 model.GetBitVec(resultOperatorRightBigInt),
                 Is.EqualTo(expected),
@@ -128,11 +116,7 @@ public class Z3BitVecExprArithmeticTests
                 Is.EqualTo(expected),
                 "BigInteger - BitVec operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.Sub(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Sub(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -187,11 +171,7 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperatorBitVec),
-                Is.EqualTo(expected),
-                "BitVec * BitVec operator failed"
-            );
+            Assert.That(model.GetBitVec(resultOperatorBitVec), Is.EqualTo(expected), "BitVec * BitVec operator failed");
             Assert.That(
                 model.GetBitVec(resultOperatorRightBigInt),
                 Is.EqualTo(expected),
@@ -202,11 +182,7 @@ public class Z3BitVecExprArithmeticTests
                 Is.EqualTo(expected),
                 "BigInteger * BitVec operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.Mul(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Mul(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -370,39 +346,11 @@ public class Z3BitVecExprArithmeticTests
     }
 
     [TestCase(15, 3, 5, 0, 0, Description = "Positive / positive: 15/3=5, 15%3=0, smod=0")]
-    [TestCase(
-        -10,
-        3,
-        253,
-        255,
-        2,
-        Description = "Negative / positive: -10/3=-3(253), -10%3=-1(255), smod=2"
-    )]
-    [TestCase(
-        10,
-        -3,
-        253,
-        1,
-        254,
-        Description = "Positive / negative: 10/(-3)=-3(253), 10%(-3)=1, smod=254"
-    )]
-    [TestCase(
-        -10,
-        -3,
-        3,
-        255,
-        255,
-        Description = "Negative / negative: -10/(-3)=3, -10%(-3)=-1(255), smod=-1(255)"
-    )]
+    [TestCase(-10, 3, 253, 255, 2, Description = "Negative / positive: -10/3=-3(253), -10%3=-1(255), smod=2")]
+    [TestCase(10, -3, 253, 1, 254, Description = "Positive / negative: 10/(-3)=-3(253), 10%(-3)=1, smod=254")]
+    [TestCase(-10, -3, 3, 255, 255, Description = "Negative / negative: -10/(-3)=3, -10%(-3)=-1(255), smod=-1(255)")]
     [TestCase(7, 7, 1, 0, 0, Description = "Equal values: 7/7=1, 7%7=0, smod=0")]
-    [TestCase(
-        -128,
-        1,
-        128,
-        0,
-        0,
-        Description = "Most negative 8-bit: -128/1=-128(128), -128%1=0, smod=0"
-    )]
+    [TestCase(-128, 1, 128, 0, 0, Description = "Most negative 8-bit: -128/1=-128(128), -128%1=0, smod=0")]
     public void SignedDivision_AllVariations_ReturnsExpectedResults(
         int dividend,
         int divisor,
@@ -553,21 +501,9 @@ public class Z3BitVecExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperator),
-                Is.EqualTo(expected),
-                "-BitVec unary operator failed"
-            );
-            Assert.That(
-                model.GetBitVec(resultMethod),
-                Is.EqualTo(expected),
-                "BitVec.Neg() method failed"
-            );
-            Assert.That(
-                model.GetBitVec(resultContext),
-                Is.EqualTo(expected),
-                "Context.Neg(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultOperator), Is.EqualTo(expected), "-BitVec unary operator failed");
+            Assert.That(model.GetBitVec(resultMethod), Is.EqualTo(expected), "BitVec.Neg() method failed");
+            Assert.That(model.GetBitVec(resultContext), Is.EqualTo(expected), "Context.Neg(BitVec) method failed");
         });
     }
 }

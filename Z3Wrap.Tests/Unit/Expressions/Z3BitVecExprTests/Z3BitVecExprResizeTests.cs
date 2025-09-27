@@ -176,11 +176,7 @@ public class Z3BitVecExprResizeTests
     [TestCase(255, 0U, 15, Description = "Extract lower 4 bits")]
     [TestCase(255, 4U, 15, Description = "Extract upper 4 bits")]
     [TestCase(170, 0U, 10, Description = "Extract lower bits from alternating pattern")]
-    public void Extract_AllVariations_ReturnsExpectedResult(
-        int value,
-        uint startBit,
-        int expectedResult
-    )
+    public void Extract_AllVariations_ReturnsExpectedResult(int value, uint startBit, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

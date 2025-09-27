@@ -15,11 +15,7 @@ public class Z3ContextTests
     [Test]
     public void Constructor_WithParameters_CreatesSuccessfully()
     {
-        var parameters = new Dictionary<string, string>
-        {
-            { "model", "true" },
-            { "proof", "false" },
-        };
+        var parameters = new Dictionary<string, string> { { "model", "true" }, { "proof", "false" } };
 
         using var context = new Z3Context(parameters);
         Assert.That(context.Handle, Is.Not.EqualTo(IntPtr.Zero));

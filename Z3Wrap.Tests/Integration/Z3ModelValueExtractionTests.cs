@@ -323,15 +323,9 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.GetIntValue(x));
         Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValue(context.RealConst("z")));
-        Assert.Throws<ObjectDisposedException>(() =>
-            model.GetNumericValueAsString(context.RealConst("z"))
-        );
-        Assert.Throws<ObjectDisposedException>(() =>
-            model.GetBitVec(context.BitVecConst<Size8>("bv"))
-        );
-        Assert.Throws<ObjectDisposedException>(() =>
-            model.GetNumericValueAsString(context.BitVecConst<Size8>("bv"))
-        );
+        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.RealConst("z")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(context.BitVecConst<Size8>("bv")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.BitVecConst<Size8>("bv")));
     }
 
     [Test]
@@ -456,10 +450,7 @@ public class Z3ModelValueExtractionTests
         var toString = bv.ToString();
 
         Assert.That(toString, Does.Contain("BitVec[8]"));
-        Assert.That(
-            toString,
-            Does.Contain("42") | Does.Contain("#x2a") | Does.Contain("#b00101010")
-        );
+        Assert.That(toString, Does.Contain("42") | Does.Contain("#x2a") | Does.Contain("#b00101010"));
     }
 
     [Test]

@@ -26,9 +26,10 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <MinVerTagPrefix>v</MinVerTagPrefix>
+    <!-- Disable XML documentation warnings -->
+    <NoWarn>1591</NoWarn>
     <!-- Read release notes content from the XML-escaped file created by workflow -->
-    <PackageReleaseNotes
-      Condition="Exists('$(MSBuildProjectDirectory)/../RELEASE_NOTES_ESCAPED.txt')"
+    <PackageReleaseNotes Condition="Exists('$(MSBuildProjectDirectory)/../RELEASE_NOTES_ESCAPED.txt')"
       >$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../RELEASE_NOTES_ESCAPED.txt'))</PackageReleaseNotes
     >
   </PropertyGroup>
@@ -99,52 +100,10 @@
     <Compile Update="Values\Numerics\Real.Implicit.cs">
       <DependentUpon>Real.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.Arithmetic.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.Bitwise.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.comparison.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.conversion.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.Equality.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.Implicit.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.Manipulation.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.OverflowChecks.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvExpr.Shift.cs">
-      <DependentUpon>BvExpr.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.Arithmetic.cs">
+    <Compile Update="Expressions\BitVectors\BvCoreContextExtensions.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.Bitwise.cs">
-      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.comparison.cs">
-      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.conversion.cs">
-      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.Manipulation.cs">
-      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.OverflowChecks.cs">
-      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\BitVectors\BvContextExtensions.Shift.cs">
+    <Compile Update="Expressions\BitVectors\BvOverflowChecksContextExtensions.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\IntExpr.Arithmetic.cs">

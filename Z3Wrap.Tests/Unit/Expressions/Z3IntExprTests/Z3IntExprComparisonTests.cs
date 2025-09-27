@@ -84,11 +84,7 @@ public class Z3IntExprComparisonTests
                 Is.EqualTo(expected),
                 "IntExpr.Lt(IntExpr) method failed"
             );
-            Assert.That(
-                model.GetBoolValue(resultMethodInt),
-                Is.EqualTo(expected),
-                "IntExpr.Lt(int) method failed"
-            );
+            Assert.That(model.GetBoolValue(resultMethodInt), Is.EqualTo(expected), "IntExpr.Lt(int) method failed");
             Assert.That(
                 model.GetBoolValue(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -196,11 +192,7 @@ public class Z3IntExprComparisonTests
                 Is.EqualTo(expected),
                 "IntExpr.Le(IntExpr) method failed"
             );
-            Assert.That(
-                model.GetBoolValue(resultMethodInt),
-                Is.EqualTo(expected),
-                "IntExpr.Le(int) method failed"
-            );
+            Assert.That(model.GetBoolValue(resultMethodInt), Is.EqualTo(expected), "IntExpr.Le(int) method failed");
             Assert.That(
                 model.GetBoolValue(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -308,11 +300,7 @@ public class Z3IntExprComparisonTests
                 Is.EqualTo(expected),
                 "IntExpr.Gt(IntExpr) method failed"
             );
-            Assert.That(
-                model.GetBoolValue(resultMethodInt),
-                Is.EqualTo(expected),
-                "IntExpr.Gt(int) method failed"
-            );
+            Assert.That(model.GetBoolValue(resultMethodInt), Is.EqualTo(expected), "IntExpr.Gt(int) method failed");
             Assert.That(
                 model.GetBoolValue(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -420,11 +408,7 @@ public class Z3IntExprComparisonTests
                 Is.EqualTo(expected),
                 "IntExpr.Ge(IntExpr) method failed"
             );
-            Assert.That(
-                model.GetBoolValue(resultMethodInt),
-                Is.EqualTo(expected),
-                "IntExpr.Ge(int) method failed"
-            );
+            Assert.That(model.GetBoolValue(resultMethodInt), Is.EqualTo(expected), "IntExpr.Ge(int) method failed");
             Assert.That(
                 model.GetBoolValue(resultMethodBigInt),
                 Is.EqualTo(expected),

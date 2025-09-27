@@ -17,6 +17,5 @@ internal sealed class AnsiStringPtr : SafeHandleZeroOrMinusOneIsInvalid
         return true;
     }
 
-    public static implicit operator IntPtr(AnsiStringPtr ansiString) =>
-        ansiString.DangerousGetHandle();
+    public static implicit operator IntPtr(AnsiStringPtr ansiString) => ansiString.DangerousGetHandle();
 }

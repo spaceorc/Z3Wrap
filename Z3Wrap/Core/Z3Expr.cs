@@ -14,10 +14,7 @@ public abstract class Z3Expr
     /// </summary>
     protected Z3Expr(Z3Context context, IntPtr handle)
     {
-        Handle =
-            handle != IntPtr.Zero
-                ? handle
-                : throw new ArgumentException("Invalid handle", nameof(handle));
+        Handle = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
         context.TrackAstNode(handle);
         Context = context;
     }

@@ -58,14 +58,7 @@ public readonly partial struct Real
 
         if (value.Contains('.'))
         {
-            if (
-                !decimal.TryParse(
-                    value,
-                    NumberStyles.Number,
-                    CultureInfo.InvariantCulture,
-                    out var decimalValue
-                )
-            )
+            if (!decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var decimalValue))
                 throw new FormatException($"Invalid decimal format: {value}");
 
             return new Real(decimalValue);

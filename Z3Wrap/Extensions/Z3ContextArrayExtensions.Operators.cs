@@ -24,12 +24,7 @@ public static partial class Z3ContextArrayExtensions
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
-        var handle = SafeNativeMethods.Z3MkStore(
-            context.Handle,
-            array.Handle,
-            index.Handle,
-            value.Handle
-        );
+        var handle = SafeNativeMethods.Z3MkStore(context.Handle, array.Handle, index.Handle, value.Handle);
         return Z3Expr.Create<Z3ArrayExpr<TIndex, TValue>>(context, handle);
     }
 
@@ -42,11 +37,7 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="array">The source array.</param>
     /// <param name="index">The index to select from.</param>
     /// <returns>The value at the specified index in the array.</returns>
-    public static TValue Select<TIndex, TValue>(
-        this Z3Context context,
-        Z3ArrayExpr<TIndex, TValue> array,
-        TIndex index
-    )
+    public static TValue Select<TIndex, TValue>(this Z3Context context, Z3ArrayExpr<TIndex, TValue> array, TIndex index)
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {

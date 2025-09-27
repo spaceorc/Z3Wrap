@@ -58,10 +58,7 @@ public static class NativeMethods
         var attemptDetails =
             loadAttempts.Count != 0
                 ? "\n\nLoad attempts:\n"
-                    + string.Join(
-                        "\n",
-                        loadAttempts.Select(a => $"  {a.path}: {a.exception.Message}")
-                    )
+                    + string.Join("\n", loadAttempts.Select(a => $"  {a.path}: {a.exception.Message}"))
                 : "";
 
         throw new InvalidOperationException(
@@ -265,12 +262,7 @@ public static class NativeMethods
                     "bin",
                     "libz3.dll"
                 ),
-                Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                    "Z3",
-                    "bin",
-                    "z3.dll"
-                ),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Z3", "bin", "z3.dll"),
                 Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
                     "Z3",
@@ -1013,13 +1005,7 @@ public static class NativeMethods
         return func(ctx, ast);
     }
 
-    internal static bool Z3ModelEval(
-        IntPtr ctx,
-        IntPtr model,
-        IntPtr expr,
-        bool modelCompletion,
-        out IntPtr result
-    )
+    internal static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
         var funcPtr = GetFunctionPointer("Z3_model_eval");
         var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
@@ -1100,13 +1086,7 @@ public static class NativeMethods
     }
 
     // Function declaration and application methods
-    internal static IntPtr Z3MkFuncDecl(
-        IntPtr ctx,
-        IntPtr symbol,
-        uint domainSize,
-        IntPtr[] domain,
-        IntPtr range
-    )
+    internal static IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkFuncDeclDelegate>(funcPtr);
@@ -1160,12 +1140,7 @@ public static class NativeMethods
     // Extended arithmetic operation delegates
     private delegate IntPtr Z3MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr Z3MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
-    private delegate IntPtr Z3MkIteDelegate(
-        IntPtr ctx,
-        IntPtr condition,
-        IntPtr thenExpr,
-        IntPtr elseExpr
-    );
+    private delegate IntPtr Z3MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
 
     // Type conversion delegates
     private delegate IntPtr Z3MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
@@ -1211,26 +1186,11 @@ public static class NativeMethods
     private delegate IntPtr Z3MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
     private delegate IntPtr Z3MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
     private delegate IntPtr Z3MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
-    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(
-        IntPtr ctx,
-        IntPtr t1,
-        IntPtr t2,
-        bool signed
-    );
+    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
     private delegate IntPtr Z3MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(
-        IntPtr ctx,
-        IntPtr t1,
-        IntPtr t2,
-        bool signed
-    );
-    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(
-        IntPtr ctx,
-        IntPtr t1,
-        IntPtr t2,
-        bool signed
-    );
+    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
     private delegate IntPtr Z3MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr Z3MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
@@ -1296,12 +1256,7 @@ public static class NativeMethods
         IntPtr[] domain,
         IntPtr range
     );
-    private delegate IntPtr Z3MkAppDelegate(
-        IntPtr ctx,
-        IntPtr funcDecl,
-        uint numArgs,
-        IntPtr[] args
-    );
+    private delegate IntPtr Z3MkAppDelegate(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args);
 
     // Error handling delegates
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

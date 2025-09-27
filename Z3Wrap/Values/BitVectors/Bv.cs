@@ -7,10 +7,7 @@ namespace Spaceorc.Z3Wrap.Values.BitVectors;
 /// All operations are type-safe and size-validated at compile time.
 /// </summary>
 /// <typeparam name="TSize">The size specification implementing ISize.</typeparam>
-public readonly partial struct Bv<TSize>
-    : IEquatable<Bv<TSize>>,
-        IComparable<Bv<TSize>>,
-        ISpanFormattable
+public readonly partial struct Bv<TSize> : IEquatable<Bv<TSize>>, IComparable<Bv<TSize>>, ISpanFormattable
     where TSize : ISize
 {
     private readonly BigInteger value;

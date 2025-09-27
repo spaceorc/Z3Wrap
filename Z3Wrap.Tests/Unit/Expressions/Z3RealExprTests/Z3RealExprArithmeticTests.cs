@@ -16,11 +16,7 @@ public class Z3RealArithmeticTests
     [TestCase("0.0", "0.0", "0.0", Description = "Adding zeros")]
     [TestCase("100.75", "-50.25", "50.5", Description = "Positive plus negative")]
     [TestCase("-10.2", "-20.8", "-31.0", Description = "Two negatives")]
-    public void Add_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        string expectedStr
-    )
+    public void Add_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, string expectedStr)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -102,11 +98,7 @@ public class Z3RealArithmeticTests
     [TestCase("100.25", "100.25", "0.0", Description = "Equal values result in zero")]
     [TestCase("-5.5", "-3.2", "-2.3", Description = "Negative minus negative")]
     [TestCase("-10.1", "5.9", "-16.0", Description = "Negative minus positive")]
-    public void Sub_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        string expectedStr
-    )
+    public void Sub_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, string expectedStr)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -188,11 +180,7 @@ public class Z3RealArithmeticTests
     [TestCase("-2.5", "3.0", "-7.5", Description = "Negative times positive")]
     [TestCase("-4.2", "-1.5", "6.3", Description = "Negative times negative")]
     [TestCase("10.0", "-2.3", "-23.0", Description = "Positive times negative")]
-    public void Mul_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        string expectedStr
-    )
+    public void Mul_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, string expectedStr)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -275,11 +263,7 @@ public class Z3RealArithmeticTests
     [TestCase("-15.0", "3.0", "-5.0", Description = "Negative divided by positive")]
     [TestCase("15.0", "-3.0", "-5.0", Description = "Positive divided by negative")]
     [TestCase("-15.0", "-3.0", "5.0", Description = "Negative divided by negative")]
-    public void Div_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        string expectedStr
-    )
+    public void Div_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, string expectedStr)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -449,11 +433,7 @@ public class Z3RealArithmeticTests
     [TestCase(0.0, 0.0, 0.0, Description = "Equal values")]
     [TestCase(100.25, -50.75, -50.75, Description = "Positive vs negative")]
     [TestCase(-10.8, -20.3, -20.3, Description = "Two negatives")]
-    public void Min_AllVariations_ReturnsExpectedResult(
-        double leftDouble,
-        double rightDouble,
-        double expectedDouble
-    )
+    public void Min_AllVariations_ReturnsExpectedResult(double leftDouble, double rightDouble, double expectedDouble)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -506,11 +486,7 @@ public class Z3RealArithmeticTests
     [TestCase(0.0, 0.0, 0.0, Description = "Equal values")]
     [TestCase(100.25, -50.75, 100.25, Description = "Positive vs negative")]
     [TestCase(-10.8, -20.3, -10.8, Description = "Two negatives")]
-    public void Max_AllVariations_ReturnsExpectedResult(
-        double leftDouble,
-        double rightDouble,
-        double expectedDouble
-    )
+    public void Max_AllVariations_ReturnsExpectedResult(double leftDouble, double rightDouble, double expectedDouble)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -688,32 +664,12 @@ public class Z3RealArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetRealValue(result1),
-                Is.EqualTo(new Real(16.0m)),
-                "x + 10.5m failed"
-            );
-            Assert.That(
-                model.GetRealValue(result2),
-                Is.EqualTo(new Real(26.2m)),
-                "20.7m + x failed"
-            );
+            Assert.That(model.GetRealValue(result1), Is.EqualTo(new Real(16.0m)), "x + 10.5m failed");
+            Assert.That(model.GetRealValue(result2), Is.EqualTo(new Real(26.2m)), "20.7m + x failed");
             Assert.That(model.GetRealValue(result3), Is.EqualTo(new Real(2.3m)), "x - 3.2m failed");
-            Assert.That(
-                model.GetRealValue(result4),
-                Is.EqualTo(new Real(95.3m)),
-                "100.8m - x failed"
-            );
-            Assert.That(
-                model.GetRealValue(result5),
-                Is.EqualTo(new Real(22.55m)),
-                "x * 4.1m failed"
-            );
-            Assert.That(
-                model.GetRealValue(result6),
-                Is.EqualTo(new Real(40.15m)),
-                "7.3m * x failed"
-            );
+            Assert.That(model.GetRealValue(result4), Is.EqualTo(new Real(95.3m)), "100.8m - x failed");
+            Assert.That(model.GetRealValue(result5), Is.EqualTo(new Real(22.55m)), "x * 4.1m failed");
+            Assert.That(model.GetRealValue(result6), Is.EqualTo(new Real(40.15m)), "7.3m * x failed");
         });
     }
 
@@ -733,11 +689,7 @@ public class Z3RealArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(
-            model.GetRealValue(result),
-            Is.EqualTo(new Real(42.5m)),
-            "Single operand Add failed"
-        );
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(42.5m)), "Single operand Add failed");
     }
 
     [TestCase("5.5", "3.2", "2.1", "10.8", Description = "Three operands: 5.5 + 3.2 + 2.1 = 10.8")]
@@ -774,22 +726,8 @@ public class Z3RealArithmeticTests
         );
     }
 
-    [TestCase(
-        "1.1",
-        "2.2",
-        "3.3",
-        "4.4",
-        "11.0",
-        Description = "Four operands: 1.1 + 2.2 + 3.3 + 4.4 = 11.0"
-    )]
-    [TestCase(
-        "10.5",
-        "-5.25",
-        "3.75",
-        "-2.0",
-        "7.0",
-        Description = "Four operands with mixed signs"
-    )]
+    [TestCase("1.1", "2.2", "3.3", "4.4", "11.0", Description = "Four operands: 1.1 + 2.2 + 3.3 + 4.4 = 11.0")]
+    [TestCase("10.5", "-5.25", "3.75", "-2.0", "7.0", Description = "Four operands with mixed signs")]
     [TestCase("0.0", "0.0", "0.0", "0.0", "0.0", Description = "Four zeros")]
     public void Add_VariadicParams_FourOperands_ReturnsExpectedResult(
         string a,
@@ -879,35 +817,13 @@ public class Z3RealArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(
-            model.GetRealValue(result),
-            Is.EqualTo(new Real(42.7m)),
-            "Single operand Sub failed"
-        );
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(42.7m)), "Single operand Sub failed");
     }
 
     [TestCase("10.5", "3.2", "2.1", "5.2", Description = "Three operands: 10.5 - 3.2 - 2.1 = 5.2")]
-    [TestCase(
-        "0.0",
-        "1.5",
-        "-1.5",
-        "0.0",
-        Description = "Three operands: 0.0 - 1.5 - (-1.5) = 0.0"
-    )]
-    [TestCase(
-        "100.8",
-        "20.3",
-        "30.5",
-        "50.0",
-        Description = "Three operands: 100.8 - 20.3 - 30.5 = 50.0"
-    )]
-    [TestCase(
-        "-5.5",
-        "-3.3",
-        "-2.2",
-        "0.0",
-        Description = "Three negative operands: -5.5 - (-3.3) - (-2.2) = 0.0"
-    )]
+    [TestCase("0.0", "1.5", "-1.5", "0.0", Description = "Three operands: 0.0 - 1.5 - (-1.5) = 0.0")]
+    [TestCase("100.8", "20.3", "30.5", "50.0", Description = "Three operands: 100.8 - 20.3 - 30.5 = 50.0")]
+    [TestCase("-5.5", "-3.3", "-2.2", "0.0", Description = "Three negative operands: -5.5 - (-3.3) - (-2.2) = 0.0")]
     public void Sub_VariadicParams_ThreeOperands_ReturnsExpectedResult(
         string a,
         string b,
@@ -992,36 +908,14 @@ public class Z3RealArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(
-            model.GetRealValue(result),
-            Is.EqualTo(new Real(42.3m)),
-            "Single operand Mul failed"
-        );
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(42.3m)), "Single operand Mul failed");
     }
 
     [TestCase("2.5", "3.2", "4.0", "32.0", Description = "Three operands: 2.5 * 3.2 * 4.0 = 32.0")]
     [TestCase("1.0", "5.5", "7.2", "39.6", Description = "Three operands: 1.0 * 5.5 * 7.2 = 39.6")]
-    [TestCase(
-        "-2.5",
-        "3.0",
-        "4.0",
-        "-30.0",
-        Description = "Three operands with negative: -2.5 * 3.0 * 4.0 = -30.0"
-    )]
-    [TestCase(
-        "0.0",
-        "100.5",
-        "200.7",
-        "0.0",
-        Description = "Three operands with zero: 0.0 * 100.5 * 200.7 = 0.0"
-    )]
-    [TestCase(
-        "-1.5",
-        "-2.0",
-        "-3.0",
-        "-9.0",
-        Description = "Three negative operands: -1.5 * -2.0 * -3.0 = -9.0"
-    )]
+    [TestCase("-2.5", "3.0", "4.0", "-30.0", Description = "Three operands with negative: -2.5 * 3.0 * 4.0 = -30.0")]
+    [TestCase("0.0", "100.5", "200.7", "0.0", Description = "Three operands with zero: 0.0 * 100.5 * 200.7 = 0.0")]
+    [TestCase("-1.5", "-2.0", "-3.0", "-9.0", Description = "Three negative operands: -1.5 * -2.0 * -3.0 = -9.0")]
     public void Mul_VariadicParams_ThreeOperands_ReturnsExpectedResult(
         string a,
         string b,
@@ -1104,11 +998,7 @@ public class Z3RealArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(
-            model.GetRealValue(result),
-            Is.EqualTo(new Real(0.0m)),
-            "Five operands Mul with zero failed"
-        );
+        Assert.That(model.GetRealValue(result), Is.EqualTo(new Real(0.0m)), "Five operands Mul with zero failed");
     }
 
     [Test]

@@ -12,11 +12,7 @@ public class Z3BitVecExprComparisonTests
     [TestCase(10, 5, false, Description = "10 < 5: false")]
     [TestCase(7, 7, false, Description = "7 < 7: false")]
     [TestCase(0, 255, true, Description = "0 < 255: true (unsigned)")]
-    public void UnsignedLessThan_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedResult
-    )
+    public void UnsignedLessThan_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -85,35 +81,11 @@ public class Z3BitVecExprComparisonTests
         });
     }
 
-    [TestCase(
-        200,
-        100,
-        false,
-        Description = "200 < 100: false (200 = -56 signed, -56 < 100 = true)"
-    )]
-    [TestCase(
-        100,
-        200,
-        true,
-        Description = "100 < 200: true (200 = -56 signed, 100 < -56 = false)"
-    )]
-    [TestCase(
-        128,
-        100,
-        false,
-        Description = "-128 < 100: true (signed), 128 < 100: false (unsigned)"
-    )]
-    [TestCase(
-        127,
-        255,
-        true,
-        Description = "127 < 255: true (127 < -1 = false signed, 127 < 255 = true unsigned)"
-    )]
-    public void SignedLessThan_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnsigned
-    )
+    [TestCase(200, 100, false, Description = "200 < 100: false (200 = -56 signed, -56 < 100 = true)")]
+    [TestCase(100, 200, true, Description = "100 < 200: true (200 = -56 signed, 100 < -56 = false)")]
+    [TestCase(128, 100, false, Description = "-128 < 100: true (signed), 128 < 100: false (unsigned)")]
+    [TestCase(127, 255, true, Description = "127 < 255: true (127 < -1 = false signed, 127 < 255 = true unsigned)")]
+    public void SignedLessThan_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnsigned)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -173,11 +145,7 @@ public class Z3BitVecExprComparisonTests
     [TestCase(10, 5, false, Description = "10 <= 5: false")]
     [TestCase(7, 7, true, Description = "7 <= 7: true")]
     [TestCase(0, 255, true, Description = "0 <= 255: true (unsigned)")]
-    public void UnsignedLessThanOrEqual_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedResult
-    )
+    public void UnsignedLessThanOrEqual_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -246,24 +214,10 @@ public class Z3BitVecExprComparisonTests
         });
     }
 
-    [TestCase(
-        200,
-        100,
-        false,
-        Description = "200 <= 100: false unsigned (200 = -56 signed, -56 <= 100 = true)"
-    )]
-    [TestCase(
-        100,
-        200,
-        true,
-        Description = "100 <= 200: true unsigned (200 = -56 signed, 100 <= -56 = false)"
-    )]
+    [TestCase(200, 100, false, Description = "200 <= 100: false unsigned (200 = -56 signed, -56 <= 100 = true)")]
+    [TestCase(100, 200, true, Description = "100 <= 200: true unsigned (200 = -56 signed, 100 <= -56 = false)")]
     [TestCase(128, 128, true, Description = "-128 <= -128: true")]
-    public void SignedLessThanOrEqual_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnsigned
-    )
+    public void SignedLessThanOrEqual_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnsigned)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -323,11 +277,7 @@ public class Z3BitVecExprComparisonTests
     [TestCase(5, 10, false, Description = "5 > 10: false")]
     [TestCase(7, 7, false, Description = "7 > 7: false")]
     [TestCase(255, 0, true, Description = "255 > 0: true (unsigned)")]
-    public void UnsignedGreaterThan_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedResult
-    )
+    public void UnsignedGreaterThan_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -396,29 +346,10 @@ public class Z3BitVecExprComparisonTests
         });
     }
 
-    [TestCase(
-        100,
-        200,
-        false,
-        Description = "100 > 200: false unsigned (200 = -56 signed, 100 > -56 = true)"
-    )]
-    [TestCase(
-        200,
-        100,
-        true,
-        Description = "200 > 100: true unsigned (200 = -56 signed, -56 > 100 = false)"
-    )]
-    [TestCase(
-        255,
-        128,
-        false,
-        Description = "-1 > -128: true (signed), 255 > 128: true (unsigned)"
-    )]
-    public void SignedGreaterThan_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnsigned
-    )
+    [TestCase(100, 200, false, Description = "100 > 200: false unsigned (200 = -56 signed, 100 > -56 = true)")]
+    [TestCase(200, 100, true, Description = "200 > 100: true unsigned (200 = -56 signed, -56 > 100 = false)")]
+    [TestCase(255, 128, false, Description = "-1 > -128: true (signed), 255 > 128: true (unsigned)")]
+    public void SignedGreaterThan_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnsigned)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -478,11 +409,7 @@ public class Z3BitVecExprComparisonTests
     [TestCase(5, 10, false, Description = "5 >= 10: false")]
     [TestCase(7, 7, true, Description = "7 >= 7: true")]
     [TestCase(255, 0, true, Description = "255 >= 0: true (unsigned)")]
-    public void UnsignedGreaterThanOrEqual_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedResult
-    )
+    public void UnsignedGreaterThanOrEqual_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -551,24 +478,10 @@ public class Z3BitVecExprComparisonTests
         });
     }
 
-    [TestCase(
-        100,
-        200,
-        false,
-        Description = "100 >= 200: false unsigned (200 = -56 signed, 100 >= -56 = true)"
-    )]
-    [TestCase(
-        200,
-        100,
-        true,
-        Description = "200 >= 100: true unsigned (200 = -56 signed, -56 >= 100 = false)"
-    )]
+    [TestCase(100, 200, false, Description = "100 >= 200: false unsigned (200 = -56 signed, 100 >= -56 = true)")]
+    [TestCase(200, 100, true, Description = "200 >= 100: true unsigned (200 = -56 signed, -56 >= 100 = false)")]
     [TestCase(128, 128, true, Description = "-128 >= -128: true")]
-    public void SignedGreaterThanOrEqual_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnsigned
-    )
+    public void SignedGreaterThanOrEqual_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnsigned)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -628,11 +541,7 @@ public class Z3BitVecExprComparisonTests
     [TestCase(42, 100, false, Description = "Different values: 42 == 100")]
     [TestCase(255, 255, true, Description = "Max values: 255 == 255")]
     [TestCase(0, 0, true, Description = "Zero values: 0 == 0")]
-    public void Equality_BigIntegerOperators_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedResult
-    )
+    public void Equality_BigIntegerOperators_ReturnsExpectedResult(int left, int right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

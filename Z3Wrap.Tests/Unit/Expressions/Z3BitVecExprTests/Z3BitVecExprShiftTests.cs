@@ -12,11 +12,7 @@ public class Z3BitVecExprShiftTests
     [TestCase(1, 3, 8, Description = "Left shift by 3")]
     [TestCase(255, 1, 254, Description = "Left shift with overflow")]
     [TestCase(0, 5, 0, Description = "Left shift zero")]
-    public void LeftShift_AllVariations_ReturnsExpectedResult(
-        int value,
-        int shiftAmount,
-        int expectedResult
-    )
+    public void LeftShift_AllVariations_ReturnsExpectedResult(int value, int shiftAmount, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -56,11 +52,7 @@ public class Z3BitVecExprShiftTests
                 Is.EqualTo(expected),
                 "BitVec << BigInteger operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.Shl(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Shl(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -88,11 +80,7 @@ public class Z3BitVecExprShiftTests
     [TestCase(16, 2, 4, Description = "Right shift by 2")]
     [TestCase(255, 4, 15, Description = "Right shift all bits")]
     [TestCase(0, 3, 0, Description = "Right shift zero")]
-    public void UnsignedRightShift_AllVariations_ReturnsExpectedResult(
-        int value,
-        int shiftAmount,
-        int expectedResult
-    )
+    public void UnsignedRightShift_AllVariations_ReturnsExpectedResult(int value, int shiftAmount, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -169,11 +157,7 @@ public class Z3BitVecExprShiftTests
     [TestCase(255, 3, 255, Description = "Signed right shift -1 by 3 (-1>>3 = -1 = 255)")]
     [TestCase(100, 1, 50, Description = "Signed right shift positive value by 1")]
     [TestCase(0, 3, 0, Description = "Signed right shift zero")]
-    public void SignedRightShift_AllVariations_ReturnsExpectedResult(
-        int value,
-        int shiftAmount,
-        int expectedResult
-    )
+    public void SignedRightShift_AllVariations_ReturnsExpectedResult(int value, int shiftAmount, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

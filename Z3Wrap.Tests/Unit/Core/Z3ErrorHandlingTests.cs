@@ -128,10 +128,7 @@ public class Z3ErrorHandlingTests
         var exception = new Z3Exception(errorCode, message);
 
         Assert.That(exception.ErrorCode, Is.EqualTo(errorCode));
-        Assert.That(
-            exception.Message,
-            Is.EqualTo("Z3 Error (InvalidArgument): Test error message")
-        );
+        Assert.That(exception.Message, Is.EqualTo("Z3 Error (InvalidArgument): Test error message"));
     }
 
     [Test]

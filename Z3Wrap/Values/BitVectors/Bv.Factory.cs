@@ -97,9 +97,7 @@ public readonly partial struct Bv<TSize>
             throw new ArgumentException("Binary string cannot be null or empty", nameof(binary));
 
         // Remove 0b prefix if present
-        var cleanBinary = binary.StartsWith("0b", StringComparison.OrdinalIgnoreCase)
-            ? binary[2..]
-            : binary;
+        var cleanBinary = binary.StartsWith("0b", StringComparison.OrdinalIgnoreCase) ? binary[2..] : binary;
 
         // Check max binary digits for this size
         if (cleanBinary.Length > Size)
@@ -111,10 +109,7 @@ public readonly partial struct Bv<TSize>
         foreach (char c in cleanBinary)
         {
             if (c != '0' && c != '1')
-                throw new ArgumentException(
-                    $"Invalid binary character '{c}' in string: {binary}",
-                    nameof(binary)
-                );
+                throw new ArgumentException($"Invalid binary character '{c}' in string: {binary}", nameof(binary));
         }
 
         var value = BigInteger.Zero;

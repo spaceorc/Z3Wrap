@@ -18,10 +18,7 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr representing the array constant.</returns>
-    public static Z3ArrayExpr<TIndex, TValue> ArrayConst<TIndex, TValue>(
-        this Z3Context context,
-        string name
-    )
+    public static Z3ArrayExpr<TIndex, TValue> ArrayConst<TIndex, TValue>(this Z3Context context, string name)
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
@@ -41,10 +38,7 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the array constant.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the array constant.</returns>
-    public static Z3ArrayExpr<IntExpr, TValue> ArrayConst<TValue>(
-        this Z3Context context,
-        string name
-    )
+    public static Z3ArrayExpr<IntExpr, TValue> ArrayConst<TValue>(this Z3Context context, string name)
         where TValue : Z3Expr, IExprType<TValue>
     {
         return context.ArrayConst<IntExpr, TValue>(name);
@@ -58,20 +52,13 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="defaultValue">The default value for all array indices.</param>
     /// <returns>A new Z3ArrayExpr representing the constant array.</returns>
-    public static Z3ArrayExpr<TIndex, TValue> Array<TIndex, TValue>(
-        this Z3Context context,
-        TValue defaultValue
-    )
+    public static Z3ArrayExpr<TIndex, TValue> Array<TIndex, TValue>(this Z3Context context, TValue defaultValue)
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
         var indexSort = context.GetSortForType<TIndex>();
 
-        var handle = SafeNativeMethods.Z3MkConstArray(
-            context.Handle,
-            indexSort,
-            defaultValue.Handle
-        );
+        var handle = SafeNativeMethods.Z3MkConstArray(context.Handle, indexSort, defaultValue.Handle);
 
         return Z3Expr.Create<Z3ArrayExpr<TIndex, TValue>>(context, handle);
     }
@@ -83,10 +70,7 @@ public static partial class Z3ContextArrayExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="defaultValue">The default value for all array indices.</param>
     /// <returns>A new Z3ArrayExpr with integer indices representing the constant array.</returns>
-    public static Z3ArrayExpr<IntExpr, TValue> Array<TValue>(
-        this Z3Context context,
-        TValue defaultValue
-    )
+    public static Z3ArrayExpr<IntExpr, TValue> Array<TValue>(this Z3Context context, TValue defaultValue)
         where TValue : Z3Expr, IExprType<TValue>
     {
         return context.Array<IntExpr, TValue>(defaultValue);

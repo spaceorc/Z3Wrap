@@ -58,9 +58,7 @@ public class Z3DisposalTests
         } // Context is disposed here
 
         // Now solver operations should throw ObjectDisposedException when accessing context
-        Assert.Throws<ObjectDisposedException>(() =>
-            solver.Assert(CreateBoolExprFromAnotherContext())
-        );
+        Assert.Throws<ObjectDisposedException>(() => solver.Assert(CreateBoolExprFromAnotherContext()));
         Assert.Throws<ObjectDisposedException>(() => solver.Check());
         Assert.Throws<ObjectDisposedException>(() => solver.GetReasonUnknown());
         Assert.Throws<ObjectDisposedException>(() => solver.Push());
@@ -190,10 +188,7 @@ public class Z3DisposalTests
             solver.Assert(x == context.Int(i * 5));
 
             var result = solver.Check();
-            Assert.That(
-                result,
-                Is.EqualTo(Z3Status.Satisfiable).Or.EqualTo(Z3Status.Unsatisfiable)
-            );
+            Assert.That(result, Is.EqualTo(Z3Status.Satisfiable).Or.EqualTo(Z3Status.Unsatisfiable));
 
             solver.Pop();
         }

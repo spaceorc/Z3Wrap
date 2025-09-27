@@ -15,11 +15,7 @@ public class Z3RealComparisonTests
     [TestCase("0.0", "0.1", true, Description = "Zero less than positive")]
     [TestCase("-2.5", "-1.0", true, Description = "Negative less than negative")]
     [TestCase("10.0", "10.0", false, Description = "Equal values - false")]
-    public void Lt_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        bool expectedResult
-    )
+    public void Lt_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -78,11 +74,7 @@ public class Z3RealComparisonTests
     [TestCase("5.5", "3.3", false, Description = "Greater than - false")]
     [TestCase("-2.5", "-1.0", true, Description = "Negative less than equal")]
     [TestCase("0.0", "0.0", true, Description = "Zero equal")]
-    public void Le_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        bool expectedResult
-    )
+    public void Le_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -141,11 +133,7 @@ public class Z3RealComparisonTests
     [TestCase("5.5", "5.5", false, Description = "Equal values - false")]
     [TestCase("-1.0", "-2.5", true, Description = "Negative greater than negative")]
     [TestCase("0.0", "-0.1", true, Description = "Zero greater than negative")]
-    public void Gt_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        bool expectedResult
-    )
+    public void Gt_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -204,11 +192,7 @@ public class Z3RealComparisonTests
     [TestCase("2.1", "2.2", false, Description = "Less than - false")]
     [TestCase("-1.0", "-2.5", true, Description = "Negative greater than equal")]
     [TestCase("0.0", "0.0", true, Description = "Zero equal")]
-    public void Ge_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        bool expectedResult
-    )
+    public void Ge_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -267,11 +251,7 @@ public class Z3RealComparisonTests
     [TestCase("1.0", "2.0", false, Description = "Different values - false")]
     [TestCase("-5.5", "-5.5", true, Description = "Equal negative values - true")]
     [TestCase("0.0", "0.0", true, Description = "Zero equals zero")]
-    public void Eq_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        bool expectedResult
-    )
+    public void Eq_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -324,11 +304,7 @@ public class Z3RealComparisonTests
     [TestCase("3.14", "3.14", false, Description = "Equal values - false")]
     [TestCase("-5.5", "-6.6", true, Description = "Different negative values - true")]
     [TestCase("0.0", "0.0", false, Description = "Zero not equals zero - false")]
-    public void Neq_AllVariations_ReturnsExpectedResult(
-        string leftStr,
-        string rightStr,
-        bool expectedResult
-    )
+    public void Neq_AllVariations_ReturnsExpectedResult(string leftStr, string rightStr, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

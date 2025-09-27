@@ -90,9 +90,7 @@ public sealed class Z3Solver : IDisposable
             Z3BoolValue.False => Z3Status.Unsatisfiable,
             Z3BoolValue.True => Z3Status.Satisfiable,
             Z3BoolValue.Undefined => Z3Status.Unknown,
-            _ => throw new InvalidOperationException(
-                $"Unexpected boolean value result {result} from Z3_solver_check"
-            ),
+            _ => throw new InvalidOperationException($"Unexpected boolean value result {result} from Z3_solver_check"),
         };
         return lastCheckResult.Value;
     }
@@ -157,9 +155,7 @@ public sealed class Z3Solver : IDisposable
 
         // Check if the result was satisfiable
         if (lastCheckResult != Z3Status.Satisfiable)
-            throw new InvalidOperationException(
-                $"Cannot get model when solver status is {lastCheckResult}"
-            );
+            throw new InvalidOperationException($"Cannot get model when solver status is {lastCheckResult}");
 
         // Return cached model if we have one
         if (cachedModel == null)

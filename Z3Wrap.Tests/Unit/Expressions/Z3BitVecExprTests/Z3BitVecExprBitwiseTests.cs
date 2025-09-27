@@ -12,11 +12,7 @@ public class Z3BitVecExprBitwiseTests
     [TestCase(15, 7, 7, Description = "AND with subset (1111 & 0111 = 0111)")]
     [TestCase(0, 255, 0, Description = "AND with zero")]
     [TestCase(255, 255, 255, Description = "AND with self")]
-    public void BitwiseAnd_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        int expectedResult
-    )
+    public void BitwiseAnd_AllVariations_ReturnsExpectedResult(int left, int right, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -43,11 +39,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperatorBitVec),
-                Is.EqualTo(expected),
-                "BitVec & BitVec operator failed"
-            );
+            Assert.That(model.GetBitVec(resultOperatorBitVec), Is.EqualTo(expected), "BitVec & BitVec operator failed");
             Assert.That(
                 model.GetBitVec(resultOperatorRightBigInt),
                 Is.EqualTo(expected),
@@ -58,11 +50,7 @@ public class Z3BitVecExprBitwiseTests
                 Is.EqualTo(expected),
                 "BigInteger & BitVec operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.And(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.And(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -90,11 +78,7 @@ public class Z3BitVecExprBitwiseTests
     [TestCase(8, 4, 12, Description = "OR different bits")]
     [TestCase(0, 255, 255, Description = "OR with all bits")]
     [TestCase(0, 0, 0, Description = "OR with zeros")]
-    public void BitwiseOr_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        int expectedResult
-    )
+    public void BitwiseOr_AllVariations_ReturnsExpectedResult(int left, int right, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -121,11 +105,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperatorBitVec),
-                Is.EqualTo(expected),
-                "BitVec | BitVec operator failed"
-            );
+            Assert.That(model.GetBitVec(resultOperatorBitVec), Is.EqualTo(expected), "BitVec | BitVec operator failed");
             Assert.That(
                 model.GetBitVec(resultOperatorRightBigInt),
                 Is.EqualTo(expected),
@@ -136,11 +116,7 @@ public class Z3BitVecExprBitwiseTests
                 Is.EqualTo(expected),
                 "BigInteger | BitVec operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.Or(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Or(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -168,11 +144,7 @@ public class Z3BitVecExprBitwiseTests
     [TestCase(15, 15, 0, Description = "XOR with self")]
     [TestCase(0, 255, 255, Description = "XOR with all bits")]
     [TestCase(170, 85, 255, Description = "Alternating patterns")]
-    public void BitwiseXor_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        int expectedResult
-    )
+    public void BitwiseXor_AllVariations_ReturnsExpectedResult(int left, int right, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -199,11 +171,7 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperatorBitVec),
-                Is.EqualTo(expected),
-                "BitVec ^ BitVec operator failed"
-            );
+            Assert.That(model.GetBitVec(resultOperatorBitVec), Is.EqualTo(expected), "BitVec ^ BitVec operator failed");
             Assert.That(
                 model.GetBitVec(resultOperatorRightBigInt),
                 Is.EqualTo(expected),
@@ -214,11 +182,7 @@ public class Z3BitVecExprBitwiseTests
                 Is.EqualTo(expected),
                 "BigInteger ^ BitVec operator failed"
             );
-            Assert.That(
-                model.GetBitVec(resultMethodBitVec),
-                Is.EqualTo(expected),
-                "BitVec.Xor(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultMethodBitVec), Is.EqualTo(expected), "BitVec.Xor(BitVec) method failed");
             Assert.That(
                 model.GetBitVec(resultMethodBigInt),
                 Is.EqualTo(expected),
@@ -265,21 +229,9 @@ public class Z3BitVecExprBitwiseTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBitVec(resultOperator),
-                Is.EqualTo(expected),
-                "~BitVec operator failed"
-            );
-            Assert.That(
-                model.GetBitVec(resultMethod),
-                Is.EqualTo(expected),
-                "BitVec.Not() method failed"
-            );
-            Assert.That(
-                model.GetBitVec(resultContext),
-                Is.EqualTo(expected),
-                "Context.Not(BitVec) method failed"
-            );
+            Assert.That(model.GetBitVec(resultOperator), Is.EqualTo(expected), "~BitVec operator failed");
+            Assert.That(model.GetBitVec(resultMethod), Is.EqualTo(expected), "BitVec.Not() method failed");
+            Assert.That(model.GetBitVec(resultContext), Is.EqualTo(expected), "Context.Not(BitVec) method failed");
         });
     }
 }

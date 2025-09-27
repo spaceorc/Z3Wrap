@@ -33,9 +33,7 @@ public readonly partial struct Real
         {
             "F" or "FRACTION" => $"{numerator}/{denominator}",
             "D" or "DECIMAL" => ToDecimal().ToString(formatProvider),
-            "G" or "GENERAL" => denominator == 1
-                ? numerator.ToString(formatProvider)
-                : $"{numerator}/{denominator}",
+            "G" or "GENERAL" => denominator == 1 ? numerator.ToString(formatProvider) : $"{numerator}/{denominator}",
             _ => throw new FormatException($"Invalid format string: {format}"),
         };
     }

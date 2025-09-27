@@ -187,9 +187,7 @@ public class RealTests
     public void Constructor_BigIntegerExtremelyLarge_HandlesArbitraryPrecision()
     {
         // Create a very large BigInteger (larger than any built-in numeric type)
-        var bigInt = BigInteger.Parse(
-            "123456789012345678901234567890123456789012345678901234567890"
-        );
+        var bigInt = BigInteger.Parse("123456789012345678901234567890123456789012345678901234567890");
         var real = new Real(bigInt);
         Assert.That(real.Numerator, Is.EqualTo(bigInt));
         Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
@@ -201,9 +199,7 @@ public class RealTests
     public void Constructor_BigIntegerExtremelyLargeNegative_HandlesArbitraryPrecisionNegative()
     {
         // Create a very large negative BigInteger
-        var bigInt = BigInteger.Parse(
-            "-987654321098765432109876543210987654321098765432109876543210"
-        );
+        var bigInt = BigInteger.Parse("-987654321098765432109876543210987654321098765432109876543210");
         var real = new Real(bigInt);
         Assert.That(real.Numerator, Is.EqualTo(bigInt));
         Assert.That(real.Denominator, Is.EqualTo(BigInteger.One));
@@ -872,10 +868,7 @@ public class RealTests
         Assert.That(oneHalf.Round(MidpointRounding.AwayFromZero), Is.EqualTo(BigInteger.One));
 
         var negativeHalf = new Real(-1, 2); // -0.5m
-        Assert.That(
-            negativeHalf.Round(MidpointRounding.AwayFromZero),
-            Is.EqualTo(new BigInteger(-1))
-        );
+        Assert.That(negativeHalf.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(-1)));
     }
 
     [Test]
@@ -930,9 +923,7 @@ public class RealTests
     public void Parse_EdgeCases_WorksCorrectly()
     {
         // Test very large fractions
-        var largeFraction = Real.Parse(
-            "123456789012345678901234567890/987654321098765432109876543210"
-        );
+        var largeFraction = Real.Parse("123456789012345678901234567890/987654321098765432109876543210");
         Assert.That(largeFraction.Numerator, Is.Not.EqualTo(BigInteger.Zero));
         Assert.That(largeFraction.Denominator, Is.Not.EqualTo(BigInteger.Zero));
 
@@ -1033,38 +1024,17 @@ public class RealTests
         Assert.That(midpoint.Round(MidpointRounding.ToEven), Is.EqualTo(new BigInteger(2)));
         Assert.That(midpoint.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(3)));
         Assert.That(midpoint.Round(MidpointRounding.ToZero), Is.EqualTo(new BigInteger(2)));
-        Assert.That(
-            midpoint.Round(MidpointRounding.ToPositiveInfinity),
-            Is.EqualTo(new BigInteger(3))
-        );
-        Assert.That(
-            midpoint.Round(MidpointRounding.ToNegativeInfinity),
-            Is.EqualTo(new BigInteger(2))
-        );
+        Assert.That(midpoint.Round(MidpointRounding.ToPositiveInfinity), Is.EqualTo(new BigInteger(3)));
+        Assert.That(midpoint.Round(MidpointRounding.ToNegativeInfinity), Is.EqualTo(new BigInteger(2)));
 
         // Test negative midpoint
         var negativeMidpoint = new Real(-5, 2); // -2.5
 
-        Assert.That(
-            negativeMidpoint.Round(MidpointRounding.ToEven),
-            Is.EqualTo(new BigInteger(-2))
-        );
-        Assert.That(
-            negativeMidpoint.Round(MidpointRounding.AwayFromZero),
-            Is.EqualTo(new BigInteger(-3))
-        );
-        Assert.That(
-            negativeMidpoint.Round(MidpointRounding.ToZero),
-            Is.EqualTo(new BigInteger(-2))
-        );
-        Assert.That(
-            negativeMidpoint.Round(MidpointRounding.ToPositiveInfinity),
-            Is.EqualTo(new BigInteger(-2))
-        );
-        Assert.That(
-            negativeMidpoint.Round(MidpointRounding.ToNegativeInfinity),
-            Is.EqualTo(new BigInteger(-3))
-        );
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToEven), Is.EqualTo(new BigInteger(-2)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.AwayFromZero), Is.EqualTo(new BigInteger(-3)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToZero), Is.EqualTo(new BigInteger(-2)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToPositiveInfinity), Is.EqualTo(new BigInteger(-2)));
+        Assert.That(negativeMidpoint.Round(MidpointRounding.ToNegativeInfinity), Is.EqualTo(new BigInteger(-3)));
     }
 
     [Test]

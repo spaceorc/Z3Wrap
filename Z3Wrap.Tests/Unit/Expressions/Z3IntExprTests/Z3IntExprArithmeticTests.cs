@@ -956,22 +956,10 @@ public class Z3IntExprArithmeticTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetIntValue(result1),
-                Is.EqualTo(new BigInteger(15)),
-                "x + 10 failed"
-            );
-            Assert.That(
-                model.GetIntValue(result2),
-                Is.EqualTo(new BigInteger(25)),
-                "20 + x failed"
-            );
+            Assert.That(model.GetIntValue(result1), Is.EqualTo(new BigInteger(15)), "x + 10 failed");
+            Assert.That(model.GetIntValue(result2), Is.EqualTo(new BigInteger(25)), "20 + x failed");
             Assert.That(model.GetIntValue(result3), Is.EqualTo(new BigInteger(2)), "x - 3 failed");
-            Assert.That(
-                model.GetIntValue(result4),
-                Is.EqualTo(new BigInteger(95)),
-                "100 - x failed"
-            );
+            Assert.That(model.GetIntValue(result4), Is.EqualTo(new BigInteger(95)), "100 - x failed");
             Assert.That(model.GetIntValue(result5), Is.EqualTo(new BigInteger(20)), "x * 4 failed");
             Assert.That(model.GetIntValue(result6), Is.EqualTo(new BigInteger(35)), "7 * x failed");
         });
@@ -993,23 +981,14 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(
-            model.GetIntValue(result),
-            Is.EqualTo(new BigInteger(42)),
-            "Single operand Add failed"
-        );
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)), "Single operand Add failed");
     }
 
     [TestCase(5, 3, 2, 10, Description = "Three operands: 5 + 3 + 2 = 10")]
     [TestCase(1, -1, 0, 0, Description = "Three operands with zero result")]
     [TestCase(-5, -3, -2, -10, Description = "Three negative operands")]
     [TestCase(100, -50, 25, 75, Description = "Mixed positive and negative")]
-    public void Add_VariadicParams_ThreeOperands_ReturnsExpectedResult(
-        int a,
-        int b,
-        int c,
-        int expectedResult
-    )
+    public void Add_VariadicParams_ThreeOperands_ReturnsExpectedResult(int a, int b, int c, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -1037,13 +1016,7 @@ public class Z3IntExprArithmeticTests
     [TestCase(1, 2, 3, 4, 10, Description = "Four operands: 1 + 2 + 3 + 4 = 10")]
     [TestCase(10, -5, 3, -2, 6, Description = "Four operands with mixed signs")]
     [TestCase(0, 0, 0, 0, 0, Description = "Four zeros")]
-    public void Add_VariadicParams_FourOperands_ReturnsExpectedResult(
-        int a,
-        int b,
-        int c,
-        int d,
-        int expectedResult
-    )
+    public void Add_VariadicParams_FourOperands_ReturnsExpectedResult(int a, int b, int c, int d, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -1093,11 +1066,7 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(
-            model.GetIntValue(result),
-            Is.EqualTo(new BigInteger(15)),
-            "Five operands Add(1,2,3,4,5) failed"
-        );
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(15)), "Five operands Add(1,2,3,4,5) failed");
     }
 
     [Test]
@@ -1125,23 +1094,14 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(
-            model.GetIntValue(result),
-            Is.EqualTo(new BigInteger(42)),
-            "Single operand Sub failed"
-        );
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)), "Single operand Sub failed");
     }
 
     [TestCase(10, 3, 2, 5, Description = "Three operands: 10 - 3 - 2 = 5")]
     [TestCase(0, 1, -1, 0, Description = "Three operands: 0 - 1 - (-1) = 0")]
     [TestCase(100, 20, 30, 50, Description = "Three operands: 100 - 20 - 30 = 50")]
     [TestCase(-5, -3, -2, 0, Description = "Three negative operands: -5 - (-3) - (-2) = 0")]
-    public void Sub_VariadicParams_ThreeOperands_ReturnsExpectedResult(
-        int a,
-        int b,
-        int c,
-        int expectedResult
-    )
+    public void Sub_VariadicParams_ThreeOperands_ReturnsExpectedResult(int a, int b, int c, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -1220,11 +1180,7 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(
-            model.GetIntValue(result),
-            Is.EqualTo(new BigInteger(42)),
-            "Single operand Mul failed"
-        );
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)), "Single operand Mul failed");
     }
 
     [TestCase(2, 3, 4, 24, Description = "Three operands: 2 * 3 * 4 = 24")]
@@ -1232,12 +1188,7 @@ public class Z3IntExprArithmeticTests
     [TestCase(-2, 3, 4, -24, Description = "Three operands with negative: -2 * 3 * 4 = -24")]
     [TestCase(0, 100, 200, 0, Description = "Three operands with zero: 0 * 100 * 200 = 0")]
     [TestCase(-1, -2, -3, -6, Description = "Three negative operands: -1 * -2 * -3 = -6")]
-    public void Mul_VariadicParams_ThreeOperands_ReturnsExpectedResult(
-        int a,
-        int b,
-        int c,
-        int expectedResult
-    )
+    public void Mul_VariadicParams_ThreeOperands_ReturnsExpectedResult(int a, int b, int c, int expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -1284,11 +1235,7 @@ public class Z3IntExprArithmeticTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         // 2 * 3 * 4 * 5 = 120
-        Assert.That(
-            model.GetIntValue(result),
-            Is.EqualTo(new BigInteger(120)),
-            "Four operands Mul(2,3,4,5) failed"
-        );
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(120)), "Four operands Mul(2,3,4,5) failed");
     }
 
     [Test]
@@ -1314,11 +1261,7 @@ public class Z3IntExprArithmeticTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(
-            model.GetIntValue(result),
-            Is.EqualTo(new BigInteger(0)),
-            "Five operands Mul with zero failed"
-        );
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(0)), "Five operands Mul with zero failed");
     }
 
     [Test]

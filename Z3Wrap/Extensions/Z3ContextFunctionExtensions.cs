@@ -71,10 +71,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the binary function.</returns>
-    public static Z3FuncDecl<T1, T2, TResult> Func<T1, T2, TResult>(
-        this Z3Context context,
-        string name
-    )
+    public static Z3FuncDecl<T1, T2, TResult> Func<T1, T2, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where T2 : Z3Expr, IExprType<T2>
         where TResult : Z3Expr, IExprType<TResult>
@@ -105,10 +102,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the ternary function.</returns>
-    public static Z3FuncDecl<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(
-        this Z3Context context,
-        string name
-    )
+    public static Z3FuncDecl<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where T2 : Z3Expr, IExprType<T2>
         where T3 : Z3Expr, IExprType<T3>
@@ -143,11 +137,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="funcDecl">The function declaration.</param>
     /// <param name="args">The arguments to the function.</param>
     /// <returns>A Z3 expression of type TResult representing the function application.</returns>
-    public static TResult Apply<TResult>(
-        this Z3Context context,
-        Z3FuncDeclBase<TResult> funcDecl,
-        params Z3Expr[] args
-    )
+    public static TResult Apply<TResult>(this Z3Context context, Z3FuncDeclBase<TResult> funcDecl, params Z3Expr[] args)
         where TResult : Z3Expr, IExprType<TResult>
     {
         if (args.Length != funcDecl.Arity)
@@ -157,12 +147,7 @@ public static class Z3ContextFunctionExtensions
             );
 
         var argHandles = args.Select(arg => arg.Handle).ToArray();
-        var appHandle = SafeNativeMethods.Z3MkApp(
-            context.Handle,
-            funcDecl.Handle,
-            (uint)args.Length,
-            argHandles
-        );
+        var appHandle = SafeNativeMethods.Z3MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
 
         return Z3Expr.Create<TResult>(context, appHandle);
     }

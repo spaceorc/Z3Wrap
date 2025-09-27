@@ -39,6 +39,5 @@ public class Z3ArrayExpr<TIndex, TValue> : Z3Expr, IExprType<Z3ArrayExpr<TIndex,
     /// <param name="index">The index where the value should be stored.</param>
     /// <param name="value">The value to store at the index.</param>
     /// <returns>A new array expression with the updated value.</returns>
-    public Z3ArrayExpr<TIndex, TValue> Store(TIndex index, TValue value) =>
-        Context.Store(this, index, value);
+    public Z3ArrayExpr<TIndex, TValue> Store(TIndex index, TValue value) => Context.Store(this, index, value);
 }

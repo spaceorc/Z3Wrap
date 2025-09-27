@@ -56,15 +56,7 @@ public sealed class Z3Model
     {
         ThrowIfInvalidated();
 
-        if (
-            !SafeNativeMethods.Z3ModelEval(
-                context.Handle,
-                modelHandle,
-                expr.Handle,
-                modelCompletion,
-                out var result
-            )
-        )
+        if (!SafeNativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
         return Z3Expr.Create<T>(context, result);
@@ -83,9 +75,7 @@ public sealed class Z3Model
         var valueStr = GetNumericValueAsString(expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
-            throw new InvalidOperationException(
-                $"Failed to parse integer value '{valueStr}' from expression {expr}"
-            );
+            throw new InvalidOperationException($"Failed to parse integer value '{valueStr}' from expression {expr}");
 
         return value;
     }
@@ -138,9 +128,7 @@ public sealed class Z3Model
         var valueStr = GetNumericValueAsString(expr);
 
         if (!BigInteger.TryParse(valueStr, out var value))
-            throw new InvalidOperationException(
-                $"Failed to parse bitvector value '{valueStr}' from expression {expr}"
-            );
+            throw new InvalidOperationException($"Failed to parse bitvector value '{valueStr}' from expression {expr}");
 
         return new Bv<TSize>(value);
     }
@@ -186,17 +174,10 @@ public sealed class Z3Model
     private void ThrowIfInvalidated()
     {
         if (invalidated)
-            throw new ObjectDisposedException(
-                nameof(Z3Model),
-                "Model has been invalidated due to solver state change"
-            );
+            throw new ObjectDisposedException(nameof(Z3Model), "Model has been invalidated due to solver state change");
     }
 
-    private static string ExtractNumeralString<TExpr>(
-        Z3Context context,
-        TExpr evaluatedExpr,
-        TExpr originalExpr
-    )
+    private static string ExtractNumeralString<TExpr>(Z3Context context, TExpr evaluatedExpr, TExpr originalExpr)
         where TExpr : Z3Expr, INumericExpr, IExprType<TExpr>
     {
         if (!SafeNativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
@@ -206,8 +187,6 @@ public sealed class Z3Model
 
         var ptr = SafeNativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
         return Marshal.PtrToStringAnsi(ptr)
-            ?? throw new InvalidOperationException(
-                $"Failed to extract numeric value from expression {originalExpr}"
-            );
+            ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
     }
 }

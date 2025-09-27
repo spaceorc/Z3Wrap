@@ -12,11 +12,7 @@ public class Z3BoolExprComparisonTests
     [TestCase(true, false, false, Description = "true == false = false")]
     [TestCase(false, true, false, Description = "false == true = false")]
     [TestCase(false, false, true, Description = "false == false = true")]
-    public void Equality_BoolExprEqualsBool_ReturnsExpectedResult(
-        bool left,
-        bool right,
-        bool expectedResult
-    )
+    public void Equality_BoolExprEqualsBool_ReturnsExpectedResult(bool left, bool right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -88,11 +84,7 @@ public class Z3BoolExprComparisonTests
     [TestCase(true, false, true, Description = "true != false = true")]
     [TestCase(false, true, true, Description = "false != true = true")]
     [TestCase(false, false, false, Description = "false != false = false")]
-    public void Inequality_BoolExprNotEqualsBool_ReturnsExpectedResult(
-        bool left,
-        bool right,
-        bool expectedResult
-    )
+    public void Inequality_BoolExprNotEqualsBool_ReturnsExpectedResult(bool left, bool right, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

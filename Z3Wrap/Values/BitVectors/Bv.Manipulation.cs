@@ -56,8 +56,7 @@ public readonly partial struct Bv<TSize>
         }
 
         // Negative number - sign extend by setting all higher bits
-        var extensionMask =
-            ((BigInteger.One << (int)newSize) - 1) ^ ((BigInteger.One << (int)currentSize) - 1);
+        var extensionMask = ((BigInteger.One << (int)newSize) - 1) ^ ((BigInteger.One << (int)currentSize) - 1);
         var signExtended = value | extensionMask;
 
         return new Bv<TNewSize>(signExtended);
@@ -239,9 +238,7 @@ public readonly partial struct Bv<TSize>
         var resultSize = TResultSize.Size;
 
         if (resultSize % inputSize != 0)
-            throw new ArgumentException(
-                $"Target size {resultSize} must be a multiple of source size {inputSize}"
-            );
+            throw new ArgumentException($"Target size {resultSize} must be a multiple of source size {inputSize}");
 
         var repeatCount = resultSize / inputSize;
         if (repeatCount == 1)

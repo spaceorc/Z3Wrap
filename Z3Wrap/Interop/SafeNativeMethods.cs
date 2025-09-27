@@ -290,15 +290,7 @@ internal static class SafeNativeMethods
         IntPtr body
     )
     {
-        var result = NativeMethods.Z3MkForallConst(
-            ctx,
-            weight,
-            numBound,
-            bound,
-            numPatterns,
-            patterns,
-            body
-        );
+        var result = NativeMethods.Z3MkForallConst(ctx, weight, numBound, bound, numPatterns, patterns, body);
         CheckError(ctx);
         return result;
     }
@@ -313,15 +305,7 @@ internal static class SafeNativeMethods
         IntPtr body
     )
     {
-        var result = NativeMethods.Z3MkExistsConst(
-            ctx,
-            weight,
-            numBound,
-            bound,
-            numPatterns,
-            patterns,
-            body
-        );
+        var result = NativeMethods.Z3MkExistsConst(ctx, weight, numBound, bound, numPatterns, patterns, body);
         CheckError(ctx);
         return result;
     }
@@ -334,13 +318,7 @@ internal static class SafeNativeMethods
     }
 
     // Function declaration and application operations
-    internal static IntPtr Z3MkFuncDecl(
-        IntPtr ctx,
-        IntPtr symbol,
-        uint domainSize,
-        IntPtr[] domain,
-        IntPtr range
-    )
+    internal static IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var result = NativeMethods.Z3MkFuncDecl(ctx, symbol, domainSize, domain, range);
         CheckError(ctx);
@@ -440,13 +418,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
-    internal static bool Z3ModelEval(
-        IntPtr ctx,
-        IntPtr model,
-        IntPtr expr,
-        bool modelCompletion,
-        out IntPtr result
-    )
+    internal static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
         var returnValue = NativeMethods.Z3ModelEval(ctx, model, expr, modelCompletion, out result);
         CheckError(ctx);
@@ -744,12 +716,7 @@ internal static class SafeNativeMethods
         return result;
     }
 
-    internal static IntPtr Z3MkBvSubNoUnderflow(
-        IntPtr ctx,
-        IntPtr left,
-        IntPtr right,
-        bool isSigned
-    )
+    internal static IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
         var result = NativeMethods.Z3MkBvSubNoUnderflow(ctx, left, right, isSigned);
         CheckError(ctx);

@@ -10,11 +10,7 @@ public class Z3BoolExprImplicationTests
     [TestCase(true, false, false, Description = "true IMPLIES false = false")]
     [TestCase(false, true, true, Description = "false IMPLIES true = true")]
     [TestCase(false, false, true, Description = "false IMPLIES false = true")]
-    public void Implies_AllVariations_ReturnsExpectedResult(
-        bool antecedent,
-        bool consequent,
-        bool expectedResult
-    )
+    public void Implies_AllVariations_ReturnsExpectedResult(bool antecedent, bool consequent, bool expectedResult)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();

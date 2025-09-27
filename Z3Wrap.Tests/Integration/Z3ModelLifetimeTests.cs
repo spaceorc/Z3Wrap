@@ -221,10 +221,7 @@ public class Z3ModelLifetimeTests
         Assert.That(result, Is.EqualTo(Z3Status.Unsatisfiable));
 
         var ex = Assert.Throws<InvalidOperationException>(() => solver.GetModel());
-        Assert.That(
-            ex.Message,
-            Does.Contain("Cannot get model when solver status is Unsatisfiable")
-        );
+        Assert.That(ex.Message, Does.Contain("Cannot get model when solver status is Unsatisfiable"));
     }
 
     [Test]

@@ -62,12 +62,7 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar2">The second variable to be universally quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the universal quantifier.</returns>
-    public static BoolExpr ForAll(
-        this Z3Context context,
-        Z3Expr boundVar1,
-        Z3Expr boundVar2,
-        BoolExpr body
-    )
+    public static BoolExpr ForAll(this Z3Context context, Z3Expr boundVar1, Z3Expr boundVar2, BoolExpr body)
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle };
         var handle = SafeNativeMethods.Z3MkForallConst(
@@ -90,12 +85,7 @@ public static partial class Z3ContextQuantifiersExtensions
     /// <param name="boundVar2">The second variable to be existentially quantified.</param>
     /// <param name="body">The body of the quantifier.</param>
     /// <returns>A new Z3Bool representing the existential quantifier.</returns>
-    public static BoolExpr Exists(
-        this Z3Context context,
-        Z3Expr boundVar1,
-        Z3Expr boundVar2,
-        BoolExpr body
-    )
+    public static BoolExpr Exists(this Z3Context context, Z3Expr boundVar1, Z3Expr boundVar2, BoolExpr body)
     {
         var bound = new[] { boundVar1.Handle, boundVar2.Handle };
         var handle = SafeNativeMethods.Z3MkExistsConst(
@@ -189,13 +179,7 @@ public static partial class Z3ContextQuantifiersExtensions
         BoolExpr body
     )
     {
-        var bound = new[]
-        {
-            boundVar1.Handle,
-            boundVar2.Handle,
-            boundVar3.Handle,
-            boundVar4.Handle,
-        };
+        var bound = new[] { boundVar1.Handle, boundVar2.Handle, boundVar3.Handle, boundVar4.Handle };
         var handle = SafeNativeMethods.Z3MkForallConst(
             context.Handle,
             0, // weight
@@ -227,13 +211,7 @@ public static partial class Z3ContextQuantifiersExtensions
         BoolExpr body
     )
     {
-        var bound = new[]
-        {
-            boundVar1.Handle,
-            boundVar2.Handle,
-            boundVar3.Handle,
-            boundVar4.Handle,
-        };
+        var bound = new[] { boundVar1.Handle, boundVar2.Handle, boundVar3.Handle, boundVar4.Handle };
         var handle = SafeNativeMethods.Z3MkExistsConst(
             context.Handle,
             0, // weight

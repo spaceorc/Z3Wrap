@@ -16,9 +16,7 @@ public readonly partial struct Real
     /// <returns>A rational number representing 1/this.</returns>
     /// <exception cref="DivideByZeroException">Thrown when attempting to get the reciprocal of zero.</exception>
     public Real Reciprocal() =>
-        IsZero
-            ? throw new DivideByZeroException("Division by zero is not allowed")
-            : new Real(denominator, numerator);
+        IsZero ? throw new DivideByZeroException("Division by zero is not allowed") : new Real(denominator, numerator);
 
     /// <summary>
     /// Raises this rational number to the specified integer power.
@@ -72,9 +70,7 @@ public readonly partial struct Real
 
         return mode switch
         {
-            MidpointRounding.ToEven => (quotient % 2 == 0)
-                ? quotient
-                : (numerator >= 0 ? quotient + 1 : quotient - 1),
+            MidpointRounding.ToEven => (quotient % 2 == 0) ? quotient : (numerator >= 0 ? quotient + 1 : quotient - 1),
             MidpointRounding.AwayFromZero => numerator >= 0 ? quotient + 1 : quotient - 1,
             MidpointRounding.ToZero => quotient,
             MidpointRounding.ToNegativeInfinity => numerator >= 0 ? quotient : quotient - 1,

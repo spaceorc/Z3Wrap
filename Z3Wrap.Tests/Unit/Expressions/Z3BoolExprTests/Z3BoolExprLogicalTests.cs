@@ -169,16 +169,8 @@ public class Z3BoolExprLogicalTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(
-                model.GetBoolValue(resultOperator),
-                Is.EqualTo(expectedResult),
-                "!Bool unary operator failed"
-            );
-            Assert.That(
-                model.GetBoolValue(resultMethod),
-                Is.EqualTo(expectedResult),
-                "Bool.Not() method failed"
-            );
+            Assert.That(model.GetBoolValue(resultOperator), Is.EqualTo(expectedResult), "!Bool unary operator failed");
+            Assert.That(model.GetBoolValue(resultMethod), Is.EqualTo(expectedResult), "Bool.Not() method failed");
             Assert.That(
                 model.GetBoolValue(resultContextMethod),
                 Is.EqualTo(expectedResult),

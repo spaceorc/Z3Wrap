@@ -35,10 +35,7 @@ public abstract class Z3FuncDeclBase<TResult>
         Handle =
             handle != IntPtr.Zero
                 ? handle
-                : throw new ArgumentException(
-                    "Invalid function declaration handle",
-                    nameof(handle)
-                );
+                : throw new ArgumentException("Invalid function declaration handle", nameof(handle));
         Name = name;
         Arity = arity;
 
