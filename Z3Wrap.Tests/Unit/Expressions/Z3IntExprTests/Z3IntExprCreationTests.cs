@@ -2,6 +2,7 @@ using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
+using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Expressions.Z3IntExprTests;

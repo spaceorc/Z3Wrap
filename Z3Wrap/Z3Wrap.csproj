@@ -138,9 +138,6 @@
     <Compile Update="Expressions\BitVectors\BvExprContextExtensions.conversion.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Equality.cs">
-      <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
-    </Compile>
     <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Manipulation.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
@@ -177,9 +174,6 @@
     <Compile Update="Expressions\Numerics\IntExprContextExtensions.conversion.cs">
       <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\Numerics\IntExprContextExtensions.Equality.cs">
-      <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
-    </Compile>
     <Compile Update="Expressions\Numerics\IntExprContextExtensions.Functions.cs">
       <DependentUpon>IntExprContextExtensions.cs</DependentUpon>
     </Compile>
@@ -208,9 +202,6 @@
       <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\RealExprContextExtensions.conversion.cs">
-      <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Expressions\Numerics\RealExprContextExtensions.Equality.cs">
       <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\RealExprContextExtensions.Functions.cs">
