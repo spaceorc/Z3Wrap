@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Arrays;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Extensions;
@@ -37,7 +38,7 @@ public class Z3ArrayExprTests
         var array = context.ArrayConst<IntExpr, BoolExpr>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, BoolExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, BoolExpr>>());
     }
 
     [TestCase("prices")]
@@ -47,7 +48,7 @@ public class Z3ArrayExprTests
         var array = context.ArrayConst<IntExpr, RealExpr>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, RealExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, RealExpr>>());
     }
 
     [TestCase("flags")]
@@ -57,7 +58,7 @@ public class Z3ArrayExprTests
         var array = context.ArrayConst<BoolExpr, IntExpr>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<BoolExpr, IntExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<BoolExpr, IntExpr>>());
     }
 
     [TestCase("arr")]
@@ -67,7 +68,7 @@ public class Z3ArrayExprTests
         var array = context.ArrayConst<BoolExpr>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, BoolExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, BoolExpr>>());
     }
 
     [TestCase("prices")]
@@ -77,7 +78,7 @@ public class Z3ArrayExprTests
         var array = context.ArrayConst<RealExpr>(name);
 
         AssertValidArrayExpression(array, name);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, RealExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, RealExpr>>());
     }
 
     [Test]
@@ -87,7 +88,7 @@ public class Z3ArrayExprTests
         var array = context.Array<IntExpr, BoolExpr>(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, BoolExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, BoolExpr>>());
     }
 
     [Test]
@@ -97,7 +98,7 @@ public class Z3ArrayExprTests
         var array = context.Array<BoolExpr, IntExpr>(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<BoolExpr, IntExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<BoolExpr, IntExpr>>());
     }
 
     [Test]
@@ -107,7 +108,7 @@ public class Z3ArrayExprTests
         var array = context.Array(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, BoolExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, BoolExpr>>());
     }
 
     [Test]
@@ -117,7 +118,7 @@ public class Z3ArrayExprTests
         var array = context.Array(defaultValue);
 
         AssertValidArrayExpression(array);
-        Assert.That(array, Is.TypeOf<Z3ArrayExpr<IntExpr, IntExpr>>());
+        Assert.That(array, Is.TypeOf<ArrayExpr<IntExpr, IntExpr>>());
     }
 
     #endregion
@@ -201,7 +202,7 @@ public class Z3ArrayExprTests
         var updatedArray = array.Store(index, value);
 
         AssertValidArrayExpression(updatedArray);
-        Assert.That(updatedArray, Is.TypeOf<Z3ArrayExpr<IntExpr, BoolExpr>>());
+        Assert.That(updatedArray, Is.TypeOf<ArrayExpr<IntExpr, BoolExpr>>());
         Assert.That(updatedArray.Handle, Is.Not.EqualTo(array.Handle)); // Functional update
 
         // Verify the stored value can be retrieved
@@ -460,7 +461,7 @@ public class Z3ArrayExprTests
     #region Helper Methods
 
     private void AssertValidArrayExpression<TIndex, TValue>(
-        Z3ArrayExpr<TIndex, TValue> array,
+        ArrayExpr<TIndex, TValue> array,
         string? expectedName = null
     )
         where TIndex : Z3Expr, IExprType<TIndex>

@@ -1,10 +1,9 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap;
-using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Arrays;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
-using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
@@ -171,7 +170,7 @@ public class Z3BoolExprConditionalTests
         var result = condition.Ite(arr1, arr2);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<Z3ArrayExpr<IntExpr, IntExpr>>());
+        Assert.That(result, Is.TypeOf<ArrayExpr<IntExpr, IntExpr>>());
 
         solver.Assert(arr1[0] == context.Int(10));
         solver.Assert(arr2[0] == context.Int(20));
