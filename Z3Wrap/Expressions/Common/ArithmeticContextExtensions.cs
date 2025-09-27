@@ -5,18 +5,18 @@ using Spaceorc.Z3Wrap.Interop;
 namespace Spaceorc.Z3Wrap.Expressions.Common;
 
 /// <summary>
-/// Provides unified extension methods for Z3Context to perform arithmetic operations on expressions.
-/// Supports basic arithmetic operations (Add, Sub, Mul, Div, UnaryMinus) for all arithmetic types.
+/// Provides extension methods for Z3Context to create arithmetic operations for numeric expressions.
+/// Supports basic arithmetic operations (+, -, *, /, unary-) for integer and real expressions.
 /// </summary>
 public static class ArithmeticContextExtensions
 {
     /// <summary>
-    /// Adds multiple arithmetic expressions together.
+    /// Adds multiple arithmetic expressions together (operand₁ + operand₂ + ... + operandₙ).
     /// </summary>
     /// <typeparam name="T">Type of arithmetic expression.</typeparam>
     /// <param name="context">Z3 context.</param>
-    /// <param name="operands">Arithmetic expressions to add together.</param>
-    /// <returns>An expression representing the sum of all operands.</returns>
+    /// <param name="operands">Arithmetic expressions to add.</param>
+    /// <returns>Expression representing the sum of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static T Add<T>(this Z3Context context, params T[] operands)
         where T : Z3Expr, IArithmeticExpr, IExprType<T>
@@ -35,12 +35,12 @@ public static class ArithmeticContextExtensions
     }
 
     /// <summary>
-    /// Subtracts multiple arithmetic expressions. For multiple operands, performs left-associative subtraction.
+    /// Subtracts multiple arithmetic expressions with left-associative evaluation (((a - b) - c) - d).
     /// </summary>
     /// <typeparam name="T">Type of arithmetic expression.</typeparam>
     /// <param name="context">Z3 context.</param>
-    /// <param name="operands">Arithmetic expressions to subtract. The first operand is the minuend, subsequent operands are subtracted from it.</param>
-    /// <returns>An expression representing the result of the subtraction.</returns>
+    /// <param name="operands">Arithmetic expressions to subtract.</param>
+    /// <returns>Expression representing the result of the subtraction.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static T Sub<T>(this Z3Context context, params T[] operands)
         where T : Z3Expr, IArithmeticExpr, IExprType<T>
@@ -59,12 +59,12 @@ public static class ArithmeticContextExtensions
     }
 
     /// <summary>
-    /// Multiplies multiple arithmetic expressions together.
+    /// Multiplies multiple arithmetic expressions together (operand₁ × operand₂ × ... × operandₙ).
     /// </summary>
     /// <typeparam name="T">Type of arithmetic expression.</typeparam>
     /// <param name="context">Z3 context.</param>
-    /// <param name="operands">Arithmetic expressions to multiply together.</param>
-    /// <returns>An expression representing the product of all operands.</returns>
+    /// <param name="operands">Arithmetic expressions to multiply.</param>
+    /// <returns>Expression representing the product of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static T Mul<T>(this Z3Context context, params T[] operands)
         where T : Z3Expr, IArithmeticExpr, IExprType<T>
@@ -83,13 +83,13 @@ public static class ArithmeticContextExtensions
     }
 
     /// <summary>
-    /// Divides one arithmetic expression by another.
+    /// Divides one arithmetic expression by another (left ÷ right).
     /// </summary>
     /// <typeparam name="T">Type of arithmetic expression.</typeparam>
     /// <param name="context">Z3 context.</param>
     /// <param name="left">Dividend.</param>
     /// <param name="right">Divisor.</param>
-    /// <returns>An expression representing left divided by right.</returns>
+    /// <returns>Expression representing left divided by right.</returns>
     public static T Div<T>(this Z3Context context, T left, T right)
         where T : Z3Expr, IArithmeticExpr, IExprType<T>
     {
@@ -98,12 +98,12 @@ public static class ArithmeticContextExtensions
     }
 
     /// <summary>
-    /// Negates an arithmetic expression (unary minus operation).
+    /// Negates an arithmetic expression (-operand).
     /// </summary>
     /// <typeparam name="T">Type of arithmetic expression.</typeparam>
     /// <param name="context">Z3 context.</param>
     /// <param name="operand">Arithmetic expression to negate.</param>
-    /// <returns>An expression representing the negated value of the operand.</returns>
+    /// <returns>Expression representing the negated value.</returns>
     public static T UnaryMinus<T>(this Z3Context context, T operand)
         where T : Z3Expr, IArithmeticExpr, IExprType<T>
     {
@@ -112,13 +112,12 @@ public static class ArithmeticContextExtensions
     }
 
     /// <summary>
-    /// Computes the modulo of one integer expression with another.
-    /// This operation is specific to integer expressions only.
+    /// Computes the modulo of two integer expressions (left mod right). Integer-specific operation.
     /// </summary>
     /// <param name="context">Z3 context.</param>
     /// <param name="left">Dividend.</param>
     /// <param name="right">Divisor.</param>
-    /// <returns>An IntExpr representing left modulo right.</returns>
+    /// <returns>IntExpr representing left modulo right.</returns>
     public static IntExpr Mod(this Z3Context context, IntExpr left, IntExpr right)
     {
         var resultHandle = SafeNativeMethods.Z3MkMod(context.Handle, left.Handle, right.Handle);
