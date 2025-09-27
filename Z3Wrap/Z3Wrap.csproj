@@ -26,8 +26,6 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <MinVerTagPrefix>v</MinVerTagPrefix>
-    <!-- Disable XML documentation warnings -->
-    <NoWarn>1591</NoWarn>
     <!-- Read release notes content from the XML-escaped file created by workflow -->
     <PackageReleaseNotes Condition="Exists('$(MSBuildProjectDirectory)/../RELEASE_NOTES_ESCAPED.txt')"
       >$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../RELEASE_NOTES_ESCAPED.txt'))</PackageReleaseNotes
