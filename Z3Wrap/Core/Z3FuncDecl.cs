@@ -1,3 +1,4 @@
+using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.Core;
