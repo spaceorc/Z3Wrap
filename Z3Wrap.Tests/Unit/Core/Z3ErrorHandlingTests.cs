@@ -1,9 +1,8 @@
-using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
-using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Expressions.Quantifiers;
 
 namespace Z3Wrap.Tests.Unit.Core;
 

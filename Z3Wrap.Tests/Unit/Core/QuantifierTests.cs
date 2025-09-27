@@ -3,7 +3,7 @@ using Spaceorc.Z3Wrap.Expressions.Arrays;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
-using Spaceorc.Z3Wrap.Extensions;
+using Spaceorc.Z3Wrap.Expressions.Quantifiers;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Unit.Core;
@@ -290,8 +290,7 @@ public class QuantifierTests
         var y = context.RealConst("y");
 
         // ForAll x,y: x * y = y * x (multiplication commutativity)
-        var body = (x * y) == (y * x);
-        var forall = context.ForAll(x, y, body);
+        var forall = context.ForAll(x, y, x * y == y * x);
 
         solver.Assert(forall);
 
