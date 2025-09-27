@@ -5,7 +5,7 @@ using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 
-public static partial class BvExprContextExtensions
+public static partial class BvContextExtensions
 {
     /// <summary>
     /// Checks if addition would cause overflow between two compile-time size-validated bitvector expressions.

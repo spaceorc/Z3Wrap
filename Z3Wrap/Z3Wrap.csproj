@@ -126,25 +126,25 @@
     <Compile Update="Expressions\BitVectors\BvExpr.Shift.cs">
       <DependentUpon>BvExpr.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Arithmetic.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.Arithmetic.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Bitwise.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.Bitwise.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.comparison.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.comparison.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.conversion.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.conversion.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Manipulation.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.Manipulation.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.OverflowChecks.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.OverflowChecks.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Expressions\BitVectors\BvExprContextExtensions.Shift.cs">
+    <Compile Update="Expressions\BitVectors\BvContextExtensions.Shift.cs">
       <DependentUpon>BvExprContextExtensions.cs</DependentUpon>
     </Compile>
     <Compile Update="Expressions\Numerics\IntExpr.Arithmetic.cs">

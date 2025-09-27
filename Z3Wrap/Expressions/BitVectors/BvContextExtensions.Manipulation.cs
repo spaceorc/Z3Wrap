@@ -4,7 +4,7 @@ using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 
-public static partial class BvExprContextExtensions
+public static partial class BvContextExtensions
 {
     /// <summary>
     /// Resizes a compile-time size-validated bitvector expression to a new compile-time validated size by extending or truncating.
