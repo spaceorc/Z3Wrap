@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Interop;
 
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Represents a Z3 satisfiability solver that can check the satisfiability of logical formulas.

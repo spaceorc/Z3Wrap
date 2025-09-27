@@ -1,6 +1,5 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
@@ -9,7 +8,7 @@ using Spaceorc.Z3Wrap.Interop;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Represents a Z3 model that provides variable assignments satisfying a set of constraints.

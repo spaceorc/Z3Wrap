@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Represents the result of a satisfiability check performed by a Z3 solver.

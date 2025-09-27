@@ -1,4 +1,5 @@
 using Spaceorc.Z3Wrap;
+using Spaceorc.Z3Wrap.Core;
 
 namespace Z3Wrap.Tests.Unit.Core;
 

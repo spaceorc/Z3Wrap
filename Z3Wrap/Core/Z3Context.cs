@@ -1,8 +1,7 @@
-using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Interop;
 
-namespace Spaceorc.Z3Wrap;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Represents a Z3 theorem prover context that manages expressions, solvers, and memory.
