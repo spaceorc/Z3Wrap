@@ -1,9 +1,9 @@
+using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Common;
-using Spaceorc.Z3Wrap.Extensions;
 
-namespace Spaceorc.Z3Wrap.Core;
+namespace Spaceorc.Z3Wrap.Expressions.Functions;
 
-public sealed class FuncDecl<TResult> : Z3FuncDeclBase<TResult>
+public sealed class FuncDecl<TResult> : Z3FuncDecl<TResult>
     where TResult : Z3Expr, IExprType<TResult>
 {
     internal FuncDecl(Z3Context context, IntPtr handle, string name)
@@ -15,7 +15,7 @@ public sealed class FuncDecl<TResult> : Z3FuncDeclBase<TResult>
     }
 }
 
-public sealed class FuncDecl<T1, TResult> : Z3FuncDeclBase<TResult>
+public sealed class FuncDecl<T1, TResult> : Z3FuncDecl<TResult>
     where T1 : Z3Expr, IExprType<T1>
     where TResult : Z3Expr, IExprType<TResult>
 {
@@ -28,7 +28,7 @@ public sealed class FuncDecl<T1, TResult> : Z3FuncDeclBase<TResult>
     }
 }
 
-public sealed class FuncDecl<T1, T2, TResult> : Z3FuncDeclBase<TResult>
+public sealed class FuncDecl<T1, T2, TResult> : Z3FuncDecl<TResult>
     where T1 : Z3Expr, IExprType<T1>
     where T2 : Z3Expr, IExprType<T2>
     where TResult : Z3Expr, IExprType<TResult>
@@ -42,7 +42,7 @@ public sealed class FuncDecl<T1, T2, TResult> : Z3FuncDeclBase<TResult>
     }
 }
 
-public sealed class FuncDecl<T1, T2, T3, TResult> : Z3FuncDeclBase<TResult>
+public sealed class FuncDecl<T1, T2, T3, TResult> : Z3FuncDecl<TResult>
     where T1 : Z3Expr, IExprType<T1>
     where T2 : Z3Expr, IExprType<T2>
     where T3 : Z3Expr, IExprType<T3>

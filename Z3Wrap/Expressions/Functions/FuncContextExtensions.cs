@@ -2,21 +2,10 @@ using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.Common;
 
-namespace Spaceorc.Z3Wrap.Extensions;
+namespace Spaceorc.Z3Wrap.Expressions.Functions;
 
-/// <summary>
-/// Provides extension methods for Z3Context to work with uninterpreted functions and function applications.
-/// Supports creating function declarations with various arities and applying them to create expressions.
-/// </summary>
-public static class Z3ContextFunctionExtensions
+public static class FuncContextExtensions
 {
-    /// <summary>
-    /// Creates a function declaration for a constant (0-arity function).
-    /// </summary>
-    /// <typeparam name="TResult">The result type of the function.</typeparam>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="name">The name of the function.</param>
-    /// <returns>A new Z3FuncDecl representing the constant function.</returns>
     public static FuncDecl<TResult> Func<TResult>(this Z3Context context, string name)
         where TResult : Z3Expr, IExprType<TResult>
     {
@@ -35,14 +24,6 @@ public static class Z3ContextFunctionExtensions
         return new FuncDecl<TResult>(context, funcDeclHandle, name);
     }
 
-    /// <summary>
-    /// Creates a function declaration for a unary function.
-    /// </summary>
-    /// <typeparam name="T1">The type of the first parameter.</typeparam>
-    /// <typeparam name="TResult">The result type of the function.</typeparam>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="name">The name of the function.</param>
-    /// <returns>A new Z3FuncDecl representing the unary function.</returns>
     public static FuncDecl<T1, TResult> Func<T1, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where TResult : Z3Expr, IExprType<TResult>
@@ -63,15 +44,6 @@ public static class Z3ContextFunctionExtensions
         return new FuncDecl<T1, TResult>(context, funcDeclHandle, name);
     }
 
-    /// <summary>
-    /// Creates a function declaration for a binary function.
-    /// </summary>
-    /// <typeparam name="T1">The type of the first parameter.</typeparam>
-    /// <typeparam name="T2">The type of the second parameter.</typeparam>
-    /// <typeparam name="TResult">The result type of the function.</typeparam>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="name">The name of the function.</param>
-    /// <returns>A new Z3FuncDecl representing the binary function.</returns>
     public static FuncDecl<T1, T2, TResult> Func<T1, T2, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where T2 : Z3Expr, IExprType<T2>
@@ -93,16 +65,6 @@ public static class Z3ContextFunctionExtensions
         return new FuncDecl<T1, T2, TResult>(context, funcDeclHandle, name);
     }
 
-    /// <summary>
-    /// Creates a function declaration for a ternary function.
-    /// </summary>
-    /// <typeparam name="T1">The type of the first parameter.</typeparam>
-    /// <typeparam name="T2">The type of the second parameter.</typeparam>
-    /// <typeparam name="T3">The type of the third parameter.</typeparam>
-    /// <typeparam name="TResult">The result type of the function.</typeparam>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="name">The name of the function.</param>
-    /// <returns>A new Z3FuncDecl representing the ternary function.</returns>
     public static FuncDecl<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where T2 : Z3Expr, IExprType<T2>
@@ -130,15 +92,7 @@ public static class Z3ContextFunctionExtensions
         return new FuncDecl<T1, T2, T3, TResult>(context, funcDeclHandle, name);
     }
 
-    /// <summary>
-    /// Creates a function application from a function declaration with variable arguments.
-    /// </summary>
-    /// <typeparam name="TResult">The result type of the function.</typeparam>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="funcDecl">The function declaration.</param>
-    /// <param name="args">The arguments to the function.</param>
-    /// <returns>A Z3 expression of type TResult representing the function application.</returns>
-    public static TResult Apply<TResult>(this Z3Context context, Z3FuncDeclBase<TResult> funcDecl, params Z3Expr[] args)
+    public static TResult Apply<TResult>(this Z3Context context, Z3FuncDecl<TResult> funcDecl, params Z3Expr[] args)
         where TResult : Z3Expr, IExprType<TResult>
     {
         if (args.Length != funcDecl.Arity)
