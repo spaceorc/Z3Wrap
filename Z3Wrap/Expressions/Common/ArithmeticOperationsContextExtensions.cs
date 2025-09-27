@@ -19,7 +19,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <returns>Expression representing the sum of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static T Add<T>(this Z3Context context, params T[] operands)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         if (operands.Length == 0)
             throw new InvalidOperationException(
@@ -43,7 +43,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <returns>Expression representing the result of the subtraction.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static T Sub<T>(this Z3Context context, params T[] operands)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         if (operands.Length == 0)
             throw new InvalidOperationException(
@@ -67,7 +67,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <returns>Expression representing the product of all operands.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no operands are provided.</exception>
     public static T Mul<T>(this Z3Context context, params T[] operands)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         if (operands.Length == 0)
             throw new InvalidOperationException(
@@ -91,7 +91,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="right">Divisor.</param>
     /// <returns>Expression representing left divided by right.</returns>
     public static T Div<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<T>(context, resultHandle);
@@ -105,7 +105,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="operand">Arithmetic expression to negate.</param>
     /// <returns>Expression representing the negated value.</returns>
     public static T UnaryMinus<T>(this Z3Context context, T operand)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
         return Z3Expr.Create<T>(context, resultHandle);

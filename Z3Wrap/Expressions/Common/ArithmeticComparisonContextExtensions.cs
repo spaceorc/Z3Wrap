@@ -19,7 +19,7 @@ public static class ArithmeticComparisonContextExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>BoolExpr representing left &lt; right.</returns>
     public static BoolExpr Lt<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkLt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
@@ -34,7 +34,7 @@ public static class ArithmeticComparisonContextExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>BoolExpr representing left ≤ right.</returns>
     public static BoolExpr Le<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkLe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
@@ -49,7 +49,7 @@ public static class ArithmeticComparisonContextExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>BoolExpr representing left &gt; right.</returns>
     public static BoolExpr Gt<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkGt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
@@ -64,7 +64,7 @@ public static class ArithmeticComparisonContextExtensions
     /// <param name="right">Right operand.</param>
     /// <returns>BoolExpr representing left ≥ right.</returns>
     public static BoolExpr Ge<T>(this Z3Context context, T left, T right)
-        where T : Z3Expr, IArithmeticExpr, IExprType<T>
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         var resultHandle = SafeNativeMethods.Z3MkGe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);

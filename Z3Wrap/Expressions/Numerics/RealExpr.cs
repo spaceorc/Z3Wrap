@@ -10,7 +10,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// Supports unlimited precision rational arithmetic operations, comparisons, and conversions.
 /// All operations maintain exact precision without floating-point approximation errors.
 /// </summary>
-public sealed partial class RealExpr : Z3Expr, IArithmeticExpr, IExprType<RealExpr>
+public sealed partial class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<RealExpr>
 {
     private RealExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
@@ -20,4 +20,6 @@ public sealed partial class RealExpr : Z3Expr, IArithmeticExpr, IExprType<RealEx
 
     static IntPtr IExprType<RealExpr>.Sort(Z3Context context) =>
         SafeNativeMethods.Z3MkRealSort(context.Handle);
+
+    static RealExpr IArithmeticExpr<RealExpr>.Zero(Z3Context context) => context.Real(0);
 }

@@ -1,3 +1,5 @@
+using Spaceorc.Z3Wrap.Expressions.Common;
+
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 
 public sealed partial class IntExpr
