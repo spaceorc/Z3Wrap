@@ -1,5 +1,3 @@
-using Spaceorc.Z3Wrap.Expressions.Logic;
-using Spaceorc.Z3Wrap.Extensions;
 using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Core;

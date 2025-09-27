@@ -1,5 +1,5 @@
+using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
-using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 
@@ -7,32 +7,18 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 public sealed partial class IntExpr
 {
     /// <summary>
-    /// Checks equality between two integer expressions using the == operator.
+    /// Equality operator for integer expressions.
     /// </summary>
-    /// <param name="left">The left integer expression.</param>
-    /// <param name="right">The right integer expression.</param>
-    /// <returns>A boolean expression representing left == right.</returns>
+    /// <param name="left">Left operand.</param>
+    /// <param name="right">Right operand.</param>
+    /// <returns>Boolean expression representing left == right.</returns>
     public static BoolExpr operator ==(IntExpr left, IntExpr right) => left.Eq(right);
 
     /// <summary>
-    /// Checks inequality between two integer expressions using the != operator.
+    /// Inequality operator for integer expressions.
     /// </summary>
-    /// <param name="left">The left integer expression.</param>
-    /// <param name="right">The right integer expression.</param>
-    /// <returns>A boolean expression representing left != right.</returns>
+    /// <param name="left">Left operand.</param>
+    /// <param name="right">Right operand.</param>
+    /// <returns>Boolean expression representing left != right.</returns>
     public static BoolExpr operator !=(IntExpr left, IntExpr right) => left.Neq(right);
-
-    /// <summary>
-    /// Creates an equality comparison with another integer expression.
-    /// </summary>
-    /// <param name="other">The integer expression to compare with.</param>
-    /// <returns>A boolean expression representing this == other.</returns>
-    public BoolExpr Eq(IntExpr other) => Context.Eq(this, other);
-
-    /// <summary>
-    /// Creates an inequality comparison with another integer expression.
-    /// </summary>
-    /// <param name="other">The integer expression to compare with.</param>
-    /// <returns>A boolean expression representing this != other.</returns>
-    public BoolExpr Neq(IntExpr other) => Context.Neq(this, other);
 }

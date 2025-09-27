@@ -1,5 +1,5 @@
+using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
-using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 
@@ -7,32 +7,18 @@ namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 public sealed partial class BvExpr<TSize>
 {
     /// <summary>
-    /// Checks equality between this bitvector and another bitvector.
+    /// Equality operator for bitvector expressions.
     /// </summary>
-    /// <param name="other">The other bitvector to compare with.</param>
-    /// <returns>A boolean expression representing this == other.</returns>
-    public BoolExpr Eq(BvExpr<TSize> other) => Context.Eq(this, other);
-
-    /// <summary>
-    /// Checks inequality between this bitvector and another bitvector.
-    /// </summary>
-    /// <param name="other">The other bitvector to compare with.</param>
-    /// <returns>A boolean expression representing this != other.</returns>
-    public BoolExpr Neq(BvExpr<TSize> other) => Context.Neq(this, other);
-
-    /// <summary>
-    /// Compares two bitvector expressions for equality using the == operator.
-    /// </summary>
-    /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
-    /// <returns>A boolean expression representing left == right.</returns>
+    /// <param name="left">Left operand.</param>
+    /// <param name="right">Right operand.</param>
+    /// <returns>Boolean expression representing left == right.</returns>
     public static BoolExpr operator ==(BvExpr<TSize> left, BvExpr<TSize> right) => left.Eq(right);
 
     /// <summary>
-    /// Compares two bitvector expressions for inequality using the != operator.
+    /// Inequality operator for bitvector expressions.
     /// </summary>
-    /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
-    /// <returns>A boolean expression representing left != right.</returns>
+    /// <param name="left">Left operand.</param>
+    /// <param name="right">Right operand.</param>
+    /// <returns>Boolean expression representing left != right.</returns>
     public static BoolExpr operator !=(BvExpr<TSize> left, BvExpr<TSize> right) => left.Neq(right);
 }

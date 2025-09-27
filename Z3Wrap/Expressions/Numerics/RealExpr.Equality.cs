@@ -1,5 +1,5 @@
+using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
-using Spaceorc.Z3Wrap.Extensions;
 
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 
@@ -7,32 +7,18 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 public sealed partial class RealExpr
 {
     /// <summary>
-    /// Checks equality between this real expression and another real expression.
+    /// Equality operator for real expressions.
     /// </summary>
-    /// <param name="other">The other real expression to compare with.</param>
-    /// <returns>A boolean expression representing this == other.</returns>
-    public BoolExpr Eq(RealExpr other) => Context.Eq(this, other);
-
-    /// <summary>
-    /// Checks inequality between this real expression and another real expression.
-    /// </summary>
-    /// <param name="other">The other real expression to compare with.</param>
-    /// <returns>A boolean expression representing this != other.</returns>
-    public BoolExpr Neq(RealExpr other) => Context.Neq(this, other);
-
-    /// <summary>
-    /// Compares two real expressions for equality using the == operator.
-    /// </summary>
-    /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
-    /// <returns>A boolean expression representing left == right.</returns>
+    /// <param name="left">Left operand.</param>
+    /// <param name="right">Right operand.</param>
+    /// <returns>Boolean expression representing left == right.</returns>
     public static BoolExpr operator ==(RealExpr left, RealExpr right) => left.Eq(right);
 
     /// <summary>
-    /// Compares two real expressions for inequality using the != operator.
+    /// Inequality operator for real expressions.
     /// </summary>
-    /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
-    /// <returns>A boolean expression representing left != right.</returns>
+    /// <param name="left">Left operand.</param>
+    /// <param name="right">Right operand.</param>
+    /// <returns>Boolean expression representing left != right.</returns>
     public static BoolExpr operator !=(RealExpr left, RealExpr right) => left.Neq(right);
 }
