@@ -10,7 +10,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// Supports natural mathematical operations, comparisons, and conversions to other numeric types.
 /// All arithmetic is performed with unlimited precision - no overflow or underflow occurs.
 /// </summary>
-public sealed partial class IntExpr : Z3Expr, INumericExpr, IExprType<IntExpr>
+public sealed partial class IntExpr : Z3Expr, IArithmeticExpr, IExprType<IntExpr>
 {
     private IntExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }

@@ -1,3 +1,5 @@
+using Spaceorc.Z3Wrap.Expressions.Common;
+
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
