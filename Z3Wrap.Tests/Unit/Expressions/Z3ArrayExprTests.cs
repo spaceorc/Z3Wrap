@@ -1,11 +1,9 @@
 using System.Numerics;
-using Spaceorc.Z3Wrap;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Arrays;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
-using Spaceorc.Z3Wrap.Extensions;
 
 namespace Z3Wrap.Tests.Unit.Expressions;
 
@@ -303,8 +301,8 @@ public class Z3ArrayExprTests
         var originalAtIndex2 = context.Select(array, index2);
 
         using var solver = context.CreateSolver();
-        solver.Assert(context.Eq<IntExpr>(select1, value)); // Should equal stored value
-        solver.Assert(context.Eq<IntExpr>(select2, originalAtIndex2)); // Should equal original value
+        solver.Assert(context.Eq(select1, value)); // Should equal stored value
+        solver.Assert(context.Eq(select2, originalAtIndex2)); // Should equal original value
 
         var result = solver.Check();
         Assert.That(result, Is.EqualTo(Z3Status.Satisfiable));

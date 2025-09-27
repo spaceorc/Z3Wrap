@@ -1,6 +1,7 @@
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.Common;
+using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Spaceorc.Z3Wrap.Expressions.Arrays;
 
@@ -20,4 +21,10 @@ public class ArrayExpr<TIndex, TValue> : Z3Expr, IExprType<ArrayExpr<TIndex, TVa
     public TValue this[TIndex index] => Context.Select(this, index);
 
     public ArrayExpr<TIndex, TValue> Store(TIndex index, TValue value) => Context.Store(this, index, value);
+
+    public static BoolExpr operator ==(ArrayExpr<TIndex, TValue> left, ArrayExpr<TIndex, TValue> right) =>
+        left.Eq(right);
+
+    public static BoolExpr operator !=(ArrayExpr<TIndex, TValue> left, ArrayExpr<TIndex, TValue> right) =>
+        left.Neq(right);
 }

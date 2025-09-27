@@ -7,7 +7,7 @@ public class Z3Context : IDisposable
 {
     private static readonly ThreadLocal<Z3Context?> currentContext = new(() => null);
 
-    private readonly HashSet<IntPtr> trackedAstNodes = [];
+    private readonly HashSet<IntPtr> trackedHandles = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
     private IntPtr configHandle;
     private IntPtr contextHandle;
@@ -72,15 +72,15 @@ public class Z3Context : IDisposable
         return solver;
     }
 
-    internal void TrackAstNode(IntPtr handle)
+    internal void TrackHandle(IntPtr handle)
     {
         ThrowIfDisposed();
 
         if (handle == IntPtr.Zero)
-            throw new ArgumentException("Invalid AST node handle", nameof(handle));
+            throw new ArgumentException("Invalid handle", nameof(handle));
 
         SafeNativeMethods.Z3IncRef(contextHandle, handle);
-        trackedAstNodes.Add(handle);
+        trackedHandles.Add(handle);
     }
 
     private void TrackSolver(Z3Solver solver)
@@ -125,11 +125,11 @@ public class Z3Context : IDisposable
 
             trackedSolvers.Clear();
 
-            // Then clean up all tracked AST nodes
-            foreach (var astHandle in trackedAstNodes)
-                SafeNativeMethods.Z3DecRef(contextHandle, astHandle);
+            // Then clean up all tracked handles
+            foreach (var handle in trackedHandles)
+                SafeNativeMethods.Z3DecRef(contextHandle, handle);
 
-            trackedAstNodes.Clear();
+            trackedHandles.Clear();
 
             // Finally dispose the context itself
             SafeNativeMethods.Z3DelContext(contextHandle);

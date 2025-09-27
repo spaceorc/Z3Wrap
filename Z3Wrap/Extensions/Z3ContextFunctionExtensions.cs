@@ -17,7 +17,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the constant function.</returns>
-    public static Z3FuncDecl<TResult> Func<TResult>(this Z3Context context, string name)
+    public static FuncDecl<TResult> Func<TResult>(this Z3Context context, string name)
         where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
@@ -32,7 +32,7 @@ public static class Z3ContextFunctionExtensions
             rangeSort
         );
 
-        return new Z3FuncDecl<TResult>(context, funcDeclHandle, name);
+        return new FuncDecl<TResult>(context, funcDeclHandle, name);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the unary function.</returns>
-    public static Z3FuncDecl<T1, TResult> Func<T1, TResult>(this Z3Context context, string name)
+    public static FuncDecl<T1, TResult> Func<T1, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where TResult : Z3Expr, IExprType<TResult>
     {
@@ -60,7 +60,7 @@ public static class Z3ContextFunctionExtensions
             rangeSort
         );
 
-        return new Z3FuncDecl<T1, TResult>(context, funcDeclHandle, name);
+        return new FuncDecl<T1, TResult>(context, funcDeclHandle, name);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the binary function.</returns>
-    public static Z3FuncDecl<T1, T2, TResult> Func<T1, T2, TResult>(this Z3Context context, string name)
+    public static FuncDecl<T1, T2, TResult> Func<T1, T2, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where T2 : Z3Expr, IExprType<T2>
         where TResult : Z3Expr, IExprType<TResult>
@@ -90,7 +90,7 @@ public static class Z3ContextFunctionExtensions
             rangeSort
         );
 
-        return new Z3FuncDecl<T1, T2, TResult>(context, funcDeclHandle, name);
+        return new FuncDecl<T1, T2, TResult>(context, funcDeclHandle, name);
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public static class Z3ContextFunctionExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The name of the function.</param>
     /// <returns>A new Z3FuncDecl representing the ternary function.</returns>
-    public static Z3FuncDecl<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(this Z3Context context, string name)
+    public static FuncDecl<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(this Z3Context context, string name)
         where T1 : Z3Expr, IExprType<T1>
         where T2 : Z3Expr, IExprType<T2>
         where T3 : Z3Expr, IExprType<T3>
@@ -127,7 +127,7 @@ public static class Z3ContextFunctionExtensions
             rangeSort
         );
 
-        return new Z3FuncDecl<T1, T2, T3, TResult>(context, funcDeclHandle, name);
+        return new FuncDecl<T1, T2, T3, TResult>(context, funcDeclHandle, name);
     }
 
     /// <summary>
