@@ -1,9 +1,5 @@
-namespace Spaceorc.Z3Wrap.Interop;
+namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Safe wrapper around NativeMethods that automatically checks for Z3 errors after each call.
-/// All methods in this class will throw Z3Exception if a Z3 error occurs.
-/// </summary>
 internal static class SafeNativeMethods
 {
     // Configuration and context methods

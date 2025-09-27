@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap.Interop;
+namespace Spaceorc.Z3Wrap.Core.Interop;
 
 /// <summary>
 /// Represents the three-valued Boolean logic used by Z3 for Boolean expressions.

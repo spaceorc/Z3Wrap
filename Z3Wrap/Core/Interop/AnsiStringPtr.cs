@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
-namespace Spaceorc.Z3Wrap.Interop;
+namespace Spaceorc.Z3Wrap.Core.Interop;
 
 internal sealed class AnsiStringPtr : SafeHandleZeroOrMinusOneIsInvalid
 {

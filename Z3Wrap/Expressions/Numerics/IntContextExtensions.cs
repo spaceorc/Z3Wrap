@@ -1,7 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
-using Spaceorc.Z3Wrap.Interop;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;

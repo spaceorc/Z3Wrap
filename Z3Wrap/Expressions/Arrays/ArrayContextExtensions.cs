@@ -1,7 +1,7 @@
 using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
-using Spaceorc.Z3Wrap.Interop;
 
 namespace Spaceorc.Z3Wrap.Expressions.Arrays;
 

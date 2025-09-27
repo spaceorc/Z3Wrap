@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap.Interop;
+namespace Spaceorc.Z3Wrap.Core.Interop;
 
 /// <summary>
 /// Represents the different types of sorts (data types) supported by Z3.
