@@ -178,9 +178,9 @@ Z3Wrap/
 - [ ] `Expressions/Numerics/RealExpr.cs` - **CRITICAL** Real expression type
 
 #### Common Expression Interfaces (3 files)
-- [ ] `Expressions/Common/IArithmeticExpr.cs` - Arithmetic operations interface
-- [ ] `Expressions/Common/IExprType.cs` - Expression type interface
-- [ ] `Expressions/Common/INumericExpr.cs` - Numeric operations interface
+- [x] `Expressions/Common/IArithmeticExpr.cs` - Arithmetic operations interface
+- [x] `Expressions/Common/IExprType.cs` - Expression type interface
+- [x] `Expressions/Common/INumericExpr.cs` - Numeric operations interface
 
 #### Context Extension Methods (24 files)
 **Arrays (1 file)**
