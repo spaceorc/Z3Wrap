@@ -19,4 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Z3Wrap\Z3Wrap.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="__old\" />
+  </ItemGroup>
 </Project>
