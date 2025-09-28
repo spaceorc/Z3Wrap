@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Numerics;
 using Spaceorc.Z3Wrap.Values.Numerics;
 
-namespace Z3Wrap.Tests.__old.Unit.DataTypes;
+namespace Z3Wrap.Tests.Values;
 
 [TestFixture]
 public class RealTests
