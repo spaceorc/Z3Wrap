@@ -5,21 +5,11 @@ namespace Spaceorc.Z3Wrap.Values.BitVectors;
 public readonly partial struct Bv<TSize>
 {
     /// <summary>
-    /// Resizes this bitvector to a different bit width with compile-time type safety.
+    /// Resizes this bitvector to a different bit width.
     /// </summary>
-    /// <typeparam name="TNewSize">The target size type implementing ISize.</typeparam>
-    /// <param name="signed">Whether to perform signed extension/truncation.</param>
-    /// <returns>A new bitvector with the target size.</returns>
-    /// <remarks>
-    /// When extending (target size greater than current size):
-    /// - signed=false: Zero-extend (pad with 0s)
-    /// - signed=true: Sign-extend (pad with sign bit)
-    ///
-    /// When truncating (target size less than current size):
-    /// - Both modes: Keep lower bits, discard higher bits
-    ///
-    /// When same size: Returns equivalent bitvector with same value.
-    /// </remarks>
+    /// <typeparam name="TNewSize">Target size type implementing ISize.</typeparam>
+    /// <param name="signed">Whether to perform signed extension.</param>
+    /// <returns>Resized bitvector with the target size.</returns>
     public Bv<TNewSize> Resize<TNewSize>(bool signed)
         where TNewSize : ISize
     {

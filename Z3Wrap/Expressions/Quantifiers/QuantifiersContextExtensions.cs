@@ -4,8 +4,20 @@ using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Spaceorc.Z3Wrap.Expressions.Quantifiers;
 
+/// <summary>
+/// Provides universal and existential quantifier methods for Z3Context.
+/// </summary>
 public static class QuantifiersContextExtensions
 {
+    /// <summary>
+    /// Creates universal quantifier with multiple trigger groups.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="weight">Quantifier weight for solver prioritization.</param>
+    /// <param name="boundVars">Variables bound by the quantifier.</param>
+    /// <param name="triggerGroups">Groups of trigger patterns for instantiation.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing universal quantification.</returns>
     public static BoolExpr ForAll(
         this Z3Context context,
         uint weight,
@@ -38,6 +50,15 @@ public static class QuantifiersContextExtensions
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
+    /// <summary>
+    /// Creates universal quantifier with single trigger group.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="weight">Quantifier weight for solver prioritization.</param>
+    /// <param name="boundVars">Variables bound by the quantifier.</param>
+    /// <param name="triggerGroup">Trigger patterns for instantiation.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing universal quantification.</returns>
     public static BoolExpr ForAll(
         this Z3Context context,
         uint weight,
@@ -49,16 +70,40 @@ public static class QuantifiersContextExtensions
         return context.ForAll(weight, boundVars, [triggerGroup], body);
     }
 
+    /// <summary>
+    /// Creates universal quantifier for single variable.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar">Variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing universal quantification.</returns>
     public static BoolExpr ForAll(this Z3Context context, Z3Expr boundVar, BoolExpr body)
     {
         return context.ForAll(0, [boundVar], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates universal quantifier for two variables.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar1">First variable bound by the quantifier.</param>
+    /// <param name="boundVar2">Second variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing universal quantification.</returns>
     public static BoolExpr ForAll(this Z3Context context, Z3Expr boundVar1, Z3Expr boundVar2, BoolExpr body)
     {
         return context.ForAll(0, [boundVar1, boundVar2], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates universal quantifier for three variables.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar1">First variable bound by the quantifier.</param>
+    /// <param name="boundVar2">Second variable bound by the quantifier.</param>
+    /// <param name="boundVar3">Third variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing universal quantification.</returns>
     public static BoolExpr ForAll(
         this Z3Context context,
         Z3Expr boundVar1,
@@ -70,6 +115,16 @@ public static class QuantifiersContextExtensions
         return context.ForAll(0, [boundVar1, boundVar2, boundVar3], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates universal quantifier for four variables.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar1">First variable bound by the quantifier.</param>
+    /// <param name="boundVar2">Second variable bound by the quantifier.</param>
+    /// <param name="boundVar3">Third variable bound by the quantifier.</param>
+    /// <param name="boundVar4">Fourth variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing universal quantification.</returns>
     public static BoolExpr ForAll(
         this Z3Context context,
         Z3Expr boundVar1,
@@ -82,6 +137,15 @@ public static class QuantifiersContextExtensions
         return context.ForAll(0, [boundVar1, boundVar2, boundVar3, boundVar4], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates existential quantifier with multiple trigger groups.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="weight">Quantifier weight for solver prioritization.</param>
+    /// <param name="boundVars">Variables bound by the quantifier.</param>
+    /// <param name="triggerGroups">Groups of trigger patterns for instantiation.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing existential quantification.</returns>
     public static BoolExpr Exists(
         this Z3Context context,
         uint weight,
@@ -114,6 +178,15 @@ public static class QuantifiersContextExtensions
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
+    /// <summary>
+    /// Creates existential quantifier with single trigger group.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="weight">Quantifier weight for solver prioritization.</param>
+    /// <param name="boundVars">Variables bound by the quantifier.</param>
+    /// <param name="triggerGroup">Trigger patterns for instantiation.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing existential quantification.</returns>
     public static BoolExpr Exists(
         this Z3Context context,
         uint weight,
@@ -125,16 +198,40 @@ public static class QuantifiersContextExtensions
         return context.Exists(weight, boundVars, [triggerGroup], body);
     }
 
+    /// <summary>
+    /// Creates existential quantifier for single variable.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar">Variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing existential quantification.</returns>
     public static BoolExpr Exists(this Z3Context context, Z3Expr boundVar, BoolExpr body)
     {
         return context.Exists(0, [boundVar], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates existential quantifier for two variables.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar1">First variable bound by the quantifier.</param>
+    /// <param name="boundVar2">Second variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing existential quantification.</returns>
     public static BoolExpr Exists(this Z3Context context, Z3Expr boundVar1, Z3Expr boundVar2, BoolExpr body)
     {
         return context.Exists(0, [boundVar1, boundVar2], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates existential quantifier for three variables.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar1">First variable bound by the quantifier.</param>
+    /// <param name="boundVar2">Second variable bound by the quantifier.</param>
+    /// <param name="boundVar3">Third variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing existential quantification.</returns>
     public static BoolExpr Exists(
         this Z3Context context,
         Z3Expr boundVar1,
@@ -146,6 +243,16 @@ public static class QuantifiersContextExtensions
         return context.Exists(0, [boundVar1, boundVar2, boundVar3], Array.Empty<Z3Expr>(), body);
     }
 
+    /// <summary>
+    /// Creates existential quantifier for four variables.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="boundVar1">First variable bound by the quantifier.</param>
+    /// <param name="boundVar2">Second variable bound by the quantifier.</param>
+    /// <param name="boundVar3">Third variable bound by the quantifier.</param>
+    /// <param name="boundVar4">Fourth variable bound by the quantifier.</param>
+    /// <param name="body">The quantified formula body.</param>
+    /// <returns>Boolean expression representing existential quantification.</returns>
     public static BoolExpr Exists(
         this Z3Context context,
         Z3Expr boundVar1,

@@ -5,8 +5,18 @@ using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 
+/// <summary>
+/// Provides core bit-vector creation and conversion methods for Z3Context.
+/// </summary>
 public static class BvCoreContextExtensions
 {
+    /// <summary>
+    /// Creates bit-vector constant with specified name and size.
+    /// </summary>
+    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="name">The constant name.</param>
+    /// <returns>Bit-vector expression constant.</returns>
     public static BvExpr<TSize> BitVecConst<TSize>(this Z3Context context, string name)
         where TSize : ISize
     {
@@ -18,6 +28,13 @@ public static class BvCoreContextExtensions
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
+    /// <summary>
+    /// Creates bit-vector expression from value.
+    /// </summary>
+    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="value">The bit-vector value.</param>
+    /// <returns>Bit-vector expression representing the value.</returns>
     public static BvExpr<TSize> BitVec<TSize>(this Z3Context context, Bv<TSize> value)
         where TSize : ISize
     {
@@ -28,6 +45,14 @@ public static class BvCoreContextExtensions
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
+    /// <summary>
+    /// Creates integer expression from bit-vector expression.
+    /// </summary>
+    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The bit-vector expression.</param>
+    /// <param name="signed">True for signed conversion, false for unsigned.</param>
+    /// <returns>Integer expression converted from bit-vector.</returns>
     public static IntExpr ToInt<TSize>(this Z3Context context, BvExpr<TSize> expr, bool signed = false)
         where TSize : ISize
     {
@@ -35,6 +60,15 @@ public static class BvCoreContextExtensions
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 
+    /// <summary>
+    /// Creates bit-vector expression resized to target size.
+    /// </summary>
+    /// <typeparam name="TInputSize">Input bit-vector size type.</typeparam>
+    /// <typeparam name="TOutputSize">Output bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The bit-vector expression to resize.</param>
+    /// <param name="signed">True for sign extension, false for zero extension.</param>
+    /// <returns>Bit-vector expression resized to target size.</returns>
     public static BvExpr<TOutputSize> Resize<TInputSize, TOutputSize>(
         this Z3Context context,
         BvExpr<TInputSize> expr,
@@ -59,6 +93,15 @@ public static class BvCoreContextExtensions
         return context.Extract<TInputSize, TOutputSize>(expr, 0);
     }
 
+    /// <summary>
+    /// Creates bit-vector expression by extracting bits from another bit-vector.
+    /// </summary>
+    /// <typeparam name="TInputSize">Input bit-vector size type.</typeparam>
+    /// <typeparam name="TOutputSize">Output bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The bit-vector expression to extract from.</param>
+    /// <param name="startBit">The starting bit position.</param>
+    /// <returns>Bit-vector expression with extracted bits.</returns>
     public static BvExpr<TOutputSize> Extract<TInputSize, TOutputSize>(
         this Z3Context context,
         BvExpr<TInputSize> expr,
@@ -77,6 +120,14 @@ public static class BvCoreContextExtensions
         return Z3Expr.Create<BvExpr<TOutputSize>>(context, handle);
     }
 
+    /// <summary>
+    /// Creates bit-vector expression by repeating another bit-vector.
+    /// </summary>
+    /// <typeparam name="TInputSize">Input bit-vector size type.</typeparam>
+    /// <typeparam name="TOutputSize">Output bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The bit-vector expression to repeat.</param>
+    /// <returns>Bit-vector expression with repeated pattern.</returns>
     public static BvExpr<TOutputSize> Repeat<TInputSize, TOutputSize>(this Z3Context context, BvExpr<TInputSize> expr)
         where TInputSize : ISize
         where TOutputSize : ISize

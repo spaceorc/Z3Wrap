@@ -13,7 +13,7 @@ public class Z3Exception : Exception
     public Z3ErrorCode ErrorCode { get; }
 
     /// <summary>
-    /// Initializes a new instance of the Z3Exception class.
+    /// Initializes a new Z3Exception with error code and message.
     /// </summary>
     /// <param name="errorCode">The Z3 error code.</param>
     /// <param name="message">The error message.</param>

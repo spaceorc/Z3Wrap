@@ -2,7 +2,6 @@ namespace Spaceorc.Z3Wrap.Values.BitVectors;
 
 /// <summary>
 /// Represents a compile-time bit vector size specification.
-/// Enables strongly-typed bitvector operations with size validation at compile time.
 /// </summary>
 public interface ISize
 {

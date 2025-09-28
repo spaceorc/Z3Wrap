@@ -8,6 +8,11 @@ namespace Spaceorc.Z3Wrap.Core;
 /// </summary>
 public abstract class Z3Handle
 {
+    /// <summary>
+    /// Initializes a new Z3Handle with context and handle.
+    /// </summary>
+    /// <param name="context">Z3 context to track this handle.</param>
+    /// <param name="handle">Native Z3 handle.</param>
     protected Z3Handle(Z3Context context, IntPtr handle)
     {
         Handle = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
