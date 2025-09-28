@@ -7,6 +7,8 @@ namespace Z3Wrap.Tests.Values;
 [TestFixture]
 public class RealTests
 {
+    #region Constructor Tests
+
     [Test]
     public void Constructor_IntegerValues_CreatesCorrectRational()
     {
@@ -231,6 +233,10 @@ public class RealTests
         Assert.That(real, Is.EqualTo(Real.MinusOne));
     }
 
+    #endregion
+
+    #region Property Tests
+
     [Test]
     public void Properties_IsZero_DetectsZeroCorrectly()
     {
@@ -249,6 +255,10 @@ public class RealTests
         Assert.That(new Real(0, 1).IsPositive, Is.False);
         Assert.That(new Real(0, 1).IsNegative, Is.False);
     }
+
+    #endregion
+
+    #region Arithmetic Operation Tests
 
     [Test]
     public void Addition_ExactArithmetic_PreservesRationalPrecision()
@@ -315,6 +325,10 @@ public class RealTests
         Assert.That((int)negative.Denominator, Is.EqualTo(4));
     }
 
+    #endregion
+
+    #region Comparison Tests
+
     [Test]
     public void Comparison_EqualValues_ReturnsTrue()
     {
@@ -339,6 +353,10 @@ public class RealTests
         Assert.That(oneHalf <= oneHalf, Is.True);
 #pragma warning restore CS1718
     }
+
+    #endregion
+
+    #region Conversion Tests
 
     [Test]
     public void ImplicitConversion_FromInt_CreatesIntegerRational()
@@ -460,6 +478,10 @@ public class RealTests
         Assert.That(negative.ToDecimal(), Is.EqualTo(-3.5m));
     }
 
+    #endregion
+
+    #region Parsing Tests
+
     [Test]
     public void Parse_IntegerString_CreatesIntegerRational()
     {
@@ -538,6 +560,10 @@ public class RealTests
         Assert.That(success, Is.False);
         Assert.That(result, Is.EqualTo(default(Real)));
     }
+
+    #endregion
+
+    #region Formatting Tests
 
     [Test]
     public void ToString_DefaultFormat_ShowsFraction()
@@ -631,6 +657,10 @@ public class RealTests
         Assert.That(decimalReal.ToString("Decimal"), Is.EqualTo("0.25"));
         Assert.That(real.ToString("General"), Is.EqualTo("3/4"));
     }
+
+    #endregion
+
+    #region Mathematical Functions Tests
 
     [Test]
     public void Abs_PositiveValue_ReturnsSameValue()
@@ -1046,4 +1076,6 @@ public class RealTests
         var ex = Assert.Throws<ArgumentException>(() => real.Round(invalidMode));
         Assert.That(ex.Message, Does.Contain("Invalid rounding mode"));
     }
+
+    #endregion
 }

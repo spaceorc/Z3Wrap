@@ -105,5 +105,4 @@ public static class ArithmeticOperationsContextExtensions
         var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
         return Z3Expr.Create<T>(context, resultHandle);
     }
-
 }
