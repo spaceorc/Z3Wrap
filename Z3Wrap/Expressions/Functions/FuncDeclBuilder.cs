@@ -8,7 +8,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Functions;
 /// Builder for creating function declarations with specified argument types.
 /// </summary>
 /// <typeparam name="TResult">Return type of the function declaration.</typeparam>
-public class FuncDeclBuilder<TResult>(Z3Context context, string name)
+public sealed class FuncDeclBuilder<TResult>(Z3Context context, string name)
     where TResult : Z3Expr, IExprType<TResult>
 {
     private readonly List<Func<IntPtr>> ranges = [];

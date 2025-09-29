@@ -1,4 +1,4 @@
-using Spaceorc.Z3Wrap.Core.Interop;
+using Spaceorc.Z3Wrap.Core;
 
 namespace Z3Wrap.Tests;
 
@@ -8,6 +8,6 @@ public class GlobalSetup
     [OneTimeSetUp]
     public void Setup()
     {
-        NativeMethods.LoadLibraryAuto();
+        Z3.LoadLibraryAuto();
     }
 }

@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Arrays;
 /// </summary>
 /// <typeparam name="TIndex">The array index type.</typeparam>
 /// <typeparam name="TValue">The array element type.</typeparam>
-public class ArrayExpr<TIndex, TValue> : Z3Expr, IExprType<ArrayExpr<TIndex, TValue>>
+public sealed class ArrayExpr<TIndex, TValue> : Z3Expr, IExprType<ArrayExpr<TIndex, TValue>>
     where TIndex : Z3Expr, IExprType<TIndex>
     where TValue : Z3Expr, IExprType<TValue>
 {

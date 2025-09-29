@@ -2,22 +2,35 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-internal static class NativeMethods
+internal sealed class NativeLibrary : IDisposable
 {
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
 
-    private static LoadedLibrary? loadedLibrary;
+    private readonly LoadedLibrary loadedLibrary;
+    private bool disposed;
 
-    internal static void LoadLibrary(string libraryPath)
+    internal string LibraryPath { get; }
+
+    private NativeLibrary(string libraryPath, LoadedLibrary loadedLibrary)
     {
-        LoadLibraryReplace(libraryPath);
+        LibraryPath = libraryPath;
+        this.loadedLibrary = loadedLibrary;
     }
 
-    internal static void LoadLibraryAuto()
+    internal static NativeLibrary Load(string libraryPath)
     {
-        if (loadedLibrary != null)
-            return; // Fast path - already loaded
+        if (string.IsNullOrWhiteSpace(libraryPath))
+            throw new ArgumentException("Library path cannot be null, empty, or whitespace", nameof(libraryPath));
 
+        if (!File.Exists(libraryPath))
+            throw new FileNotFoundException($"Z3 library not found at path: {libraryPath}", libraryPath);
+
+        var loadedLib = LoadLibraryInternal(libraryPath);
+        return new NativeLibrary(libraryPath, loadedLib);
+    }
+
+    internal static NativeLibrary LoadAuto()
+    {
         var searchPaths = GetPlatformSearchPaths();
         var loadAttempts = new List<(string path, Exception exception)>();
 
@@ -27,8 +40,8 @@ internal static class NativeMethods
             {
                 try
                 {
-                    LoadLibrarySafe(path);
-                    return; // Success - library is now loaded
+                    var loadedLib = LoadLibraryInternal(path);
+                    return new NativeLibrary(path, loadedLib);
                 }
                 catch (Exception ex)
                 {
@@ -48,51 +61,29 @@ internal static class NativeMethods
             $"Could not automatically locate Z3 library. "
                 + $"Searched paths: {searchedPaths}"
                 + attemptDetails
-                + "\n\nPlease ensure Z3 is installed or use LoadLibrary(path) to specify the library path explicitly."
+                + "\n\nPlease ensure Z3 is installed or use Load(path) to specify the library path explicitly."
         );
     }
 
-    // Thread-safe library loading helper
-    private static void LoadLibrarySafe(string libraryPath)
+    ~NativeLibrary()
     {
-        if (loadedLibrary != null)
-            return; // Fast path - already loaded
-
-        var newLibrary = LoadLibraryInternal(libraryPath);
-        // Atomically set if still null, otherwise another thread already loaded
-        if (Interlocked.CompareExchange(ref loadedLibrary, newLibrary, null) != null)
-        {
-            // Another thread already loaded - clean up our library handle
-            NativeLibrary.Free(newLibrary.LibraryHandle);
-        }
+        Dispose();
     }
 
-    // Thread-safe library replacement helper
-    private static void LoadLibraryReplace(string libraryPath)
+    public void Dispose()
     {
-        if (string.IsNullOrWhiteSpace(libraryPath))
-            throw new ArgumentException("Library path cannot be null, empty, or whitespace", nameof(libraryPath));
+        if (disposed)
+            return;
 
-        if (!File.Exists(libraryPath))
-            throw new FileNotFoundException($"Z3 library not found at path: {libraryPath}", libraryPath);
-
-        // Load the new library first to validate it before unloading the current one
-        var newLibrary = LoadLibraryInternal(libraryPath);
-
-        // Atomically replace the current library
-        var oldLibrary = Interlocked.Exchange(ref loadedLibrary, newLibrary);
-
-        // Clean up the old library if it existed
-        if (oldLibrary != null)
-        {
-            NativeLibrary.Free(oldLibrary.LibraryHandle);
-        }
+        System.Runtime.InteropServices.NativeLibrary.Free(loadedLibrary.LibraryHandle);
+        disposed = true;
+        GC.SuppressFinalize(this);
     }
 
     // Internal Library Loading
     private static LoadedLibrary LoadLibraryInternal(string libraryPath)
     {
-        var handle = NativeLibrary.Load(libraryPath);
+        var handle = System.Runtime.InteropServices.NativeLibrary.Load(libraryPath);
         var functionPointers = new Dictionary<string, IntPtr>();
 
         try
@@ -238,7 +229,7 @@ internal static class NativeMethods
         catch
         {
             // If anything fails, clean up the loaded library
-            NativeLibrary.Free(handle);
+            System.Runtime.InteropServices.NativeLibrary.Free(handle);
             throw;
         }
     }
@@ -249,7 +240,7 @@ internal static class NativeMethods
         string functionName
     )
     {
-        var functionPtr = NativeLibrary.GetExport(libraryHandle, functionName);
+        var functionPtr = System.Runtime.InteropServices.NativeLibrary.GetExport(libraryHandle, functionName);
         functionPointers[functionName] = functionPtr;
     }
 
@@ -318,13 +309,12 @@ internal static class NativeMethods
     }
 
     // Function Pointer Management
-    private static IntPtr GetFunctionPointer(string functionName)
+    private IntPtr GetFunctionPointer(string functionName)
     {
-        // Ensure library is loaded before trying to get function pointer
-        if (loadedLibrary == null)
-            LoadLibraryAuto();
+        if (disposed)
+            throw new ObjectDisposedException(nameof(NativeLibrary));
 
-        if (!loadedLibrary!.FunctionPointers.TryGetValue(functionName, out var ptr))
+        if (!loadedLibrary.FunctionPointers.TryGetValue(functionName, out var ptr))
             throw new InvalidOperationException($"Function {functionName} not loaded.");
         return ptr;
     }
@@ -337,7 +327,7 @@ internal static class NativeMethods
     /// The configuration object must be deleted using Z3DelConfig when no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkConfig()
+    internal IntPtr Z3MkConfig()
     {
         var funcPtr = GetFunctionPointer("Z3_mk_config");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkConfigDelegate>(funcPtr);
@@ -352,7 +342,7 @@ internal static class NativeMethods
     /// Should be called for every configuration object created with Z3MkConfig.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3DelConfig(IntPtr cfg)
+    internal void Z3DelConfig(IntPtr cfg)
     {
         var funcPtr = GetFunctionPointer("Z3_del_config");
         var func = Marshal.GetDelegateForFunctionPointer<Z3DelConfigDelegate>(funcPtr);
@@ -369,7 +359,7 @@ internal static class NativeMethods
     /// The context must be deleted using Z3DelContext when no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkContextRc(IntPtr cfg)
+    internal IntPtr Z3MkContextRc(IntPtr cfg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_context_rc");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkContextRcDelegate>(funcPtr);
@@ -385,7 +375,7 @@ internal static class NativeMethods
     /// Should be called for every context created with Z3MkContextRc.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3DelContext(IntPtr ctx)
+    internal void Z3DelContext(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_del_context");
         var func = Marshal.GetDelegateForFunctionPointer<Z3DelContextDelegate>(funcPtr);
@@ -402,7 +392,7 @@ internal static class NativeMethods
     /// Used to dynamically modify Z3 solver behavior and optimization settings.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
+    internal void Z3UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_update_param_value");
         var func = Marshal.GetDelegateForFunctionPointer<Z3UpdateParamValueDelegate>(funcPtr);
@@ -419,7 +409,7 @@ internal static class NativeMethods
     /// when the AST node is no longer needed to prevent memory leaks.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3IncRef(IntPtr ctx, IntPtr ast)
+    internal void Z3IncRef(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_inc_ref");
         var func = Marshal.GetDelegateForFunctionPointer<Z3IncRefDelegate>(funcPtr);
@@ -436,7 +426,7 @@ internal static class NativeMethods
     /// When reference count reaches zero, the AST node may be garbage collected.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3DecRef(IntPtr ctx, IntPtr ast)
+    internal void Z3DecRef(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_dec_ref");
         var func = Marshal.GetDelegateForFunctionPointer<Z3DecRefDelegate>(funcPtr);
@@ -453,7 +443,7 @@ internal static class NativeMethods
     /// Boolean sorts are used for creating Boolean expressions and constraints.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBoolSort(IntPtr ctx)
+    internal IntPtr Z3MkBoolSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bool_sort");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBoolSortDelegate>(funcPtr);
@@ -470,7 +460,7 @@ internal static class NativeMethods
     /// Z3 integers have unlimited precision (BigInteger semantics).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkIntSort(IntPtr ctx)
+    internal IntPtr Z3MkIntSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_sort");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkIntSortDelegate>(funcPtr);
@@ -487,7 +477,7 @@ internal static class NativeMethods
     /// Z3 reals support exact rational arithmetic with unlimited precision.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkRealSort(IntPtr ctx)
+    internal IntPtr Z3MkRealSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real_sort");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkRealSortDelegate>(funcPtr);
@@ -506,7 +496,7 @@ internal static class NativeMethods
     /// Constants are free variables that can be assigned values during solving.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
+    internal IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkConstDelegate>(funcPtr);
@@ -523,7 +513,7 @@ internal static class NativeMethods
     /// Symbols are used to name constants, functions, and other Z3 objects.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
+    internal IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_symbol");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkStringSymbolDelegate>(funcPtr);
@@ -536,7 +526,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <returns>Handle to the created true Boolean expression.</returns>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkTrue(IntPtr ctx)
+    internal IntPtr Z3MkTrue(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_true");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkTrueDelegate>(funcPtr);
@@ -549,7 +539,7 @@ internal static class NativeMethods
     /// <param name="ctx">The Z3 context handle.</param>
     /// <returns>Handle to the created false Boolean expression.</returns>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkFalse(IntPtr ctx)
+    internal IntPtr Z3MkFalse(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_false");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkFalseDelegate>(funcPtr);
@@ -567,7 +557,7 @@ internal static class NativeMethods
     /// Both expressions must have the same sort for the equality to be valid.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_eq");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkEqDelegate>(funcPtr);
@@ -585,7 +575,7 @@ internal static class NativeMethods
     /// All arguments must be Boolean expressions. Returns true if all arguments are true.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_and");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkAndDelegate>(funcPtr);
@@ -603,7 +593,7 @@ internal static class NativeMethods
     /// All arguments must be Boolean expressions. Returns true if any argument is true.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_or");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkOrDelegate>(funcPtr);
@@ -620,7 +610,7 @@ internal static class NativeMethods
     /// The argument must be a Boolean expression. Returns the logical negation of the input.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkNot(IntPtr ctx, IntPtr arg)
+    internal IntPtr Z3MkNot(IntPtr ctx, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_not");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkNotDelegate>(funcPtr);
@@ -639,7 +629,7 @@ internal static class NativeMethods
     /// Supports unlimited precision arithmetic.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_add");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkAddDelegate>(funcPtr);
@@ -658,7 +648,7 @@ internal static class NativeMethods
     /// With multiple args, performs left-associative subtraction: ((a - b) - c) - d.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sub");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkSubDelegate>(funcPtr);
@@ -677,7 +667,7 @@ internal static class NativeMethods
     /// Supports unlimited precision arithmetic.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mul");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkMulDelegate>(funcPtr);
@@ -696,7 +686,7 @@ internal static class NativeMethods
     /// real division returning a rational result. Division by zero is undefined.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkDiv(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_div");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkDivDelegate>(funcPtr);
@@ -714,7 +704,7 @@ internal static class NativeMethods
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkLt(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkLt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lt");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkLtDelegate>(funcPtr);
@@ -732,7 +722,7 @@ internal static class NativeMethods
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkLe(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkLe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_le");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkLeDelegate>(funcPtr);
@@ -750,7 +740,7 @@ internal static class NativeMethods
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkGt(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_gt");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkGtDelegate>(funcPtr);
@@ -768,7 +758,7 @@ internal static class NativeMethods
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkGe(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ge");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkGeDelegate>(funcPtr);
@@ -787,7 +777,7 @@ internal static class NativeMethods
     /// reals can use decimal or fractional notation (e.g., "3.14" or "22/7").
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
+    internal IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_numeral");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkNumeralDelegate>(funcPtr);
@@ -807,7 +797,7 @@ internal static class NativeMethods
     /// Equivalent to (!left || right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkImplies(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkImplies(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_implies");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkImpliesDelegate>(funcPtr);
@@ -826,7 +816,7 @@ internal static class NativeMethods
     /// Equivalent to (left &amp;&amp; right) || (!left &amp;&amp; !right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkIff(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkIff(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_iff");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkIffDelegate>(funcPtr);
@@ -845,7 +835,7 @@ internal static class NativeMethods
     /// Equivalent to (left &amp;&amp; !right) || (!left &amp;&amp; right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkXor(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkXor(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_xor");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkXorDelegate>(funcPtr);
@@ -865,7 +855,7 @@ internal static class NativeMethods
     /// The result has the same sign as the divisor in Z3's modulo semantics.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkMod(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr Z3MkMod(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mod");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkModDelegate>(funcPtr);
@@ -883,7 +873,7 @@ internal static class NativeMethods
     /// Returns the arithmetic negation of the input.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
+    internal IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unary_minus");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkUnaryMinusDelegate>(funcPtr);
@@ -903,7 +893,7 @@ internal static class NativeMethods
     /// Used for conditional logic and piecewise function definitions.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
+    internal IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ite");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkIteDelegate>(funcPtr);
@@ -922,7 +912,7 @@ internal static class NativeMethods
     /// The numeric value is preserved in the conversion.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr t1)
+    internal IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2real");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkInt2RealDelegate>(funcPtr);
@@ -940,7 +930,7 @@ internal static class NativeMethods
     /// For example, 3.7 becomes 3, and -2.9 becomes -2.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr t1)
+    internal IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real2int");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkReal2IntDelegate>(funcPtr);
@@ -960,7 +950,7 @@ internal static class NativeMethods
     /// Used for creating array expressions and constants.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
+    internal IntPtr Z3MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkArraySortDelegate>(funcPtr);
@@ -978,7 +968,7 @@ internal static class NativeMethods
     /// The index must match the array's domain sort, and the result has the array's range sort.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
+    internal IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_select");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkSelectDelegate>(funcPtr);
@@ -998,7 +988,7 @@ internal static class NativeMethods
     /// The index must match the domain sort and value must match the range sort.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
+    internal IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_store");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkStoreDelegate>(funcPtr);
@@ -1017,7 +1007,7 @@ internal static class NativeMethods
     /// Useful for initializing arrays with default values.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkConstArray(IntPtr ctx, IntPtr domain, IntPtr value)
+    internal IntPtr Z3MkConstArray(IntPtr ctx, IntPtr domain, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const_array");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkConstArrayDelegate>(funcPtr);
@@ -1034,7 +1024,7 @@ internal static class NativeMethods
     /// Returns the sort used for array indices. Used for type checking and sort queries.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr arraySort)
+    internal IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr arraySort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_domain");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetArraySortDomainDelegate>(funcPtr);
@@ -1051,7 +1041,7 @@ internal static class NativeMethods
     /// Returns the sort used for array values. Used for type checking and sort queries.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr arraySort)
+    internal IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr arraySort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_range");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetArraySortRangeDelegate>(funcPtr);
@@ -1070,7 +1060,7 @@ internal static class NativeMethods
     /// machine arithmetic and bitwise operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSort(IntPtr ctx, uint sz)
+    internal IntPtr Z3MkBvSort(IntPtr ctx, uint sz)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSortDelegate>(funcPtr);
@@ -1089,7 +1079,7 @@ internal static class NativeMethods
     /// with overflow wrapping around.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvAdd(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvAdd(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddDelegate>(funcPtr);
@@ -1108,7 +1098,7 @@ internal static class NativeMethods
     /// with underflow wrapping around.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSub(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSub(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubDelegate>(funcPtr);
@@ -1127,7 +1117,7 @@ internal static class NativeMethods
     /// with overflow wrapping around.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvMul(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvMul(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulDelegate>(funcPtr);
@@ -1146,7 +1136,7 @@ internal static class NativeMethods
     /// Division by zero returns all 1s (maximum unsigned value).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvUDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvUDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvudiv");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvUDivDelegate>(funcPtr);
@@ -1165,7 +1155,7 @@ internal static class NativeMethods
     /// using two's complement representation. Division by zero has undefined behavior.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSDivDelegate>(funcPtr);
@@ -1184,7 +1174,7 @@ internal static class NativeMethods
     /// Remainder by zero returns the dividend unchanged.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvURem(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvURem(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvurem");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvURemDelegate>(funcPtr);
@@ -1203,7 +1193,7 @@ internal static class NativeMethods
     /// The result has the same sign as the dividend.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSRem(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSRem(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsrem");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSRemDelegate>(funcPtr);
@@ -1222,7 +1212,7 @@ internal static class NativeMethods
     /// Different from signed remainder in how negative numbers are handled.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSMod(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSMod(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsmod");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSModDelegate>(funcPtr);
@@ -1240,7 +1230,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Performs bitwise AND operation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvAnd(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvAnd(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvand");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAndDelegate>(funcPtr);
@@ -1258,7 +1248,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Performs bitwise OR operation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvOr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvOr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvor");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvOrDelegate>(funcPtr);
@@ -1276,7 +1266,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Performs bitwise XOR operation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvXor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvXor(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvxor");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvXorDelegate>(funcPtr);
@@ -1293,7 +1283,7 @@ internal static class NativeMethods
     /// Performs bitwise complement, flipping all bits in the bitvector.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvNot(IntPtr ctx, IntPtr t1)
+    internal IntPtr Z3MkBvNot(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvnot");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNotDelegate>(funcPtr);
@@ -1310,7 +1300,7 @@ internal static class NativeMethods
     /// Performs two's complement negation, equivalent to (~t1 + 1).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvNeg(IntPtr ctx, IntPtr t1)
+    internal IntPtr Z3MkBvNeg(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNegDelegate>(funcPtr);
@@ -1328,7 +1318,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Fills with zeros from the right.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvShl(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvShl(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvshl");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvShlDelegate>(funcPtr);
@@ -1346,7 +1336,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Fills with zeros from the left.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvLShr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvLShr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvlshr");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvLShrDelegate>(funcPtr);
@@ -1364,7 +1354,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Preserves the sign bit when shifting.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvAShr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvAShr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvashr");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAShrDelegate>(funcPtr);
@@ -1382,7 +1372,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvULt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvULt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvult");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvULtDelegate>(funcPtr);
@@ -1401,7 +1391,7 @@ internal static class NativeMethods
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSLt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSLt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvslt");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSLtDelegate>(funcPtr);
@@ -1419,7 +1409,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvULe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvULe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvule");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvULeDelegate>(funcPtr);
@@ -1438,7 +1428,7 @@ internal static class NativeMethods
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSLe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSLe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsle");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSLeDelegate>(funcPtr);
@@ -1456,7 +1446,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvUGt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvUGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvugt");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvUGtDelegate>(funcPtr);
@@ -1475,7 +1465,7 @@ internal static class NativeMethods
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSGt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsgt");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSGtDelegate>(funcPtr);
@@ -1493,7 +1483,7 @@ internal static class NativeMethods
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvUGe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvUGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvuge");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvUGeDelegate>(funcPtr);
@@ -1512,7 +1502,7 @@ internal static class NativeMethods
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSGe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsge");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSGeDelegate>(funcPtr);
@@ -1531,7 +1521,7 @@ internal static class NativeMethods
     /// The resulting bitvector has width = original_width + i.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkSignExt(IntPtr ctx, uint i, IntPtr t1)
+    internal IntPtr Z3MkSignExt(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sign_ext");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkSignExtDelegate>(funcPtr);
@@ -1550,7 +1540,7 @@ internal static class NativeMethods
     /// The resulting bitvector has width = original_width + i.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkZeroExt(IntPtr ctx, uint i, IntPtr t1)
+    internal IntPtr Z3MkZeroExt(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_zero_ext");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkZeroExtDelegate>(funcPtr);
@@ -1570,7 +1560,7 @@ internal static class NativeMethods
     /// has width = high - low + 1. Bit indexing starts from 0.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr t1)
+    internal IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_extract");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkExtractDelegate>(funcPtr);
@@ -1588,7 +1578,7 @@ internal static class NativeMethods
     /// The resulting bitvector has width = original_width * i.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkRepeat(IntPtr ctx, uint i, IntPtr t1)
+    internal IntPtr Z3MkRepeat(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_repeat");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkRepeatDelegate>(funcPtr);
@@ -1607,7 +1597,7 @@ internal static class NativeMethods
     /// uses two's complement interpretation for negative values.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr t1, bool signed)
+    internal IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr t1, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBv2IntDelegate>(funcPtr);
@@ -1625,7 +1615,7 @@ internal static class NativeMethods
     /// Converts an integer to a bitvector of width n. The integer value is taken modulo 2^n.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkInt2Bv(IntPtr ctx, uint n, IntPtr t1)
+    internal IntPtr Z3MkInt2Bv(IntPtr ctx, uint n, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2bv");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkInt2BvDelegate>(funcPtr);
@@ -1645,7 +1635,7 @@ internal static class NativeMethods
     /// For unsigned arithmetic, overflow occurs when the result cannot fit in the bitvector width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
+    internal IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddNoOverflowDelegate>(funcPtr);
@@ -1663,7 +1653,7 @@ internal static class NativeMethods
     /// This predicate is useful for verification of arithmetic properties in signed bitvector operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubNoOverflowDelegate>(funcPtr);
@@ -1683,7 +1673,7 @@ internal static class NativeMethods
     /// For unsigned arithmetic, underflow occurs when t1 &lt; t2.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
+    internal IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubNoUnderflowDelegate>(funcPtr);
@@ -1703,7 +1693,7 @@ internal static class NativeMethods
     /// For unsigned arithmetic, overflow occurs when the result cannot fit in the bitvector width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
+    internal IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulNoOverflowDelegate>(funcPtr);
@@ -1721,7 +1711,7 @@ internal static class NativeMethods
     /// Signed multiplication underflow occurs when the result is less than the minimum representable signed value.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_underflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulNoUnderflowDelegate>(funcPtr);
@@ -1739,7 +1729,7 @@ internal static class NativeMethods
     /// Signed addition underflow occurs when the result is less than the minimum representable signed value.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_underflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddNoUnderflowDelegate>(funcPtr);
@@ -1758,7 +1748,7 @@ internal static class NativeMethods
     /// which would result in a value that cannot be represented in the same bit width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvDivNoOverflowDelegate>(funcPtr);
@@ -1776,7 +1766,7 @@ internal static class NativeMethods
     /// as the positive equivalent cannot be represented in the same bit width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr t1)
+    internal IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNegNoOverflowDelegate>(funcPtr);
@@ -1793,7 +1783,7 @@ internal static class NativeMethods
     /// Used to determine the size of bitvector expressions for type checking and operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
+    internal uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetBvSortSizeDelegate>(funcPtr);
@@ -1811,7 +1801,7 @@ internal static class NativeMethods
     /// satisfiability checking with full Z3 capabilities.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkSolver(IntPtr ctx)
+    internal IntPtr Z3MkSolver(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_solver");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkSolverDelegate>(funcPtr);
@@ -1828,7 +1818,7 @@ internal static class NativeMethods
     /// Prefer Z3MkSolver for full functionality.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkSimpleSolver(IntPtr ctx)
+    internal IntPtr Z3MkSimpleSolver(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_simple_solver");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkSimpleSolverDelegate>(funcPtr);
@@ -1846,7 +1836,7 @@ internal static class NativeMethods
     /// with Z3SolverDecRef when the solver is no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
+    internal void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_inc_ref");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverIncRefDelegate>(funcPtr);
@@ -1863,7 +1853,7 @@ internal static class NativeMethods
     /// count reaches zero, the solver may be garbage collected.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
+    internal void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_dec_ref");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverDecRefDelegate>(funcPtr);
@@ -1881,7 +1871,7 @@ internal static class NativeMethods
     /// solver's constraint set for satisfiability checking.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr formula)
+    internal void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr formula)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_assert");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverAssertDelegate>(funcPtr);
@@ -1899,7 +1889,7 @@ internal static class NativeMethods
     /// or Z3_L_UNDEF (0) if the result is unknown (e.g., due to timeout).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static int Z3SolverCheck(IntPtr ctx, IntPtr solver)
+    internal int Z3SolverCheck(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverCheckDelegate>(funcPtr);
@@ -1916,7 +1906,7 @@ internal static class NativeMethods
     /// Used for incremental solving and backtracking search.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SolverPush(IntPtr ctx, IntPtr solver)
+    internal void Z3SolverPush(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_push");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverPushDelegate>(funcPtr);
@@ -1934,7 +1924,7 @@ internal static class NativeMethods
     /// Must have at least numScopes push operations to pop from.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
+    internal void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_pop");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverPopDelegate>(funcPtr);
@@ -1951,7 +1941,7 @@ internal static class NativeMethods
     /// More efficient than creating a new solver for reuse scenarios.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SolverReset(IntPtr ctx, IntPtr solver)
+    internal void Z3SolverReset(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_reset");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverResetDelegate>(funcPtr);
@@ -1969,7 +1959,7 @@ internal static class NativeMethods
     /// variable assignments that satisfy all asserted constraints.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
+    internal IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_model");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverGetModelDelegate>(funcPtr);
@@ -1987,7 +1977,7 @@ internal static class NativeMethods
     /// about why the solver could not determine satisfiability (e.g., timeout, incomplete theory).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
+    internal IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_reason_unknown");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SolverGetReasonUnknownDelegate>(funcPtr);
@@ -2005,7 +1995,7 @@ internal static class NativeMethods
     /// Z3ModelDecRef when the model is no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3ModelIncRef(IntPtr ctx, IntPtr model)
+    internal void Z3ModelIncRef(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_inc_ref");
         var func = Marshal.GetDelegateForFunctionPointer<Z3ModelIncRefDelegate>(funcPtr);
@@ -2022,7 +2012,7 @@ internal static class NativeMethods
     /// count reaches zero, the model may be garbage collected.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3ModelDecRef(IntPtr ctx, IntPtr model)
+    internal void Z3ModelDecRef(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_dec_ref");
         var func = Marshal.GetDelegateForFunctionPointer<Z3ModelDecRefDelegate>(funcPtr);
@@ -2040,7 +2030,7 @@ internal static class NativeMethods
     /// The string is managed by Z3 and valid until the context is deleted.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
+    internal IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_to_string");
         var func = Marshal.GetDelegateForFunctionPointer<Z3ModelToStringDelegate>(funcPtr);
@@ -2058,7 +2048,7 @@ internal static class NativeMethods
     /// The string is managed by Z3 and valid until the context is deleted.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
+    internal IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_to_string");
         var func = Marshal.GetDelegateForFunctionPointer<Z3AstToStringDelegate>(funcPtr);
@@ -2078,7 +2068,7 @@ internal static class NativeMethods
     /// Model completion assigns default values to variables not explicitly defined in the model.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    internal bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
         var funcPtr = GetFunctionPointer("Z3_model_eval");
         var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
@@ -2096,7 +2086,7 @@ internal static class NativeMethods
     /// notation (e.g., "22/7"). The string is managed by Z3.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
+    internal IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
@@ -2114,7 +2104,7 @@ internal static class NativeMethods
     /// Returns Z3_L_UNDEF (0) if the expression is not a concrete Boolean value.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
+    internal int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bool_value");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetBoolValueDelegate>(funcPtr);
@@ -2131,7 +2121,7 @@ internal static class NativeMethods
     /// Identifies concrete numeric values (integers and reals) as opposed to variables or operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
+    internal bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_is_numeral_ast");
         var func = Marshal.GetDelegateForFunctionPointer<Z3IsNumeralAstDelegate>(funcPtr);
@@ -2148,7 +2138,7 @@ internal static class NativeMethods
     /// Used for type checking and determining the kind of expression (Boolean, integer, real, etc.).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
+    internal IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetSortDelegate>(funcPtr);
@@ -2165,7 +2155,7 @@ internal static class NativeMethods
     /// Used to determine the specific type of a sort for type checking and dispatch logic.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static int Z3GetSortKind(IntPtr ctx, IntPtr sort)
+    internal int Z3GetSortKind(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_kind");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetSortKindDelegate>(funcPtr);
@@ -2188,7 +2178,7 @@ internal static class NativeMethods
     /// Creates ∀ bound_vars : body. Patterns help guide quantifier instantiation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkForallConst(
+    internal IntPtr Z3MkForallConst(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -2218,7 +2208,7 @@ internal static class NativeMethods
     /// Creates ∃ bound_vars : body. Patterns help guide quantifier instantiation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkExistsConst(
+    internal IntPtr Z3MkExistsConst(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -2245,7 +2235,7 @@ internal static class NativeMethods
     /// should trigger instantiation of the quantified formula.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
+    internal IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pattern");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkPatternDelegate>(funcPtr);
@@ -2267,7 +2257,7 @@ internal static class NativeMethods
     /// Used with Z3MkApp to create function application expressions.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
+    internal IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkFuncDeclDelegate>(funcPtr);
@@ -2287,7 +2277,7 @@ internal static class NativeMethods
     /// the function's domain sorts in number and type.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
+    internal IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_app");
         var func = Marshal.GetDelegateForFunctionPointer<Z3MkAppDelegate>(funcPtr);
@@ -2471,7 +2461,7 @@ internal static class NativeMethods
     /// Provides custom error handling instead of default Z3 behavior.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static void Z3SetErrorHandler(IntPtr ctx, Z3ErrorHandlerDelegate? handler)
+    internal void Z3SetErrorHandler(IntPtr ctx, Z3ErrorHandlerDelegate? handler)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error_handler");
         var func = Marshal.GetDelegateForFunctionPointer<Z3SetErrorHandlerDelegate>(funcPtr);
@@ -2488,7 +2478,7 @@ internal static class NativeMethods
     /// a human-readable description of the error.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static Z3ErrorCode Z3GetErrorCode(IntPtr ctx)
+    internal Z3ErrorCode Z3GetErrorCode(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_code");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorCodeDelegate>(funcPtr);
@@ -2506,7 +2496,7 @@ internal static class NativeMethods
     /// The returned string is managed by Z3.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal static string Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
+    internal string Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_msg");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorMsgDelegate>(funcPtr);

@@ -7,7 +7,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Functions;
 /// Represents a dynamically typed function declaration that can be applied to arguments.
 /// </summary>
 /// <typeparam name="TResult">Return type of the function.</typeparam>
-public class FuncDeclDynamic<TResult> : Z3FuncDecl<TResult>
+public sealed class FuncDeclDynamic<TResult> : Z3FuncDecl<TResult>
     where TResult : Z3Expr, IExprType<TResult>
 {
     internal FuncDeclDynamic(Z3Context context, IntPtr handle, string name, uint arity)

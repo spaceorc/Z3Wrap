@@ -206,7 +206,7 @@ public class Z3SolverTests
             ["timeout"] = "0", // Disable timeout
         };
 
-        using var context = new Z3Context(parameters);
+        using var context = new Z3Context(parameters: parameters);
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 

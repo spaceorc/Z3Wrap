@@ -29,7 +29,7 @@ public sealed class Z3Model
         modelHandle = handle;
 
         // Critical: increment ref count immediately to keep model alive
-        SafeNativeMethods.Z3ModelIncRef(context.Handle, handle);
+        context.Library.Z3ModelIncRef(context.Handle, handle);
     }
 
     internal IntPtr Handle
@@ -53,7 +53,7 @@ public sealed class Z3Model
     {
         ThrowIfInvalidated();
 
-        if (!SafeNativeMethods.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
+        if (!context.Library.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
         return Z3Expr.Create<T>(context, result);
@@ -83,7 +83,7 @@ public sealed class Z3Model
     {
         var evaluated = Evaluate(expr);
 
-        var boolValue = SafeNativeMethods.Z3GetBoolValue(context.Handle, evaluated.Handle);
+        var boolValue = context.Library.Z3GetBoolValue(context.Handle, evaluated.Handle);
         return (Z3BoolValue)boolValue switch
         {
             Z3BoolValue.False => false,
@@ -143,7 +143,7 @@ public sealed class Z3Model
         if (invalidated)
             return "<invalidated>";
 
-        var ptr = SafeNativeMethods.Z3ModelToString(context.Handle, modelHandle);
+        var ptr = context.Library.Z3ModelToString(context.Handle, modelHandle);
         return Marshal.PtrToStringAnsi(ptr) ?? "<invalid>";
     }
 
@@ -151,7 +151,7 @@ public sealed class Z3Model
     {
         if (!invalidated && modelHandle != IntPtr.Zero)
         {
-            SafeNativeMethods.Z3ModelDecRef(context.Handle, modelHandle);
+            context.Library.Z3ModelDecRef(context.Handle, modelHandle);
             modelHandle = IntPtr.Zero;
             invalidated = true;
         }
@@ -166,12 +166,12 @@ public sealed class Z3Model
     private static string ExtractNumeralString<TExpr>(Z3Context context, TExpr evaluatedExpr, TExpr originalExpr)
         where TExpr : Z3Expr, INumericExpr, IExprType<TExpr>
     {
-        if (!SafeNativeMethods.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
+        if (!context.Library.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
             throw new InvalidOperationException(
                 $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
             );
 
-        var ptr = SafeNativeMethods.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
+        var ptr = context.Library.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
         return Marshal.PtrToStringAnsi(ptr)
             ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
     }

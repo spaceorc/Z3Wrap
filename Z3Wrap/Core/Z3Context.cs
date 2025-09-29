@@ -6,42 +6,42 @@ namespace Spaceorc.Z3Wrap.Core;
 /// <summary>
 /// Represents the main entry point for Z3 theorem prover operations and expression creation.
 /// </summary>
-public class Z3Context : IDisposable
+public sealed class Z3Context : IDisposable
 {
     private static readonly ThreadLocal<Z3Context?> currentContext = new(() => null);
 
     private readonly HashSet<IntPtr> trackedHandles = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
+    private readonly Z3Library library;
     private IntPtr configHandle;
     private IntPtr contextHandle;
     private bool disposed;
 
     /// <summary>
-    /// Initializes a new Z3 context with default configuration.
+    /// Initializes a new Z3 context with optional configuration parameters and library.
     /// </summary>
-    public Z3Context()
+    /// <param name="library">The Z3Library to use for Z3 operations. If null, uses <see cref="Z3.DefaultLibrary"/>.</param>
+    /// <param name="parameters">Configuration parameters to set. If null, uses default configuration.</param>
+    public Z3Context(Z3Library? library = null, Dictionary<string, string>? parameters = null)
     {
-        configHandle = SafeNativeMethods.Z3MkConfig();
+        this.library = library ?? Z3.DefaultLibrary;
+
+        configHandle = this.library.Z3MkConfig();
         if (configHandle == IntPtr.Zero)
             throw new InvalidOperationException("Failed to create Z3 configuration");
 
-        contextHandle = SafeNativeMethods.Z3MkContextRc(configHandle);
+        contextHandle = this.library.Z3MkContextRc(configHandle);
         if (contextHandle == IntPtr.Zero)
         {
-            SafeNativeMethods.Z3DelConfig(configHandle);
+            this.library.Z3DelConfig(configHandle);
             throw new InvalidOperationException("Failed to create Z3 context");
         }
-    }
 
-    /// <summary>
-    /// Initializes a new Z3 context with specified configuration parameters.
-    /// </summary>
-    /// <param name="parameters">Configuration parameters to set.</param>
-    public Z3Context(Dictionary<string, string> parameters)
-        : this()
-    {
-        foreach (var param in parameters)
-            SetParameter(param.Key, param.Value);
+        if (parameters != null)
+        {
+            foreach (var param in parameters)
+                SetParameter(param.Key, param.Value);
+        }
     }
 
     internal IntPtr Handle
@@ -50,6 +50,15 @@ public class Z3Context : IDisposable
         {
             ThrowIfDisposed();
             return contextHandle;
+        }
+    }
+
+    internal Z3Library Library
+    {
+        get
+        {
+            ThrowIfDisposed();
+            return library;
         }
     }
 
@@ -73,7 +82,7 @@ public class Z3Context : IDisposable
 
         using var paramNamePtr = new AnsiStringPtr(paramName);
         using var paramValuePtr = new AnsiStringPtr(paramValue);
-        SafeNativeMethods.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
+        library.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
     }
 
     /// <summary>
@@ -105,7 +114,7 @@ public class Z3Context : IDisposable
         if (handle == IntPtr.Zero)
             throw new ArgumentException("Invalid handle", nameof(handle));
 
-        SafeNativeMethods.Z3IncRef(contextHandle, handle);
+        library.Z3IncRef(contextHandle, handle);
         trackedHandles.Add(handle);
     }
 
@@ -129,7 +138,7 @@ public class Z3Context : IDisposable
 
         var solverHandle = solver.InternalHandle;
         if (solverHandle != IntPtr.Zero)
-            SafeNativeMethods.Z3SolverDecRef(contextHandle, solverHandle);
+            library.Z3SolverDecRef(contextHandle, solverHandle);
 
         solver.InternalDispose();
     }
@@ -153,18 +162,18 @@ public class Z3Context : IDisposable
 
             // Then clean up all tracked handles
             foreach (var handle in trackedHandles)
-                SafeNativeMethods.Z3DecRef(contextHandle, handle);
+                library.Z3DecRef(contextHandle, handle);
 
             trackedHandles.Clear();
 
             // Finally dispose the context itself
-            SafeNativeMethods.Z3DelContext(contextHandle);
+            library.Z3DelContext(contextHandle);
             contextHandle = IntPtr.Zero;
         }
 
         if (configHandle != IntPtr.Zero)
         {
-            SafeNativeMethods.Z3DelConfig(configHandle);
+            library.Z3DelConfig(configHandle);
             configHandle = IntPtr.Zero;
         }
 

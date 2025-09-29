@@ -5,7 +5,7 @@ namespace Spaceorc.Z3Wrap.Core;
 /// <summary>
 /// Exception thrown when a Z3 native operation fails.
 /// </summary>
-public class Z3Exception : Exception
+public sealed class Z3Exception : Exception
 {
     /// <summary>
     /// Gets the Z3 error code that caused this exception.
