@@ -24,8 +24,7 @@ public static class ArrayContextExtensions
     {
         var arraySort = context.GetSortForType<ArrayExpr<TIndex, TValue>>();
 
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
-        var handle = context.Library.Z3MkConst(context.Handle, symbol, arraySort);
+        var handle = context.Library.Z3MkConst(context.Handle, name, arraySort);
 
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }

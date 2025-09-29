@@ -137,16 +137,6 @@ public sealed class Z3Library : IDisposable
         // No error check needed for ref counting
     }
 
-    // Symbol creation
-    /// <inheritdoc cref="NativeLibrary.Z3MkStringSymbol"/>
-    internal IntPtr Z3MkStringSymbol(IntPtr ctx, string str)
-    {
-        using var strPtr = new AnsiStringPtr(str);
-        var result = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
-        CheckError(ctx);
-        return result;
-    }
-
     // Sort creation
     /// <inheritdoc cref="NativeLibrary.Z3MkBoolSort"/>
     internal IntPtr Z3MkBoolSort(IntPtr ctx)
@@ -190,8 +180,13 @@ public sealed class Z3Library : IDisposable
 
     // Expression creation
     /// <inheritdoc cref="NativeLibrary.Z3MkConst"/>
-    internal IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
+    internal IntPtr Z3MkConst(IntPtr ctx, string name, IntPtr sort)
     {
+        using var strPtr = new AnsiStringPtr(name);
+
+        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        CheckError(ctx);
+
         var result = nativeLibrary.Z3MkConst(ctx, symbol, sort);
         CheckError(ctx);
         return result;
@@ -445,8 +440,13 @@ public sealed class Z3Library : IDisposable
 
     // Function declaration and application operations
     /// <inheritdoc cref="NativeLibrary.Z3MkFuncDecl"/>
-    internal IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
+    internal IntPtr Z3MkFuncDecl(IntPtr ctx, string name, uint domainSize, IntPtr[] domain, IntPtr range)
     {
+        using var strPtr = new AnsiStringPtr(name);
+
+        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        CheckError(ctx);
+
         var result = nativeLibrary.Z3MkFuncDecl(ctx, symbol, domainSize, domain, range);
         CheckError(ctx);
         return result;

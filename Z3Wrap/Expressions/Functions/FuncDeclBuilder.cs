@@ -31,13 +31,12 @@ public sealed class FuncDeclBuilder<TResult>(Z3Context context, string name)
     /// <returns>Dynamic function declaration with specified signature.</returns>
     public FuncDeclDynamic<TResult> Build()
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var domainSorts = ranges.Select(r => r()).ToArray();
         var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
-            symbol,
+            name,
             (uint)domainSorts.Length,
             domainSorts,
             rangeSort

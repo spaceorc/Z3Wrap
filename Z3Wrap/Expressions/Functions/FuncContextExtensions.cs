@@ -32,12 +32,11 @@ public static class FuncContextExtensions
     public static FuncDecl<TResult> Func<TResult>(this Z3Context context, string name)
         where TResult : Z3Expr, IExprType<TResult>
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
-            symbol,
+            name,
             0, // domain size (0 for constants)
             [], // empty domain array
             rangeSort
@@ -58,13 +57,12 @@ public static class FuncContextExtensions
         where T1 : Z3Expr, IExprType<T1>
         where TResult : Z3Expr, IExprType<TResult>
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var domainSorts = new[] { context.GetSortForType<T1>() };
         var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
-            symbol,
+            name,
             1, // domain size
             domainSorts,
             rangeSort
@@ -87,13 +85,12 @@ public static class FuncContextExtensions
         where T2 : Z3Expr, IExprType<T2>
         where TResult : Z3Expr, IExprType<TResult>
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var domainSorts = new[] { context.GetSortForType<T1>(), context.GetSortForType<T2>() };
         var rangeSort = context.GetSortForType<TResult>();
 
         var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
-            symbol,
+            name,
             2, // domain size
             domainSorts,
             rangeSort
@@ -118,7 +115,6 @@ public static class FuncContextExtensions
         where T3 : Z3Expr, IExprType<T3>
         where TResult : Z3Expr, IExprType<TResult>
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var domainSorts = new[]
         {
             context.GetSortForType<T1>(),
@@ -129,7 +125,7 @@ public static class FuncContextExtensions
 
         var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
-            symbol,
+            name,
             3, // domain size
             domainSorts,
             rangeSort

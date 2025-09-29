@@ -36,7 +36,7 @@ public sealed class Z3Context : IDisposable
             // Set parameters on config before creating context
             if (parameters != null)
             {
-                foreach (var param in parameters) 
+                foreach (var param in parameters)
                     this.library.Z3SetParamValue(configHandle, param.Key, param.Value);
             }
 

@@ -30,9 +30,8 @@ public static class RealContextExtensions
     /// <returns>Real expression constant.</returns>
     public static RealExpr RealConst(this Z3Context context, string name)
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var realSort = context.Library.Z3MkRealSort(context.Handle);
-        var handle = context.Library.Z3MkConst(context.Handle, symbol, realSort);
+        var handle = context.Library.Z3MkConst(context.Handle, name, realSort);
         return Z3Expr.Create<RealExpr>(context, handle);
     }
 

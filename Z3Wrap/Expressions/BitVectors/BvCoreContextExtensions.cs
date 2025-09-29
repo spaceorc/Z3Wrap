@@ -21,8 +21,7 @@ public static class BvCoreContextExtensions
         where TSize : ISize
     {
         var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
-        var handle = context.Library.Z3MkConst(context.Handle, symbol, sort);
+        var handle = context.Library.Z3MkConst(context.Handle, name, sort);
 
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }

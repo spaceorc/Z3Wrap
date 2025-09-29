@@ -48,9 +48,8 @@ public static class IntContextExtensions
     /// <returns>Integer expression constant.</returns>
     public static IntExpr IntConst(this Z3Context context, string name)
     {
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var intSort = context.Library.Z3MkIntSort(context.Handle);
-        var handle = context.Library.Z3MkConst(context.Handle, symbol, intSort);
+        var handle = context.Library.Z3MkConst(context.Handle, name, intSort);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 
