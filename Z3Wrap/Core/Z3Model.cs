@@ -30,7 +30,7 @@ public sealed class Z3Model
         context.Library.Z3ModelIncRef(context.Handle, handle);
     }
 
-    internal IntPtr Handle
+    public IntPtr Handle
     {
         get
         {

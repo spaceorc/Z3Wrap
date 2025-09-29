@@ -8,7 +8,6 @@ namespace Spaceorc.Z3Wrap.Core;
 public sealed class Z3Solver : IDisposable
 {
     private readonly Z3Context context;
-    private IntPtr solverHandle;
     private bool disposed;
     private bool isBeingDisposedByContext;
     private Z3Model? cachedModel;
@@ -18,26 +17,26 @@ public sealed class Z3Solver : IDisposable
     {
         this.context = context;
 
-        solverHandle = useSimpleSolver
+        InternalHandle = useSimpleSolver
             ? context.Library.Z3MkSimpleSolver(context.Handle)
             : context.Library.Z3MkSolver(context.Handle);
 
-        if (solverHandle == IntPtr.Zero)
+        if (InternalHandle == IntPtr.Zero)
             throw new InvalidOperationException("Failed to create Z3 solver");
 
-        context.Library.Z3SolverIncRef(context.Handle, solverHandle);
+        context.Library.Z3SolverIncRef(context.Handle, InternalHandle);
     }
 
-    internal IntPtr Handle
+    public IntPtr Handle
     {
         get
         {
             ThrowIfDisposed();
-            return solverHandle;
+            return InternalHandle;
         }
     }
 
-    internal IntPtr InternalHandle => solverHandle;
+    internal IntPtr InternalHandle { get; private set; }
 
     /// <summary>
     /// Adds a constraint to the solver.
@@ -48,7 +47,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after assertion
 
-        context.Library.Z3SolverAssert(context.Handle, solverHandle, constraint.Handle);
+        context.Library.Z3SolverAssert(context.Handle, InternalHandle, constraint.Handle);
     }
 
     /// <summary>
@@ -59,7 +58,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after reset
 
-        context.Library.Z3SolverReset(context.Handle, solverHandle);
+        context.Library.Z3SolverReset(context.Handle, InternalHandle);
         lastCheckResult = null;
     }
 
@@ -72,7 +71,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Clear any previous model
 
-        lastCheckResult = context.Library.Z3SolverCheck(context.Handle, solverHandle);
+        lastCheckResult = context.Library.Z3SolverCheck(context.Handle, InternalHandle);
         return lastCheckResult.Value;
     }
 
@@ -84,7 +83,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
 
-        return context.Library.Z3SolverGetReasonUnknown(context.Handle, solverHandle) ?? "Unknown reason";
+        return context.Library.Z3SolverGetReasonUnknown(context.Handle, InternalHandle) ?? "Unknown reason";
     }
 
     /// <summary>
@@ -95,7 +94,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after push
 
-        context.Library.Z3SolverPush(context.Handle, solverHandle);
+        context.Library.Z3SolverPush(context.Handle, InternalHandle);
     }
 
     /// <summary>
@@ -107,7 +106,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after pop
 
-        context.Library.Z3SolverPop(context.Handle, solverHandle, numScopes);
+        context.Library.Z3SolverPop(context.Handle, InternalHandle, numScopes);
     }
 
     /// <summary>
@@ -129,7 +128,7 @@ public sealed class Z3Solver : IDisposable
         // Return cached model if we have one
         if (cachedModel == null)
         {
-            var modelHandle = context.Library.Z3SolverGetModel(context.Handle, solverHandle);
+            var modelHandle = context.Library.Z3SolverGetModel(context.Handle, InternalHandle);
             if (modelHandle == IntPtr.Zero)
                 throw new InvalidOperationException("Failed to get model from solver");
 
@@ -171,7 +170,7 @@ public sealed class Z3Solver : IDisposable
         InvalidateModel();
 
         isBeingDisposedByContext = true;
-        solverHandle = IntPtr.Zero;
+        InternalHandle = IntPtr.Zero;
         disposed = true;
     }
 

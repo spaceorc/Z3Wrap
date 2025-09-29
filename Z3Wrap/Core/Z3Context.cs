@@ -18,12 +18,12 @@ public sealed class Z3Context : IDisposable
     /// <summary>
     /// Initializes a new Z3 context with optional configuration parameters and library.
     /// </summary>
-    /// <param name="library">The Z3Library to use for Z3 operations. If null, uses <see cref="Z3.DefaultLibrary"/>.</param>
+    /// <param name="library">The Z3Library to use for Z3 operations. If null, uses <see cref="Z3.Library"/>.</param>
     /// <param name="parameters">Configuration parameters to set. If null, uses default configuration.
     /// Parameters must be set at context creation time as some can only be configured this way.</param>
     public Z3Context(Z3Library? library = null, Dictionary<string, string>? parameters = null)
     {
-        this.library = library ?? Z3.DefaultLibrary;
+        this.library = library ?? Z3.Library;
 
         // Create temporary config object
         var configHandle = this.library.Z3MkConfig();
@@ -51,7 +51,7 @@ public sealed class Z3Context : IDisposable
         }
     }
 
-    internal IntPtr Handle
+    public IntPtr Handle
     {
         get
         {
@@ -60,7 +60,7 @@ public sealed class Z3Context : IDisposable
         }
     }
 
-    internal Z3Library Library
+    public Z3Library Library
     {
         get
         {

@@ -5,7 +5,7 @@ namespace Spaceorc.Z3Wrap.Core;
 /// </summary>
 public static class Z3
 {
-    private static Z3Library? defaultLibrary;
+    private static Z3Library? library;
 
     /// <summary>
     /// Gets or sets the default Z3 library instance.
@@ -19,20 +19,20 @@ public static class Z3
     /// </para>
     /// </summary>
     /// <exception cref="ArgumentNullException">Thrown when attempting to set a null library.</exception>
-    public static Z3Library DefaultLibrary
+    public static Z3Library Library
     {
         get
         {
-            if (defaultLibrary != null)
-                return defaultLibrary;
+            if (library != null)
+                return library;
             var newLibrary = Z3Library.LoadAuto();
-            var original = Interlocked.CompareExchange(ref defaultLibrary, newLibrary, null);
+            var original = Interlocked.CompareExchange(ref library, newLibrary, null);
             if (original != null)
             {
                 // Another thread won the race, dispose our library
                 newLibrary.Dispose();
             }
-            return defaultLibrary;
+            return library;
         }
         set
         {
@@ -40,7 +40,7 @@ public static class Z3
                 throw new ArgumentNullException(nameof(value), "Cannot set DefaultLibrary to null");
 
             // Atomically exchange the library and dispose the old one
-            var oldLibrary = Interlocked.Exchange(ref defaultLibrary, value);
+            var oldLibrary = Interlocked.Exchange(ref library, value);
             oldLibrary?.Dispose();
         }
     }
@@ -57,7 +57,7 @@ public static class Z3
     /// <exception cref="FileNotFoundException">Thrown when the library file is not found at the specified path.</exception>
     public static void LoadLibrary(string libraryPath)
     {
-        DefaultLibrary = Z3Library.Load(libraryPath);
+        Library = Z3Library.Load(libraryPath);
     }
 
     /// <summary>
@@ -70,6 +70,6 @@ public static class Z3
     /// <exception cref="InvalidOperationException">Thrown when the Z3 library cannot be automatically located.</exception>
     public static void LoadLibraryAuto()
     {
-        DefaultLibrary = Z3Library.LoadAuto();
+        Library = Z3Library.LoadAuto();
     }
 }

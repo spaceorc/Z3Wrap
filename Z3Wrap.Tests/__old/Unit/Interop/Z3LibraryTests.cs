@@ -102,7 +102,7 @@ public class Z3DefaultLibraryTests
     public void DefaultLibrary_Get_ReturnsValidLibrary()
     {
         // This should use the library loaded in GlobalSetup
-        var library = Z3.DefaultLibrary;
+        var library = Z3.Library;
 
         Assert.That(library, Is.Not.Null);
         Assert.That(library.LibraryPath, Is.Not.Null.And.Not.Empty);
@@ -112,17 +112,17 @@ public class Z3DefaultLibraryTests
     public void DefaultLibrary_Set_AcceptsNewLibrary()
     {
         // Get current default to restore later
-        var originalLibrary = Z3.DefaultLibrary;
+        var originalLibrary = Z3.Library;
         var originalPath = originalLibrary.LibraryPath;
 
         try
         {
             // Create and set a new library
             var newLibrary = Z3Library.LoadAuto();
-            Z3.DefaultLibrary = newLibrary;
+            Z3.Library = newLibrary;
 
             // Verify the new library is set
-            var currentLibrary = Z3.DefaultLibrary;
+            var currentLibrary = Z3.Library;
             Assert.That(currentLibrary, Is.SameAs(newLibrary));
 
             // DO NOT dispose newLibrary - ownership transferred to Z3 class
@@ -131,7 +131,7 @@ public class Z3DefaultLibraryTests
         {
             // Restore original library for other tests
             // Note: This will dispose the library we just set
-            Z3.DefaultLibrary = Z3Library.LoadAuto();
+            Z3.Library = Z3Library.LoadAuto();
         }
     }
 
@@ -143,37 +143,37 @@ public class Z3DefaultLibraryTests
         var library1 = Z3Library.LoadAuto();
         var library2 = Z3Library.LoadAuto();
 
-        Z3.DefaultLibrary = library1;
-        var retrievedLibrary1 = Z3.DefaultLibrary;
+        Z3.Library = library1;
+        var retrievedLibrary1 = Z3.Library;
         Assert.That(retrievedLibrary1, Is.SameAs(library1));
 
         // Set new library - should dispose library1
-        Z3.DefaultLibrary = library2;
-        var retrievedLibrary2 = Z3.DefaultLibrary;
+        Z3.Library = library2;
+        var retrievedLibrary2 = Z3.Library;
         Assert.That(retrievedLibrary2, Is.SameAs(library2));
         Assert.That(retrievedLibrary2, Is.Not.SameAs(library1));
 
         // DO NOT dispose library1 or library2 - ownership transferred
         // Restore a fresh library for other tests
-        Z3.DefaultLibrary = Z3Library.LoadAuto();
+        Z3.Library = Z3Library.LoadAuto();
     }
 
     [Test]
     public void DefaultLibrary_Set_NullValue_ThrowsArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => Z3.DefaultLibrary = null!);
+        Assert.Throws<ArgumentNullException>(() => Z3.Library = null!);
     }
 
     [Test]
     public void LoadLibrary_SetsDefaultLibrary()
     {
-        var originalLibrary = Z3.DefaultLibrary;
+        var originalLibrary = Z3.Library;
 
         try
         {
             // LoadLibrary should set the default library
             Z3.LoadLibraryAuto();
-            var newLibrary = Z3.DefaultLibrary;
+            var newLibrary = Z3.Library;
 
             Assert.That(newLibrary, Is.Not.Null);
             Assert.That(newLibrary.LibraryPath, Is.Not.Null.And.Not.Empty);
@@ -181,7 +181,7 @@ public class Z3DefaultLibraryTests
         finally
         {
             // Restore original
-            Z3.DefaultLibrary = Z3Library.LoadAuto();
+            Z3.Library = Z3Library.LoadAuto();
         }
     }
 
@@ -206,10 +206,10 @@ public class Z3DefaultLibraryTests
                 Task.Run(() =>
                 {
                     // Set the library (thread-safe via Interlocked.Exchange)
-                    Z3.DefaultLibrary = library;
+                    Z3.Library = library;
 
                     // Get current library (should always be non-null)
-                    var current = Z3.DefaultLibrary;
+                    var current = Z3.Library;
                     Assert.That(current, Is.Not.Null);
                 })
             );
@@ -219,12 +219,12 @@ public class Z3DefaultLibraryTests
         Assert.DoesNotThrow(() => Task.WaitAll(tasks.ToArray()));
 
         // Final library should be one of the ones we set
-        var finalLibrary = Z3.DefaultLibrary;
+        var finalLibrary = Z3.Library;
         Assert.That(finalLibrary, Is.Not.Null);
 
         // DO NOT dispose any libraries - ownership transferred
         // Restore for other tests
-        Z3.DefaultLibrary = Z3Library.LoadAuto();
+        Z3.Library = Z3Library.LoadAuto();
     }
 
     [Test]
@@ -232,11 +232,11 @@ public class Z3DefaultLibraryTests
     {
         // Set an initial library
         var library1 = Z3Library.LoadAuto();
-        Z3.DefaultLibrary = library1;
+        Z3.Library = library1;
 
         // LoadLibraryAuto should dispose library1 and set a new one
         Z3.LoadLibraryAuto();
-        var library2 = Z3.DefaultLibrary;
+        var library2 = Z3.Library;
 
         Assert.That(library2, Is.Not.Null);
         Assert.That(library2, Is.Not.SameAs(library1));
@@ -248,7 +248,7 @@ public class Z3DefaultLibraryTests
     public void Z3Context_UsesDefaultLibrary()
     {
         // Ensure we have a default library
-        var defaultLib = Z3.DefaultLibrary;
+        var defaultLib = Z3.Library;
 
         // Create context without explicit library - should use default
         using var context = new Z3Context();

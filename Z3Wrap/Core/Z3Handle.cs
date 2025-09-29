@@ -17,7 +17,7 @@ public abstract class Z3Handle
         Context = context;
     }
 
-    internal IntPtr Handle { get; }
+    public IntPtr Handle { get; }
 
     /// <summary>
     /// Gets the Z3 context that owns this handle.
