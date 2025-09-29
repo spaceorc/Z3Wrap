@@ -20,10 +20,10 @@ public static class BvCoreContextExtensions
     public static BvExpr<TSize> BitVecConst<TSize>(this Z3Context context, string name)
         where TSize : ISize
     {
-        var sort = SafeNativeMethods.Z3MkBvSort(context.Handle, TSize.Size);
+        var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, sort);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
+        var handle = context.Library.Z3MkConst(context.Handle, symbol, sort);
 
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
@@ -39,8 +39,8 @@ public static class BvCoreContextExtensions
         where TSize : ISize
     {
         using var numeralPtr = new AnsiStringPtr(value.ToString());
-        var sort = SafeNativeMethods.Z3MkBvSort(context.Handle, TSize.Size);
-        var handle = SafeNativeMethods.Z3MkNumeral(context.Handle, numeralPtr, sort);
+        var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);
+        var handle = context.Library.Z3MkNumeral(context.Handle, numeralPtr, sort);
 
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
@@ -56,7 +56,7 @@ public static class BvCoreContextExtensions
     public static IntExpr ToInt<TSize>(this Z3Context context, BvExpr<TSize> expr, bool signed = false)
         where TSize : ISize
     {
-        var handle = SafeNativeMethods.Z3MkBv2Int(context.Handle, expr.Handle, signed);
+        var handle = context.Library.Z3MkBv2Int(context.Handle, expr.Handle, signed);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 
@@ -84,8 +84,8 @@ public static class BvCoreContextExtensions
         {
             var additionalBits = TOutputSize.Size - TInputSize.Size;
             var handle = signed
-                ? SafeNativeMethods.Z3MkSignExt(context.Handle, additionalBits, expr.Handle)
-                : SafeNativeMethods.Z3MkZeroExt(context.Handle, additionalBits, expr.Handle);
+                ? context.Library.Z3MkSignExt(context.Handle, additionalBits, expr.Handle)
+                : context.Library.Z3MkZeroExt(context.Handle, additionalBits, expr.Handle);
             return Z3Expr.Create<BvExpr<TOutputSize>>(context, handle);
         }
 
@@ -116,7 +116,7 @@ public static class BvCoreContextExtensions
             );
 
         var high = startBit + TOutputSize.Size - 1;
-        var handle = SafeNativeMethods.Z3MkExtract(context.Handle, high, startBit, expr.Handle);
+        var handle = context.Library.Z3MkExtract(context.Handle, high, startBit, expr.Handle);
         return Z3Expr.Create<BvExpr<TOutputSize>>(context, handle);
     }
 
@@ -138,7 +138,7 @@ public static class BvCoreContextExtensions
             );
 
         var count = TOutputSize.Size / TInputSize.Size;
-        var handle = SafeNativeMethods.Z3MkRepeat(context.Handle, count, expr.Handle);
+        var handle = context.Library.Z3MkRepeat(context.Handle, count, expr.Handle);
         return Z3Expr.Create<BvExpr<TOutputSize>>(context, handle);
     }
 }

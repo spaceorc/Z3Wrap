@@ -15,7 +15,7 @@ public sealed class BoolExpr : Z3Expr, IExprType<BoolExpr>
 
     static BoolExpr IExprType<BoolExpr>.Create(Z3Context context, IntPtr handle) => new(context, handle);
 
-    static IntPtr IExprType<BoolExpr>.Sort(Z3Context context) => SafeNativeMethods.Z3MkBoolSort(context.Handle);
+    static IntPtr IExprType<BoolExpr>.Sort(Z3Context context) => context.Library.Z3MkBoolSort(context.Handle);
 
     /// <summary>
     /// Implicit conversion from boolean value to boolean expression.

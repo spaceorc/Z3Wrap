@@ -32,11 +32,11 @@ public class FuncDeclBuilder<TResult>(Z3Context context, string name)
     public FuncDeclDynamic<TResult> Build()
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
         var domainSorts = ranges.Select(r => r()).ToArray();
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
             symbol,
             (uint)domainSorts.Length,

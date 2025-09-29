@@ -25,8 +25,8 @@ public static class ArrayContextExtensions
         var arraySort = context.GetSortForType<ArrayExpr<TIndex, TValue>>();
 
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
-        var handle = SafeNativeMethods.Z3MkConst(context.Handle, symbol, arraySort);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
+        var handle = context.Library.Z3MkConst(context.Handle, symbol, arraySort);
 
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }
@@ -58,7 +58,7 @@ public static class ArrayContextExtensions
     {
         var indexSort = context.GetSortForType<TIndex>();
 
-        var handle = SafeNativeMethods.Z3MkConstArray(context.Handle, indexSort, defaultValue.Handle);
+        var handle = context.Library.Z3MkConstArray(context.Handle, indexSort, defaultValue.Handle);
 
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }
@@ -95,7 +95,7 @@ public static class ArrayContextExtensions
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
-        var handle = SafeNativeMethods.Z3MkStore(context.Handle, array.Handle, index.Handle, value.Handle);
+        var handle = context.Library.Z3MkStore(context.Handle, array.Handle, index.Handle, value.Handle);
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }
 
@@ -112,7 +112,7 @@ public static class ArrayContextExtensions
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
-        var handle = SafeNativeMethods.Z3MkSelect(context.Handle, array.Handle, index.Handle);
+        var handle = context.Library.Z3MkSelect(context.Handle, array.Handle, index.Handle);
         return Z3Expr.Create<TValue>(context, handle);
     }
 }

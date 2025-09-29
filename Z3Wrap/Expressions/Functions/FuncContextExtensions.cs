@@ -33,10 +33,10 @@ public static class FuncContextExtensions
         where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
             symbol,
             0, // domain size (0 for constants)
@@ -60,11 +60,11 @@ public static class FuncContextExtensions
         where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
         var domainSorts = new[] { context.GetSortForType<T1>() };
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
             symbol,
             1, // domain size
@@ -90,11 +90,11 @@ public static class FuncContextExtensions
         where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
         var domainSorts = new[] { context.GetSortForType<T1>(), context.GetSortForType<T2>() };
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
             symbol,
             2, // domain size
@@ -122,7 +122,7 @@ public static class FuncContextExtensions
         where TResult : Z3Expr, IExprType<TResult>
     {
         using var namePtr = new AnsiStringPtr(name);
-        var symbol = SafeNativeMethods.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
         var domainSorts = new[]
         {
             context.GetSortForType<T1>(),
@@ -131,7 +131,7 @@ public static class FuncContextExtensions
         };
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = SafeNativeMethods.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.Z3MkFuncDecl(
             context.Handle,
             symbol,
             3, // domain size
@@ -160,7 +160,7 @@ public static class FuncContextExtensions
             );
 
         var argHandles = args.Select(arg => arg.Handle).ToArray();
-        var appHandle = SafeNativeMethods.Z3MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
+        var appHandle = context.Library.Z3MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
 
         return Z3Expr.Create<TResult>(context, appHandle);
     }

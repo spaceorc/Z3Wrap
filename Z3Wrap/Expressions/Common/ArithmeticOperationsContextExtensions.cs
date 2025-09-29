@@ -27,7 +27,7 @@ public static class ArithmeticOperationsContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = SafeNativeMethods.Z3MkAdd(context.Handle, (uint)args.Length, args);
+        var resultHandle = context.Library.Z3MkAdd(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);
     }
 
@@ -50,7 +50,7 @@ public static class ArithmeticOperationsContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = SafeNativeMethods.Z3MkSub(context.Handle, (uint)args.Length, args);
+        var resultHandle = context.Library.Z3MkSub(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);
     }
 
@@ -73,7 +73,7 @@ public static class ArithmeticOperationsContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = SafeNativeMethods.Z3MkMul(context.Handle, (uint)args.Length, args);
+        var resultHandle = context.Library.Z3MkMul(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);
     }
 
@@ -88,7 +88,7 @@ public static class ArithmeticOperationsContextExtensions
     public static T Div<T>(this Z3Context context, T left, T right)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        var resultHandle = SafeNativeMethods.Z3MkDiv(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.Z3MkDiv(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<T>(context, resultHandle);
     }
 
@@ -102,7 +102,7 @@ public static class ArithmeticOperationsContextExtensions
     public static T UnaryMinus<T>(this Z3Context context, T operand)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        var resultHandle = SafeNativeMethods.Z3MkUnaryMinus(context.Handle, operand.Handle);
+        var resultHandle = context.Library.Z3MkUnaryMinus(context.Handle, operand.Handle);
         return Z3Expr.Create<T>(context, resultHandle);
     }
 }
