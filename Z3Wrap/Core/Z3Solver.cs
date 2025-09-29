@@ -27,6 +27,9 @@ public sealed class Z3Solver : IDisposable
         context.Library.Z3SolverIncRef(context.Handle, InternalHandle);
     }
 
+    /// <summary>
+    /// Gets the native Z3 solver handle.
+    /// </summary>
     public IntPtr Handle
     {
         get

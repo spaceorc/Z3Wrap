@@ -51,6 +51,9 @@ public sealed class Z3Context : IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets the native Z3 context handle.
+    /// </summary>
     public IntPtr Handle
     {
         get
@@ -60,6 +63,9 @@ public sealed class Z3Context : IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets the Z3 library instance used by this context.
+    /// </summary>
     public Z3Library Library
     {
         get

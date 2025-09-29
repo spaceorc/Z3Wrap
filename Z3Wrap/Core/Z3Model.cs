@@ -30,6 +30,9 @@ public sealed class Z3Model
         context.Library.Z3ModelIncRef(context.Handle, handle);
     }
 
+    /// <summary>
+    /// Gets the native Z3 model handle.
+    /// </summary>
     public IntPtr Handle
     {
         get

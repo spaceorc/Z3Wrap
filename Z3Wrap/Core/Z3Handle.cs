@@ -17,6 +17,9 @@ public abstract class Z3Handle
         Context = context;
     }
 
+    /// <summary>
+    /// Gets the native Z3 handle pointer.
+    /// </summary>
     public IntPtr Handle { get; }
 
     /// <summary>
