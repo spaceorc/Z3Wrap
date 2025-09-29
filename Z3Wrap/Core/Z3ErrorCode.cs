@@ -1,4 +1,4 @@
-namespace Spaceorc.Z3Wrap.Core.Interop;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Z3 error codes that can be returned by Z3 operations.

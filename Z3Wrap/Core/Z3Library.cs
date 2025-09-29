@@ -1,6 +1,8 @@
 using System.Runtime.InteropServices;
+using Spaceorc.Z3Wrap.Core.Interop;
+using NativeLibrary = Spaceorc.Z3Wrap.Core.Interop.NativeLibrary;
 
-namespace Spaceorc.Z3Wrap.Core.Interop;
+namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
 /// Provides a safe wrapper around the native Z3 library with error checking and crash prevention.
@@ -85,7 +87,12 @@ public sealed class Z3Library : IDisposable
     /// <inheritdoc cref="NativeLibrary.Z3DelConfig"/>
     internal void Z3DelConfig(IntPtr cfg) => nativeLibrary.Z3DelConfig(cfg);
 
-    /// <inheritdoc cref="NativeLibrary.Z3SetParamValue"/>
+    /// <summary>
+    /// Sets a configuration parameter value.
+    /// </summary>
+    /// <param name="cfg">Configuration handle.</param>
+    /// <param name="paramId">Parameter name.</param>
+    /// <param name="paramValue">Parameter value.</param>
     internal void Z3SetParamValue(IntPtr cfg, string paramId, string paramValue)
     {
         using var paramIdPtr = new AnsiStringPtr(paramId);
@@ -113,7 +120,12 @@ public sealed class Z3Library : IDisposable
         // No error check needed for deletion
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3UpdateParamValue"/>
+    /// <summary>
+    /// Updates a parameter value for an existing context.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="paramId">Parameter name.</param>
+    /// <param name="paramValue">Parameter value.</param>
     internal void Z3UpdateParamValue(IntPtr ctx, string paramId, string paramValue)
     {
         using var paramIdPtr = new AnsiStringPtr(paramId);
@@ -179,7 +191,13 @@ public sealed class Z3Library : IDisposable
     }
 
     // Expression creation
-    /// <inheritdoc cref="NativeLibrary.Z3MkConst"/>
+    /// <summary>
+    /// Creates a constant expression with the given name and sort.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="name">Name of the constant.</param>
+    /// <param name="sort">Sort of the constant.</param>
+    /// <returns>AST handle for the constant expression.</returns>
     internal IntPtr Z3MkConst(IntPtr ctx, string name, IntPtr sort)
     {
         using var strPtr = new AnsiStringPtr(name);
@@ -208,7 +226,13 @@ public sealed class Z3Library : IDisposable
         return result;
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkNumeral"/>
+    /// <summary>
+    /// Creates a numeral expression from a string representation.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="numeral">String representation of the numeral.</param>
+    /// <param name="sort">Sort of the numeral.</param>
+    /// <returns>AST handle for the numeral expression.</returns>
     internal IntPtr Z3MkNumeral(IntPtr ctx, string numeral, IntPtr sort)
     {
         using var numeralPtr = new AnsiStringPtr(numeral);
@@ -439,7 +463,15 @@ public sealed class Z3Library : IDisposable
     }
 
     // Function declaration and application operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkFuncDecl"/>
+    /// <summary>
+    /// Creates a function declaration with the given name, domain, and range.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="name">Name of the function.</param>
+    /// <param name="domainSize">Number of arguments.</param>
+    /// <param name="domain">Array of argument sorts.</param>
+    /// <param name="range">Return sort.</param>
+    /// <returns>Function declaration handle.</returns>
     internal IntPtr Z3MkFuncDecl(IntPtr ctx, string name, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         using var strPtr = new AnsiStringPtr(name);
@@ -498,12 +530,23 @@ public sealed class Z3Library : IDisposable
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverCheck"/>
-    internal int Z3SolverCheck(IntPtr ctx, IntPtr solver)
+    /// <summary>
+    /// Checks the satisfiability of the assertions in the solver.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="solver">Solver handle.</param>
+    /// <returns>The satisfiability result (Satisfiable, Unsatisfiable, or Unknown).</returns>
+    internal Z3Status Z3SolverCheck(IntPtr ctx, IntPtr solver)
     {
         var result = nativeLibrary.Z3SolverCheck(ctx, solver);
         CheckError(ctx);
-        return result;
+        return (Z3BoolValue)result switch
+        {
+            Z3BoolValue.False => Z3Status.Unsatisfiable,
+            Z3BoolValue.True => Z3Status.Satisfiable,
+            Z3BoolValue.Undefined => Z3Status.Unknown,
+            _ => throw new InvalidOperationException($"Unexpected boolean value result {result} from Z3_solver_check"),
+        };
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3SolverPush"/>
@@ -543,7 +586,12 @@ public sealed class Z3Library : IDisposable
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3ModelToString"/>
+    /// <summary>
+    /// Converts a model to its string representation.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="model">Model handle.</param>
+    /// <returns>String representation of the model, or null if conversion fails.</returns>
     internal string? Z3ModelToString(IntPtr ctx, IntPtr model)
     {
         var result = nativeLibrary.Z3ModelToString(ctx, model);
@@ -551,7 +599,12 @@ public sealed class Z3Library : IDisposable
         return Marshal.PtrToStringAnsi(result);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3AstToString"/>
+    /// <summary>
+    /// Converts an AST node to its string representation.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="ast">AST handle.</param>
+    /// <returns>String representation of the AST, or null if conversion fails.</returns>
     internal string? Z3AstToString(IntPtr ctx, IntPtr ast)
     {
         var result = nativeLibrary.Z3AstToString(ctx, ast);
@@ -567,7 +620,12 @@ public sealed class Z3Library : IDisposable
         return returnValue;
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetNumeralString"/>
+    /// <summary>
+    /// Gets the string representation of a numeral expression.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="expr">Numeral expression handle.</param>
+    /// <returns>String representation of the numeral, or null if conversion fails.</returns>
     internal string? Z3GetNumeralString(IntPtr ctx, IntPtr expr)
     {
         var result = nativeLibrary.Z3GetNumeralString(ctx, expr);
@@ -575,12 +633,17 @@ public sealed class Z3Library : IDisposable
         return Marshal.PtrToStringAnsi(result);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetBoolValue"/>
-    internal int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
+    /// <summary>
+    /// Gets the Boolean value of a Boolean expression.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="expr">Boolean expression handle.</param>
+    /// <returns>The Boolean value (True, False, or Undefined).</returns>
+    internal Z3BoolValue Z3GetBoolValue(IntPtr ctx, IntPtr expr)
     {
         var result = nativeLibrary.Z3GetBoolValue(ctx, expr);
         CheckError(ctx);
-        return result;
+        return (Z3BoolValue)result;
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3IsNumeralAst"/>
@@ -948,7 +1011,12 @@ public sealed class Z3Library : IDisposable
     }
 
     // Solver operations - add missing methods
-    /// <inheritdoc cref="NativeLibrary.Z3SolverGetReasonUnknown"/>
+    /// <summary>
+    /// Gets the reason why the solver returned unknown status.
+    /// </summary>
+    /// <param name="ctx">Z3 context.</param>
+    /// <param name="solver">Solver handle.</param>
+    /// <returns>String describing the reason for unknown status, or null if not available.</returns>
     internal string? Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
         var result = nativeLibrary.Z3SolverGetReasonUnknown(ctx, solver);

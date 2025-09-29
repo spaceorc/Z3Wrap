@@ -1,6 +1,4 @@
 using System.Numerics;
-using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
@@ -84,7 +82,7 @@ public sealed class Z3Model
         var evaluated = Evaluate(expr);
 
         var boolValue = context.Library.Z3GetBoolValue(context.Handle, evaluated.Handle);
-        return (Z3BoolValue)boolValue switch
+        return boolValue switch
         {
             Z3BoolValue.False => false,
             Z3BoolValue.True => true,

@@ -1,6 +1,5 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
-using Spaceorc.Z3Wrap.Core.Interop;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;

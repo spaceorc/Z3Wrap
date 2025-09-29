@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.Core.Interop;
-
 namespace Spaceorc.Z3Wrap.Core;
 
 /// <summary>
