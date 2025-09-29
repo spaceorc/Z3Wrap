@@ -18,10 +18,10 @@ public sealed class Z3Context : IDisposable
     /// <summary>
     /// Initializes a new Z3 context with optional configuration parameters and library.
     /// </summary>
-    /// <param name="library">The Z3Library to use for Z3 operations. If null, uses <see cref="Z3.Library"/>.</param>
     /// <param name="parameters">Configuration parameters to set. If null, uses default configuration.
-    /// Parameters must be set at context creation time as some can only be configured this way.</param>
-    public Z3Context(Z3Library? library = null, Dictionary<string, string>? parameters = null)
+    ///     Parameters must be set at context creation time as some can only be configured this way.</param>
+    /// <param name="library">The Z3Library to use for Z3 operations. If null, uses <see cref="Z3.Library"/>.</param>
+    public Z3Context(Dictionary<string, string>? parameters = null, Z3Library? library = null)
     {
         this.library = library ?? Z3.Library;
 

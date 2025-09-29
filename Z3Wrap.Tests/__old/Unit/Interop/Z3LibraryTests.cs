@@ -88,7 +88,7 @@ public class Z3LibraryTests
     public void Z3Context_CanUseCustomLibrary()
     {
         using var library = Z3Library.LoadAuto();
-        using var context = new Z3Context(library);
+        using var context = new Z3Context(library: library);
 
         Assert.That(context, Is.Not.Null);
         Assert.That(context.Handle, Is.Not.EqualTo(IntPtr.Zero));
