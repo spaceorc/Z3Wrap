@@ -13,7 +13,6 @@ public sealed class Z3Context : IDisposable
     private readonly HashSet<IntPtr> trackedHandles = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
     private readonly Z3Library library;
-    private IntPtr configHandle;
     private IntPtr contextHandle;
     private bool disposed;
 
@@ -21,26 +20,39 @@ public sealed class Z3Context : IDisposable
     /// Initializes a new Z3 context with optional configuration parameters and library.
     /// </summary>
     /// <param name="library">The Z3Library to use for Z3 operations. If null, uses <see cref="Z3.DefaultLibrary"/>.</param>
-    /// <param name="parameters">Configuration parameters to set. If null, uses default configuration.</param>
+    /// <param name="parameters">Configuration parameters to set. If null, uses default configuration.
+    /// Parameters must be set at context creation time as some can only be configured this way.</param>
     public Z3Context(Z3Library? library = null, Dictionary<string, string>? parameters = null)
     {
         this.library = library ?? Z3.DefaultLibrary;
 
-        configHandle = this.library.Z3MkConfig();
+        // Create temporary config object
+        var configHandle = this.library.Z3MkConfig();
         if (configHandle == IntPtr.Zero)
             throw new InvalidOperationException("Failed to create Z3 configuration");
 
-        contextHandle = this.library.Z3MkContextRc(configHandle);
-        if (contextHandle == IntPtr.Zero)
+        try
         {
-            this.library.Z3DelConfig(configHandle);
-            throw new InvalidOperationException("Failed to create Z3 context");
-        }
+            // Set parameters on config before creating context
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                {
+                    using var paramNamePtr = new AnsiStringPtr(param.Key);
+                    using var paramValuePtr = new AnsiStringPtr(param.Value);
+                    this.library.Z3SetParamValue(configHandle, paramNamePtr, paramValuePtr);
+                }
+            }
 
-        if (parameters != null)
+            // Create context from configured config
+            contextHandle = this.library.Z3MkContextRc(configHandle);
+            if (contextHandle == IntPtr.Zero)
+                throw new InvalidOperationException("Failed to create Z3 context");
+        }
+        finally
         {
-            foreach (var param in parameters)
-                SetParameter(param.Key, param.Value);
+            // Always delete config after context creation
+            this.library.Z3DelConfig(configHandle);
         }
     }
 
@@ -72,10 +84,14 @@ public sealed class Z3Context : IDisposable
     }
 
     /// <summary>
-    /// Sets a configuration parameter for this Z3 context.
+    /// Updates a configuration parameter on this context after creation.
     /// </summary>
     /// <param name="paramName">The parameter name.</param>
     /// <param name="paramValue">The parameter value.</param>
+    /// <remarks>
+    /// Some parameters can only be set at context creation time via constructor.
+    /// This method is for parameters that can be updated dynamically.
+    /// </remarks>
     public void SetParameter(string paramName, string paramValue)
     {
         ThrowIfDisposed();
@@ -169,12 +185,6 @@ public sealed class Z3Context : IDisposable
             // Finally dispose the context itself
             library.Z3DelContext(contextHandle);
             contextHandle = IntPtr.Zero;
-        }
-
-        if (configHandle != IntPtr.Zero)
-        {
-            library.Z3DelConfig(configHandle);
-            configHandle = IntPtr.Zero;
         }
 
         disposed = true;

@@ -227,10 +227,9 @@ public class Z3ModelLifetimeTests
     [Test]
     public void GetModel_UnknownStatus_ThrowsInvalidOperationException()
     {
-        using var context = new Z3Context();
-
         // Set very low timeout to force unknown result
-        context.SetParameter("timeout", "1");
+        var parameters = new Dictionary<string, string> { ["timeout"] = "1" };
+        using var context = new Z3Context(parameters: parameters);
 
         using var solver = context.CreateSolver();
 

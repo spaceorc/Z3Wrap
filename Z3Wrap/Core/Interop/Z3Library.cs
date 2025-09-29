@@ -83,6 +83,10 @@ public sealed class Z3Library : IDisposable
     /// <inheritdoc cref="NativeLibrary.Z3DelConfig"/>
     internal void Z3DelConfig(IntPtr cfg) => nativeLibrary.Z3DelConfig(cfg);
 
+    /// <inheritdoc cref="NativeLibrary.Z3SetParamValue"/>
+    internal void Z3SetParamValue(IntPtr cfg, IntPtr paramId, IntPtr paramValue) =>
+        nativeLibrary.Z3SetParamValue(cfg, paramId, paramValue);
+
     /// <inheritdoc cref="NativeLibrary.Z3MkContextRc"/>
     internal IntPtr Z3MkContextRc(IntPtr cfg)
     {

@@ -91,6 +91,7 @@ internal sealed class NativeLibrary : IDisposable
             // Load all function pointers
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_config");
             LoadFunctionInternal(handle, functionPointers, "Z3_del_config");
+            LoadFunctionInternal(handle, functionPointers, "Z3_set_param_value");
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_context_rc");
             LoadFunctionInternal(handle, functionPointers, "Z3_del_context");
             LoadFunctionInternal(handle, functionPointers, "Z3_update_param_value");
@@ -347,6 +348,24 @@ internal sealed class NativeLibrary : IDisposable
         var funcPtr = GetFunctionPointer("Z3_del_config");
         var func = Marshal.GetDelegateForFunctionPointer<Z3DelConfigDelegate>(funcPtr);
         func(cfg);
+    }
+
+    /// <summary>
+    /// Sets a configuration parameter value on a Z3 configuration object.
+    /// </summary>
+    /// <param name="cfg">The Z3 configuration handle.</param>
+    /// <param name="paramId">The ANSI string pointer for parameter name.</param>
+    /// <param name="paramValue">The ANSI string pointer for parameter value.</param>
+    /// <remarks>
+    /// Must be called before creating a context with the configuration.
+    /// Some parameters can only be set at context creation time.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3SetParamValue(IntPtr cfg, IntPtr paramId, IntPtr paramValue)
+    {
+        var funcPtr = GetFunctionPointer("Z3_set_param_value");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SetParamValueDelegate>(funcPtr);
+        func(cfg, paramId, paramValue);
     }
 
     /// <summary>
@@ -2286,6 +2305,7 @@ internal sealed class NativeLibrary : IDisposable
 
     private delegate IntPtr Z3MkConfigDelegate();
     private delegate void Z3DelConfigDelegate(IntPtr cfg);
+    private delegate void Z3SetParamValueDelegate(IntPtr cfg, IntPtr paramId, IntPtr paramValue);
     private delegate IntPtr Z3MkContextRcDelegate(IntPtr cfg);
     private delegate void Z3DelContextDelegate(IntPtr ctx);
     private delegate void Z3UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
