@@ -2516,11 +2516,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The returned string is managed by Z3.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal string Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
+    internal IntPtr Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_msg");
         var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorMsgDelegate>(funcPtr);
-        var msgPtr = func(ctx, (int)errorCode);
-        return Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
+        return func(ctx, (int)errorCode);
     }
 }

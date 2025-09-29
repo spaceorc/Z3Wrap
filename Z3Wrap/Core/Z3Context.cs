@@ -36,12 +36,8 @@ public sealed class Z3Context : IDisposable
             // Set parameters on config before creating context
             if (parameters != null)
             {
-                foreach (var param in parameters)
-                {
-                    using var paramNamePtr = new AnsiStringPtr(param.Key);
-                    using var paramValuePtr = new AnsiStringPtr(param.Value);
-                    this.library.Z3SetParamValue(configHandle, paramNamePtr, paramValuePtr);
-                }
+                foreach (var param in parameters) 
+                    this.library.Z3SetParamValue(configHandle, param.Key, param.Value);
             }
 
             // Create context from configured config
@@ -96,9 +92,7 @@ public sealed class Z3Context : IDisposable
     {
         ThrowIfDisposed();
 
-        using var paramNamePtr = new AnsiStringPtr(paramName);
-        using var paramValuePtr = new AnsiStringPtr(paramValue);
-        library.Z3UpdateParamValue(contextHandle, paramNamePtr, paramValuePtr);
+        library.Z3UpdateParamValue(contextHandle, paramName, paramValue);
     }
 
     /// <summary>

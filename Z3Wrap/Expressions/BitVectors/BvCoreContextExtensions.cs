@@ -21,8 +21,7 @@ public static class BvCoreContextExtensions
         where TSize : ISize
     {
         var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);
-        using var namePtr = new AnsiStringPtr(name);
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var handle = context.Library.Z3MkConst(context.Handle, symbol, sort);
 
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
@@ -38,9 +37,8 @@ public static class BvCoreContextExtensions
     public static BvExpr<TSize> BitVec<TSize>(this Z3Context context, Bv<TSize> value)
         where TSize : ISize
     {
-        using var numeralPtr = new AnsiStringPtr(value.ToString());
         var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);
-        var handle = context.Library.Z3MkNumeral(context.Handle, numeralPtr, sort);
+        var handle = context.Library.Z3MkNumeral(context.Handle, value.ToString(), sort);
 
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }

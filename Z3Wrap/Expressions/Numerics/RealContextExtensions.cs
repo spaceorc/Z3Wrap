@@ -17,9 +17,8 @@ public static class RealContextExtensions
     /// <returns>Real expression representing the value.</returns>
     public static RealExpr Real(this Z3Context context, Real value)
     {
-        using var valueStr = new AnsiStringPtr(value.ToString());
         var realSort = context.Library.Z3MkRealSort(context.Handle);
-        var handle = context.Library.Z3MkNumeral(context.Handle, valueStr, realSort);
+        var handle = context.Library.Z3MkNumeral(context.Handle, value.ToString(), realSort);
         return Z3Expr.Create<RealExpr>(context, handle);
     }
 
@@ -31,8 +30,7 @@ public static class RealContextExtensions
     /// <returns>Real expression constant.</returns>
     public static RealExpr RealConst(this Z3Context context, string name)
     {
-        using var namePtr = new AnsiStringPtr(name);
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var realSort = context.Library.Z3MkRealSort(context.Handle);
         var handle = context.Library.Z3MkConst(context.Handle, symbol, realSort);
         return Z3Expr.Create<RealExpr>(context, handle);

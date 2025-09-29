@@ -56,8 +56,7 @@ public abstract class Z3Handle
     {
         try
         {
-            var stringPtr = Context.Library.Z3AstToString(Context.Handle, Handle);
-            return Marshal.PtrToStringAnsi(stringPtr) ?? "<invalid>";
+            return Context.Library.Z3AstToString(Context.Handle, Handle) ?? "<invalid>";
         }
         catch (ObjectDisposedException)
         {

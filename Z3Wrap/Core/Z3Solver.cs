@@ -93,8 +93,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
 
-        var reasonPtr = context.Library.Z3SolverGetReasonUnknown(context.Handle, solverHandle);
-        return Marshal.PtrToStringAnsi(reasonPtr) ?? "Unknown reason";
+        return context.Library.Z3SolverGetReasonUnknown(context.Handle, solverHandle) ?? "Unknown reason";
     }
 
     /// <summary>

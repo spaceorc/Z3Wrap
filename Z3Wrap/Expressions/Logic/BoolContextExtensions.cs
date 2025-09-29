@@ -51,8 +51,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression constant.</returns>
     public static BoolExpr BoolConst(this Z3Context context, string name)
     {
-        using var namePtr = new AnsiStringPtr(name);
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var boolSort = context.Library.Z3MkBoolSort(context.Handle);
         var handle = context.Library.Z3MkConst(context.Handle, symbol, boolSort);
         return Z3Expr.Create<BoolExpr>(context, handle);

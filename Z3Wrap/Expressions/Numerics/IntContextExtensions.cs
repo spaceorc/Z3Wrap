@@ -19,9 +19,8 @@ public static class IntContextExtensions
     /// <returns>Integer expression representing the value.</returns>
     public static IntExpr Int(this Z3Context context, BigInteger value)
     {
-        using var valueStr = new AnsiStringPtr(value.ToString());
         var intSort = context.Library.Z3MkIntSort(context.Handle);
-        var handle = context.Library.Z3MkNumeral(context.Handle, valueStr, intSort);
+        var handle = context.Library.Z3MkNumeral(context.Handle, value.ToString(), intSort);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 
@@ -49,8 +48,7 @@ public static class IntContextExtensions
     /// <returns>Integer expression constant.</returns>
     public static IntExpr IntConst(this Z3Context context, string name)
     {
-        using var namePtr = new AnsiStringPtr(name);
-        var symbol = context.Library.Z3MkStringSymbol(context.Handle, namePtr);
+        var symbol = context.Library.Z3MkStringSymbol(context.Handle, name);
         var intSort = context.Library.Z3MkIntSort(context.Handle);
         var handle = context.Library.Z3MkConst(context.Handle, symbol, intSort);
         return Z3Expr.Create<IntExpr>(context, handle);

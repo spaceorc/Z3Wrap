@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
 /// <summary>
@@ -84,8 +86,12 @@ public sealed class Z3Library : IDisposable
     internal void Z3DelConfig(IntPtr cfg) => nativeLibrary.Z3DelConfig(cfg);
 
     /// <inheritdoc cref="NativeLibrary.Z3SetParamValue"/>
-    internal void Z3SetParamValue(IntPtr cfg, IntPtr paramId, IntPtr paramValue) =>
-        nativeLibrary.Z3SetParamValue(cfg, paramId, paramValue);
+    internal void Z3SetParamValue(IntPtr cfg, string paramId, string paramValue)
+    {
+        using var paramIdPtr = new AnsiStringPtr(paramId);
+        using var paramValuePtr = new AnsiStringPtr(paramValue);
+        nativeLibrary.Z3SetParamValue(cfg, paramIdPtr, paramValuePtr);
+    }
 
     /// <inheritdoc cref="NativeLibrary.Z3MkContextRc"/>
     internal IntPtr Z3MkContextRc(IntPtr cfg)
@@ -108,9 +114,11 @@ public sealed class Z3Library : IDisposable
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3UpdateParamValue"/>
-    internal void Z3UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
+    internal void Z3UpdateParamValue(IntPtr ctx, string paramId, string paramValue)
     {
-        nativeLibrary.Z3UpdateParamValue(ctx, paramId, paramValue);
+        using var paramIdPtr = new AnsiStringPtr(paramId);
+        using var paramValuePtr = new AnsiStringPtr(paramValue);
+        nativeLibrary.Z3UpdateParamValue(ctx, paramIdPtr, paramValuePtr);
         CheckError(ctx);
     }
 
@@ -131,9 +139,10 @@ public sealed class Z3Library : IDisposable
 
     // Symbol creation
     /// <inheritdoc cref="NativeLibrary.Z3MkStringSymbol"/>
-    internal IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
+    internal IntPtr Z3MkStringSymbol(IntPtr ctx, string str)
     {
-        var result = nativeLibrary.Z3MkStringSymbol(ctx, str);
+        using var strPtr = new AnsiStringPtr(str);
+        var result = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
         return result;
     }
@@ -205,9 +214,10 @@ public sealed class Z3Library : IDisposable
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3MkNumeral"/>
-    internal IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
+    internal IntPtr Z3MkNumeral(IntPtr ctx, string numeral, IntPtr sort)
     {
-        var result = nativeLibrary.Z3MkNumeral(ctx, numeral, sort);
+        using var numeralPtr = new AnsiStringPtr(numeral);
+        var result = nativeLibrary.Z3MkNumeral(ctx, numeralPtr, sort);
         CheckError(ctx);
         return result;
     }
@@ -534,19 +544,19 @@ public sealed class Z3Library : IDisposable
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3ModelToString"/>
-    internal IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
+    internal string? Z3ModelToString(IntPtr ctx, IntPtr model)
     {
         var result = nativeLibrary.Z3ModelToString(ctx, model);
         CheckError(ctx);
-        return result;
+        return Marshal.PtrToStringAnsi(result);
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3AstToString"/>
-    internal IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
+    internal string? Z3AstToString(IntPtr ctx, IntPtr ast)
     {
         var result = nativeLibrary.Z3AstToString(ctx, ast);
         CheckError(ctx);
-        return result;
+        return Marshal.PtrToStringAnsi(result);
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3ModelEval"/>
@@ -558,11 +568,11 @@ public sealed class Z3Library : IDisposable
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3GetNumeralString"/>
-    internal IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
+    internal string? Z3GetNumeralString(IntPtr ctx, IntPtr expr)
     {
         var result = nativeLibrary.Z3GetNumeralString(ctx, expr);
         CheckError(ctx);
-        return result;
+        return Marshal.PtrToStringAnsi(result);
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3GetBoolValue"/>
@@ -939,11 +949,11 @@ public sealed class Z3Library : IDisposable
 
     // Solver operations - add missing methods
     /// <inheritdoc cref="NativeLibrary.Z3SolverGetReasonUnknown"/>
-    internal IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
+    internal string? Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
         var result = nativeLibrary.Z3SolverGetReasonUnknown(ctx, solver);
         CheckError(ctx);
-        return result;
+        return Marshal.PtrToStringAnsi(result);
     }
 
     /// <inheritdoc cref="NativeLibrary.Z3SolverReset"/>
@@ -955,18 +965,20 @@ public sealed class Z3Library : IDisposable
 
     private void CheckError(IntPtr ctx)
     {
-        var errorCode = nativeLibrary.Z3GetErrorCode(ctx);
-        if (errorCode == Z3ErrorCode.Ok)
+        var z3ErrorCode = nativeLibrary.Z3GetErrorCode(ctx);
+        if (z3ErrorCode == Z3ErrorCode.Ok)
             return;
-        var message = nativeLibrary.Z3GetErrorMsg(ctx, errorCode);
-        throw new Z3Exception(errorCode, message);
+        var msgPtr = nativeLibrary.Z3GetErrorMsg(ctx, z3ErrorCode);
+        var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
+        throw new Z3Exception(z3ErrorCode, message);
     }
 
     private void OnZ3ErrorSafe(IntPtr ctx, int errorCode)
     {
         // DO NOT THROW EXCEPTIONS HERE - this is called from native Z3 code!
         var z3ErrorCode = (Z3ErrorCode)errorCode;
-        var message = nativeLibrary.Z3GetErrorMsg(ctx, z3ErrorCode);
+        var msgPtr = nativeLibrary.Z3GetErrorMsg(ctx, z3ErrorCode);
+        var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
         System.Diagnostics.Debug.WriteLine($"Z3 Error: {z3ErrorCode}: {message}");
     }
 }

@@ -143,8 +143,7 @@ public sealed class Z3Model
         if (invalidated)
             return "<invalidated>";
 
-        var ptr = context.Library.Z3ModelToString(context.Handle, modelHandle);
-        return Marshal.PtrToStringAnsi(ptr) ?? "<invalid>";
+        return context.Library.Z3ModelToString(context.Handle, modelHandle) ?? "<invalid>";
     }
 
     internal void Invalidate()
@@ -171,8 +170,7 @@ public sealed class Z3Model
                 $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
             );
 
-        var ptr = context.Library.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle);
-        return Marshal.PtrToStringAnsi(ptr)
+        return context.Library.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle)
             ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
     }
 }
