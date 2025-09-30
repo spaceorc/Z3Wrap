@@ -6,7 +6,7 @@ using Spaceorc.Z3Wrap.Values.BitVectors;
 namespace Z3Wrap.Tests.Expressions.BitVectors;
 
 /// <summary>
-/// Tests for bit-vector bitwise operations (AND, OR, XOR, NOT, shifts).
+///     Tests for bit-vector bitwise operations (AND, OR, XOR, NOT, shifts).
 /// </summary>
 [TestFixture]
 public class BvExprBitwiseTests
@@ -25,7 +25,7 @@ public class BvExprBitwiseTests
         var resultViaUintLeft = 0b101010u & b;
         var resultViaUintRight = a & 0b110011u;
         var resultViaContext = context.And(a, b);
-        var resultViaContextUintLeft = context.And<Size32>(0b101010u, b);
+        var resultViaContextUintLeft = context.And(0b101010u, b);
         var resultViaContextUintRight = context.And(a, 0b110011u);
         var resultViaFunc = a.And(b);
         var resultViaFuncUintRight = a.And(0b110011u);
@@ -62,7 +62,7 @@ public class BvExprBitwiseTests
         var resultViaUintLeft = 0b101010u | b;
         var resultViaUintRight = a | 0b110011u;
         var resultViaContext = context.Or(a, b);
-        var resultViaContextUintLeft = context.Or<Size32>(0b101010u, b);
+        var resultViaContextUintLeft = context.Or(0b101010u, b);
         var resultViaContextUintRight = context.Or(a, 0b110011u);
         var resultViaFunc = a.Or(b);
         var resultViaFuncUintRight = a.Or(0b110011u);
@@ -99,7 +99,7 @@ public class BvExprBitwiseTests
         var resultViaUintLeft = 0b101010u ^ b;
         var resultViaUintRight = a ^ 0b110011u;
         var resultViaContext = context.Xor(a, b);
-        var resultViaContextUintLeft = context.Xor<Size32>(0b101010u, b);
+        var resultViaContextUintLeft = context.Xor(0b101010u, b);
         var resultViaContextUintRight = context.Xor(a, 0b110011u);
         var resultViaFunc = a.Xor(b);
         var resultViaFuncUintRight = a.Xor(0b110011u);
@@ -162,7 +162,7 @@ public class BvExprBitwiseTests
         var result = a << b;
         var resultViaUintRight = a << 3u;
         var resultViaContext = context.Shl(a, b);
-        var resultViaContextUintLeft = context.Shl<Size32>(5u, b);
+        var resultViaContextUintLeft = context.Shl(5u, b);
         var resultViaContextUintRight = context.Shl(a, 3u);
         var resultViaFunc = a.Shl(b);
         var resultViaFuncUintRight = a.Shl(3u);
@@ -198,7 +198,7 @@ public class BvExprBitwiseTests
         var result = a >> b;
         var resultViaUintRight = a >> 3u;
         var resultViaContext = context.Shr(a, b);
-        var resultViaContextUintLeft = context.Shr<Size32>(40u, b);
+        var resultViaContextUintLeft = context.Shr(40u, b);
         var resultViaContextUintRight = context.Shr(a, 3u);
         var resultViaFunc = a.Shr(b);
         var resultViaFuncUintRight = a.Shr(3u);
@@ -232,11 +232,11 @@ public class BvExprBitwiseTests
         var b = context.BitVec<Size32>(3u);
 
         // Arithmetic shift right (signed) - no operator, only context and expr methods
-        var resultViaContext = context.Shr(a, b, signed: true);
-        var resultViaContextUintLeft = context.Shr<Size32>(unchecked((uint)-40), b, signed: true);
-        var resultViaContextUintRight = context.Shr(a, 3u, signed: true);
-        var resultViaFunc = a.Shr(b, signed: true);
-        var resultViaFuncUintRight = a.Shr(3u, signed: true);
+        var resultViaContext = context.Shr(a, b, true);
+        var resultViaContextUintLeft = context.Shr(unchecked((uint)-40), b, true);
+        var resultViaContextUintRight = context.Shr(a, 3u, true);
+        var resultViaFunc = a.Shr(b, true);
+        var resultViaFuncUintRight = a.Shr(3u, true);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
