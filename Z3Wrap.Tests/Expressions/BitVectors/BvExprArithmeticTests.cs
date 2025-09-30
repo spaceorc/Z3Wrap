@@ -8,271 +8,316 @@ namespace Z3Wrap.Tests.Expressions.BitVectors;
 [TestFixture]
 public class BvExprArithmeticTests
 {
-    [Test]
-    public void Add_TwoValues_ComputesCorrectResult()
+    [TestCase(10u, 32u, 42u)]
+    [TestCase(5u, 7u, 12u)]
+    public void Add_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(10u);
-        var b = context.BitVec<Size32>(32u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var sum = a + b;
-        var sumViaUintLeft = 10u + b;
-        var sumViaUintRight = a + 32u;
-        var sumViaContext = context.Add(a, b);
-        var sumViaContextUintLeft = context.Add<Size32>(10u, b);
-        var sumViaContextUintRight = context.Add(a, 32u);
-        var sumViaFunc = a.Add(b);
-        var sumViaFuncUintRight = a.Add(32u);
+        var resultViaOperator = a + b;
+        var resultViaOperatorUintLeft = aValue + b;
+        var resultViaOperatorUintRight = a + bValue;
+        var resultViaContext = context.Add(a, b);
+        var resultViaContextUintLeft = context.Add(aValue, b);
+        var resultViaContextUintRight = context.Add(a, bValue);
+        var resultViaFunc = a.Add(b);
+        var resultViaFuncUintRight = a.Add(bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(sum).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaContext).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaContextUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaContextUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaFunc).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(sumViaFuncUintRight).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBitVec(resultViaOperator).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void Subtract_TwoValues_ComputesCorrectResult()
+    [TestCase(50u, 8u, 42u)]
+    [TestCase(20u, 8u, 12u)]
+    public void Subtract_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(50u);
-        var b = context.BitVec<Size32>(8u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var difference = a - b;
-        var differenceViaUintLeft = 50u - b;
-        var differenceViaUintRight = a - 8u;
-        var differenceViaContext = context.Sub(a, b);
-        var differenceViaContextUintLeft = context.Sub<Size32>(50u, b);
-        var differenceViaContextUintRight = context.Sub(a, 8u);
-        var differenceViaFunc = a.Sub(b);
-        var differenceViaFuncUintRight = a.Sub(8u);
+        var resultViaOperator = a - b;
+        var resultViaOperatorUintLeft = aValue - b;
+        var resultViaOperatorUintRight = a - bValue;
+        var resultViaContext = context.Sub(a, b);
+        var resultViaContextUintLeft = context.Sub(aValue, b);
+        var resultViaContextUintRight = context.Sub(a, bValue);
+        var resultViaFunc = a.Sub(b);
+        var resultViaFuncUintRight = a.Sub(bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(difference).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaContext).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaContextUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaContextUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaFunc).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(differenceViaFuncUintRight).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBitVec(resultViaOperator).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void Multiply_TwoValues_ComputesCorrectResult()
+    [TestCase(6u, 7u, 42u)]
+    [TestCase(3u, 4u, 12u)]
+    public void Multiply_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(6u);
-        var b = context.BitVec<Size32>(7u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var product = a * b;
-        var productViaUintLeft = 6u * b;
-        var productViaUintRight = a * 7u;
-        var productViaContext = context.Mul(a, b);
-        var productViaContextUintLeft = context.Mul<Size32>(6u, b);
-        var productViaContextUintRight = context.Mul(a, 7u);
-        var productViaFunc = a.Mul(b);
-        var productViaFuncUintRight = a.Mul(7u);
+        var resultViaOperator = a * b;
+        var resultViaOperatorUintLeft = aValue * b;
+        var resultViaOperatorUintRight = a * bValue;
+        var resultViaContext = context.Mul(a, b);
+        var resultViaContextUintLeft = context.Mul(aValue, b);
+        var resultViaContextUintRight = context.Mul(a, bValue);
+        var resultViaFunc = a.Mul(b);
+        var resultViaFuncUintRight = a.Mul(bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(product).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaContext).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaContextUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaContextUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaFunc).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(productViaFuncUintRight).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBitVec(resultViaOperator).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void Divide_TwoValues_ComputesCorrectResult()
+    [TestCase(84u, 2u, 42u)]
+    [TestCase(48u, 4u, 12u)]
+    public void Divide_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(84u);
-        var b = context.BitVec<Size32>(2u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var quotient = a / b;
-        var quotientViaUintLeft = 84u / b;
-        var quotientViaUintRight = a / 2u;
-        var quotientViaContext = context.Div(a, b);
-        var quotientViaContextUintLeft = context.Div<Size32>(84u, b);
-        var quotientViaContextUintRight = context.Div(a, 2u);
-        var quotientViaFunc = a.Div(b);
-        var quotientViaFuncUintRight = a.Div(2u);
+        var resultViaOperator = a / b;
+        var resultViaOperatorUintLeft = aValue / b;
+        var resultViaOperatorUintRight = a / bValue;
+        var resultViaContext = context.Div(a, b);
+        var resultViaContextUintLeft = context.Div(aValue, b);
+        var resultViaContextUintRight = context.Div(a, bValue);
+        var resultViaFunc = a.Div(b);
+        var resultViaFuncUintRight = a.Div(bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(quotient).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaContext).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaContextUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaContextUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaFunc).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaFuncUintRight).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBitVec(resultViaOperator).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void SignedDivide_TwoValues_ComputesCorrectResult()
+    [TestCase(unchecked((uint)-84), unchecked((uint)-2), 42u)] // -84 / -2 = 42
+    [TestCase(unchecked((uint)-48), unchecked((uint)-4), 12u)] // -48 / -4 = 12
+    public void SignedDivide_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(unchecked((uint)-84));
-        var b = context.BitVec<Size32>(unchecked((uint)-2));
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var quotient = context.Div(a, b, signed: true);
-        var quotientViaContextUintLeft = context.Div<Size32>(unchecked((uint)-84), b, signed: true);
-        var quotientViaContextUintRight = context.Div(a, unchecked((uint)-2), signed: true);
-        var quotientViaFunc = a.Div(b, signed: true);
-        var quotientViaFuncUintRight = a.Div(unchecked((uint)-2), signed: true);
+        var resultViaContext = context.Div(a, b, signed: true);
+        var resultViaContextUintLeft = context.Div(aValue, b, signed: true);
+        var resultViaContextUintRight = context.Div(a, bValue, signed: true);
+        var resultViaFunc = a.Div(b, signed: true);
+        var resultViaFuncUintRight = a.Div(bValue, signed: true);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(quotient).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaContextUintLeft).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaContextUintRight).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaFunc).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(quotientViaFuncUintRight).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void Mod_TwoValues_ComputesCorrectResult()
+    [TestCase(47u, 5u, 2u)] // 47 % 5 = 2
+    [TestCase(50u, 8u, 2u)] // 50 % 8 = 2
+    public void Rem_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(47u);
-        var b = context.BitVec<Size32>(5u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var remainder = a % b;
-        var remainderViaUintLeft = 47u % b;
-        var remainderViaUintRight = a % 5u;
-        var remainderViaContext = context.Rem(a, b);
-        var remainderViaContextUintLeft = context.Rem<Size32>(47u, b);
-        var remainderViaContextUintRight = context.Rem(a, 5u);
-        var remainderViaFunc = a.Rem(b);
-        var remainderViaFuncUintRight = a.Rem(5u);
+        var resultViaOperator = a % b;
+        var resultViaOperatorUintLeft = aValue % b;
+        var resultViaOperatorUintRight = a % bValue;
+        var resultViaContext = context.Rem(a, b);
+        var resultViaContextUintLeft = context.Rem(aValue, b);
+        var resultViaContextUintRight = context.Rem(a, bValue);
+        var resultViaFunc = a.Rem(b);
+        var resultViaFuncUintRight = a.Rem(bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(remainder).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaUintLeft).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaUintRight).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaContext).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaContextUintLeft).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaContextUintRight).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaFunc).Value, Is.EqualTo(new BigInteger(2)));
-            Assert.That(model.GetBitVec(remainderViaFuncUintRight).Value, Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetBitVec(resultViaOperator).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaOperatorUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void SignedMod_TwoValues_ComputesCorrectResult()
+    [TestCase(unchecked((uint)-47), 5u, unchecked((uint)-2))] // -47 % 5 = -2 (signed remainder)
+    [TestCase(unchecked((uint)-50), 8u, unchecked((uint)-2))] // -50 % 8 = -2 (signed remainder)
+    public void SignedRem_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(unchecked((uint)-47));
-        var b = context.BitVec<Size32>(5u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var remainder = context.SignedMod(a, b);
-        var remainderViaContextUintLeft = context.SignedMod<Size32>(unchecked((uint)-47), b);
-        var remainderViaContextUintRight = context.SignedMod(a, 5u);
-        var remainderViaFunc = a.SignedMod(b);
-        var remainderViaFuncUintRight = a.SignedMod(5u);
+        var resultViaContext = context.Rem(a, b, signed: true);
+        var resultViaContextUintLeft = context.Rem(aValue, b, signed: true);
+        var resultViaContextUintRight = context.Rem(a, bValue, signed: true);
+        var resultViaFunc = a.Rem(b, signed: true);
+        var resultViaFuncUintRight = a.Rem(bValue, signed: true);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        // Z3's signed modulo returns a non-negative result: -47 mod 5 = 3 (mathematical modulo)
-        var expected = new BigInteger(3);
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(remainder).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(remainderViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(remainderViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(remainderViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(remainderViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
         });
     }
 
-    [Test]
-    public void UnaryMinus_SingleValue_ComputesCorrectResult()
+    [TestCase(unchecked((uint)-47), 5u, 3u)] // -47 mod 5 = 3 (mathematical modulo, always non-negative)
+    [TestCase(unchecked((uint)-50), 8u, 6u)] // -50 mod 8 = 6 (mathematical modulo, always non-negative)
+    public void SignedMod_TwoValues_ComputesCorrectResult(uint aValue, uint bValue, uint expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(42u);
+        var a = context.BitVec<Size32>(aValue);
+        var b = context.BitVec<Size32>(bValue);
 
-        var negation = -a;
-        var negationViaContext = context.Neg(a);
-        var negationViaFunc = a.Neg();
+        var resultViaContext = context.SignedMod(a, b);
+        var resultViaContextUintLeft = context.SignedMod(aValue, b);
+        var resultViaContextUintRight = context.SignedMod(a, bValue);
+        var resultViaFunc = a.SignedMod(b);
+        var resultViaFuncUintRight = a.SignedMod(bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var expected = new BigInteger(unchecked((uint)-42));
+        var expectedValue = new BigInteger(expected);
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(negation).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(negationViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(negationViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expectedValue));
+        });
+    }
+
+    [TestCase(42u, unchecked((uint)-42))]
+    [TestCase(12u, unchecked((uint)-12))]
+    public void UnaryMinus_SingleValue_ComputesCorrectResult(uint aValue, uint expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.BitVec<Size32>(aValue);
+
+        var resultViaOperator = -a;
+        var resultViaContext = context.Neg(a);
+        var resultViaFunc = a.Neg();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var expectedValue = new BigInteger(expected);
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBitVec(resultViaOperator).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expectedValue));
+            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expectedValue));
         });
     }
 }
