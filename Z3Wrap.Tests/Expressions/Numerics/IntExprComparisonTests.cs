@@ -211,6 +211,9 @@ public class IntExprComparisonTests
         var result = a != b;
         var resultViaIntLeft = aValue != b;
         var resultViaIntRight = a != bValue;
+        var resultViaContext = context.Neq(a, b);
+        var resultViaContextIntLeft = context.Neq(aValue, b);
+        var resultViaContextIntRight = context.Neq(a, bValue);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
@@ -221,6 +224,9 @@ public class IntExprComparisonTests
             Assert.That(model.GetBoolValue(result), Is.EqualTo(expected));
             Assert.That(model.GetBoolValue(resultViaIntLeft), Is.EqualTo(expected));
             Assert.That(model.GetBoolValue(resultViaIntRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContext), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextIntLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextIntRight), Is.EqualTo(expected));
         });
     }
 }
