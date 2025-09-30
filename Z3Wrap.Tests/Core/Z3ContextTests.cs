@@ -20,7 +20,7 @@ public class Z3ContextTests
     {
         var parameters = new Dictionary<string, string> { { "model", "true" } };
 
-        using var context = new Z3Context(parameters: parameters);
+        using var context = new Z3Context(parameters);
 
         Assert.That(context.Handle, Is.Not.EqualTo(IntPtr.Zero));
     }
@@ -60,16 +60,6 @@ public class Z3ContextTests
     }
 
     [Test]
-    public void CreateSolver_ReturnsValidSolver()
-    {
-        using var context = new Z3Context();
-
-        using var solver = context.CreateSolver();
-
-        Assert.That(solver.Handle, Is.Not.EqualTo(IntPtr.Zero));
-    }
-
-    [Test]
     public void CreateSimpleSolver_ReturnsValidSolver()
     {
         using var context = new Z3Context();
@@ -105,5 +95,60 @@ public class Z3ContextTests
         var library = context.Library;
 
         Assert.That(library, Is.Not.Null);
+    }
+
+    [Test]
+    public void IsCurrentContextSet_Initially_False()
+    {
+        Assert.That(Z3Context.IsCurrentContextSet, Is.False);
+    }
+
+    [Test]
+    public void SetUp_SetsCurrentContext()
+    {
+        using var context = new Z3Context();
+
+        using var scope = context.SetUp();
+
+        Assert.That(Z3Context.IsCurrentContextSet, Is.True);
+        Assert.That(Z3Context.Current, Is.SameAs(context));
+    }
+
+    [Test]
+    public void SetUp_AfterDispose_RestoresState()
+    {
+        using var context = new Z3Context();
+
+        using (var scope = context.SetUp())
+        {
+            Assert.That(Z3Context.IsCurrentContextSet, Is.True);
+        }
+
+        Assert.That(Z3Context.IsCurrentContextSet, Is.False);
+    }
+
+    [Test]
+    public void SetUp_Nested_RestoresPreviousContext()
+    {
+        using var context1 = new Z3Context();
+        using var context2 = new Z3Context();
+
+        using (var scope1 = context1.SetUp())
+        {
+            Assert.That(Z3Context.Current, Is.SameAs(context1));
+
+            using (var scope2 = context2.SetUp())
+            {
+                Assert.That(Z3Context.Current, Is.SameAs(context2));
+            }
+
+            Assert.That(Z3Context.Current, Is.SameAs(context1));
+        }
+    }
+
+    [Test]
+    public void Current_WithoutSetUp_ThrowsInvalidOperationException()
+    {
+        Assert.Throws<InvalidOperationException>(() => _ = Z3Context.Current);
     }
 }
