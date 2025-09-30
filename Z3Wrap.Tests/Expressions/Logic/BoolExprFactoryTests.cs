@@ -7,7 +7,7 @@ namespace Z3Wrap.Tests.Expressions.Logic;
 /// Tests for boolean expression creation methods.
 /// </summary>
 [TestFixture]
-public class BoolExprCreationTests
+public class BoolExprFactoryTests
 {
     [TestCase(true)]
     [TestCase(false)]
