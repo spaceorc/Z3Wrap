@@ -216,4 +216,15 @@ public class RealExprFactoryTests
 
         Assert.That(real1.Handle, Is.EqualTo(real2.Handle));
     }
+
+    [Test]
+    public void RealExpr_Sort_ReturnsRealSortKind()
+    {
+        using var context = new Z3Context();
+
+        var sortHandle = context.GetSortForType<RealExpr>();
+        var sortKind = context.Library.Z3GetSortKind(context.Handle, sortHandle);
+
+        Assert.That(sortKind, Is.EqualTo(Z3SortKind.Real));
+    }
 }
