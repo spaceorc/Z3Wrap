@@ -1,0 +1,215 @@
+using System.Numerics;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.Common;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
+
+namespace Z3Wrap.Tests.Expressions.Numerics;
+
+[TestFixture]
+public class IntExprArithmeticTests
+{
+    [Test]
+    public void Add_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(10);
+        var b = context.Int(32);
+
+        var sum = a + b;
+        var sumViaIntLeft = 10 + b;
+        var sumViaIntRight = a + 32;
+        var sumViaContext = context.Add(a, b);
+        var sumViaContextIntLeft = context.Add(10, b);
+        var sumViaContextIntRight = context.Add(a, 32);
+        var sumViaFunc = a.Add(b);
+        var sumViaFuncIntRight = a.Add(32);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(sum), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaContextIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaContextIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaFunc), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaFuncIntRight), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Subtract_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(50);
+        var b = context.Int(8);
+
+        var difference = a - b;
+        var differenceViaIntLeft = 50 - b;
+        var differenceViaIntRight = a - 8;
+        var differenceViaContext = context.Sub(a, b);
+        var differenceViaContextIntLeft = context.Sub(50, b);
+        var differenceViaContextIntRight = context.Sub(a, 8);
+        var differenceViaFunc = a.Sub(b);
+        var differenceViaFuncIntRight = a.Sub(8);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(difference), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaContextIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaContextIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaFunc), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaFuncIntRight), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Multiply_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(6);
+        var b = context.Int(7);
+
+        var product = a * b;
+        var productViaIntLeft = 6 * b;
+        var productViaIntRight = a * 7;
+        var productViaContext = context.Mul(a, b);
+        var productViaContextIntLeft = context.Mul(6, b);
+        var productViaContextIntRight = context.Mul(a, 7);
+        var productViaFunc = a.Mul(b);
+        var productViaFuncIntRight = a.Mul(7);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(product), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaContextIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaContextIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaFunc), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaFuncIntRight), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Divide_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(84);
+        var b = context.Int(2);
+
+        var quotient = a / b;
+        var quotientViaIntLeft = 84 / b;
+        var quotientViaIntRight = a / 2;
+        var quotientViaContext = context.Div(a, b);
+        var quotientViaContextIntLeft = context.Div(84, b);
+        var quotientViaContextIntRight = context.Div(a, 2);
+        var quotientViaFunc = a.Div(b);
+        var quotientViaFuncIntRight = a.Div(2);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(quotient), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaContextIntLeft), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaContextIntRight), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaFunc), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(quotientViaFuncIntRight), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Mod_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(47);
+        var b = context.Int(5);
+
+        var remainder = a % b;
+        var remainderViaIntLeft = 47 % b;
+        var remainderViaIntRight = a % 5;
+        var remainderViaContext = context.Mod(a, b);
+        var remainderViaContextIntLeft = context.Mod(47, b);
+        var remainderViaContextIntRight = context.Mod(a, 5);
+        var remainderViaFunc = a.Mod(b);
+        var remainderViaFuncIntRight = a.Mod(5);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(remainder), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaIntLeft), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaIntRight), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaContext), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaContextIntLeft), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaContextIntRight), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaFunc), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(remainderViaFuncIntRight), Is.EqualTo(new BigInteger(2)));
+        });
+    }
+
+    [Test]
+    public void UnaryMinus_SingleValue_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(42);
+
+        var negation = -a;
+        var negationViaContext = context.UnaryMinus(a);
+        var negationViaFunc = a.UnaryMinus();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(negation), Is.EqualTo(new BigInteger(-42)));
+            Assert.That(model.GetIntValue(negationViaContext), Is.EqualTo(new BigInteger(-42)));
+            Assert.That(model.GetIntValue(negationViaFunc), Is.EqualTo(new BigInteger(-42)));
+        });
+    }
+}
