@@ -4,9 +4,6 @@ using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Numerics;
 
-/// <summary>
-/// Tests for integer comparison operations with comprehensive syntax variant coverage.
-/// </summary>
 [TestFixture]
 public class IntExprComparisonTests
 {

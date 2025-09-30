@@ -4,9 +4,6 @@ using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Numerics;
 
-/// <summary>
-/// Tests for integer expression creation methods.
-/// </summary>
 [TestFixture]
 public class IntExprFactoryTests
 {

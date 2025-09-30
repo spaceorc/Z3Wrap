@@ -5,9 +5,6 @@ using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Expressions.BitVectors;
 
-/// <summary>
-/// Tests for bit-vector expression creation methods.
-/// </summary>
 [TestFixture]
 public class BvExprFactoryTests
 {

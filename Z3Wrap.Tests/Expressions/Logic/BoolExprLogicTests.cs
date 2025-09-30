@@ -5,9 +5,6 @@ using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Logic;
 
-/// <summary>
-/// Tests for boolean logic operations (AND, OR, XOR, NOT, Implies, Iff, Ite).
-/// </summary>
 [TestFixture]
 public class BoolExprLogicTests
 {

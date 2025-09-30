@@ -5,9 +5,6 @@ using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Expressions.BitVectors;
 
-/// <summary>
-///     Tests for bit-vector bitwise operations (AND, OR, XOR, NOT, shifts).
-/// </summary>
 [TestFixture]
 public class BvExprBitwiseTests
 {

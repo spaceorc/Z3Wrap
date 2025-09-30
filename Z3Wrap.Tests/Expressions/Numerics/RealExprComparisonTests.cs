@@ -4,9 +4,6 @@ using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Numerics;
 
-/// <summary>
-/// Tests for real comparison operations with comprehensive syntax variant coverage.
-/// </summary>
 [TestFixture]
 public class RealExprComparisonTests
 {

@@ -1,9 +1,12 @@
-namespace Z3Wrap.Tests.__old.Unit.Expressions.Z3BitVecExprTests;
+using System.Numerics;
+using Spaceorc.Z3Wrap.Core;
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Values.BitVectors;
 
-// TEMPORARILY COMMENTED OUT: BitVec API changed from runtime-sized to compile-time-sized generics
-/*
+namespace Z3Wrap.Tests.Expressions.BitVectors;
+
 [TestFixture]
-public class Z3BitVecExprOverflowTests
+public class BvExprOverflowTests
 {
     [TestCase(0, 0, false, Description = "0 + 0 = 0 < 256 → no overflow")]
     [TestCase(255, 0, false, Description = "255 + 0 = 255 < 256 → no overflow")]
@@ -17,27 +20,23 @@ public class Z3BitVecExprOverflowTests
     [TestCase(127, 127, false, Description = "127 + 127 = 254 < 256 → no overflow")]
     [TestCase(129, 126, false, Description = "129 + 126 = 255 < 256 → no overflow")]
     [TestCase(129, 127, true, Description = "129 + 127 = 256 ≥ 256 → overflow")]
-    public void UnsignedAddNoOverflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedOverflow
-    )
+    public void UnsignedAddNoOverflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of unsigned add overflow detection
-        var resultMethodBitVec = x.AddNoOverflow(y, signed: false); // BitVec.AddNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.AddNoOverflow(rightBigInt, signed: false); // BitVec.AddNoOverflow(BigInteger, signed) (method)
-        var resultContextBitVec = context.AddNoOverflow(x, y, signed: false); // Context.AddNoOverflow(BitVec, BitVec, signed) (method)
-        var resultContextRightBigInt = context.AddNoOverflow(x, rightBigInt, signed: false); // Context.AddNoOverflow(BitVec, BigInteger, signed) (method)
-        var resultContextLeftBigInt = context.AddNoOverflow(leftBigInt, y, signed: false); // Context.AddNoOverflow(BigInteger, BitVec, signed) (method)
+        var resultMethodBitVec = x.AddNoOverflow(y, false); // BitVec.AddNoOverflow(BitVec, signed) (method)
+        var resultMethodBigInt = x.AddNoOverflow(rightBigInt, false); // BitVec.AddNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.AddNoOverflow(x, y, false); // Context.AddNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.AddNoOverflow(x, rightBigInt, false); // Context.AddNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.AddNoOverflow(leftBigInt, y, false); // Context.AddNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -83,36 +82,27 @@ public class Z3BitVecExprOverflowTests
     [TestCase(255, 255, false, Description = "-1 + -1 = -2 → no positive overflow")]
     [TestCase(200, 200, false, Description = "-56 + -56 = -112 → no positive overflow")]
     [TestCase(128, 1, false, Description = "-128 + 1 = -127 → ok")]
-    [TestCase(
-        128,
-        128,
-        false,
-        Description = "-128 + -128 = -256 (wraps) → negative underflow (not flagged here)"
-    )]
+    [TestCase(128, 128, false, Description = "-128 + -128 = -256 (wraps) → negative underflow (not flagged here)")]
     [TestCase(0, 128, false, Description = "0 + -128 = -128 → ok")]
     [TestCase(50, 200, false, Description = "50 + -56 = -6 → ok")]
     [TestCase(200, 100, false, Description = "-56 + 100 = 44 → ok")]
-    public void SignedAddNoOverflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedOverflow
-    )
+    public void SignedAddNoOverflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed add overflow detection
-        var resultMethodBitVec = x.AddNoOverflow(y, signed: true); // BitVec.AddNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.AddNoOverflow(rightBigInt, signed: true); // BitVec.AddNoOverflow(BigInteger, signed) (method)
-        var resultContextBitVec = context.AddNoOverflow(x, y, signed: true); // Context.AddNoOverflow(BitVec, BitVec, signed) (method)
-        var resultContextRightBigInt = context.AddNoOverflow(x, rightBigInt, signed: true); // Context.AddNoOverflow(BitVec, BigInteger, signed) (method)
-        var resultContextLeftBigInt = context.AddNoOverflow(leftBigInt, y, signed: true); // Context.AddNoOverflow(BigInteger, BitVec, signed) (method)
+        var resultMethodBitVec = x.AddNoOverflow(y, true); // BitVec.AddNoOverflow(BitVec, signed) (method)
+        var resultMethodBigInt = x.AddNoOverflow(rightBigInt, true); // BitVec.AddNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.AddNoOverflow(x, y, true); // Context.AddNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.AddNoOverflow(x, rightBigInt, true); // Context.AddNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.AddNoOverflow(leftBigInt, y, true); // Context.AddNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -167,27 +157,23 @@ public class Z3BitVecExprOverflowTests
     [TestCase(64, 3, false, Description = "64 * 3 = 192  < 256 → no overflow")]
     [TestCase(85, 3, false, Description = "85 * 3 = 255  < 256 → no overflow")]
     [TestCase(85, 4, true, Description = "85 * 4 = 340  ≥ 256 → overflow")]
-    public void UnsignedMulNoOverflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedOverflow
-    )
+    public void UnsignedMulNoOverflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of unsigned multiply overflow detection
-        var resultMethodBitVec = x.MulNoOverflow(y, signed: false); // BitVec.MulNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.MulNoOverflow(rightBigInt, signed: false); // BitVec.MulNoOverflow(BigInteger, signed) (method)
-        var resultContextBitVec = context.MulNoOverflow(x, y, signed: false); // Context.MulNoOverflow(BitVec, BitVec, signed) (method)
-        var resultContextRightBigInt = context.MulNoOverflow(x, rightBigInt, signed: false); // Context.MulNoOverflow(BitVec, BigInteger, signed) (method)
-        var resultContextLeftBigInt = context.MulNoOverflow(leftBigInt, y, signed: false); // Context.MulNoOverflow(BigInteger, BitVec, signed) (method)
+        var resultMethodBitVec = x.MulNoOverflow(y, false); // BitVec.MulNoOverflow(BitVec, signed) (method)
+        var resultMethodBigInt = x.MulNoOverflow(rightBigInt, false); // BitVec.MulNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.MulNoOverflow(x, y, false); // Context.MulNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.MulNoOverflow(x, rightBigInt, false); // Context.MulNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.MulNoOverflow(leftBigInt, y, false); // Context.MulNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -223,37 +209,28 @@ public class Z3BitVecExprOverflowTests
         });
     }
 
-    [TestCase(
-        10,
-        12,
-        false,
-        Description = "Signed multiplication no overflow: 10 * 12 = 120 <= 127"
-    )]
+    [TestCase(10, 12, false, Description = "Signed multiplication no overflow: 10 * 12 = 120 <= 127")]
     [TestCase(11, 12, true, Description = "Signed multiplication overflow: 11 * 12 = 132 > 127")]
     // [TestCase(200, 2, false, Description = "Signed no overflow: -56 * 2 = -112 >= -128")] // Platform-specific behavior between Z3 versions - disabled for CI compatibility
     [TestCase(1, 127, false, Description = "No overflow: 1 * 127")]
     [TestCase(0, 100, false, Description = "No overflow: 0 * 100")]
-    public void SignedMulNoOverflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedOverflow
-    )
+    public void SignedMulNoOverflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed multiply overflow detection
-        var resultMethodBitVec = x.MulNoOverflow(y, signed: true); // BitVec.MulNoOverflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.MulNoOverflow(rightBigInt, signed: true); // BitVec.MulNoOverflow(BigInteger, signed) (method)
-        var resultContextBitVec = context.MulNoOverflow(x, y, signed: true); // Context.MulNoOverflow(BitVec, BitVec, signed) (method)
-        var resultContextRightBigInt = context.MulNoOverflow(x, rightBigInt, signed: true); // Context.MulNoOverflow(BitVec, BigInteger, signed) (method)
-        var resultContextLeftBigInt = context.MulNoOverflow(leftBigInt, y, signed: true); // Context.MulNoOverflow(BigInteger, BitVec, signed) (method)
+        var resultMethodBitVec = x.MulNoOverflow(y, true); // BitVec.MulNoOverflow(BitVec, signed) (method)
+        var resultMethodBigInt = x.MulNoOverflow(rightBigInt, true); // BitVec.MulNoOverflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.MulNoOverflow(x, y, true); // Context.MulNoOverflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.MulNoOverflow(x, rightBigInt, true); // Context.MulNoOverflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.MulNoOverflow(leftBigInt, y, true); // Context.MulNoOverflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -292,28 +269,19 @@ public class Z3BitVecExprOverflowTests
     [TestCase(127, 200, true, Description = "127 - (-56) = 183 > 127 → overflow")]
     [TestCase(100, 50, false, Description = "100 - 50 = 50 → ok")]
     [TestCase(0, 128, true, Description = "0 - (-128) = 128 > 127 → overflow")]
-    [TestCase(
-        200,
-        100,
-        false,
-        Description = "-56 - 100 = -156 (too negative, but not upper-overflow)"
-    )]
+    [TestCase(200, 100, false, Description = "-56 - 100 = -156 (too negative, but not upper-overflow)")]
     [TestCase(255, 255, false, Description = "-1 - (-1) = 0 → ok")]
     [TestCase(10, 255, false, Description = "10 - (-1) = 11 → ok")]
     [TestCase(127, 1, false, Description = "127 - 1 = 126 → ok")]
     [TestCase(127, 255, true, Description = "127 - (-1) = 128 > 127 → overflow")]
-    public void SignedSubNoOverflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedOverflow
-    )
+    public void SignedSubNoOverflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -370,27 +338,23 @@ public class Z3BitVecExprOverflowTests
     [TestCase(50, 200, true, Description = "50 - 200: x < y → underflow")]
     [TestCase(255, 255, false, Description = "255 - 255: equal → no underflow")]
     [TestCase(1, 255, true, Description = "1 - 255: x < y → underflow")]
-    public void UnsignedSubNoUnderflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnderflow
-    )
+    public void UnsignedSubNoUnderflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnderflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of unsigned subtract underflow detection
-        var resultMethodBitVec = x.SubNoUnderflow(y, signed: false); // BitVec.SubNoUnderflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.SubNoUnderflow(rightBigInt, signed: false); // BitVec.SubNoUnderflow(BigInteger, signed) (method)
-        var resultContextBitVec = context.SubNoUnderflow(x, y, signed: false); // Context.SubNoUnderflow(BitVec, BitVec, signed) (method)
-        var resultContextRightBigInt = context.SubNoUnderflow(x, rightBigInt, signed: false); // Context.SubNoUnderflow(BitVec, BigInteger, signed) (method)
-        var resultContextLeftBigInt = context.SubNoUnderflow(leftBigInt, y, signed: false); // Context.SubNoUnderflow(BigInteger, BitVec, signed) (method)
+        var resultMethodBitVec = x.SubNoUnderflow(y, false); // BitVec.SubNoUnderflow(BitVec, signed) (method)
+        var resultMethodBigInt = x.SubNoUnderflow(rightBigInt, false); // BitVec.SubNoUnderflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.SubNoUnderflow(x, y, false); // Context.SubNoUnderflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.SubNoUnderflow(x, rightBigInt, false); // Context.SubNoUnderflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.SubNoUnderflow(leftBigInt, y, false); // Context.SubNoUnderflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -434,27 +398,23 @@ public class Z3BitVecExprOverflowTests
     [TestCase(0, 1, false, Description = "0 - 1 = -1 → ok")]
     [TestCase(129, 2, true, Description = "-127 - 2 = -129 < -128 → underflow")]
     [TestCase(255, 127, false, Description = "-1 - 127 = -128 (boundary) → ok")]
-    public void SignedSubNoUnderflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnderflow
-    )
+    public void SignedSubNoUnderflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnderflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
         // Test all variations of signed subtract underflow detection
-        var resultMethodBitVec = x.SubNoUnderflow(y, signed: true); // BitVec.SubNoUnderflow(BitVec, signed) (method)
-        var resultMethodBigInt = x.SubNoUnderflow(rightBigInt, signed: true); // BitVec.SubNoUnderflow(BigInteger, signed) (method)
-        var resultContextBitVec = context.SubNoUnderflow(x, y, signed: true); // Context.SubNoUnderflow(BitVec, BitVec, signed) (method)
-        var resultContextRightBigInt = context.SubNoUnderflow(x, rightBigInt, signed: true); // Context.SubNoUnderflow(BitVec, BigInteger, signed) (method)
-        var resultContextLeftBigInt = context.SubNoUnderflow(leftBigInt, y, signed: true); // Context.SubNoUnderflow(BigInteger, BitVec, signed) (method)
+        var resultMethodBitVec = x.SubNoUnderflow(y, true); // BitVec.SubNoUnderflow(BitVec, signed) (method)
+        var resultMethodBigInt = x.SubNoUnderflow(rightBigInt, true); // BitVec.SubNoUnderflow(BigInteger, signed) (method)
+        var resultContextBitVec = context.SubNoUnderflow(x, y, true); // Context.SubNoUnderflow(BitVec, BitVec, signed) (method)
+        var resultContextRightBigInt = context.SubNoUnderflow(x, rightBigInt, true); // Context.SubNoUnderflow(BitVec, BigInteger, signed) (method)
+        var resultContextLeftBigInt = context.SubNoUnderflow(leftBigInt, y, true); // Context.SubNoUnderflow(BigInteger, BitVec, signed) (method)
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -498,18 +458,14 @@ public class Z3BitVecExprOverflowTests
     [TestCase(255, 128, false, Description = "-1 * -128 = +128 (positive) → no underflow")]
     [TestCase(129, 2, true, Description = "-127 * 2 = -254 < -128 → underflow")]
     [TestCase(64, 4, false, Description = "64 * 4 = +256 (positive overflow, but no underflow)")]
-    public void SignedMulNoUnderflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnderflow
-    )
+    public void SignedMulNoUnderflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnderflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -562,18 +518,14 @@ public class Z3BitVecExprOverflowTests
     [TestCase(0, 200, false, Description = "0 + (−56) = −56 → ok")]
     [TestCase(50, 200, false, Description = "50 + (−56) = −6 → ok")]
     [TestCase(129, 1, false, Description = "−127 + 1 = −126 → ok")]
-    public void SignedAddNoUnderflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedUnderflow
-    )
+    public void SignedAddNoUnderflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedUnderflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -626,18 +578,14 @@ public class Z3BitVecExprOverflowTests
     [TestCase(200, 2, false, Description = "−56 / 2 = −28 → ok")]
     [TestCase(200, 128, false, Description = "−56 / (−128) = 0 (toward 0) → ok")]
     [TestCase(0, 200, false, Description = "0 / (−56) = 0 → ok")]
-    public void SignedDivNoOverflow_AllVariations_ReturnsExpectedResult(
-        int left,
-        int right,
-        bool expectedOverflow
-    )
+    public void SignedDivNoOverflow_AllVariations_ReturnsExpectedResult(int left, int right, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(left, 8);
-        var y = context.BitVec(right, 8);
+        var x = context.BitVec<Size8>(left);
+        var y = context.BitVec<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -687,16 +635,13 @@ public class Z3BitVecExprOverflowTests
     [TestCase(255, false, Description = "−1 neg → +1 → ok")]
     [TestCase(0, false, Description = "0 neg → 0 → ok")]
     [TestCase(200, false, Description = "−56 neg → +56 → ok")]
-    public void SignedNegNoOverflow_AllVariations_ReturnsExpectedResult(
-        int value,
-        bool expectedOverflow
-    )
+    public void SignedNegNoOverflow_AllVariations_ReturnsExpectedResult(int value, bool expectedOverflow)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec(value, 8);
+        var x = context.BitVec<Size8>(value);
 
         // Test signed negation overflow detection (unary operation)
         var resultMethod = x.SignedNegNoOverflow(); // BitVec.SignedNegNoOverflow() (method)
@@ -712,4 +657,3 @@ public class Z3BitVecExprOverflowTests
         );
     }
 }
-*/

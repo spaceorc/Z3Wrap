@@ -5,9 +5,6 @@ using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Numerics;
 
-/// <summary>
-/// Tests for real expression creation methods.
-/// </summary>
 [TestFixture]
 public class RealExprFactoryTests
 {

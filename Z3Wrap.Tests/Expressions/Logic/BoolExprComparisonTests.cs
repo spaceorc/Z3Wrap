@@ -4,9 +4,6 @@ using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Z3Wrap.Tests.Expressions.Logic;
 
-/// <summary>
-/// Tests for boolean equality comparison operations with comprehensive syntax variant coverage.
-/// </summary>
 [TestFixture]
 public class BoolExprComparisonTests
 {

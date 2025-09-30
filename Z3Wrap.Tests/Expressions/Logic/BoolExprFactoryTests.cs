@@ -3,9 +3,6 @@ using Spaceorc.Z3Wrap.Expressions.Logic;
 
 namespace Z3Wrap.Tests.Expressions.Logic;
 
-/// <summary>
-/// Tests for boolean expression creation methods.
-/// </summary>
 [TestFixture]
 public class BoolExprFactoryTests
 {
