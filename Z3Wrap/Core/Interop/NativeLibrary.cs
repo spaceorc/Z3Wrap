@@ -198,6 +198,17 @@ internal sealed class NativeLibrary : IDisposable
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_reset");
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_reason_unknown");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_set_params");
+
+            // Parameter set functions
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_params");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_inc_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_dec_ref");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_bool");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_uint");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_double");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_symbol");
+            LoadFunctionInternal(handle, functionPointers, "Z3_params_to_string");
 
             // Model functions
             LoadFunctionInternal(handle, functionPointers, "Z3_model_inc_ref");
@@ -2003,6 +2014,134 @@ internal sealed class NativeLibrary : IDisposable
         return func(ctx, solver);
     }
 
+    /// <summary>
+    /// Sets parameters on a solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_set_params");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverSetParamsDelegate>(funcPtr);
+        func(ctx, solver, paramsHandle);
+    }
+
+    // Parameter set functions
+    /// <summary>
+    /// Creates an empty parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created parameter set.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr Z3MkParams(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_params");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3MkParamsDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    /// <summary>
+    /// Increments the reference counter of the given parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_inc_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsIncRefDelegate>(funcPtr);
+        func(ctx, paramsHandle);
+    }
+
+    /// <summary>
+    /// Decrements the reference counter of the given parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_dec_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsDecRefDelegate>(funcPtr);
+        func(ctx, paramsHandle);
+    }
+
+    /// <summary>
+    /// Sets a boolean parameter.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="key">The parameter key symbol.</param>
+    /// <param name="value">The boolean value (0 for false, 1 for true).</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3ParamsSetBool(IntPtr ctx, IntPtr paramsHandle, IntPtr key, int value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_set_bool");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetBoolDelegate>(funcPtr);
+        func(ctx, paramsHandle, key, value);
+    }
+
+    /// <summary>
+    /// Sets an unsigned integer parameter.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="key">The parameter key symbol.</param>
+    /// <param name="value">The unsigned integer value.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3ParamsSetUInt(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_set_uint");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetUIntDelegate>(funcPtr);
+        func(ctx, paramsHandle, key, value);
+    }
+
+    /// <summary>
+    /// Sets a double parameter.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="key">The parameter key symbol.</param>
+    /// <param name="value">The double value.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3ParamsSetDouble(IntPtr ctx, IntPtr paramsHandle, IntPtr key, double value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_set_double");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetDoubleDelegate>(funcPtr);
+        func(ctx, paramsHandle, key, value);
+    }
+
+    /// <summary>
+    /// Sets a symbol parameter.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="key">The parameter key symbol.</param>
+    /// <param name="value">The parameter value symbol.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Z3ParamsSetSymbol(IntPtr ctx, IntPtr paramsHandle, IntPtr key, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_set_symbol");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetSymbolDelegate>(funcPtr);
+        func(ctx, paramsHandle, key, value);
+    }
+
+    /// <summary>
+    /// Converts a parameter set to a string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <returns>String representation of the parameter set.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr Z3ParamsToString(IntPtr ctx, IntPtr paramsHandle)
+    {
+        var funcPtr = GetFunctionPointer("Z3_params_to_string");
+        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsToStringDelegate>(funcPtr);
+        return func(ctx, paramsHandle);
+    }
+
     // Model functions
     /// <summary>
     /// Increments the reference counter of the given model.
@@ -2412,6 +2551,17 @@ internal sealed class NativeLibrary : IDisposable
     private delegate void Z3SolverResetDelegate(IntPtr ctx, IntPtr solver);
     private delegate IntPtr Z3SolverGetModelDelegate(IntPtr ctx, IntPtr solver);
     private delegate IntPtr Z3SolverGetReasonUnknownDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void Z3SolverSetParamsDelegate(IntPtr ctx, IntPtr solver, IntPtr paramsHandle);
+
+    // Parameter set delegates
+    private delegate IntPtr Z3MkParamsDelegate(IntPtr ctx);
+    private delegate void Z3ParamsIncRefDelegate(IntPtr ctx, IntPtr paramsHandle);
+    private delegate void Z3ParamsDecRefDelegate(IntPtr ctx, IntPtr paramsHandle);
+    private delegate void Z3ParamsSetBoolDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, int value);
+    private delegate void Z3ParamsSetUIntDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value);
+    private delegate void Z3ParamsSetDoubleDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, double value);
+    private delegate void Z3ParamsSetSymbolDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, IntPtr value);
+    private delegate IntPtr Z3ParamsToStringDelegate(IntPtr ctx, IntPtr paramsHandle);
 
     // Model delegates
     private delegate void Z3ModelIncRefDelegate(IntPtr ctx, IntPtr model);

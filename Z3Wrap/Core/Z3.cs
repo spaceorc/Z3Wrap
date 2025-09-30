@@ -18,7 +18,6 @@ public static class Z3
     /// <see cref="IDisposable.Dispose"/> on the library after setting it here. Thread-safe using atomic exchange.
     /// </para>
     /// </summary>
-    /// <exception cref="ArgumentNullException">Thrown when attempting to set a null library.</exception>
     public static Z3Library Library
     {
         get
@@ -36,9 +35,6 @@ public static class Z3
         }
         set
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value), "Cannot set DefaultLibrary to null");
-
             // Atomically exchange the library and dispose the old one
             var oldLibrary = Interlocked.Exchange(ref library, value);
             oldLibrary?.Dispose();

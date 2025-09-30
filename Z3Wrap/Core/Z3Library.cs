@@ -1031,6 +1031,115 @@ public sealed class Z3Library : IDisposable
         CheckError(ctx);
     }
 
+    /// <inheritdoc cref="NativeLibrary.Z3SolverSetParams"/>
+    public void Z3SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
+    {
+        nativeLibrary.Z3SolverSetParams(ctx, solver, paramsHandle);
+        CheckError(ctx);
+    }
+
+    /// <inheritdoc cref="NativeLibrary.Z3MkParams"/>
+    public IntPtr Z3MkParams(IntPtr ctx)
+    {
+        var result = nativeLibrary.Z3MkParams(ctx);
+        CheckError(ctx);
+        return result;
+    }
+
+    /// <inheritdoc cref="NativeLibrary.Z3ParamsIncRef"/>
+    public void Z3ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
+    {
+        nativeLibrary.Z3ParamsIncRef(ctx, paramsHandle);
+        CheckError(ctx);
+    }
+
+    /// <inheritdoc cref="NativeLibrary.Z3ParamsDecRef"/>
+    public void Z3ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
+    {
+        nativeLibrary.Z3ParamsDecRef(ctx, paramsHandle);
+        CheckError(ctx);
+    }
+
+    /// <summary>
+    /// Sets a boolean parameter in the parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="name">The parameter name.</param>
+    /// <param name="value">The boolean value to set.</param>
+    public void Z3ParamsSetBool(IntPtr ctx, IntPtr paramsHandle, string name, bool value)
+    {
+        using var strPtr = new AnsiStringPtr(name);
+        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        CheckError(ctx);
+
+        nativeLibrary.Z3ParamsSetBool(ctx, paramsHandle, symbol, value ? 1 : 0);
+        CheckError(ctx);
+    }
+
+    /// <summary>
+    /// Sets an unsigned integer parameter in the parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="name">The parameter name.</param>
+    /// <param name="value">The unsigned integer value to set.</param>
+    public void Z3ParamsSetUInt(IntPtr ctx, IntPtr paramsHandle, string name, uint value)
+    {
+        using var strPtr = new AnsiStringPtr(name);
+        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        CheckError(ctx);
+
+        nativeLibrary.Z3ParamsSetUInt(ctx, paramsHandle, symbol, value);
+        CheckError(ctx);
+    }
+
+    /// <summary>
+    /// Sets a double parameter in the parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="name">The parameter name.</param>
+    /// <param name="value">The double value to set.</param>
+    public void Z3ParamsSetDouble(IntPtr ctx, IntPtr paramsHandle, string name, double value)
+    {
+        using var strPtr = new AnsiStringPtr(name);
+        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        CheckError(ctx);
+
+        nativeLibrary.Z3ParamsSetDouble(ctx, paramsHandle, symbol, value);
+        CheckError(ctx);
+    }
+
+    /// <summary>
+    /// Sets a symbol parameter in the parameter set.
+    /// </summary>
+    /// <param name="ctx">The Z3 context.</param>
+    /// <param name="paramsHandle">The parameter set handle.</param>
+    /// <param name="name">The parameter name.</param>
+    /// <param name="value">The symbol value as a string.</param>
+    public void Z3ParamsSetSymbol(IntPtr ctx, IntPtr paramsHandle, string name, string value)
+    {
+        using var namePtr = new AnsiStringPtr(name);
+        var nameSymbol = nativeLibrary.Z3MkStringSymbol(ctx, namePtr);
+        CheckError(ctx);
+
+        using var valuePtr = new AnsiStringPtr(value);
+        var valueSymbol = nativeLibrary.Z3MkStringSymbol(ctx, valuePtr);
+        CheckError(ctx);
+
+        nativeLibrary.Z3ParamsSetSymbol(ctx, paramsHandle, nameSymbol, valueSymbol);
+        CheckError(ctx);
+    }
+
+    /// <inheritdoc cref="NativeLibrary.Z3ParamsToString"/>
+    public string? Z3ParamsToString(IntPtr ctx, IntPtr paramsHandle)
+    {
+        var result = nativeLibrary.Z3ParamsToString(ctx, paramsHandle);
+        CheckError(ctx);
+        return Marshal.PtrToStringAnsi(result);
+    }
+
     private void CheckError(IntPtr ctx)
     {
         var z3ErrorCode = nativeLibrary.Z3GetErrorCode(ctx);

@@ -40,12 +40,12 @@ public class Z3ContextTests
     {
         using var context = new Z3Context(new Dictionary<string, string> { { "model", "true" } });
         using var scope = context.SetUp();
-        
+
         using var solverWithParam = context.CreateSolver();
         var x = context.IntConst("x");
         solverWithParam.Assert(x == 42);
         Assert.That(solverWithParam.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var modelWithParam = solverWithParam.GetModel();
         Assert.That(modelWithParam.GetIntValue(x), Is.EqualTo(new BigInteger(42)));
 
@@ -54,7 +54,7 @@ public class Z3ContextTests
         var y = context.IntConst("y");
         solverWithoutParam.Assert(y == 42);
         Assert.That(solverWithoutParam.Check(), Is.EqualTo(Z3Status.Satisfiable));
-        
+
         var modelWithoutParam = solverWithoutParam.GetModel();
         Assert.That(modelWithoutParam.GetIntValue(y), Is.EqualTo(new BigInteger(0)));
     }

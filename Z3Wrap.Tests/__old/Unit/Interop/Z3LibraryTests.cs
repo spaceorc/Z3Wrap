@@ -159,12 +159,6 @@ public class Z3DefaultLibraryTests
     }
 
     [Test]
-    public void DefaultLibrary_Set_NullValue_ThrowsArgumentNullException()
-    {
-        Assert.Throws<ArgumentNullException>(() => Z3.Library = null!);
-    }
-
-    [Test]
     public void LoadLibrary_SetsDefaultLibrary()
     {
         var originalLibrary = Z3.Library;

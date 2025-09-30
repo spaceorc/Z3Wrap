@@ -66,6 +66,16 @@ public sealed class Z3Solver : IDisposable
     }
 
     /// <summary>
+    /// Applies a set of parameters to this solver.
+    /// </summary>
+    /// <param name="parameters">The parameters to apply.</param>
+    public void SetParams(Z3Params parameters)
+    {
+        ThrowIfDisposed();
+        parameters.ApplyTo(context, InternalHandle);
+    }
+
+    /// <summary>
     /// Checks the satisfiability of the current constraints.
     /// </summary>
     /// <returns>The satisfiability status.</returns>
