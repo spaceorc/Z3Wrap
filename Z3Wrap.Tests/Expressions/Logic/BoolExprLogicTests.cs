@@ -222,7 +222,12 @@ public class BoolExprLogicTests
 
     [TestCase(true, 42, 99, 42)]
     [TestCase(false, 42, 99, 99)]
-    public void Ite_ConditionalSelection_ComputesCorrectResult(bool conditionValue, int ifTrue, int ifFalse, int expected)
+    public void Ite_ConditionalSelection_ComputesCorrectResult(
+        bool conditionValue,
+        int ifTrue,
+        int ifFalse,
+        int expected
+    )
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
