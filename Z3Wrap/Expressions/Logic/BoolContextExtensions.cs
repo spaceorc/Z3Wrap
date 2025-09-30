@@ -61,7 +61,7 @@ public static class BoolContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to combine with AND.</param>
     /// <returns>Boolean expression representing conjunction of operands.</returns>
-    public static BoolExpr And(this Z3Context context, params BoolExpr[] operands)
+    public static BoolExpr And(this Z3Context context, params ReadOnlySpan<BoolExpr> operands)
     {
         var args = new IntPtr[operands.Length];
         for (int i = 0; i < operands.Length; i++)
@@ -77,7 +77,7 @@ public static class BoolContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to combine with OR.</param>
     /// <returns>Boolean expression representing disjunction of operands.</returns>
-    public static BoolExpr Or(this Z3Context context, params BoolExpr[] operands)
+    public static BoolExpr Or(this Z3Context context, params ReadOnlySpan<BoolExpr> operands)
     {
         var args = new IntPtr[operands.Length];
         for (int i = 0; i < operands.Length; i++)

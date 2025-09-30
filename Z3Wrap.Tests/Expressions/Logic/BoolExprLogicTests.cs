@@ -50,6 +50,72 @@ public class BoolExprLogicTests
         });
     }
 
+    [Test]
+    public void And_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(true);
+        var result = context.And(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBoolValue(result), Is.True);
+    }
+
+    [Test]
+    public void And_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(true);
+        var b = context.Bool(true);
+        var c = context.Bool(true);
+        var resultViaContext = context.And(a, b, c);
+        var resultViaExpr = a.And(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultViaContext), Is.True);
+            Assert.That(model.GetBoolValue(resultViaExpr), Is.True);
+        });
+    }
+
+    [Test]
+    public void And_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(true);
+        var b = context.Bool(true);
+        var c = context.Bool(true);
+        var d = context.Bool(false);
+        var resultViaContext = context.And(a, b, c, d);
+        var resultViaExpr = a.And(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultViaContext), Is.False);
+            Assert.That(model.GetBoolValue(resultViaExpr), Is.False);
+        });
+    }
+
     [TestCase(true, true, true)]
     [TestCase(true, false, true)]
     [TestCase(false, true, true)]
@@ -86,6 +152,72 @@ public class BoolExprLogicTests
             Assert.That(model.GetBoolValue(resultViaContextBoolRight), Is.EqualTo(expected));
             Assert.That(model.GetBoolValue(resultViaFunc), Is.EqualTo(expected));
             Assert.That(model.GetBoolValue(resultViaFuncBoolRight), Is.EqualTo(expected));
+        });
+    }
+
+    [Test]
+    public void Or_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(false);
+        var result = context.Or(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBoolValue(result), Is.False);
+    }
+
+    [Test]
+    public void Or_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(false);
+        var b = context.Bool(false);
+        var c = context.Bool(true);
+        var resultViaContext = context.Or(a, b, c);
+        var resultViaExpr = a.Or(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultViaContext), Is.True);
+            Assert.That(model.GetBoolValue(resultViaExpr), Is.True);
+        });
+    }
+
+    [Test]
+    public void Or_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(false);
+        var b = context.Bool(false);
+        var c = context.Bool(false);
+        var d = context.Bool(false);
+        var resultViaContext = context.Or(a, b, c, d);
+        var resultViaExpr = a.Or(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultViaContext), Is.False);
+            Assert.That(model.GetBoolValue(resultViaExpr), Is.False);
         });
     }
 

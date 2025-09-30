@@ -141,7 +141,11 @@ public static class FuncContextExtensions
     /// <param name="funcDecl">The function declaration to apply.</param>
     /// <param name="args">The arguments to apply to the function.</param>
     /// <returns>Expression representing function application.</returns>
-    public static TResult Apply<TResult>(this Z3Context context, Z3FuncDecl<TResult> funcDecl, params Z3Expr[] args)
+    public static TResult Apply<TResult>(
+        this Z3Context context,
+        Z3FuncDecl<TResult> funcDecl,
+        params ReadOnlySpan<Z3Expr> args
+    )
         where TResult : Z3Expr, IExprType<TResult>
     {
         if (args.Length != funcDecl.Arity)
@@ -150,7 +154,10 @@ public static class FuncContextExtensions
                 nameof(args)
             );
 
-        var argHandles = args.Select(arg => arg.Handle).ToArray();
+        var argHandles = new IntPtr[args.Length];
+        for (int i = 0; i < args.Length; i++)
+            argHandles[i] = args[i].Handle;
+
         var appHandle = context.Library.Z3MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
 
         return Z3Expr.Create<TResult>(context, appHandle);
