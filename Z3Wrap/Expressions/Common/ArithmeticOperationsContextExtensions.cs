@@ -14,7 +14,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to add.</param>
     /// <returns>Expression representing sum of operands.</returns>
-    public static T Add<T>(this Z3Context context, params T[] operands)
+    public static T Add<T>(this Z3Context context, params ReadOnlySpan<T> operands)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         if (operands.Length == 0)
@@ -37,7 +37,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to subtract.</param>
     /// <returns>Expression representing sequential subtraction of operands.</returns>
-    public static T Sub<T>(this Z3Context context, params T[] operands)
+    public static T Sub<T>(this Z3Context context, params ReadOnlySpan<T> operands)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         if (operands.Length == 0)
@@ -60,7 +60,7 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to multiply.</param>
     /// <returns>Expression representing product of operands.</returns>
-    public static T Mul<T>(this Z3Context context, params T[] operands)
+    public static T Mul<T>(this Z3Context context, params ReadOnlySpan<T> operands)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
         if (operands.Length == 0)

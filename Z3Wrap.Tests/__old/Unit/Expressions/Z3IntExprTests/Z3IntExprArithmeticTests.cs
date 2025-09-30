@@ -1074,7 +1074,7 @@ public class Z3IntExprArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Add(Array.Empty<IntExpr>()),
+            () => context.Add<IntExpr>(),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -1160,7 +1160,7 @@ public class Z3IntExprArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Sub(Array.Empty<IntExpr>()),
+            () => context.Sub<IntExpr>(),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -1269,7 +1269,7 @@ public class Z3IntExprArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Mul(Array.Empty<IntExpr>()),
+            () => context.Mul<IntExpr>(),
             "Empty operands should throw InvalidOperationException"
         );
     }

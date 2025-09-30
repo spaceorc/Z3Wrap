@@ -12,30 +12,30 @@ public static class ArithmeticOperationsExprExtensions
     /// </summary>
     /// <typeparam name="T">The arithmetic expression type.</typeparam>
     /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
+    /// <param name="others">Additional operands to add.</param>
     /// <returns>Expression representing the addition.</returns>
-    public static T Add<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Add(left, right);
+    public static T Add<T>(this T left, params ReadOnlySpan<T> others)
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Add([left, .. others]);
 
     /// <summary>
     /// Creates subtraction operation for this arithmetic expression.
     /// </summary>
     /// <typeparam name="T">The arithmetic expression type.</typeparam>
     /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
+    /// <param name="others">Additional operands to subtract.</param>
     /// <returns>Expression representing the subtraction.</returns>
-    public static T Sub<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Sub(left, right);
+    public static T Sub<T>(this T left, params ReadOnlySpan<T> others)
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Sub([left, .. others]);
 
     /// <summary>
     /// Creates multiplication operation for this arithmetic expression.
     /// </summary>
     /// <typeparam name="T">The arithmetic expression type.</typeparam>
     /// <param name="left">The left operand.</param>
-    /// <param name="right">The right operand.</param>
+    /// <param name="others">Additional operands to multiply.</param>
     /// <returns>Expression representing the multiplication.</returns>
-    public static T Mul<T>(this T left, T right)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Mul(left, right);
+    public static T Mul<T>(this T left, params ReadOnlySpan<T> others)
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> => left.Context.Mul([left, .. others]);
 
     /// <summary>
     /// Creates division operation for this arithmetic expression.

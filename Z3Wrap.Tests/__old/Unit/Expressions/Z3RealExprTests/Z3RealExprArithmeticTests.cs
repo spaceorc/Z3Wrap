@@ -797,7 +797,7 @@ public class Z3RealArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Add(Array.Empty<RealExpr>()),
+            () => context.Add<RealExpr>(),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -888,7 +888,7 @@ public class Z3RealArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Sub(Array.Empty<RealExpr>()),
+            () => context.Sub<RealExpr>(),
             "Empty operands should throw InvalidOperationException"
         );
     }
@@ -1006,7 +1006,7 @@ public class Z3RealArithmeticTests
         using var context = new Z3Context();
 
         Assert.Throws<InvalidOperationException>(
-            () => context.Mul(Array.Empty<RealExpr>()),
+            () => context.Mul<RealExpr>(),
             "Empty operands should throw InvalidOperationException"
         );
     }

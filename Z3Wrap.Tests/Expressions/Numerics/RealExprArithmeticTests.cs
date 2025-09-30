@@ -45,6 +45,72 @@ public class RealExprArithmeticTests
     }
 
     [Test]
+    public void Add_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(42.0m);
+        var sum = context.Add(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(sum).ToDecimal(), Is.EqualTo(42.0m));
+    }
+
+    [Test]
+    public void Add_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(10.5m);
+        var b = context.Real(20.0m);
+        var c = context.Real(11.5m);
+        var sumViaContext = context.Add(a, b, c);
+        var sumViaExpr = a.Add(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(sumViaContext).ToDecimal(), Is.EqualTo(42.0m));
+            Assert.That(model.GetRealValue(sumViaExpr).ToDecimal(), Is.EqualTo(42.0m));
+        });
+    }
+
+    [Test]
+    public void Add_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(5.5m);
+        var b = context.Real(10.0m);
+        var c = context.Real(15.5m);
+        var d = context.Real(11.0m);
+        var sumViaContext = context.Add(a, b, c, d);
+        var sumViaExpr = a.Add(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(sumViaContext).ToDecimal(), Is.EqualTo(42.0m));
+            Assert.That(model.GetRealValue(sumViaExpr).ToDecimal(), Is.EqualTo(42.0m));
+        });
+    }
+
+    [Test]
     public void Subtract_TwoValues_ComputesCorrectResult()
     {
         using var context = new Z3Context();
@@ -77,6 +143,72 @@ public class RealExprArithmeticTests
             Assert.That(model.GetRealValue(differenceViaContextDecimalRight).ToDecimal(), Is.EqualTo(42.0m));
             Assert.That(model.GetRealValue(differenceViaFunc).ToDecimal(), Is.EqualTo(42.0m));
             Assert.That(model.GetRealValue(differenceViaFuncDecimalRight).ToDecimal(), Is.EqualTo(42.0m));
+        });
+    }
+
+    [Test]
+    public void Subtract_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(42.0m);
+        var difference = context.Sub(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(difference).ToDecimal(), Is.EqualTo(42.0m));
+    }
+
+    [Test]
+    public void Subtract_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(100.0m);
+        var b = context.Real(30.5m);
+        var c = context.Real(27.5m);
+        var differenceViaContext = context.Sub(a, b, c);
+        var differenceViaExpr = a.Sub(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(differenceViaContext).ToDecimal(), Is.EqualTo(42.0m));
+            Assert.That(model.GetRealValue(differenceViaExpr).ToDecimal(), Is.EqualTo(42.0m));
+        });
+    }
+
+    [Test]
+    public void Subtract_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(200.0m);
+        var b = context.Real(100.0m);
+        var c = context.Real(50.5m);
+        var d = context.Real(7.5m);
+        var differenceViaContext = context.Sub(a, b, c, d);
+        var differenceViaExpr = a.Sub(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(differenceViaContext).ToDecimal(), Is.EqualTo(42.0m));
+            Assert.That(model.GetRealValue(differenceViaExpr).ToDecimal(), Is.EqualTo(42.0m));
         });
     }
 
@@ -114,6 +246,99 @@ public class RealExprArithmeticTests
             Assert.That(model.GetRealValue(productViaFunc).ToDecimal(), Is.EqualTo(42.0m));
             Assert.That(model.GetRealValue(productViaFuncDecimalRight).ToDecimal(), Is.EqualTo(42.0m));
         });
+    }
+
+    [Test]
+    public void Multiply_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(42.0m);
+        var product = context.Mul(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(product).ToDecimal(), Is.EqualTo(42.0m));
+    }
+
+    [Test]
+    public void Multiply_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(2.0m);
+        var b = context.Real(3.0m);
+        var c = context.Real(7.0m);
+        var productViaContext = context.Mul(a, b, c);
+        var productViaExpr = a.Mul(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(productViaContext).ToDecimal(), Is.EqualTo(42.0m));
+            Assert.That(model.GetRealValue(productViaExpr).ToDecimal(), Is.EqualTo(42.0m));
+        });
+    }
+
+    [Test]
+    public void Multiply_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(2.0m);
+        var b = context.Real(3.0m);
+        var c = context.Real(7.0m);
+        var d = context.Real(1.0m);
+        var productViaContext = context.Mul(a, b, c, d);
+        var productViaExpr = a.Mul(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(productViaContext).ToDecimal(), Is.EqualTo(42.0m));
+            Assert.That(model.GetRealValue(productViaExpr).ToDecimal(), Is.EqualTo(42.0m));
+        });
+    }
+
+    [Test]
+    public void Add_ZeroArguments_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<InvalidOperationException>(() => context.Add<RealExpr>());
+    }
+
+    [Test]
+    public void Subtract_ZeroArguments_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<InvalidOperationException>(() => context.Sub<RealExpr>());
+    }
+
+    [Test]
+    public void Multiply_ZeroArguments_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<InvalidOperationException>(() => context.Mul<RealExpr>());
     }
 
     [Test]

@@ -45,6 +45,72 @@ public class IntExprArithmeticTests
     }
 
     [Test]
+    public void Add_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(42);
+        var sum = context.Add(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(sum), Is.EqualTo(new BigInteger(42)));
+    }
+
+    [Test]
+    public void Add_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(10);
+        var b = context.Int(20);
+        var c = context.Int(12);
+        var sumViaContext = context.Add(a, b, c);
+        var sumViaExpr = a.Add(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(sumViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaExpr), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Add_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(5);
+        var b = context.Int(10);
+        var c = context.Int(15);
+        var d = context.Int(12);
+        var sumViaContext = context.Add(a, b, c, d);
+        var sumViaExpr = a.Add(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(sumViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(sumViaExpr), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
     public void Subtract_TwoValues_ComputesCorrectResult()
     {
         using var context = new Z3Context();
@@ -77,6 +143,72 @@ public class IntExprArithmeticTests
             Assert.That(model.GetIntValue(differenceViaContextIntRight), Is.EqualTo(new BigInteger(42)));
             Assert.That(model.GetIntValue(differenceViaFunc), Is.EqualTo(new BigInteger(42)));
             Assert.That(model.GetIntValue(differenceViaFuncIntRight), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Subtract_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(42);
+        var difference = context.Sub(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(difference), Is.EqualTo(new BigInteger(42)));
+    }
+
+    [Test]
+    public void Subtract_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(100);
+        var b = context.Int(30);
+        var c = context.Int(28);
+        var differenceViaContext = context.Sub(a, b, c);
+        var differenceViaExpr = a.Sub(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(differenceViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaExpr), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Subtract_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(200);
+        var b = context.Int(100);
+        var c = context.Int(50);
+        var d = context.Int(8);
+        var differenceViaContext = context.Sub(a, b, c, d);
+        var differenceViaExpr = a.Sub(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(differenceViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(differenceViaExpr), Is.EqualTo(new BigInteger(42)));
         });
     }
 
@@ -114,6 +246,99 @@ public class IntExprArithmeticTests
             Assert.That(model.GetIntValue(productViaFunc), Is.EqualTo(new BigInteger(42)));
             Assert.That(model.GetIntValue(productViaFuncIntRight), Is.EqualTo(new BigInteger(42)));
         });
+    }
+
+    [Test]
+    public void Multiply_SingleValue_ReturnsSameValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(42);
+        var product = context.Mul(a);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(product), Is.EqualTo(new BigInteger(42)));
+    }
+
+    [Test]
+    public void Multiply_ThreeValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(2);
+        var b = context.Int(3);
+        var c = context.Int(7);
+        var productViaContext = context.Mul(a, b, c);
+        var productViaExpr = a.Mul(b, c);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(productViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaExpr), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Multiply_FourValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(2);
+        var b = context.Int(3);
+        var c = context.Int(7);
+        var d = context.Int(1);
+        var productViaContext = context.Mul(a, b, c, d);
+        var productViaExpr = a.Mul(b, c, d);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(productViaContext), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(productViaExpr), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [Test]
+    public void Add_ZeroArguments_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<InvalidOperationException>(() => context.Add<IntExpr>());
+    }
+
+    [Test]
+    public void Subtract_ZeroArguments_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<InvalidOperationException>(() => context.Sub<IntExpr>());
+    }
+
+    [Test]
+    public void Multiply_ZeroArguments_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<InvalidOperationException>(() => context.Mul<IntExpr>());
     }
 
     [Test]
