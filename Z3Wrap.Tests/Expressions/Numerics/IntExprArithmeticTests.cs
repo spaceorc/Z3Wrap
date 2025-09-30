@@ -212,4 +212,133 @@ public class IntExprArithmeticTests
             Assert.That(model.GetIntValue(negationViaFunc), Is.EqualTo(new BigInteger(-42)));
         });
     }
+
+    [TestCase(42, 42)]
+    [TestCase(-42, 42)]
+    [TestCase(0, 0)]
+    public void Abs_Value_ReturnsAbsoluteValue(int inputValue, int expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(inputValue);
+
+        var absValue = context.Abs(a);
+        var absViaFunc = a.Abs();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(absValue), Is.EqualTo(new BigInteger(expected)));
+            Assert.That(model.GetIntValue(absViaFunc), Is.EqualTo(new BigInteger(expected)));
+        });
+    }
+
+    [Test]
+    public void Abs_SymbolicValue_CanSolveConstraints()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var absX = x.Abs();
+
+        solver.Assert(absX == 42);
+        solver.Assert(x < 0);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(-42)));
+    }
+
+    [TestCase(42, 17, 17)]
+    [TestCase(42, 42, 42)]
+    [TestCase(-10, -50, -50)]
+    public void Min_TwoValues_ReturnsMinimum(int aValue, int bValue, int expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(aValue);
+        var b = context.Int(bValue);
+
+        var minValue = context.Min(a, b);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(minValue), Is.EqualTo(new BigInteger(expected)));
+    }
+
+    [Test]
+    public void Min_SymbolicValues_CanSolveConstraints()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var minXy = context.Min(x, y);
+
+        solver.Assert(minXy == 10);
+        solver.Assert(x == 15);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(y), Is.EqualTo(new BigInteger(10)));
+    }
+
+    [TestCase(42, 17, 42)]
+    [TestCase(42, 42, 42)]
+    [TestCase(-10, -50, -10)]
+    public void Max_TwoValues_ReturnsMaximum(int aValue, int bValue, int expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(aValue);
+        var b = context.Int(bValue);
+
+        var maxValue = context.Max(a, b);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(maxValue), Is.EqualTo(new BigInteger(expected)));
+    }
+
+    [Test]
+    public void Max_SymbolicValues_CanSolveConstraints()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+        var maxXy = context.Max(x, y);
+
+        solver.Assert(maxXy == 20);
+        solver.Assert(x == 15);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(y), Is.EqualTo(new BigInteger(20)));
+    }
 }

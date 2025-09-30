@@ -213,4 +213,129 @@ public class RealExprArithmeticTests
         // 1/2 * 2/3 = 2/6 = 1/3
         Assert.That(value, Is.EqualTo(new Real(1, 3)));
     }
+
+    [TestCase(42.5, 42.5)]
+    [TestCase(-42.5, 42.5)]
+    [TestCase(0.0, 0.0)]
+    public void Abs_Value_ReturnsAbsoluteValue(double inputValue, double expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real((decimal)inputValue);
+
+        var absValue = context.Abs(a);
+        var absViaFunc = a.Abs();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(absValue).ToDecimal(), Is.EqualTo((decimal)expected));
+            Assert.That(model.GetRealValue(absViaFunc).ToDecimal(), Is.EqualTo((decimal)expected));
+        });
+    }
+
+    [Test]
+    public void Abs_RationalValue_PreservesPrecision()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var negativeThird = context.Real(new Real(-1, 3));
+
+        var absValue = context.Abs(negativeThird);
+        var absViaFunc = negativeThird.Abs();
+
+        solver.Check();
+        var model = solver.GetModel();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(absValue), Is.EqualTo(new Real(1, 3)));
+            Assert.That(model.GetRealValue(absViaFunc), Is.EqualTo(new Real(1, 3)));
+        });
+    }
+
+    [TestCase(42.5, 17.5, 17.5)]
+    [TestCase(42.0, 42.0, 42.0)]
+    [TestCase(-10.5, -50.5, -50.5)]
+    public void Min_TwoValues_ReturnsMinimum(double aValue, double bValue, double expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real((decimal)aValue);
+        var b = context.Real((decimal)bValue);
+
+        var minValue = context.Min(a, b);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(minValue).ToDecimal(), Is.EqualTo((decimal)expected));
+    }
+
+    [Test]
+    public void Min_RationalValues_PreservesPrecision()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var oneThird = context.Real(new Real(1, 3));
+        var twoThirds = context.Real(new Real(2, 3));
+
+        var minValue = context.Min(oneThird, twoThirds);
+
+        solver.Check();
+        var model = solver.GetModel();
+
+        Assert.That(model.GetRealValue(minValue), Is.EqualTo(new Real(1, 3)));
+    }
+
+    [TestCase(42.5, 17.5, 42.5)]
+    [TestCase(42.0, 42.0, 42.0)]
+    [TestCase(-10.5, -50.5, -10.5)]
+    public void Max_TwoValues_ReturnsMaximum(double aValue, double bValue, double expected)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real((decimal)aValue);
+        var b = context.Real((decimal)bValue);
+
+        var maxValue = context.Max(a, b);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(maxValue).ToDecimal(), Is.EqualTo((decimal)expected));
+    }
+
+    [Test]
+    public void Max_RationalValues_PreservesPrecision()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var oneThird = context.Real(new Real(1, 3));
+        var twoThirds = context.Real(new Real(2, 3));
+
+        var maxValue = context.Max(oneThird, twoThirds);
+
+        solver.Check();
+        var model = solver.GetModel();
+
+        Assert.That(model.GetRealValue(maxValue), Is.EqualTo(new Real(2, 3)));
+    }
 }
