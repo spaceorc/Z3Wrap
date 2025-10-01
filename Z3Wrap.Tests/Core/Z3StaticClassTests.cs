@@ -16,6 +16,19 @@ public class Z3StaticClassTests
     }
 
     [Test]
+    public void Library_SetToNull_AutoInitializesOnGet()
+    {
+        // Set library to null
+        Z3.Library = null!;
+
+        // Access should trigger auto-initialization
+        var library = Z3.Library;
+
+        Assert.That(library, Is.Not.Null);
+        Assert.That(library.LibraryPath, Is.Not.Null.And.Not.Empty);
+    }
+
+    [Test]
     public void LoadLibraryAuto_SetsLibrary()
     {
         Z3.LoadLibraryAuto();
