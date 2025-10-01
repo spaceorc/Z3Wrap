@@ -6,18 +6,26 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 120 functions (organized into 10 partial class files)
+- **Currently implemented**: 138 functions (organized into 11 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 432 functions (78% gap)
+- **Missing**: 414 functions (75% gap)
+- **Progress**: 25% complete
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
 - Created 10 partial class files for NativeLibrary
-- Organized existing 120 functions into logical categories:
+- Organized existing 120 functions into logical categories
+- All tests passing, coverage 95.3%, CI passing
+
+✅ **MVP: Predicates COMPLETE** (October 2, 2025)
+- Created 11th partial class file: NativeLibrary.Predicates.cs
+- Added 18 predicate/type-checking functions (is_* functions)
+- Moved IsNumeralAst from Model.cs to Predicates.cs for better organization
+- Current structure (11 partial class files, 138 functions):
   - NativeLibrary.Context.cs (8 functions)
   - NativeLibrary.Solver.cs (12 functions)
-  - NativeLibrary.Model.cs (9 functions)
+  - NativeLibrary.Model.cs (8 functions) - removed IsNumeralAst
   - NativeLibrary.Parameters.cs (8 functions)
   - NativeLibrary.Quantifiers.cs (3 functions)
   - NativeLibrary.Expressions.cs (28 functions)
@@ -25,8 +33,9 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
   - NativeLibrary.BitVectors.cs (40 functions)
   - NativeLibrary.Functions.cs (3 functions)
   - NativeLibrary.ErrorHandling.cs (3 functions)
+  - NativeLibrary.Predicates.cs (18 functions) ⭐ NEW
 - All 903 tests passing
-- Coverage: 95.3%
+- Coverage: 92.8% (above 90% requirement)
 - CI pipeline: passing
 
 ## Why Complete Coverage?
@@ -284,23 +293,27 @@ Z3_toggle_warning_messages       - Warning control
 ... and more
 ```
 
-### Predicates (17 functions)
-**High Priority** - Type checking:
+### ~~Predicates (18 functions)~~ - ✅ COMPLETE (October 2, 2025)
+**DONE** - All 18 type-checking functions in NativeLibrary.Predicates.cs:
 ```
-Z3_is_algebraic_number           - Is algebraic number?
-Z3_is_app                        - Is application?
-Z3_is_as_array                   - Is as-array?
-Z3_is_eq_ast                     - AST equality check
-Z3_is_eq_func_decl               - Declaration equality
-Z3_is_eq_sort                    - Sort equality
-Z3_is_lambda                     - Is lambda?
-Z3_is_numeral_ast                - Is numeral? (already have)
-Z3_is_quantifier_exists          - Is existential quantifier?
-Z3_is_quantifier_forall          - Is universal quantifier?
-Z3_is_string                     - Is string?
-Z3_is_string_sort                - Is string sort?
-Z3_is_well_sorted                - Well-sorted check
-... and more
+✅ Z3_is_eq_ast                   - AST equality
+✅ Z3_is_eq_sort                  - Sort equality
+✅ Z3_is_eq_func_decl             - Function declaration equality
+✅ Z3_is_well_sorted              - Well-sorted check
+✅ Z3_is_app                      - Is application?
+✅ Z3_is_numeral_ast              - Is numeral?
+✅ Z3_is_algebraic_number         - Is algebraic number?
+✅ Z3_is_string                   - Is string literal?
+✅ Z3_is_string_sort              - Is string sort?
+✅ Z3_is_seq_sort                 - Is sequence sort?
+✅ Z3_is_re_sort                  - Is regex sort?
+✅ Z3_is_char_sort                - Is character sort?
+✅ Z3_is_as_array                 - Is as-array expression?
+✅ Z3_is_lambda                   - Is lambda expression?
+✅ Z3_is_quantifier_forall        - Is universal quantifier?
+✅ Z3_is_quantifier_exists        - Is existential quantifier?
+✅ Z3_is_ground                   - Is ground (no free variables)?
+✅ Z3_is_recursive_datatype_sort  - Is recursive datatype?
 ```
 
 ### Other Important Categories
@@ -353,8 +366,7 @@ Focus on functions needed for basic usage patterns (reduced from 150, skipping 4
 
 4. **~~Conversion functions~~**: ~~All 4~~ **SKIPPED** (no-ops in C# IntPtr-based wrapper)
 
-5. **Predicates (is_*)**: All 17
-   - Type checking
+5. **~~Predicates (is_*)~~**: ~~All 18~~ **✅ DONE** (October 2, 2025)
 
 ### Phase 2: Advanced Solving (Medium Priority - 100 functions)
 
@@ -434,8 +446,7 @@ NativeLibrary.ErrorHandling.cs      - Error handling (3 functions)
 New files needed for Phase 1+:
 ```
 NativeLibrary.Queries.cs            - get_* introspection functions
-NativeLibrary.Predicates.cs         - is_* type-checking functions
-NativeLibrary.Conversions.cs        - Type conversion functions (to_ast, etc.)
+✅ NativeLibrary.Predicates.cs      - is_* type-checking functions (DONE - 18 functions)
 NativeLibrary.Tactics.cs            - Tactic system
 NativeLibrary.Goals.cs              - Goal management
 NativeLibrary.Probes.cs             - Probe system
@@ -658,10 +669,17 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Phase 1 Setup COMPLETE (October 2, 2025)
-**Next Step**: Begin Phase 1 Implementation - Add 150 high-priority functions
+**Status**: MVP Complete - Predicates Added (October 2, 2025)
+**Next Step**: Continue Phase 1 Implementation - Add remaining high-priority functions
 
 ## Progress Log
+
+### October 2, 2025 - MVP: Predicates Complete
+- ✅ Added NativeLibrary.Predicates.cs with 18 type-checking functions
+- ✅ Moved IsNumeralAst from Model.cs to Predicates.cs
+- ✅ All 903 tests passing, coverage 92.8%, CI passing
+- ✅ Now at 138/552 functions (25% complete)
+- 📊 Progress: 414 functions remaining
 
 ### October 2, 2025 - Phase 1 Setup Complete
 - ✅ Created 10 partial class files organizing 120 existing functions

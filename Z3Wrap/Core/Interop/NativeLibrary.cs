@@ -98,6 +98,7 @@ internal sealed partial class NativeLibrary : IDisposable
             LoadFunctionsBitVectors(handle, functionPointers);
             LoadFunctionsFunctions(handle, functionPointers);
             LoadFunctionsErrorHandling(handle, functionPointers);
+            LoadFunctionsPredicates(handle, functionPointers);
 
             return new LoadedLibrary(functionPointers, handle);
         }

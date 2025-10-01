@@ -18,7 +18,6 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_model_eval");
         LoadFunctionInternal(handle, functionPointers, "Z3_get_numeral_string");
         LoadFunctionInternal(handle, functionPointers, "Z3_get_bool_value");
-        LoadFunctionInternal(handle, functionPointers, "Z3_is_numeral_ast");
         LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
     }
@@ -36,7 +35,6 @@ internal sealed partial class NativeLibrary
     );
     private delegate IntPtr GetNumeralStringDelegate(IntPtr ctx, IntPtr expr);
     private delegate int GetBoolValueDelegate(IntPtr ctx, IntPtr expr);
-    private delegate int IsNumeralAstDelegate(IntPtr ctx, IntPtr expr);
     private delegate IntPtr GetSortDelegate(IntPtr ctx, IntPtr expr);
     private delegate int GetSortKindDelegate(IntPtr ctx, IntPtr sort);
 
@@ -147,23 +145,6 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_get_bool_value");
         var func = Marshal.GetDelegateForFunctionPointer<GetBoolValueDelegate>(funcPtr);
         return func(ctx, expr);
-    }
-
-    /// <summary>
-    /// Checks whether an expression is a numeric literal.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="expr">The expression to check.</param>
-    /// <returns>True if the expression is a numeric literal, false otherwise.</returns>
-    /// <remarks>
-    /// Identifies concrete numeric values (integers and reals) as opposed to variables or operations.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal bool IsNumeralAst(IntPtr ctx, IntPtr expr)
-    {
-        var funcPtr = GetFunctionPointer("Z3_is_numeral_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<IsNumeralAstDelegate>(funcPtr);
-        return func(ctx, expr) != 0;
     }
 
     /// <summary>
