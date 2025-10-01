@@ -8,50 +8,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Z3Library safe wrapper class**
+  - Public API for loading and managing Z3 native library
+  - `Load(path)` and `LoadAuto()` methods for manual and automatic library discovery
+  - Safe error checking and handle validation for all Z3 operations
+  - Cross-platform native library discovery (Windows, macOS, Linux)
 - **Compile-time sized BitVectors with generic type parameters**
   - `BvExpr<TSize>` with `Size8`, `Size16`, `Size32`, `Size64` for type-safe bit-width enforcement
   - `Bv<TSize>` value type for constant bitvector values with arithmetic and bitwise operations
-  - Comprehensive bitvector tests (120+ tests covering arithmetic, bitwise, comparison, overflow detection)
 - **Value types for exact arithmetic**
   - `Real` struct with unlimited precision rational arithmetic (fraction representation)
   - Factory methods, conversions, arithmetic, comparison operations
-- **Complete expression type hierarchy reorganization**
-  - Organized by category: Arrays/, BitVectors/, Functions/, Logic/, Numerics/, Quantifiers/
+- **Complete expression type hierarchy**
   - Type-safe expression classes: `BoolExpr`, `IntExpr`, `RealExpr`, `BvExpr<TSize>`, `ArrayExpr<TIndex, TValue>`
+  - Organized by category: Arrays/, BitVectors/, Functions/, Logic/, Numerics/, Quantifiers/
   - Natural syntax support via extension methods for all operators
 - **Uninterpreted Functions support**
   - `FuncDecl` for function declarations with dynamic builder pattern
-  - Full function application and solving tests (30+ tests)
-- **Thread safety and comprehensive disposal testing**
-  - ThreadLocal context isolation with stress testing (10 threads × 100 cycles)
-  - Comprehensive disposal scenarios (12 tests) including GC finalizer safety
-  - Exception recovery and nested scope restoration tests
-- **Production-ready documentation**
-  - All README examples validated in `ReadmeExamplesTests.cs` (10 tests, 100% copy-paste reliability)
-  - Complete XML documentation for all public APIs (zero warnings enforced)
-  - Updated project documentation (PLAN.md, CLAUDE.md) reflecting 93.3% coverage
 - **Solver parameter convenience extensions**
   - `SetParam` extension methods for Z3Solver supporting bool, uint, double, and string parameters
   - `SetTimeout(TimeSpan)` extension method for type-safe timeout configuration
-  - 30-second timeout added to all quantifier tests for reliability
+- **Production-ready documentation**
+  - Complete XML documentation for all public APIs (zero warnings enforced)
 
 ### Changed
-- **BREAKING**: Renamed `BitVecConst` → `BvConst`, `BitVec` → `Bv`, `ToBitVec` → `ToBv` for consistency
-- **BREAKING**: Changed from runtime-sized to compile-time sized bitvectors (`BvExpr<Size32>` vs old `BitVecConst("x", 32)`)
-- **BREAKING**: Reorganized namespaces from flat structure to organized by expression category
 - **BREAKING**: Renamed expression types: `Z3Bool` → `BoolExpr`, `Z3IntExpr` → `IntExpr`, `Z3Real` → `RealExpr`
+- **BREAKING**: Changed from runtime-sized to compile-time sized bitvectors (`BvExpr<Size32>` vs old `BitVecConst("x", 32)`)
+- **BREAKING**: Renamed BitVector identifiers: `BitVecConst` → `BvConst`, `BitVec` → `Bv`, `ToBitVec` → `ToBv`, `Z3SortKind.BV` → `Z3SortKind.Bv`
+- **BREAKING**: Reorganized namespaces from flat structure to category-based organization
 - **BREAKING**: Made Handle properties and factory methods internal
-- **BREAKING**: Renamed `Z3SortKind.BV` to `Z3SortKind.Bv`
-- Migrated to `SafeNativeMethods` for all Z3 P/Invoke calls with automatic error checking
-- Refactored project structure: 79 source files, 37 test files (removed 100+ outdated tests)
-- Improved test organization with hierarchical structure by expression type
-- Enhanced operator overloading for natural mathematical syntax across all types
 
 ### Removed
 - **BREAKING**: Removed runtime-sized BitVector API (replaced with compile-time sized generics)
-- **BREAKING**: Removed `__old` test directory (2,392 lines of outdated/superseded tests)
 - Removed BitVector boundary check builder API (replaced with overflow detection in expressions)
-- Removed redundant integration tests (superseded by modern parameterized tests)
 
 ## [0.0.4] - 2025-09-17
 
