@@ -193,6 +193,76 @@ solver.Assert(bv + context.BitVec(5, 32) == context.BitVec(15, 32));
 - **Generics**: Extensive use with constraints for type safety
 - **Operators**: Comprehensive overloading for natural mathematical syntax
 
+### XML Documentation
+
+**CRITICAL**: The project has XML documentation warnings enabled. After any public API changes, run `make build` - it MUST produce ZERO warnings.
+
+**Principles**: Document only `public` members. Be **concise, precise, and short**.
+
+**Standard Patterns**:
+```csharp
+// Classes/Structs
+/// <summary>
+/// Represents [what it is] for [primary purpose].
+/// </summary>
+
+// Methods
+/// <summary>
+/// [Action verb] [what it does] [with/from/using what].
+/// </summary>
+/// <param name="paramName">The [description].</param>
+/// <returns>[What it returns].</returns>
+
+// Properties
+/// <summary>
+/// Gets [what it represents].
+/// </summary>
+
+// Operators
+/// <summary>
+/// [Operation] of two [type] values.
+/// </summary>
+```
+
+**XML Encoding** (CRITICAL):
+- Use `&lt;` instead of `<`
+- Use `&gt;` instead of `>`
+- Use `&amp;` instead of `&`
+- Example: `List&lt;T&gt;` not `List<T>`
+
+**Examples**:
+```csharp
+// ✅ GOOD - Concise and clear
+/// <summary>
+/// Creates integer constant with specified name.
+/// </summary>
+public IntExpr IntConst(string name)
+
+// ✅ GOOD - Proper XML encoding
+/// <summary>
+/// Creates array expression of type TDomain to TRange.
+/// </summary>
+/// <typeparam name="TDomain">Array index type.</typeparam>
+public ArrayExpr&lt;TDomain, TRange&gt; ArrayConst&lt;TDomain, TRange&gt;(string name)
+
+// ❌ BAD - Too verbose
+/// <summary>
+/// This method creates a new integer constant expression which can be used
+/// for mathematical operations and constraint solving...
+/// </summary>
+
+// ❌ BAD - Wrong XML encoding
+/// <summary>
+/// Creates List<T> with elements.
+/// </summary>
+```
+
+**Quality Checks**:
+- `make build` produces zero warnings
+- XML comments appear correctly in IDE IntelliSense
+- Use present tense ("Gets", "Creates", not "Get", "Create")
+- Avoid implementation details - focus on functionality
+
 ## Architecture Notes
 
 - **Target**: .NET 9.0 with implicit usings and nullable reference types
