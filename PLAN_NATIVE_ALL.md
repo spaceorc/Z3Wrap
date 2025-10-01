@@ -8,7 +8,8 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 ## Current Status
 - **Currently implemented**: 120 functions (organized into 10 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
-- **Missing**: 436 functions (78% gap)
+- **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
+- **Missing**: 432 functions (78% gap)
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
@@ -253,14 +254,18 @@ Z3_func_interp_get_num_entries   - Number of entries
 Z3_func_interp_set_else          - Set default value
 ```
 
-### Conversion Functions (4 functions)
-**High Priority** - Type conversions:
+### ~~Conversion Functions (4 functions)~~ - NOT NEEDED
+**SKIPPED** - Unnecessary in C# P/Invoke wrapper:
 ```
-Z3_app_to_ast                    - Application to AST
-Z3_func_decl_to_ast              - Declaration to AST
-Z3_sort_to_ast                   - Sort to AST
-Z3_pattern_to_ast                - Pattern to AST
+Z3_app_to_ast                    - Application to AST (identity function)
+Z3_func_decl_to_ast              - Declaration to AST (identity function)
+Z3_sort_to_ast                   - Sort to AST (identity function)
+Z3_pattern_to_ast                - Pattern to AST (identity function)
 ```
+**Reason**: These functions exist in Z3 C API for type system reasons (converting
+between `Z3_app*`, `Z3_func_decl*`, `Z3_sort*`, `Z3_pattern*` and `Z3_ast*`).
+In C# P/Invoke, we use `IntPtr` for all handle types, so these conversions are
+no-ops that just return the same pointer. No need to implement.
 
 ### String/Debugging Functions (17 functions)
 **Low Priority** - Debugging and logging:
@@ -328,8 +333,8 @@ Z3_is_well_sorted                - Well-sorted check
 
 ## Implementation Strategy
 
-### Phase 1: Foundation (High Priority - 150 functions)
-Focus on functions needed for basic usage patterns:
+### Phase 1: Foundation (High Priority - ~146 functions)
+Focus on functions needed for basic usage patterns (reduced from 150, skipping 4 no-op conversions):
 
 1. **Creation functions (mk_*)**: ~50 most common
    - Missing bitvector operations
@@ -346,8 +351,7 @@ Focus on functions needed for basic usage patterns:
    - Complete model introspection
    - Function interpretations (9 functions)
 
-4. **Conversion functions**: All 4
-   - Type conversions to AST
+4. **~~Conversion functions~~**: ~~All 4~~ **SKIPPED** (no-ops in C# IntPtr-based wrapper)
 
 5. **Predicates (is_*)**: All 17
    - Type checking
