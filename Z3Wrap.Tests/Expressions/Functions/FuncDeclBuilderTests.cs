@@ -60,12 +60,7 @@ public class FuncDeclBuilderTests
     {
         using var context = new Z3Context();
 
-        var func = context
-            .FuncBuilder<IntExpr>("f")
-            .WithArg<IntExpr>()
-            .WithArg<IntExpr>()
-            .WithArg<IntExpr>()
-            .Build();
+        var func = context.FuncBuilder<IntExpr>("f").WithArg<IntExpr>().WithArg<IntExpr>().WithArg<IntExpr>().Build();
 
         Assert.Multiple(() =>
         {
@@ -190,11 +185,7 @@ public class FuncDeclBuilderTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var func = context
-            .FuncBuilder<IntExpr>("f")
-            .WithArg<IntExpr>()
-            .WithArg<IntExpr>()
-            .Build();
+        var func = context.FuncBuilder<IntExpr>("f").WithArg<IntExpr>().WithArg<IntExpr>().Build();
         var x = context.Int(3);
         var y = context.Int(7);
         var result = func.Apply([x, y]);
@@ -213,12 +204,7 @@ public class FuncDeclBuilderTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var func = context
-            .FuncBuilder<IntExpr>("f")
-            .WithArg<IntExpr>()
-            .WithArg<IntExpr>()
-            .WithArg<IntExpr>()
-            .Build();
+        var func = context.FuncBuilder<IntExpr>("f").WithArg<IntExpr>().WithArg<IntExpr>().WithArg<IntExpr>().Build();
         var x = context.Int(2);
         var y = context.Int(3);
         var z = context.Int(4);
@@ -315,11 +301,7 @@ public class FuncDeclBuilderTests
         using var solver = context.CreateSolver();
 
         var funcStatic = context.Func<IntExpr, IntExpr, IntExpr>("f");
-        var funcBuilder = context
-            .FuncBuilder<IntExpr>("g")
-            .WithArg<IntExpr>()
-            .WithArg<IntExpr>()
-            .Build();
+        var funcBuilder = context.FuncBuilder<IntExpr>("g").WithArg<IntExpr>().WithArg<IntExpr>().Build();
 
         var x = context.Int(3);
         var y = context.Int(7);
