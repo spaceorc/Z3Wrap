@@ -88,161 +88,188 @@ internal sealed class NativeLibrary : IDisposable
 
         try
         {
-            // Load all function pointers
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_config");
-            LoadFunctionInternal(handle, functionPointers, "Z3_del_config");
-            LoadFunctionInternal(handle, functionPointers, "Z3_set_param_value");
+            // ============================================================
+            // CRUCIAL FUNCTIONS (25 total) - Required for basic operation
+            // If any of these are missing, the library is incompatible
+            // ============================================================
+
+            // Context lifecycle (4 functions)
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_context_rc");
             LoadFunctionInternal(handle, functionPointers, "Z3_del_context");
-            LoadFunctionInternal(handle, functionPointers, "Z3_update_param_value");
             LoadFunctionInternal(handle, functionPointers, "Z3_inc_ref");
             LoadFunctionInternal(handle, functionPointers, "Z3_dec_ref");
 
-            // Sort functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bool_sort");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int_sort");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_real_sort");
+            // Configuration (2 functions)
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_config");
+            LoadFunctionInternal(handle, functionPointers, "Z3_del_config");
 
-            // Expression functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_const");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_string_symbol");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_true");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_false");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_eq");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_and");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_or");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_not");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_add");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_sub");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_mul");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_div");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_lt");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_le");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_gt");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_ge");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_numeral");
-
-            // Extended boolean operations
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_implies");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_iff");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_xor");
-
-            // Extended arithmetic operations
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_mod");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_unary_minus");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_ite");
-
-            // Type conversion functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2real");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_real2int");
-
-            // Array theory functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_array_sort");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_select");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_store");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_const_array");
-            LoadFunctionInternal(handle, functionPointers, "Z3_get_array_sort_domain");
-            LoadFunctionInternal(handle, functionPointers, "Z3_get_array_sort_range");
-
-            // Bitvector functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bv_sort");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvudiv");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsdiv");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvurem");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsrem");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsmod");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvand");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvor");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvxor");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvnot");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvneg");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvshl");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvlshr");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvashr");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvult");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvslt");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvule");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsle");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvugt");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsgt");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvuge");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsge");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_sign_ext");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_zero_ext");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_extract");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_repeat");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bv2int");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int2bv");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd_no_overflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvadd_no_underflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub_no_overflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsub_no_underflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul_no_overflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvsdiv_no_overflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bvneg_no_overflow");
-            LoadFunctionInternal(handle, functionPointers, "Z3_get_bv_sort_size");
-
-            // Solver functions
+            // Solver core (4 functions)
             LoadFunctionInternal(handle, functionPointers, "Z3_mk_solver");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_simple_solver");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_check");
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_inc_ref");
             LoadFunctionInternal(handle, functionPointers, "Z3_solver_dec_ref");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_assert");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_check");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_push");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_pop");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_reset");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_reason_unknown");
-            LoadFunctionInternal(handle, functionPointers, "Z3_solver_set_params");
 
-            // Parameter set functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_params");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_inc_ref");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_dec_ref");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_bool");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_uint");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_double");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_set_symbol");
-            LoadFunctionInternal(handle, functionPointers, "Z3_params_to_string");
+            // Basic expressions (4 functions)
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_const");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_string_symbol");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_bool_sort");
+            LoadFunctionInternal(handle, functionPointers, "Z3_mk_int_sort");
 
-            // Model functions
+            // Model evaluation (9 functions)
             LoadFunctionInternal(handle, functionPointers, "Z3_model_inc_ref");
             LoadFunctionInternal(handle, functionPointers, "Z3_model_dec_ref");
-            LoadFunctionInternal(handle, functionPointers, "Z3_model_to_string");
-            LoadFunctionInternal(handle, functionPointers, "Z3_ast_to_string");
+            LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
             LoadFunctionInternal(handle, functionPointers, "Z3_model_eval");
-            LoadFunctionInternal(handle, functionPointers, "Z3_get_numeral_string");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_bool_value");
-            LoadFunctionInternal(handle, functionPointers, "Z3_is_numeral_ast");
+            LoadFunctionInternal(handle, functionPointers, "Z3_get_numeral_string");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_sort_kind");
+            LoadFunctionInternal(handle, functionPointers, "Z3_is_numeral_ast");
 
-            // Function declaration and application
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_func_decl");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_app");
-
-            // Quantifier functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_forall_const");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_exists_const");
-            LoadFunctionInternal(handle, functionPointers, "Z3_mk_pattern");
-
-            // Error handling functions
-            LoadFunctionInternal(handle, functionPointers, "Z3_set_error_handler");
+            // Error handling (2 functions)
             LoadFunctionInternal(handle, functionPointers, "Z3_get_error_code");
             LoadFunctionInternal(handle, functionPointers, "Z3_get_error_msg");
 
+            // ============================================================
+            // OPTIONAL FUNCTIONS - Loaded if available, fail at runtime if used
+            // ============================================================
+
+            // Configuration parameters (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_set_param_value");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_update_param_value");
+
+            // Additional sort functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real_sort");
+
+            // Expression functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_true");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_false");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_eq");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_and");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_or");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_not");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_add");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sub");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_mul");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_div");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lt");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_le");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_gt");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ge");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_numeral");
+
+            // Extended boolean operations (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_implies");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_iff");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_xor");
+
+            // Extended arithmetic operations (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_mod");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unary_minus");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ite");
+
+            // Type conversion functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2real");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real2int");
+
+            // Array theory functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_select");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_store");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_const_array");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_domain");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_range");
+
+            // Bitvector functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_sort");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvudiv");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsdiv");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvurem");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsrem");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsmod");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvand");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvor");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxor");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnot");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvshl");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvlshr");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvashr");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvult");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvslt");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvule");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsle");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvugt");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsgt");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvuge");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsge");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sign_ext");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_zero_ext");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_extract");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_repeat");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv2int");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2bv");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd_no_overflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd_no_underflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub_no_overflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub_no_underflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul_no_overflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsdiv_no_overflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg_no_overflow");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_get_bv_sort_size");
+
+            // Additional solver functions (optional - beyond core solver_check)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_simple_solver");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_solver_assert");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_solver_push");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_solver_pop");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_solver_reset");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_reason_unknown");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_solver_set_params");
+
+            // Parameter set functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_params");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_inc_ref");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_dec_ref");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_bool");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_uint");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_double");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_symbol");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_params_to_string");
+
+            // Additional model functions (optional - beyond core eval/get functions)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_model_to_string");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_ast_to_string");
+
+            // Function declaration and application (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_func_decl");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_app");
+
+            // Quantifier functions (optional)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_forall_const");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_exists_const");
+            LoadFunctionOrNull(handle, functionPointers, "Z3_mk_pattern");
+
+            // Additional error handling (optional - beyond core get_error_code/msg)
+            LoadFunctionOrNull(handle, functionPointers, "Z3_set_error_handler");
+
             return new LoadedLibrary(functionPointers, handle);
         }
-        catch
+        catch (Exception ex)
         {
             // If anything fails, clean up the loaded library
             System.Runtime.InteropServices.NativeLibrary.Free(handle);
-            throw;
+            throw new DllNotFoundException(
+                $"Incompatible Z3 library at '{libraryPath}'.\n"
+                    + "Missing one or more crucial functions required for basic operation.\n"
+                    + "Please ensure you have a compatible version of Z3 installed.\n"
+                    + $"Original error: {ex.Message}",
+                ex
+            );
         }
     }
 
@@ -254,6 +281,22 @@ internal sealed class NativeLibrary : IDisposable
     {
         var functionPtr = System.Runtime.InteropServices.NativeLibrary.GetExport(libraryHandle, functionName);
         functionPointers[functionName] = functionPtr;
+    }
+
+    private static void LoadFunctionOrNull(
+        IntPtr libraryHandle,
+        Dictionary<string, IntPtr> functionPointers,
+        string functionName
+    )
+    {
+        if (System.Runtime.InteropServices.NativeLibrary.TryGetExport(libraryHandle, functionName, out var functionPtr))
+        {
+            functionPointers[functionName] = functionPtr;
+        }
+        else
+        {
+            functionPointers[functionName] = IntPtr.Zero; // Mark as unavailable
+        }
     }
 
     private static string[] GetPlatformSearchPaths()
@@ -328,6 +371,14 @@ internal sealed class NativeLibrary : IDisposable
 
         if (!loadedLibrary.FunctionPointers.TryGetValue(functionName, out var ptr))
             throw new InvalidOperationException($"Function {functionName} not loaded.");
+
+        if (ptr == IntPtr.Zero)
+            throw new NotSupportedException(
+                $"Function '{functionName}' is not available in this Z3 version.\n"
+                    + $"Library: {LibraryPath}\n"
+                    + "This feature may require a newer version of Z3."
+            );
+
         return ptr;
     }
 
