@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All README examples validated in `ReadmeExamplesTests.cs` (10 tests, 100% copy-paste reliability)
   - Complete XML documentation for all public APIs (zero warnings enforced)
   - Updated project documentation (PLAN.md, CLAUDE.md) reflecting 93.3% coverage
+- **Solver parameter convenience extensions**
+  - `SetParam` extension methods for Z3Solver supporting bool, uint, double, and string parameters
+  - `SetTimeout(TimeSpan)` extension method for type-safe timeout configuration
+  - 30-second timeout added to all quantifier tests for reliability
 
 ### Changed
 - **BREAKING**: Renamed `BitVecConst` → `BvConst`, `BitVec` → `Bv`, `ToBitVec` → `ToBv` for consistency

@@ -16,6 +16,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr>("sqr");
 
@@ -34,6 +35,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr, IntExpr>("add");
 
@@ -55,6 +57,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr, IntExpr>("mul");
 
@@ -77,6 +80,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr, IntExpr, IntExpr>("f");
 
@@ -101,6 +105,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var x = context.IntConst("x");
         solver.Assert(context.Exists(x, x * x == square));
@@ -115,6 +120,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var x = context.IntConst("x");
         var y = context.IntConst("y");
@@ -130,6 +136,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var x = context.IntConst("x");
         var y = context.IntConst("y");
@@ -146,6 +153,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var a = context.IntConst("a");
         var b = context.IntConst("b");
@@ -162,6 +170,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr>("f");
         var x = context.IntConst("x");
@@ -183,6 +192,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr>("f");
         var x = context.IntConst("x");
@@ -204,6 +214,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, RealExpr>("toReal");
 
@@ -225,6 +236,7 @@ public class QuantifiersTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
+        solver.SetTimeout(TimeSpan.FromSeconds(30));
 
         var func = context.Func<IntExpr, IntExpr>("successor");
 
@@ -232,6 +244,7 @@ public class QuantifiersTests
         var y = context.IntConst("y");
         // For all x, there exists y such that func(x) = y and y = x + 1
         solver.Assert(context.ForAll(x, context.Exists(y, (func.Apply(x) == y) & (y == x + 1))));
+        solver.Assert(context.ForAll(x, func.Apply(x) == x + 1));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
