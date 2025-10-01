@@ -149,6 +149,36 @@
     <Compile Update="Expressions\Numerics\RealExprContextExtensions.Functions.cs">
       <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Arrays.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.BitVectors.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Context.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.ErrorHandling.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Expressions.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Functions.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Model.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Parameters.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Quantifiers.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Solver.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
