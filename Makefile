@@ -1,4 +1,4 @@
-# Z3 Library Makefile
+# Z3Wrap Library Makefile
 # Provides convenient commands for building, testing, and coverage
 
 .PHONY: help build test clean coverage coverage-open restore format lint release all ci test-release release-notes pack publish-build dev-setup quick watch info version
@@ -12,7 +12,7 @@ RED := \033[0;31m
 NC := \033[0m # No Color
 
 help: ## Show this help message
-	@echo "$(BLUE)Z3 Library - Available Commands$(NC)"
+	@echo "$(BLUE)Z3Wrap Library - Available Commands$(NC)"
 	@echo ""
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  $(GREEN)%-15s$(NC) %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
@@ -30,7 +30,7 @@ clean: ## Clean build artifacts
 	rm -rf Z3Wrap.Tests/TestResults coverage-reports
 
 build: restore ## Build the library (debug mode)
-	@echo "$(BLUE)Building Z3 Library...$(NC)"
+	@echo "$(BLUE)Building Z3Wrap Library...$(NC)"
 	dotnet build --no-restore
 
 release-notes: ## Generate RELEASE_NOTES.md and RELEASE_NOTES_ESCAPED.txt from CHANGELOG [Unreleased]
@@ -44,7 +44,7 @@ update-changelog: ## Update CHANGELOG.md: move [Unreleased] to latest git tag
 	scripts/update-changelog.sh
 
 release: restore release-notes ## Build in release mode
-	@echo "$(BLUE)Building Z3 Library (Release)...$(NC)"
+	@echo "$(BLUE)Building Z3Wrap Library (Release)...$(NC)"
 	dotnet build --configuration Release --no-restore
 
 # =============================================================================
@@ -138,7 +138,7 @@ dev-setup: ## Setup development environment
 	@echo "$(GREEN)✅ Development tools installed/updated$(NC)"
 
 info: ## Show project information
-	@echo "$(BLUE)Z3 Library Project Information$(NC)"
+	@echo "$(BLUE)Z3Wrap Library Project Information$(NC)"
 	@echo ""
 	@echo "Target Framework: .NET 9.0"
 	@echo "Test Framework:   NUnit 4"
