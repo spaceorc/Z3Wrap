@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
+[ExcludeFromCodeCoverage] // P/Invoke wrappers are mechanical delegates - no logic to test
 internal sealed partial class NativeLibrary : IDisposable
 {
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
