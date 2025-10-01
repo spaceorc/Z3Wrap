@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 
 **Z3Wrap** is a complete, production-ready C# wrapper for Microsoft's Z3 theorem prover featuring unlimited precision arithmetic, type-safe API design, and natural mathematical syntax.
 
-**Current Status**: Mature .NET 9.0 library with 1137+ tests achieving 80%+ coverage requirement in CI.
+**Current Status**: Production-ready .NET 9.0 library with 837 tests achieving 93.3% coverage (exceeds 90% CI requirement).
 
 ## Development Workflow
 
@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 ```bash
 make help         # Show all available commands
 make build        # Build library (includes restore)
-make test         # Run all 1137+ tests
+make test         # Run all 837 tests
 make coverage     # Generate coverage report and open in browser
 make format       # Format code (CSharpier) - REQUIRED before commits
 make lint         # Check formatting (used in CI)
@@ -36,22 +36,33 @@ make clean        # Clean all build artifacts
 
 ```
 Z3Wrap.sln                    # Solution with library + tests
-├── Z3Wrap/                   # Main library (48 source files)
-│   ├── DataTypes/               # Real.cs, BitVec.cs
-│   ├── Expressions/             # Z3Expr hierarchy (7 classes)
-│   ├── Interop/                 # P/Invoke bindings (4 classes)
-│   ├── Z3Context.cs             # Main context with scoped setup
-│   ├── Z3Solver.cs              # Solver with push/pop operations
-│   ├── Z3Model.cs               # Model extraction
-│   └── Z3ContextExtensions.*.cs # 20+ extension files by functionality
-├── Z3Wrap.Tests/             # NUnit tests (46 test files, 1137+ tests)
-│   ├── Unit/Core/               # Core functionality tests
-│   ├── Unit/DataTypes/          # Real, BitVec tests
-│   ├── Unit/Expressions/        # Expression type tests (organized by type)
-│   ├── Integration/             # Cross-component integration tests
-│   └── Unit/ReadmeExamplesTests.cs # Validates all README examples
+├── Z3Wrap/                   # Main library (79 source files)
+│   ├── Values/                  # Bv<TSize>, Real value types
+│   ├── Expressions/             # Expression types organized by category
+│   │   ├── Arrays/              # ArrayExpr<TIndex, TValue>
+│   │   ├── BitVectors/          # BvExpr<TSize> with Size8/16/32/64
+│   │   ├── Functions/           # FuncDecl for uninterpreted functions
+│   │   ├── Logic/               # BoolExpr
+│   │   ├── Numerics/            # IntExpr, RealExpr
+│   │   └── Quantifiers/         # ForAll, Exists
+│   ├── Core/                    # Z3Context, Z3Solver, Z3Model
+│   │   ├── Interop/             # P/Invoke bindings, native library loading
+│   │   └── Z3Library.cs         # Complete Z3 C API wrapper
+│   └── *.csproj                 # Project configuration
+├── Z3Wrap.Tests/             # NUnit tests (37 test files, 837 tests)
+│   ├── Core/                    # Context, Solver, Model tests
+│   ├── Expressions/             # Expression tests organized by type
+│   │   ├── Arrays/              # Array expression tests
+│   │   ├── BitVectors/          # BitVector tests (factory, arithmetic, bitwise, comparison, overflow)
+│   │   ├── Functions/           # Function declaration and application tests
+│   │   ├── Logic/               # Boolean logic tests
+│   │   ├── Numerics/            # Integer and Real tests
+│   │   └── Quantifiers/         # Quantifier tests
+│   ├── Values/                  # Bv and Real value type tests
+│   └── ReadmeExamplesTests.cs   # Validates all README examples
 ├── Makefile                  # Development workflow automation
-├── scripts/                  # Build and release automation
+├── CLAUDE.md                 # AI assistant guidance (this file)
+├── PLAN.md                   # Project roadmap and status
 └── .github/workflows/ci.yml  # GitHub Actions CI pipeline
 ```
 
@@ -60,7 +71,7 @@ Z3Wrap.sln                    # Solution with library + tests
 - **Unlimited Precision**: BigInteger integers, exact rational arithmetic via Real class
 - **Type Safety**: Strongly typed expressions, generic constraints, compile-time checking
 - **Natural Syntax**: Mathematical operators (`x + y == 10`) via scoped context pattern
-- **Complete Z3 Coverage**: Booleans, Integers, Reals, BitVectors, Arrays with full operator support
+- **Complete Z3 Coverage**: Booleans, Integers, Reals, BitVectors, Arrays, Quantifiers, Uninterpreted Functions
 - **Memory Safety**: Reference-counted contexts, automatic cleanup, no resource leaks
 - **Cross-Platform**: Auto-discovery of Z3 native library on Windows, macOS, Linux
 
@@ -82,30 +93,30 @@ solver.Assert(y == new Real(1, 3));      // Exact rationals
 if (solver.Check() == Z3Status.Satisfiable)
 {
     var model = solver.GetModel();
-    Console.WriteLine($"x = {model.GetIntValue(x)}");        // BigInteger
-    Console.WriteLine($"y = {model.GetRealValueAsString(y)}"); // "1/3"
+    Console.WriteLine($"x = {model.GetIntValue(x)}");              // BigInteger
+    Console.WriteLine($"y = {model.GetNumericValueAsString(y)}");  // "1/3"
 }
 ```
 
 ### Generic Arrays and BitVectors
 ```csharp
 // Type-safe generic arrays
-var prices = context.ArrayConst<Z3IntExpr, Z3RealExpr>("prices");
+var prices = context.ArrayConst<IntExpr, RealExpr>("prices");
 solver.Assert(prices[0] == 10.5m);
 solver.Assert(prices[1] > prices[0]);
 
-// BitVectors with natural operators
+// BitVectors with compile-time sized types
 var bv = context.BvConst<Size32>("bv");
 solver.Assert(bv + 5u == 15u);
 ```
 
 ## Testing Guidelines
 
-- **Framework**: NUnit with 1137+ tests organized by functionality
+- **Framework**: NUnit with 837 tests achieving 93.3% coverage
 - **Coverage**: 90%+ requirement enforced in CI pipeline (fails below 90%)
 - **Test Execution**: Always use `make test` (never `dotnet test`)
 - **Naming**: `MethodName_Scenario_ExpectedResult` pattern
-- **Organization**: Hierarchical structure by expression type and functionality
+- **Organization**: Hierarchical structure by expression type and functionality (see Project Structure above)
 
 ### Expression Operation Testing Principles
 
@@ -212,10 +223,9 @@ Z3Wrap.Tests/Expressions/
 ## Common AI Pitfalls to Avoid
 
 ### Project Structure Assumptions
-- **File Counts**: 48 source files, 46 test files - don't assume what exists
-- **Test Organization**: Unit/ vs Integration/ folders - check structure first
-- **Extensions**: 20+ Z3ContextExtensions.*.cs files - use Glob/Grep to find
-- **Coverage Critical**: 90%+ required by CI - new code must include comprehensive tests
+- **File Counts**: 79 source files, 37 test files - don't assume what exists
+- **Test Organization**: Organized by expression category (see Project Structure) - check first
+- **Coverage Critical**: 90%+ required by CI (currently 93.3%) - new code must include comprehensive tests
 
 ### Command Usage Mistakes
 - ❌ Using `dotnet test` instead of `make test`
