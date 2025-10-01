@@ -107,6 +107,96 @@ solver.Assert(bv + context.BitVec(5, 32) == context.BitVec(15, 32));
 - **Naming**: `MethodName_Scenario_ExpectedResult` pattern
 - **Organization**: Hierarchical structure by expression type and functionality
 
+### Expression Operation Testing Principles
+
+**CRITICAL**: All expression operations must test ALL syntax variants comprehensively.
+
+**Complete Syntax Variant Coverage** (8 variants for binary operations):
+```csharp
+[Test]
+public void Add_TwoValues_ComputesCorrectResult()
+{
+    using var context = new Z3Context();
+    using var scope = context.SetUp();
+    using var solver = context.CreateSolver();
+
+    var a = context.Int(10);
+    var b = context.Int(32);
+
+    // Test ALL 8 syntax variants
+    var result = a + b;                              // 1. Operator
+    var resultViaIntLeft = 10 + b;                   // 2. Literal left
+    var resultViaIntRight = a + 32;                  // 3. Literal right
+    var resultViaContext = context.Add(a, b);        // 4. Context extension
+    var resultViaContextIntLeft = context.Add(10, b); // 5. Context + literal left
+    var resultViaContextIntRight = context.Add(a, 32); // 6. Context + literal right
+    var resultViaFunc = a.Add(b);                    // 7. Expression method
+    var resultViaFuncIntRight = a.Add(32);           // 8. Expression + literal right
+
+    var status = solver.Check();
+    Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+    var model = solver.GetModel();
+    Assert.Multiple(() =>
+    {
+        Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)));
+        // ... verify all 8 variants produce correct result
+    });
+}
+```
+
+**TestCase Pattern for Truth Tables**:
+```csharp
+[TestCase(true, true, true)]
+[TestCase(true, false, false)]
+[TestCase(false, true, false)]
+[TestCase(false, false, false)]
+public void And_TwoValues_ComputesCorrectResult(bool aValue, bool bValue, bool expected)
+{
+    using var context = new Z3Context();
+    using var scope = context.SetUp();
+    using var solver = context.CreateSolver();
+
+    var a = context.Bool(aValue);  // Direct value creation
+    var b = context.Bool(bValue);
+
+    // Test all syntax variants...
+    var result = a & b;
+    // ... (remaining 7 variants)
+
+    var model = solver.GetModel();
+    Assert.That(model.GetBoolValue(result), Is.EqualTo(expected));
+}
+```
+
+**Test Organization by Category**:
+```
+Z3Wrap.Tests/Expressions/
+├── Numerics/
+│   ├── IntExprArithmeticTests.cs    # Arithmetic operations (+, -, *, /, %)
+│   ├── IntExprComparisonTests.cs    # Comparisons (==, !=, <, >, <=, >=)
+│   └── IntExprCreationTests.cs      # Creation methods (IntConst, Int, etc.)
+├── Logic/
+│   ├── BoolExprLogicTests.cs        # Logic operations (&, |, ^, !, Implies, Iff)
+│   ├── BoolExprComparisonTests.cs   # Boolean equality (==, !=)
+│   └── BoolExprCreationTests.cs     # Creation methods (Bool, BoolConst, True, False)
+├── BitVectors/
+│   ├── BvExprArithmeticTests.cs     # Arithmetic (+, -, *, /, %)
+│   ├── BvExprBitwiseTests.cs        # Bitwise (&, |, ^, ~, <<, >>)
+│   └── BvExprComparisonTests.cs     # Comparisons (signed/unsigned)
+└── Functions/
+    ├── FuncDeclFactoryTests.cs      # Function creation
+    ├── FuncDeclApplicationTests.cs  # Function application and solving
+    └── FuncDeclBuilderTests.cs      # Dynamic function builder
+```
+
+**Key Testing Rules**:
+- **Verify Results**: Always verify actual computed values via `model.GetXValue()`, not just `solver.Check()` status
+- **Use Direct Values**: Prefer `context.Int(10)` over creating variables and asserting values
+- **Assert.Multiple**: Group all variant assertions together
+- **No Redundant Checks**: Don't test non-null, type, or context association - focus on Z3 behavior
+- **Variant Counts**: 8 for binary ops, 7 for shifts (C# limitation), 5 for no-operator ops, 3 for unary ops
+
 ## AI Development Workflow
 
 **CRITICAL**: Follow this exact workflow to avoid common AI mistakes:
