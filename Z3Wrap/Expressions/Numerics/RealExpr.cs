@@ -17,7 +17,7 @@ public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<Real
 
     static RealExpr IExprType<RealExpr>.Create(Z3Context context, IntPtr handle) => new(context, handle);
 
-    static IntPtr IExprType<RealExpr>.Sort(Z3Context context) => context.Library.Z3MkRealSort(context.Handle);
+    static IntPtr IExprType<RealExpr>.Sort(Z3Context context) => context.Library.MkRealSort(context.Handle);
 
     static RealExpr IArithmeticExpr<RealExpr>.Zero(Z3Context context) => context.Real(0);
 

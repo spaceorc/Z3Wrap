@@ -27,7 +27,7 @@ public sealed class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize
     static BvExpr<TSize> IExprType<BvExpr<TSize>>.Create(Z3Context context, IntPtr handle) => new(context, handle);
 
     static IntPtr IExprType<BvExpr<TSize>>.Sort(Z3Context context) =>
-        context.Library.Z3MkBvSort(context.Handle, TSize.Size);
+        context.Library.MkBvSort(context.Handle, TSize.Size);
 
     /// <summary>
     /// Returns a string representation of this bit-vector expression.

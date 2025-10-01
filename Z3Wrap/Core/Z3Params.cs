@@ -126,8 +126,8 @@ public sealed class Z3Params : IEnumerable<KeyValuePair<string, object>>
 
     internal void ApplyTo(Z3Context context, IntPtr solverHandle)
     {
-        var paramsHandle = context.Library.Z3MkParams(context.Handle);
-        context.Library.Z3ParamsIncRef(context.Handle, paramsHandle);
+        var paramsHandle = context.Library.MkParams(context.Handle);
+        context.Library.ParamsIncRef(context.Handle, paramsHandle);
         try
         {
             foreach (var param in parameters)
@@ -135,25 +135,25 @@ public sealed class Z3Params : IEnumerable<KeyValuePair<string, object>>
                 switch (param.Value)
                 {
                     case bool boolValue:
-                        context.Library.Z3ParamsSetBool(context.Handle, paramsHandle, param.Key, boolValue);
+                        context.Library.ParamsSetBool(context.Handle, paramsHandle, param.Key, boolValue);
                         break;
                     case uint uintValue:
-                        context.Library.Z3ParamsSetUInt(context.Handle, paramsHandle, param.Key, uintValue);
+                        context.Library.ParamsSetUInt(context.Handle, paramsHandle, param.Key, uintValue);
                         break;
                     case double doubleValue:
-                        context.Library.Z3ParamsSetDouble(context.Handle, paramsHandle, param.Key, doubleValue);
+                        context.Library.ParamsSetDouble(context.Handle, paramsHandle, param.Key, doubleValue);
                         break;
                     case string stringValue:
-                        context.Library.Z3ParamsSetSymbol(context.Handle, paramsHandle, param.Key, stringValue);
+                        context.Library.ParamsSetSymbol(context.Handle, paramsHandle, param.Key, stringValue);
                         break;
                 }
             }
 
-            context.Library.Z3SolverSetParams(context.Handle, solverHandle, paramsHandle);
+            context.Library.SolverSetParams(context.Handle, solverHandle, paramsHandle);
         }
         finally
         {
-            context.Library.Z3ParamsDecRef(context.Handle, paramsHandle);
+            context.Library.ParamsDecRef(context.Handle, paramsHandle);
         }
     }
 }

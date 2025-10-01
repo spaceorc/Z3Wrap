@@ -19,7 +19,7 @@ public static class ArithmeticComparisonContextExtensions
     public static BoolExpr Lt<T>(this Z3Context context, T left, T right)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        var resultHandle = context.Library.Z3MkLt(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkLt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -34,7 +34,7 @@ public static class ArithmeticComparisonContextExtensions
     public static BoolExpr Le<T>(this Z3Context context, T left, T right)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        var resultHandle = context.Library.Z3MkLe(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkLe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -49,7 +49,7 @@ public static class ArithmeticComparisonContextExtensions
     public static BoolExpr Gt<T>(this Z3Context context, T left, T right)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        var resultHandle = context.Library.Z3MkGt(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkGt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -64,7 +64,7 @@ public static class ArithmeticComparisonContextExtensions
     public static BoolExpr Ge<T>(this Z3Context context, T left, T right)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        var resultHandle = context.Library.Z3MkGe(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkGe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 }

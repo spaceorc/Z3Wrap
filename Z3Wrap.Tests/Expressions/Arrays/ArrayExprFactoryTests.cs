@@ -41,8 +41,8 @@ public class ArrayExprFactoryTests
 
         var indexSort = context.GetSortForType<TIndex>();
         var valueSort = context.GetSortForType<TValue>();
-        var indexSortKind = context.Library.Z3GetSortKind(context.Handle, indexSort);
-        var valueSortKind = context.Library.Z3GetSortKind(context.Handle, valueSort);
+        var indexSortKind = context.Library.GetSortKind(context.Handle, indexSort);
+        var valueSortKind = context.Library.GetSortKind(context.Handle, valueSort);
 
         Assert.Multiple(() =>
         {
@@ -70,8 +70,8 @@ public class ArrayExprFactoryTests
 
         var indexSort = context.GetSortForType<IntExpr>();
         var valueSort = context.GetSortForType<TValue>();
-        var indexSortKind = context.Library.Z3GetSortKind(context.Handle, indexSort);
-        var valueSortKind = context.Library.Z3GetSortKind(context.Handle, valueSort);
+        var indexSortKind = context.Library.GetSortKind(context.Handle, indexSort);
+        var valueSortKind = context.Library.GetSortKind(context.Handle, valueSort);
 
         Assert.Multiple(() =>
         {

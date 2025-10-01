@@ -34,43 +34,43 @@ public class Z3LibraryTests
     }
 
     [Test]
-    public void Z3MkConfig_ReturnsNonZeroHandle()
+    public void MkConfig_ReturnsNonZeroHandle()
     {
         using var library = Z3Library.LoadAuto();
 
-        var configHandle = library.Z3MkConfig();
+        var configHandle = library.MkConfig();
 
         Assert.That(configHandle, Is.Not.EqualTo(IntPtr.Zero));
 
-        library.Z3DelConfig(configHandle);
+        library.DelConfig(configHandle);
     }
 
     [Test]
-    public void Z3MkContextRc_ReturnsNonZeroHandle()
+    public void MkContextRc_ReturnsNonZeroHandle()
     {
         using var library = Z3Library.LoadAuto();
-        var configHandle = library.Z3MkConfig();
+        var configHandle = library.MkConfig();
 
-        var contextHandle = library.Z3MkContextRc(configHandle);
+        var contextHandle = library.MkContextRc(configHandle);
 
         Assert.That(contextHandle, Is.Not.EqualTo(IntPtr.Zero));
 
-        library.Z3DelContext(contextHandle);
-        library.Z3DelConfig(configHandle);
+        library.DelContext(contextHandle);
+        library.DelConfig(configHandle);
     }
 
     [Test]
-    public void Z3MkBoolSort_ReturnsNonZeroHandle()
+    public void MkBoolSort_ReturnsNonZeroHandle()
     {
         using var library = Z3Library.LoadAuto();
-        var configHandle = library.Z3MkConfig();
-        var contextHandle = library.Z3MkContextRc(configHandle);
+        var configHandle = library.MkConfig();
+        var contextHandle = library.MkContextRc(configHandle);
 
-        var sortHandle = library.Z3MkBoolSort(contextHandle);
+        var sortHandle = library.MkBoolSort(contextHandle);
 
         Assert.That(sortHandle, Is.Not.EqualTo(IntPtr.Zero));
 
-        library.Z3DelContext(contextHandle);
-        library.Z3DelConfig(configHandle);
+        library.DelContext(contextHandle);
+        library.DelConfig(configHandle);
     }
 }

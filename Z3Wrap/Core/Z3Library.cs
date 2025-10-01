@@ -82,16 +82,16 @@ public sealed class Z3Library : IDisposable
     }
 
     // Configuration and context methods
-    /// <inheritdoc cref="NativeLibrary.Z3MkConfig" />
-    public IntPtr Z3MkConfig()
+    /// <inheritdoc cref="NativeLibrary.MkConfig" />
+    public IntPtr MkConfig()
     {
-        return nativeLibrary.Z3MkConfig();
+        return nativeLibrary.MkConfig();
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3DelConfig" />
-    public void Z3DelConfig(IntPtr cfg)
+    /// <inheritdoc cref="NativeLibrary.DelConfig" />
+    public void DelConfig(IntPtr cfg)
     {
-        nativeLibrary.Z3DelConfig(cfg);
+        nativeLibrary.DelConfig(cfg);
     }
 
     /// <summary>
@@ -100,28 +100,28 @@ public sealed class Z3Library : IDisposable
     /// <param name="cfg">Configuration handle.</param>
     /// <param name="paramId">Parameter name.</param>
     /// <param name="paramValue">Parameter value.</param>
-    public void Z3SetParamValue(IntPtr cfg, string paramId, string paramValue)
+    public void SetParamValue(IntPtr cfg, string paramId, string paramValue)
     {
         using var paramIdPtr = new AnsiStringPtr(paramId);
         using var paramValuePtr = new AnsiStringPtr(paramValue);
-        nativeLibrary.Z3SetParamValue(cfg, paramIdPtr, paramValuePtr);
+        nativeLibrary.SetParamValue(cfg, paramIdPtr, paramValuePtr);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkContextRc" />
-    public IntPtr Z3MkContextRc(IntPtr cfg)
+    /// <inheritdoc cref="NativeLibrary.MkContextRc" />
+    public IntPtr MkContextRc(IntPtr cfg)
     {
-        var result = CheckHandle(nativeLibrary.Z3MkContextRc(cfg), nameof(Z3MkContextRc));
+        var result = CheckHandle(nativeLibrary.MkContextRc(cfg), nameof(MkContextRc));
 
         // No error check for context creation
         // Set up safe error handler (prevents crashes)
-        nativeLibrary.Z3SetErrorHandler(result, OnZ3ErrorSafe);
+        nativeLibrary.SetErrorHandler(result, OnZ3ErrorSafe);
         return result;
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3DelContext" />
-    public void Z3DelContext(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.DelContext" />
+    public void DelContext(IntPtr ctx)
     {
-        nativeLibrary.Z3DelContext(ctx);
+        nativeLibrary.DelContext(ctx);
         // No error check needed for deletion
     }
 
@@ -131,68 +131,68 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="paramId">Parameter name.</param>
     /// <param name="paramValue">Parameter value.</param>
-    public void Z3UpdateParamValue(IntPtr ctx, string paramId, string paramValue)
+    public void UpdateParamValue(IntPtr ctx, string paramId, string paramValue)
     {
         using var paramIdPtr = new AnsiStringPtr(paramId);
         using var paramValuePtr = new AnsiStringPtr(paramValue);
-        nativeLibrary.Z3UpdateParamValue(ctx, paramIdPtr, paramValuePtr);
+        nativeLibrary.UpdateParamValue(ctx, paramIdPtr, paramValuePtr);
         CheckError(ctx);
     }
 
     // Reference counting
-    /// <inheritdoc cref="NativeLibrary.Z3IncRef" />
-    public void Z3IncRef(IntPtr ctx, IntPtr ast)
+    /// <inheritdoc cref="NativeLibrary.IncRef" />
+    public void IncRef(IntPtr ctx, IntPtr ast)
     {
-        nativeLibrary.Z3IncRef(ctx, ast);
+        nativeLibrary.IncRef(ctx, ast);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3DecRef" />
-    public void Z3DecRef(IntPtr ctx, IntPtr ast)
+    /// <inheritdoc cref="NativeLibrary.DecRef" />
+    public void DecRef(IntPtr ctx, IntPtr ast)
     {
-        nativeLibrary.Z3DecRef(ctx, ast);
+        nativeLibrary.DecRef(ctx, ast);
         // No error check needed for ref counting
     }
 
     // Sort creation
-    /// <inheritdoc cref="NativeLibrary.Z3MkBoolSort" />
-    public IntPtr Z3MkBoolSort(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkBoolSort" />
+    public IntPtr MkBoolSort(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkBoolSort(ctx);
+        var result = nativeLibrary.MkBoolSort(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBoolSort));
+        return CheckHandle(result, nameof(MkBoolSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkIntSort" />
-    public IntPtr Z3MkIntSort(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkIntSort" />
+    public IntPtr MkIntSort(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkIntSort(ctx);
+        var result = nativeLibrary.MkIntSort(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkIntSort));
+        return CheckHandle(result, nameof(MkIntSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkRealSort" />
-    public IntPtr Z3MkRealSort(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkRealSort" />
+    public IntPtr MkRealSort(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkRealSort(ctx);
+        var result = nativeLibrary.MkRealSort(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkRealSort));
+        return CheckHandle(result, nameof(MkRealSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSort" />
-    public IntPtr Z3MkBvSort(IntPtr ctx, uint size)
+    /// <inheritdoc cref="NativeLibrary.MkBvSort" />
+    public IntPtr MkBvSort(IntPtr ctx, uint size)
     {
-        var result = nativeLibrary.Z3MkBvSort(ctx, size);
+        var result = nativeLibrary.MkBvSort(ctx, size);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSort));
+        return CheckHandle(result, nameof(MkBvSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkArraySort" />
-    public IntPtr Z3MkArraySort(IntPtr ctx, IntPtr indexSort, IntPtr valueSort)
+    /// <inheritdoc cref="NativeLibrary.MkArraySort" />
+    public IntPtr MkArraySort(IntPtr ctx, IntPtr indexSort, IntPtr valueSort)
     {
-        var result = nativeLibrary.Z3MkArraySort(ctx, indexSort, valueSort);
+        var result = nativeLibrary.MkArraySort(ctx, indexSort, valueSort);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkArraySort));
+        return CheckHandle(result, nameof(MkArraySort));
     }
 
     // Expression creation
@@ -203,32 +203,32 @@ public sealed class Z3Library : IDisposable
     /// <param name="name">Name of the constant.</param>
     /// <param name="sort">Sort of the constant.</param>
     /// <returns>AST handle for the constant expression.</returns>
-    public IntPtr Z3MkConst(IntPtr ctx, string name, IntPtr sort)
+    public IntPtr MkConst(IntPtr ctx, string name, IntPtr sort)
     {
         using var strPtr = new AnsiStringPtr(name);
 
-        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        var result = nativeLibrary.Z3MkConst(ctx, symbol, sort);
+        var result = nativeLibrary.MkConst(ctx, symbol, sort);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkConst));
+        return CheckHandle(result, nameof(MkConst));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkTrue" />
-    public IntPtr Z3MkTrue(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkTrue" />
+    public IntPtr MkTrue(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkTrue(ctx);
+        var result = nativeLibrary.MkTrue(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkTrue));
+        return CheckHandle(result, nameof(MkTrue));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkFalse" />
-    public IntPtr Z3MkFalse(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkFalse" />
+    public IntPtr MkFalse(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkFalse(ctx);
+        var result = nativeLibrary.MkFalse(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkFalse));
+        return CheckHandle(result, nameof(MkFalse));
     }
 
     /// <summary>
@@ -238,197 +238,197 @@ public sealed class Z3Library : IDisposable
     /// <param name="numeral">String representation of the numeral.</param>
     /// <param name="sort">Sort of the numeral.</param>
     /// <returns>AST handle for the numeral expression.</returns>
-    public IntPtr Z3MkNumeral(IntPtr ctx, string numeral, IntPtr sort)
+    public IntPtr MkNumeral(IntPtr ctx, string numeral, IntPtr sort)
     {
         using var numeralPtr = new AnsiStringPtr(numeral);
-        var result = nativeLibrary.Z3MkNumeral(ctx, numeralPtr, sort);
+        var result = nativeLibrary.MkNumeral(ctx, numeralPtr, sort);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkNumeral));
+        return CheckHandle(result, nameof(MkNumeral));
     }
 
     // Boolean operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkAnd" />
-    public IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    /// <inheritdoc cref="NativeLibrary.MkAnd" />
+    public IntPtr MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
-        var result = nativeLibrary.Z3MkAnd(ctx, numArgs, args);
+        var result = nativeLibrary.MkAnd(ctx, numArgs, args);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkAnd));
+        return CheckHandle(result, nameof(MkAnd));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkOr" />
-    public IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
+    /// <inheritdoc cref="NativeLibrary.MkOr" />
+    public IntPtr MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
-        var result = nativeLibrary.Z3MkOr(ctx, numArgs, args);
+        var result = nativeLibrary.MkOr(ctx, numArgs, args);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkOr));
+        return CheckHandle(result, nameof(MkOr));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkNot" />
-    public IntPtr Z3MkNot(IntPtr ctx, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkNot" />
+    public IntPtr MkNot(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkNot(ctx, expr);
+        var result = nativeLibrary.MkNot(ctx, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkNot));
+        return CheckHandle(result, nameof(MkNot));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkImplies" />
-    public IntPtr Z3MkImplies(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkImplies" />
+    public IntPtr MkImplies(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkImplies(ctx, t1, t2);
+        var result = nativeLibrary.MkImplies(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkImplies));
+        return CheckHandle(result, nameof(MkImplies));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkIff" />
-    public IntPtr Z3MkIff(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkIff" />
+    public IntPtr MkIff(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkIff(ctx, t1, t2);
+        var result = nativeLibrary.MkIff(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkIff));
+        return CheckHandle(result, nameof(MkIff));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkXor" />
-    public IntPtr Z3MkXor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkXor" />
+    public IntPtr MkXor(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkXor(ctx, t1, t2);
+        var result = nativeLibrary.MkXor(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkXor));
+        return CheckHandle(result, nameof(MkXor));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkIte" />
-    public IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
+    /// <inheritdoc cref="NativeLibrary.MkIte" />
+    public IntPtr MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
     {
-        var result = nativeLibrary.Z3MkIte(ctx, condition, thenExpr, elseExpr);
+        var result = nativeLibrary.MkIte(ctx, condition, thenExpr, elseExpr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkIte));
+        return CheckHandle(result, nameof(MkIte));
     }
 
     // Arithmetic operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkAdd" />
-    public IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    /// <inheritdoc cref="NativeLibrary.MkAdd" />
+    public IntPtr MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
-        var result = nativeLibrary.Z3MkAdd(ctx, numArgs, args);
+        var result = nativeLibrary.MkAdd(ctx, numArgs, args);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkAdd));
+        return CheckHandle(result, nameof(MkAdd));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkSub" />
-    public IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
+    /// <inheritdoc cref="NativeLibrary.MkSub" />
+    public IntPtr MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
-        var result = nativeLibrary.Z3MkSub(ctx, numArgs, args);
+        var result = nativeLibrary.MkSub(ctx, numArgs, args);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkSub));
+        return CheckHandle(result, nameof(MkSub));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkMul" />
-    public IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
+    /// <inheritdoc cref="NativeLibrary.MkMul" />
+    public IntPtr MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
-        var result = nativeLibrary.Z3MkMul(ctx, numArgs, args);
+        var result = nativeLibrary.MkMul(ctx, numArgs, args);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkMul));
+        return CheckHandle(result, nameof(MkMul));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkDiv" />
-    public IntPtr Z3MkDiv(IntPtr ctx, IntPtr arg1, IntPtr arg2)
+    /// <inheritdoc cref="NativeLibrary.MkDiv" />
+    public IntPtr MkDiv(IntPtr ctx, IntPtr arg1, IntPtr arg2)
     {
-        var result = nativeLibrary.Z3MkDiv(ctx, arg1, arg2);
+        var result = nativeLibrary.MkDiv(ctx, arg1, arg2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkDiv));
+        return CheckHandle(result, nameof(MkDiv));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkMod" />
-    public IntPtr Z3MkMod(IntPtr ctx, IntPtr arg1, IntPtr arg2)
+    /// <inheritdoc cref="NativeLibrary.MkMod" />
+    public IntPtr MkMod(IntPtr ctx, IntPtr arg1, IntPtr arg2)
     {
-        var result = nativeLibrary.Z3MkMod(ctx, arg1, arg2);
+        var result = nativeLibrary.MkMod(ctx, arg1, arg2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkMod));
+        return CheckHandle(result, nameof(MkMod));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkUnaryMinus" />
-    public IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
+    /// <inheritdoc cref="NativeLibrary.MkUnaryMinus" />
+    public IntPtr MkUnaryMinus(IntPtr ctx, IntPtr arg)
     {
-        var result = nativeLibrary.Z3MkUnaryMinus(ctx, arg);
+        var result = nativeLibrary.MkUnaryMinus(ctx, arg);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkUnaryMinus));
+        return CheckHandle(result, nameof(MkUnaryMinus));
     }
 
     // Comparison operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkEq" />
-    public IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkEq" />
+    public IntPtr MkEq(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkEq(ctx, left, right);
+        var result = nativeLibrary.MkEq(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkEq));
+        return CheckHandle(result, nameof(MkEq));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkLt" />
-    public IntPtr Z3MkLt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkLt" />
+    public IntPtr MkLt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkLt(ctx, t1, t2);
+        var result = nativeLibrary.MkLt(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkLt));
+        return CheckHandle(result, nameof(MkLt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkLe" />
-    public IntPtr Z3MkLe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkLe" />
+    public IntPtr MkLe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkLe(ctx, t1, t2);
+        var result = nativeLibrary.MkLe(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkLe));
+        return CheckHandle(result, nameof(MkLe));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkGt" />
-    public IntPtr Z3MkGt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkGt" />
+    public IntPtr MkGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkGt(ctx, t1, t2);
+        var result = nativeLibrary.MkGt(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkGt));
+        return CheckHandle(result, nameof(MkGt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkGe" />
-    public IntPtr Z3MkGe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    /// <inheritdoc cref="NativeLibrary.MkGe" />
+    public IntPtr MkGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
-        var result = nativeLibrary.Z3MkGe(ctx, t1, t2);
+        var result = nativeLibrary.MkGe(ctx, t1, t2);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkGe));
+        return CheckHandle(result, nameof(MkGe));
     }
 
     // Type conversions
-    /// <inheritdoc cref="NativeLibrary.Z3MkInt2Real" />
-    public IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr term)
+    /// <inheritdoc cref="NativeLibrary.MkInt2Real" />
+    public IntPtr MkInt2Real(IntPtr ctx, IntPtr term)
     {
-        var result = nativeLibrary.Z3MkInt2Real(ctx, term);
+        var result = nativeLibrary.MkInt2Real(ctx, term);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkInt2Real));
+        return CheckHandle(result, nameof(MkInt2Real));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkReal2Int" />
-    public IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr term)
+    /// <inheritdoc cref="NativeLibrary.MkReal2Int" />
+    public IntPtr MkReal2Int(IntPtr ctx, IntPtr term)
     {
-        var result = nativeLibrary.Z3MkReal2Int(ctx, term);
+        var result = nativeLibrary.MkReal2Int(ctx, term);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkReal2Int));
+        return CheckHandle(result, nameof(MkReal2Int));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkInt2Bv" />
-    public IntPtr Z3MkInt2Bv(IntPtr ctx, uint size, IntPtr term)
+    /// <inheritdoc cref="NativeLibrary.MkInt2Bv" />
+    public IntPtr MkInt2Bv(IntPtr ctx, uint size, IntPtr term)
     {
-        var result = nativeLibrary.Z3MkInt2Bv(ctx, size, term);
+        var result = nativeLibrary.MkInt2Bv(ctx, size, term);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkInt2Bv));
+        return CheckHandle(result, nameof(MkInt2Bv));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBv2Int" />
-    public IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr term, bool isSigned)
+    /// <inheritdoc cref="NativeLibrary.MkBv2Int" />
+    public IntPtr MkBv2Int(IntPtr ctx, IntPtr term, bool isSigned)
     {
-        var result = nativeLibrary.Z3MkBv2Int(ctx, term, isSigned);
+        var result = nativeLibrary.MkBv2Int(ctx, term, isSigned);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBv2Int));
+        return CheckHandle(result, nameof(MkBv2Int));
     }
 
     // Quantifier operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkForallConst" />
-    public IntPtr Z3MkForallConst(
+    /// <inheritdoc cref="NativeLibrary.MkForallConst" />
+    public IntPtr MkForallConst(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -438,13 +438,13 @@ public sealed class Z3Library : IDisposable
         IntPtr body
     )
     {
-        var result = nativeLibrary.Z3MkForallConst(ctx, weight, numBound, bound, numPatterns, patterns, body);
+        var result = nativeLibrary.MkForallConst(ctx, weight, numBound, bound, numPatterns, patterns, body);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkForallConst));
+        return CheckHandle(result, nameof(MkForallConst));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkExistsConst" />
-    public IntPtr Z3MkExistsConst(
+    /// <inheritdoc cref="NativeLibrary.MkExistsConst" />
+    public IntPtr MkExistsConst(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -454,17 +454,17 @@ public sealed class Z3Library : IDisposable
         IntPtr body
     )
     {
-        var result = nativeLibrary.Z3MkExistsConst(ctx, weight, numBound, bound, numPatterns, patterns, body);
+        var result = nativeLibrary.MkExistsConst(ctx, weight, numBound, bound, numPatterns, patterns, body);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkExistsConst));
+        return CheckHandle(result, nameof(MkExistsConst));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkPattern" />
-    public IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
+    /// <inheritdoc cref="NativeLibrary.MkPattern" />
+    public IntPtr MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
     {
-        var result = nativeLibrary.Z3MkPattern(ctx, numPatterns, terms);
+        var result = nativeLibrary.MkPattern(ctx, numPatterns, terms);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkPattern));
+        return CheckHandle(result, nameof(MkPattern));
     }
 
     // Function declaration and application operations
@@ -477,61 +477,61 @@ public sealed class Z3Library : IDisposable
     /// <param name="domain">Array of argument sorts.</param>
     /// <param name="range">Return sort.</param>
     /// <returns>Function declaration handle.</returns>
-    public IntPtr Z3MkFuncDecl(IntPtr ctx, string name, uint domainSize, IntPtr[] domain, IntPtr range)
+    public IntPtr MkFuncDecl(IntPtr ctx, string name, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         using var strPtr = new AnsiStringPtr(name);
 
-        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        var result = nativeLibrary.Z3MkFuncDecl(ctx, symbol, domainSize, domain, range);
+        var result = nativeLibrary.MkFuncDecl(ctx, symbol, domainSize, domain, range);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkFuncDecl));
+        return CheckHandle(result, nameof(MkFuncDecl));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkApp" />
-    public IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
+    /// <inheritdoc cref="NativeLibrary.MkApp" />
+    public IntPtr MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
     {
-        var result = nativeLibrary.Z3MkApp(ctx, funcDecl, numArgs, args);
+        var result = nativeLibrary.MkApp(ctx, funcDecl, numArgs, args);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkApp));
+        return CheckHandle(result, nameof(MkApp));
     }
 
     // Solver operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkSolver" />
-    public IntPtr Z3MkSolver(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkSolver" />
+    public IntPtr MkSolver(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkSolver(ctx);
+        var result = nativeLibrary.MkSolver(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkSolver));
+        return CheckHandle(result, nameof(MkSolver));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkSimpleSolver" />
-    public IntPtr Z3MkSimpleSolver(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.MkSimpleSolver" />
+    public IntPtr MkSimpleSolver(IntPtr ctx)
     {
-        var result = nativeLibrary.Z3MkSimpleSolver(ctx);
+        var result = nativeLibrary.MkSimpleSolver(ctx);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkSimpleSolver));
+        return CheckHandle(result, nameof(MkSimpleSolver));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverIncRef" />
-    public void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
+    /// <inheritdoc cref="NativeLibrary.SolverIncRef" />
+    public void SolverIncRef(IntPtr ctx, IntPtr solver)
     {
-        nativeLibrary.Z3SolverIncRef(ctx, solver);
+        nativeLibrary.SolverIncRef(ctx, solver);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverDecRef" />
-    public void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
+    /// <inheritdoc cref="NativeLibrary.SolverDecRef" />
+    public void SolverDecRef(IntPtr ctx, IntPtr solver)
     {
-        nativeLibrary.Z3SolverDecRef(ctx, solver);
+        nativeLibrary.SolverDecRef(ctx, solver);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverAssert" />
-    public void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.SolverAssert" />
+    public void SolverAssert(IntPtr ctx, IntPtr solver, IntPtr expr)
     {
-        nativeLibrary.Z3SolverAssert(ctx, solver, expr);
+        nativeLibrary.SolverAssert(ctx, solver, expr);
         CheckError(ctx);
     }
 
@@ -541,9 +541,9 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="solver">Solver handle.</param>
     /// <returns>The satisfiability result (Satisfiable, Unsatisfiable, or Unknown).</returns>
-    public Z3Status Z3SolverCheck(IntPtr ctx, IntPtr solver)
+    public Z3Status SolverCheck(IntPtr ctx, IntPtr solver)
     {
-        var result = nativeLibrary.Z3SolverCheck(ctx, solver);
+        var result = nativeLibrary.SolverCheck(ctx, solver);
         CheckError(ctx);
         return (Z3BoolValue)result switch
         {
@@ -554,40 +554,40 @@ public sealed class Z3Library : IDisposable
         };
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverPush" />
-    public void Z3SolverPush(IntPtr ctx, IntPtr solver)
+    /// <inheritdoc cref="NativeLibrary.SolverPush" />
+    public void SolverPush(IntPtr ctx, IntPtr solver)
     {
-        nativeLibrary.Z3SolverPush(ctx, solver);
+        nativeLibrary.SolverPush(ctx, solver);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverPop" />
-    public void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
+    /// <inheritdoc cref="NativeLibrary.SolverPop" />
+    public void SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
     {
-        nativeLibrary.Z3SolverPop(ctx, solver, numScopes);
+        nativeLibrary.SolverPop(ctx, solver, numScopes);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverGetModel" />
-    public IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
+    /// <inheritdoc cref="NativeLibrary.SolverGetModel" />
+    public IntPtr SolverGetModel(IntPtr ctx, IntPtr solver)
     {
-        var result = nativeLibrary.Z3SolverGetModel(ctx, solver);
+        var result = nativeLibrary.SolverGetModel(ctx, solver);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3SolverGetModel));
+        return CheckHandle(result, nameof(SolverGetModel));
     }
 
     // Model operations
-    /// <inheritdoc cref="NativeLibrary.Z3ModelIncRef" />
-    public void Z3ModelIncRef(IntPtr ctx, IntPtr model)
+    /// <inheritdoc cref="NativeLibrary.ModelIncRef" />
+    public void ModelIncRef(IntPtr ctx, IntPtr model)
     {
-        nativeLibrary.Z3ModelIncRef(ctx, model);
+        nativeLibrary.ModelIncRef(ctx, model);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3ModelDecRef" />
-    public void Z3ModelDecRef(IntPtr ctx, IntPtr model)
+    /// <inheritdoc cref="NativeLibrary.ModelDecRef" />
+    public void ModelDecRef(IntPtr ctx, IntPtr model)
     {
-        nativeLibrary.Z3ModelDecRef(ctx, model);
+        nativeLibrary.ModelDecRef(ctx, model);
         // No error check needed for ref counting
     }
 
@@ -597,11 +597,11 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="model">Model handle.</param>
     /// <returns>String representation of the model, or null if conversion fails.</returns>
-    public string? Z3ModelToString(IntPtr ctx, IntPtr model)
+    public string? ModelToString(IntPtr ctx, IntPtr model)
     {
-        var result = nativeLibrary.Z3ModelToString(ctx, model);
+        var result = nativeLibrary.ModelToString(ctx, model);
         CheckError(ctx);
-        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(Z3ModelToString)));
+        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(ModelToString)));
     }
 
     /// <summary>
@@ -610,17 +610,17 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="ast">AST handle.</param>
     /// <returns>String representation of the AST, or null if conversion fails.</returns>
-    public string? Z3AstToString(IntPtr ctx, IntPtr ast)
+    public string? AstToString(IntPtr ctx, IntPtr ast)
     {
-        var result = nativeLibrary.Z3AstToString(ctx, ast);
+        var result = nativeLibrary.AstToString(ctx, ast);
         CheckError(ctx);
-        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(Z3AstToString)));
+        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(AstToString)));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3ModelEval" />
-    public bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    /// <inheritdoc cref="NativeLibrary.ModelEval" />
+    public bool ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
-        var returnValue = nativeLibrary.Z3ModelEval(ctx, model, expr, modelCompletion, out result);
+        var returnValue = nativeLibrary.ModelEval(ctx, model, expr, modelCompletion, out result);
         CheckError(ctx);
         return returnValue;
     }
@@ -631,11 +631,11 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="expr">Numeral expression handle.</param>
     /// <returns>String representation of the numeral, or null if conversion fails.</returns>
-    public string? Z3GetNumeralString(IntPtr ctx, IntPtr expr)
+    public string? GetNumeralString(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3GetNumeralString(ctx, expr);
+        var result = nativeLibrary.GetNumeralString(ctx, expr);
         CheckError(ctx);
-        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(Z3GetNumeralString)));
+        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(GetNumeralString)));
     }
 
     /// <summary>
@@ -644,375 +644,375 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="expr">Boolean expression handle.</param>
     /// <returns>The Boolean value (True, False, or Undefined).</returns>
-    public Z3BoolValue Z3GetBoolValue(IntPtr ctx, IntPtr expr)
+    public Z3BoolValue GetBoolValue(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3GetBoolValue(ctx, expr);
+        var result = nativeLibrary.GetBoolValue(ctx, expr);
         CheckError(ctx);
         return (Z3BoolValue)result;
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3IsNumeralAst" />
-    public bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.IsNumeralAst" />
+    public bool IsNumeralAst(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3IsNumeralAst(ctx, expr);
+        var result = nativeLibrary.IsNumeralAst(ctx, expr);
         CheckError(ctx);
         return result;
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetSort" />
-    public IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.GetSort" />
+    public IntPtr GetSort(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3GetSort(ctx, expr);
+        var result = nativeLibrary.GetSort(ctx, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3GetSort));
+        return CheckHandle(result, nameof(GetSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetSortKind" />
-    public Z3SortKind Z3GetSortKind(IntPtr ctx, IntPtr sort)
+    /// <inheritdoc cref="NativeLibrary.GetSortKind" />
+    public Z3SortKind GetSortKind(IntPtr ctx, IntPtr sort)
     {
-        var result = nativeLibrary.Z3GetSortKind(ctx, sort);
+        var result = nativeLibrary.GetSortKind(ctx, sort);
         CheckError(ctx);
         return (Z3SortKind)result;
     }
 
     // Array operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkConstArray" />
-    public IntPtr Z3MkConstArray(IntPtr ctx, IntPtr sort, IntPtr value)
+    /// <inheritdoc cref="NativeLibrary.MkConstArray" />
+    public IntPtr MkConstArray(IntPtr ctx, IntPtr sort, IntPtr value)
     {
-        var result = nativeLibrary.Z3MkConstArray(ctx, sort, value);
+        var result = nativeLibrary.MkConstArray(ctx, sort, value);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkConstArray));
+        return CheckHandle(result, nameof(MkConstArray));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkStore" />
-    public IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
+    /// <inheritdoc cref="NativeLibrary.MkStore" />
+    public IntPtr MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
     {
-        var result = nativeLibrary.Z3MkStore(ctx, array, index, value);
+        var result = nativeLibrary.MkStore(ctx, array, index, value);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkStore));
+        return CheckHandle(result, nameof(MkStore));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkSelect" />
-    public IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
+    /// <inheritdoc cref="NativeLibrary.MkSelect" />
+    public IntPtr MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
     {
-        var result = nativeLibrary.Z3MkSelect(ctx, array, index);
+        var result = nativeLibrary.MkSelect(ctx, array, index);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkSelect));
+        return CheckHandle(result, nameof(MkSelect));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetArraySortDomain" />
-    public IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr sort)
+    /// <inheritdoc cref="NativeLibrary.GetArraySortDomain" />
+    public IntPtr GetArraySortDomain(IntPtr ctx, IntPtr sort)
     {
-        var result = nativeLibrary.Z3GetArraySortDomain(ctx, sort);
+        var result = nativeLibrary.GetArraySortDomain(ctx, sort);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3GetArraySortDomain));
+        return CheckHandle(result, nameof(GetArraySortDomain));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetArraySortRange" />
-    public IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr sort)
+    /// <inheritdoc cref="NativeLibrary.GetArraySortRange" />
+    public IntPtr GetArraySortRange(IntPtr ctx, IntPtr sort)
     {
-        var result = nativeLibrary.Z3GetArraySortRange(ctx, sort);
+        var result = nativeLibrary.GetArraySortRange(ctx, sort);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3GetArraySortRange));
+        return CheckHandle(result, nameof(GetArraySortRange));
     }
 
     // BitVector operations
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvAdd" />
-    public IntPtr Z3MkBvAdd(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvAdd" />
+    public IntPtr MkBvAdd(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvAdd(ctx, left, right);
+        var result = nativeLibrary.MkBvAdd(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvAdd));
+        return CheckHandle(result, nameof(MkBvAdd));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSub" />
-    public IntPtr Z3MkBvSub(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSub" />
+    public IntPtr MkBvSub(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSub(ctx, left, right);
+        var result = nativeLibrary.MkBvSub(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSub));
+        return CheckHandle(result, nameof(MkBvSub));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvMul" />
-    public IntPtr Z3MkBvMul(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvMul" />
+    public IntPtr MkBvMul(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvMul(ctx, left, right);
+        var result = nativeLibrary.MkBvMul(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvMul));
+        return CheckHandle(result, nameof(MkBvMul));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSDiv" />
-    public IntPtr Z3MkBvSDiv(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSDiv" />
+    public IntPtr MkBvSDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSDiv(ctx, left, right);
+        var result = nativeLibrary.MkBvSDiv(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSDiv));
+        return CheckHandle(result, nameof(MkBvSDiv));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvUDiv" />
-    public IntPtr Z3MkBvUDiv(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvUDiv" />
+    public IntPtr MkBvUDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvUDiv(ctx, left, right);
+        var result = nativeLibrary.MkBvUDiv(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvUDiv));
+        return CheckHandle(result, nameof(MkBvUDiv));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSRem" />
-    public IntPtr Z3MkBvSRem(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSRem" />
+    public IntPtr MkBvSRem(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSRem(ctx, left, right);
+        var result = nativeLibrary.MkBvSRem(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSRem));
+        return CheckHandle(result, nameof(MkBvSRem));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvURem" />
-    public IntPtr Z3MkBvURem(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvURem" />
+    public IntPtr MkBvURem(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvURem(ctx, left, right);
+        var result = nativeLibrary.MkBvURem(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvURem));
+        return CheckHandle(result, nameof(MkBvURem));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSMod" />
-    public IntPtr Z3MkBvSMod(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSMod" />
+    public IntPtr MkBvSMod(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSMod(ctx, left, right);
+        var result = nativeLibrary.MkBvSMod(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSMod));
+        return CheckHandle(result, nameof(MkBvSMod));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvNeg" />
-    public IntPtr Z3MkBvNeg(IntPtr ctx, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkBvNeg" />
+    public IntPtr MkBvNeg(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkBvNeg(ctx, expr);
+        var result = nativeLibrary.MkBvNeg(ctx, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvNeg));
+        return CheckHandle(result, nameof(MkBvNeg));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvAnd" />
-    public IntPtr Z3MkBvAnd(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvAnd" />
+    public IntPtr MkBvAnd(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvAnd(ctx, left, right);
+        var result = nativeLibrary.MkBvAnd(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvAnd));
+        return CheckHandle(result, nameof(MkBvAnd));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvOr" />
-    public IntPtr Z3MkBvOr(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvOr" />
+    public IntPtr MkBvOr(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvOr(ctx, left, right);
+        var result = nativeLibrary.MkBvOr(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvOr));
+        return CheckHandle(result, nameof(MkBvOr));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvXor" />
-    public IntPtr Z3MkBvXor(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvXor" />
+    public IntPtr MkBvXor(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvXor(ctx, left, right);
+        var result = nativeLibrary.MkBvXor(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvXor));
+        return CheckHandle(result, nameof(MkBvXor));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvNot" />
-    public IntPtr Z3MkBvNot(IntPtr ctx, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkBvNot" />
+    public IntPtr MkBvNot(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkBvNot(ctx, expr);
+        var result = nativeLibrary.MkBvNot(ctx, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvNot));
+        return CheckHandle(result, nameof(MkBvNot));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvShl" />
-    public IntPtr Z3MkBvShl(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvShl" />
+    public IntPtr MkBvShl(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvShl(ctx, left, right);
+        var result = nativeLibrary.MkBvShl(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvShl));
+        return CheckHandle(result, nameof(MkBvShl));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvAShr" />
-    public IntPtr Z3MkBvAShr(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvAShr" />
+    public IntPtr MkBvAShr(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvAShr(ctx, left, right);
+        var result = nativeLibrary.MkBvAShr(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvAShr));
+        return CheckHandle(result, nameof(MkBvAShr));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvLShr" />
-    public IntPtr Z3MkBvLShr(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvLShr" />
+    public IntPtr MkBvLShr(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvLShr(ctx, left, right);
+        var result = nativeLibrary.MkBvLShr(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvLShr));
+        return CheckHandle(result, nameof(MkBvLShr));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSLt" />
-    public IntPtr Z3MkBvSLt(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSLt" />
+    public IntPtr MkBvSLt(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSLt(ctx, left, right);
+        var result = nativeLibrary.MkBvSLt(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSLt));
+        return CheckHandle(result, nameof(MkBvSLt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvULt" />
-    public IntPtr Z3MkBvULt(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvULt" />
+    public IntPtr MkBvULt(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvULt(ctx, left, right);
+        var result = nativeLibrary.MkBvULt(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvULt));
+        return CheckHandle(result, nameof(MkBvULt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSLe" />
-    public IntPtr Z3MkBvSLe(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSLe" />
+    public IntPtr MkBvSLe(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSLe(ctx, left, right);
+        var result = nativeLibrary.MkBvSLe(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSLe));
+        return CheckHandle(result, nameof(MkBvSLe));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvULe" />
-    public IntPtr Z3MkBvULe(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvULe" />
+    public IntPtr MkBvULe(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvULe(ctx, left, right);
+        var result = nativeLibrary.MkBvULe(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvULe));
+        return CheckHandle(result, nameof(MkBvULe));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSGt" />
-    public IntPtr Z3MkBvSGt(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSGt" />
+    public IntPtr MkBvSGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSGt(ctx, left, right);
+        var result = nativeLibrary.MkBvSGt(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSGt));
+        return CheckHandle(result, nameof(MkBvSGt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvUGt" />
-    public IntPtr Z3MkBvUGt(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvUGt" />
+    public IntPtr MkBvUGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvUGt(ctx, left, right);
+        var result = nativeLibrary.MkBvUGt(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvUGt));
+        return CheckHandle(result, nameof(MkBvUGt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSGe" />
-    public IntPtr Z3MkBvSGe(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSGe" />
+    public IntPtr MkBvSGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSGe(ctx, left, right);
+        var result = nativeLibrary.MkBvSGe(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSGe));
+        return CheckHandle(result, nameof(MkBvSGe));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvUGe" />
-    public IntPtr Z3MkBvUGe(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvUGe" />
+    public IntPtr MkBvUGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvUGe(ctx, left, right);
+        var result = nativeLibrary.MkBvUGe(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvUGe));
+        return CheckHandle(result, nameof(MkBvUGe));
     }
 
     // BitVector functions
-    /// <inheritdoc cref="NativeLibrary.Z3MkSignExt" />
-    public IntPtr Z3MkSignExt(IntPtr ctx, uint extra, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkSignExt" />
+    public IntPtr MkSignExt(IntPtr ctx, uint extra, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkSignExt(ctx, extra, expr);
+        var result = nativeLibrary.MkSignExt(ctx, extra, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkSignExt));
+        return CheckHandle(result, nameof(MkSignExt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkZeroExt" />
-    public IntPtr Z3MkZeroExt(IntPtr ctx, uint extra, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkZeroExt" />
+    public IntPtr MkZeroExt(IntPtr ctx, uint extra, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkZeroExt(ctx, extra, expr);
+        var result = nativeLibrary.MkZeroExt(ctx, extra, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkZeroExt));
+        return CheckHandle(result, nameof(MkZeroExt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkExtract" />
-    public IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkExtract" />
+    public IntPtr MkExtract(IntPtr ctx, uint high, uint low, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkExtract(ctx, high, low, expr);
+        var result = nativeLibrary.MkExtract(ctx, high, low, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkExtract));
+        return CheckHandle(result, nameof(MkExtract));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkRepeat" />
-    public IntPtr Z3MkRepeat(IntPtr ctx, uint count, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkRepeat" />
+    public IntPtr MkRepeat(IntPtr ctx, uint count, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkRepeat(ctx, count, expr);
+        var result = nativeLibrary.MkRepeat(ctx, count, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkRepeat));
+        return CheckHandle(result, nameof(MkRepeat));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3GetBvSortSize" />
-    public uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
+    /// <inheritdoc cref="NativeLibrary.GetBvSortSize" />
+    public uint GetBvSortSize(IntPtr ctx, IntPtr sort)
     {
-        var result = nativeLibrary.Z3GetBvSortSize(ctx, sort);
+        var result = nativeLibrary.GetBvSortSize(ctx, sort);
         CheckError(ctx);
         return result;
     }
 
     // BitVector overflow checks
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvAddNoOverflow" />
-    public IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
+    /// <inheritdoc cref="NativeLibrary.MkBvAddNoOverflow" />
+    public IntPtr MkBvAddNoOverflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
-        var result = nativeLibrary.Z3MkBvAddNoOverflow(ctx, left, right, isSigned);
+        var result = nativeLibrary.MkBvAddNoOverflow(ctx, left, right, isSigned);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvAddNoOverflow));
+        return CheckHandle(result, nameof(MkBvAddNoOverflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSubNoOverflow" />
-    public IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSubNoOverflow" />
+    public IntPtr MkBvSubNoOverflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSubNoOverflow(ctx, left, right);
+        var result = nativeLibrary.MkBvSubNoOverflow(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSubNoOverflow));
+        return CheckHandle(result, nameof(MkBvSubNoOverflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSubNoUnderflow" />
-    public IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
+    /// <inheritdoc cref="NativeLibrary.MkBvSubNoUnderflow" />
+    public IntPtr MkBvSubNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
-        var result = nativeLibrary.Z3MkBvSubNoUnderflow(ctx, left, right, isSigned);
+        var result = nativeLibrary.MkBvSubNoUnderflow(ctx, left, right, isSigned);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSubNoUnderflow));
+        return CheckHandle(result, nameof(MkBvSubNoUnderflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvMulNoOverflow" />
-    public IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
+    /// <inheritdoc cref="NativeLibrary.MkBvMulNoOverflow" />
+    public IntPtr MkBvMulNoOverflow(IntPtr ctx, IntPtr left, IntPtr right, bool isSigned)
     {
-        var result = nativeLibrary.Z3MkBvMulNoOverflow(ctx, left, right, isSigned);
+        var result = nativeLibrary.MkBvMulNoOverflow(ctx, left, right, isSigned);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvMulNoOverflow));
+        return CheckHandle(result, nameof(MkBvMulNoOverflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvMulNoUnderflow" />
-    public IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvMulNoUnderflow" />
+    public IntPtr MkBvMulNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvMulNoUnderflow(ctx, left, right);
+        var result = nativeLibrary.MkBvMulNoUnderflow(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvMulNoUnderflow));
+        return CheckHandle(result, nameof(MkBvMulNoUnderflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvAddNoUnderflow" />
-    public IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvAddNoUnderflow" />
+    public IntPtr MkBvAddNoUnderflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvAddNoUnderflow(ctx, left, right);
+        var result = nativeLibrary.MkBvAddNoUnderflow(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvAddNoUnderflow));
+        return CheckHandle(result, nameof(MkBvAddNoUnderflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvSDivNoOverflow" />
-    public IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr left, IntPtr right)
+    /// <inheritdoc cref="NativeLibrary.MkBvSDivNoOverflow" />
+    public IntPtr MkBvSDivNoOverflow(IntPtr ctx, IntPtr left, IntPtr right)
     {
-        var result = nativeLibrary.Z3MkBvSDivNoOverflow(ctx, left, right);
+        var result = nativeLibrary.MkBvSDivNoOverflow(ctx, left, right);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvSDivNoOverflow));
+        return CheckHandle(result, nameof(MkBvSDivNoOverflow));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkBvNegNoOverflow" />
-    public IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr expr)
+    /// <inheritdoc cref="NativeLibrary.MkBvNegNoOverflow" />
+    public IntPtr MkBvNegNoOverflow(IntPtr ctx, IntPtr expr)
     {
-        var result = nativeLibrary.Z3MkBvNegNoOverflow(ctx, expr);
+        var result = nativeLibrary.MkBvNegNoOverflow(ctx, expr);
         CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkBvNegNoOverflow));
+        return CheckHandle(result, nameof(MkBvNegNoOverflow));
     }
 
     // Solver operations - add missing methods
@@ -1022,46 +1022,46 @@ public sealed class Z3Library : IDisposable
     /// <param name="ctx">Z3 context.</param>
     /// <param name="solver">Solver handle.</param>
     /// <returns>String describing the reason for unknown status, or null if not available.</returns>
-    public string? Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
+    public string? SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
-        var result = nativeLibrary.Z3SolverGetReasonUnknown(ctx, solver);
+        var result = nativeLibrary.SolverGetReasonUnknown(ctx, solver);
         CheckError(ctx);
-        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(Z3SolverGetReasonUnknown)));
+        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(SolverGetReasonUnknown)));
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3SolverReset" />
-    public void Z3SolverReset(IntPtr ctx, IntPtr solver)
+    /// <inheritdoc cref="NativeLibrary.SolverReset" />
+    public void SolverReset(IntPtr ctx, IntPtr solver)
     {
-        nativeLibrary.Z3SolverReset(ctx, solver);
-        CheckError(ctx);
-    }
-
-    /// <inheritdoc cref="NativeLibrary.Z3SolverSetParams" />
-    public void Z3SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
-    {
-        nativeLibrary.Z3SolverSetParams(ctx, solver, paramsHandle);
+        nativeLibrary.SolverReset(ctx, solver);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3MkParams" />
-    public IntPtr Z3MkParams(IntPtr ctx)
+    /// <inheritdoc cref="NativeLibrary.SolverSetParams" />
+    public void SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
     {
-        var result = nativeLibrary.Z3MkParams(ctx);
-        CheckError(ctx);
-        return CheckHandle(result, nameof(Z3MkParams));
-    }
-
-    /// <inheritdoc cref="NativeLibrary.Z3ParamsIncRef" />
-    public void Z3ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
-    {
-        nativeLibrary.Z3ParamsIncRef(ctx, paramsHandle);
+        nativeLibrary.SolverSetParams(ctx, solver, paramsHandle);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3ParamsDecRef" />
-    public void Z3ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
+    /// <inheritdoc cref="NativeLibrary.MkParams" />
+    public IntPtr MkParams(IntPtr ctx)
     {
-        nativeLibrary.Z3ParamsDecRef(ctx, paramsHandle);
+        var result = nativeLibrary.MkParams(ctx);
+        CheckError(ctx);
+        return CheckHandle(result, nameof(MkParams));
+    }
+
+    /// <inheritdoc cref="NativeLibrary.ParamsIncRef" />
+    public void ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
+    {
+        nativeLibrary.ParamsIncRef(ctx, paramsHandle);
+        CheckError(ctx);
+    }
+
+    /// <inheritdoc cref="NativeLibrary.ParamsDecRef" />
+    public void ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
+    {
+        nativeLibrary.ParamsDecRef(ctx, paramsHandle);
         CheckError(ctx);
     }
 
@@ -1072,13 +1072,13 @@ public sealed class Z3Library : IDisposable
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <param name="name">The parameter name.</param>
     /// <param name="value">The boolean value to set.</param>
-    public void Z3ParamsSetBool(IntPtr ctx, IntPtr paramsHandle, string name, bool value)
+    public void ParamsSetBool(IntPtr ctx, IntPtr paramsHandle, string name, bool value)
     {
         using var strPtr = new AnsiStringPtr(name);
-        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        nativeLibrary.Z3ParamsSetBool(ctx, paramsHandle, symbol, value ? 1 : 0);
+        nativeLibrary.ParamsSetBool(ctx, paramsHandle, symbol, value ? 1 : 0);
         CheckError(ctx);
     }
 
@@ -1089,13 +1089,13 @@ public sealed class Z3Library : IDisposable
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <param name="name">The parameter name.</param>
     /// <param name="value">The unsigned integer value to set.</param>
-    public void Z3ParamsSetUInt(IntPtr ctx, IntPtr paramsHandle, string name, uint value)
+    public void ParamsSetUInt(IntPtr ctx, IntPtr paramsHandle, string name, uint value)
     {
         using var strPtr = new AnsiStringPtr(name);
-        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        nativeLibrary.Z3ParamsSetUInt(ctx, paramsHandle, symbol, value);
+        nativeLibrary.ParamsSetUInt(ctx, paramsHandle, symbol, value);
         CheckError(ctx);
     }
 
@@ -1106,13 +1106,13 @@ public sealed class Z3Library : IDisposable
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <param name="name">The parameter name.</param>
     /// <param name="value">The double value to set.</param>
-    public void Z3ParamsSetDouble(IntPtr ctx, IntPtr paramsHandle, string name, double value)
+    public void ParamsSetDouble(IntPtr ctx, IntPtr paramsHandle, string name, double value)
     {
         using var strPtr = new AnsiStringPtr(name);
-        var symbol = nativeLibrary.Z3MkStringSymbol(ctx, strPtr);
+        var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        nativeLibrary.Z3ParamsSetDouble(ctx, paramsHandle, symbol, value);
+        nativeLibrary.ParamsSetDouble(ctx, paramsHandle, symbol, value);
         CheckError(ctx);
     }
 
@@ -1123,26 +1123,26 @@ public sealed class Z3Library : IDisposable
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <param name="name">The parameter name.</param>
     /// <param name="value">The symbol value as a string.</param>
-    public void Z3ParamsSetSymbol(IntPtr ctx, IntPtr paramsHandle, string name, string value)
+    public void ParamsSetSymbol(IntPtr ctx, IntPtr paramsHandle, string name, string value)
     {
         using var namePtr = new AnsiStringPtr(name);
-        var nameSymbol = nativeLibrary.Z3MkStringSymbol(ctx, namePtr);
+        var nameSymbol = nativeLibrary.MkStringSymbol(ctx, namePtr);
         CheckError(ctx);
 
         using var valuePtr = new AnsiStringPtr(value);
-        var valueSymbol = nativeLibrary.Z3MkStringSymbol(ctx, valuePtr);
+        var valueSymbol = nativeLibrary.MkStringSymbol(ctx, valuePtr);
         CheckError(ctx);
 
-        nativeLibrary.Z3ParamsSetSymbol(ctx, paramsHandle, nameSymbol, valueSymbol);
+        nativeLibrary.ParamsSetSymbol(ctx, paramsHandle, nameSymbol, valueSymbol);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="NativeLibrary.Z3ParamsToString" />
-    public string? Z3ParamsToString(IntPtr ctx, IntPtr paramsHandle)
+    /// <inheritdoc cref="NativeLibrary.ParamsToString" />
+    public string? ParamsToString(IntPtr ctx, IntPtr paramsHandle)
     {
-        var result = nativeLibrary.Z3ParamsToString(ctx, paramsHandle);
+        var result = nativeLibrary.ParamsToString(ctx, paramsHandle);
         CheckError(ctx);
-        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(Z3ParamsToString)));
+        return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(ParamsToString)));
     }
 
     private IntPtr CheckHandle(IntPtr handle, string methodName)
@@ -1155,10 +1155,10 @@ public sealed class Z3Library : IDisposable
 
     private void CheckError(IntPtr ctx)
     {
-        var z3ErrorCode = nativeLibrary.Z3GetErrorCode(ctx);
+        var z3ErrorCode = nativeLibrary.GetErrorCode(ctx);
         if (z3ErrorCode == Z3ErrorCode.Ok)
             return;
-        var msgPtr = nativeLibrary.Z3GetErrorMsg(ctx, z3ErrorCode);
+        var msgPtr = nativeLibrary.GetErrorMsg(ctx, z3ErrorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
         throw new Z3Exception(z3ErrorCode, message);
     }
@@ -1167,7 +1167,7 @@ public sealed class Z3Library : IDisposable
     {
         // DO NOT THROW EXCEPTIONS HERE - this is called from native Z3 code!
         var z3ErrorCode = (Z3ErrorCode)errorCode;
-        var msgPtr = nativeLibrary.Z3GetErrorMsg(ctx, z3ErrorCode);
+        var msgPtr = nativeLibrary.GetErrorMsg(ctx, z3ErrorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
         Debug.WriteLine($"Z3 Error: {z3ErrorCode}: {message}");
     }

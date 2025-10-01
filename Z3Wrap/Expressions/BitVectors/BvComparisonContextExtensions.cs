@@ -27,8 +27,8 @@ public static class BvComparisonContextExtensions
         where TSize : ISize
     {
         var handle = signed
-            ? context.Library.Z3MkBvSLt(context.Handle, left.Handle, right.Handle)
-            : context.Library.Z3MkBvULt(context.Handle, left.Handle, right.Handle);
+            ? context.Library.MkBvSLt(context.Handle, left.Handle, right.Handle)
+            : context.Library.MkBvULt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -50,8 +50,8 @@ public static class BvComparisonContextExtensions
         where TSize : ISize
     {
         var handle = signed
-            ? context.Library.Z3MkBvSLe(context.Handle, left.Handle, right.Handle)
-            : context.Library.Z3MkBvULe(context.Handle, left.Handle, right.Handle);
+            ? context.Library.MkBvSLe(context.Handle, left.Handle, right.Handle)
+            : context.Library.MkBvULe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -73,8 +73,8 @@ public static class BvComparisonContextExtensions
         where TSize : ISize
     {
         var handle = signed
-            ? context.Library.Z3MkBvSGt(context.Handle, left.Handle, right.Handle)
-            : context.Library.Z3MkBvUGt(context.Handle, left.Handle, right.Handle);
+            ? context.Library.MkBvSGt(context.Handle, left.Handle, right.Handle)
+            : context.Library.MkBvUGt(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -96,8 +96,8 @@ public static class BvComparisonContextExtensions
         where TSize : ISize
     {
         var handle = signed
-            ? context.Library.Z3MkBvSGe(context.Handle, left.Handle, right.Handle)
-            : context.Library.Z3MkBvUGe(context.Handle, left.Handle, right.Handle);
+            ? context.Library.MkBvSGe(context.Handle, left.Handle, right.Handle)
+            : context.Library.MkBvUGe(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 }

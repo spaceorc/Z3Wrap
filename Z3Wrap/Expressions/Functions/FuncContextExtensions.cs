@@ -33,7 +33,7 @@ public static class FuncContextExtensions
     {
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = context.Library.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.MkFuncDecl(
             context.Handle,
             name,
             0, // domain size (0 for constants)
@@ -59,7 +59,7 @@ public static class FuncContextExtensions
         var domainSorts = new[] { context.GetSortForType<T1>() };
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = context.Library.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.MkFuncDecl(
             context.Handle,
             name,
             1, // domain size
@@ -87,7 +87,7 @@ public static class FuncContextExtensions
         var domainSorts = new[] { context.GetSortForType<T1>(), context.GetSortForType<T2>() };
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = context.Library.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.MkFuncDecl(
             context.Handle,
             name,
             2, // domain size
@@ -122,7 +122,7 @@ public static class FuncContextExtensions
         };
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = context.Library.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.MkFuncDecl(
             context.Handle,
             name,
             3, // domain size
@@ -158,7 +158,7 @@ public static class FuncContextExtensions
         for (int i = 0; i < args.Length; i++)
             argHandles[i] = args[i].Handle;
 
-        var appHandle = context.Library.Z3MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
+        var appHandle = context.Library.MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
 
         return Z3Expr.Create<TResult>(context, appHandle);
     }

@@ -33,7 +33,7 @@ public sealed class FuncDeclBuilder<TResult>(Z3Context context, string name)
         var domainSorts = ranges.Select(r => r()).ToArray();
         var rangeSort = context.GetSortForType<TResult>();
 
-        var funcDeclHandle = context.Library.Z3MkFuncDecl(
+        var funcDeclHandle = context.Library.MkFuncDecl(
             context.Handle,
             name,
             (uint)domainSorts.Length,

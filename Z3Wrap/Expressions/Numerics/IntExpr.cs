@@ -18,7 +18,7 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
 
     static IntExpr IExprType<IntExpr>.Create(Z3Context context, IntPtr handle) => new(context, handle);
 
-    static IntPtr IExprType<IntExpr>.Sort(Z3Context context) => context.Library.Z3MkIntSort(context.Handle);
+    static IntPtr IExprType<IntExpr>.Sort(Z3Context context) => context.Library.MkIntSort(context.Handle);
 
     static IntExpr IArithmeticExpr<IntExpr>.Zero(Z3Context context) => context.Int(0);
 

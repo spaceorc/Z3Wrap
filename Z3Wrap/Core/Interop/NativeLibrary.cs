@@ -336,13 +336,13 @@ internal sealed class NativeLibrary : IDisposable
     /// </summary>
     /// <returns>Handle to the created Z3 configuration object.</returns>
     /// <remarks>
-    /// The configuration object must be deleted using Z3DelConfig when no longer needed.
+    /// The configuration object must be deleted using DelConfig when no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkConfig()
+    internal IntPtr MkConfig()
     {
         var funcPtr = GetFunctionPointer("Z3_mk_config");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkConfigDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConfigDelegate>(funcPtr);
         return func();
     }
 
@@ -351,13 +351,13 @@ internal sealed class NativeLibrary : IDisposable
     /// </summary>
     /// <param name="cfg">The Z3 configuration handle to delete.</param>
     /// <remarks>
-    /// Should be called for every configuration object created with Z3MkConfig.
+    /// Should be called for every configuration object created with MkConfig.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3DelConfig(IntPtr cfg)
+    internal void DelConfig(IntPtr cfg)
     {
         var funcPtr = GetFunctionPointer("Z3_del_config");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3DelConfigDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DelConfigDelegate>(funcPtr);
         func(cfg);
     }
 
@@ -372,10 +372,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Some parameters can only be set at context creation time.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SetParamValue(IntPtr cfg, IntPtr paramId, IntPtr paramValue)
+    internal void SetParamValue(IntPtr cfg, IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_set_param_value");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SetParamValueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SetParamValueDelegate>(funcPtr);
         func(cfg, paramId, paramValue);
     }
 
@@ -386,13 +386,13 @@ internal sealed class NativeLibrary : IDisposable
     /// <returns>Handle to the created Z3 context with reference counting.</returns>
     /// <remarks>
     /// Reference counting automatically manages memory for AST nodes created within this context.
-    /// The context must be deleted using Z3DelContext when no longer needed.
+    /// The context must be deleted using DelContext when no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkContextRc(IntPtr cfg)
+    internal IntPtr MkContextRc(IntPtr cfg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_context_rc");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkContextRcDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkContextRcDelegate>(funcPtr);
         return func(cfg);
     }
 
@@ -402,13 +402,13 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle to delete.</param>
     /// <remarks>
     /// All objects created within this context become invalid after deletion.
-    /// Should be called for every context created with Z3MkContextRc.
+    /// Should be called for every context created with MkContextRc.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3DelContext(IntPtr ctx)
+    internal void DelContext(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_del_context");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3DelContextDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DelContextDelegate>(funcPtr);
         func(ctx);
     }
 
@@ -422,10 +422,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used to dynamically modify Z3 solver behavior and optimization settings.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
+    internal void UpdateParamValue(IntPtr ctx, IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_update_param_value");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3UpdateParamValueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<UpdateParamValueDelegate>(funcPtr);
         func(ctx, paramId, paramValue);
     }
 
@@ -435,14 +435,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="ast">The Z3 AST node handle to increment reference count for.</param>
     /// <remarks>
-    /// Z3 uses reference counting for memory management. Must be paired with Z3DecRef
+    /// Z3 uses reference counting for memory management. Must be paired with DecRef
     /// when the AST node is no longer needed to prevent memory leaks.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3IncRef(IntPtr ctx, IntPtr ast)
+    internal void IncRef(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3IncRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IncRefDelegate>(funcPtr);
         func(ctx, ast);
     }
 
@@ -452,14 +452,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="ast">The Z3 AST node handle to decrement reference count for.</param>
     /// <remarks>
-    /// Should be called for every Z3IncRef to properly manage memory and prevent leaks.
+    /// Should be called for every IncRef to properly manage memory and prevent leaks.
     /// When reference count reaches zero, the AST node may be garbage collected.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3DecRef(IntPtr ctx, IntPtr ast)
+    internal void DecRef(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3DecRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DecRefDelegate>(funcPtr);
         func(ctx, ast);
     }
 
@@ -473,10 +473,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Boolean sorts are used for creating Boolean expressions and constraints.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBoolSort(IntPtr ctx)
+    internal IntPtr MkBoolSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bool_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBoolSortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBoolSortDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -490,10 +490,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Z3 integers have unlimited precision (BigInteger semantics).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkIntSort(IntPtr ctx)
+    internal IntPtr MkIntSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkIntSortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIntSortDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -507,10 +507,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Z3 reals support exact rational arithmetic with unlimited precision.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkRealSort(IntPtr ctx)
+    internal IntPtr MkRealSort(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkRealSortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRealSortDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -526,10 +526,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Constants are free variables that can be assigned values during solving.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
+    internal IntPtr MkConst(IntPtr ctx, IntPtr symbol, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkConstDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConstDelegate>(funcPtr);
         return func(ctx, symbol, sort);
     }
 
@@ -543,10 +543,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Symbols are used to name constants, functions, and other Z3 objects.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkStringSymbol(IntPtr ctx, IntPtr str)
+    internal IntPtr MkStringSymbol(IntPtr ctx, IntPtr str)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_symbol");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkStringSymbolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringSymbolDelegate>(funcPtr);
         return func(ctx, str);
     }
 
@@ -556,10 +556,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <returns>Handle to the created true Boolean expression.</returns>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkTrue(IntPtr ctx)
+    internal IntPtr MkTrue(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_true");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkTrueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkTrueDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -569,10 +569,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <returns>Handle to the created false Boolean expression.</returns>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkFalse(IntPtr ctx)
+    internal IntPtr MkFalse(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_false");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkFalseDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFalseDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -587,10 +587,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both expressions must have the same sort for the equality to be valid.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkEq(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkEq(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_eq");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkEqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkEqDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -605,10 +605,10 @@ internal sealed class NativeLibrary : IDisposable
     /// All arguments must be Boolean expressions. Returns true if all arguments are true.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_and");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkAndDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAndDelegate>(funcPtr);
         return func(ctx, numArgs, args);
     }
 
@@ -623,10 +623,10 @@ internal sealed class NativeLibrary : IDisposable
     /// All arguments must be Boolean expressions. Returns true if any argument is true.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_or");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkOrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkOrDelegate>(funcPtr);
         return func(ctx, numArgs, args);
     }
 
@@ -640,10 +640,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The argument must be a Boolean expression. Returns the logical negation of the input.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkNot(IntPtr ctx, IntPtr arg)
+    internal IntPtr MkNot(IntPtr ctx, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_not");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkNotDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkNotDelegate>(funcPtr);
         return func(ctx, arg);
     }
 
@@ -659,10 +659,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Supports unlimited precision arithmetic.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr MkAdd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_add");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkAddDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAddDelegate>(funcPtr);
         return func(ctx, numArgs, args);
     }
 
@@ -678,10 +678,10 @@ internal sealed class NativeLibrary : IDisposable
     /// With multiple args, performs left-associative subtraction: ((a - b) - c) - d.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr MkSub(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sub");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSubDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSubDelegate>(funcPtr);
         return func(ctx, numArgs, args);
     }
 
@@ -697,10 +697,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Supports unlimited precision arithmetic.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
+    internal IntPtr MkMul(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mul");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkMulDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkMulDelegate>(funcPtr);
         return func(ctx, numArgs, args);
     }
 
@@ -716,10 +716,10 @@ internal sealed class NativeLibrary : IDisposable
     /// real division returning a rational result. Division by zero is undefined.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkDiv(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkDiv(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_div");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkDivDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkDivDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -734,10 +734,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkLt(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkLt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lt");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkLtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLtDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -752,10 +752,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkLe(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkLe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_le");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkLeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLeDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -770,10 +770,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkGt(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkGt(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_gt");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkGtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkGtDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -788,10 +788,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both expressions must have the same numeric sort (integer or real).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkGe(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkGe(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ge");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkGeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkGeDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -807,10 +807,10 @@ internal sealed class NativeLibrary : IDisposable
     /// reals can use decimal or fractional notation (e.g., "3.14" or "22/7").
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
+    internal IntPtr MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_numeral");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkNumeralDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkNumeralDelegate>(funcPtr);
         return func(ctx, numeral, sort);
     }
 
@@ -827,10 +827,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Equivalent to (!left || right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkImplies(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkImplies(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_implies");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkImpliesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkImpliesDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -846,10 +846,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Equivalent to (left &amp;&amp; right) || (!left &amp;&amp; !right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkIff(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkIff(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_iff");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkIffDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIffDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -865,10 +865,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Equivalent to (left &amp;&amp; !right) || (!left &amp;&amp; right).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkXor(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkXor(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_xor");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkXorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkXorDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -885,10 +885,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The result has the same sign as the divisor in Z3's modulo semantics.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkMod(IntPtr ctx, IntPtr left, IntPtr right)
+    internal IntPtr MkMod(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mod");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkModDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkModDelegate>(funcPtr);
         return func(ctx, left, right);
     }
 
@@ -903,10 +903,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Returns the arithmetic negation of the input.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkUnaryMinus(IntPtr ctx, IntPtr arg)
+    internal IntPtr MkUnaryMinus(IntPtr ctx, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unary_minus");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkUnaryMinusDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkUnaryMinusDelegate>(funcPtr);
         return func(ctx, arg);
     }
 
@@ -923,10 +923,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used for conditional logic and piecewise function definitions.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
+    internal IntPtr MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ite");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkIteDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIteDelegate>(funcPtr);
         return func(ctx, condition, thenExpr, elseExpr);
     }
 
@@ -942,10 +942,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The numeric value is preserved in the conversion.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkInt2Real(IntPtr ctx, IntPtr t1)
+    internal IntPtr MkInt2Real(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2real");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkInt2RealDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkInt2RealDelegate>(funcPtr);
         return func(ctx, t1);
     }
 
@@ -960,10 +960,10 @@ internal sealed class NativeLibrary : IDisposable
     /// For example, 3.7 becomes 3, and -2.9 becomes -2.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkReal2Int(IntPtr ctx, IntPtr t1)
+    internal IntPtr MkReal2Int(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real2int");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkReal2IntDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReal2IntDelegate>(funcPtr);
         return func(ctx, t1);
     }
 
@@ -980,10 +980,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used for creating array expressions and constants.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
+    internal IntPtr MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkArraySortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortDelegate>(funcPtr);
         return func(ctx, domain, range);
     }
 
@@ -998,10 +998,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The index must match the array's domain sort, and the result has the array's range sort.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
+    internal IntPtr MkSelect(IntPtr ctx, IntPtr array, IntPtr index)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_select");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSelectDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSelectDelegate>(funcPtr);
         return func(ctx, array, index);
     }
 
@@ -1018,10 +1018,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The index must match the domain sort and value must match the range sort.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
+    internal IntPtr MkStore(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_store");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkStoreDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStoreDelegate>(funcPtr);
         return func(ctx, array, index, value);
     }
 
@@ -1037,10 +1037,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Useful for initializing arrays with default values.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkConstArray(IntPtr ctx, IntPtr domain, IntPtr value)
+    internal IntPtr MkConstArray(IntPtr ctx, IntPtr domain, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const_array");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkConstArrayDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConstArrayDelegate>(funcPtr);
         return func(ctx, domain, value);
     }
 
@@ -1054,10 +1054,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Returns the sort used for array indices. Used for type checking and sort queries.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3GetArraySortDomain(IntPtr ctx, IntPtr arraySort)
+    internal IntPtr GetArraySortDomain(IntPtr ctx, IntPtr arraySort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_domain");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetArraySortDomainDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArraySortDomainDelegate>(funcPtr);
         return func(ctx, arraySort);
     }
 
@@ -1071,10 +1071,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Returns the sort used for array values. Used for type checking and sort queries.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3GetArraySortRange(IntPtr ctx, IntPtr arraySort)
+    internal IntPtr GetArraySortRange(IntPtr ctx, IntPtr arraySort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_range");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetArraySortRangeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArraySortRangeDelegate>(funcPtr);
         return func(ctx, arraySort);
     }
 
@@ -1090,10 +1090,10 @@ internal sealed class NativeLibrary : IDisposable
     /// machine arithmetic and bitwise operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSort(IntPtr ctx, uint sz)
+    internal IntPtr MkBvSort(IntPtr ctx, uint sz)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSortDelegate>(funcPtr);
         return func(ctx, sz);
     }
 
@@ -1109,10 +1109,10 @@ internal sealed class NativeLibrary : IDisposable
     /// with overflow wrapping around.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvAdd(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvAdd(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvAddDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1128,10 +1128,10 @@ internal sealed class NativeLibrary : IDisposable
     /// with underflow wrapping around.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSub(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSub(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSubDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1147,10 +1147,10 @@ internal sealed class NativeLibrary : IDisposable
     /// with overflow wrapping around.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvMul(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvMul(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvMulDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1166,10 +1166,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Division by zero returns all 1s (maximum unsigned value).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvUDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvUDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvudiv");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvUDivDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvUDivDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1185,10 +1185,10 @@ internal sealed class NativeLibrary : IDisposable
     /// using two's complement representation. Division by zero has undefined behavior.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSDiv(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSDivDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSDivDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1204,10 +1204,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Remainder by zero returns the dividend unchanged.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvURem(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvURem(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvurem");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvURemDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvURemDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1223,10 +1223,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The result has the same sign as the dividend.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSRem(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSRem(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsrem");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSRemDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSRemDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1242,10 +1242,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Different from signed remainder in how negative numbers are handled.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSMod(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSMod(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsmod");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSModDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSModDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1260,10 +1260,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Performs bitwise AND operation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvAnd(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvAnd(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvand");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAndDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvAndDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1278,10 +1278,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Performs bitwise OR operation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvOr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvOr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvor");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvOrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvOrDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1296,10 +1296,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Performs bitwise XOR operation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvXor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvXor(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvxor");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvXorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvXorDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1313,10 +1313,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Performs bitwise complement, flipping all bits in the bitvector.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvNot(IntPtr ctx, IntPtr t1)
+    internal IntPtr MkBvNot(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvnot");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNotDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNotDelegate>(funcPtr);
         return func(ctx, t1);
     }
 
@@ -1330,10 +1330,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Performs two's complement negation, equivalent to (~t1 + 1).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvNeg(IntPtr ctx, IntPtr t1)
+    internal IntPtr MkBvNeg(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNegDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNegDelegate>(funcPtr);
         return func(ctx, t1);
     }
 
@@ -1348,10 +1348,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Fills with zeros from the right.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvShl(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvShl(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvshl");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvShlDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvShlDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1366,10 +1366,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Fills with zeros from the left.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvLShr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvLShr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvlshr");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvLShrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvLShrDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1384,10 +1384,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Preserves the sign bit when shifting.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvAShr(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvAShr(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvashr");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAShrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvAShrDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1402,10 +1402,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvULt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvULt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvult");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvULtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvULtDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1421,10 +1421,10 @@ internal sealed class NativeLibrary : IDisposable
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSLt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSLt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvslt");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSLtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSLtDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1439,10 +1439,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvULe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvULe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvule");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvULeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvULeDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1458,10 +1458,10 @@ internal sealed class NativeLibrary : IDisposable
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSLe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSLe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsle");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSLeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSLeDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1476,10 +1476,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvUGt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvUGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvugt");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvUGtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvUGtDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1495,10 +1495,10 @@ internal sealed class NativeLibrary : IDisposable
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSGt(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsgt");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSGtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSGtDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1513,10 +1513,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Both operands must be bitvectors of the same width. Treats bitvectors as unsigned integers.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvUGe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvUGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvuge");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvUGeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvUGeDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1532,10 +1532,10 @@ internal sealed class NativeLibrary : IDisposable
     /// using two's complement representation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSGe(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsge");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSGeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSGeDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1551,10 +1551,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The resulting bitvector has width = original_width + i.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkSignExt(IntPtr ctx, uint i, IntPtr t1)
+    internal IntPtr MkSignExt(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sign_ext");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSignExtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSignExtDelegate>(funcPtr);
         return func(ctx, i, t1);
     }
 
@@ -1570,10 +1570,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The resulting bitvector has width = original_width + i.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkZeroExt(IntPtr ctx, uint i, IntPtr t1)
+    internal IntPtr MkZeroExt(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_zero_ext");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkZeroExtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkZeroExtDelegate>(funcPtr);
         return func(ctx, i, t1);
     }
 
@@ -1590,10 +1590,10 @@ internal sealed class NativeLibrary : IDisposable
     /// has width = high - low + 1. Bit indexing starts from 0.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkExtract(IntPtr ctx, uint high, uint low, IntPtr t1)
+    internal IntPtr MkExtract(IntPtr ctx, uint high, uint low, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_extract");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkExtractDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExtractDelegate>(funcPtr);
         return func(ctx, high, low, t1);
     }
 
@@ -1608,10 +1608,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The resulting bitvector has width = original_width * i.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkRepeat(IntPtr ctx, uint i, IntPtr t1)
+    internal IntPtr MkRepeat(IntPtr ctx, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_repeat");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkRepeatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRepeatDelegate>(funcPtr);
         return func(ctx, i, t1);
     }
 
@@ -1627,10 +1627,10 @@ internal sealed class NativeLibrary : IDisposable
     /// uses two's complement interpretation for negative values.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBv2Int(IntPtr ctx, IntPtr t1, bool signed)
+    internal IntPtr MkBv2Int(IntPtr ctx, IntPtr t1, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBv2IntDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBv2IntDelegate>(funcPtr);
         return func(ctx, t1, signed);
     }
 
@@ -1645,10 +1645,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Converts an integer to a bitvector of width n. The integer value is taken modulo 2^n.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkInt2Bv(IntPtr ctx, uint n, IntPtr t1)
+    internal IntPtr MkInt2Bv(IntPtr ctx, uint n, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2bv");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkInt2BvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkInt2BvDelegate>(funcPtr);
         return func(ctx, n, t1);
     }
 
@@ -1665,10 +1665,10 @@ internal sealed class NativeLibrary : IDisposable
     /// For unsigned arithmetic, overflow occurs when the result cannot fit in the bitvector width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
+    internal IntPtr MkBvAddNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddNoOverflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvAddNoOverflowDelegate>(funcPtr);
         return func(ctx, t1, t2, signed);
     }
 
@@ -1683,10 +1683,10 @@ internal sealed class NativeLibrary : IDisposable
     /// This predicate is useful for verification of arithmetic properties in signed bitvector operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSubNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubNoOverflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSubNoOverflowDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1703,10 +1703,10 @@ internal sealed class NativeLibrary : IDisposable
     /// For unsigned arithmetic, underflow occurs when t1 &lt; t2.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
+    internal IntPtr MkBvSubNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvSubNoUnderflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSubNoUnderflowDelegate>(funcPtr);
         return func(ctx, t1, t2, signed);
     }
 
@@ -1723,10 +1723,10 @@ internal sealed class NativeLibrary : IDisposable
     /// For unsigned arithmetic, overflow occurs when the result cannot fit in the bitvector width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
+    internal IntPtr MkBvMulNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulNoOverflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvMulNoOverflowDelegate>(funcPtr);
         return func(ctx, t1, t2, signed);
     }
 
@@ -1741,10 +1741,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Signed multiplication underflow occurs when the result is less than the minimum representable signed value.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvMulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvMulNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_underflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvMulNoUnderflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvMulNoUnderflowDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1759,10 +1759,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Signed addition underflow occurs when the result is less than the minimum representable signed value.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvAddNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvAddNoUnderflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_underflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvAddNoUnderflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvAddNoUnderflowDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1778,10 +1778,10 @@ internal sealed class NativeLibrary : IDisposable
     /// which would result in a value that cannot be represented in the same bit width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvSDivNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
+    internal IntPtr MkBvSDivNoOverflow(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvDivNoOverflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvDivNoOverflowDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -1796,10 +1796,10 @@ internal sealed class NativeLibrary : IDisposable
     /// as the positive equivalent cannot be represented in the same bit width.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkBvNegNoOverflow(IntPtr ctx, IntPtr t1)
+    internal IntPtr MkBvNegNoOverflow(IntPtr ctx, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkBvNegNoOverflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNegNoOverflowDelegate>(funcPtr);
         return func(ctx, t1);
     }
 
@@ -1813,10 +1813,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used to determine the size of bitvector expressions for type checking and operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal uint Z3GetBvSortSize(IntPtr ctx, IntPtr sort)
+    internal uint GetBvSortSize(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetBvSortSizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetBvSortSizeDelegate>(funcPtr);
         return func(ctx, sort);
     }
 
@@ -1831,10 +1831,10 @@ internal sealed class NativeLibrary : IDisposable
     /// satisfiability checking with full Z3 capabilities.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkSolver(IntPtr ctx)
+    internal IntPtr MkSolver(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_solver");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSolverDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSolverDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -1845,13 +1845,13 @@ internal sealed class NativeLibrary : IDisposable
     /// <returns>Handle to the created Z3 simple solver.</returns>
     /// <remarks>
     /// Simple solvers have fewer features but may be more efficient for basic use cases.
-    /// Prefer Z3MkSolver for full functionality.
+    /// Prefer MkSolver for full functionality.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkSimpleSolver(IntPtr ctx)
+    internal IntPtr MkSimpleSolver(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_simple_solver");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkSimpleSolverDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSimpleSolverDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -1863,13 +1863,13 @@ internal sealed class NativeLibrary : IDisposable
     /// <remarks>
     /// Z3 uses reference counting for memory management. When you receive a solver object,
     /// increment its reference count to prevent premature deallocation. Must be paired
-    /// with Z3SolverDecRef when the solver is no longer needed.
+    /// with SolverDecRef when the solver is no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverIncRef(IntPtr ctx, IntPtr solver)
+    internal void SolverIncRef(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverIncRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverIncRefDelegate>(funcPtr);
         func(ctx, solver);
     }
 
@@ -1879,14 +1879,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="solver">The solver handle to decrement reference count for.</param>
     /// <remarks>
-    /// Must be paired with Z3SolverIncRef to properly manage memory. When reference
+    /// Must be paired with SolverIncRef to properly manage memory. When reference
     /// count reaches zero, the solver may be garbage collected.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverDecRef(IntPtr ctx, IntPtr solver)
+    internal void SolverDecRef(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverDecRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverDecRefDelegate>(funcPtr);
         func(ctx, solver);
     }
 
@@ -1901,10 +1901,10 @@ internal sealed class NativeLibrary : IDisposable
     /// solver's constraint set for satisfiability checking.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverAssert(IntPtr ctx, IntPtr solver, IntPtr formula)
+    internal void SolverAssert(IntPtr ctx, IntPtr solver, IntPtr formula)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_assert");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverAssertDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverAssertDelegate>(funcPtr);
         func(ctx, solver, formula);
     }
 
@@ -1919,10 +1919,10 @@ internal sealed class NativeLibrary : IDisposable
     /// or Z3_L_UNDEF (0) if the result is unknown (e.g., due to timeout).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int Z3SolverCheck(IntPtr ctx, IntPtr solver)
+    internal int SolverCheck(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverCheckDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCheckDelegate>(funcPtr);
         return func(ctx, solver);
     }
 
@@ -1936,10 +1936,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used for incremental solving and backtracking search.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverPush(IntPtr ctx, IntPtr solver)
+    internal void SolverPush(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_push");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverPushDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPushDelegate>(funcPtr);
         func(ctx, solver);
     }
 
@@ -1954,10 +1954,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Must have at least numScopes push operations to pop from.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
+    internal void SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_pop");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverPopDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPopDelegate>(funcPtr);
         func(ctx, solver, numScopes);
     }
 
@@ -1971,10 +1971,10 @@ internal sealed class NativeLibrary : IDisposable
     /// More efficient than creating a new solver for reuse scenarios.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverReset(IntPtr ctx, IntPtr solver)
+    internal void SolverReset(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_reset");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverResetDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverResetDelegate>(funcPtr);
         func(ctx, solver);
     }
 
@@ -1985,14 +1985,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="solver">The solver handle.</param>
     /// <returns>Handle to the model, or null if no model is available.</returns>
     /// <remarks>
-    /// Only valid after Z3SolverCheck returns satisfiable (1). The model contains
+    /// Only valid after SolverCheck returns satisfiable (1). The model contains
     /// variable assignments that satisfy all asserted constraints.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3SolverGetModel(IntPtr ctx, IntPtr solver)
+    internal IntPtr SolverGetModel(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_model");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverGetModelDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetModelDelegate>(funcPtr);
         return func(ctx, solver);
     }
 
@@ -2003,14 +2003,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="solver">The solver handle.</param>
     /// <returns>Handle to a string describing the reason for unknown result.</returns>
     /// <remarks>
-    /// Only valid after Z3SolverCheck returns unknown (0). Provides information
+    /// Only valid after SolverCheck returns unknown (0). Provides information
     /// about why the solver could not determine satisfiability (e.g., timeout, incomplete theory).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
+    internal IntPtr SolverGetReasonUnknown(IntPtr ctx, IntPtr solver)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_reason_unknown");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverGetReasonUnknownDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetReasonUnknownDelegate>(funcPtr);
         return func(ctx, solver);
     }
 
@@ -2021,10 +2021,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="solver">The solver handle.</param>
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
+    internal void SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_set_params");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SolverSetParamsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverSetParamsDelegate>(funcPtr);
         func(ctx, solver, paramsHandle);
     }
 
@@ -2035,10 +2035,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <returns>Handle to the created parameter set.</returns>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkParams(IntPtr ctx)
+    internal IntPtr MkParams(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_params");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkParamsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkParamsDelegate>(funcPtr);
         return func(ctx);
     }
 
@@ -2048,10 +2048,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
+    internal void ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
     {
         var funcPtr = GetFunctionPointer("Z3_params_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsIncRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsIncRefDelegate>(funcPtr);
         func(ctx, paramsHandle);
     }
 
@@ -2061,10 +2061,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
+    internal void ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
     {
         var funcPtr = GetFunctionPointer("Z3_params_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsDecRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsDecRefDelegate>(funcPtr);
         func(ctx, paramsHandle);
     }
 
@@ -2076,10 +2076,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="key">The parameter key symbol.</param>
     /// <param name="value">The boolean value (0 for false, 1 for true).</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ParamsSetBool(IntPtr ctx, IntPtr paramsHandle, IntPtr key, int value)
+    internal void ParamsSetBool(IntPtr ctx, IntPtr paramsHandle, IntPtr key, int value)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_bool");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetBoolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetBoolDelegate>(funcPtr);
         func(ctx, paramsHandle, key, value);
     }
 
@@ -2091,10 +2091,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="key">The parameter key symbol.</param>
     /// <param name="value">The unsigned integer value.</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ParamsSetUInt(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value)
+    internal void ParamsSetUInt(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_uint");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetUIntDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetUIntDelegate>(funcPtr);
         func(ctx, paramsHandle, key, value);
     }
 
@@ -2106,10 +2106,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="key">The parameter key symbol.</param>
     /// <param name="value">The double value.</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ParamsSetDouble(IntPtr ctx, IntPtr paramsHandle, IntPtr key, double value)
+    internal void ParamsSetDouble(IntPtr ctx, IntPtr paramsHandle, IntPtr key, double value)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_double");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetDoubleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetDoubleDelegate>(funcPtr);
         func(ctx, paramsHandle, key, value);
     }
 
@@ -2121,10 +2121,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="key">The parameter key symbol.</param>
     /// <param name="value">The parameter value symbol.</param>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ParamsSetSymbol(IntPtr ctx, IntPtr paramsHandle, IntPtr key, IntPtr value)
+    internal void ParamsSetSymbol(IntPtr ctx, IntPtr paramsHandle, IntPtr key, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_symbol");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsSetSymbolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetSymbolDelegate>(funcPtr);
         func(ctx, paramsHandle, key, value);
     }
 
@@ -2135,10 +2135,10 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="paramsHandle">The parameter set handle.</param>
     /// <returns>String representation of the parameter set.</returns>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3ParamsToString(IntPtr ctx, IntPtr paramsHandle)
+    internal IntPtr ParamsToString(IntPtr ctx, IntPtr paramsHandle)
     {
         var funcPtr = GetFunctionPointer("Z3_params_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ParamsToStringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsToStringDelegate>(funcPtr);
         return func(ctx, paramsHandle);
     }
 
@@ -2150,13 +2150,13 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="model">The model handle to increment reference count for.</param>
     /// <remarks>
     /// Z3 uses reference counting for memory management. Must be paired with
-    /// Z3ModelDecRef when the model is no longer needed.
+    /// ModelDecRef when the model is no longer needed.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ModelIncRef(IntPtr ctx, IntPtr model)
+    internal void ModelIncRef(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelIncRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ModelIncRefDelegate>(funcPtr);
         func(ctx, model);
     }
 
@@ -2166,14 +2166,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <param name="model">The model handle to decrement reference count for.</param>
     /// <remarks>
-    /// Must be paired with Z3ModelIncRef to properly manage memory. When reference
+    /// Must be paired with ModelIncRef to properly manage memory. When reference
     /// count reaches zero, the model may be garbage collected.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3ModelDecRef(IntPtr ctx, IntPtr model)
+    internal void ModelDecRef(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelDecRefDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ModelDecRefDelegate>(funcPtr);
         func(ctx, model);
     }
 
@@ -2188,10 +2188,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The string is managed by Z3 and valid until the context is deleted.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3ModelToString(IntPtr ctx, IntPtr model)
+    internal IntPtr ModelToString(IntPtr ctx, IntPtr model)
     {
         var funcPtr = GetFunctionPointer("Z3_model_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelToStringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ModelToStringDelegate>(funcPtr);
         return func(ctx, model);
     }
 
@@ -2206,10 +2206,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The string is managed by Z3 and valid until the context is deleted.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3AstToString(IntPtr ctx, IntPtr ast)
+    internal IntPtr AstToString(IntPtr ctx, IntPtr ast)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3AstToStringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstToStringDelegate>(funcPtr);
         return func(ctx, ast);
     }
 
@@ -2226,10 +2226,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Model completion assigns default values to variables not explicitly defined in the model.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal bool Z3ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
+    internal bool ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
         var funcPtr = GetFunctionPointer("Z3_model_eval");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3ModelEvalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ModelEvalDelegate>(funcPtr);
         return func(ctx, model, expr, modelCompletion ? 1 : 0, out result) != 0;
     }
 
@@ -2244,10 +2244,10 @@ internal sealed class NativeLibrary : IDisposable
     /// notation (e.g., "22/7"). The string is managed by Z3.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3GetNumeralString(IntPtr ctx, IntPtr expr)
+    internal IntPtr GetNumeralString(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetNumeralStringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralStringDelegate>(funcPtr);
         return func(ctx, expr);
     }
 
@@ -2262,10 +2262,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Returns Z3_L_UNDEF (0) if the expression is not a concrete Boolean value.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int Z3GetBoolValue(IntPtr ctx, IntPtr expr)
+    internal int GetBoolValue(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bool_value");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetBoolValueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetBoolValueDelegate>(funcPtr);
         return func(ctx, expr);
     }
 
@@ -2279,10 +2279,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Identifies concrete numeric values (integers and reals) as opposed to variables or operations.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal bool Z3IsNumeralAst(IntPtr ctx, IntPtr expr)
+    internal bool IsNumeralAst(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_is_numeral_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3IsNumeralAstDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsNumeralAstDelegate>(funcPtr);
         return func(ctx, expr) != 0;
     }
 
@@ -2296,10 +2296,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used for type checking and determining the kind of expression (Boolean, integer, real, etc.).
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3GetSort(IntPtr ctx, IntPtr expr)
+    internal IntPtr GetSort(IntPtr ctx, IntPtr expr)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetSortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortDelegate>(funcPtr);
         return func(ctx, expr);
     }
 
@@ -2313,10 +2313,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Used to determine the specific type of a sort for type checking and dispatch logic.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int Z3GetSortKind(IntPtr ctx, IntPtr sort)
+    internal int GetSortKind(IntPtr ctx, IntPtr sort)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetSortKindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortKindDelegate>(funcPtr);
         return func(ctx, sort);
     }
 
@@ -2336,7 +2336,7 @@ internal sealed class NativeLibrary : IDisposable
     /// Creates ∀ bound_vars : body. Patterns help guide quantifier instantiation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkForallConst(
+    internal IntPtr MkForallConst(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -2347,7 +2347,7 @@ internal sealed class NativeLibrary : IDisposable
     )
     {
         var funcPtr = GetFunctionPointer("Z3_mk_forall_const");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkForallConstDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkForallConstDelegate>(funcPtr);
         return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
     }
 
@@ -2366,7 +2366,7 @@ internal sealed class NativeLibrary : IDisposable
     /// Creates ∃ bound_vars : body. Patterns help guide quantifier instantiation.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkExistsConst(
+    internal IntPtr MkExistsConst(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -2377,7 +2377,7 @@ internal sealed class NativeLibrary : IDisposable
     )
     {
         var funcPtr = GetFunctionPointer("Z3_mk_exists_const");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkExistsConstDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExistsConstDelegate>(funcPtr);
         return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
     }
 
@@ -2393,10 +2393,10 @@ internal sealed class NativeLibrary : IDisposable
     /// should trigger instantiation of the quantified formula.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
+    internal IntPtr MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pattern");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkPatternDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPatternDelegate>(funcPtr);
         return func(ctx, numPatterns, terms);
     }
 
@@ -2412,13 +2412,13 @@ internal sealed class NativeLibrary : IDisposable
     /// <returns>Handle to the created function declaration.</returns>
     /// <remarks>
     /// Function declarations define the signature of uninterpreted functions.
-    /// Used with Z3MkApp to create function application expressions.
+    /// Used with MkApp to create function application expressions.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
+    internal IntPtr MkFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkFuncDeclDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFuncDeclDelegate>(funcPtr);
         return func(ctx, symbol, domainSize, domain, range);
     }
 
@@ -2435,154 +2435,154 @@ internal sealed class NativeLibrary : IDisposable
     /// the function's domain sorts in number and type.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
+    internal IntPtr MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_app");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3MkAppDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAppDelegate>(funcPtr);
         return func(ctx, funcDecl, numArgs, args);
     }
 
-    private delegate IntPtr Z3MkConfigDelegate();
-    private delegate void Z3DelConfigDelegate(IntPtr cfg);
-    private delegate void Z3SetParamValueDelegate(IntPtr cfg, IntPtr paramId, IntPtr paramValue);
-    private delegate IntPtr Z3MkContextRcDelegate(IntPtr cfg);
-    private delegate void Z3DelContextDelegate(IntPtr ctx);
-    private delegate void Z3UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
-    private delegate void Z3IncRefDelegate(IntPtr ctx, IntPtr ast);
-    private delegate void Z3DecRefDelegate(IntPtr ctx, IntPtr ast);
+    private delegate IntPtr MkConfigDelegate();
+    private delegate void DelConfigDelegate(IntPtr cfg);
+    private delegate void SetParamValueDelegate(IntPtr cfg, IntPtr paramId, IntPtr paramValue);
+    private delegate IntPtr MkContextRcDelegate(IntPtr cfg);
+    private delegate void DelContextDelegate(IntPtr ctx);
+    private delegate void UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
+    private delegate void IncRefDelegate(IntPtr ctx, IntPtr ast);
+    private delegate void DecRefDelegate(IntPtr ctx, IntPtr ast);
 
     // Sort delegates
-    private delegate IntPtr Z3MkBoolSortDelegate(IntPtr ctx);
-    private delegate IntPtr Z3MkIntSortDelegate(IntPtr ctx);
-    private delegate IntPtr Z3MkRealSortDelegate(IntPtr ctx);
+    private delegate IntPtr MkBoolSortDelegate(IntPtr ctx);
+    private delegate IntPtr MkIntSortDelegate(IntPtr ctx);
+    private delegate IntPtr MkRealSortDelegate(IntPtr ctx);
 
     // Expression delegates
-    private delegate IntPtr Z3MkConstDelegate(IntPtr ctx, IntPtr symbol, IntPtr sort);
-    private delegate IntPtr Z3MkStringSymbolDelegate(IntPtr ctx, IntPtr str);
-    private delegate IntPtr Z3MkTrueDelegate(IntPtr ctx);
-    private delegate IntPtr Z3MkFalseDelegate(IntPtr ctx);
-    private delegate IntPtr Z3MkEqDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkAndDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
-    private delegate IntPtr Z3MkOrDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
-    private delegate IntPtr Z3MkNotDelegate(IntPtr ctx, IntPtr arg);
-    private delegate IntPtr Z3MkAddDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
-    private delegate IntPtr Z3MkSubDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
-    private delegate IntPtr Z3MkMulDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
-    private delegate IntPtr Z3MkDivDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkLtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkLeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkGeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
+    private delegate IntPtr MkConstDelegate(IntPtr ctx, IntPtr symbol, IntPtr sort);
+    private delegate IntPtr MkStringSymbolDelegate(IntPtr ctx, IntPtr str);
+    private delegate IntPtr MkTrueDelegate(IntPtr ctx);
+    private delegate IntPtr MkFalseDelegate(IntPtr ctx);
+    private delegate IntPtr MkEqDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkAndDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr MkOrDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr MkNotDelegate(IntPtr ctx, IntPtr arg);
+    private delegate IntPtr MkAddDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr MkSubDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr MkMulDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
+    private delegate IntPtr MkDivDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkLtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkLeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkGeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
 
     // Extended boolean operation delegates
-    private delegate IntPtr Z3MkImpliesDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkIffDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkXorDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkImpliesDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkIffDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkXorDelegate(IntPtr ctx, IntPtr left, IntPtr right);
 
     // Extended arithmetic operation delegates
-    private delegate IntPtr Z3MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
-    private delegate IntPtr Z3MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
-    private delegate IntPtr Z3MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
+    private delegate IntPtr MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
+    private delegate IntPtr MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
 
     // Type conversion delegates
-    private delegate IntPtr Z3MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
-    private delegate IntPtr Z3MkReal2IntDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkReal2IntDelegate(IntPtr ctx, IntPtr t1);
 
     // Array theory delegates
-    private delegate IntPtr Z3MkArraySortDelegate(IntPtr ctx, IntPtr domain, IntPtr range);
-    private delegate IntPtr Z3MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
-    private delegate IntPtr Z3MkStoreDelegate(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value);
-    private delegate IntPtr Z3MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
-    private delegate IntPtr Z3GetArraySortDomainDelegate(IntPtr ctx, IntPtr arraySort);
-    private delegate IntPtr Z3GetArraySortRangeDelegate(IntPtr ctx, IntPtr arraySort);
+    private delegate IntPtr MkArraySortDelegate(IntPtr ctx, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
+    private delegate IntPtr MkStoreDelegate(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value);
+    private delegate IntPtr MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
+    private delegate IntPtr GetArraySortDomainDelegate(IntPtr ctx, IntPtr arraySort);
+    private delegate IntPtr GetArraySortRangeDelegate(IntPtr ctx, IntPtr arraySort);
 
     // Bitvector theory delegates
-    private delegate IntPtr Z3MkBvSortDelegate(IntPtr ctx, uint sz);
-    private delegate IntPtr Z3MkBvAddDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSubDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvMulDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvUDivDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSDivDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvURemDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSRemDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSModDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvAndDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvOrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvXorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvNotDelegate(IntPtr ctx, IntPtr t1);
-    private delegate IntPtr Z3MkBvNegDelegate(IntPtr ctx, IntPtr t1);
-    private delegate IntPtr Z3MkBvShlDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvLShrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvAShrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvULtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSLtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvULeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSLeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvUGtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSGtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvUGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkSignExtDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr Z3MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr Z3MkExtractDelegate(IntPtr ctx, uint high, uint low, IntPtr t1);
-    private delegate IntPtr Z3MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr Z3MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
-    private delegate IntPtr Z3MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
-    private delegate IntPtr Z3MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr Z3MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr Z3MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr Z3MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr Z3MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
-    private delegate uint Z3GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
+    private delegate IntPtr MkBvSortDelegate(IntPtr ctx, uint sz);
+    private delegate IntPtr MkBvAddDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSubDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvMulDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvUDivDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSDivDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvURemDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSRemDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSModDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvAndDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvOrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvXorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvNotDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkBvNegDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkBvShlDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvLShrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvAShrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvULtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSLtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvULeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSLeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvUGtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSGtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvUGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkSignExtDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr MkExtractDelegate(IntPtr ctx, uint high, uint low, IntPtr t1);
+    private delegate IntPtr MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
+    private delegate IntPtr MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
+    private delegate IntPtr MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
+    private delegate uint GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
 
     // Solver delegates
-    private delegate IntPtr Z3MkSolverDelegate(IntPtr ctx);
-    private delegate IntPtr Z3MkSimpleSolverDelegate(IntPtr ctx);
-    private delegate void Z3SolverIncRefDelegate(IntPtr ctx, IntPtr solver);
-    private delegate void Z3SolverDecRefDelegate(IntPtr ctx, IntPtr solver);
-    private delegate void Z3SolverAssertDelegate(IntPtr ctx, IntPtr solver, IntPtr formula);
-    private delegate int Z3SolverCheckDelegate(IntPtr ctx, IntPtr solver);
-    private delegate void Z3SolverPushDelegate(IntPtr ctx, IntPtr solver);
-    private delegate void Z3SolverPopDelegate(IntPtr ctx, IntPtr solver, uint numScopes);
-    private delegate void Z3SolverResetDelegate(IntPtr ctx, IntPtr solver);
-    private delegate IntPtr Z3SolverGetModelDelegate(IntPtr ctx, IntPtr solver);
-    private delegate IntPtr Z3SolverGetReasonUnknownDelegate(IntPtr ctx, IntPtr solver);
-    private delegate void Z3SolverSetParamsDelegate(IntPtr ctx, IntPtr solver, IntPtr paramsHandle);
+    private delegate IntPtr MkSolverDelegate(IntPtr ctx);
+    private delegate IntPtr MkSimpleSolverDelegate(IntPtr ctx);
+    private delegate void SolverIncRefDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void SolverDecRefDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void SolverAssertDelegate(IntPtr ctx, IntPtr solver, IntPtr formula);
+    private delegate int SolverCheckDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void SolverPushDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void SolverPopDelegate(IntPtr ctx, IntPtr solver, uint numScopes);
+    private delegate void SolverResetDelegate(IntPtr ctx, IntPtr solver);
+    private delegate IntPtr SolverGetModelDelegate(IntPtr ctx, IntPtr solver);
+    private delegate IntPtr SolverGetReasonUnknownDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void SolverSetParamsDelegate(IntPtr ctx, IntPtr solver, IntPtr paramsHandle);
 
     // Parameter set delegates
-    private delegate IntPtr Z3MkParamsDelegate(IntPtr ctx);
-    private delegate void Z3ParamsIncRefDelegate(IntPtr ctx, IntPtr paramsHandle);
-    private delegate void Z3ParamsDecRefDelegate(IntPtr ctx, IntPtr paramsHandle);
-    private delegate void Z3ParamsSetBoolDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, int value);
-    private delegate void Z3ParamsSetUIntDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value);
-    private delegate void Z3ParamsSetDoubleDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, double value);
-    private delegate void Z3ParamsSetSymbolDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, IntPtr value);
-    private delegate IntPtr Z3ParamsToStringDelegate(IntPtr ctx, IntPtr paramsHandle);
+    private delegate IntPtr MkParamsDelegate(IntPtr ctx);
+    private delegate void ParamsIncRefDelegate(IntPtr ctx, IntPtr paramsHandle);
+    private delegate void ParamsDecRefDelegate(IntPtr ctx, IntPtr paramsHandle);
+    private delegate void ParamsSetBoolDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, int value);
+    private delegate void ParamsSetUIntDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value);
+    private delegate void ParamsSetDoubleDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, double value);
+    private delegate void ParamsSetSymbolDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, IntPtr value);
+    private delegate IntPtr ParamsToStringDelegate(IntPtr ctx, IntPtr paramsHandle);
 
     // Model delegates
-    private delegate void Z3ModelIncRefDelegate(IntPtr ctx, IntPtr model);
-    private delegate void Z3ModelDecRefDelegate(IntPtr ctx, IntPtr model);
-    private delegate IntPtr Z3ModelToStringDelegate(IntPtr ctx, IntPtr model);
-    private delegate IntPtr Z3AstToStringDelegate(IntPtr ctx, IntPtr ast);
-    private delegate int Z3ModelEvalDelegate(
+    private delegate void ModelIncRefDelegate(IntPtr ctx, IntPtr model);
+    private delegate void ModelDecRefDelegate(IntPtr ctx, IntPtr model);
+    private delegate IntPtr ModelToStringDelegate(IntPtr ctx, IntPtr model);
+    private delegate IntPtr AstToStringDelegate(IntPtr ctx, IntPtr ast);
+    private delegate int ModelEvalDelegate(
         IntPtr ctx,
         IntPtr model,
         IntPtr expr,
         int modelCompletion,
         out IntPtr result
     );
-    private delegate IntPtr Z3GetNumeralStringDelegate(IntPtr ctx, IntPtr expr);
-    private delegate int Z3GetBoolValueDelegate(IntPtr ctx, IntPtr expr);
-    private delegate int Z3IsNumeralAstDelegate(IntPtr ctx, IntPtr expr);
-    private delegate IntPtr Z3GetSortDelegate(IntPtr ctx, IntPtr expr);
-    private delegate int Z3GetSortKindDelegate(IntPtr ctx, IntPtr sort);
+    private delegate IntPtr GetNumeralStringDelegate(IntPtr ctx, IntPtr expr);
+    private delegate int GetBoolValueDelegate(IntPtr ctx, IntPtr expr);
+    private delegate int IsNumeralAstDelegate(IntPtr ctx, IntPtr expr);
+    private delegate IntPtr GetSortDelegate(IntPtr ctx, IntPtr expr);
+    private delegate int GetSortKindDelegate(IntPtr ctx, IntPtr sort);
 
     // Quantifier delegates
-    private delegate IntPtr Z3MkForallConstDelegate(
+    private delegate IntPtr MkForallConstDelegate(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -2591,7 +2591,7 @@ internal sealed class NativeLibrary : IDisposable
         IntPtr[] patterns,
         IntPtr body
     );
-    private delegate IntPtr Z3MkExistsConstDelegate(
+    private delegate IntPtr MkExistsConstDelegate(
         IntPtr ctx,
         uint weight,
         uint numBound,
@@ -2600,25 +2600,25 @@ internal sealed class NativeLibrary : IDisposable
         IntPtr[] patterns,
         IntPtr body
     );
-    private delegate IntPtr Z3MkPatternDelegate(IntPtr ctx, uint numPatterns, IntPtr[] terms);
+    private delegate IntPtr MkPatternDelegate(IntPtr ctx, uint numPatterns, IntPtr[] terms);
 
     // Function declaration and application delegates
-    private delegate IntPtr Z3MkFuncDeclDelegate(
+    private delegate IntPtr MkFuncDeclDelegate(
         IntPtr ctx,
         IntPtr symbol,
         uint domainSize,
         IntPtr[] domain,
         IntPtr range
     );
-    private delegate IntPtr Z3MkAppDelegate(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args);
+    private delegate IntPtr MkAppDelegate(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args);
 
     // Error handling delegates
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3ErrorHandlerDelegate(IntPtr ctx, int errorCode);
+    internal delegate void ErrorHandlerDelegate(IntPtr ctx, int errorCode);
 
-    private delegate void Z3SetErrorHandlerDelegate(IntPtr ctx, Z3ErrorHandlerDelegate? handler);
-    private delegate int Z3GetErrorCodeDelegate(IntPtr ctx);
-    private delegate IntPtr Z3GetErrorMsgDelegate(IntPtr ctx, int errorCode);
+    private delegate void SetErrorHandlerDelegate(IntPtr ctx, ErrorHandlerDelegate? handler);
+    private delegate int GetErrorCodeDelegate(IntPtr ctx);
+    private delegate IntPtr GetErrorMsgDelegate(IntPtr ctx, int errorCode);
 
     // Error handling methods
     /// <summary>
@@ -2631,10 +2631,10 @@ internal sealed class NativeLibrary : IDisposable
     /// Provides custom error handling instead of default Z3 behavior.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void Z3SetErrorHandler(IntPtr ctx, Z3ErrorHandlerDelegate? handler)
+    internal void SetErrorHandler(IntPtr ctx, ErrorHandlerDelegate? handler)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error_handler");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3SetErrorHandlerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SetErrorHandlerDelegate>(funcPtr);
         func(ctx, handler);
     }
 
@@ -2644,14 +2644,14 @@ internal sealed class NativeLibrary : IDisposable
     /// <param name="ctx">The Z3 context handle.</param>
     /// <returns>The error code from the last operation.</returns>
     /// <remarks>
-    /// Returns Z3_OK if no error occurred. Use Z3GetErrorMsg to get
+    /// Returns Z3_OK if no error occurred. Use GetErrorMsg to get
     /// a human-readable description of the error.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal Z3ErrorCode Z3GetErrorCode(IntPtr ctx)
+    internal Z3ErrorCode GetErrorCode(IntPtr ctx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_code");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorCodeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetErrorCodeDelegate>(funcPtr);
         return (Z3ErrorCode)func(ctx);
     }
 
@@ -2666,10 +2666,10 @@ internal sealed class NativeLibrary : IDisposable
     /// The returned string is managed by Z3.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr Z3GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
+    internal IntPtr GetErrorMsg(IntPtr ctx, Z3ErrorCode errorCode)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_msg");
-        var func = Marshal.GetDelegateForFunctionPointer<Z3GetErrorMsgDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetErrorMsgDelegate>(funcPtr);
         return func(ctx, (int)errorCode);
     }
 }

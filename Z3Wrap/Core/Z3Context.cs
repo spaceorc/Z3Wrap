@@ -26,23 +26,23 @@ public sealed class Z3Context : IDisposable
         this.library = library ?? Z3.Library;
 
         // Create temporary config object
-        var configHandle = this.library.Z3MkConfig();
+        var configHandle = this.library.MkConfig();
         try
         {
             // Set parameters on config before creating context
             if (parameters != null)
             {
                 foreach (var param in parameters)
-                    this.library.Z3SetParamValue(configHandle, param.Key, param.Value);
+                    this.library.SetParamValue(configHandle, param.Key, param.Value);
             }
 
             // Create context from configured config
-            contextHandle = this.library.Z3MkContextRc(configHandle);
+            contextHandle = this.library.MkContextRc(configHandle);
         }
         finally
         {
             // Always delete config after context creation
-            this.library.Z3DelConfig(configHandle);
+            this.library.DelConfig(configHandle);
         }
     }
 
@@ -92,7 +92,7 @@ public sealed class Z3Context : IDisposable
     {
         ThrowIfDisposed();
 
-        library.Z3UpdateParamValue(contextHandle, paramName, paramValue);
+        library.UpdateParamValue(contextHandle, paramName, paramValue);
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public sealed class Z3Context : IDisposable
     internal void TrackHandle(IntPtr handle)
     {
         ThrowIfDisposed();
-        library.Z3IncRef(contextHandle, handle);
+        library.IncRef(contextHandle, handle);
         trackedHandles.Add(handle);
     }
 
@@ -159,12 +159,12 @@ public sealed class Z3Context : IDisposable
 
         // Then clean up all tracked handles
         foreach (var handle in trackedHandles)
-            library.Z3DecRef(contextHandle, handle);
+            library.DecRef(contextHandle, handle);
 
         trackedHandles.Clear();
 
         // Finally dispose the context itself
-        library.Z3DelContext(contextHandle);
+        library.DelContext(contextHandle);
 
         disposed = true;
     }

@@ -16,7 +16,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing the value.</returns>
     public static BoolExpr Bool(this Z3Context context, bool value)
     {
-        var handle = value ? context.Library.Z3MkTrue(context.Handle) : context.Library.Z3MkFalse(context.Handle);
+        var handle = value ? context.Library.MkTrue(context.Handle) : context.Library.MkFalse(context.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -27,7 +27,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing true.</returns>
     public static BoolExpr True(this Z3Context context)
     {
-        var handle = context.Library.Z3MkTrue(context.Handle);
+        var handle = context.Library.MkTrue(context.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -38,7 +38,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing false.</returns>
     public static BoolExpr False(this Z3Context context)
     {
-        var handle = context.Library.Z3MkFalse(context.Handle);
+        var handle = context.Library.MkFalse(context.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -50,8 +50,8 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression constant.</returns>
     public static BoolExpr BoolConst(this Z3Context context, string name)
     {
-        var boolSort = context.Library.Z3MkBoolSort(context.Handle);
-        var handle = context.Library.Z3MkConst(context.Handle, name, boolSort);
+        var boolSort = context.Library.MkBoolSort(context.Handle);
+        var handle = context.Library.MkConst(context.Handle, name, boolSort);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -67,7 +67,7 @@ public static class BoolContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = context.Library.Z3MkAnd(context.Handle, (uint)args.Length, args);
+        var resultHandle = context.Library.MkAnd(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -83,7 +83,7 @@ public static class BoolContextExtensions
         for (int i = 0; i < operands.Length; i++)
             args[i] = operands[i].Handle;
 
-        var resultHandle = context.Library.Z3MkOr(context.Handle, (uint)args.Length, args);
+        var resultHandle = context.Library.MkOr(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -96,7 +96,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing left XOR right.</returns>
     public static BoolExpr Xor(this Z3Context context, BoolExpr left, BoolExpr right)
     {
-        var resultHandle = context.Library.Z3MkXor(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkXor(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -108,7 +108,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing !operand.</returns>
     public static BoolExpr Not(this Z3Context context, BoolExpr operand)
     {
-        var resultHandle = context.Library.Z3MkNot(context.Handle, operand.Handle);
+        var resultHandle = context.Library.MkNot(context.Handle, operand.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -121,7 +121,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing left implies right.</returns>
     public static BoolExpr Implies(this Z3Context context, BoolExpr left, BoolExpr right)
     {
-        var resultHandle = context.Library.Z3MkImplies(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkImplies(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -134,7 +134,7 @@ public static class BoolContextExtensions
     /// <returns>Boolean expression representing left if-and-only-if right.</returns>
     public static BoolExpr Iff(this Z3Context context, BoolExpr left, BoolExpr right)
     {
-        var resultHandle = context.Library.Z3MkIff(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkIff(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
 
@@ -150,7 +150,7 @@ public static class BoolContextExtensions
     public static T Ite<T>(this Z3Context context, BoolExpr condition, T thenExpr, T elseExpr)
         where T : Z3Expr, IExprType<T>
     {
-        var resultHandle = context.Library.Z3MkIte(context.Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
+        var resultHandle = context.Library.MkIte(context.Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
         return Z3Expr.Create<T>(context, resultHandle);
     }
 }

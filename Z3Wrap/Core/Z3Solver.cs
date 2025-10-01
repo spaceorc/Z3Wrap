@@ -18,10 +18,10 @@ public sealed class Z3Solver : IDisposable
         this.context = context;
 
         InternalHandle = useSimpleSolver
-            ? context.Library.Z3MkSimpleSolver(context.Handle)
-            : context.Library.Z3MkSolver(context.Handle);
+            ? context.Library.MkSimpleSolver(context.Handle)
+            : context.Library.MkSolver(context.Handle);
 
-        context.Library.Z3SolverIncRef(context.Handle, InternalHandle);
+        context.Library.SolverIncRef(context.Handle, InternalHandle);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after assertion
 
-        context.Library.Z3SolverAssert(context.Handle, InternalHandle, constraint.Handle);
+        context.Library.SolverAssert(context.Handle, InternalHandle, constraint.Handle);
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after reset
 
-        context.Library.Z3SolverReset(context.Handle, InternalHandle);
+        context.Library.SolverReset(context.Handle, InternalHandle);
         lastCheckResult = null;
     }
 
@@ -96,7 +96,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Clear any previous model
 
-        lastCheckResult = context.Library.Z3SolverCheck(context.Handle, InternalHandle);
+        lastCheckResult = context.Library.SolverCheck(context.Handle, InternalHandle);
         return lastCheckResult.Value;
     }
 
@@ -108,7 +108,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
 
-        return context.Library.Z3SolverGetReasonUnknown(context.Handle, InternalHandle) ?? "Unknown reason";
+        return context.Library.SolverGetReasonUnknown(context.Handle, InternalHandle) ?? "Unknown reason";
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after push
 
-        context.Library.Z3SolverPush(context.Handle, InternalHandle);
+        context.Library.SolverPush(context.Handle, InternalHandle);
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Model no longer valid after pop
 
-        context.Library.Z3SolverPop(context.Handle, InternalHandle, numScopes);
+        context.Library.SolverPop(context.Handle, InternalHandle, numScopes);
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public sealed class Z3Solver : IDisposable
         // Return cached model if we have one
         if (cachedModel == null)
         {
-            var modelHandle = context.Library.Z3SolverGetModel(context.Handle, InternalHandle);
+            var modelHandle = context.Library.SolverGetModel(context.Handle, InternalHandle);
             cachedModel = new Z3Model(context, modelHandle);
         }
 
@@ -174,7 +174,7 @@ public sealed class Z3Solver : IDisposable
         // Clean up model before solver disposal
         InvalidateModel();
 
-        context.Library.Z3SolverDecRef(context.Handle, InternalHandle);
+        context.Library.SolverDecRef(context.Handle, InternalHandle);
         isBeingDisposedByContext = true;
 
         disposed = true;

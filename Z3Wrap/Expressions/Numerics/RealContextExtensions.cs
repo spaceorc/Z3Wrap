@@ -16,8 +16,8 @@ public static class RealContextExtensions
     /// <returns>Real expression representing the value.</returns>
     public static RealExpr Real(this Z3Context context, Real value)
     {
-        var realSort = context.Library.Z3MkRealSort(context.Handle);
-        var handle = context.Library.Z3MkNumeral(context.Handle, value.ToString(), realSort);
+        var realSort = context.Library.MkRealSort(context.Handle);
+        var handle = context.Library.MkNumeral(context.Handle, value.ToString(), realSort);
         return Z3Expr.Create<RealExpr>(context, handle);
     }
 
@@ -29,8 +29,8 @@ public static class RealContextExtensions
     /// <returns>Real expression constant.</returns>
     public static RealExpr RealConst(this Z3Context context, string name)
     {
-        var realSort = context.Library.Z3MkRealSort(context.Handle);
-        var handle = context.Library.Z3MkConst(context.Handle, name, realSort);
+        var realSort = context.Library.MkRealSort(context.Handle);
+        var handle = context.Library.MkConst(context.Handle, name, realSort);
         return Z3Expr.Create<RealExpr>(context, handle);
     }
 
@@ -42,7 +42,7 @@ public static class RealContextExtensions
     /// <returns>Integer expression representing the real (truncated).</returns>
     public static IntExpr ToInt(this Z3Context context, RealExpr expr)
     {
-        var handle = context.Library.Z3MkReal2Int(context.Handle, expr.Handle);
+        var handle = context.Library.MkReal2Int(context.Handle, expr.Handle);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 }

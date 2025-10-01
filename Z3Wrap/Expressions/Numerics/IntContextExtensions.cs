@@ -18,8 +18,8 @@ public static class IntContextExtensions
     /// <returns>Integer expression representing the value.</returns>
     public static IntExpr Int(this Z3Context context, BigInteger value)
     {
-        var intSort = context.Library.Z3MkIntSort(context.Handle);
-        var handle = context.Library.Z3MkNumeral(context.Handle, value.ToString(), intSort);
+        var intSort = context.Library.MkIntSort(context.Handle);
+        var handle = context.Library.MkNumeral(context.Handle, value.ToString(), intSort);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 
@@ -47,8 +47,8 @@ public static class IntContextExtensions
     /// <returns>Integer expression constant.</returns>
     public static IntExpr IntConst(this Z3Context context, string name)
     {
-        var intSort = context.Library.Z3MkIntSort(context.Handle);
-        var handle = context.Library.Z3MkConst(context.Handle, name, intSort);
+        var intSort = context.Library.MkIntSort(context.Handle);
+        var handle = context.Library.MkConst(context.Handle, name, intSort);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 
@@ -60,7 +60,7 @@ public static class IntContextExtensions
     /// <returns>Real expression representing the integer.</returns>
     public static RealExpr ToReal(this Z3Context context, IntExpr expr)
     {
-        var handle = context.Library.Z3MkInt2Real(context.Handle, expr.Handle);
+        var handle = context.Library.MkInt2Real(context.Handle, expr.Handle);
         return Z3Expr.Create<RealExpr>(context, handle);
     }
 
@@ -74,7 +74,7 @@ public static class IntContextExtensions
     public static BvExpr<TSize> ToBv<TSize>(this Z3Context context, IntExpr expr)
         where TSize : ISize
     {
-        var handle = context.Library.Z3MkInt2Bv(context.Handle, TSize.Size, expr.Handle);
+        var handle = context.Library.MkInt2Bv(context.Handle, TSize.Size, expr.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -87,7 +87,7 @@ public static class IntContextExtensions
     /// <returns>Integer expression representing left mod right.</returns>
     public static IntExpr Mod(this Z3Context context, IntExpr left, IntExpr right)
     {
-        var resultHandle = context.Library.Z3MkMod(context.Handle, left.Handle, right.Handle);
+        var resultHandle = context.Library.MkMod(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<IntExpr>(context, resultHandle);
     }
 }

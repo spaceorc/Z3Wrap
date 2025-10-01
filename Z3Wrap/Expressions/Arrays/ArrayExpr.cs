@@ -22,7 +22,7 @@ public sealed class ArrayExpr<TIndex, TValue> : Z3Expr, IExprType<ArrayExpr<TInd
         new(context, handle);
 
     static IntPtr IExprType<ArrayExpr<TIndex, TValue>>.Sort(Z3Context context) =>
-        context.Library.Z3MkArraySort(context.Handle, TIndex.Sort(context), TValue.Sort(context));
+        context.Library.MkArraySort(context.Handle, TIndex.Sort(context), TValue.Sort(context));
 
     /// <summary>
     /// Gets the array element at the specified index.

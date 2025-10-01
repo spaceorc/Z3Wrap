@@ -56,7 +56,7 @@ public abstract class Z3Handle
     {
         try
         {
-            return Context.Library.Z3AstToString(Context.Handle, Handle) ?? "<invalid>";
+            return Context.Library.AstToString(Context.Handle, Handle) ?? "<invalid>";
         }
         catch (ObjectDisposedException)
         {

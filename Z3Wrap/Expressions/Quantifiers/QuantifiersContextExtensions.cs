@@ -32,12 +32,12 @@ public static class QuantifiersContextExtensions
             .Select(g =>
             {
                 var handles = g.Select(p => p.Handle).ToArray();
-                var pattern = context.Library.Z3MkPattern(context.Handle, (uint)handles.Length, handles);
+                var pattern = context.Library.MkPattern(context.Handle, (uint)handles.Length, handles);
                 return pattern;
             })
             .ToArray();
 
-        var handle = context.Library.Z3MkForallConst(
+        var handle = context.Library.MkForallConst(
             context.Handle,
             weight,
             (uint)bound.Length,
@@ -160,12 +160,12 @@ public static class QuantifiersContextExtensions
             .Select(g =>
             {
                 var handles = g.Select(p => p.Handle).ToArray();
-                var pattern = context.Library.Z3MkPattern(context.Handle, (uint)handles.Length, handles);
+                var pattern = context.Library.MkPattern(context.Handle, (uint)handles.Length, handles);
                 return pattern;
             })
             .ToArray();
 
-        var handle = context.Library.Z3MkExistsConst(
+        var handle = context.Library.MkExistsConst(
             context.Handle,
             weight,
             (uint)bound.Length,

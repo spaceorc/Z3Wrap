@@ -23,7 +23,7 @@ public static class ArrayContextExtensions
     {
         var arraySort = context.GetSortForType<ArrayExpr<TIndex, TValue>>();
 
-        var handle = context.Library.Z3MkConst(context.Handle, name, arraySort);
+        var handle = context.Library.MkConst(context.Handle, name, arraySort);
 
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }
@@ -55,7 +55,7 @@ public static class ArrayContextExtensions
     {
         var indexSort = context.GetSortForType<TIndex>();
 
-        var handle = context.Library.Z3MkConstArray(context.Handle, indexSort, defaultValue.Handle);
+        var handle = context.Library.MkConstArray(context.Handle, indexSort, defaultValue.Handle);
 
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }
@@ -92,7 +92,7 @@ public static class ArrayContextExtensions
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
-        var handle = context.Library.Z3MkStore(context.Handle, array.Handle, index.Handle, value.Handle);
+        var handle = context.Library.MkStore(context.Handle, array.Handle, index.Handle, value.Handle);
         return Z3Expr.Create<ArrayExpr<TIndex, TValue>>(context, handle);
     }
 
@@ -109,7 +109,7 @@ public static class ArrayContextExtensions
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
     {
-        var handle = context.Library.Z3MkSelect(context.Handle, array.Handle, index.Handle);
+        var handle = context.Library.MkSelect(context.Handle, array.Handle, index.Handle);
         return Z3Expr.Create<TValue>(context, handle);
     }
 }

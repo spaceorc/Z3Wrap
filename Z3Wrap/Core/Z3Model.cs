@@ -23,7 +23,7 @@ public sealed class Z3Model
         modelHandle = handle;
 
         // Critical: increment ref count immediately to keep model alive
-        context.Library.Z3ModelIncRef(context.Handle, handle);
+        context.Library.ModelIncRef(context.Handle, handle);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public sealed class Z3Model
     {
         ThrowIfInvalidated();
 
-        if (!context.Library.Z3ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
+        if (!context.Library.ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
         return Z3Expr.Create<T>(context, result);
@@ -80,7 +80,7 @@ public sealed class Z3Model
     {
         var evaluated = Evaluate(expr);
 
-        var boolValue = context.Library.Z3GetBoolValue(context.Handle, evaluated.Handle);
+        var boolValue = context.Library.GetBoolValue(context.Handle, evaluated.Handle);
         return boolValue switch
         {
             Z3BoolValue.False => false,
@@ -140,14 +140,14 @@ public sealed class Z3Model
         if (invalidated)
             return "<invalidated>";
 
-        return context.Library.Z3ModelToString(context.Handle, modelHandle) ?? "<invalid>";
+        return context.Library.ModelToString(context.Handle, modelHandle) ?? "<invalid>";
     }
 
     internal void Invalidate()
     {
         if (!invalidated)
         {
-            context.Library.Z3ModelDecRef(context.Handle, modelHandle);
+            context.Library.ModelDecRef(context.Handle, modelHandle);
             invalidated = true;
         }
     }
@@ -161,12 +161,12 @@ public sealed class Z3Model
     private static string ExtractNumeralString<TExpr>(Z3Context context, TExpr evaluatedExpr, TExpr originalExpr)
         where TExpr : Z3Expr, INumericExpr, IExprType<TExpr>
     {
-        if (!context.Library.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
+        if (!context.Library.IsNumeralAst(context.Handle, evaluatedExpr.Handle))
             throw new InvalidOperationException(
                 $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
             );
 
-        return context.Library.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle)
+        return context.Library.GetNumeralString(context.Handle, evaluatedExpr.Handle)
             ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
     }
 }
