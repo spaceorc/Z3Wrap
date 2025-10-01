@@ -36,13 +36,13 @@ public class ReadmeExamplesTests
         var y = context.IntConst("y");
 
         using var solver = context.CreateSolver();
-        solver.Assert(x + y == 10);        // Natural syntax
-        solver.Assert(x * 2 == y - 1);     // Mathematical operators
+        solver.Assert(x + y == 10); // Natural syntax
+        solver.Assert(x * 2 == y - 1); // Mathematical operators
 
         if (solver.Check() == Z3Status.Satisfiable)
         {
             var model = solver.GetModel();
-            Console.WriteLine($"x = {model.GetIntValue(x)}");  // BigInteger
+            Console.WriteLine($"x = {model.GetIntValue(x)}"); // BigInteger
             Console.WriteLine($"y = {model.GetIntValue(y)}");
         }
 
@@ -119,9 +119,8 @@ public class ReadmeExamplesTests
         solver.Assert(x == huge);
 
         // Exact rationals - no floating point errors
-        solver.Assert(r == new Real(1, 3));  // Exactly 1/3
-        solver.Assert(r * 3 == 1);           // Perfect arithmetic
-
+        solver.Assert(r == new Real(1, 3)); // Exactly 1/3
+        solver.Assert(r * 3 == 1); // Perfect arithmetic
         #endregion
 
         #region Assertions
@@ -152,12 +151,11 @@ public class ReadmeExamplesTests
 
         // Compile-time type checking
         var prices = context.ArrayConst<IntExpr, RealExpr>("prices");
-        solver.Assert(prices[0] == 10.5m);   // Index: Int, Value: Real
+        solver.Assert(prices[0] == 10.5m); // Index: Int, Value: Real
         solver.Assert(prices[1] > prices[0]); // Type-safe comparisons
 
         // Seamless conversions
-        solver.Assert(x.ToReal() + r == 5.5m);  // Int → Real
-
+        solver.Assert(x.ToReal() + r == 5.5m); // Int → Real
         #endregion
 
         #region Assertions
@@ -181,18 +179,17 @@ public class ReadmeExamplesTests
         // Real class - exact rational arithmetic (not decimal/double)
         var oneThird = new Real(1, 3);
         var twoThirds = new Real(2, 3);
-        Console.WriteLine(oneThird + twoThirds);  // "1" (exact)
+        Console.WriteLine(oneThird + twoThirds); // "1" (exact)
 
         // Bv class - compile-time sized bitvectors with type safety
         var bv8 = new Bv<Size8>(0b10101010);
-        var bv16 = bv8.Resize<Size16>(signed: false);  // Resize to 16 bits
-        Console.WriteLine(bv8.ToULong());               // 170
-        Console.WriteLine(bv8.ToBinaryString());        // "10101010"
+        var bv16 = bv8.Resize<Size16>(signed: false); // Resize to 16 bits
+        Console.WriteLine(bv8.ToULong()); // 170
+        Console.WriteLine(bv8.ToBinaryString()); // "10101010"
 
         // Direct arithmetic and bitwise operations
-        var result = bv8 + new Bv<Size8>(5);   // Type-safe arithmetic
+        var result = bv8 + new Bv<Size8>(5); // Type-safe arithmetic
         var masked = bv8 & new Bv<Size8>(0xFF); // Bitwise operations
-
         #endregion
 
         #region Assertions
@@ -231,8 +228,8 @@ public class ReadmeExamplesTests
 
         var bv = context.BvConst<Size32>("bv");
 
-        solver.Assert((bv & 0xFF) == 0x42);      // Bitwise operations
-        solver.Assert(bv << 2 == bv * 4);        // Shift equivalence
+        solver.Assert((bv & 0xFF) == 0x42); // Bitwise operations
+        solver.Assert(bv << 2 == bv * 4); // Shift equivalence
         solver.Assert((bv ^ 0xFFFFFFFF) == ~bv); // XOR/NOT relationship
 
         // Overflow detection
@@ -347,8 +344,9 @@ public class ReadmeExamplesTests
 
         solver.Push();
         solver.Assert(x < 10);
-        if (solver.Check() == Z3Status.Unsatisfiable) {
-            solver.Pop();  // Backtrack
+        if (solver.Check() == Z3Status.Unsatisfiable)
+        {
+            solver.Pop(); // Backtrack
             solver.Assert(x >= 10);
         }
 
