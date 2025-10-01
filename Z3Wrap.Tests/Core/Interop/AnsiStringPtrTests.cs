@@ -1,6 +1,6 @@
 using Spaceorc.Z3Wrap.Core.Interop;
 
-namespace Z3Wrap.Tests.__old.Unit.Interop;
+namespace Z3Wrap.Tests.Core.Interop;
 
 [TestFixture]
 public class AnsiStringPtrTests

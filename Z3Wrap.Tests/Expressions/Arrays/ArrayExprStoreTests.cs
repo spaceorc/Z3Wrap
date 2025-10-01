@@ -64,10 +64,6 @@ public class ArrayExprStoreTests
         var array1 = array.Store(1, 111);
         var array2 = array1.Store(2, 222);
 
-        solver.Assert(array2[1] == 111);
-        solver.Assert(array2[2] == 222);
-        solver.Assert(111 != 222);
-
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
@@ -79,26 +75,7 @@ public class ArrayExprStoreTests
     }
 
     [Test]
-    public void Store_StoreSelectProperty_SameIndex()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var array = context.ArrayConst<IntExpr, IntExpr>("arr");
-        var index = context.Int(0);
-        var value = context.Int(100);
-
-        var storedArray = context.Store(array, index, value);
-        var selected = context.Select(storedArray, index);
-
-        solver.Assert(selected == value);
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Store_StoreSelectProperty_DifferentIndices()
+    public void Store_StoreSelectProperty_Works()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -112,35 +89,16 @@ public class ArrayExprStoreTests
         var storedArray = context.Store(array, index1, value);
         var select1 = context.Select(storedArray, index1);
         var select2 = context.Select(storedArray, index2);
-        var originalAtIndex2 = context.Select(array, index2);
 
-        solver.Assert(select1 == value);
-        solver.Assert(select2 == originalAtIndex2);
-
-        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Store_ComplexNestedStores_WorksCorrectly()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var array = context.ArrayConst<IntExpr, IntExpr>("arr");
-        var array1 = array.Store(1, 10);
-        var array2 = array1.Store(2, 20);
-
-        solver.Assert(array2[1] == 10);
-        solver.Assert(array2[2] == 20);
+        solver.Assert(array[index2] == 999);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetIntValue(array2[1]), Is.EqualTo(new BigInteger(10)));
-            Assert.That(model.GetIntValue(array2[2]), Is.EqualTo(new BigInteger(20)));
+            Assert.That(model.GetIntValue(select1), Is.EqualTo(new BigInteger(100)));
+            Assert.That(model.GetIntValue(select2), Is.EqualTo(new BigInteger(999)));
         });
     }
 }

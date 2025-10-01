@@ -6,6 +6,7 @@ using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Values.BitVectors;
+using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Arrays;
 
@@ -119,6 +120,84 @@ public class ArrayExprFactoryTests
         {
             Assert.That(model.GetBoolValue(array[0]), Is.EqualTo(defaultValue));
             Assert.That(model.GetBoolValue(array[50]), Is.EqualTo(defaultValue));
+        });
+    }
+
+    [Test]
+    public void Array_SingleGeneric_IntDefaultValue_AllElementsHaveDefaultValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var array = context.Array(context.Int(42));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(array[0]), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(array[100]), Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetIntValue(array[-5]), Is.EqualTo(new BigInteger(42)));
+        });
+    }
+
+    [TestCase(true)]
+    [TestCase(false)]
+    public void Array_SingleGeneric_BoolDefaultValue_AllElementsHaveDefaultValue(bool defaultValue)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var array = context.Array(context.Bool(defaultValue));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(array[0]), Is.EqualTo(defaultValue));
+            Assert.That(model.GetBoolValue(array[50]), Is.EqualTo(defaultValue));
+        });
+    }
+
+    [Test]
+    public void Array_SingleGeneric_RealDefaultValue_AllElementsHaveDefaultValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var array = context.Array(context.Real(new Real(3, 2)));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetRealValue(array[0]), Is.EqualTo(new Real(3, 2)));
+            Assert.That(model.GetRealValue(array[99]), Is.EqualTo(new Real(3, 2)));
+        });
+    }
+
+    [Test]
+    public void Array_SingleGeneric_BitVecDefaultValue_AllElementsHaveDefaultValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var array = context.Array(context.BitVec<Size32>(255u));
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBitVec(array[0]).Value, Is.EqualTo(new BigInteger(255)));
+            Assert.That(model.GetBitVec(array[10]).Value, Is.EqualTo(new BigInteger(255)));
         });
     }
 }
