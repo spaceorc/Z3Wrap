@@ -1,7 +1,6 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Arrays;
-using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Arrays;

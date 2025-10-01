@@ -16,8 +16,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a + b;
         var resultViaOperatorUintLeft = aValue + b;
@@ -54,8 +54,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a - b;
         var resultViaOperatorUintLeft = aValue - b;
@@ -92,8 +92,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a * b;
         var resultViaOperatorUintLeft = aValue * b;
@@ -130,8 +130,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a / b;
         var resultViaOperatorUintLeft = aValue / b;
@@ -168,8 +168,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Div(a, b, signed: true);
         var resultViaContextUintLeft = context.Div(aValue, b, signed: true);
@@ -200,8 +200,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a % b;
         var resultViaOperatorUintLeft = aValue % b;
@@ -238,8 +238,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Rem(a, b, signed: true);
         var resultViaContextUintLeft = context.Rem(aValue, b, signed: true);
@@ -270,8 +270,8 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.SignedMod(a, b);
         var resultViaContextUintLeft = context.SignedMod(aValue, b);
@@ -302,7 +302,7 @@ public class BvExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
+        var a = context.Bv<Size32>(aValue);
 
         var resultViaOperator = -a;
         var resultViaContext = context.Neg(a);

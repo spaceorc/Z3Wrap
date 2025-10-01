@@ -17,8 +17,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Lt(a, b);
         var resultViaContextUintLeft = context.Lt(aValue, b);
@@ -55,8 +55,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Lt(a, b, signed: true);
         var resultViaContextUintLeft = context.Lt(aValue, b, signed: true);
@@ -87,8 +87,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Le(a, b);
         var resultViaContextUintLeft = context.Le(aValue, b);
@@ -125,8 +125,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Le(a, b, signed: true);
         var resultViaContextUintLeft = context.Le(aValue, b, signed: true);
@@ -157,8 +157,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Gt(a, b);
         var resultViaContextUintLeft = context.Gt(aValue, b);
@@ -195,8 +195,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Gt(a, b, signed: true);
         var resultViaContextUintLeft = context.Gt(aValue, b, signed: true);
@@ -227,8 +227,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Ge(a, b);
         var resultViaContextUintLeft = context.Ge(aValue, b);
@@ -265,8 +265,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaContext = context.Ge(a, b, signed: true);
         var resultViaContextUintLeft = context.Ge(aValue, b, signed: true);
@@ -297,8 +297,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a == b;
         var resultViaOperatorUintLeft = aValue == b;
@@ -335,8 +335,8 @@ public class BvExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(aValue);
-        var b = context.BitVec<Size32>(bValue);
+        var a = context.Bv<Size32>(aValue);
+        var b = context.Bv<Size32>(bValue);
 
         var resultViaOperator = a != b;
         var resultViaOperatorUintLeft = aValue != b;

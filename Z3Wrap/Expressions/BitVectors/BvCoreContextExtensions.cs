@@ -16,7 +16,7 @@ public static class BvCoreContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="name">The constant name.</param>
     /// <returns>Bit-vector expression constant.</returns>
-    public static BvExpr<TSize> BitVecConst<TSize>(this Z3Context context, string name)
+    public static BvExpr<TSize> BvConst<TSize>(this Z3Context context, string name)
         where TSize : ISize
     {
         var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);
@@ -32,7 +32,7 @@ public static class BvCoreContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="value">The bit-vector value.</param>
     /// <returns>Bit-vector expression representing the value.</returns>
-    public static BvExpr<TSize> BitVec<TSize>(this Z3Context context, Bv<TSize> value)
+    public static BvExpr<TSize> Bv<TSize>(this Z3Context context, Bv<TSize> value)
         where TSize : ISize
     {
         var sort = context.Library.Z3MkBvSort(context.Handle, TSize.Size);

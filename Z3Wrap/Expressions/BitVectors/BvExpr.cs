@@ -13,7 +13,7 @@ namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 /// Represents bit-vector expression with fixed bit width for Z3 solving.
 /// </summary>
 /// <typeparam name="TSize">The bit-vector size type.</typeparam>
-public sealed partial class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize>>
+public sealed class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize>>
     where TSize : ISize
 {
     /// <summary>
@@ -40,42 +40,42 @@ public sealed partial class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvEx
     /// </summary>
     /// <param name="value">BigInteger value to convert.</param>
     /// <returns>Bit-vector expression.</returns>
-    public static implicit operator BvExpr<TSize>(BigInteger value) => Z3Context.Current.BitVec<TSize>(value);
+    public static implicit operator BvExpr<TSize>(BigInteger value) => Z3Context.Current.Bv<TSize>(value);
 
     /// <summary>
     /// Implicit conversion from int to bit-vector expression.
     /// </summary>
     /// <param name="value">Integer value to convert.</param>
     /// <returns>Bit-vector expression.</returns>
-    public static implicit operator BvExpr<TSize>(int value) => Z3Context.Current.BitVec<TSize>(value);
+    public static implicit operator BvExpr<TSize>(int value) => Z3Context.Current.Bv<TSize>(value);
 
     /// <summary>
     /// Implicit conversion from uint to bit-vector expression.
     /// </summary>
     /// <param name="value">Unsigned integer value to convert.</param>
     /// <returns>Bit-vector expression.</returns>
-    public static implicit operator BvExpr<TSize>(uint value) => Z3Context.Current.BitVec<TSize>(value);
+    public static implicit operator BvExpr<TSize>(uint value) => Z3Context.Current.Bv<TSize>(value);
 
     /// <summary>
     /// Implicit conversion from long to bit-vector expression.
     /// </summary>
     /// <param name="value">Long value to convert.</param>
     /// <returns>Bit-vector expression.</returns>
-    public static implicit operator BvExpr<TSize>(long value) => Z3Context.Current.BitVec<TSize>(value);
+    public static implicit operator BvExpr<TSize>(long value) => Z3Context.Current.Bv<TSize>(value);
 
     /// <summary>
     /// Implicit conversion from ulong to bit-vector expression.
     /// </summary>
     /// <param name="value">Unsigned long value to convert.</param>
     /// <returns>Bit-vector expression.</returns>
-    public static implicit operator BvExpr<TSize>(ulong value) => Z3Context.Current.BitVec<TSize>(value);
+    public static implicit operator BvExpr<TSize>(ulong value) => Z3Context.Current.Bv<TSize>(value);
 
     /// <summary>
     /// Implicit conversion from Bv value to bit-vector expression.
     /// </summary>
     /// <param name="value">Bit-vector value to convert.</param>
     /// <returns>Bit-vector expression.</returns>
-    public static implicit operator BvExpr<TSize>(Bv<TSize> value) => Z3Context.Current.BitVec(value);
+    public static implicit operator BvExpr<TSize>(Bv<TSize> value) => Z3Context.Current.Bv(value);
 
     /// <summary>
     /// Converts this bit-vector to an integer expression.

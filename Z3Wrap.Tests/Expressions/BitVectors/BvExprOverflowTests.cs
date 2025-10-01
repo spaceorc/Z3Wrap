@@ -26,8 +26,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -92,8 +92,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -163,8 +163,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -220,8 +220,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -280,8 +280,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -344,8 +344,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -404,8 +404,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -464,8 +464,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -524,8 +524,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -584,8 +584,8 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(left);
-        var y = context.BitVec<Size8>(right);
+        var x = context.Bv<Size8>(left);
+        var y = context.Bv<Size8>(right);
         var leftBigInt = new BigInteger(left);
         var rightBigInt = new BigInteger(right);
 
@@ -641,7 +641,7 @@ public class BvExprOverflowTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVec<Size8>(value);
+        var x = context.Bv<Size8>(value);
 
         // Test signed negation overflow detection (unary operation)
         var resultMethod = x.SignedNegNoOverflow(); // BitVec.SignedNegNoOverflow() (method)

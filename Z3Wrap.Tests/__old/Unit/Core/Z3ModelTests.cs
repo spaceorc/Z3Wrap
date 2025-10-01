@@ -65,7 +65,7 @@ public class Z3ModelTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVecConst<Size8>("x");
+        var x = context.BvConst<Size8>("x");
         solver.Assert(x == 255);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));

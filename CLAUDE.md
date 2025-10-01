@@ -95,8 +95,8 @@ solver.Assert(prices[0] == 10.5m);
 solver.Assert(prices[1] > prices[0]);
 
 // BitVectors with natural operators
-var bv = context.BitVecConst("bv", 32);
-solver.Assert(bv + context.BitVec(5, 32) == context.BitVec(15, 32));
+var bv = context.BvConst<Size32>("bv");
+solver.Assert(bv + 5u == 15u);
 ```
 
 ## Testing Guidelines

@@ -55,7 +55,7 @@ solver.Assert(r * 3 == 1);           // Perfect arithmetic
 ### Type Safety
 ```csharp
 // Compile-time type checking
-var prices = context.ArrayConst<Z3IntExpr, Z3Real>("prices");
+var prices = context.ArrayConst<IntExpr, RealExpr>("prices");
 solver.Assert(prices[0] == 10.5m);   // Index: Int, Value: Real
 solver.Assert(prices[1] > prices[0]); // Type-safe comparisons
 
@@ -70,16 +70,15 @@ var oneThird = new Real(1, 3);
 var twoThirds = new Real(2, 3);
 Console.WriteLine(oneThird + twoThirds);  // "1" (exact)
 
-// BitVec class - proper .NET bitvector type with operations
-var bv8 = new BitVec(0b10101010, 8);
-var bv16 = bv8.Resize(16);       // Zero-extend to 16 bits
-var extracted = bv8.Extract(7, 4); // Extract bits 7-4
-Console.WriteLine(bv8.ToInt());     // 170
-Console.WriteLine(bv8.ToBinaryString()); // "10101010"
+// Bv class - compile-time sized bitvectors with type safety
+var bv8 = new Bv<Size8>(0b10101010);
+var bv16 = bv8.Resize<Size16>(signed: false);  // Resize to 16 bits
+Console.WriteLine(bv8.ToULong());               // 170
+Console.WriteLine(bv8.ToBinaryString());        // "10101010"
 
 // Direct arithmetic and bitwise operations
-var result = bv8 + new BitVec(5, 8);   // BitVec arithmetic
-var masked = bv8 & 0xFF;               // Bitwise operations
+var result = bv8 + new Bv<Size8>(5);   // Type-safe arithmetic
+var masked = bv8 & new Bv<Size8>(0xFF); // Bitwise operations
 ```
 
 ## Installation
@@ -96,23 +95,24 @@ Z3 library is auto-discovered on Windows/macOS/Linux.
 - **Booleans**: `p & q`, `p | q`, `!p`, `p.Implies(q)`
 - **Integers**: BigInteger arithmetic with `+`, `-`, `*`, `/`, `%`
 - **Reals**: Exact rational arithmetic with `Real(1,3)` fractions
-- **BitVectors**: Binary ops `&`, `|`, `^`, `~`, `<<`, `>>` with overflow checks
-- **Arrays**: Generic `Z3ArrayExpr<TIndex, TValue>` with natural indexing
+- **BitVectors**: Type-safe compile-time sizes with `Bv<Size32>`, overflow detection
+- **Arrays**: Generic `ArrayExpr<TIndex, TValue>` with natural indexing
 - **Quantifiers**: First-order logic with `ForAll` and `Exists`
+- **Functions**: Uninterpreted functions with type-safe signatures
 - **Solver**: Push/pop scopes for constraint backtracking
 
 ## Advanced Examples
 
 ### BitVector Operations
 ```csharp
-var bv = context.BitVecConst("bv", 32);
+var bv = context.BvConst<Size32>("bv");
 
 solver.Assert((bv & 0xFF) == 0x42);      // Bitwise operations
 solver.Assert(bv << 2 == bv * 4);        // Shift equivalence
 solver.Assert((bv ^ 0xFFFFFFFF) == ~bv); // XOR/NOT relationship
 
 // Overflow detection
-solver.Assert(context.BitVecBoundaryCheck().Add(bv, 100).NoOverflow());
+solver.Assert(context.AddNoOverflow(bv, 100U));
 ```
 
 ### Quantifiers (First-Order Logic)
@@ -131,11 +131,19 @@ solver.Assert(existsSolution);
 // Multiple variables: ∀x,y. x * y = y * x
 var commutativity = context.ForAll(x, y, x * y == y * x);
 solver.Assert(commutativity);
+```
 
-// Nested quantifiers: ∀x. ∃y. x + y = 0
-var innerExists = context.Exists(y, x + y == 0);
-var additive_inverse = context.ForAll(x, innerExists);
-solver.Assert(additive_inverse);
+### Uninterpreted Functions
+```csharp
+// Define function signature: Int → Int
+var func = context.Func<IntExpr, IntExpr>("f");
+
+// Apply function to arguments
+solver.Assert(func.Apply(5) == 10);
+solver.Assert(func.Apply(x) > 0);
+
+// Consistency: same inputs produce same outputs
+solver.Assert(func.Apply(5) == func.Apply(5));
 ```
 
 ### Solver Backtracking
@@ -154,11 +162,11 @@ Reference-counted contexts with automatic memory management. No manual disposal 
 
 ```
 Z3Expr (abstract)
-├── Z3Bool     - Boolean logic
-├── Z3IntExpr      - BigInteger arithmetic
-├── Z3Real     - Exact rational arithmetic
-├── Z3BitVecExpr   - Fixed-width binary operations
-└── Z3ArrayExpr<T> - Generic type-safe arrays
+├── BoolExpr       - Boolean logic
+├── IntExpr        - BigInteger arithmetic
+├── RealExpr       - Exact rational arithmetic
+├── BvExpr<TSize>  - Compile-time sized bitvectors
+└── ArrayExpr<TIndex, TValue> - Generic type-safe arrays
 ```
 
 **Requirements**: .NET 9.0+, Z3 library (auto-discovered)

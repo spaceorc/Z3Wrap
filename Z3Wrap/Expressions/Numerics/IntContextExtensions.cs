@@ -71,7 +71,7 @@ public static class IntContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="expr">The integer expression to convert.</param>
     /// <returns>Bit-vector expression representing the integer.</returns>
-    public static BvExpr<TSize> ToBitVec<TSize>(this Z3Context context, IntExpr expr)
+    public static BvExpr<TSize> ToBv<TSize>(this Z3Context context, IntExpr expr)
         where TSize : ISize
     {
         var handle = context.Library.Z3MkInt2Bv(context.Handle, TSize.Size, expr.Handle);

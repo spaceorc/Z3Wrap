@@ -15,8 +15,8 @@ public class BvExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(0b101010u);
-        var b = context.BitVec<Size32>(0b110011u);
+        var a = context.Bv<Size32>(0b101010u);
+        var b = context.Bv<Size32>(0b110011u);
 
         var result = a & b;
         var resultViaUintLeft = 0b101010u & b;
@@ -52,8 +52,8 @@ public class BvExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(0b101010u);
-        var b = context.BitVec<Size32>(0b110011u);
+        var a = context.Bv<Size32>(0b101010u);
+        var b = context.Bv<Size32>(0b110011u);
 
         var result = a | b;
         var resultViaUintLeft = 0b101010u | b;
@@ -89,8 +89,8 @@ public class BvExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(0b101010u);
-        var b = context.BitVec<Size32>(0b110011u);
+        var a = context.Bv<Size32>(0b101010u);
+        var b = context.Bv<Size32>(0b110011u);
 
         var result = a ^ b;
         var resultViaUintLeft = 0b101010u ^ b;
@@ -126,7 +126,7 @@ public class BvExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(0b101010u);
+        var a = context.Bv<Size32>(0b101010u);
 
         var result = ~a;
         var resultViaContext = context.Not(a);
@@ -152,8 +152,8 @@ public class BvExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(5u);
-        var b = context.BitVec<Size32>(3u);
+        var a = context.Bv<Size32>(5u);
+        var b = context.Bv<Size32>(3u);
 
         // Note: C# shift operators don't support uint << BvExpr (left operand must be the defining type)
         var result = a << b;
@@ -188,8 +188,8 @@ public class BvExprBitwiseTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.BitVec<Size32>(40u);
-        var b = context.BitVec<Size32>(3u);
+        var a = context.Bv<Size32>(40u);
+        var b = context.Bv<Size32>(3u);
 
         // Note: C# shift operators don't support uint >> BvExpr (left operand must be the defining type)
         var result = a >> b;
@@ -225,8 +225,8 @@ public class BvExprBitwiseTests
         using var solver = context.CreateSolver();
 
         // Use a negative number (represented as unsigned)
-        var a = context.BitVec<Size32>(unchecked((uint)-40));
-        var b = context.BitVec<Size32>(3u);
+        var a = context.Bv<Size32>(unchecked((uint)-40));
+        var b = context.Bv<Size32>(3u);
 
         // Arithmetic shift right (signed) - no operator, only context and expr methods
         var resultViaContext = context.Shr(a, b, true);

@@ -54,8 +54,8 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     /// </summary>
     /// <typeparam name="TSize">The bit-vector size type.</typeparam>
     /// <returns>Bit-vector expression representing this integer.</returns>
-    public BvExpr<TSize> ToBitVec<TSize>()
-        where TSize : ISize => Context.ToBitVec<TSize>(this);
+    public BvExpr<TSize> ToBv<TSize>()
+        where TSize : ISize => Context.ToBv<TSize>(this);
 
     /// <summary>
     /// Addition of two integer expressions.

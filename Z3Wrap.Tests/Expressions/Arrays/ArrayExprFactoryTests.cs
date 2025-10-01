@@ -189,7 +189,7 @@ public class ArrayExprFactoryTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var array = context.Array(context.BitVec<Size32>(255u));
+        var array = context.Array(context.Bv<Size32>(255u));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 

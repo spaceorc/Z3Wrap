@@ -1,6 +1,5 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
-using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
@@ -42,8 +41,8 @@ public class IntExprConversionTests
         using var solver = context.CreateSolver();
 
         var intValue = context.Int(42);
-        var bvValue = intValue.ToBitVec<TSize>();
-        var bvValueViaContext = context.ToBitVec<TSize>(intValue);
+        var bvValue = intValue.ToBv<TSize>();
+        var bvValueViaContext = context.ToBv<TSize>(intValue);
 
         solver.Check();
         var model = solver.GetModel();
@@ -89,8 +88,8 @@ public class IntExprConversionTests
         solver.Assert(x >= 0);
         solver.Assert(x <= 255);
 
-        var bvX = x.ToBitVec<Size8>();
-        solver.Assert(bvX == context.BitVec(new Bv<Size8>(42)));
+        var bvX = x.ToBv<Size8>();
+        solver.Assert(bvX == 42);
 
         solver.Check();
         var model = solver.GetModel();

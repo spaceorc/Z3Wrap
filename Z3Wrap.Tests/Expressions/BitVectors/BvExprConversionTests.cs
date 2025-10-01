@@ -17,7 +17,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<TSize>(42u);
+        var bvValue = context.Bv<TSize>(42u);
         var intValue = bvValue.ToInt();
         var intValueViaContext = context.ToInt(bvValue);
 
@@ -39,7 +39,7 @@ public class BvExprConversionTests
         using var solver = context.CreateSolver();
 
         // -42 in 32-bit two's complement
-        var bvValue = context.BitVec<Size32>(unchecked((uint)-42));
+        var bvValue = context.Bv<Size32>(unchecked((uint)-42));
         var intValue = bvValue.ToInt(true);
         var intValueViaContext = context.ToInt(bvValue, true);
 
@@ -61,7 +61,7 @@ public class BvExprConversionTests
         using var solver = context.CreateSolver();
 
         // This would be negative if interpreted as signed
-        var bvValue = context.BitVec<Size32>(0xFFFFFF00u);
+        var bvValue = context.Bv<Size32>(0xFFFFFF00u);
         var intValue = bvValue.ToInt();
 
         solver.Check();
@@ -77,7 +77,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVecConst<Size32>("x");
+        var x = context.BvConst<Size32>("x");
         solver.Assert(x == 42u);
 
         var intX = x.ToInt();
@@ -104,7 +104,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<TInputSize>(42u);
+        var bvValue = context.Bv<TInputSize>(42u);
         var resizedValue = bvValue.Resize<TOutputSize>();
         var resizedValueViaContext = context.Resize<TInputSize, TOutputSize>(bvValue);
 
@@ -126,7 +126,7 @@ public class BvExprConversionTests
         using var solver = context.CreateSolver();
 
         // -42 in 8-bit two's complement (0xD6 = 214)
-        var bvValue = context.BitVec<Size8>((uint)unchecked((byte)-42));
+        var bvValue = context.Bv<Size8>((uint)unchecked((byte)-42));
         var resizedValue = bvValue.Resize<Size32>(true);
 
         solver.Check();
@@ -144,7 +144,7 @@ public class BvExprConversionTests
         using var solver = context.CreateSolver();
 
         // -42 in 8-bit two's complement (0xD6 = 214)
-        var bvValue = context.BitVec<Size8>((uint)unchecked((byte)-42));
+        var bvValue = context.Bv<Size8>((uint)unchecked((byte)-42));
         var resizedValue = bvValue.Resize<Size32>();
 
         solver.Check();
@@ -164,7 +164,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<TInputSize>(0x12345678u);
+        var bvValue = context.Bv<TInputSize>(0x12345678u);
         var truncatedValue = bvValue.Resize<TOutputSize>();
 
         solver.Check();
@@ -188,7 +188,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<TSize>(42u);
+        var bvValue = context.Bv<TSize>(42u);
         var resizedValue = bvValue.Resize<TSize>();
         var resizedValueViaContext = context.Resize<TSize, TSize>(bvValue);
 
@@ -210,7 +210,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<Size16>(0xABCDu); // 1010101111001101
+        var bvValue = context.Bv<Size16>(0xABCDu); // 1010101111001101
         var extractedValue = bvValue.Extract<Size8>(startBit);
         var extractedValueViaContext = context.Extract<Size16, Size8>(bvValue, startBit);
 
@@ -232,7 +232,7 @@ public class BvExprConversionTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bvValue = context.BitVec<Size16>(0xABCDu);
+        var bvValue = context.Bv<Size16>(0xABCDu);
 
         // Trying to extract 8 bits starting at bit 9 would exceed 16-bit bounds
         Assert.Multiple(() =>
@@ -255,7 +255,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<Size16>(0xABCDu);
+        var bvValue = context.Bv<Size16>(0xABCDu);
         // Extract 8 bits starting at bit 8 (exactly at boundary)
         var extractedValue = bvValue.Extract<Size8>(8u);
 
@@ -273,7 +273,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<Size8>(0xABu); // 10101011
+        var bvValue = context.Bv<Size8>(0xABu); // 10101011
         var repeatedValue = bvValue.Repeat<Size16>();
         var repeatedValueViaContext = context.Repeat<Size8, Size16>(bvValue);
 
@@ -295,7 +295,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvValue = context.BitVec<Size8>(0x12u);
+        var bvValue = context.Bv<Size8>(0x12u);
         var repeatedValue = bvValue.Repeat<Size32>();
 
         solver.Check();
@@ -311,7 +311,7 @@ public class BvExprConversionTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bvValue = context.BitVec<Size16>(0xABCDu);
+        var bvValue = context.Bv<Size16>(0xABCDu);
 
         // Trying to repeat 16-bit value into 20-bit value (20 % 16 != 0)
         Assert.Multiple(() =>
@@ -337,9 +337,9 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var originalBv = context.BitVec<Size32>(42u);
+        var originalBv = context.Bv<Size32>(42u);
         var intValue = originalBv.ToInt();
-        var convertedBackBv = intValue.ToBitVec<Size32>();
+        var convertedBackBv = intValue.ToBv<Size32>();
 
         solver.Check();
         var model = solver.GetModel();
@@ -359,7 +359,7 @@ public class BvExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.BitVecConst<Size8>("x");
+        var x = context.BvConst<Size8>("x");
         solver.Assert(x < 100u);
 
         var resizedX = x.Resize<Size32>();

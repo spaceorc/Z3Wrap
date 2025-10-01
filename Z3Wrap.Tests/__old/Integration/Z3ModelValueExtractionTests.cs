@@ -324,8 +324,8 @@ public class Z3ModelValueExtractionTests
         Assert.Throws<ObjectDisposedException>(() => model.GetBoolValue(context.BoolConst("p")));
         Assert.Throws<ObjectDisposedException>(() => model.GetRealValue(context.RealConst("z")));
         Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.RealConst("z")));
-        Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(context.BitVecConst<Size8>("bv")));
-        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.BitVecConst<Size8>("bv")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetBitVec(context.BvConst<Size8>("bv")));
+        Assert.Throws<ObjectDisposedException>(() => model.GetNumericValueAsString(context.BvConst<Size8>("bv")));
     }
 
     [Test]
@@ -335,7 +335,7 @@ public class Z3ModelValueExtractionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bv = context.BitVecConst<Size8>("bv");
+        var bv = context.BvConst<Size8>("bv");
         solver.Assert(bv == 42);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -353,7 +353,7 @@ public class Z3ModelValueExtractionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bv = context.BitVecConst<Size32>("bv");
+        var bv = context.BvConst<Size32>("bv");
         solver.Assert(bv == -1);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -372,7 +372,7 @@ public class Z3ModelValueExtractionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bv = context.BitVecConst<Size32>("bv");
+        var bv = context.BvConst<Size32>("bv");
         solver.Assert(bv == 123456);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -394,7 +394,7 @@ public class Z3ModelValueExtractionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bv = context.BitVecConst<Size8>("bv");
+        var bv = context.BvConst<Size8>("bv");
         solver.Assert(bv == 42);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -413,7 +413,7 @@ public class Z3ModelValueExtractionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bv = context.BitVecConst<Size8>("bv");
+        var bv = context.BvConst<Size8>("bv");
         solver.Assert(bv == -1); // Becomes 255 in unsigned representation
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -431,7 +431,7 @@ public class Z3ModelValueExtractionTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bv = context.BitVecConst<Size32>("x");
+        var bv = context.BvConst<Size32>("x");
 
         var toString = bv.ToString();
 
@@ -445,7 +445,7 @@ public class Z3ModelValueExtractionTests
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bv = context.BitVec<Size8>(42);
+        var bv = context.Bv<Size8>(42);
 
         var toString = bv.ToString();
 
@@ -458,10 +458,10 @@ public class Z3ModelValueExtractionTests
     {
         using var context = new Z3Context();
 
-        var bv8 = context.BitVecConst<Size8>("bv8");
-        var bv16 = context.BitVecConst<Size16>("bv16");
-        var bv32 = context.BitVecConst<Size32>("bv32");
-        var bv64 = context.BitVecConst<Size64>("bv64");
+        var bv8 = context.BvConst<Size8>("bv8");
+        var bv16 = context.BvConst<Size16>("bv16");
+        var bv32 = context.BvConst<Size32>("bv32");
+        var bv64 = context.BvConst<Size64>("bv64");
 
         Assert.That(bv8.ToString(), Does.Contain("BitVec[8]"));
         Assert.That(bv16.ToString(), Does.Contain("BitVec[16]"));

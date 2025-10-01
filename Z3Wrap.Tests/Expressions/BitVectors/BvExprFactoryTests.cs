@@ -17,7 +17,7 @@ public class BvExprFactoryTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvExpr = context.BitVec<Size32>(value);
+        var bvExpr = context.Bv<Size32>(value);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -33,7 +33,7 @@ public class BvExprFactoryTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvExpr = context.BitVec<Size32>(value);
+        var bvExpr = context.Bv<Size32>(value);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -47,7 +47,7 @@ public class BvExprFactoryTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvExpr = context.BitVec<Size64>(9876543210UL);
+        var bvExpr = context.Bv<Size64>(9876543210UL);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -61,7 +61,7 @@ public class BvExprFactoryTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvExpr = context.BitVec<Size64>(-42L);
+        var bvExpr = context.Bv<Size64>(-42L);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -76,7 +76,7 @@ public class BvExprFactoryTests
         using var solver = context.CreateSolver();
 
         var bigValue = BigInteger.Parse("12345678901234567890");
-        var bvExpr = context.BitVec<Size64>(bigValue);
+        var bvExpr = context.Bv<Size64>(bigValue);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -93,7 +93,7 @@ public class BvExprFactoryTests
         using var solver = context.CreateSolver();
 
         var bvValue = new Bv<Size32>(42u);
-        var bvExpr = context.BitVec(bvValue);
+        var bvExpr = context.Bv(bvValue);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
@@ -101,13 +101,13 @@ public class BvExprFactoryTests
     }
 
     [Test]
-    public void CreateBitVecConst_WithVariableName_ReturnsCorrectExpression()
+    public void CreateBvConst_WithVariableName_ReturnsCorrectExpression()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bvConst = context.BitVecConst<Size32>("variableName");
+        var bvConst = context.BvConst<Size32>("variableName");
 
         solver.Assert(bvConst == 42u);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -208,15 +208,15 @@ public class BvExprFactoryTests
     }
 
     [Test]
-    public void CreateMultipleBitVecConstants_HaveIndependentValues()
+    public void CreateMultipleBvConstants_HaveIndependentValues()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var bv1 = context.BitVecConst<Size32>("var1");
-        var bv2 = context.BitVecConst<Size32>("var2");
-        var bv3 = context.BitVecConst<Size32>("var3");
+        var bv1 = context.BvConst<Size32>("var1");
+        var bv2 = context.BvConst<Size32>("var2");
+        var bv3 = context.BvConst<Size32>("var3");
 
         solver.Assert(bv1 == 10u);
         solver.Assert(bv2 == 20u);
@@ -233,13 +233,13 @@ public class BvExprFactoryTests
     }
 
     [Test]
-    public void BitVecConstWithSameName_ReturnsSameHandle()
+    public void BvConstWithSameName_ReturnsSameHandle()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
-        var bv1 = context.BitVecConst<Size32>("sameName");
-        var bv2 = context.BitVecConst<Size32>("sameName");
+        var bv1 = context.BvConst<Size32>("sameName");
+        var bv2 = context.BvConst<Size32>("sameName");
 
         Assert.That(bv1.Handle, Is.EqualTo(bv2.Handle));
     }
