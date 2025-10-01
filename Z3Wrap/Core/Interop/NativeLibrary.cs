@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-internal sealed class NativeLibrary : IDisposable
+internal sealed partial class NativeLibrary : IDisposable
 {
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
 
