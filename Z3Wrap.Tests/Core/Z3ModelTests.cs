@@ -85,4 +85,58 @@ public class Z3ModelTests
 
         Assert.That(str, Is.Not.Null);
     }
+
+    [Test]
+    public void ToString_InvalidatedModel_ReturnsInvalidatedString()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+        var x = context.IntConst("x");
+        solver.Assert(x == 42);
+        solver.Check();
+
+        var model = solver.GetModel();
+        solver.Assert(context.False()); // Invalidate model
+        var str = model.ToString();
+
+        Assert.That(str, Is.EqualTo("<invalidated>"));
+    }
+
+    [Test]
+    public void Handle_InvalidatedModel_ThrowsObjectDisposedException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+        solver.Assert(context.True());
+        solver.Check();
+
+        var model = solver.GetModel();
+        solver.Assert(context.False()); // Invalidate model
+
+        Assert.Throws<ObjectDisposedException>(() =>
+        {
+            _ = model.Handle;
+        });
+    }
+
+    [Test]
+    public void Evaluate_InvalidatedModel_ThrowsObjectDisposedException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+        var x = context.IntConst("x");
+        solver.Assert(x == 42);
+        solver.Check();
+
+        var model = solver.GetModel();
+        solver.Assert(context.False()); // Invalidate model
+
+        Assert.Throws<ObjectDisposedException>(() =>
+        {
+            model.Evaluate(x);
+        });
+    }
 }

@@ -161,6 +161,11 @@ public sealed class Z3Model
     private static string ExtractNumeralString<TExpr>(Z3Context context, TExpr evaluatedExpr, TExpr originalExpr)
         where TExpr : Z3Expr, INumericExpr, IExprType<TExpr>
     {
+        if (!context.Library.Z3IsNumeralAst(context.Handle, evaluatedExpr.Handle))
+            throw new InvalidOperationException(
+                $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
+            );
+
         return context.Library.Z3GetNumeralString(context.Handle, evaluatedExpr.Handle)
             ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
     }
