@@ -1,30 +1,51 @@
-# Complete Z3 C API Coverage Plan
+# Complete Z3 C API Coverage Plan - NativeLibrary Only
 
 ## Goal
-Add ALL remaining Z3 C API functions to `NativeLibrary.cs` to create complete coverage and serve as living documentation of the entire Z3 C API.
+Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to create complete coverage and serve as living documentation of the entire Z3 C API.
+
+**IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 120 functions
+- **Currently implemented**: 120 functions (organized into 10 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Missing**: 436 functions (78% gap)
+
+### Completed Work
+✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
+- Created 10 partial class files for NativeLibrary
+- Organized existing 120 functions into logical categories:
+  - NativeLibrary.Context.cs (8 functions)
+  - NativeLibrary.Solver.cs (12 functions)
+  - NativeLibrary.Model.cs (9 functions)
+  - NativeLibrary.Parameters.cs (8 functions)
+  - NativeLibrary.Quantifiers.cs (3 functions)
+  - NativeLibrary.Expressions.cs (28 functions)
+  - NativeLibrary.Arrays.cs (6 functions)
+  - NativeLibrary.BitVectors.cs (40 functions)
+  - NativeLibrary.Functions.cs (3 functions)
+  - NativeLibrary.ErrorHandling.cs (3 functions)
+- All 903 tests passing
+- Coverage: 95.3%
+- CI pipeline: passing
 
 ## Why Complete Coverage?
 
 ### 1. Living Documentation
-- Code becomes authoritative reference for what's available in Z3
-- XML comments provide searchable documentation
-- IntelliSense shows all capabilities
-- No need to constantly reference C headers
+- `NativeLibrary` code becomes authoritative reference for what's available in Z3 C API
+- XML comments provide searchable documentation of raw Z3 functions
+- IntelliSense shows all P/Invoke capabilities
+- No need to constantly reference C headers (z3_api.h)
 
-### 2. Future-Proofing
-- Users can call any Z3 function through P/Invoke wrapper
-- Enables gradual high-level API development
-- Unlocks advanced features (tactics, goals, probes, optimization)
+### 2. Foundation for Future High-Level API
+- Complete P/Invoke layer enables gradual high-level API development in `Z3Library`
+- Any missing low-level function won't block future high-level features
+- Unlocks advanced features (tactics, goals, probes, optimization) when ready
 
-### 3. Completeness
-- Professional wrapper covers entire API surface
-- No "sorry, not implemented" situations
-- Enables Z3 power users and research applications
+### 3. Completeness at P/Invoke Layer
+- Professional P/Invoke wrapper covers entire Z3 C API surface
+- No "sorry, not implemented" at the native layer
+- Power users can directly call any Z3 function if needed
+- Research applications can access any Z3 capability
 
 ## Missing Functions by Category
 
@@ -389,42 +410,48 @@ Focus on functions needed for basic usage patterns:
 ## Technical Implementation
 
 ### File Organization
-Current `NativeLibrary.cs` will become very large (2675 lines → ~8000+ lines).
+**DECISION MADE**: Using partial classes (Option B)
 
-**Option A**: Keep everything in one file
-- ✅ Grep-friendly, one place to look
-- ✅ Consistent with current design
-- ❌ Very large file
-
-**Option B**: Split into partial classes by category
+Current structure (10 partial class files, 120 functions):
 ```
-NativeLibrary.cs                    - Core, config, context
-NativeLibrary.Expressions.cs        - mk_* functions
-NativeLibrary.Queries.cs            - get_* functions
-NativeLibrary.Solver.cs             - Solver functions
-NativeLibrary.Model.cs              - Model functions
-NativeLibrary.Tactics.cs            - Tactics/goals/probes
-NativeLibrary.SpecialTheories.cs    - String, FP, sets
-NativeLibrary.Utilities.cs          - Debug, stats, misc
+NativeLibrary.cs                    - Core infrastructure, loading
+NativeLibrary.Context.cs            - Context lifecycle (8 functions)
+NativeLibrary.Solver.cs             - Solver operations (12 functions)
+NativeLibrary.Model.cs              - Model evaluation (9 functions)
+NativeLibrary.Parameters.cs         - Parameters (8 functions)
+NativeLibrary.Quantifiers.cs        - Quantifiers (3 functions)
+NativeLibrary.Expressions.cs        - Expression creation (28 functions)
+NativeLibrary.Arrays.cs             - Array theory (6 functions)
+NativeLibrary.BitVectors.cs         - BitVector operations (40 functions)
+NativeLibrary.Functions.cs          - Function declarations (3 functions)
+NativeLibrary.ErrorHandling.cs      - Error handling (3 functions)
 ```
-- ✅ Better organization
-- ✅ Easier navigation in IDE
-- ✅ Logical grouping
-- ❌ Multiple files to maintain
 
-**Recommendation**: **Option B** - Partial classes
-- Industry standard for large API wrappers
-- Maintains discoverability
-- Makes maintenance easier
-- Matches Z3's own C++ API organization
+New files needed for Phase 1+:
+```
+NativeLibrary.Queries.cs            - get_* introspection functions
+NativeLibrary.Predicates.cs         - is_* type-checking functions
+NativeLibrary.Conversions.cs        - Type conversion functions (to_ast, etc.)
+NativeLibrary.Tactics.cs            - Tactic system
+NativeLibrary.Goals.cs              - Goal management
+NativeLibrary.Probes.cs             - Probe system
+NativeLibrary.Simplifiers.cs        - Simplifier system
+NativeLibrary.StringTheory.cs       - String/sequence operations
+NativeLibrary.FloatingPoint.cs      - Floating-point operations
+NativeLibrary.SpecialTheories.cs    - Sets, relations, special theories
+NativeLibrary.AstCollections.cs     - AST vectors/maps
+NativeLibrary.Utilities.cs          - Debug, logging, misc
+```
 
-### Delegate Definitions
-Each function needs:
-1. Private delegate type
-2. Public wrapper method with XML docs
-3. Loading in `LoadLibraryInternal()`
+This is P/Invoke only - no high-level abstractions.
 
-**Template**:
+### Delegate Definitions (P/Invoke Pattern)
+Each Z3 C API function needs in `NativeLibrary`:
+1. Private delegate type matching C signature
+2. Internal wrapper method with XML docs (not public - internal P/Invoke layer)
+3. Loading call in the partial file's `LoadFunctions{Name}()` method
+
+**Template** (P/Invoke wrapper, not high-level API):
 ```csharp
 // Delegate
 private delegate IntPtr MkAbsDelegate(IntPtr ctx, IntPtr arg);
@@ -468,16 +495,17 @@ All new functions use `LoadFunctionOrNull()`:
 - No changes to existing test code required
 
 ### New Tests
-**Not required initially** because:
-- Wrapper functions are trivial P/Invoke delegates
-- Real testing happens at high-level API layer
-- Would need 436+ new test methods
-- Functions mostly unused until high-level wrappers exist
+**Not required for NativeLibrary P/Invoke wrappers** because:
+- P/Invoke wrapper functions are mechanical delegates
+- No business logic to test at this layer
+- Real testing happens at high-level `Z3Library` API layer (when built)
+- Would need 436+ trivial test methods with no real value
+- Functions mostly unused until high-level C# API wrappers exist
 
-**Optional**: Add integration tests for major categories:
-- Tactics/goals (basic workflow)
-- Model introspection (function interpretations)
-- String theory (basic operations)
+**Testing Strategy**:
+- Existing 903 tests continue passing (no regressions)
+- New functions tested when high-level API uses them
+- Focus testing effort on high-level API, not P/Invoke layer
 
 ## Work Breakdown
 
@@ -519,23 +547,23 @@ All new functions use `LoadFunctionOrNull()`:
 
 ## Benefits Delivered
 
-### For Users
-- Complete Z3 capabilities accessible
-- IntelliSense shows all possibilities
-- Clear documentation in IDE
-- No C header lookups needed
+### For P/Invoke Layer (NativeLibrary)
+- Complete Z3 C API exposed through P/Invoke
+- IntelliSense shows all raw Z3 functions
+- Clear P/Invoke documentation in IDE
+- No z3_api.h header lookups needed
 
-### For Developers
-- High-level API can be built incrementally
-- Clear categorization guides development
-- Living reference of Z3 capabilities
-- Professional-grade completeness
+### For Future High-Level API Development (Z3Library)
+- High-level API can be built incrementally on solid foundation
+- Clear categorization guides which features to wrap next
+- Living reference of what's possible in Z3
+- No missing low-level functions blocking high-level features
 
-### For Research
-- Advanced features available (tactics, probes)
+### For Power Users
+- Direct access to any Z3 function if needed
+- Advanced features available (tactics, probes, optimization)
 - Theory propagation for custom theories
-- Proof extraction
-- Optimization API (future)
+- Proof extraction capabilities
 
 ## Risk Mitigation
 
@@ -554,10 +582,11 @@ All new functions use `LoadFunctionOrNull()`:
 ## Implementation Checklist
 
 ### Phase 1 Setup
-- [ ] Create partial class structure
-- [ ] Move existing functions to appropriate files
-- [ ] Verify all tests still pass
-- [ ] Run `make format`
+- [x] Create partial class structure
+- [x] Move existing functions to appropriate files
+- [x] Verify all tests still pass
+- [x] Run `make format`
+- [x] Verify consistency of all partial files (delegates, loads, methods)
 
 ### Phase 1 Implementation (High Priority)
 - [ ] Add 50 creation functions (mk_*)
@@ -625,5 +654,14 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Plan created $(date +%Y-%m-%d)
-**Next Step**: User approval to begin Phase 1
+**Status**: Phase 1 Setup COMPLETE (October 2, 2025)
+**Next Step**: Begin Phase 1 Implementation - Add 150 high-priority functions
+
+## Progress Log
+
+### October 2, 2025 - Phase 1 Setup Complete
+- ✅ Created 10 partial class files organizing 120 existing functions
+- ✅ Created Python extraction script (`extract_methods.py`) for safe refactoring
+- ✅ All partial files verified for consistency (delegates, loads, methods match)
+- ✅ All 903 tests passing, coverage 95.3%, CI passing
+- 📦 Ready for Phase 1 Implementation
