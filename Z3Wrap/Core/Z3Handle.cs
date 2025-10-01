@@ -12,7 +12,7 @@ public abstract class Z3Handle
     /// <param name="handle">Native Z3 handle.</param>
     protected Z3Handle(Z3Context context, IntPtr handle)
     {
-        Handle = handle != IntPtr.Zero ? handle : throw new ArgumentException("Invalid handle", nameof(handle));
+        Handle = handle;
         context.TrackHandle(handle);
         Context = context;
     }

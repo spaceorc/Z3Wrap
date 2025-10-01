@@ -169,9 +169,7 @@ public sealed class Z3Context : IDisposable
         {
             // First dispose all tracked solvers
             foreach (var solver in trackedSolvers.ToArray())
-            {
                 DisposeSolver(solver);
-            }
 
             trackedSolvers.Clear();
 

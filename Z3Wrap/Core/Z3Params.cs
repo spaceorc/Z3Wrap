@@ -127,9 +127,6 @@ public sealed class Z3Params : IEnumerable<KeyValuePair<string, object>>
     internal void ApplyTo(Z3Context context, IntPtr solverHandle)
     {
         var paramsHandle = context.Library.Z3MkParams(context.Handle);
-        if (paramsHandle == IntPtr.Zero)
-            throw new InvalidOperationException("Failed to create Z3 parameters");
-
         context.Library.Z3ParamsIncRef(context.Handle, paramsHandle);
         try
         {

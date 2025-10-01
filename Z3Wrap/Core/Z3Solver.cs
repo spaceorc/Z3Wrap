@@ -21,9 +21,6 @@ public sealed class Z3Solver : IDisposable
             ? context.Library.Z3MkSimpleSolver(context.Handle)
             : context.Library.Z3MkSolver(context.Handle);
 
-        if (InternalHandle == IntPtr.Zero)
-            throw new InvalidOperationException("Failed to create Z3 solver");
-
         context.Library.Z3SolverIncRef(context.Handle, InternalHandle);
     }
 
@@ -142,9 +139,6 @@ public sealed class Z3Solver : IDisposable
         if (cachedModel == null)
         {
             var modelHandle = context.Library.Z3SolverGetModel(context.Handle, InternalHandle);
-            if (modelHandle == IntPtr.Zero)
-                throw new InvalidOperationException("Failed to get model from solver");
-
             cachedModel = new Z3Model(context, modelHandle);
         }
 

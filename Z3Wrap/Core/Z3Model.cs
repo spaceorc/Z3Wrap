@@ -20,10 +20,6 @@ public sealed class Z3Model
     internal Z3Model(Z3Context context, IntPtr handle)
     {
         this.context = context;
-
-        if (handle == IntPtr.Zero)
-            throw new ArgumentException("Invalid model handle", nameof(handle));
-
         modelHandle = handle;
 
         // Critical: increment ref count immediately to keep model alive
