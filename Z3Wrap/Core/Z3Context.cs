@@ -27,9 +27,6 @@ public sealed class Z3Context : IDisposable
 
         // Create temporary config object
         var configHandle = this.library.Z3MkConfig();
-        if (configHandle == IntPtr.Zero)
-            throw new InvalidOperationException("Failed to create Z3 configuration");
-
         try
         {
             // Set parameters on config before creating context
@@ -41,8 +38,6 @@ public sealed class Z3Context : IDisposable
 
             // Create context from configured config
             contextHandle = this.library.Z3MkContextRc(configHandle);
-            if (contextHandle == IntPtr.Zero)
-                throw new InvalidOperationException("Failed to create Z3 context");
         }
         finally
         {
@@ -125,10 +120,6 @@ public sealed class Z3Context : IDisposable
     internal void TrackHandle(IntPtr handle)
     {
         ThrowIfDisposed();
-
-        if (handle == IntPtr.Zero)
-            throw new ArgumentException("Invalid handle", nameof(handle));
-
         library.Z3IncRef(contextHandle, handle);
         trackedHandles.Add(handle);
     }
@@ -150,11 +141,6 @@ public sealed class Z3Context : IDisposable
             return;
 
         UntrackSolver(solver);
-
-        var solverHandle = solver.InternalHandle;
-        if (solverHandle != IntPtr.Zero)
-            library.Z3SolverDecRef(contextHandle, solverHandle);
-
         solver.InternalDispose();
     }
 
@@ -165,24 +151,20 @@ public sealed class Z3Context : IDisposable
         if (disposed)
             return;
 
-        if (contextHandle != IntPtr.Zero)
-        {
-            // First dispose all tracked solvers
-            foreach (var solver in trackedSolvers.ToArray())
-                DisposeSolver(solver);
+        // First dispose all tracked solvers
+        foreach (var solver in trackedSolvers.ToArray())
+            DisposeSolver(solver);
 
-            trackedSolvers.Clear();
+        trackedSolvers.Clear();
 
-            // Then clean up all tracked handles
-            foreach (var handle in trackedHandles)
-                library.Z3DecRef(contextHandle, handle);
+        // Then clean up all tracked handles
+        foreach (var handle in trackedHandles)
+            library.Z3DecRef(contextHandle, handle);
 
-            trackedHandles.Clear();
+        trackedHandles.Clear();
 
-            // Finally dispose the context itself
-            library.Z3DelContext(contextHandle);
-            contextHandle = IntPtr.Zero;
-        }
+        // Finally dispose the context itself
+        library.Z3DelContext(contextHandle);
 
         disposed = true;
     }

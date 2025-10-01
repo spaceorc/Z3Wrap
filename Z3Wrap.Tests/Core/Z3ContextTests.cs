@@ -361,7 +361,12 @@ public class Z3ContextTests
         // (passing constant instead of bound variable triggers Z3_INVALID_ARG)
         for (int i = 0; i < 3; i++)
         {
-            Assert.Throws<Z3Exception>(() => context.ForAll(context.Int(i), body));
+            var e = Assert.Throws<Z3Exception>(() => context.ForAll(context.Int(i), body));
+            Assert.Multiple(() =>
+            {
+                Assert.That(e.ErrorCode, Is.EqualTo(Z3ErrorCode.InvalidArgument));
+                Assert.That(e.Message, Does.Contain("InvalidArgument"));
+            });
         }
 
         // Process should still be alive and context should still work

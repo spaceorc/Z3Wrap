@@ -8,9 +8,9 @@ namespace Spaceorc.Z3Wrap.Core;
 public sealed class Z3Solver : IDisposable
 {
     private readonly Z3Context context;
+    private Z3Model? cachedModel;
     private bool disposed;
     private bool isBeingDisposedByContext;
-    private Z3Model? cachedModel;
     private Z3Status? lastCheckResult;
 
     internal Z3Solver(Z3Context context, bool useSimpleSolver)
@@ -36,7 +36,22 @@ public sealed class Z3Solver : IDisposable
         }
     }
 
-    internal IntPtr InternalHandle { get; private set; }
+    private IntPtr InternalHandle { get; }
+
+    /// <summary>
+    /// Releases all resources used by this solver.
+    /// </summary>
+    public void Dispose()
+    {
+        if (disposed)
+            return;
+
+        if (!isBeingDisposedByContext)
+            // Delegate disposal to context - it will call back to InternalDispose
+            context.DisposeSolver(this);
+
+        disposed = true;
+    }
 
     /// <summary>
     /// Adds a constraint to the solver.
@@ -151,23 +166,6 @@ public sealed class Z3Solver : IDisposable
         cachedModel = null;
     }
 
-    /// <summary>
-    /// Releases all resources used by this solver.
-    /// </summary>
-    public void Dispose()
-    {
-        if (disposed)
-            return;
-
-        if (!isBeingDisposedByContext)
-        {
-            // Delegate disposal to context - it will call back to InternalDispose
-            context.DisposeSolver(this);
-        }
-
-        disposed = true;
-    }
-
     internal void InternalDispose()
     {
         if (disposed)
@@ -176,8 +174,9 @@ public sealed class Z3Solver : IDisposable
         // Clean up model before solver disposal
         InvalidateModel();
 
+        context.Library.Z3SolverDecRef(context.Handle, InternalHandle);
         isBeingDisposedByContext = true;
-        InternalHandle = IntPtr.Zero;
+
         disposed = true;
     }
 
