@@ -18,6 +18,9 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_const_array");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_domain");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_range");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_default");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_ext");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_as_array");
     }
 
     // Delegates
@@ -27,6 +30,9 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
     private delegate IntPtr GetArraySortDomainDelegate(IntPtr ctx, IntPtr arraySort);
     private delegate IntPtr GetArraySortRangeDelegate(IntPtr ctx, IntPtr arraySort);
+    private delegate IntPtr MkArrayDefaultDelegate(IntPtr ctx, IntPtr array);
+    private delegate IntPtr MkArrayExtDelegate(IntPtr ctx, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkAsArrayDelegate(IntPtr ctx, IntPtr f);
 
     // Methods
     /// <summary>
@@ -137,5 +143,59 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_range");
         var func = Marshal.GetDelegateForFunctionPointer<GetArraySortRangeDelegate>(funcPtr);
         return func(ctx, arraySort);
+    }
+
+    /// <summary>
+    /// Creates array default value accessor.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="array">The array expression.</param>
+    /// <returns>AST node representing default value of the array.</returns>
+    /// <remarks>
+    /// Accesses the else value of a constant array created with MkConstArray.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkArrayDefault(IntPtr ctx, IntPtr array)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_array_default");
+        var func = Marshal.GetDelegateForFunctionPointer<MkArrayDefaultDelegate>(funcPtr);
+        return func(ctx, array);
+    }
+
+    /// <summary>
+    /// Creates array extensionality constraint.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arg1">First array expression.</param>
+    /// <param name="arg2">Second array expression.</param>
+    /// <returns>AST node representing an index where arrays differ (if they differ).</returns>
+    /// <remarks>
+    /// Array extensionality: two arrays are equal iff they agree on all indices.
+    /// This function returns an index witnessing inequality if arrays are not equal.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkArrayExt(IntPtr ctx, IntPtr arg1, IntPtr arg2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_array_ext");
+        var func = Marshal.GetDelegateForFunctionPointer<MkArrayExtDelegate>(funcPtr);
+        return func(ctx, arg1, arg2);
+    }
+
+    /// <summary>
+    /// Creates array from function interpretation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="f">Function declaration handle.</param>
+    /// <returns>AST node representing array corresponding to function.</returns>
+    /// <remarks>
+    /// Creates an array expression that behaves like the given function.
+    /// For any index i, select(as-array(f), i) = f(i).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkAsArray(IntPtr ctx, IntPtr f)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_as_array");
+        var func = Marshal.GetDelegateForFunctionPointer<MkAsArrayDelegate>(funcPtr);
+        return func(ctx, f);
     }
 }

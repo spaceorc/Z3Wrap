@@ -52,6 +52,12 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsdiv_no_overflow");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg_no_overflow");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnand");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnor");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxnor");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredand");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredor");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_numeral");
     }
 
     // Delegates
@@ -96,6 +102,16 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkBvUGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvSGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvNandDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvNorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvXnorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvRedAndDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkBvRedOrDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkBvNumeralDelegate(
+        IntPtr ctx,
+        uint sz,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] bool[] bits
+    );
 
     // Methods
 
@@ -838,5 +854,111 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_bvsge");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvSGeDelegate>(funcPtr);
         return func(ctx, t1, t2);
+    }
+
+    /// <summary>
+    /// Creates bitvector NAND of two bitvectors.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">First bitvector expression.</param>
+    /// <param name="t2">Second bitvector expression.</param>
+    /// <returns>AST node representing bitwise NAND of t1 and t2.</returns>
+    /// <remarks>
+    /// Computes ~(t1 &amp; t2). Both arguments must have the same bit-width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvNand(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvnand");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNandDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    /// <summary>
+    /// Creates bitvector NOR of two bitvectors.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">First bitvector expression.</param>
+    /// <param name="t2">Second bitvector expression.</param>
+    /// <returns>AST node representing bitwise NOR of t1 and t2.</returns>
+    /// <remarks>
+    /// Computes ~(t1 | t2). Both arguments must have the same bit-width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvNor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvnor");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNorDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    /// <summary>
+    /// Creates bitvector XNOR of two bitvectors.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">First bitvector expression.</param>
+    /// <param name="t2">Second bitvector expression.</param>
+    /// <returns>AST node representing bitwise XNOR of t1 and t2.</returns>
+    /// <remarks>
+    /// Computes ~(t1 ^ t2). Both arguments must have the same bit-width.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvXnor(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvxnor");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvXnorDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    /// <summary>
+    /// Creates bitvector reduction AND.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">Bitvector expression.</param>
+    /// <returns>AST node representing Boolean result of ANDing all bits.</returns>
+    /// <remarks>
+    /// Returns true (bit 1) if all bits are 1, false (bit 0) otherwise.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvRedAnd(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvredand");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvRedAndDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
+    /// <summary>
+    /// Creates bitvector reduction OR.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">Bitvector expression.</param>
+    /// <returns>AST node representing Boolean result of ORing all bits.</returns>
+    /// <remarks>
+    /// Returns true (bit 1) if any bit is 1, false (bit 0) otherwise.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvRedOr(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bvredor");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvRedOrDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
+    /// <summary>
+    /// Creates bitvector numeral from bit array.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sz">Number of bits in the bitvector.</param>
+    /// <param name="bits">Array of Boolean values representing bits (LSB first).</param>
+    /// <returns>AST node representing bitvector constant with specified bit pattern.</returns>
+    /// <remarks>
+    /// Creates bitvector constant from Boolean array where bits[0] is LSB.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvNumeral(IntPtr ctx, uint sz, bool[] bits)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bv_numeral");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNumeralDelegate>(funcPtr);
+        return func(ctx, sz, bits);
     }
 }
