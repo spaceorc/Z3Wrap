@@ -16,7 +16,7 @@ namespace Spaceorc.Z3Wrap.Core;
 ///         one is set or when the application exits.
 ///     </para>
 /// </summary>
-public sealed class Z3Library : IDisposable
+public sealed partial class Z3Library : IDisposable
 {
     private readonly NativeLibrary nativeLibrary;
     private bool disposed;
