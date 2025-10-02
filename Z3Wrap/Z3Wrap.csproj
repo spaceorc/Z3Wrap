@@ -179,6 +179,9 @@
     <Compile Update="Core\Interop\NativeLibrary.Solver.cs">
       <DependentUpon>NativeLibrary.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Predicates.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
