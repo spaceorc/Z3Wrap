@@ -6,11 +6,11 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 149 functions (organized into 11 partial class files)
+- **Currently implemented**: 158 functions (organized into 12 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 403 functions (73% gap)
-- **Progress**: 27% complete
+- **Missing**: 394 functions (71% gap)
+- **Progress**: 29% complete
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
@@ -23,7 +23,11 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 - Added 18 predicate/type-checking functions (is_* functions)
 - Moved IsNumeralAst from Model.cs to Predicates.cs for better organization
 - Excluded all NativeLibrary P/Invoke wrappers from code coverage (mechanical delegates)
-- Current structure (11 partial class files, 149 functions):
+
+✅ **Function Interpretations COMPLETE** (October 2, 2025)
+- Created 12th partial class file: NativeLibrary.FunctionInterpretations.cs
+- Added 9 function interpretation functions for advanced model queries
+- Current structure (12 partial class files, 158 functions):
   - NativeLibrary.Context.cs (8 functions)
   - NativeLibrary.Solver.cs (12 functions)
   - NativeLibrary.Model.cs (19 functions) ⭐ EXPANDED - was 8, added 11 model introspection functions
@@ -35,6 +39,7 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
   - NativeLibrary.Functions.cs (3 functions)
   - NativeLibrary.ErrorHandling.cs (3 functions)
   - NativeLibrary.Predicates.cs (18 functions)
+  - NativeLibrary.FunctionInterpretations.cs (9 functions) ⭐ NEW
 - All 903 tests passing
 - Coverage: **97.9%** (NativeLibrary excluded from coverage - it's mechanical P/Invoke)
 - CI pipeline: passing
@@ -251,18 +256,18 @@ Z3_stats_dec_ref / inc_ref
 ... (most resource types need inc/dec ref)
 ```
 
-### Function Interpretation Functions (9 functions)
-**Medium Priority** - Advanced model queries:
+### ~~Function Interpretation Functions (9 functions)~~ - ✅ COMPLETE (October 2, 2025)
+**DONE** - All 9 function interpretation functions in NativeLibrary.FunctionInterpretations.cs:
 ```
-Z3_func_entry_get_arg            - Get entry argument
-Z3_func_entry_get_num_args       - Entry arity
-Z3_func_entry_get_value          - Entry result value
-Z3_func_interp_add_entry         - Add interpretation entry
-Z3_func_interp_get_arity         - Function arity
-Z3_func_interp_get_else          - Default value
-Z3_func_interp_get_entry         - Get entry at index
-Z3_func_interp_get_num_entries   - Number of entries
-Z3_func_interp_set_else          - Set default value
+✅ Z3_func_entry_get_arg            - Get entry argument
+✅ Z3_func_entry_get_num_args       - Entry arity
+✅ Z3_func_entry_get_value          - Entry result value
+✅ Z3_func_interp_add_entry         - Add interpretation entry
+✅ Z3_func_interp_get_arity         - Function arity
+✅ Z3_func_interp_get_else          - Default value
+✅ Z3_func_interp_get_entry         - Get entry at index
+✅ Z3_func_interp_get_num_entries   - Number of entries
+✅ Z3_func_interp_set_else          - Set default value
 ```
 
 ### ~~Conversion Functions (4 functions)~~ - NOT NEEDED
@@ -348,10 +353,10 @@ Z3_toggle_warning_messages       - Warning control
 
 ## Implementation Strategy
 
-### Phase 1: Foundation (High Priority - ~146 functions → 117 remaining)
+### Phase 1: Foundation (High Priority - ~146 functions → 108 remaining)
 Focus on functions needed for basic usage patterns:
-- **Completed**: 29 functions (18 predicates + 11 model functions)
-- **Remaining**: 117 functions
+- **Completed**: 38 functions (18 predicates + 11 model functions + 9 function interpretations)
+- **Remaining**: 108 functions
 
 1. **Creation functions (mk_*)**: ~50 most common
    - Missing bitvector operations
@@ -608,14 +613,14 @@ All new functions use `LoadFunctionOrNull()`:
 ### Phase 1 Implementation (High Priority)
 - [ ] Add 50 creation functions (mk_*)
 - [ ] Add 40 query functions (get_*)
-- [ ] Add 11 model functions
-- [ ] Add 9 function interpretation functions
-- [ ] Add 4 conversion functions
-- [ ] Add 17 predicate functions
-- [ ] All delegates defined
-- [ ] All wrappers implemented
-- [ ] All XML docs written
-- [ ] Run `make ci`
+- [x] Add 11 model functions ✅ DONE (October 2, 2025)
+- [x] Add 9 function interpretation functions ✅ DONE (October 2, 2025)
+- [ ] Add 4 conversion functions (SKIPPED - no-ops in C#)
+- [x] Add 18 predicate functions ✅ DONE (October 2, 2025)
+- [x] All delegates defined for completed functions
+- [x] All wrappers implemented for completed functions
+- [x] All XML docs written for completed functions
+- [x] Run `make ci` - PASSING with 97.9% coverage
 
 ### Phase 2 Implementation (Advanced Solving)
 - [ ] Add 42 solver functions
@@ -671,10 +676,35 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Phase 1 In Progress - 29/146 functions complete (October 2, 2025)
-**Next Step**: Continue with Function Interpretations (9 functions) or Query functions (~40 functions)
+## AI Agent Execution Requirements
+
+**CRITICAL**: When implementing phases using the Task tool:
+
+1. **Use Task Tool**: All implementation work MUST be done via the Task tool with the `general-purpose` agent
+2. **Update Plan**: After EACH phase completion, the agent MUST update this plan file (PLAN_NATIVE_ALL.md):
+   - Mark completed items with ✅ in the Implementation Checklist
+   - Add detailed entry to Progress Log with date, function counts, file changes
+   - Update Current Status section with new totals
+   - Update "Status" line at bottom with new progress percentage
+3. **Phase Verification**: After each phase, agent must run `make ci` and verify all tests pass
+4. **Incremental Commits**: Ask user permission to commit after each completed phase
+5. **No Assumptions**: Agent must examine actual Z3 C API documentation to get correct function signatures
+
+---
+
+**Status**: Phase 1 In Progress - 38/146 functions complete (October 2, 2025)
+**Next Step**: Continue with Creation functions (~50 mk_* functions) or Query functions (~40 get_* functions)
 
 ## Progress Log
+
+### October 2, 2025 - Function Interpretations Complete
+- ✅ Created NativeLibrary.FunctionInterpretations.cs with 9 function interpretation functions
+- ✅ Complete function interpretation API: query entries, arity, get/set else value, add entries
+- ✅ Functions: FuncInterpGetNumEntries, FuncInterpGetEntry, FuncInterpGetElse, FuncInterpSetElse, FuncInterpGetArity, FuncInterpAddEntry, FuncEntryGetValue, FuncEntryGetNumArgs, FuncEntryGetArg
+- ✅ All 903 tests passing, coverage 97.9%, CI passing
+- ✅ Now at 158/552 functions (29% complete)
+- 📊 Progress: 394 functions remaining
+- 🎯 Phase 1: 38/146 functions complete (26%)
 
 ### October 2, 2025 - Model Functions Complete
 - ✅ Added 11 model introspection functions to NativeLibrary.Model.cs (now 19 total)
