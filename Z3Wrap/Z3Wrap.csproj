@@ -254,6 +254,48 @@
     <Compile Update="Core\Interop\NativeLibrary.Utilities.cs">
       <DependentUpon>NativeLibrary.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Z3Library.Arithmetic.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Arrays.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.BitVectors.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Comparisons.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Context.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Conversions.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Expressions.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Functions.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Logic.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Model.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Parameters.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Quantifiers.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Solver.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Z3Library.Sorts.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
