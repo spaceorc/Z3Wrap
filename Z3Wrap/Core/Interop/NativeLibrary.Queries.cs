@@ -1,3 +1,22 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 AST Introspection API - P/Invoke bindings for Z3 query operations
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's core AST introspection API (35 functions):
+// - Application queries (argument access, declaration retrieval, arity)
+// - AST node queries (kind, ID, hash code)
+// - Declaration queries (name, kind, parameters, domain/range)
+// - Sort queries (name)
+// - Symbol queries (kind, integer/string values)
+// - Quantifier queries (bound variables, body, patterns)
+// - Pattern queries (term access)
+// - Rational number queries (numerator/denominator)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
