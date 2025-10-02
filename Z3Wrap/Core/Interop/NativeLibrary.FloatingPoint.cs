@@ -1,3 +1,25 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Floating-Point API - P/Invoke bindings for IEEE 754 floating-point arithmetic
+//
+// Source: z3_fpa.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_fpa.h
+//
+// This file provides bindings for Z3's floating-point theory API (80/80 functions - 100% complete):
+// - Sort creation (10 functions): FP sorts, rounding mode sort, standard IEEE formats
+// - Rounding mode constants (10 functions): RNE, RNA, RTP, RTN, RTZ with aliases
+// - Numeral creation (9 functions): Create FP values from float, double, int, components, bitvectors
+// - Arithmetic operations (12 functions): Add, sub, mul, div, fma, sqrt, rem, min, max, abs, neg
+// - Comparison operations (5 functions): Equality and relational comparisons
+// - Predicates (7 functions): Test for normal, subnormal, zero, infinite, NaN, sign
+// - Conversions (10 functions): Between FP, bitvectors, integers, reals, and rationals
+// - Query functions (17 functions): Extract components as integers, strings, and bitvectors
+//
+// Complete coverage of Z3's IEEE 754 floating-point reasoning API.
+// See COMPARISON_FloatingPoint.md for detailed function mapping documentation.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
@@ -35,10 +57,11 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_double");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int_uint");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int64_uint");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int64_uint64");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_nan");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_inf");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_zero");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_fp");
 
         // Arithmetic operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_abs");
@@ -76,6 +99,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_real");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_signed");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_unsigned");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_int_real");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_ubv");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_sbv");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_real");
@@ -92,8 +116,10 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_positive");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_negative");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_sign");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_sign_bv");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_significand_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_significand_uint64");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_significand_bv");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_exponent_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_exponent_int64");
         LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_exponent_bv");
@@ -130,10 +156,11 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkFpaNumeralDoubleDelegate(IntPtr ctx, double v, IntPtr ty);
     private delegate IntPtr MkFpaNumeralIntDelegate(IntPtr ctx, int v, IntPtr ty);
     private delegate IntPtr MkFpaNumeralIntUintDelegate(IntPtr ctx, bool sgn, int exp, uint sig, IntPtr ty);
-    private delegate IntPtr MkFpaNumeralInt64UintDelegate(IntPtr ctx, bool sgn, long exp, ulong sig, IntPtr ty);
+    private delegate IntPtr MkFpaNumeralInt64UInt64Delegate(IntPtr ctx, bool sgn, long exp, ulong sig, IntPtr ty);
     private delegate IntPtr MkFpaNanDelegate(IntPtr ctx, IntPtr ty);
     private delegate IntPtr MkFpaInfDelegate(IntPtr ctx, IntPtr ty, bool negative);
     private delegate IntPtr MkFpaZeroDelegate(IntPtr ctx, IntPtr ty, bool negative);
+    private delegate IntPtr MkFpaFpDelegate(IntPtr ctx, IntPtr sgn, IntPtr exp, IntPtr sig);
 
     // Arithmetic operation delegates
     private delegate IntPtr MkFpaAbsDelegate(IntPtr ctx, IntPtr t);
@@ -171,6 +198,7 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkFpaToFpRealDelegate(IntPtr ctx, IntPtr rm, IntPtr t, IntPtr s);
     private delegate IntPtr MkFpaToFpSignedDelegate(IntPtr ctx, IntPtr rm, IntPtr t, IntPtr s);
     private delegate IntPtr MkFpaToFpUnsignedDelegate(IntPtr ctx, IntPtr rm, IntPtr t, IntPtr s);
+    private delegate IntPtr MkFpaToFpIntRealDelegate(IntPtr ctx, IntPtr rm, IntPtr t, IntPtr s);
     private delegate IntPtr MkFpaToUbvDelegate(IntPtr ctx, IntPtr rm, IntPtr t, uint sz);
     private delegate IntPtr MkFpaToSbvDelegate(IntPtr ctx, IntPtr rm, IntPtr t, uint sz);
     private delegate IntPtr MkFpaToRealDelegate(IntPtr ctx, IntPtr t);
@@ -187,8 +215,10 @@ internal sealed partial class NativeLibrary
     private delegate bool FpaIsNumeralPositiveDelegate(IntPtr ctx, IntPtr t);
     private delegate bool FpaIsNumeralNegativeDelegate(IntPtr ctx, IntPtr t);
     private delegate bool FpaGetNumeralSignDelegate(IntPtr ctx, IntPtr t, out int sgn);
+    private delegate IntPtr FpaGetNumeralSignBvDelegate(IntPtr ctx, IntPtr t);
     private delegate bool FpaGetNumeralSignificandStringDelegate(IntPtr ctx, IntPtr t, out IntPtr result);
-    private delegate bool FpaGetNumeralSignificandUint64Delegate(IntPtr ctx, IntPtr t, out ulong result);
+    private delegate bool FpaGetNumeralSignificandUInt64Delegate(IntPtr ctx, IntPtr t, out ulong result);
+    private delegate IntPtr FpaGetNumeralSignificandBvDelegate(IntPtr ctx, IntPtr t);
     private delegate bool FpaGetNumeralExponentStringDelegate(IntPtr ctx, IntPtr t, bool biased, out IntPtr result);
     private delegate bool FpaGetNumeralExponentInt64Delegate(IntPtr ctx, IntPtr t, out long result);
     private delegate bool FpaGetNumeralExponentBvDelegate(IntPtr ctx, IntPtr t, bool biased, out IntPtr result);
@@ -510,10 +540,10 @@ internal sealed partial class NativeLibrary
     /// <param name="sig">64-bit significand value.</param>
     /// <param name="ty">Floating-point sort.</param>
     /// <returns>FP numeral expression.</returns>
-    internal IntPtr MkFpaNumeralInt64Uint(IntPtr ctx, bool sgn, long exp, ulong sig, IntPtr ty)
+    internal IntPtr MkFpaNumeralInt64UInt64(IntPtr ctx, bool sgn, long exp, ulong sig, IntPtr ty)
     {
-        var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_int64_uint");
-        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralInt64UintDelegate>(funcPtr);
+        var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_int64_uint64");
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralInt64UInt64Delegate>(funcPtr);
         return func(ctx, sgn, exp, sig, ty);
     }
 
@@ -556,6 +586,21 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_zero");
         var func = Marshal.GetDelegateForFunctionPointer<MkFpaZeroDelegate>(funcPtr);
         return func(ctx, ty, negative);
+    }
+
+    /// <summary>
+    /// Creates floating-point value from sign, exponent, and significand bitvectors.
+    /// </summary>
+    /// <param name="ctx">The context.</param>
+    /// <param name="sgn">Sign bitvector (1-bit).</param>
+    /// <param name="exp">Exponent bitvector.</param>
+    /// <param name="sig">Significand bitvector.</param>
+    /// <returns>FP expression.</returns>
+    internal IntPtr MkFpaFp(IntPtr ctx, IntPtr sgn, IntPtr exp, IntPtr sig)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_fpa_fp");
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaFpDelegate>(funcPtr);
+        return func(ctx, sgn, exp, sig);
     }
 
     // Arithmetic operation methods
@@ -974,6 +1019,21 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Creates floating-point from integer and real (rational) expressions with rounding.
+    /// </summary>
+    /// <param name="ctx">The context.</param>
+    /// <param name="rm">Rounding mode.</param>
+    /// <param name="t">Integer or real expression.</param>
+    /// <param name="s">Target FP sort.</param>
+    /// <returns>FP expression.</returns>
+    internal IntPtr MkFpaToFpIntReal(IntPtr ctx, IntPtr rm, IntPtr t, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_int_real");
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpIntRealDelegate>(funcPtr);
+        return func(ctx, rm, t, s);
+    }
+
+    /// <summary>
     /// Creates unsigned bitvector from floating-point with rounding.
     /// </summary>
     /// <param name="ctx">The context.</param>
@@ -1163,6 +1223,19 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Gets sign bit as bitvector expression from FP numeral.
+    /// </summary>
+    /// <param name="ctx">The context.</param>
+    /// <param name="t">FP numeral.</param>
+    /// <returns>Sign bitvector (1-bit).</returns>
+    internal IntPtr FpaGetNumeralSignBv(IntPtr ctx, IntPtr t)
+    {
+        var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_sign_bv");
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignBvDelegate>(funcPtr);
+        return func(ctx, t);
+    }
+
+    /// <summary>
     /// Gets significand as string from FP numeral.
     /// </summary>
     /// <param name="ctx">The context.</param>
@@ -1183,11 +1256,24 @@ internal sealed partial class NativeLibrary
     /// <param name="t">FP numeral.</param>
     /// <param name="result">Output significand value.</param>
     /// <returns>True if successful.</returns>
-    internal bool FpaGetNumeralSignificandUint64(IntPtr ctx, IntPtr t, out ulong result)
+    internal bool FpaGetNumeralSignificandUInt64(IntPtr ctx, IntPtr t, out ulong result)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_significand_uint64");
-        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandUint64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandUInt64Delegate>(funcPtr);
         return func(ctx, t, out result);
+    }
+
+    /// <summary>
+    /// Gets significand as bitvector expression from FP numeral.
+    /// </summary>
+    /// <param name="ctx">The context.</param>
+    /// <param name="t">FP numeral.</param>
+    /// <returns>Significand bitvector expression.</returns>
+    internal IntPtr FpaGetNumeralSignificandBv(IntPtr ctx, IntPtr t)
+    {
+        var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_significand_bv");
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandBvDelegate>(funcPtr);
+        return func(ctx, t);
     }
 
     /// <summary>
