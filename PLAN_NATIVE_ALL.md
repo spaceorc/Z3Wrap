@@ -6,11 +6,11 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 360 functions (organized into 22 partial class files)
+- **Currently implemented**: 436 functions (organized into 23 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 192 functions (35% gap)
-- **Progress**: 65% complete
+- **Missing**: 116 functions (21% gap)
+- **Progress**: 79% complete
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
@@ -32,10 +32,20 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 - CI pipeline: passing
 - **Phase 1 COMPLETE**: 146/146 functions (100%)
 
+✅ **Phase 3 Part 1: Floating-Point Theory COMPLETE** (October 2, 2025)
+- Created NativeLibrary.FloatingPoint.cs with complete IEEE 754 floating-point API
+- Added 76 floating-point functions covering all FP operations
+- Current structure (23 partial class files, 436 functions):
+  - NativeLibrary.FloatingPoint.cs (76 functions) ⭐ NEW - complete IEEE 754 floating-point theory
+- All 903 tests passing
+- Coverage: **97.9%** (NativeLibrary excluded from coverage - it's mechanical P/Invoke)
+- CI pipeline: passing
+- **Phase 3 Part 1 COMPLETE**: 76/76 functions (100%)
+
 ✅ **Phase 2 Advanced Solving COMPLETE** (October 2, 2025)
 - Created 5 new partial class files + extended NativeLibrary.Parameters.cs
 - Added 90 advanced solving functions
-- Current structure (22 partial class files, 360 functions):
+- Previous structure (22 partial class files, 360 functions):
   - NativeLibrary.Context.cs (8 functions)
   - NativeLibrary.Solver.cs (12 functions)
   - NativeLibrary.Model.cs (19 functions)
@@ -354,15 +364,16 @@ Z3_toggle_warning_messages       - Warning control
 - `Z3_substitute*` - AST substitution
 - `Z3_update_term` - Term updates
 
-**String Theory (30+ functions)**:
+**~~String Theory (45 functions)~~** - ✅ COMPLETE (October 2, 2025):
 - `Z3_mk_string` - String literals
 - `Z3_mk_string_*` - String operations (concat, length, substring, etc.)
 - `Z3_mk_seq_*` - Sequence operations
 - `Z3_mk_re_*` - Regular expression operations
 
-**Floating Point (40+ functions)**:
-- `Z3_mk_fpa_*` - Floating-point operations
-- `Z3_fpa_*` - FP-specific functions
+**~~Floating Point (76 functions)~~** - ✅ COMPLETE (October 2, 2025):
+- `Z3_mk_fpa_*` - Floating-point operations (sorts, numerals, arithmetic, comparisons, predicates, conversions)
+- `Z3_fpa_*` - FP-specific query functions (ebits, sbits, numeral extraction)
+- Complete IEEE 754 floating-point theory coverage
 
 **Special Theory (20+ functions)**:
 - `Z3_mk_set_*` - Finite set theory
@@ -416,21 +427,27 @@ Focus on functions needed for basic usage patterns:
    - Parameter management
    - Descriptors
 
-### Phase 3: Specialized Theories (Medium Priority - 100 functions)
+### Phase 3: Specialized Theories (Medium Priority - 121 functions)
 
-1. **String theory**: ~30 functions
+1. **~~String theory~~**: ~~45 functions~~ **✅ DONE** (October 2, 2025) - included in Phase 1
    - String literals and operations
    - Sequence operations
    - Regular expressions
 
-2. **Floating-point**: ~40 functions
-   - FP sorts and operations
-   - Rounding modes
+2. **~~Floating-point~~**: ~~76 functions~~ **✅ DONE** (October 2, 2025) - Phase 3 Part 1 COMPLETE
+   - FP sorts and operations (10 sort functions)
+   - Rounding modes (10 constant functions)
+   - Numeral creation (8 functions)
+   - Arithmetic operations (12 functions)
+   - Comparison operations (5 functions)
+   - Predicates (7 functions)
+   - Conversions (9 functions)
+   - Query functions (15 functions)
 
-3. **Special theories**: ~30 functions
-   - Sets
-   - Relations
-   - Pseudo-boolean
+3. **Special theories**: ~40 remaining functions
+   - Datatypes (constructors, recognizers, accessors)
+   - Relations (transitive closure)
+   - Optimization (maximize, minimize)
 
 ### Phase 4: Utilities (Low Priority - 86 functions)
 
@@ -687,14 +704,23 @@ All new functions use `LoadFunctionOrNull()`:
 - [x] Run `make ci` ✅ PASSING - 903 tests, 97.9% coverage (October 2, 2025)
 - **Phase 2 Status**: 90/90 functions complete (100%)
 
-### Phase 3 Implementation (Theories)
+### Phase 3 Implementation (Theories) - ✅ Part 1 COMPLETE
 - [x] Add 45 string theory functions ✅ DONE (October 2, 2025) - included in Phase 1
-- [ ] Add 40 floating-point functions
-- [ ] Add remaining special theory functions
-- [ ] All delegates defined
-- [ ] All wrappers implemented
-- [ ] All XML docs written
-- [ ] Run `make ci`
+- [x] Add 76 floating-point functions ✅ DONE (October 2, 2025) - Phase 3 Part 1 COMPLETE
+  - [x] Sort creation (10 functions)
+  - [x] Rounding mode constants (10 functions)
+  - [x] Numeral creation (8 functions)
+  - [x] Arithmetic operations (12 functions)
+  - [x] Comparison operations (5 functions)
+  - [x] Predicates (7 functions)
+  - [x] Conversions (9 functions)
+  - [x] Query functions (15 functions)
+- [x] All delegates defined ✅ DONE (October 2, 2025)
+- [x] All wrappers implemented ✅ DONE (October 2, 2025)
+- [x] All XML docs written ✅ DONE (October 2, 2025)
+- [x] Run `make ci` ✅ PASSING - 903 tests, 97.9% coverage (October 2, 2025)
+- [ ] Add remaining special theory functions (~40 functions: datatypes, relations, optimization)
+- **Phase 3 Part 1 Status**: 76/76 floating-point functions complete (100%)
 
 ### Phase 4 Implementation (Utilities)
 - [ ] Add 21 reference counting functions
@@ -745,10 +771,30 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Phase 2 COMPLETE - 360/552 functions complete (65% - October 2, 2025)
-**Next Step**: Phase 3 - Specialized Theories (floating-point, datatypes, optimization)
+**Status**: Phase 3 Part 1 COMPLETE - 436/552 functions complete (79% - October 2, 2025)
+**Next Step**: Phase 3 Part 2 - Remaining Special Theories (datatypes, relations, optimization)
 
 ## Progress Log
+
+### October 2, 2025 - Phase 3 Part 1: Floating-Point Theory Complete - PHASE 3 PART 1 COMPLETE! 🎉
+- ✅ Created NativeLibrary.FloatingPoint.cs with complete IEEE 754 floating-point API
+- ✅ Added 76 floating-point functions covering all FP operations and queries
+- ✅ **New file**:
+  - NativeLibrary.FloatingPoint.cs (76 functions): Complete IEEE 754 floating-point theory
+    - 10 sort creation functions (custom, half, single, double, quadruple precision)
+    - 10 rounding mode constant functions (RNE, RNA, RTP, RTN, RTZ and aliases)
+    - 8 numeral creation functions (from float, double, int, components, NaN, infinity, zero)
+    - 12 arithmetic operation functions (abs, neg, add, sub, mul, div, fma, sqrt, rem, round, min, max)
+    - 5 comparison operation functions (leq, lt, geq, gt, eq)
+    - 7 predicate functions (is_normal, is_subnormal, is_zero, is_infinite, is_nan, is_negative, is_positive)
+    - 9 conversion functions (to/from FP, bitvector, real, signed/unsigned)
+    - 15 query functions (get ebits/sbits, numeral checks, sign/significand/exponent extraction)
+- ✅ All 903 tests passing, coverage 97.9%, CI passing
+- ✅ Now at 436/552 functions (79% complete)
+- 📊 Progress: 116 functions remaining (21% gap)
+- 🎯 **Phase 3 Part 1: 76/76 functions complete (100%)**
+- 📦 Current structure: 23 partial class files, 436 total functions
+- 🚀 Ready for Phase 3 Part 2: Remaining Special Theories (datatypes, relations, optimization)
 
 ### October 2, 2025 - Phase 2 Advanced Solving Complete - PHASE 2 COMPLETE! 🎉
 - ✅ Created 5 new partial class files for advanced solving features
