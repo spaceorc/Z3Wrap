@@ -1,3 +1,28 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 String Theory API - P/Invoke bindings for Z3 strings, sequences, and regular expressions
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's string theory API (56 functions in this file):
+// - String and character sorts (4 functions)
+// - Sort basis accessors (2 functions) - predicates in NativeLibrary.Predicates.cs
+// - String literals and character values (4 functions)
+// - String value accessors (3 functions) - IsString in NativeLibrary.Predicates.cs
+// - Character operations: conversions, comparisons, predicates (5 functions)
+// - Sequence operations: concatenation, extraction, indexing, length (13 functions)
+// - Sequence higher-order operations: map, fold (4 functions)
+// - String-specific operations: lexicographic comparisons (2 functions)
+// - String conversions: int, code, bitvector (6 functions)
+// - Regular expressions: patterns, matching, combinators, loops (16 functions)
+//
+// Total String Theory Coverage: 60/60 Z3 C API functions (100%)
+// Note: 4 sort predicates + IsString are in NativeLibrary.Predicates.cs
+// See COMPARISON_StringTheory.md for detailed API mapping and function categorization
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
@@ -12,11 +37,20 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_sort");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_sort");
 
+        // Sort accessors
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_seq_sort_basis");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_re_sort_basis");
+
         // String/char literals
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lstring");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_u32string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char");
+
+        // String value accessors
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_string");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_string_length");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_string_contents");
 
         // Character operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_from_bv");
@@ -40,11 +74,21 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_index");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_last_index");
 
+        // Sequence higher-order operations
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_map");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_mapi");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_foldl");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_foldli");
+
         // String operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_str_lt");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_str_le");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_str_to_int");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int_to_str");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string_to_code");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string_from_code");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ubv_to_str");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sbv_to_str");
 
         // Regular expression operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_to_re");
@@ -55,8 +99,12 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_union");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_concat");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_range");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_allchar");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_loop");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_power");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_intersect");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_complement");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_diff");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_empty");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_full");
     }
@@ -67,11 +115,21 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkReSortDelegate(IntPtr ctx, IntPtr seq);
     private delegate IntPtr MkCharSortDelegate(IntPtr ctx);
 
+    // Sort accessor delegates
+    private delegate IntPtr GetSeqSortBasisDelegate(IntPtr ctx, IntPtr s);
+    private delegate IntPtr GetReSortBasisDelegate(IntPtr ctx, IntPtr s);
+
     // String/char literal delegates
     private delegate IntPtr MkStringDelegate(IntPtr ctx, [MarshalAs(UnmanagedType.LPStr)] string s);
     private delegate IntPtr MkLStringDelegate(IntPtr ctx, uint len, [MarshalAs(UnmanagedType.LPStr)] string s);
     private delegate IntPtr MkU32StringDelegate(IntPtr ctx, uint len, uint[] chars);
     private delegate IntPtr MkCharDelegate(IntPtr ctx, uint ch);
+
+    // String value accessor delegates
+    [return: MarshalAs(UnmanagedType.LPStr)]
+    private delegate string GetStringDelegate(IntPtr ctx, IntPtr s);
+    private delegate uint GetStringLengthDelegate(IntPtr ctx, IntPtr s);
+    private delegate void GetStringContentsDelegate(IntPtr ctx, IntPtr s, uint length, uint[] contents);
 
     // Character operation delegates
     private delegate IntPtr MkCharFromBvDelegate(IntPtr ctx, IntPtr bv);
@@ -95,11 +153,21 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkSeqIndexDelegate(IntPtr ctx, IntPtr s, IntPtr substr, IntPtr offset);
     private delegate IntPtr MkSeqLastIndexDelegate(IntPtr ctx, IntPtr s, IntPtr substr);
 
+    // Sequence higher-order operation delegates
+    private delegate IntPtr MkSeqMapDelegate(IntPtr ctx, IntPtr f, IntPtr s);
+    private delegate IntPtr MkSeqMapiDelegate(IntPtr ctx, IntPtr f, IntPtr i, IntPtr s);
+    private delegate IntPtr MkSeqFoldlDelegate(IntPtr ctx, IntPtr f, IntPtr a, IntPtr s);
+    private delegate IntPtr MkSeqFoldliDelegate(IntPtr ctx, IntPtr f, IntPtr i, IntPtr a, IntPtr s);
+
     // String operation delegates
     private delegate IntPtr MkStrLtDelegate(IntPtr ctx, IntPtr prefix, IntPtr s);
     private delegate IntPtr MkStrLeDelegate(IntPtr ctx, IntPtr prefix, IntPtr s);
     private delegate IntPtr MkStrToIntDelegate(IntPtr ctx, IntPtr s);
     private delegate IntPtr MkIntToStrDelegate(IntPtr ctx, IntPtr s);
+    private delegate IntPtr MkStringToCodeDelegate(IntPtr ctx, IntPtr a);
+    private delegate IntPtr MkStringFromCodeDelegate(IntPtr ctx, IntPtr a);
+    private delegate IntPtr MkUbvToStrDelegate(IntPtr ctx, IntPtr s);
+    private delegate IntPtr MkSbvToStrDelegate(IntPtr ctx, IntPtr s);
 
     // Regular expression delegates
     private delegate IntPtr MkSeqToReDelegate(IntPtr ctx, IntPtr seq);
@@ -110,8 +178,12 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkReUnionDelegate(IntPtr ctx, uint n, IntPtr[] args);
     private delegate IntPtr MkReConcatDelegate(IntPtr ctx, uint n, IntPtr[] args);
     private delegate IntPtr MkReRangeDelegate(IntPtr ctx, IntPtr lo, IntPtr hi);
+    private delegate IntPtr MkReAllcharDelegate(IntPtr ctx, IntPtr regexSort);
+    private delegate IntPtr MkReLoopDelegate(IntPtr ctx, IntPtr r, uint lo, uint hi);
+    private delegate IntPtr MkRePowerDelegate(IntPtr ctx, IntPtr re, uint n);
     private delegate IntPtr MkReIntersectDelegate(IntPtr ctx, uint n, IntPtr[] args);
     private delegate IntPtr MkReComplementDelegate(IntPtr ctx, IntPtr re);
+    private delegate IntPtr MkReDiffDelegate(IntPtr ctx, IntPtr re1, IntPtr re2);
     private delegate IntPtr MkReEmptyDelegate(IntPtr ctx, IntPtr re);
     private delegate IntPtr MkReFullDelegate(IntPtr ctx, IntPtr re);
 
@@ -168,6 +240,35 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_char_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkCharSortDelegate>(funcPtr);
         return func(ctx);
+    }
+
+    // Sort accessor methods
+    /// <summary>
+    /// Retrieves basis sort for sequence sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">Sequence sort handle.</param>
+    /// <returns>Element sort of sequence.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetSeqSortBasis(IntPtr ctx, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_seq_sort_basis");
+        var func = Marshal.GetDelegateForFunctionPointer<GetSeqSortBasisDelegate>(funcPtr);
+        return func(ctx, s);
+    }
+
+    /// <summary>
+    /// Retrieves basis sort for regular expression sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">Regular expression sort handle.</param>
+    /// <returns>Sequence sort for regular expression.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetReSortBasis(IntPtr ctx, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_re_sort_basis");
+        var func = Marshal.GetDelegateForFunctionPointer<GetReSortBasisDelegate>(funcPtr);
+        return func(ctx, s);
     }
 
     // String/char literal methods
@@ -230,6 +331,50 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_char");
         var func = Marshal.GetDelegateForFunctionPointer<MkCharDelegate>(funcPtr);
         return func(ctx, ch);
+    }
+
+    // String value accessor methods
+    /// <summary>
+    /// Retrieves string value from string constant.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">String constant AST node.</param>
+    /// <returns>String value with escape encoding for non-ASCII characters.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal string GetString(IntPtr ctx, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_string");
+        var func = Marshal.GetDelegateForFunctionPointer<GetStringDelegate>(funcPtr);
+        return func(ctx, s);
+    }
+
+    /// <summary>
+    /// Retrieves unescaped length of string constant.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">String constant AST node.</param>
+    /// <returns>Number of characters in unescaped string.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetStringLength(IntPtr ctx, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_string_length");
+        var func = Marshal.GetDelegateForFunctionPointer<GetStringLengthDelegate>(funcPtr);
+        return func(ctx, s);
+    }
+
+    /// <summary>
+    /// Retrieves unescaped string contents as UTF-32 code points.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">String constant AST node.</param>
+    /// <param name="length">Number of characters in string.</param>
+    /// <param name="contents">Array to receive UTF-32 code points.</param>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void GetStringContents(IntPtr ctx, IntPtr s, uint length, uint[] contents)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_string_contents");
+        var func = Marshal.GetDelegateForFunctionPointer<GetStringContentsDelegate>(funcPtr);
+        func(ctx, s, length, contents);
     }
 
     // Character operation methods
@@ -500,6 +645,71 @@ internal sealed partial class NativeLibrary
         return func(ctx, s, substr);
     }
 
+    // Sequence higher-order operation methods
+    /// <summary>
+    /// Creates sequence map operation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="f">Function to map over sequence.</param>
+    /// <param name="s">Sequence expression.</param>
+    /// <returns>AST node representing sequence with function applied to each element.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSeqMap(IntPtr ctx, IntPtr f, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_seq_map");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqMapDelegate>(funcPtr);
+        return func(ctx, f, s);
+    }
+
+    /// <summary>
+    /// Creates sequence map with index operation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="f">Function to map over sequence.</param>
+    /// <param name="i">Starting index expression.</param>
+    /// <param name="s">Sequence expression.</param>
+    /// <returns>AST node representing sequence with indexed function applied to each element.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSeqMapi(IntPtr ctx, IntPtr f, IntPtr i, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_seq_mapi");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqMapiDelegate>(funcPtr);
+        return func(ctx, f, i, s);
+    }
+
+    /// <summary>
+    /// Creates sequence left fold operation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="f">Fold function.</param>
+    /// <param name="a">Initial accumulator value.</param>
+    /// <param name="s">Sequence expression.</param>
+    /// <returns>AST node representing folded result.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSeqFoldl(IntPtr ctx, IntPtr f, IntPtr a, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_seq_foldl");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqFoldlDelegate>(funcPtr);
+        return func(ctx, f, a, s);
+    }
+
+    /// <summary>
+    /// Creates sequence left fold with index operation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="f">Fold function.</param>
+    /// <param name="i">Starting index expression.</param>
+    /// <param name="a">Initial accumulator value.</param>
+    /// <param name="s">Sequence expression.</param>
+    /// <returns>AST node representing folded result with index tracking.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSeqFoldli(IntPtr ctx, IntPtr f, IntPtr i, IntPtr a, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_seq_foldli");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqFoldliDelegate>(funcPtr);
+        return func(ctx, f, i, a, s);
+    }
+
     // String operation methods
     /// <summary>
     /// Creates string less-than comparison.
@@ -556,6 +766,62 @@ internal sealed partial class NativeLibrary
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_to_str");
         var func = Marshal.GetDelegateForFunctionPointer<MkIntToStrDelegate>(funcPtr);
+        return func(ctx, s);
+    }
+
+    /// <summary>
+    /// Converts string to code point.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="a">String expression.</param>
+    /// <returns>AST node representing code point of first character or -1 if empty.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkStringToCode(IntPtr ctx, IntPtr a)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_string_to_code");
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringToCodeDelegate>(funcPtr);
+        return func(ctx, a);
+    }
+
+    /// <summary>
+    /// Converts code point to string.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="a">Code point expression.</param>
+    /// <returns>AST node representing single-character string from code point.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkStringFromCode(IntPtr ctx, IntPtr a)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_string_from_code");
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringFromCodeDelegate>(funcPtr);
+        return func(ctx, a);
+    }
+
+    /// <summary>
+    /// Converts unsigned bitvector to string.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">Bitvector expression.</param>
+    /// <returns>AST node representing string representation of unsigned bitvector value.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkUbvToStr(IntPtr ctx, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_ubv_to_str");
+        var func = Marshal.GetDelegateForFunctionPointer<MkUbvToStrDelegate>(funcPtr);
+        return func(ctx, s);
+    }
+
+    /// <summary>
+    /// Converts signed bitvector to string.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">Bitvector expression.</param>
+    /// <returns>AST node representing string representation of signed bitvector value.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSbvToStr(IntPtr ctx, IntPtr s)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_sbv_to_str");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSbvToStrDelegate>(funcPtr);
         return func(ctx, s);
     }
 
@@ -677,6 +943,51 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Creates regex matching all characters.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="regexSort">Regular expression sort.</param>
+    /// <returns>AST node representing regex matching any single character.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkReAllchar(IntPtr ctx, IntPtr regexSort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_re_allchar");
+        var func = Marshal.GetDelegateForFunctionPointer<MkReAllcharDelegate>(funcPtr);
+        return func(ctx, regexSort);
+    }
+
+    /// <summary>
+    /// Creates regex loop with bounded repetition.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="r">Regular expression to repeat.</param>
+    /// <param name="lo">Minimum number of repetitions.</param>
+    /// <param name="hi">Maximum number of repetitions (0 for unbounded).</param>
+    /// <returns>AST node representing regex repeated between lo and hi times.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkReLoop(IntPtr ctx, IntPtr r, uint lo, uint hi)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_re_loop");
+        var func = Marshal.GetDelegateForFunctionPointer<MkReLoopDelegate>(funcPtr);
+        return func(ctx, r, lo, hi);
+    }
+
+    /// <summary>
+    /// Creates regex power (exact repetition).
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="re">Regular expression to repeat.</param>
+    /// <param name="n">Number of repetitions.</param>
+    /// <returns>AST node representing regex repeated exactly n times.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkRePower(IntPtr ctx, IntPtr re, uint n)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_re_power");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRePowerDelegate>(funcPtr);
+        return func(ctx, re, n);
+    }
+
+    /// <summary>
     /// Creates regex intersection.
     /// </summary>
     /// <param name="ctx">The Z3 context handle.</param>
@@ -703,6 +1014,21 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_re_complement");
         var func = Marshal.GetDelegateForFunctionPointer<MkReComplementDelegate>(funcPtr);
         return func(ctx, re);
+    }
+
+    /// <summary>
+    /// Creates regex difference.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="re1">First regular expression.</param>
+    /// <param name="re2">Second regular expression.</param>
+    /// <returns>AST node representing regex matching sequences in re1 but not in re2.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkReDiff(IntPtr ctx, IntPtr re1, IntPtr re2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_re_diff");
+        var func = Marshal.GetDelegateForFunctionPointer<MkReDiffDelegate>(funcPtr);
+        return func(ctx, re1, re2);
     }
 
     /// <summary>
