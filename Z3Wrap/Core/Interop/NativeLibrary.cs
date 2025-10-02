@@ -103,7 +103,6 @@ internal sealed partial class NativeLibrary : IDisposable
             LoadFunctionsPredicates(handle, functionPointers);
             LoadFunctionsFunctionInterpretations(handle, functionPointers);
             LoadFunctionsQueries(handle, functionPointers);
-            LoadFunctionsCoreCreation(handle, functionPointers);
             LoadFunctionsSets(handle, functionPointers);
             LoadFunctionsConstraints(handle, functionPointers);
             LoadFunctionsStringTheory(handle, functionPointers);

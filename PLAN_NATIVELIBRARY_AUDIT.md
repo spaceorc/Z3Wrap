@@ -11,15 +11,16 @@ Systematically audit all 35 NativeLibrary partial class files to:
 
 ## Current Status
 
-**Files Audited**: 6/35 (17.1%)
+**Files Audited**: 7/35 (20.0%)
 - ✅ NativeLibrary.Optimization.cs - 28/28 functions (100% complete)
 - ✅ NativeLibrary.Goals.cs - 17/17 functions (100% complete)
 - ✅ NativeLibrary.FloatingPoint.cs - 80/80 functions (100% complete)
 - ✅ NativeLibrary.BitVectors.cs - 54/54 functions (100% complete)
 - ✅ NativeLibrary.StringTheory.cs - 60/60 functions (100% complete)
 - ✅ NativeLibrary.Queries.cs - 35/35 functions (100% complete)
+- ✅ NativeLibrary.Expressions.cs - 30/30 functions (100% complete, absorbed CoreCreation)
 
-**Files Remaining**: 29/35 (82.9%)
+**Files Remaining**: 28/34 (82.4%) - CoreCreation eliminated
 
 ## File Audit Order
 
@@ -34,7 +35,7 @@ Files ordered by function count (largest first) to maximize impact:
 | 3 | StringTheory | 60 | z3_api.h | ✅ **DONE** | String theory operations (100%, [report](COMPARISON_StringTheory.md)) |
 | 4 | Queries | 35 | z3_api.h | ✅ **DONE** | AST introspection queries (100%, [report](COMPARISON_Queries.md)) |
 | 5 | Optimization | 28 | z3_optimization.h | ✅ **DONE** | Optimization solver (100%) |
-| 6 | Expressions | 24 | z3_api.h | ⏳ Pending | Expression creation |
+| 6 | Expressions | 30 | z3_api.h | ✅ **DONE** | Expression creation (100%, [report](COMPARISON_Expressions.md), absorbed CoreCreation) |
 | 7 | Tactics | 21 | z3_api.h | ⏳ Pending | Tactic-based solving |
 | 8 | AstCollections | 21 | z3_ast_containers.h | ⏳ Pending | AST vectors and lists |
 | 9 | Parameters | 19 | z3_api.h | ⏳ Pending | Parameter management |
@@ -65,7 +66,7 @@ Files ordered by function count (largest first) to maximize impact:
 
 | # | File | Functions | Z3 Header | Status | Notes |
 |---|------|-----------|-----------|--------|-------|
-| 27 | CoreCreation | 5 | z3_api.h | ⏳ Pending | Core Z3 creation |
+| ~~27~~ | ~~CoreCreation~~ | ~~3~~ | ~~z3_api.h~~ | ✅ **ELIMINATED** | Functions moved to Expressions.cs |
 | 28 | Constraints | 5 | z3_api.h | ⏳ Pending | Constraint management |
 | 29 | Simplify | 4 | z3_api.h | ⏳ Pending | Simplification operations |
 | 30 | Quantifiers | 4 | z3_api.h | ⏳ Pending | Quantifier operations |

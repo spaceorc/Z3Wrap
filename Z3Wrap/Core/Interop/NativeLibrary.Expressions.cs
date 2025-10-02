@@ -1,3 +1,27 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Expressions API - P/Invoke bindings for Z3 expression creation and manipulation
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's basic expression API (30 functions):
+// - Sort creation (bool, int, real)
+// - Symbol and constant creation
+// - Boolean operations (true, false, and, or, not, implies, iff, xor)
+// - Equality and distinctness (eq, distinct)
+// - Arithmetic operations (add, sub, mul, div, mod, rem, unary minus, power, abs)
+// - Numeric comparisons (lt, le, gt, ge)
+// - Numeric predicates (is_int, divides)
+// - Numeral creation
+// - Conditional expressions (if-then-else)
+// - Type conversions (int↔real)
+//
+// Coverage: 30/30 functions (100%) - See COMPARISON_Expressions.md for details
+// Note: Z3_mk_int2bv is in NativeLibrary.BitVectors.cs (cross-theory conversion)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
@@ -15,6 +39,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_true");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_false");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_eq");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_distinct");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_and");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_or");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_not");
@@ -26,7 +51,10 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_mul");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_div");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_mod");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rem");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unary_minus");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_power");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_abs");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lt");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_le");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_gt");
@@ -35,6 +63,8 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ite");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2real");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real2int");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_is_int");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_divides");
     }
 
     // Delegates
@@ -46,6 +76,7 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkTrueDelegate(IntPtr ctx);
     private delegate IntPtr MkFalseDelegate(IntPtr ctx);
     private delegate IntPtr MkEqDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkDistinctDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
     private delegate IntPtr MkAndDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
     private delegate IntPtr MkOrDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
     private delegate IntPtr MkNotDelegate(IntPtr ctx, IntPtr arg);
@@ -57,7 +88,10 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkMulDelegate(IntPtr ctx, uint numArgs, IntPtr[] args);
     private delegate IntPtr MkDivDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr MkModDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkRemDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr MkUnaryMinusDelegate(IntPtr ctx, IntPtr arg);
+    private delegate IntPtr MkPowerDelegate(IntPtr ctx, IntPtr left, IntPtr right);
+    private delegate IntPtr MkAbsDelegate(IntPtr ctx, IntPtr arg);
     private delegate IntPtr MkLtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr MkLeDelegate(IntPtr ctx, IntPtr left, IntPtr right);
     private delegate IntPtr MkGtDelegate(IntPtr ctx, IntPtr left, IntPtr right);
@@ -66,6 +100,8 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkIteDelegate(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr);
     private delegate IntPtr MkInt2RealDelegate(IntPtr ctx, IntPtr t1);
     private delegate IntPtr MkReal2IntDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkIsIntDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkDividesDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
 
     // Methods
     /// <summary>
@@ -195,6 +231,26 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_eq");
         var func = Marshal.GetDelegateForFunctionPointer<MkEqDelegate>(funcPtr);
         return func(ctx, left, right);
+    }
+
+    /// <summary>
+    /// Creates a Z3 constraint that all terms are pairwise distinct.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numArgs">The number of expressions in the array.</param>
+    /// <param name="args">Array of expressions that must be pairwise different.</param>
+    /// <returns>Handle to the created distinct constraint.</returns>
+    /// <remarks>
+    /// All arguments must have the same sort. The constraint is true when no two
+    /// arguments have the same value (all pairwise inequalities hold).
+    /// Commonly used in combinatorial problems and constraint modeling.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkDistinct(IntPtr ctx, uint numArgs, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_distinct");
+        var func = Marshal.GetDelegateForFunctionPointer<MkDistinctDelegate>(funcPtr);
+        return func(ctx, numArgs, args);
     }
 
     /// <summary>
@@ -403,6 +459,26 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Creates a Z3 remainder expression between two integer terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The dividend integer expression.</param>
+    /// <param name="right">The divisor integer expression.</param>
+    /// <returns>Handle to the created remainder expression (left rem right).</returns>
+    /// <remarks>
+    /// Both expressions must be integers. Returns the remainder of integer division.
+    /// The result has the same sign as the dividend (different from mod semantics).
+    /// Example: -5 rem 3 = -2, whereas -5 mod 3 = 1.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkRem(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_rem");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRemDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    /// <summary>
     /// Creates a Z3 unary minus (negation) expression for a numeric term.
     /// </summary>
     /// <param name="ctx">The Z3 context handle.</param>
@@ -417,6 +493,44 @@ internal sealed partial class NativeLibrary
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unary_minus");
         var func = Marshal.GetDelegateForFunctionPointer<MkUnaryMinusDelegate>(funcPtr);
+        return func(ctx, arg);
+    }
+
+    /// <summary>
+    /// Creates a Z3 exponentiation expression between two numeric terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="left">The base numeric expression.</param>
+    /// <param name="right">The exponent numeric expression.</param>
+    /// <returns>Handle to the created power expression (left ^ right).</returns>
+    /// <remarks>
+    /// Both expressions must be numeric (integer or real). Used for non-linear
+    /// arithmetic constraints involving powers and polynomials.
+    /// Example: x^2 + y^2 = 25 for circle equations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkPower(IntPtr ctx, IntPtr left, IntPtr right)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_power");
+        var func = Marshal.GetDelegateForFunctionPointer<MkPowerDelegate>(funcPtr);
+        return func(ctx, left, right);
+    }
+
+    /// <summary>
+    /// Creates a Z3 absolute value expression for a numeric term.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arg">The numeric expression to take absolute value of.</param>
+    /// <returns>Handle to the created absolute value expression (|arg|).</returns>
+    /// <remarks>
+    /// The argument must be a numeric expression (integer or real).
+    /// Returns the absolute value of the input.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkAbs(IntPtr ctx, IntPtr arg)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_abs");
+        var func = Marshal.GetDelegateForFunctionPointer<MkAbsDelegate>(funcPtr);
         return func(ctx, arg);
     }
 
@@ -565,5 +679,42 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_real2int");
         var func = Marshal.GetDelegateForFunctionPointer<MkReal2IntDelegate>(funcPtr);
         return func(ctx, t1);
+    }
+
+    /// <summary>
+    /// Creates a Z3 integer test predicate for a real term.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The real expression to test.</param>
+    /// <returns>Handle to the created Boolean predicate testing if t1 has an integer value.</returns>
+    /// <remarks>
+    /// Returns true if the real-valued expression t1 has an integer value.
+    /// Used to test whether a real number is actually an integer.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkIsInt(IntPtr ctx, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_is_int");
+        var func = Marshal.GetDelegateForFunctionPointer<MkIsIntDelegate>(funcPtr);
+        return func(ctx, t1);
+    }
+
+    /// <summary>
+    /// Creates a Z3 divisibility predicate for two integer terms.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">The divisor integer expression.</param>
+    /// <param name="t2">The dividend integer expression.</param>
+    /// <returns>Handle to the created Boolean predicate testing if t1 divides t2.</returns>
+    /// <remarks>
+    /// Both expressions must be integers. Returns true if t2 is divisible by t1,
+    /// i.e., t2 mod t1 = 0. For linear integer arithmetic, t1 must be a non-zero integer.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkDivides(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_divides");
+        var func = Marshal.GetDelegateForFunctionPointer<MkDividesDelegate>(funcPtr);
+        return func(ctx, t1, t2);
     }
 }
