@@ -1,3 +1,28 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 BitVector API - P/Invoke bindings for fixed-width binary arithmetic
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's bitvector theory API (54/54 functions - 100% complete):
+// - Sort creation (2 functions): Bitvector sorts and size queries
+// - Numeral creation (2 functions): Create bitvector constants from strings or bit arrays
+// - Bit manipulation (5 functions): Concat, extract, sign/zero extend, repeat
+// - Arithmetic operations (9 functions): Add, sub, mul, div (signed/unsigned), rem, mod, neg
+// - Bitwise operations (7 functions): AND, OR, XOR, NOT, NAND, NOR, XNOR
+// - Bitwise reduction (2 functions): Reduction AND/OR
+// - Shift operations (3 functions): Left shift, logical/arithmetic right shift
+// - Rotate operations (4 functions): Const and variable rotate left/right
+// - Comparison operations (8 functions): Signed and unsigned comparisons
+// - Overflow detection (8 functions): Detect arithmetic overflow/underflow
+// - Conversion functions (4 functions): Between bitvectors, integers, and strings
+//
+// Complete coverage of Z3's bitvector reasoning API for fixed-width machine arithmetic.
+// See COMPARISON_BitVectors.md for detailed function mapping documentation.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
@@ -6,12 +31,22 @@ internal sealed partial class NativeLibrary
 {
     private static void LoadFunctionsBitVectors(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
+        // Sort creation and queries
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_bv_sort_size");
+
+        // Numeral creation
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_numeral");
+
+        // Bit manipulation
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_concat");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_extract");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sign_ext");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_zero_ext");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_extract");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_repeat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_bv_sort_size");
+
+        // Arithmetic operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul");
@@ -20,14 +55,31 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvurem");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsrem");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsmod");
+
+        // Bitwise operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvand");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvor");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxor");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnot");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnand");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnor");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxnor");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredand");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredor");
+
+        // Shift operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvshl");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvlshr");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvashr");
+
+        // Rotate operations
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rotate_left");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rotate_right");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ext_rotate_left");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ext_rotate_right");
+
+        // Comparison operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvult");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvslt");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvule");
@@ -36,8 +88,8 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsgt");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvuge");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv2int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2bv");
+
+        // Overflow detection
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd_no_overflow");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd_no_underflow");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub_no_overflow");
@@ -46,17 +98,30 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsdiv_no_overflow");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg_no_overflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnand");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxnor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredand");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_numeral");
+
+        // Conversion functions
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv2int");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2bv");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ubv_to_str");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sbv_to_str");
     }
 
     // Delegates
 
+    // Sort and numeral creation delegates
     private delegate IntPtr MkBvSortDelegate(IntPtr ctx, uint sz);
+    private delegate uint GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
+    private delegate IntPtr MkBvDelegate(IntPtr ctx, int numSize, [MarshalAs(UnmanagedType.LPStr)] string numString, int base_);
+    private delegate IntPtr MkBvNumeralDelegate(IntPtr ctx, uint sz, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] bool[] bits);
+
+    // Bit manipulation delegates
+    private delegate IntPtr MkConcatDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkExtractDelegate(IntPtr ctx, uint high, uint low, IntPtr t1);
+    private delegate IntPtr MkSignExtDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
+
+    // Arithmetic operation delegates
     private delegate IntPtr MkBvAddDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvSubDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvMulDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
@@ -65,28 +130,29 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkBvURemDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvSRemDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvSModDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+
+    // Bitwise operation delegates
     private delegate IntPtr MkBvAndDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvOrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvXorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvNotDelegate(IntPtr ctx, IntPtr t1);
     private delegate IntPtr MkBvNegDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkBvNandDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvNorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvXnorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvRedAndDelegate(IntPtr ctx, IntPtr t1);
+    private delegate IntPtr MkBvRedOrDelegate(IntPtr ctx, IntPtr t1);
+
+    // Shift and rotate operation delegates
     private delegate IntPtr MkBvShlDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkSignExtDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr MkExtractDelegate(IntPtr ctx, uint high, uint low, IntPtr t1);
-    private delegate IntPtr MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
-    private delegate IntPtr MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
-    private delegate IntPtr MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
-    private delegate IntPtr MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
-    private delegate IntPtr MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
-    private delegate uint GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
     private delegate IntPtr MkBvLShrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvAShrDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkRotateLeftDelegate(IntPtr ctx, uint i, IntPtr t);
+    private delegate IntPtr MkRotateRightDelegate(IntPtr ctx, uint i, IntPtr t);
+    private delegate IntPtr MkExtRotateLeftDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkExtRotateRightDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+
+    // Comparison operation delegates
     private delegate IntPtr MkBvULtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvSLtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvULeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
@@ -95,17 +161,22 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkBvSGtDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvUGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvSGeDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+
+    // Overflow detection delegates
+    private delegate IntPtr MkBvAddNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr MkBvAddNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSubNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvSubNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr MkBvMulNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2, bool signed);
+    private delegate IntPtr MkBvMulNoUnderflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkBvDivNoOverflowDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvNandDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvNorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvXnorDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
-    private delegate IntPtr MkBvRedAndDelegate(IntPtr ctx, IntPtr t1);
-    private delegate IntPtr MkBvRedOrDelegate(IntPtr ctx, IntPtr t1);
-    private delegate IntPtr MkBvNumeralDelegate(
-        IntPtr ctx,
-        uint sz,
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] bool[] bits
-    );
+    private delegate IntPtr MkBvNegNoOverflowDelegate(IntPtr ctx, IntPtr t1);
+
+    // Conversion delegates
+    private delegate IntPtr MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
+    private delegate IntPtr MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
+    private delegate IntPtr MkUBvToStrDelegate(IntPtr ctx, IntPtr t);
+    private delegate IntPtr MkSBvToStrDelegate(IntPtr ctx, IntPtr t);
 
     // Methods
 
@@ -125,6 +196,70 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvSortDelegate>(funcPtr);
         return func(ctx, sz);
+    }
+
+    /// <summary>
+    /// Retrieves the bit width of a bitvector sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The bitvector sort to query.</param>
+    /// <returns>The bit width of the bitvector sort.</returns>
+    /// <remarks>
+    /// Used to determine the size of bitvector expressions for type checking and operations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetBvSortSize(IntPtr ctx, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
+        var func = Marshal.GetDelegateForFunctionPointer<GetBvSortSizeDelegate>(funcPtr);
+        return func(ctx, sort);
+    }
+
+    /// <summary>
+    /// Creates bitvector numeral from string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numSize">Size of the bitvector in bits.</param>
+    /// <param name="numString">String representation of the number.</param>
+    /// <param name="base_">Numeric base (2, 10, or 16).</param>
+    /// <returns>Bitvector numeral AST node.</returns>
+    internal IntPtr MkBv(IntPtr ctx, int numSize, string numString, int base_)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bv");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvDelegate>(funcPtr);
+        return func(ctx, numSize, numString, base_);
+    }
+
+    /// <summary>
+    /// Creates bitvector numeral from bit array.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sz">Number of bits in the bitvector.</param>
+    /// <param name="bits">Array of Boolean values representing bits (LSB first).</param>
+    /// <returns>AST node representing bitvector constant with specified bit pattern.</returns>
+    /// <remarks>
+    /// Creates bitvector constant from Boolean array where bits[0] is LSB.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvNumeral(IntPtr ctx, uint sz, bool[] bits)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bv_numeral");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNumeralDelegate>(funcPtr);
+        return func(ctx, sz, bits);
+    }
+
+    /// <summary>
+    /// Creates concatenation of two bitvectors.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">First bitvector (higher-order bits).</param>
+    /// <param name="t2">Second bitvector (lower-order bits).</param>
+    /// <returns>Bitvector concatenation expression.</returns>
+    internal IntPtr MkConcat(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_concat");
+        var func = Marshal.GetDelegateForFunctionPointer<MkConcatDelegate>(funcPtr);
+        return func(ctx, t1, t2);
     }
 
     /// <summary>
@@ -499,6 +634,32 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Converts unsigned bitvector to string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t">Bitvector expression.</param>
+    /// <returns>String expression representing unsigned bitvector value.</returns>
+    internal IntPtr MkUBvToStr(IntPtr ctx, IntPtr t)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_ubv_to_str");
+        var func = Marshal.GetDelegateForFunctionPointer<MkUBvToStrDelegate>(funcPtr);
+        return func(ctx, t);
+    }
+
+    /// <summary>
+    /// Converts signed bitvector to string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t">Bitvector expression.</param>
+    /// <returns>String expression representing signed bitvector value.</returns>
+    internal IntPtr MkSBvToStr(IntPtr ctx, IntPtr t)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_sbv_to_str");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSBvToStrDelegate>(funcPtr);
+        return func(ctx, t);
+    }
+
+    /// <summary>
     /// Creates a Boolean expression checking if bitvector addition does not overflow.
     /// </summary>
     /// <param name="ctx">The Z3 context handle.</param>
@@ -650,23 +811,6 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
-    /// Retrieves the bit width of a bitvector sort.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="sort">The bitvector sort to query.</param>
-    /// <returns>The bit width of the bitvector sort.</returns>
-    /// <remarks>
-    /// Used to determine the size of bitvector expressions for type checking and operations.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal uint GetBvSortSize(IntPtr ctx, IntPtr sort)
-    {
-        var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
-        var func = Marshal.GetDelegateForFunctionPointer<GetBvSortSizeDelegate>(funcPtr);
-        return func(ctx, sort);
-    }
-
-    /// <summary>
     /// Creates a Z3 bitvector logical right shift expression.
     /// </summary>
     /// <param name="ctx">The Z3 context handle.</param>
@@ -699,6 +843,62 @@ internal sealed partial class NativeLibrary
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvashr");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvAShrDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    /// <summary>
+    /// Creates bitvector rotate left by constant.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="i">Number of positions to rotate.</param>
+    /// <param name="t">Bitvector to rotate.</param>
+    /// <returns>Rotated bitvector expression.</returns>
+    internal IntPtr MkRotateLeft(IntPtr ctx, uint i, IntPtr t)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_rotate_left");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRotateLeftDelegate>(funcPtr);
+        return func(ctx, i, t);
+    }
+
+    /// <summary>
+    /// Creates bitvector rotate right by constant.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="i">Number of positions to rotate.</param>
+    /// <param name="t">Bitvector to rotate.</param>
+    /// <returns>Rotated bitvector expression.</returns>
+    internal IntPtr MkRotateRight(IntPtr ctx, uint i, IntPtr t)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_rotate_right");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRotateRightDelegate>(funcPtr);
+        return func(ctx, i, t);
+    }
+
+    /// <summary>
+    /// Creates bitvector rotate left with variable shift amount.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">Bitvector to rotate.</param>
+    /// <param name="t2">Shift amount as bitvector.</param>
+    /// <returns>Rotated bitvector expression.</returns>
+    internal IntPtr MkExtRotateLeft(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_ext_rotate_left");
+        var func = Marshal.GetDelegateForFunctionPointer<MkExtRotateLeftDelegate>(funcPtr);
+        return func(ctx, t1, t2);
+    }
+
+    /// <summary>
+    /// Creates bitvector rotate right with variable shift amount.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="t1">Bitvector to rotate.</param>
+    /// <param name="t2">Shift amount as bitvector.</param>
+    /// <returns>Rotated bitvector expression.</returns>
+    internal IntPtr MkExtRotateRight(IntPtr ctx, IntPtr t1, IntPtr t2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_ext_rotate_right");
+        var func = Marshal.GetDelegateForFunctionPointer<MkExtRotateRightDelegate>(funcPtr);
         return func(ctx, t1, t2);
     }
 
@@ -938,21 +1138,4 @@ internal sealed partial class NativeLibrary
         return func(ctx, t1);
     }
 
-    /// <summary>
-    /// Creates bitvector numeral from bit array.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="sz">Number of bits in the bitvector.</param>
-    /// <param name="bits">Array of Boolean values representing bits (LSB first).</param>
-    /// <returns>AST node representing bitvector constant with specified bit pattern.</returns>
-    /// <remarks>
-    /// Creates bitvector constant from Boolean array where bits[0] is LSB.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkBvNumeral(IntPtr ctx, uint sz, bool[] bits)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_bv_numeral");
-        var func = Marshal.GetDelegateForFunctionPointer<MkBvNumeralDelegate>(funcPtr);
-        return func(ctx, sz, bits);
-    }
 }
