@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for specific API functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for this group of Z3 API functions.
-    /// </summary>
     private static void LoadFunctionsArrays(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort");

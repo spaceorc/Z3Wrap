@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for query/introspection functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for this group of Z3 API functions.
-    /// </summary>
     private static void LoadFunctionsQueries(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_arg");
