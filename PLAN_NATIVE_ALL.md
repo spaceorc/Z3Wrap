@@ -6,11 +6,11 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 158 functions (organized into 12 partial class files)
+- **Currently implemented**: 193 functions (organized into 13 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 394 functions (71% gap)
-- **Progress**: 29% complete
+- **Missing**: 359 functions (65% gap)
+- **Progress**: 35% complete
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
@@ -24,10 +24,10 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 - Moved IsNumeralAst from Model.cs to Predicates.cs for better organization
 - Excluded all NativeLibrary P/Invoke wrappers from code coverage (mechanical delegates)
 
-✅ **Function Interpretations COMPLETE** (October 2, 2025)
-- Created 12th partial class file: NativeLibrary.FunctionInterpretations.cs
-- Added 9 function interpretation functions for advanced model queries
-- Current structure (12 partial class files, 158 functions):
+✅ **Query Functions COMPLETE** (October 2, 2025)
+- Created 13th partial class file: NativeLibrary.Queries.cs
+- Added 35 query/introspection functions for AST, declaration, and quantifier queries
+- Current structure (13 partial class files, 193 functions):
   - NativeLibrary.Context.cs (8 functions)
   - NativeLibrary.Solver.cs (12 functions)
   - NativeLibrary.Model.cs (19 functions) ⭐ EXPANDED - was 8, added 11 model introspection functions
@@ -39,7 +39,8 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
   - NativeLibrary.Functions.cs (3 functions)
   - NativeLibrary.ErrorHandling.cs (3 functions)
   - NativeLibrary.Predicates.cs (18 functions)
-  - NativeLibrary.FunctionInterpretations.cs (9 functions) ⭐ NEW
+  - NativeLibrary.FunctionInterpretations.cs (9 functions)
+  - NativeLibrary.Queries.cs (35 functions) ⭐ NEW
 - All 903 tests passing
 - Coverage: **97.9%** (NativeLibrary excluded from coverage - it's mechanical P/Invoke)
 - CI pipeline: passing
@@ -353,10 +354,10 @@ Z3_toggle_warning_messages       - Warning control
 
 ## Implementation Strategy
 
-### Phase 1: Foundation (High Priority - ~146 functions → 108 remaining)
+### Phase 1: Foundation (High Priority - ~146 functions → 73 remaining)
 Focus on functions needed for basic usage patterns:
-- **Completed**: 38 functions (18 predicates + 11 model functions + 9 function interpretations)
-- **Remaining**: 108 functions
+- **Completed**: 73 functions (18 predicates + 11 model functions + 9 function interpretations + 35 query functions)
+- **Remaining**: 73 functions
 
 1. **Creation functions (mk_*)**: ~50 most common
    - Missing bitvector operations
@@ -364,10 +365,13 @@ Focus on functions needed for basic usage patterns:
    - Set operations
    - Array operations
 
-2. **Query functions (get_*)**: ~40 most common
-   - AST introspection
-   - Datatype queries
-   - Declaration queries
+2. **~~Query functions (get_*)~~**: ~~All 35 most common~~ **✅ DONE** (October 2, 2025)
+   - AST introspection (get_app_*, get_ast_*)
+   - Declaration queries (get_decl_*)
+   - Symbol queries (get_symbol_*)
+   - Sort queries (get_sort_name, get_domain, get_range)
+   - Quantifier queries (get_quantifier_*, get_pattern*)
+   - Numerator/denominator extraction
 
 3. **~~Model functions~~**: ~~All 11~~ **✅ DONE** (October 2, 2025) - Complete model introspection
 
@@ -612,7 +616,7 @@ All new functions use `LoadFunctionOrNull()`:
 
 ### Phase 1 Implementation (High Priority)
 - [ ] Add 50 creation functions (mk_*)
-- [ ] Add 40 query functions (get_*)
+- [x] Add 35 query functions (get_*) ✅ DONE (October 2, 2025)
 - [x] Add 11 model functions ✅ DONE (October 2, 2025)
 - [x] Add 9 function interpretation functions ✅ DONE (October 2, 2025)
 - [ ] Add 4 conversion functions (SKIPPED - no-ops in C#)
@@ -692,10 +696,20 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Phase 1 In Progress - 38/146 functions complete (October 2, 2025)
-**Next Step**: Continue with Creation functions (~50 mk_* functions) or Query functions (~40 get_* functions)
+**Status**: Phase 1 In Progress - 73/146 functions complete (50% - October 2, 2025)
+**Next Step**: Continue with Creation functions (~50 mk_* functions)
 
 ## Progress Log
+
+### October 2, 2025 - Query Functions Complete
+- ✅ Created NativeLibrary.Queries.cs with 35 query/introspection functions
+- ✅ Complete query API: AST introspection, declaration queries, symbol/sort queries, quantifier queries
+- ✅ Functions: GetAppArg, GetAppDecl, GetAppNumArgs, GetArity, GetAstHash, GetAstId, GetAstKind, GetDeclName, GetDeclKind, GetDeclNumParameters, GetDeclParameterKind, GetDeclIntParameter, GetDeclDoubleParameter, GetDeclSymbolParameter, GetDeclSortParameter, GetDeclAstParameter, GetDeclFuncDeclParameter, GetDeclRationalParameter, GetDenominator, GetNumerator, GetDomain, GetDomainSize, GetRange, GetSortName, GetSymbolKind, GetSymbolInt, GetSymbolString, GetQuantifierNumBound, GetQuantifierBoundName, GetQuantifierBoundSort, GetQuantifierBody, GetQuantifierNumPatterns, GetQuantifierPatternAst, GetPatternNumTerms, GetPattern
+- ✅ All 903 tests passing, coverage 97.9%, CI passing
+- ✅ Now at 193/552 functions (35% complete)
+- 📊 Progress: 359 functions remaining
+- 🎯 Phase 1: 73/146 functions complete (50%)
+- 📝 Note: 3 functions (GetBvSortSize, GetArraySortDomain, GetArraySortRange) already existed in BitVectors.cs and Arrays.cs
 
 ### October 2, 2025 - Function Interpretations Complete
 - ✅ Created NativeLibrary.FunctionInterpretations.cs with 9 function interpretation functions
