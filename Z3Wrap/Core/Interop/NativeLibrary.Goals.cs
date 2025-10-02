@@ -1,3 +1,19 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Goals API - P/Invoke bindings for Z3 goal-based solving
+//
+// Source: z3_api.h from Z3 C API (Goals section)
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's goals API (17 functions):
+// - Goal creation and reference counting
+// - Goal assertion and manipulation
+// - Goal state queries (inconsistent, decided sat/unsat)
+// - Goal translation and conversion
+// - DIMACS export
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
