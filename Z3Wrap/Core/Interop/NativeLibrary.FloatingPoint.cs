@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for IEEE 754 floating-point theory functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for floating-point Z3 API functions.
-    /// </summary>
     private static void LoadFunctionsFloatingPoint(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // Sort creation

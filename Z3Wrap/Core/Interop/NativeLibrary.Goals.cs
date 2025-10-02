@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for goal functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for goal Z3 API functions.
-    /// </summary>
     private static void LoadFunctionsGoals(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_goal");

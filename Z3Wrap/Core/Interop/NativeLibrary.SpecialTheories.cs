@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for special theory functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for special theory functions.
-    /// </summary>
     private static void LoadFunctionsSpecialTheories(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // Relation Theory

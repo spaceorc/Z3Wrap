@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for datatype theory functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for datatype theory functions.
-    /// </summary>
     private static void LoadFunctionsDatatypes(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // Constructor Building

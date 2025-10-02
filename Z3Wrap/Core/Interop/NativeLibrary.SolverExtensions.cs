@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for solver extension functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for solver extension Z3 API functions.
-    /// </summary>
     private static void LoadFunctionsSolverExtensions(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_assert_and_track");

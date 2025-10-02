@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for AST collection functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for AST collection functions.
-    /// </summary>
     private static void LoadFunctionsAstCollections(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // AST Vector Operations

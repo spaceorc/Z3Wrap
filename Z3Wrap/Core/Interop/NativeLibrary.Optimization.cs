@@ -2,14 +2,8 @@ using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
 
-/// <summary>
-/// Z3 native library P/Invoke wrapper - partial class for optimization solver functions.
-/// </summary>
 internal sealed partial class NativeLibrary
 {
-    /// <summary>
-    /// Load function pointers for optimization solver functions.
-    /// </summary>
     private static void LoadFunctionsOptimization(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // Creation and Management
