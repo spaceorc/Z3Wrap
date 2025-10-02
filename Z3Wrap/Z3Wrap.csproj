@@ -233,6 +233,27 @@
     <Compile Update="Core\Interop\NativeLibrary.ReferenceCountingExtra.cs">
       <DependentUpon>NativeLibrary.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Simplify.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Substitution.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.AlgebraicNumbers.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Statistics.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Parsing.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Numerals.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Utilities.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />

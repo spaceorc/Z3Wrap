@@ -118,6 +118,13 @@ internal sealed partial class NativeLibrary : IDisposable
             LoadFunctionsSpecialTheories(handle, functionPointers);
             LoadFunctionsAstCollections(handle, functionPointers);
             LoadFunctionsReferenceCountingExtra(handle, functionPointers);
+            LoadFunctionsSimplify(handle, functionPointers);
+            LoadFunctionsSubstitution(handle, functionPointers);
+            LoadFunctionsAlgebraicNumbers(handle, functionPointers);
+            LoadFunctionsStatistics(handle, functionPointers);
+            LoadFunctionsParsing(handle, functionPointers);
+            LoadFunctionsNumerals(handle, functionPointers);
+            LoadFunctionsUtilities(handle, functionPointers);
 
             return new LoadedLibrary(functionPointers, handle);
         }
