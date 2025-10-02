@@ -6,11 +6,11 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 436 functions (organized into 23 partial class files)
+- **Currently implemented**: 455 functions (organized into 24 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 116 functions (21% gap)
-- **Progress**: 79% complete
+- **Missing**: 97 functions (18% gap)
+- **Progress**: 82% complete
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
@@ -31,6 +31,21 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 - Coverage: **97.9%** (NativeLibrary excluded from coverage - it's mechanical P/Invoke)
 - CI pipeline: passing
 - **Phase 1 COMPLETE**: 146/146 functions (100%)
+
+✅ **Phase 3 Part 2: Datatype Theory COMPLETE** (October 2, 2025)
+- Created NativeLibrary.Datatypes.cs with complete algebraic datatype API
+- Added 19 datatype functions covering constructors, queries, tuples, lists, and relations
+- Current structure (24 partial class files, 455 functions):
+  - NativeLibrary.Datatypes.cs (19 functions) ⭐ NEW - complete algebraic datatype theory
+    - 5 constructor building functions (mk_constructor, mk_constructor_list, query_constructor, del_constructor, del_constructor_list)
+    - 4 datatype creation functions (mk_datatype, mk_datatypes, mk_datatype_sort, mk_tuple_sort)
+    - 7 datatype query functions (get_datatype_sort_num_constructors, get_datatype_sort_constructor, get_datatype_sort_recognizer, get_datatype_sort_constructor_accessor, get_tuple_sort_mk_decl, get_tuple_sort_num_fields, get_tuple_sort_field_decl)
+    - 3 related functions (mk_list_sort, get_relation_arity, get_relation_column)
+- All 903 tests passing
+- Coverage: **97.9%** (NativeLibrary excluded from coverage - it's mechanical P/Invoke)
+- CI pipeline: passing
+- **Phase 3 Part 2 COMPLETE**: 19/19 functions (100%)
+- **Note**: Z3_get_decl_num_parameters and Z3_get_decl_parameter_kind already existed in Queries.cs
 
 ✅ **Phase 3 Part 1: Floating-Point Theory COMPLETE** (October 2, 2025)
 - Created NativeLibrary.FloatingPoint.cs with complete IEEE 754 floating-point API
@@ -704,7 +719,7 @@ All new functions use `LoadFunctionOrNull()`:
 - [x] Run `make ci` ✅ PASSING - 903 tests, 97.9% coverage (October 2, 2025)
 - **Phase 2 Status**: 90/90 functions complete (100%)
 
-### Phase 3 Implementation (Theories) - ✅ Part 1 COMPLETE
+### Phase 3 Implementation (Theories) - ✅ Parts 1 & 2 COMPLETE
 - [x] Add 45 string theory functions ✅ DONE (October 2, 2025) - included in Phase 1
 - [x] Add 76 floating-point functions ✅ DONE (October 2, 2025) - Phase 3 Part 1 COMPLETE
   - [x] Sort creation (10 functions)
@@ -715,12 +730,17 @@ All new functions use `LoadFunctionOrNull()`:
   - [x] Predicates (7 functions)
   - [x] Conversions (9 functions)
   - [x] Query functions (15 functions)
+- [x] Add 19 datatype theory functions ✅ DONE (October 2, 2025) - Phase 3 Part 2 COMPLETE
+  - [x] Constructor building (5 functions)
+  - [x] Datatype creation (4 functions)
+  - [x] Datatype queries (7 functions)
+  - [x] Related functions (3 functions: list sort, relation arity/column)
 - [x] All delegates defined ✅ DONE (October 2, 2025)
 - [x] All wrappers implemented ✅ DONE (October 2, 2025)
 - [x] All XML docs written ✅ DONE (October 2, 2025)
 - [x] Run `make ci` ✅ PASSING - 903 tests, 97.9% coverage (October 2, 2025)
-- [ ] Add remaining special theory functions (~40 functions: datatypes, relations, optimization)
-- **Phase 3 Part 1 Status**: 76/76 floating-point functions complete (100%)
+- [ ] Add remaining special theory functions (~21 functions: optimization, other)
+- **Phase 3 Parts 1 & 2 Status**: 95/95 functions complete (100%)
 
 ### Phase 4 Implementation (Utilities)
 - [ ] Add 21 reference counting functions
@@ -771,10 +791,27 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Phase 3 Part 1 COMPLETE - 436/552 functions complete (79% - October 2, 2025)
-**Next Step**: Phase 3 Part 2 - Remaining Special Theories (datatypes, relations, optimization)
+**Status**: Phase 3 Part 2 COMPLETE - 455/552 functions complete (82% - October 2, 2025)
+**Next Step**: Phase 3 Part 3 - Remaining Special Theories (optimization, other ~21 functions)
 
 ## Progress Log
+
+### October 2, 2025 - Phase 3 Part 2: Datatype Theory Complete - PHASE 3 PART 2 COMPLETE! 🎉
+- ✅ Created NativeLibrary.Datatypes.cs with complete algebraic datatype API
+- ✅ Added 19 datatype functions covering all datatype operations
+- ✅ **New file**:
+  - NativeLibrary.Datatypes.cs (19 functions): Complete algebraic datatype theory
+    - 5 constructor building functions (mk_constructor, mk_constructor_list, query_constructor, del_constructor, del_constructor_list)
+    - 4 datatype creation functions (mk_datatype, mk_datatypes, mk_datatype_sort, mk_tuple_sort)
+    - 7 datatype query functions (get_datatype_sort_num_constructors, get_datatype_sort_constructor, get_datatype_sort_recognizer, get_datatype_sort_constructor_accessor, get_tuple_sort_mk_decl, get_tuple_sort_num_fields, get_tuple_sort_field_decl)
+    - 3 related functions (mk_list_sort, get_relation_arity, get_relation_column)
+- ✅ All 903 tests passing, coverage 97.9%, CI passing
+- ✅ Now at 455/552 functions (82% complete)
+- 📊 Progress: 97 functions remaining (18% gap)
+- 🎯 **Phase 3 Part 2: 19/19 functions complete (100%)**
+- 📦 Current structure: 24 partial class files, 455 total functions
+- 🚀 Ready for Phase 3 Part 3: Remaining Special Theories (optimization, other)
+- 📝 **Note**: Two functions (Z3_get_decl_num_parameters, Z3_get_decl_parameter_kind) already existed in Queries.cs and were not duplicated
 
 ### October 2, 2025 - Phase 3 Part 1: Floating-Point Theory Complete - PHASE 3 PART 1 COMPLETE! 🎉
 - ✅ Created NativeLibrary.FloatingPoint.cs with complete IEEE 754 floating-point API
