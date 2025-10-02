@@ -182,6 +182,39 @@
     <Compile Update="Core\Interop\NativeLibrary.Predicates.cs">
       <DependentUpon>NativeLibrary.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Constraints.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.CoreCreation.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.FunctionInterpretations.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Queries.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Sets.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.StringTheory.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.SolverExtensions.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Tactics.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Goals.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Probes.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Simplifiers.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
