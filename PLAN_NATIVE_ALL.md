@@ -6,11 +6,11 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
 ## Current Status
-- **Currently implemented**: 455 functions (organized into 24 partial class files)
+- **Currently implemented**: 512 functions (organized into 28 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 97 functions (18% gap)
-- **Progress**: 82% complete
+- **Missing**: 40 functions (7% gap)
+- **Progress**: 93% complete
 
 ### Completed Work
 ✅ **Phase 1 Setup: COMPLETE** (October 2, 2025)
@@ -31,6 +31,36 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 - Coverage: **97.9%** (NativeLibrary excluded from coverage - it's mechanical P/Invoke)
 - CI pipeline: passing
 - **Phase 1 COMPLETE**: 146/146 functions (100%)
+
+✅ **Phase 3 Part 3 + Phase 4 Part 1: Optimization, Special Theories, AST Collections, and Reference Counting COMPLETE** (October 2, 2025)
+- ✅ Created 4 new partial class files for optimization, special theories, AST collections, and reference counting
+- ✅ Added 57 functions completing Phase 3 Part 3 and Phase 4 Part 1
+- ✅ **New files**:
+  - NativeLibrary.Optimization.cs (19 functions): Complete optimization solver API (MaxSMT, multi-objective optimization)
+    - 3 creation/management functions (mk_optimize, optimize_inc_ref, optimize_dec_ref)
+    - 5 assertion/objective functions (assert, assert_soft, assert_and_track, maximize, minimize)
+    - 5 solving/result functions (check, get_model, get_upper, get_lower, get_reason_unknown)
+    - 6 utility functions (to_string, from_file, from_string, get_help, set_params, get_param_descrs)
+  - NativeLibrary.SpecialTheories.cs (5 functions): Special theory functions
+    - 1 relation theory function (mk_transitive_closure)
+    - 2 special sort functions (mk_finite_domain_sort, mk_enumeration_sort)
+    - 2 miscellaneous functions (mk_fresh_func_decl, mk_fresh_const)
+  - NativeLibrary.AstCollections.cs (21 functions): AST vector and map operations
+    - 10 AST vector functions (mk_ast_vector, inc/dec_ref, size, get, set, resize, push, translate, to_string)
+    - 11 AST map functions (mk_ast_map, inc/dec_ref, contains, find, insert, erase, reset, size, keys, to_string)
+  - NativeLibrary.ReferenceCountingExtra.cs (12 functions): Additional reference counting
+    - 2 apply result functions (inc_ref, dec_ref)
+    - 2 statistics functions (inc_ref, dec_ref)
+    - 2 func entry functions (inc_ref, dec_ref)
+    - 2 func interp functions (inc_ref, dec_ref)
+    - 2 pattern functions (inc_ref, dec_ref)
+    - 2 fixedpoint functions (inc_ref, dec_ref)
+- ✅ All 903 tests passing, coverage 97.9%, CI passing
+- ✅ Now at 512/552 functions (93% complete)
+- 📊 Progress: 40 functions remaining (7% gap)
+- 🎯 **Phase 3 Part 3 + Phase 4 Part 1: 57/57 functions complete (100%)**
+- 📦 Current structure: 28 partial class files, 512 total functions
+- 🚀 Only 40 functions remaining to reach 100% Z3 C API coverage!
 
 ✅ **Phase 3 Part 2: Datatype Theory COMPLETE** (October 2, 2025)
 - Created NativeLibrary.Datatypes.cs with complete algebraic datatype API
@@ -739,18 +769,18 @@ All new functions use `LoadFunctionOrNull()`:
 - [x] All wrappers implemented ✅ DONE (October 2, 2025)
 - [x] All XML docs written ✅ DONE (October 2, 2025)
 - [x] Run `make ci` ✅ PASSING - 903 tests, 97.9% coverage (October 2, 2025)
-- [ ] Add remaining special theory functions (~21 functions: optimization, other)
-- **Phase 3 Parts 1 & 2 Status**: 95/95 functions complete (100%)
+- [x] Add remaining special theory functions (21 functions: optimization, special theories) ✅ DONE (October 2, 2025)
+- **Phase 3 Status**: 116/116 functions complete (100%)
 
-### Phase 4 Implementation (Utilities)
-- [ ] Add 21 reference counting functions
-- [ ] Add 20 AST collection functions
-- [ ] Add 15 debug/logging functions
-- [ ] Add 30 miscellaneous functions
-- [ ] All delegates defined
-- [ ] All wrappers implemented
-- [ ] All XML docs written
-- [ ] Run `make ci`
+### Phase 4 Implementation (Utilities) - PARTIALLY COMPLETE
+- [x] Add 12 reference counting functions ✅ DONE (October 2, 2025)
+- [x] Add 21 AST collection functions ✅ DONE (October 2, 2025)
+- [x] All delegates defined ✅ DONE (October 2, 2025)
+- [x] All wrappers implemented ✅ DONE (October 2, 2025)
+- [x] All XML docs written ✅ DONE (October 2, 2025)
+- [x] Run `make ci` ✅ PASSING - 903 tests, 97.9% coverage (October 2, 2025)
+- [ ] Add remaining ~40 functions (solver propagation, fixedpoint, algebraic numbers, debug/logging, misc)
+- **Phase 4 Part 1 Status**: 33/33 functions complete (100%)
 
 ### Final Verification
 - [ ] All 556 functions implemented
@@ -791,10 +821,40 @@ All new functions use `LoadFunctionOrNull()`:
 
 ---
 
-**Status**: Phase 3 Part 2 COMPLETE - 455/552 functions complete (82% - October 2, 2025)
-**Next Step**: Phase 3 Part 3 - Remaining Special Theories (optimization, other ~21 functions)
+**Status**: Phase 3 Part 3 + Phase 4 Part 1 COMPLETE - 512/552 functions complete (93% - October 2, 2025)
+**Next Step**: Phase 4 Part 2 - Complete remaining functions (~40 functions remaining: solver propagation callbacks, fixedpoint API, algebraic numbers, etc.)
 
 ## Progress Log
+
+### October 2, 2025 - Phase 3 Part 3 + Phase 4 Part 1: Optimization, Special Theories, AST Collections, and Reference Counting Complete - PHASE 3 PART 3 + PHASE 4 PART 1 COMPLETE! 🎉
+- ✅ Created 4 new partial class files for optimization, special theories, AST collections, and reference counting
+- ✅ Added 57 functions completing Phase 3 Part 3 and Phase 4 Part 1
+- ✅ **New files**:
+  - NativeLibrary.Optimization.cs (19 functions): Complete optimization solver API (MaxSMT, multi-objective optimization)
+    - 3 creation/management functions (mk_optimize, optimize_inc_ref, optimize_dec_ref)
+    - 5 assertion/objective functions (assert, assert_soft, assert_and_track, maximize, minimize)
+    - 5 solving/result functions (check, get_model, get_upper, get_lower, get_reason_unknown)
+    - 6 utility functions (to_string, from_file, from_string, get_help, set_params, get_param_descrs)
+  - NativeLibrary.SpecialTheories.cs (5 functions): Special theory functions
+    - 1 relation theory function (mk_transitive_closure)
+    - 2 special sort functions (mk_finite_domain_sort, mk_enumeration_sort)
+    - 2 miscellaneous functions (mk_fresh_func_decl, mk_fresh_const)
+  - NativeLibrary.AstCollections.cs (21 functions): AST vector and map operations
+    - 10 AST vector functions (mk_ast_vector, inc/dec_ref, size, get, set, resize, push, translate, to_string)
+    - 11 AST map functions (mk_ast_map, inc/dec_ref, contains, find, insert, erase, reset, size, keys, to_string)
+  - NativeLibrary.ReferenceCountingExtra.cs (12 functions): Additional reference counting
+    - 2 apply result functions (inc_ref, dec_ref)
+    - 2 statistics functions (inc_ref, dec_ref)
+    - 2 func entry functions (inc_ref, dec_ref)
+    - 2 func interp functions (inc_ref, dec_ref)
+    - 2 pattern functions (inc_ref, dec_ref)
+    - 2 fixedpoint functions (inc_ref, dec_ref)
+- ✅ All 903 tests passing, coverage 97.9%, CI passing
+- ✅ Now at 512/552 functions (93% complete)
+- 📊 Progress: 40 functions remaining (7% gap)
+- 🎯 **Phase 3 Part 3 + Phase 4 Part 1: 57/57 functions complete (100%)**
+- 📦 Current structure: 28 partial class files, 512 total functions
+- 🚀 Only 40 functions remaining to reach 100% Z3 C API coverage!
 
 ### October 2, 2025 - Phase 3 Part 2: Datatype Theory Complete - PHASE 3 PART 2 COMPLETE! 🎉
 - ✅ Created NativeLibrary.Datatypes.cs with complete algebraic datatype API

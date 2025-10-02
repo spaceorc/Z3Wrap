@@ -114,6 +114,10 @@ internal sealed partial class NativeLibrary : IDisposable
             LoadFunctionsSimplifiers(handle, functionPointers);
             LoadFunctionsFloatingPoint(handle, functionPointers);
             LoadFunctionsDatatypes(handle, functionPointers);
+            LoadFunctionsOptimization(handle, functionPointers);
+            LoadFunctionsSpecialTheories(handle, functionPointers);
+            LoadFunctionsAstCollections(handle, functionPointers);
+            LoadFunctionsReferenceCountingExtra(handle, functionPointers);
 
             return new LoadedLibrary(functionPointers, handle);
         }

@@ -221,6 +221,18 @@
     <Compile Update="Core\Interop\NativeLibrary.Datatypes.cs">
       <DependentUpon>NativeLibrary.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Optimization.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.SpecialTheories.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.AstCollections.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.ReferenceCountingExtra.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
