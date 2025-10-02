@@ -1,3 +1,22 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Optimization API - P/Invoke bindings for Z3 optimization solver
+//
+// Source: z3_optimization.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_optimization.h
+//
+// This file provides complete bindings for Z3's optimization API (27 functions):
+// - Optimization context creation and management
+// - Hard and soft constraint assertions
+// - Maximize/minimize objectives
+// - Multi-objective optimization support
+// - Backtracking (push/pop)
+// - Model and bound retrieval
+// - Unsatisfiable core extraction
+// - Statistics and diagnostics
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
@@ -23,7 +42,16 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_model");
         LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_upper");
         LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_lower");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_upper_as_vector");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_lower_as_vector");
         LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_reason_unknown");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_unsat_core");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_statistics");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_assertions");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_objectives");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_push");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_pop");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_set_initial_value");
 
         // Utilities
         LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_to_string");
@@ -64,7 +92,16 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr OptimizeGetModelDelegate(IntPtr ctx, IntPtr optimize);
     private delegate IntPtr OptimizeGetUpperDelegate(IntPtr ctx, IntPtr optimize, uint idx);
     private delegate IntPtr OptimizeGetLowerDelegate(IntPtr ctx, IntPtr optimize, uint idx);
+    private delegate IntPtr OptimizeGetUpperAsVectorDelegate(IntPtr ctx, IntPtr optimize, uint idx);
+    private delegate IntPtr OptimizeGetLowerAsVectorDelegate(IntPtr ctx, IntPtr optimize, uint idx);
     private delegate IntPtr OptimizeGetReasonUnknownDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate IntPtr OptimizeGetUnsatCoreDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate IntPtr OptimizeGetStatisticsDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate IntPtr OptimizeGetAssertionsDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate IntPtr OptimizeGetObjectivesDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate void OptimizePushDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate void OptimizePopDelegate(IntPtr ctx, IntPtr optimize);
+    private delegate void OptimizeSetInitialValueDelegate(IntPtr ctx, IntPtr optimize, IntPtr variable, IntPtr value);
 
     // Utilities
     private delegate IntPtr OptimizeToStringDelegate(IntPtr ctx, IntPtr optimize);
@@ -422,6 +459,167 @@ internal sealed partial class NativeLibrary
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_param_descrs");
         var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetParamDescrsDelegate>(funcPtr);
+        return func(ctx, optimize);
+    }
+
+    /// <summary>
+    /// Creates backtracking point in optimization context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <remarks>
+    /// Creates a backtracking point for assertions and objectives.
+    /// State can be restored by calling OptimizePop.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void OptimizePush(IntPtr ctx, IntPtr optimize)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_push");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizePushDelegate>(funcPtr);
+        func(ctx, optimize);
+    }
+
+    /// <summary>
+    /// Backtracks one level in optimization context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <remarks>
+    /// Restores state to previous push point.
+    /// Number of pop calls cannot exceed number of push calls.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void OptimizePop(IntPtr ctx, IntPtr optimize)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_pop");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizePopDelegate>(funcPtr);
+        func(ctx, optimize);
+    }
+
+    /// <summary>
+    /// Sets initial value hint for variable in optimization context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <param name="variable">Variable expression to initialize.</param>
+    /// <param name="value">Initial value expression.</param>
+    /// <remarks>
+    /// Provides optimization solver with initial value as starting point hint.
+    /// May improve solving performance for certain problems.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void OptimizeSetInitialValue(IntPtr ctx, IntPtr optimize, IntPtr variable, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_set_initial_value");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeSetInitialValueDelegate>(funcPtr);
+        func(ctx, optimize, variable, value);
+    }
+
+    /// <summary>
+    /// Gets unsatisfiable core from optimization context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <returns>AST vector containing unsatisfiable core constraints.</returns>
+    /// <remarks>
+    /// Only valid after OptimizeCheck returns unsatisfiable status.
+    /// Returns minimal subset of constraints that are unsatisfiable.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr OptimizeGetUnsatCore(IntPtr ctx, IntPtr optimize)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_get_unsat_core");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetUnsatCoreDelegate>(funcPtr);
+        return func(ctx, optimize);
+    }
+
+    /// <summary>
+    /// Gets upper bound for objective as vector.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <param name="idx">Objective identifier returned from OptimizeMaximize/OptimizeMinimize.</param>
+    /// <returns>AST vector representing upper bound values.</returns>
+    /// <remarks>
+    /// For multi-objective optimization, returns vector of upper bounds.
+    /// Each element corresponds to objective at that priority level.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr OptimizeGetUpperAsVector(IntPtr ctx, IntPtr optimize, uint idx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_get_upper_as_vector");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetUpperAsVectorDelegate>(funcPtr);
+        return func(ctx, optimize, idx);
+    }
+
+    /// <summary>
+    /// Gets lower bound for objective as vector.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <param name="idx">Objective identifier returned from OptimizeMaximize/OptimizeMinimize.</param>
+    /// <returns>AST vector representing lower bound values.</returns>
+    /// <remarks>
+    /// For multi-objective optimization, returns vector of lower bounds.
+    /// Each element corresponds to objective at that priority level.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr OptimizeGetLowerAsVector(IntPtr ctx, IntPtr optimize, uint idx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_get_lower_as_vector");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetLowerAsVectorDelegate>(funcPtr);
+        return func(ctx, optimize, idx);
+    }
+
+    /// <summary>
+    /// Gets statistics from optimization solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <returns>Statistics object handle.</returns>
+    /// <remarks>
+    /// Returns performance metrics from last OptimizeCheck call.
+    /// Includes solver time, conflicts, decisions, propagations, etc.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr OptimizeGetStatistics(IntPtr ctx, IntPtr optimize)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_get_statistics");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetStatisticsDelegate>(funcPtr);
+        return func(ctx, optimize);
+    }
+
+    /// <summary>
+    /// Gets all assertions from optimization context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <returns>AST vector containing all asserted constraints.</returns>
+    /// <remarks>
+    /// Returns all hard constraints added via OptimizeAssert and related methods.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr OptimizeGetAssertions(IntPtr ctx, IntPtr optimize)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_get_assertions");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetAssertionsDelegate>(funcPtr);
+        return func(ctx, optimize);
+    }
+
+    /// <summary>
+    /// Gets all objectives from optimization context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="optimize">Optimization context handle.</param>
+    /// <returns>AST vector containing all optimization objectives.</returns>
+    /// <remarks>
+    /// Returns all objectives added via OptimizeMaximize and OptimizeMinimize.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr OptimizeGetObjectives(IntPtr ctx, IntPtr optimize)
+    {
+        var funcPtr = GetFunctionPointer("Z3_optimize_get_objectives");
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetObjectivesDelegate>(funcPtr);
         return func(ctx, optimize);
     }
 }

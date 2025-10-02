@@ -284,6 +284,9 @@
     <Compile Update="Core\Z3Library.Model.cs">
       <DependentUpon>Z3Library.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Z3Library.Optimization.cs">
+      <DependentUpon>Z3Library.cs</DependentUpon>
+    </Compile>
     <Compile Update="Core\Z3Library.Parameters.cs">
       <DependentUpon>Z3Library.cs</DependentUpon>
     </Compile>
