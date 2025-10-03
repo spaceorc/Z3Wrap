@@ -19,7 +19,6 @@ internal sealed partial class NativeLibrary
     private static void LoadFunctionsSymbols(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_string_symbol");
-        LoadFunctionInternal(handle, functionPointers, "Z3_get_symbol_int");
     }
 
     private delegate IntPtr MkStringSymbolDelegate(IntPtr ctx, IntPtr str);
@@ -40,20 +39,4 @@ internal sealed partial class NativeLibrary
         var func = Marshal.GetDelegateForFunctionPointer<MkStringSymbolDelegate>(funcPtr);
         return func(ctx, str);
     }
-
-
-    /// <summary>
-    /// Gets integer value from integer symbol.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="symbol">The integer symbol handle.</param>
-    /// <returns>Integer value of the symbol.</returns>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int GetSymbolInt(IntPtr ctx, IntPtr symbol)
-    {
-        var funcPtr = GetFunctionPointer("Z3_get_symbol_int");
-        var func = Marshal.GetDelegateForFunctionPointer<GetSymbolIntDelegate>(funcPtr);
-        return func(ctx, symbol);
-    }
-
 }

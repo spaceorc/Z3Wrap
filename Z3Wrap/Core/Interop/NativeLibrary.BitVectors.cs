@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's bitvector theory API (54/54 functions - 100% complete):
+// This file provides bindings for Z3's bitvector theory API (52/52 functions - 100% complete):
 // - Sort creation (2 functions): Bitvector sorts and size queries
 // - Numeral creation (2 functions): Create bitvector constants from strings or bit arrays
 // - Bit manipulation (5 functions): Concat, extract, sign/zero extend, repeat
@@ -18,7 +18,7 @@
 // - Rotate operations (4 functions): Const and variable rotate left/right
 // - Comparison operations (8 functions): Signed and unsigned comparisons
 // - Overflow detection (8 functions): Detect arithmetic overflow/underflow
-// - Conversion functions (4 functions): Between bitvectors, integers, and strings
+// - Conversion functions (2 functions): Between bitvectors and integers
 //
 // Complete coverage of Z3's bitvector reasoning API for fixed-width machine arithmetic.
 // See COMPARISON_BitVectors.md for detailed function mapping documentation.
@@ -102,8 +102,6 @@ internal sealed partial class NativeLibrary
         // Conversion functions
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv2int");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ubv_to_str");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sbv_to_str");
     }
 
     // Delegates
@@ -184,8 +182,6 @@ internal sealed partial class NativeLibrary
     // Conversion delegates
     private delegate IntPtr MkBv2IntDelegate(IntPtr ctx, IntPtr t1, bool signed);
     private delegate IntPtr MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
-    private delegate IntPtr MkUBvToStrDelegate(IntPtr ctx, IntPtr t);
-    private delegate IntPtr MkSBvToStrDelegate(IntPtr ctx, IntPtr t);
 
     // Methods
 
@@ -640,32 +636,6 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_int2bv");
         var func = Marshal.GetDelegateForFunctionPointer<MkInt2BvDelegate>(funcPtr);
         return func(ctx, n, t1);
-    }
-
-    /// <summary>
-    /// Converts unsigned bitvector to string representation.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="t">Bitvector expression.</param>
-    /// <returns>String expression representing unsigned bitvector value.</returns>
-    internal IntPtr MkUBvToStr(IntPtr ctx, IntPtr t)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_ubv_to_str");
-        var func = Marshal.GetDelegateForFunctionPointer<MkUBvToStrDelegate>(funcPtr);
-        return func(ctx, t);
-    }
-
-    /// <summary>
-    /// Converts signed bitvector to string representation.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="t">Bitvector expression.</param>
-    /// <returns>String expression representing signed bitvector value.</returns>
-    internal IntPtr MkSBvToStr(IntPtr ctx, IntPtr t)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_sbv_to_str");
-        var func = Marshal.GetDelegateForFunctionPointer<MkSBvToStrDelegate>(funcPtr);
-        return func(ctx, t);
     }
 
     /// <summary>

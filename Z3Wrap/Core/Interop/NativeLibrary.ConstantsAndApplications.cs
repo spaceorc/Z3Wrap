@@ -16,7 +16,10 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 
 internal sealed partial class NativeLibrary
 {
-    private static void LoadFunctionsConstantsAndApplications(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
+    private static void LoadFunctionsConstantsAndApplications(
+        IntPtr handle,
+        Dictionary<string, IntPtr> functionPointers
+    )
     {
         // TODO: Load functions from z3_api_constants_and_applications.txt
     }

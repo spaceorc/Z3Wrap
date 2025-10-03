@@ -91,8 +91,8 @@ internal sealed partial class NativeLibrary : IDisposable
         try
         {
             LoadFunctionsContext(handle, functionPointers);
-            LoadFunctionsSolver(handle, functionPointers);
-            LoadFunctionsModel(handle, functionPointers);
+            LoadFunctionsSolvers(handle, functionPointers);
+            LoadFunctionsModels(handle, functionPointers);
             LoadFunctionsParameters(handle, functionPointers);
             LoadFunctionsQuantifiers(handle, functionPointers);
             LoadFunctionsExpressions(handle, functionPointers);
@@ -101,16 +101,11 @@ internal sealed partial class NativeLibrary : IDisposable
             LoadFunctionsFunctions(handle, functionPointers);
             LoadFunctionsErrorHandling(handle, functionPointers);
             LoadFunctionsPredicates(handle, functionPointers);
-            LoadFunctionsFunctionInterpretations(handle, functionPointers);
-            LoadFunctionsQueries(handle, functionPointers);
             LoadFunctionsSets(handle, functionPointers);
             LoadFunctionsConstraints(handle, functionPointers);
             LoadFunctionsStringTheory(handle, functionPointers);
-            LoadFunctionsSolverExtensions(handle, functionPointers);
             LoadFunctionsTactics(handle, functionPointers);
             LoadFunctionsGoals(handle, functionPointers);
-            LoadFunctionsProbes(handle, functionPointers);
-            LoadFunctionsSimplifiers(handle, functionPointers);
             LoadFunctionsFloatingPoint(handle, functionPointers);
             LoadFunctionsDatatypes(handle, functionPointers);
             LoadFunctionsOptimization(handle, functionPointers);

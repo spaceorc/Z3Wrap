@@ -7,12 +7,11 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's parameter management API (19 functions):
+// This file provides bindings for Z3's parameter management API (9 functions):
 // - Parameter set creation and lifecycle (Z3_mk_params, inc_ref, dec_ref)
 // - Parameter value setters (bool, uint, double, symbol)
-// - Parameter validation and introspection
-// - Parameter descriptor queries (kind, size, name, documentation)
-// - Global parameter management (affects all contexts)
+// - Parameter validation (Z3_params_validate)
+// - String conversion (Z3_params_to_string)
 
 using System.Runtime.InteropServices;
 
@@ -31,16 +30,6 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_symbol");
         LoadFunctionOrNull(handle, functionPointers, "Z3_params_to_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_params_validate");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_get_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_get_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_get_documentation");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_global_param_set");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_global_param_reset_all");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_global_param_get");
     }
 
     // Delegates
@@ -53,16 +42,6 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr ParamsToStringDelegate(IntPtr ctx, IntPtr paramsHandle);
     private delegate void ParamsSetUIntDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr key, uint value);
     private delegate void ParamsValidateDelegate(IntPtr ctx, IntPtr paramsHandle, IntPtr paramDescrs);
-    private delegate void ParamDescrsIncRefDelegate(IntPtr ctx, IntPtr paramDescrs);
-    private delegate void ParamDescrsDecRefDelegate(IntPtr ctx, IntPtr paramDescrs);
-    private delegate int ParamDescrsGetKindDelegate(IntPtr ctx, IntPtr paramDescrs, IntPtr name);
-    private delegate uint ParamDescrsSizeDelegate(IntPtr ctx, IntPtr paramDescrs);
-    private delegate IntPtr ParamDescrsGetNameDelegate(IntPtr ctx, IntPtr paramDescrs, uint index);
-    private delegate IntPtr ParamDescrsGetDocumentationDelegate(IntPtr ctx, IntPtr paramDescrs, IntPtr name);
-    private delegate IntPtr ParamDescrsToStringDelegate(IntPtr ctx, IntPtr paramDescrs);
-    private delegate void GlobalParamSetDelegate(IntPtr paramId, IntPtr paramValue);
-    private delegate void GlobalParamResetAllDelegate();
-    private delegate bool GlobalParamGetDelegate(IntPtr paramId, IntPtr paramValue);
 
     // Methods
     /// <summary>
@@ -194,176 +173,5 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_params_validate");
         var func = Marshal.GetDelegateForFunctionPointer<ParamsValidateDelegate>(funcPtr);
         func(ctx, paramsHandle, paramDescrs);
-    }
-
-    /// <summary>
-    /// Increments the reference counter of parameter descriptors.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <remarks>
-    /// Z3 uses reference counting for memory management. Must be paired with ParamDescrsDecRef.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void ParamDescrsIncRef(IntPtr ctx, IntPtr paramDescrs)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsIncRefDelegate>(funcPtr);
-        func(ctx, paramDescrs);
-    }
-
-    /// <summary>
-    /// Decrements the reference counter of parameter descriptors.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <remarks>
-    /// Must be paired with ParamDescrsIncRef. When reference count reaches zero,
-    /// the descriptors may be garbage collected.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void ParamDescrsDecRef(IntPtr ctx, IntPtr paramDescrs)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsDecRefDelegate>(funcPtr);
-        func(ctx, paramDescrs);
-    }
-
-    /// <summary>
-    /// Retrieves parameter kind from descriptors.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <param name="name">Parameter name symbol.</param>
-    /// <returns>Parameter kind (0=uint, 1=bool, 2=double, 3=symbol, 4=invalid).</returns>
-    /// <remarks>
-    /// Returns the type/kind of the parameter with the given name.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int ParamDescrsGetKind(IntPtr ctx, IntPtr paramDescrs, IntPtr name)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_get_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetKindDelegate>(funcPtr);
-        return func(ctx, paramDescrs, name);
-    }
-
-    /// <summary>
-    /// Retrieves number of parameters in descriptors.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <returns>Number of parameters.</returns>
-    /// <remarks>
-    /// Returns the number of parameters described in the parameter descriptors.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal uint ParamDescrsSize(IntPtr ctx, IntPtr paramDescrs)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_size");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsSizeDelegate>(funcPtr);
-        return func(ctx, paramDescrs);
-    }
-
-    /// <summary>
-    /// Retrieves parameter name by index from descriptors.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <param name="index">Parameter index (0-based).</param>
-    /// <returns>Parameter name symbol.</returns>
-    /// <remarks>
-    /// Returns the name symbol of the parameter at the given index.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr ParamDescrsGetName(IntPtr ctx, IntPtr paramDescrs, uint index)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_get_name");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetNameDelegate>(funcPtr);
-        return func(ctx, paramDescrs, index);
-    }
-
-    /// <summary>
-    /// Retrieves documentation string for parameter.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <param name="name">Parameter name symbol.</param>
-    /// <returns>Documentation string for the parameter.</returns>
-    /// <remarks>
-    /// Returns a string describing what the parameter does and its valid values.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr ParamDescrsGetDocumentation(IntPtr ctx, IntPtr paramDescrs, IntPtr name)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_get_documentation");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetDocumentationDelegate>(funcPtr);
-        return func(ctx, paramDescrs, name);
-    }
-
-    /// <summary>
-    /// Converts parameter descriptors to string representation.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="paramDescrs">The parameter descriptors handle.</param>
-    /// <returns>String representation of parameter descriptors.</returns>
-    /// <remarks>
-    /// Returns a string describing all parameters in the descriptor set.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr ParamDescrsToString(IntPtr ctx, IntPtr paramDescrs)
-    {
-        var funcPtr = GetFunctionPointer("Z3_param_descrs_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsToStringDelegate>(funcPtr);
-        return func(ctx, paramDescrs);
-    }
-
-    /// <summary>
-    /// Sets a global parameter.
-    /// </summary>
-    /// <param name="paramId">Parameter ID string.</param>
-    /// <param name="paramValue">Parameter value string.</param>
-    /// <remarks>
-    /// Sets a global (context-independent) parameter. Global parameters affect all Z3
-    /// contexts created after the parameter is set.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void GlobalParamSet(IntPtr paramId, IntPtr paramValue)
-    {
-        var funcPtr = GetFunctionPointer("Z3_global_param_set");
-        var func = Marshal.GetDelegateForFunctionPointer<GlobalParamSetDelegate>(funcPtr);
-        func(paramId, paramValue);
-    }
-
-    /// <summary>
-    /// Resets all global parameters to default values.
-    /// </summary>
-    /// <remarks>
-    /// Resets all global parameters to their default values. Affects subsequently
-    /// created contexts.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void GlobalParamResetAll()
-    {
-        var funcPtr = GetFunctionPointer("Z3_global_param_reset_all");
-        var func = Marshal.GetDelegateForFunctionPointer<GlobalParamResetAllDelegate>(funcPtr);
-        func();
-    }
-
-    /// <summary>
-    /// Retrieves the value of a global parameter.
-    /// </summary>
-    /// <param name="paramId">Parameter ID string.</param>
-    /// <param name="paramValue">Output buffer for parameter value string.</param>
-    /// <returns>True if parameter exists, false otherwise.</returns>
-    /// <remarks>
-    /// Retrieves the current value of a global parameter. Returns false if the
-    /// parameter has not been set.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal bool GlobalParamGet(IntPtr paramId, IntPtr paramValue)
-    {
-        var funcPtr = GetFunctionPointer("Z3_global_param_get");
-        var func = Marshal.GetDelegateForFunctionPointer<GlobalParamGetDelegate>(funcPtr);
-        return func(paramId, paramValue);
     }
 }

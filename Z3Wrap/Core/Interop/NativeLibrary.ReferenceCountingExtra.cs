@@ -7,8 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's reference counting API for additional object types (12 functions):
-// - Apply Result reference counting (tactic application results)
+// This file provides bindings for Z3's reference counting API for additional object types (10 functions):
 // - Statistics reference counting (solver statistics objects)
 // - Function Entry reference counting (function interpretation entries)
 // - Function Interpretation reference counting (model function interpretations)
@@ -24,6 +23,7 @@
 // - Z3_params_inc_ref/Z3_params_dec_ref (Parameters.cs)
 // - Z3_ast_vector_inc_ref/Z3_ast_vector_dec_ref (AstCollections.cs)
 // - Z3_ast_map_inc_ref/Z3_ast_map_dec_ref (AstCollections.cs)
+// - Z3_apply_result_inc_ref/Z3_apply_result_dec_ref (Tactics.cs)
 // - And others in their respective domain-specific files
 
 using System.Runtime.InteropServices;
@@ -34,10 +34,6 @@ internal sealed partial class NativeLibrary
 {
     private static void LoadFunctionsReferenceCountingExtra(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
-        // Apply Result
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_dec_ref");
-
         // Statistics
         LoadFunctionOrNull(handle, functionPointers, "Z3_stats_inc_ref");
         LoadFunctionOrNull(handle, functionPointers, "Z3_stats_dec_ref");
@@ -61,10 +57,6 @@ internal sealed partial class NativeLibrary
 
     // Delegates
 
-    // Apply Result
-    private delegate void ApplyResultIncRefDelegate(IntPtr ctx, IntPtr applyResult);
-    private delegate void ApplyResultDecRefDelegate(IntPtr ctx, IntPtr applyResult);
-
     // Statistics
     private delegate void StatsIncRefDelegate(IntPtr ctx, IntPtr stats);
     private delegate void StatsDecRefDelegate(IntPtr ctx, IntPtr stats);
@@ -86,42 +78,6 @@ internal sealed partial class NativeLibrary
     private delegate void FixedpointDecRefDelegate(IntPtr ctx, IntPtr fixedpoint);
 
     // Methods
-
-    // Apply Result
-    /// <summary>
-    /// Increments reference count for apply result.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="applyResult">Apply result handle.</param>
-    /// <remarks>
-    /// Prevents apply result from being garbage collected by Z3.
-    /// Apply results are returned by tactic application.
-    /// Must be balanced with ApplyResultDecRef call.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void ApplyResultIncRef(IntPtr ctx, IntPtr applyResult)
-    {
-        var funcPtr = GetFunctionPointer("Z3_apply_result_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultIncRefDelegate>(funcPtr);
-        func(ctx, applyResult);
-    }
-
-    /// <summary>
-    /// Decrements reference count for apply result.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="applyResult">Apply result handle.</param>
-    /// <remarks>
-    /// When reference count reaches zero, apply result is freed by Z3.
-    /// Must be balanced with ApplyResultIncRef call.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal void ApplyResultDecRef(IntPtr ctx, IntPtr applyResult)
-    {
-        var funcPtr = GetFunctionPointer("Z3_apply_result_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultDecRefDelegate>(funcPtr);
-        func(ctx, applyResult);
-    }
 
     // Statistics
     /// <summary>

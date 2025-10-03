@@ -165,13 +165,7 @@ internal sealed partial class NativeLibrary
     /// Old-style syntax using sorts and symbols instead of constants.
     /// </remarks>
     /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkLambda(
-        IntPtr ctx,
-        uint numDecls,
-        IntPtr[] sorts,
-        IntPtr[] declNames,
-        IntPtr body
-    )
+    internal IntPtr MkLambda(IntPtr ctx, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lambda");
         var func = Marshal.GetDelegateForFunctionPointer<MkLambdaDelegate>(funcPtr);

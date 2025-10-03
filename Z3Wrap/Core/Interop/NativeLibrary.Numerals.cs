@@ -7,14 +7,14 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Numerals API (9 functions):
+// This file provides bindings for Z3's Numerals API (10 functions):
+// - Numeral creation
 // - Numeral string conversion (binary, decimal, generic)
 // - Integer extraction (32-bit and 64-bit, signed and unsigned)
 // - Rational number extraction as numerator/denominator pairs
 // - Floating-point approximation extraction
 // - Small numeral predicate checking
 //
-// Note: Numeral creation (Z3_mk_numeral) is in NativeLibrary.Expressions.cs
 // Note: Rational decomposition (Z3_get_numerator/denominator) is in NativeLibrary.Queries.cs
 
 using System.Runtime.InteropServices;
@@ -34,10 +34,12 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_rational_int64");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_small");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_double");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_numeral");
     }
 
     // Delegates
 
+    private delegate IntPtr MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
     private delegate IntPtr GetNumeralBinaryStringDelegate(IntPtr ctx, IntPtr ast);
     private delegate IntPtr GetNumeralDecimalStringDelegate(IntPtr ctx, IntPtr ast, uint precision);
     private delegate bool GetNumeralIntDelegate(IntPtr ctx, IntPtr ast, out int value);
@@ -221,5 +223,24 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_get_numeral_double");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralDoubleDelegate>(funcPtr);
         return func(ctx, ast, out value);
+    }
+
+    /// <summary>
+    /// Creates a Z3 numeric literal expression from a string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numeral">Pointer to the null-terminated string representation of the number.</param>
+    /// <param name="sort">The numeric sort (integer or real) for the literal.</param>
+    /// <returns>Handle to the created numeric literal expression.</returns>
+    /// <remarks>
+    /// The numeral string format depends on the sort. Integers use decimal notation,
+    /// reals can use decimal or fractional notation (e.g., "3.14" or "22/7").
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_numeral");
+        var func = Marshal.GetDelegateForFunctionPointer<MkNumeralDelegate>(funcPtr);
+        return func(ctx, numeral, sort);
     }
 }

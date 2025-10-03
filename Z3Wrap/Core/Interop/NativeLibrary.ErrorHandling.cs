@@ -26,12 +26,14 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_get_error_code");
         LoadFunctionInternal(handle, functionPointers, "Z3_get_error_msg");
         LoadFunctionInternal(handle, functionPointers, "Z3_set_error_handler");
+        LoadFunctionInternal(handle, functionPointers, "Z3_set_error");
     }
 
     // Delegates
     private delegate int GetErrorCodeDelegate(IntPtr ctx);
     private delegate IntPtr GetErrorMsgDelegate(IntPtr ctx, int errorCode);
     private delegate void SetErrorHandlerDelegate(IntPtr ctx, ErrorHandlerDelegate? handler);
+    private delegate void SetErrorDelegate(IntPtr ctx, int errorCode);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void ErrorHandlerDelegate(IntPtr ctx, int errorCode);
@@ -88,5 +90,22 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_set_error_handler");
         var func = Marshal.GetDelegateForFunctionPointer<SetErrorHandlerDelegate>(funcPtr);
         func(ctx, handler);
+    }
+
+    /// <summary>
+    /// Sets error code for context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="errorCode">Error code to set.</param>
+    /// <remarks>
+    /// Manually sets error state. Used for error handling in user callbacks and
+    /// custom theory implementations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SetError(IntPtr ctx, int errorCode)
+    {
+        var funcPtr = GetFunctionPointer("Z3_set_error");
+        var func = Marshal.GetDelegateForFunctionPointer<SetErrorDelegate>(funcPtr);
+        func(ctx, errorCode);
     }
 }

@@ -299,6 +299,51 @@
     <Compile Update="Core\Z3Library.Sorts.cs">
       <DependentUpon>Z3Library.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Accessors.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Configuration.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.ConstantsAndApplications.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.GlobalParameters.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.IntegersAndReals.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.InteractionLogging.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Miscellaneous.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Models.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Modifiers.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.ParameterDescriptions.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.PropositionalLogicAndEquality.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Solvers.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Sorts.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.StringConversion.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Interop\NativeLibrary.Symbols.cs">
+      <DependentUpon>NativeLibrary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
