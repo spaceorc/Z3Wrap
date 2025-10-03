@@ -1,3 +1,21 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Function Interpretations API - P/Invoke bindings for Z3 function interpretation extraction
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Function Interpretation API (9 functions):
+// - Function interpretation queries (num entries, get entry, arity)
+// - Function interpretation modification (set else, add entry)
+// - Function interpretation values (get else)
+// - Function entry inspection (get value, num args, get arg)
+//
+// Note: Reference counting functions (Z3_func_interp_inc_ref, Z3_func_interp_dec_ref,
+//       Z3_func_entry_inc_ref, Z3_func_entry_dec_ref) are in NativeLibrary.ReferenceCountingExtra.cs
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
