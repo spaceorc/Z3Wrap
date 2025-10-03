@@ -7,21 +7,16 @@
 // Source: z3_api.h (Sorts section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Sorts API (14 functions):
+// This file provides complete bindings for Z3's Sorts API (21 of 21 functions from c_headers/z3_api_sorts.txt):
 // - Basic sort creation (bool, int, real)
+// - Bitvector sorts (bv_sort)
+// - Array sorts (single and multi-dimensional)
+// - Type variables and uninterpreted sorts
 // - Constructor building (mk_constructor, query, field count, delete)
 // - Datatype creation (single and mutually recursive)
 // - Tuple sorts (special single-constructor datatypes)
+// - Enumeration and finite domain sorts
 // - List sorts (recursive cons-cell structures)
-//
-// Missing Functions (7 functions):
-// - Z3_mk_array_sort
-// - Z3_mk_array_sort_n
-// - Z3_mk_bv_sort
-// - Z3_mk_enumeration_sort
-// - Z3_mk_finite_domain_sort
-// - Z3_mk_type_variable
-// - Z3_mk_uninterpreted_sort
 
 using System.Runtime.InteropServices;
 
@@ -34,6 +29,11 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_bool_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_int_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_real_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_uninterpreted_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_type_variable");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort_n");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_constructor");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_constructor_list");
         LoadFunctionInternal(handle, functionPointers, "Z3_query_constructor");
@@ -44,13 +44,34 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_datatypes");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_datatype_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_tuple_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_finite_domain_sort");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_enumeration_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_list_sort");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_bv_sort");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_array_sort");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_array_sort_n");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_enumeration_sort");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_finite_domain_sort");
     }
 
     // Delegates
     private delegate IntPtr MkBoolSortDelegate(IntPtr ctx);
     private delegate IntPtr MkIntSortDelegate(IntPtr ctx);
     private delegate IntPtr MkRealSortDelegate(IntPtr ctx);
+    private delegate IntPtr MkBvSortDelegate(IntPtr ctx, uint sz);
+    private delegate IntPtr MkUninterpretedSortDelegate(IntPtr ctx, IntPtr symbol);
+    private delegate IntPtr MkTypeVariableDelegate(IntPtr ctx, IntPtr symbol);
+    private delegate IntPtr MkArraySortDelegate(IntPtr ctx, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkArraySortNDelegate(IntPtr ctx, uint n, IntPtr[] domains, IntPtr range);
+    private delegate IntPtr MkFiniteDomainSortDelegate(IntPtr ctx, IntPtr name, ulong size);
+    private delegate IntPtr MkEnumerationSortDelegate(
+        IntPtr ctx,
+        IntPtr name,
+        uint numEnumNames,
+        IntPtr[] enumNames,
+        IntPtr[] enumConsts,
+        IntPtr[] enumTesters
+    );
 
     private delegate IntPtr MkConstructorDelegate(
         IntPtr ctx,
@@ -159,6 +180,42 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_real_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkRealSortDelegate>(funcPtr);
         return func(ctx);
+    }
+
+    /// <summary>
+    /// Creates uninterpreted sort with specified name.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="symbol">Sort name symbol.</param>
+    /// <returns>Handle to the created uninterpreted sort.</returns>
+    /// <remarks>
+    /// Uninterpreted sorts represent abstract types with no predefined structure.
+    /// Used for modeling custom domains where only equality is needed.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkUninterpretedSort(IntPtr ctx, IntPtr symbol)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_uninterpreted_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<MkUninterpretedSortDelegate>(funcPtr);
+        return func(ctx, symbol);
+    }
+
+    /// <summary>
+    /// Creates type variable for parametric sorts.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="symbol">Type variable name symbol.</param>
+    /// <returns>Handle to the created type variable sort.</returns>
+    /// <remarks>
+    /// Type variables enable parametric polymorphism in sort definitions.
+    /// Used for defining generic datatypes and function signatures.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkTypeVariable(IntPtr ctx, IntPtr symbol)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_type_variable");
+        var func = Marshal.GetDelegateForFunctionPointer<MkTypeVariableDelegate>(funcPtr);
+        return func(ctx, symbol);
     }
 
     /// <summary>
@@ -418,5 +475,108 @@ internal sealed partial class NativeLibrary
             ref headDecl,
             ref tailDecl
         );
+    }
+
+    /// <summary>
+    /// Creates a Z3 bitvector sort with the specified bit width.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sz">The bit width of the bitvector (must be greater than 0).</param>
+    /// <returns>Handle to the created bitvector sort.</returns>
+    /// <remarks>
+    /// Bitvector sorts represent fixed-width binary numbers used for modeling
+    /// machine arithmetic and bitwise operations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBvSort(IntPtr ctx, uint sz)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSortDelegate>(funcPtr);
+        return func(ctx, sz);
+    }
+
+    /// <summary>
+    /// Creates a Z3 array sort with specified domain and range sorts.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="domain">The sort for array indices (keys).</param>
+    /// <param name="range">The sort for array values.</param>
+    /// <returns>Handle to the created array sort.</returns>
+    /// <remarks>
+    /// Array sorts define mappings from domain elements to range elements.
+    /// Used for creating array expressions and constants.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortDelegate>(funcPtr);
+        return func(ctx, domain, range);
+    }
+
+    /// <summary>
+    /// Creates n-dimensional array sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="n">Number of dimensions.</param>
+    /// <param name="domains">Array of domain sorts for each dimension.</param>
+    /// <param name="range">The range sort for array values.</param>
+    /// <returns>Handle to n-dimensional array sort.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkArraySortN(IntPtr ctx, uint n, IntPtr[] domains, IntPtr range)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_array_sort_n");
+        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortNDelegate>(funcPtr);
+        return func(ctx, n, domains, range);
+    }
+
+    /// <summary>
+    /// Creates enumeration sort like C enum type.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="name">Enumeration sort name symbol.</param>
+    /// <param name="numEnumNames">Number of enumeration constants.</param>
+    /// <param name="enumNames">Array of enumeration constant name symbols.</param>
+    /// <param name="enumConsts">Output: array of enumeration constant expressions.</param>
+    /// <param name="enumTesters">Output: array of tester predicates (is_EnumName functions).</param>
+    /// <returns>Sort handle representing enumeration type.</returns>
+    /// <remarks>
+    /// Creates algebraic datatype with nullary constructors for each enumeration value.
+    /// Similar to C/C++ enum or Haskell sum type with only constant constructors.
+    /// Returns constants and tester predicates for each enumeration value.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkEnumerationSort(
+        IntPtr ctx,
+        IntPtr name,
+        uint numEnumNames,
+        IntPtr[] enumNames,
+        IntPtr[] enumConsts,
+        IntPtr[] enumTesters
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_enumeration_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<MkEnumerationSortDelegate>(funcPtr);
+        return func(ctx, name, numEnumNames, enumNames, enumConsts, enumTesters);
+    }
+
+    /// <summary>
+    /// Creates finite domain sort with specified size.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="name">Sort name symbol.</param>
+    /// <param name="size">Number of distinct elements in domain.</param>
+    /// <returns>Sort handle representing finite domain.</returns>
+    /// <remarks>
+    /// Finite domain sorts have exactly 'size' distinct elements.
+    /// More efficient than unbounded sorts for constraint solving.
+    /// Useful for modeling bounded counters, state machines, etc.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkFiniteDomainSort(IntPtr ctx, IntPtr name, ulong size)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_finite_domain_sort");
+        var func = Marshal.GetDelegateForFunctionPointer<MkFiniteDomainSortDelegate>(funcPtr);
+        return func(ctx, name, size);
     }
 }

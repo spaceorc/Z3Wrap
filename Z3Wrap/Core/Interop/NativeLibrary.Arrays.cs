@@ -23,7 +23,6 @@ internal sealed partial class NativeLibrary
 {
     private static void LoadFunctionsArrays(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_select");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_store");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_const_array");
@@ -36,12 +35,10 @@ internal sealed partial class NativeLibrary
         // Multi-dimensional array functions
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_select_n");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_store_n");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort_n");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_domain_n");
     }
 
     // Delegates
-    private delegate IntPtr MkArraySortDelegate(IntPtr ctx, IntPtr domain, IntPtr range);
     private delegate IntPtr MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
     private delegate IntPtr MkStoreDelegate(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value);
     private delegate IntPtr MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
@@ -54,29 +51,9 @@ internal sealed partial class NativeLibrary
     // Delegates - Multi-dimensional arrays
     private delegate IntPtr MkSelectNDelegate(IntPtr ctx, IntPtr array, uint n, IntPtr[] indices);
     private delegate IntPtr MkStoreNDelegate(IntPtr ctx, IntPtr array, uint n, IntPtr[] indices, IntPtr value);
-    private delegate IntPtr MkArraySortNDelegate(IntPtr ctx, uint n, IntPtr[] domains, IntPtr range);
     private delegate IntPtr GetArraySortDomainNDelegate(IntPtr ctx, IntPtr arraySort, uint n);
 
     // Methods
-    /// <summary>
-    /// Creates a Z3 array sort with specified domain and range sorts.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="domain">The sort for array indices (keys).</param>
-    /// <param name="range">The sort for array values.</param>
-    /// <returns>Handle to the created array sort.</returns>
-    /// <remarks>
-    /// Array sorts define mappings from domain elements to range elements.
-    /// Used for creating array expressions and constants.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkArraySort(IntPtr ctx, IntPtr domain, IntPtr range)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortDelegate>(funcPtr);
-        return func(ctx, domain, range);
-    }
-
     /// <summary>
     /// Creates a Z3 array select expression that reads a value at a given index.
     /// </summary>
@@ -255,22 +232,6 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_store_n");
         var func = Marshal.GetDelegateForFunctionPointer<MkStoreNDelegate>(funcPtr);
         return func(ctx, array, n, indices, value);
-    }
-
-    /// <summary>
-    /// Creates n-dimensional array sort.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="n">Number of dimensions.</param>
-    /// <param name="domains">Array of domain sorts for each dimension.</param>
-    /// <param name="range">The range sort for array values.</param>
-    /// <returns>Handle to n-dimensional array sort.</returns>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkArraySortN(IntPtr ctx, uint n, IntPtr[] domains, IntPtr range)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_array_sort_n");
-        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortNDelegate>(funcPtr);
-        return func(ctx, n, domains, range);
     }
 
     /// <summary>

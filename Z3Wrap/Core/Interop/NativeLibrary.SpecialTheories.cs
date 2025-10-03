@@ -7,23 +7,16 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Special Relations and Theories API (5 of 12 functions - 41.7% complete):
+// This file provides bindings for Z3's Special Relations and Theories API (9 functions):
 // - Transitive closure of binary relations (1 function)
+// - Special order relations: partial, linear, piecewise-linear, tree orders (4 functions)
 // - Special sorts: finite domain and enumeration types (2 functions)
 // - Fresh function/constant declarations with unique names (2 functions)
 //
-// Missing functions (7):
-// - Special order relations: partial, linear, piecewise-linear, tree orders (4 functions)
-// - List sort with constructors and accessors (1 function)
-// - Recursive function declarations and definitions (2 functions)
+// Note: List sort (Z3_mk_list_sort) is in NativeLibrary.Sorts.cs
+// Note: Recursive function declarations (Z3_mk_rec_func_decl, Z3_add_rec_def) not yet implemented
 //
 // See COMPARISON_SpecialTheories.md for complete API comparison and recommendations.
-//
-// Missing Functions (4 functions):
-// - Z3_mk_linear_order
-// - Z3_mk_partial_order
-// - Z3_mk_piecewise_linear_order
-// - Z3_mk_tree_order
 
 using System.Runtime.InteropServices;
 
@@ -36,9 +29,13 @@ internal sealed partial class NativeLibrary
         // Relation Theory
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_transitive_closure");
 
+        // Order Relations
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_partial_order");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_linear_order");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_tree_order");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_piecewise_linear_order");
+
         // Special Sorts
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_finite_domain_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_enumeration_sort");
 
         // Miscellaneous
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fresh_func_decl");
@@ -50,16 +47,11 @@ internal sealed partial class NativeLibrary
     // Relation Theory
     private delegate IntPtr MkTransitiveClosureDelegate(IntPtr ctx, IntPtr relation);
 
-    // Special Sorts
-    private delegate IntPtr MkFiniteDomainSortDelegate(IntPtr ctx, IntPtr name, ulong size);
-    private delegate IntPtr MkEnumerationSortDelegate(
-        IntPtr ctx,
-        IntPtr name,
-        uint numEnumNames,
-        IntPtr[] enumNames,
-        IntPtr[] enumConsts,
-        IntPtr[] enumTesters
-    );
+    // Order Relations
+    private delegate IntPtr MkPartialOrderDelegate(IntPtr ctx, IntPtr sort, uint id);
+    private delegate IntPtr MkLinearOrderDelegate(IntPtr ctx, IntPtr sort, uint id);
+    private delegate IntPtr MkTreeOrderDelegate(IntPtr ctx, IntPtr sort, uint id);
+    private delegate IntPtr MkPiecewiseLinearOrderDelegate(IntPtr ctx, IntPtr sort, uint id);
 
     // Miscellaneous
     private delegate IntPtr MkFreshFuncDeclDelegate(
@@ -93,57 +85,80 @@ internal sealed partial class NativeLibrary
         return func(ctx, relation);
     }
 
+    // Order Relations
+    /// <summary>
+    /// Creates partial ordering relation over signature.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">Sort for the ordering relation.</param>
+    /// <param name="id">Index identifier for the relation.</param>
+    /// <returns>Function declaration representing partial order relation.</returns>
+    /// <remarks>
+    /// Creates binary relation representing partial order (reflexive, antisymmetric, transitive).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkPartialOrder(IntPtr ctx, IntPtr sort, uint id)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_partial_order");
+        var func = Marshal.GetDelegateForFunctionPointer<MkPartialOrderDelegate>(funcPtr);
+        return func(ctx, sort, id);
+    }
+
+    /// <summary>
+    /// Creates linear ordering relation over signature.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">Sort for the ordering relation.</param>
+    /// <param name="id">Index identifier for the relation.</param>
+    /// <returns>Function declaration representing linear order relation.</returns>
+    /// <remarks>
+    /// Creates binary relation representing total/linear order (reflexive, antisymmetric, transitive, total).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkLinearOrder(IntPtr ctx, IntPtr sort, uint id)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_linear_order");
+        var func = Marshal.GetDelegateForFunctionPointer<MkLinearOrderDelegate>(funcPtr);
+        return func(ctx, sort, id);
+    }
+
+    /// <summary>
+    /// Creates tree ordering relation over signature.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">Sort for the ordering relation.</param>
+    /// <param name="id">Index identifier for the relation.</param>
+    /// <returns>Function declaration representing tree order relation.</returns>
+    /// <remarks>
+    /// Creates binary relation for tree ordering (hierarchical structure with single parent).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkTreeOrder(IntPtr ctx, IntPtr sort, uint id)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_tree_order");
+        var func = Marshal.GetDelegateForFunctionPointer<MkTreeOrderDelegate>(funcPtr);
+        return func(ctx, sort, id);
+    }
+
+    /// <summary>
+    /// Creates piecewise linear ordering relation over signature.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">Sort for the ordering relation.</param>
+    /// <param name="id">Index identifier for the relation.</param>
+    /// <returns>Function declaration representing piecewise linear order relation.</returns>
+    /// <remarks>
+    /// Creates binary relation for piecewise linear ordering.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkPiecewiseLinearOrder(IntPtr ctx, IntPtr sort, uint id)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_piecewise_linear_order");
+        var func = Marshal.GetDelegateForFunctionPointer<MkPiecewiseLinearOrderDelegate>(funcPtr);
+        return func(ctx, sort, id);
+    }
+
     // Special Sorts
-    /// <summary>
-    /// Creates finite domain sort with specified size.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="name">Sort name symbol.</param>
-    /// <param name="size">Number of distinct elements in domain.</param>
-    /// <returns>Sort handle representing finite domain.</returns>
-    /// <remarks>
-    /// Finite domain sorts have exactly 'size' distinct elements.
-    /// More efficient than unbounded sorts for constraint solving.
-    /// Useful for modeling bounded counters, state machines, etc.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkFiniteDomainSort(IntPtr ctx, IntPtr name, ulong size)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_finite_domain_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<MkFiniteDomainSortDelegate>(funcPtr);
-        return func(ctx, name, size);
-    }
-
-    /// <summary>
-    /// Creates enumeration sort like C enum type.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="name">Enumeration sort name symbol.</param>
-    /// <param name="numEnumNames">Number of enumeration constants.</param>
-    /// <param name="enumNames">Array of enumeration constant name symbols.</param>
-    /// <param name="enumConsts">Output: array of enumeration constant expressions.</param>
-    /// <param name="enumTesters">Output: array of tester predicates (is_EnumName functions).</param>
-    /// <returns>Sort handle representing enumeration type.</returns>
-    /// <remarks>
-    /// Creates algebraic datatype with nullary constructors for each enumeration value.
-    /// Similar to C/C++ enum or Haskell sum type with only constant constructors.
-    /// Returns constants and tester predicates for each enumeration value.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkEnumerationSort(
-        IntPtr ctx,
-        IntPtr name,
-        uint numEnumNames,
-        IntPtr[] enumNames,
-        IntPtr[] enumConsts,
-        IntPtr[] enumTesters
-    )
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_enumeration_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<MkEnumerationSortDelegate>(funcPtr);
-        return func(ctx, name, numEnumNames, enumNames, enumConsts, enumTesters);
-    }
-
     // Miscellaneous
     /// <summary>
     /// Creates fresh function declaration with unique name.

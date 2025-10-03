@@ -35,7 +35,6 @@ internal sealed partial class NativeLibrary
     private static void LoadFunctionsBitVectors(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // Sort creation and queries
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_sort");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_bv_sort_size");
 
         // Numeral creation
@@ -110,7 +109,6 @@ internal sealed partial class NativeLibrary
     // Delegates
 
     // Sort and numeral creation delegates
-    private delegate IntPtr MkBvSortDelegate(IntPtr ctx, uint sz);
     private delegate uint GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
     private delegate IntPtr MkBvDelegate(
         IntPtr ctx,
@@ -187,25 +185,6 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkInt2BvDelegate(IntPtr ctx, uint n, IntPtr t1);
 
     // Methods
-
-    /// <summary>
-    /// Creates a Z3 bitvector sort with the specified bit width.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="sz">The bit width of the bitvector (must be greater than 0).</param>
-    /// <returns>Handle to the created bitvector sort.</returns>
-    /// <remarks>
-    /// Bitvector sorts represent fixed-width binary numbers used for modeling
-    /// machine arithmetic and bitwise operations.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkBvSort(IntPtr ctx, uint sz)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<MkBvSortDelegate>(funcPtr);
-        return func(ctx, sz);
-    }
-
     /// <summary>
     /// Retrieves the bit width of a bitvector sort.
     /// </summary>

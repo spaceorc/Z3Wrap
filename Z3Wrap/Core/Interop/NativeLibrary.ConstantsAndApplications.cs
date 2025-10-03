@@ -7,17 +7,12 @@
 // Source: z3_api.h (ConstantsAndApplications section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's ConstantsAndApplications API (0 functions - placeholder):
-// - TODO: Add functions from c_headers/z3_api_constants_and_applications.txt
+// This file provides bindings for Z3's ConstantsAndApplications API (0 functions):
+// - All 7 functions from c_headers/z3_api_constants_and_applications.txt already exist in other files
 //
-// Missing Functions (7 functions):
-// - Z3_add_rec_def
-// - Z3_mk_app
-// - Z3_mk_const
-// - Z3_mk_fresh_const
-// - Z3_mk_fresh_func_decl
-// - Z3_mk_func_decl
-// - Z3_mk_rec_func_decl
+// Note: Z3_mk_func_decl, Z3_mk_app, Z3_mk_rec_func_decl, Z3_add_rec_def are in NativeLibrary.Functions.cs
+// Note: Z3_mk_const is in NativeLibrary.Expressions.cs
+// Note: Z3_mk_fresh_func_decl, Z3_mk_fresh_const are in NativeLibrary.SpecialTheories.cs
 
 using System.Runtime.InteropServices;
 
@@ -30,6 +25,9 @@ internal sealed partial class NativeLibrary
         Dictionary<string, IntPtr> functionPointers
     )
     {
-        // TODO: Load functions from z3_api_constants_and_applications.txt
+        // All functions from z3_api_constants_and_applications.txt are implemented in other files:
+        // - Functions.cs: Z3_mk_func_decl, Z3_mk_app, Z3_mk_rec_func_decl, Z3_add_rec_def
+        // - Expressions.cs: Z3_mk_const
+        // - SpecialTheories.cs: Z3_mk_fresh_func_decl, Z3_mk_fresh_const
     }
 }
