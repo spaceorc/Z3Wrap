@@ -1,3 +1,19 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Constraints API - P/Invoke bindings for Z3 pseudo-Boolean and cardinality constraints
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's constraint API (5 functions):
+// - Cardinality constraints (at-least, at-most)
+// - Pseudo-Boolean constraints (weighted linear inequalities/equalities over Booleans)
+//
+// Cardinality constraints express "K-out-of-N" requirements (e.g., "at least 2 of 5 sensors active")
+// Pseudo-Boolean constraints generalize cardinality with weighted sums (e.g., "total cost <= budget")
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
