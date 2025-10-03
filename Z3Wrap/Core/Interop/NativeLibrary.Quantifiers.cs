@@ -1,3 +1,24 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Quantifiers API - P/Invoke bindings for Z3 quantifier and lambda expressions
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's quantifier creation API (4 functions):
+// - Universal quantifiers (forall) using constant-based syntax
+// - Existential quantifiers (exists) using constant-based syntax
+// - Patterns for guiding quantifier instantiation
+// - Bound variables for quantifier bodies
+//
+// Note: This file contains only the modern const-based quantifier constructors.
+// Query functions for quantifiers are in NativeLibrary.Queries.cs.
+// Predicate functions for quantifiers are in NativeLibrary.Predicates.cs.
+// Old-style quantifier constructors (using sorts/symbols) and lambda expressions
+// are not currently bound but available in Z3 C API.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
