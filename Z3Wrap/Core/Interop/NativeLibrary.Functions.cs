@@ -1,3 +1,22 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Functions API - P/Invoke bindings for Z3 function declarations and applications
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's function declaration API (3 functions):
+// - Function declaration creation (Z3_mk_func_decl)
+// - Function application (Z3_mk_app)
+// - AST to string conversion (Z3_ast_to_string)
+//
+// Coverage: 3/7 functions (42.9%) - See COMPARISON_Functions.md for details
+// Note: Z3_mk_const is in NativeLibrary.Expressions.cs (basic constant creation)
+// Note: Z3_mk_fresh_func_decl and Z3_mk_fresh_const are in NativeLibrary.SpecialTheories.cs
+// Missing: Z3_mk_rec_func_decl, Z3_add_rec_def (recursive function support)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
