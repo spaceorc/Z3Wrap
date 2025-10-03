@@ -1,3 +1,21 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Parsing API - P/Invoke bindings for Z3 SMT-LIB parsing and export operations
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's SMT-LIB parsing API (10 functions):
+// - SMT-LIB2 string and file parsing (parse_smtlib2_string, parse_smtlib2_file)
+// - SMT-LIB2 command evaluation (eval_smtlib2_string)
+// - Reusable parser context management for incremental parsing
+// - SMT-LIB2 export and serialization (benchmark_to_smtlib_string)
+//
+// Performance Note: Parser contexts (mk_parser_context + parser_context_from_string)
+// are more efficient than eval_smtlib2_string for repeated parsing operations.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
