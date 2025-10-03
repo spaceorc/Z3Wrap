@@ -1,0 +1,12 @@
+Parser interface
+================================================================================
+
+Z3_parse_smtlib2_string
+Z3_parse_smtlib2_file
+Z3_eval_smtlib2_string
+Z3_mk_parser_context
+Z3_parser_context_inc_ref
+Z3_parser_context_dec_ref
+Z3_parser_context_add_sort
+Z3_parser_context_add_decl
+Z3_parser_context_from_string

@@ -1,0 +1,13 @@
+Statistics
+================================================================================
+
+Z3_stats_to_string
+Z3_stats_inc_ref
+Z3_stats_dec_ref
+Z3_stats_size
+Z3_stats_get_key
+Z3_stats_is_uint
+Z3_stats_is_double
+Z3_stats_get_uint_value
+Z3_stats_get_double_value
+Z3_get_estimated_alloc_size

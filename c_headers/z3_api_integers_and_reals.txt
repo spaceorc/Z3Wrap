@@ -1,0 +1,20 @@
+Integers and Reals
+================================================================================
+
+Z3_mk_add
+Z3_mk_mul
+Z3_mk_sub
+Z3_mk_unary_minus
+Z3_mk_div
+Z3_mk_mod
+Z3_mk_rem
+Z3_mk_power
+Z3_mk_abs
+Z3_mk_lt
+Z3_mk_le
+Z3_mk_gt
+Z3_mk_ge
+Z3_mk_divides
+Z3_mk_int2real
+Z3_mk_real2int
+Z3_mk_is_int

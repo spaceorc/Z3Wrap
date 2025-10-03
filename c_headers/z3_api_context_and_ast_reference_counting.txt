@@ -1,0 +1,12 @@
+Context and AST Reference Counting
+================================================================================
+
+Z3_mk_context
+Z3_mk_context_rc
+Z3_del_context
+Z3_inc_ref
+Z3_dec_ref
+Z3_update_param_value
+Z3_get_global_param_descrs
+Z3_interrupt
+Z3_enable_concurrent_dec_ref

@@ -1,0 +1,14 @@
+Propositional Logic and Equality
+================================================================================
+
+Z3_mk_true
+Z3_mk_false
+Z3_mk_eq
+Z3_mk_distinct
+Z3_mk_not
+Z3_mk_ite
+Z3_mk_iff
+Z3_mk_implies
+Z3_mk_xor
+Z3_mk_and
+Z3_mk_or

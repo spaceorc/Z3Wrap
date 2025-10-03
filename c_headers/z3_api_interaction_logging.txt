@@ -1,0 +1,7 @@
+Interaction logging
+================================================================================
+
+Z3_open_log
+Z3_append_log
+Z3_close_log
+Z3_toggle_warning_messages

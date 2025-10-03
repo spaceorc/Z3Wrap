@@ -1,0 +1,10 @@
+Parameter Descriptions
+================================================================================
+
+Z3_param_descrs_inc_ref
+Z3_param_descrs_dec_ref
+Z3_param_descrs_get_kind
+Z3_param_descrs_size
+Z3_param_descrs_get_name
+Z3_param_descrs_get_documentation
+Z3_param_descrs_to_string

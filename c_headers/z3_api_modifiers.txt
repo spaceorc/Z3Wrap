@@ -1,0 +1,8 @@
+Modifiers
+================================================================================
+
+Z3_update_term
+Z3_substitute
+Z3_substitute_vars
+Z3_substitute_funs
+Z3_translate

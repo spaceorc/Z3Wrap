@@ -1,0 +1,8 @@
+Special relations
+================================================================================
+
+Z3_mk_linear_order
+Z3_mk_partial_order
+Z3_mk_piecewise_linear_order
+Z3_mk_tree_order
+Z3_mk_transitive_closure

@@ -1,0 +1,10 @@
+Constants and Applications
+================================================================================
+
+Z3_mk_func_decl
+Z3_mk_app
+Z3_mk_const
+Z3_mk_fresh_func_decl
+Z3_mk_fresh_const
+Z3_mk_rec_func_decl
+Z3_add_rec_def
