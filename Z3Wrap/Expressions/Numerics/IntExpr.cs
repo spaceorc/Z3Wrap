@@ -90,12 +90,12 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     public static IntExpr operator /(IntExpr left, IntExpr right) => left.Div(right);
 
     /// <summary>
-    /// Modulo of two integer expressions.
+    /// Remainder of two integer expressions.
     /// </summary>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
-    /// <returns>Modulo expression.</returns>
-    public static IntExpr operator %(IntExpr left, IntExpr right) => left.Mod(right);
+    /// <returns>Remainder expression.</returns>
+    public static IntExpr operator %(IntExpr left, IntExpr right) => left.Rem(right);
 
     /// <summary>
     /// Unary minus of an integer expression.

@@ -378,7 +378,7 @@ public class IntExprArithmeticTests
     }
 
     [Test]
-    public void Mod_TwoValues_ComputesCorrectResult()
+    public void Rem_TwoValues_ComputesCorrectResult()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -390,11 +390,11 @@ public class IntExprArithmeticTests
         var remainder = a % b;
         var remainderViaIntLeft = 47 % b;
         var remainderViaIntRight = a % 5;
-        var remainderViaContext = context.Mod(a, b);
-        var remainderViaContextIntLeft = context.Mod(47, b);
-        var remainderViaContextIntRight = context.Mod(a, 5);
-        var remainderViaFunc = a.Mod(b);
-        var remainderViaFuncIntRight = a.Mod(5);
+        var remainderViaContext = context.Rem(a, b);
+        var remainderViaContextIntLeft = context.Rem(47, b);
+        var remainderViaContextIntRight = context.Rem(a, 5);
+        var remainderViaFunc = a.Rem(b);
+        var remainderViaFuncIntRight = a.Rem(5);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
@@ -410,6 +410,36 @@ public class IntExprArithmeticTests
             Assert.That(model.GetIntValue(remainderViaContextIntRight), Is.EqualTo(new BigInteger(2)));
             Assert.That(model.GetIntValue(remainderViaFunc), Is.EqualTo(new BigInteger(2)));
             Assert.That(model.GetIntValue(remainderViaFuncIntRight), Is.EqualTo(new BigInteger(2)));
+        });
+    }
+
+    [Test]
+    public void Mod_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(47);
+        var b = context.Int(5);
+
+        var modulo = context.Mod(a, b);
+        var moduloViaIntLeft = context.Mod(47, b);
+        var moduloViaIntRight = context.Mod(a, 5);
+        var moduloViaFunc = a.Mod(b);
+        var moduloViaFuncIntRight = a.Mod(5);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(modulo), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(moduloViaIntLeft), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(moduloViaIntRight), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(moduloViaFunc), Is.EqualTo(new BigInteger(2)));
+            Assert.That(model.GetIntValue(moduloViaFuncIntRight), Is.EqualTo(new BigInteger(2)));
         });
     }
 

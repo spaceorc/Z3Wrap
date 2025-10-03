@@ -90,4 +90,53 @@ public static class IntContextExtensions
         var resultHandle = context.Library.MkMod(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<IntExpr>(context, resultHandle);
     }
+
+    /// <summary>
+    /// Creates modulo expression with integer literal as left operand.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The integer literal dividend.</param>
+    /// <param name="right">The divisor.</param>
+    /// <returns>Integer expression representing left mod right.</returns>
+    public static IntExpr Mod(this Z3Context context, int left, IntExpr right) => context.Mod(context.Int(left), right);
+
+    /// <summary>
+    /// Creates modulo expression with integer literal as right operand.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The dividend.</param>
+    /// <param name="right">The integer literal divisor.</param>
+    /// <returns>Integer expression representing left mod right.</returns>
+    public static IntExpr Mod(this Z3Context context, IntExpr left, int right) => context.Mod(left, context.Int(right));
+
+    /// <summary>
+    /// Creates remainder expression for integer expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The dividend.</param>
+    /// <param name="right">The divisor.</param>
+    /// <returns>Integer expression representing left rem right.</returns>
+    public static IntExpr Rem(this Z3Context context, IntExpr left, IntExpr right)
+    {
+        var resultHandle = context.Library.MkRem(context.Handle, left.Handle, right.Handle);
+        return Z3Expr.Create<IntExpr>(context, resultHandle);
+    }
+
+    /// <summary>
+    /// Creates remainder expression with integer literal as left operand.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The integer literal dividend.</param>
+    /// <param name="right">The divisor.</param>
+    /// <returns>Integer expression representing left rem right.</returns>
+    public static IntExpr Rem(this Z3Context context, int left, IntExpr right) => context.Rem(context.Int(left), right);
+
+    /// <summary>
+    /// Creates remainder expression with integer literal as right operand.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The dividend.</param>
+    /// <param name="right">The integer literal divisor.</param>
+    /// <returns>Integer expression representing left rem right.</returns>
+    public static IntExpr Rem(this Z3Context context, IntExpr left, int right) => context.Rem(left, context.Int(right));
 }

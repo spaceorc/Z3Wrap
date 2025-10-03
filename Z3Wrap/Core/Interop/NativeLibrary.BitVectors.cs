@@ -111,8 +111,17 @@ internal sealed partial class NativeLibrary
     // Sort and numeral creation delegates
     private delegate IntPtr MkBvSortDelegate(IntPtr ctx, uint sz);
     private delegate uint GetBvSortSizeDelegate(IntPtr ctx, IntPtr sort);
-    private delegate IntPtr MkBvDelegate(IntPtr ctx, int numSize, [MarshalAs(UnmanagedType.LPStr)] string numString, int base_);
-    private delegate IntPtr MkBvNumeralDelegate(IntPtr ctx, uint sz, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] bool[] bits);
+    private delegate IntPtr MkBvDelegate(
+        IntPtr ctx,
+        int numSize,
+        [MarshalAs(UnmanagedType.LPStr)] string numString,
+        int base_
+    );
+    private delegate IntPtr MkBvNumeralDelegate(
+        IntPtr ctx,
+        uint sz,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] bool[] bits
+    );
 
     // Bit manipulation delegates
     private delegate IntPtr MkConcatDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
@@ -1137,5 +1146,4 @@ internal sealed partial class NativeLibrary
         var func = Marshal.GetDelegateForFunctionPointer<MkBvRedOrDelegate>(funcPtr);
         return func(ctx, t1);
     }
-
 }

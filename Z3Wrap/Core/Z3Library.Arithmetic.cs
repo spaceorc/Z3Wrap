@@ -44,6 +44,14 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkMod));
     }
 
+    /// <inheritdoc cref="NativeLibrary.MkRem" />
+    public IntPtr MkRem(IntPtr ctx, IntPtr arg1, IntPtr arg2)
+    {
+        var result = nativeLibrary.MkRem(ctx, arg1, arg2);
+        CheckError(ctx);
+        return CheckHandle(result, nameof(MkRem));
+    }
+
     /// <inheritdoc cref="NativeLibrary.MkUnaryMinus" />
     public IntPtr MkUnaryMinus(IntPtr ctx, IntPtr arg)
     {
