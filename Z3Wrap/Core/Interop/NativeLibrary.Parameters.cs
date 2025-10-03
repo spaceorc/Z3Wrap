@@ -1,3 +1,19 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Parameters API - P/Invoke bindings for Z3 parameter management
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's parameter management API (19 functions):
+// - Parameter set creation and lifecycle (Z3_mk_params, inc_ref, dec_ref)
+// - Parameter value setters (bool, uint, double, symbol)
+// - Parameter validation and introspection
+// - Parameter descriptor queries (kind, size, name, documentation)
+// - Global parameter management (affects all contexts)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;

@@ -23,6 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5
 		COMPARISON_Expressions.md = COMPARISON_Expressions.md
 		COMPARISON_Queries.md = COMPARISON_Queries.md
 		COMPARISON_StringTheory.md = COMPARISON_StringTheory.md
+		COMPARISON_AstCollections.md = COMPARISON_AstCollections.md
+		COMPARISON_Parameters.md = COMPARISON_Parameters.md
+		COMPARISON_Tactics.md = COMPARISON_Tactics.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{57C34814-857F-4D49-9E65-43A2B80B1DB5}"
