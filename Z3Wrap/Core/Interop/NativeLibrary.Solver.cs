@@ -7,15 +7,13 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's basic solver API (13 of 14 functions - 92.9% complete):
-// - Solver creation (Z3_mk_solver, Z3_mk_simple_solver, Z3_mk_solver_from_tactic)
+// This file provides bindings for Z3's basic solver API (14 of 14 functions - 100% complete):
+// - Solver creation (Z3_mk_solver, Z3_mk_simple_solver, Z3_mk_solver_from_tactic, Z3_mk_solver_for_logic)
 // - Reference counting (inc_ref, dec_ref)
 // - Assertions and satisfiability checking
 // - Backtracking stack operations (push, pop, reset)
 // - Model extraction
 // - Parameter configuration
-//
-// Missing: Z3_mk_solver_for_logic (logic-specific solver creation for performance optimization)
 //
 // Advanced solver features (assumptions, cores, proofs, statistics, etc.) are in NativeLibrary.SolverExtensions.cs
 // See COMPARISON_Solver.md for complete API coverage analysis.
@@ -37,6 +35,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
 
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_solver_from_tactic");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_solver_for_logic");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_push");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_pop");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_reset");
@@ -48,6 +47,7 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkSolverDelegate(IntPtr ctx);
     private delegate IntPtr MkSimpleSolverDelegate(IntPtr ctx);
     private delegate IntPtr MkSolverFromTacticDelegate(IntPtr ctx, IntPtr tactic);
+    private delegate IntPtr MkSolverForLogicDelegate(IntPtr ctx, IntPtr logic);
     private delegate void SolverIncRefDelegate(IntPtr ctx, IntPtr solver);
     private delegate void SolverDecRefDelegate(IntPtr ctx, IntPtr solver);
     private delegate void SolverAssertDelegate(IntPtr ctx, IntPtr solver, IntPtr formula);
@@ -110,6 +110,25 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_solver_from_tactic");
         var func = Marshal.GetDelegateForFunctionPointer<MkSolverFromTacticDelegate>(funcPtr);
         return func(ctx, tactic);
+    }
+
+    /// <summary>
+    /// Creates solver customized for specific logic.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="logic">The logic symbol (e.g., QF_LIA, QF_BV, QF_UFLIA).</param>
+    /// <returns>Solver handle optimized for the specified logic.</returns>
+    /// <remarks>
+    /// Creates a solver that uses specialized tactics optimized for the given logic.
+    /// This can provide significant performance improvements over the general solver.
+    /// Common logics: QF_LIA (linear integer), QF_BV (bit-vectors), QF_UFLIA (uninterpreted functions).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSolverForLogic(IntPtr ctx, IntPtr logic)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_solver_for_logic");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSolverForLogicDelegate>(funcPtr);
+        return func(ctx, logic);
     }
 
     /// <summary>

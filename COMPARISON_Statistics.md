@@ -1,29 +1,30 @@
 # Z3 Statistics API Comparison Report
 
 ## Overview
-**NativeLibrary.Statistics.cs**: 7 functions
+**NativeLibrary.Statistics.cs**: 7 functions (data retrieval + type checking)
+**NativeLibrary.ReferenceCountingExtra.cs**: 2 functions (reference counting)
+**Total Coverage**: 9/9 functions (100%)
 **Z3 C API (z3_api.h)**: 9 functions
 
 ## Complete Function Mapping
 
-### ✅ Functions in Both (7/9 in NativeLibrary match Z3 API)
+### ✅ Functions in Both (9/9 in NativeLibrary match Z3 API)
 
-| Our Method | Z3 C API | Z3 C++ Method | Purpose |
-|------------|----------|---------------|---------|
-| `StatsSize` | `Z3_stats_size` | `stats::size()` | Returns number of statistical entries |
-| `StatsGetKey` | `Z3_stats_get_key` | `stats::key(unsigned)` | Gets key name for statistic entry at index |
-| `StatsGetUintValue` | `Z3_stats_get_uint_value` | `stats::uint_value(unsigned)` | Gets unsigned integer value of statistic entry |
-| `StatsGetDoubleValue` | `Z3_stats_get_double_value` | `stats::double_value(unsigned)` | Gets double-precision value of statistic entry |
-| `StatsIsUint` | `Z3_stats_is_uint` | `stats::is_uint(unsigned)` | Checks if statistic entry is unsigned integer type |
-| `StatsIsDouble` | `Z3_stats_is_double` | `stats::is_double(unsigned)` | Checks if statistic entry is double type |
-| `StatsToString` | `Z3_stats_to_string` | `stats::to_string()` | Converts statistics to human-readable string |
+| Our Method | Z3 C API | Z3 C++ Method | File Location | Purpose |
+|------------|----------|---------------|---------------|---------|
+| `StatsIncRef` | `Z3_stats_inc_ref` | N/A (C++ uses RAII) | ReferenceCountingExtra.cs | Increments reference counter of statistics object |
+| `StatsDecRef` | `Z3_stats_dec_ref` | N/A (C++ uses RAII) | ReferenceCountingExtra.cs | Decrements reference counter of statistics object |
+| `StatsSize` | `Z3_stats_size` | `stats::size()` | Statistics.cs | Returns number of statistical entries |
+| `StatsGetKey` | `Z3_stats_get_key` | `stats::key(unsigned)` | Statistics.cs | Gets key name for statistic entry at index |
+| `StatsGetUintValue` | `Z3_stats_get_uint_value` | `stats::uint_value(unsigned)` | Statistics.cs | Gets unsigned integer value of statistic entry |
+| `StatsGetDoubleValue` | `Z3_stats_get_double_value` | `stats::double_value(unsigned)` | Statistics.cs | Gets double-precision value of statistic entry |
+| `StatsIsUint` | `Z3_stats_is_uint` | `stats::is_uint(unsigned)` | Statistics.cs | Checks if statistic entry is unsigned integer type |
+| `StatsIsDouble` | `Z3_stats_is_double` | `stats::is_double(unsigned)` | Statistics.cs | Checks if statistic entry is double type |
+| `StatsToString` | `Z3_stats_to_string` | `stats::to_string()` | Statistics.cs | Converts statistics to human-readable string |
 
 ### ❌ Functions in Z3 but NOT in NativeLibrary
 
-| Z3 C API | Signature | Purpose | Priority |
-|----------|-----------|---------|----------|
-| `Z3_stats_inc_ref` | `void Z3_API Z3_stats_inc_ref(Z3_context c, Z3_stats s)` | Increments reference counter of statistics object | **HIGH** - Memory management |
-| `Z3_stats_dec_ref` | `void Z3_API Z3_stats_dec_ref(Z3_context c, Z3_stats s)` | Decrements reference counter of statistics object | **HIGH** - Memory management |
+None - All Z3 C API functions are implemented.
 
 ### ⚠️ Functions in NativeLibrary but NOT in Z3
 
@@ -34,65 +35,53 @@ None - All functions in NativeLibrary correctly map to Z3 C API.
 | Metric | Count | Percentage |
 |--------|-------|------------|
 | Z3 C API Functions | 9 | 100% |
-| Functions in NativeLibrary | 7 | 77.8% |
-| Missing Functions | 2 | 22.2% |
+| Functions in Statistics.cs | 7 | 77.8% |
+| Functions in ReferenceCountingExtra.cs | 2 | 22.2% |
+| Total NativeLibrary Coverage | 9 | 100% |
+| Missing Functions | 0 | 0% |
 
 ## Function Categories
 
-### Data Retrieval (5 functions) - ✅ Complete
+### Data Retrieval (5 functions) - ✅ Complete (in Statistics.cs)
 - `Z3_stats_size` / `StatsSize` - Get count of entries
 - `Z3_stats_get_key` / `StatsGetKey` - Get entry key name
 - `Z3_stats_get_uint_value` / `StatsGetUintValue` - Get uint value
 - `Z3_stats_get_double_value` / `StatsGetDoubleValue` - Get double value
 - `Z3_stats_to_string` / `StatsToString` - Format as string
 
-### Type Checking (2 functions) - ✅ Complete
+### Type Checking (2 functions) - ✅ Complete (in Statistics.cs)
 - `Z3_stats_is_uint` / `StatsIsUint` - Check if uint type
 - `Z3_stats_is_double` / `StatsIsDouble` - Check if double type
 
-### Memory Management (2 functions) - ❌ Missing
-- `Z3_stats_inc_ref` - **MISSING** - Increment reference counter
-- `Z3_stats_dec_ref` - **MISSING** - Decrement reference counter
+### Memory Management (2 functions) - ✅ Complete (in ReferenceCountingExtra.cs)
+- `Z3_stats_inc_ref` / `StatsIncRef` - Increment reference counter
+- `Z3_stats_dec_ref` / `StatsDecRef` - Decrement reference counter
 
 ## Completeness Assessment
 
-**Status**: ⚠️ **77.8% Complete** - Missing critical reference counting functions
+**Status**: ✅ **100% COMPLETE** - All Z3 Statistics API functions implemented
 
-### Missing Functions Analysis
+### Implementation Organization
 
-**Z3_stats_inc_ref / Z3_stats_dec_ref**
-- **Impact**: HIGH - Required for proper memory management
-- **Category**: Reference counting
-- **Note**: These functions are critical for statistics objects that may need to outlive their creating context (e.g., caching statistics across solver calls)
-- **Reason for omission**: Likely statistics are short-lived within solver/fixedpoint contexts and don't require explicit ref counting in typical usage patterns
-- **Recommendation**: Add for completeness, especially if statistics objects are exposed in public API or need extended lifetime
+The Statistics API implementation is split across two files for architectural clarity:
 
-### Current Implementation Pattern
+**NativeLibrary.Statistics.cs** (7 functions):
+- Core statistics functionality (data retrieval, type checking, formatting)
+- Functions specific to statistics introspection and querying
 
-The current implementation assumes statistics are:
-1. Retrieved from solver/fixedpoint during query
-2. Used immediately for introspection
-3. Disposed when solver/fixedpoint context is disposed
-4. Not stored or passed outside their originating scope
+**NativeLibrary.ReferenceCountingExtra.cs** (2 functions):
+- Reference counting for statistics objects
+- Grouped with other non-AST reference counting functions (apply_result, func_entry, func_interp, pattern, fixedpoint)
+- Provides consistent memory management pattern across Z3 object types
 
-This pattern works correctly for typical usage but lacks the flexibility for advanced scenarios where statistics need independent lifetime management.
+### Memory Management Pattern
 
-## Recommendations
+Statistics objects support two usage patterns:
 
-### Priority 1: Document Current Limitation
-Add XML documentation noting that statistics objects should not be stored beyond the lifetime of their creating solver/fixedpoint context.
+1. **Short-lived (typical)**: Retrieved from solver/fixedpoint, used immediately, disposed with context
+2. **Extended lifetime (advanced)**: Explicitly reference counted using StatsIncRef/StatsDecRef for caching across solver calls
 
-### Priority 2 (Optional): Add Reference Counting
-If statistics objects are exposed in public API or need extended lifetime:
-1. Add `StatsIncRef` and `StatsDecRef` methods to NativeLibrary.Statistics.cs
-2. Implement `IDisposable` pattern for statistics wrapper (if one exists)
-3. Update documentation to reflect ref-counted lifetime semantics
-
-### Priority 3: Verify Usage Patterns
-Review all code that uses statistics functions to ensure:
-- Statistics are not stored beyond their context lifetime
-- No memory leaks occur with current pattern
-- Public API (if any) properly documents statistics lifetime constraints
+Both patterns are fully supported with proper memory management through the ReferenceCountingExtra.cs functions.
 
 ## Z3 C API Reference
 
@@ -124,10 +113,11 @@ for (unsigned i = 0; i < size; i++) {
 
 - ✅ Source: Z3 C API header (z3_api.h, Statistics section)
 - ✅ Reference: Z3 C++ API docs (https://z3prover.github.io/api/html/classz3_1_1stats.html)
-- ✅ Implementation: Z3Wrap/Core/Interop/NativeLibrary.Statistics.cs
-- ✅ Function count verified: 7/9 (77.8%)
+- ✅ Implementation: Z3Wrap/Core/Interop/NativeLibrary.Statistics.cs (7 functions)
+- ✅ Implementation: Z3Wrap/Core/Interop/NativeLibrary.ReferenceCountingExtra.cs (2 functions)
+- ✅ Function count verified: 9/9 (100%)
 - ✅ Signatures verified against Z3 source
-- ✅ Missing functions identified: 2 reference counting functions
+- ✅ All functions implemented across appropriate organizational files
 
 ---
 

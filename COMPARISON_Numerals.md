@@ -6,7 +6,7 @@
 
 ## Complete Function Mapping
 
-### ✅ Functions in Both (9/11 in NativeLibrary match Z3 API - 81.8%)
+### ✅ Functions in Both (9/11 core functions in NativeLibrary.Numerals.cs - 81.8%)
 
 | Our Method | Z3 C API | Parameters | Purpose |
 |------------|----------|------------|---------|
@@ -20,17 +20,17 @@
 | `GetNumeralSmall` | `Z3_get_numeral_small` | `(ctx, ast, out num, out den)` | Tests if numeral fits in small (64-bit) representation |
 | `GetNumeralDouble` | `Z3_get_numeral_double` | `(ctx, ast, out value)` | Extracts double-precision floating-point approximation |
 
-### ❌ Functions in Z3 but NOT in NativeLibrary
+### ❌ Functions in Z3 but NOT in NativeLibrary.Numerals.cs
 
-**2 functions missing** (intentionally split to other files for better organization):
+**2 functions not in Numerals.cs** (intentionally split to other files for better organization):
 
 1. **Z3_mk_numeral** - `Z3_ast Z3_mk_numeral(Z3_context c, Z3_string numeral, Z3_sort ty)`
-   - **Reason**: Located in `NativeLibrary.Expressions.cs` (expression creation)
+   - **Location**: `NativeLibrary.Expressions.cs` (expression creation)
    - **Status**: ✅ Implemented elsewhere
 
 2. **Z3_get_numeral_string** - `Z3_string Z3_get_numeral_string(Z3_context c, Z3_ast a)`
-   - **Reason**: Likely missing, should be added for generic string representation
-   - **Status**: ⚠️ **MISSING** - Generic string conversion (complement to binary/decimal)
+   - **Location**: `NativeLibrary.Model.cs` (model value extraction)
+   - **Status**: ✅ Implemented elsewhere
 
 **Additional related functions in other files:**
 
@@ -50,18 +50,18 @@
 
 | Metric | Count | Percentage |
 |--------|-------|------------|
-| Z3 Numeral Extraction Functions | 11 | 100% |
+| Z3 Numeral-Related Functions (total) | 11 | 100% |
 | Functions in NativeLibrary.Numerals.cs | 9 | 81.8% |
 | Functions in other NativeLibrary files | 2 | 18.2% |
-| Missing Functions | 1 | 9.1% |
+| Missing Functions (across all files) | 0 | 0% |
 | Extra Functions | 0 | 0% |
 
 ## Function Categories
 
-### String Conversion (2 functions in NativeLibrary, 3 in Z3)
-- `Z3_get_numeral_binary_string` - Binary representation (e.g., "1010")
-- `Z3_get_numeral_decimal_string` - Decimal with precision (e.g., "3.14159")
-- ⚠️ `Z3_get_numeral_string` - **MISSING** - Generic string (rational or decimal)
+### String Conversion (2 functions in Numerals.cs, 3 total in Z3Wrap)
+- `Z3_get_numeral_binary_string` - Binary representation (e.g., "1010") - in Numerals.cs
+- `Z3_get_numeral_decimal_string` - Decimal with precision (e.g., "3.14159") - in Numerals.cs
+- `Z3_get_numeral_string` - Generic string (rationals as "num/den", integers as decimal) - in Model.cs
 
 ### Integer Extraction - 32-bit (2 functions)
 - `Z3_get_numeral_int` - Signed 32-bit integer
@@ -78,57 +78,60 @@
 ### Floating-Point Approximation (1 function)
 - `Z3_get_numeral_double` - Double-precision approximation
 
-### Related Functions in Other Files (3 functions)
-- `Z3_mk_numeral` - Create numeral from string (in `Expressions.cs`)
-- `Z3_get_numerator` - Get numerator as AST (in `Queries.cs`)
-- `Z3_get_denominator` - Get denominator as AST (in `Queries.cs`)
+### Related Functions in Other Files (4 functions)
+- `Z3_mk_numeral` - Create numeral from string (in `NativeLibrary.Expressions.cs`)
+- `Z3_get_numeral_string` - Generic string representation (in `NativeLibrary.Model.cs`)
+- `Z3_get_numerator` - Get numerator as AST (in `NativeLibrary.Queries.cs`)
+- `Z3_get_denominator` - Get denominator as AST (in `NativeLibrary.Queries.cs`)
 
 ## Completeness Assessment
 
-⚠️ **MOSTLY COMPLETE (90.9%)** - NativeLibrary.Numerals.cs covers 9/10 core numeral extraction functions.
+✅ **100% COMPLETE** - All 11 Z3 numeral-related functions are implemented across Z3Wrap.
+
+**NativeLibrary.Numerals.cs specifically**: 9/9 functions (100% of intended scope for this file).
 
 ### Strengths
-- Comprehensive coverage of integer extraction (32-bit and 64-bit, signed and unsigned)
-- Proper rational number extraction with int64 support
+- Complete coverage of numeric value extraction (integer, rational, floating-point)
+- Comprehensive integer extraction (32-bit and 64-bit, signed and unsigned)
 - Binary and decimal string conversion with precision control
+- Proper rational number extraction with int64 support
 - Double-precision approximation for numeric analysis
 - Excellent XML documentation for each function
 - Proper delegate signatures with out parameters for extraction functions
-
-### Missing Functions
-
-1. **Z3_get_numeral_string** - Generic string representation
-   - **Signature**: `Z3_string Z3_API Z3_get_numeral_string(Z3_context c, Z3_ast a)`
-   - **Purpose**: Returns numeral as string (rationals as "num/den", decimals as-is)
-   - **Impact**: Medium - Complements binary and decimal string functions
-   - **Recommendation**: Add for completeness and convenience
+- Logical separation: string conversion is in Model.cs (model value extraction context)
 
 ### Architecture Notes
 
 The Z3Wrap library intentionally splits numeral-related functions across multiple files:
 
 1. **NativeLibrary.Numerals.cs** (this file)
-   - Focus: Numeral **extraction** and **conversion**
-   - Functions: Getting values out of existing numeral AST nodes
+   - Focus: Numeral **extraction** and **conversion** (non-string)
+   - Functions: Getting numeric values out of AST nodes (int, uint, double, rational pairs, binary/decimal strings)
 
-2. **NativeLibrary.Expressions.cs**
+2. **NativeLibrary.Model.cs**
+   - Focus: Model value **extraction**
+   - Functions: `Z3_get_numeral_string` - getting string representation from model values
+
+3. **NativeLibrary.Expressions.cs**
    - Focus: Expression **creation**
    - Functions: `Z3_mk_numeral` - creating new numeral AST nodes
 
-3. **NativeLibrary.Queries.cs**
+4. **NativeLibrary.Queries.cs**
    - Focus: AST **introspection** and **decomposition**
    - Functions: `Z3_get_numerator`, `Z3_get_denominator` - returning AST nodes
 
 This separation is logical and maintains clear boundaries between:
 - Creation (Expressions)
 - Inspection (Queries)
-- Value extraction (Numerals)
+- Numeric value extraction (Numerals)
+- Model value extraction (Model)
 
 ## Verification
 
 - **Source**: Z3 C API header `z3_api.h` from [Z3 GitHub repository](https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h)
 - **Our implementation**: `Z3Wrap/Core/Interop/NativeLibrary.Numerals.cs`
 - **Related files**:
+  - `Z3Wrap/Core/Interop/NativeLibrary.Model.cs` (Z3_get_numeral_string)
   - `Z3Wrap/Core/Interop/NativeLibrary.Expressions.cs` (Z3_mk_numeral)
   - `Z3Wrap/Core/Interop/NativeLibrary.Queries.cs` (Z3_get_numerator/denominator)
 - **Verification date**: 2025-10-03
@@ -136,52 +139,21 @@ This separation is logical and maintains clear boundaries between:
 
 ## Recommendations
 
-### Priority 1: Add Missing Function
-
-Add `Z3_get_numeral_string` to complete the string conversion API:
-
-```csharp
-// In LoadFunctionsNumerals method:
-LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_string");
-
-// Delegate:
-private delegate IntPtr GetNumeralStringDelegate(IntPtr ctx, IntPtr ast);
-
-// Method:
-/// <summary>
-/// Gets string representation of numeral.
-/// </summary>
-/// <param name="ctx">The Z3 context handle.</param>
-/// <param name="ast">The numeral AST.</param>
-/// <returns>String representation (rationals as "num/den", integers as decimal).</returns>
-/// <remarks>
-/// Returns generic string representation. For rationals, format is "numerator/denominator".
-/// For integers, returns decimal string. For best control, use GetNumeralBinaryString
-/// or GetNumeralDecimalString instead.
-/// </remarks>
-/// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-internal IntPtr GetNumeralString(IntPtr ctx, IntPtr ast)
-{
-    var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
-    var func = Marshal.GetDelegateForFunctionPointer<GetNumeralStringDelegate>(funcPtr);
-    return func(ctx, ast);
-}
-```
-
-### Priority 2: Documentation Enhancement
-
-Consider adding cross-references in XML documentation:
-- Note that `Z3_mk_numeral` is in `NativeLibrary.Expressions.cs`
-- Note that `Z3_get_numerator/denominator` are in `NativeLibrary.Queries.cs`
-- Explain when to use each extraction method (string vs int vs double)
-
-### Priority 3: Usage Guidance
+### Priority 1: Usage Guidance
 
 Document the extraction strategy for users:
 1. Try `GetNumeralInt64` or `GetNumeralUint64` first (fastest, no allocation)
 2. For rationals, try `GetNumeralRationalInt64` (exact, fits in 64-bit)
-3. For large values, use `GetNumeralString` (arbitrary precision)
+3. For large values, use `GetNumeralString` from Model.cs (arbitrary precision)
 4. For approximations, use `GetNumeralDouble` (floating-point only)
+
+### Priority 2: Documentation Enhancement
+
+Consider adding cross-references in file header comments:
+- Note that `Z3_get_numeral_string` is in `NativeLibrary.Model.cs` (model context)
+- Note that `Z3_mk_numeral` is in `NativeLibrary.Expressions.cs` (creation)
+- Note that `Z3_get_numerator/denominator` are in `NativeLibrary.Queries.cs` (inspection)
+- Explain when to use each extraction method (string vs int vs double)
 
 ## Special Notes
 
@@ -209,6 +181,6 @@ Z3 numeral extraction functions follow two patterns:
 
 ## Conclusion
 
-NativeLibrary.Numerals.cs provides **90.9% coverage** of Z3's numeral extraction API. The missing `Z3_get_numeral_string` function should be added for completeness, though the existing binary and decimal string functions provide good coverage. The architectural split across Numerals, Expressions, and Queries files is logical and maintains clear separation of concerns.
+NativeLibrary.Numerals.cs provides **100% coverage** of its intended scope (9/9 functions for numeric value extraction). The "missing" `Z3_get_numeral_string` function is actually implemented in `NativeLibrary.Model.cs` where it logically belongs for model value extraction. All 11 Z3 numeral-related functions are implemented somewhere in Z3Wrap. The architectural split across Numerals, Model, Expressions, and Queries files is logical and maintains clear separation of concerns.
 
-**Status**: ⚠️ Mostly Complete - Add `Z3_get_numeral_string` for 100% coverage.
+**Status**: ✅ 100% Complete - All numeral-related functions implemented with proper architectural separation.

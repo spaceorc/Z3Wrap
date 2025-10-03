@@ -8,13 +8,13 @@
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 // Docs: https://z3prover.github.io/api/html/classz3_1_1stats.html
 //
-// This file provides bindings for Z3's Statistics API (7/9 functions, 77.8% complete):
+// This file provides bindings for Z3's Statistics API (9/9 functions, 100% complete):
 // - Statistical data retrieval (size, keys, values)
 // - Type checking (uint vs double entries)
 // - String formatting for statistics output
 //
-// MISSING: 2 reference counting functions (Z3_stats_inc_ref, Z3_stats_dec_ref)
-// NOTE: Current implementation assumes statistics don't outlive their creating context
+// NOTE: Reference counting functions (Z3_stats_inc_ref, Z3_stats_dec_ref) are in
+// NativeLibrary.ReferenceCountingExtra.cs along with other reference counting functions
 
 using System.Runtime.InteropServices;
 
