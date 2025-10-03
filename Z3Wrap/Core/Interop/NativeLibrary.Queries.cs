@@ -49,8 +49,6 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_domain_size");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_range");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_int");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_bound");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_bound_name");
@@ -447,35 +445,6 @@ internal sealed partial class NativeLibrary
         var func = Marshal.GetDelegateForFunctionPointer<GetSortNameDelegate>(funcPtr);
         return func(ctx, sort);
     }
-
-    /// <summary>
-    /// Gets kind of symbol.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="symbol">The symbol handle.</param>
-    /// <returns>Symbol kind enumeration value.</returns>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int GetSymbolKind(IntPtr ctx, IntPtr symbol)
-    {
-        var funcPtr = GetFunctionPointer("Z3_get_symbol_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<GetSymbolKindDelegate>(funcPtr);
-        return func(ctx, symbol);
-    }
-
-    /// <summary>
-    /// Gets integer value from integer symbol.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="symbol">The integer symbol handle.</param>
-    /// <returns>Integer value of the symbol.</returns>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal int GetSymbolInt(IntPtr ctx, IntPtr symbol)
-    {
-        var funcPtr = GetFunctionPointer("Z3_get_symbol_int");
-        var func = Marshal.GetDelegateForFunctionPointer<GetSymbolIntDelegate>(funcPtr);
-        return func(ctx, symbol);
-    }
-
     /// <summary>
     /// Gets string value from string symbol.
     /// </summary>

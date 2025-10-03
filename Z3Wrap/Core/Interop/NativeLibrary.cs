@@ -125,6 +125,21 @@ internal sealed partial class NativeLibrary : IDisposable
             LoadFunctionsNumerals(handle, functionPointers);
             LoadFunctionsUtilities(handle, functionPointers);
 
+            // New placeholder groups (empty for now)
+            LoadFunctionsAccessors(handle, functionPointers);
+            LoadFunctionsSymbols(handle, functionPointers);
+            LoadFunctionsGlobalParameters(handle, functionPointers);
+            LoadFunctionsConfiguration(handle, functionPointers);
+            LoadFunctionsParameterDescriptions(handle, functionPointers);
+            LoadFunctionsModifiers(handle, functionPointers);
+            LoadFunctionsInteractionLogging(handle, functionPointers);
+            LoadFunctionsStringConversion(handle, functionPointers);
+            LoadFunctionsMiscellaneous(handle, functionPointers);
+            LoadFunctionsSorts(handle, functionPointers);
+            LoadFunctionsIntegersAndReals(handle, functionPointers);
+            LoadFunctionsPropositionalLogicAndEquality(handle, functionPointers);
+            LoadFunctionsConstantsAndApplications(handle, functionPointers);
+
             return new LoadedLibrary(functionPointers, handle);
         }
         catch (Exception ex)

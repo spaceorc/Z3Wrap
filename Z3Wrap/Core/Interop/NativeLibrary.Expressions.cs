@@ -33,11 +33,8 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_bool_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_int_sort");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_const");
-        LoadFunctionInternal(handle, functionPointers, "Z3_mk_string_symbol");
 
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_true");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_false");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_eq");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_distinct");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_and");
@@ -72,7 +69,6 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkIntSortDelegate(IntPtr ctx);
     private delegate IntPtr MkRealSortDelegate(IntPtr ctx);
     private delegate IntPtr MkConstDelegate(IntPtr ctx, IntPtr symbol, IntPtr sort);
-    private delegate IntPtr MkStringSymbolDelegate(IntPtr ctx, IntPtr str);
     private delegate IntPtr MkTrueDelegate(IntPtr ctx);
     private delegate IntPtr MkFalseDelegate(IntPtr ctx);
     private delegate IntPtr MkEqDelegate(IntPtr ctx, IntPtr left, IntPtr right);
@@ -171,50 +167,6 @@ internal sealed partial class NativeLibrary
         var func = Marshal.GetDelegateForFunctionPointer<MkConstDelegate>(funcPtr);
         return func(ctx, symbol, sort);
     }
-
-    /// <summary>
-    /// Creates a Z3 symbol from a string name.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="str">Pointer to the null-terminated string name.</param>
-    /// <returns>Handle to the created Z3 symbol.</returns>
-    /// <remarks>
-    /// Symbols are used to name constants, functions, and other Z3 objects.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkStringSymbol(IntPtr ctx, IntPtr str)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_string_symbol");
-        var func = Marshal.GetDelegateForFunctionPointer<MkStringSymbolDelegate>(funcPtr);
-        return func(ctx, str);
-    }
-
-    /// <summary>
-    /// Creates a Z3 Boolean expression representing the constant true.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <returns>Handle to the created true Boolean expression.</returns>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkTrue(IntPtr ctx)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_true");
-        var func = Marshal.GetDelegateForFunctionPointer<MkTrueDelegate>(funcPtr);
-        return func(ctx);
-    }
-
-    /// <summary>
-    /// Creates a Z3 Boolean expression representing the constant false.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <returns>Handle to the created false Boolean expression.</returns>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkFalse(IntPtr ctx)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_false");
-        var func = Marshal.GetDelegateForFunctionPointer<MkFalseDelegate>(funcPtr);
-        return func(ctx);
-    }
-
     /// <summary>
     /// Creates a Z3 equality expression between two terms.
     /// </summary>
