@@ -36,9 +36,9 @@ Systematically audit all 35 NativeLibrary partial class files to:
 - ✅ NativeLibrary.Statistics.cs - 7/9 functions (77.8% complete, missing 2 ref counting functions)
 - ✅ NativeLibrary.Constraints.cs - 5/5 functions (100% complete)
 - ✅ NativeLibrary.Simplify.cs - 4/4 functions (100% complete)
-- ✅ NativeLibrary.Quantifiers.cs - 4/12 functions (33.3% complete, missing 2 lambda, 2 generic const, 4 old-style)
+- ✅ NativeLibrary.Quantifiers.cs - 6/12 functions (50% complete, lambda expressions added, missing 2 generic const, 4 old-style)
 - ✅ NativeLibrary.ErrorHandling.cs - 3/4 functions (75% complete, missing Z3_set_error - internal use only)
-- ✅ NativeLibrary.AlgebraicNumbers.cs - 2/22 functions (9.1% complete, INCORRECT return types, missing 20 z3_algebraic.h functions)
+- ✅ NativeLibrary.AlgebraicNumbers.cs - 2/22 functions (9.1% complete, ✅ FIXED return types, missing 20 z3_algebraic.h functions)
 
 **Files Remaining**: 9/34 (26.5%) - CoreCreation eliminated
 
@@ -89,7 +89,7 @@ Files ordered by function count (largest first) to maximize impact:
 | ~~27~~ | ~~CoreCreation~~ | ~~3~~ | ~~z3_api.h~~ | ✅ **ELIMINATED** | Functions moved to Expressions.cs |
 | 28 | Constraints | 5 | z3_api.h | ✅ **DONE** | Pseudo-Boolean and cardinality constraints (100%, [report](COMPARISON_Constraints.md)) |
 | 29 | Simplify | 4 | z3_api.h | ✅ **DONE** | Simplification operations (100%, [report](COMPARISON_Simplify.md)) |
-| 30 | Quantifiers | 4 | z3_api.h | ✅ **DONE** | Quantifier operations (33.3%, [report](COMPARISON_Quantifiers.md), 4 const-based funcs, missing 8: 2 lambda, 2 generic const, 4 old-style) |
+| 30 | Quantifiers | 6 | z3_api.h | ✅ **DONE** | Quantifier operations (50%, [report](COMPARISON_Quantifiers.md), ✅ lambda expressions added, missing 6: 2 generic const, 4 old-style) |
 | 31 | Substitution | 3 | z3_api.h | ✅ **DONE** | Expression substitution (100%, [report](COMPARISON_Substitution.md)) |
 | 32 | Functions | 3 | z3_api.h | ✅ **DONE** | Function declarations (71.4% overall, [report](COMPARISON_Functions.md), 3 in file + 3 in other files, missing 2 recursive functions) |
 | 33 | Context | 8 | z3_api.h | ✅ **DONE** | Context management (80%, [report](COMPARISON_Context.md), missing Z3_interrupt and Z3_enable_concurrent_dec_ref) |
@@ -98,7 +98,7 @@ Files ordered by function count (largest first) to maximize impact:
 
 | # | File | Functions | Z3 Header | Status | Notes |
 |---|------|-----------|-----------|--------|-------|
-| 34 | AlgebraicNumbers | 2 | z3_api.h + z3_algebraic.h | ✅ **DONE** | Algebraic number bound approximations (9.1%, [report](COMPARISON_AlgebraicNumbers.md), 2 funcs with INCORRECT return type, missing 20 z3_algebraic.h functions) |
+| 34 | AlgebraicNumbers | 2 | z3_api.h + z3_algebraic.h | ✅ **DONE** | Algebraic number bound approximations (9.1%, [report](COMPARISON_AlgebraicNumbers.md), ✅ return types FIXED, missing 20 z3_algebraic.h functions) |
 | 35 | ErrorHandling | 3 | z3_api.h | ✅ **DONE** | Error handling (75%, [report](COMPARISON_ErrorHandling.md), missing Z3_set_error - internal use only) |
 
 ## Audit Process for Each File
