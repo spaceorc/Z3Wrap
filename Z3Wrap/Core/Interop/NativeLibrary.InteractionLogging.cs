@@ -7,11 +7,12 @@
 // Source: z3_api.h (InteractionLogging section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's InteractionLogging API (0 functions - placeholder):
-// - TODO: Add functions from c_headers/z3_api_interaction_logging.txt
+// This file provides bindings for Z3's InteractionLogging API (4 functions):
+// - Logging control (Z3_open_log, Z3_close_log, Z3_append_log)
+// - Warning message control (Z3_toggle_warning_messages)
 //
-// Missing Functions (0 functions):
-// None - all functions implemented ✓
+// Missing Functions (1 function):
+// - Z3_get_error_msg_ex
 
 using System.Runtime.InteropServices;
 

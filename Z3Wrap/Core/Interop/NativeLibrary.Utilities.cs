@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's translation and AST manipulation functions:
+// This file provides bindings for Z3's translation and AST manipulation functions (2 functions):
 // - Translation: Z3_translate (copy AST between contexts)
 // - AST Manipulation: Z3_update_term (replace term arguments)
 //

@@ -7,10 +7,10 @@
 // Source: z3_api.h (Symbols section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Symbols API (0 functions - placeholder):
-// - TODO: Add functions from c_headers/z3_api_symbols.txt
+// This file provides bindings for Z3's Symbols API (1 function):
+// - Symbol creation from strings (Z3_mk_string_symbol)
 //
-// Missing Functions (1 functions):
+// Missing Functions (1 function):
 // - Z3_mk_int_symbol
 
 using System.Runtime.InteropServices;

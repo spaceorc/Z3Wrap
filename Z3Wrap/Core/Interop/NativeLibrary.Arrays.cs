@@ -7,14 +7,11 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's array theory API (9 of 14 functions - 64.3% complete):
+// This file provides bindings for Z3's array theory API (9 functions):
 // - Array sort creation (single-dimensional)
 // - Array operations (select, store, const arrays)
 // - Array property queries (domain, range, default value)
 // - Array extensionality and function conversion
-//
-// Missing: Multi-dimensional array support (mk_array_sort_n, mk_select_n, mk_store_n,
-//          get_array_sort_domain_n) and array mapping (mk_map)
 //
 // Missing Functions (4 functions):
 // - Z3_mk_map

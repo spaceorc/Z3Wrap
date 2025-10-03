@@ -7,7 +7,7 @@
 // Source: z3_api.h (Accessors section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Accessors API (34 functions):
+// This file provides bindings for Z3's Accessors API (35 functions):
 // - AST accessors (GetAstKind, GetAstHash, GetAstId)
 // - Application accessors (GetAppArg, GetAppDecl, GetAppNumArgs)
 // - Declaration accessors (GetDeclName, GetDeclKind, GetDecl* parameters)

@@ -7,7 +7,7 @@
 // Source: z3_optimization.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_optimization.h
 //
-// This file provides complete bindings for Z3's optimization API (27 functions):
+// This file provides bindings for Z3's optimization API (28 functions):
 // - Optimization context creation and management
 // - Hard and soft constraint assertions
 // - Maximize/minimize objectives

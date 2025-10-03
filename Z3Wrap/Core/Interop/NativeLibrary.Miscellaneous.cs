@@ -7,11 +7,13 @@
 // Source: z3_api.h (Miscellaneous section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Miscellaneous API (0 functions - placeholder):
-// - TODO: Add functions from c_headers/z3_api_miscellaneous.txt
+// This file provides bindings for Z3's Miscellaneous API (6 functions):
+// - Trace control (Z3_enable_trace, Z3_disable_trace)
+// - Memory management (Z3_finalize_memory, Z3_reset_memory)
+// - Version information (Z3_get_version, Z3_get_full_version)
 //
-// Missing Functions (0 functions):
-// None - all functions implemented ✓
+// Missing Functions (1 function):
+// - Z3_enable_concurrent_dec_ref
 
 using System.Runtime.InteropServices;
 

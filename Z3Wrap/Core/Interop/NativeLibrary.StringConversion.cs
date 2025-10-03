@@ -7,8 +7,9 @@
 // Source: z3_api.h (StringConversion section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's StringConversion API (0 functions - placeholder):
-// - TODO: Add functions from c_headers/z3_api_string_conversion.txt
+// This file provides bindings for Z3's StringConversion API (4 functions):
+// - String conversion for AST objects (Z3_func_decl_to_string, Z3_pattern_to_string, Z3_sort_to_string)
+// - Print mode control (Z3_set_ast_print_mode)
 //
 // Missing Functions (3 functions):
 // - Z3_ast_to_string

@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's string theory API (56 functions in this file):
+// This file provides bindings for Z3's string theory API (59 functions):
 // - String and character sorts (4 functions)
 // - Sort basis accessors (2 functions) - predicates in NativeLibrary.Predicates.cs
 // - String literals and character values (4 functions)

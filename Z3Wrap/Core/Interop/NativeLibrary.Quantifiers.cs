@@ -16,7 +16,7 @@
 // - Bound variables for quantifier bodies
 //
 // Note: This file contains modern const-based quantifier/lambda constructors.
-// Query functions for quantifiers are in NativeLibrary.Queries.cs.
+// Query functions for quantifiers are in NativeLibrary.Accessors.cs.
 // Predicate functions for quantifiers are in NativeLibrary.Predicates.cs.
 // Old-style quantifier constructors (using sorts/symbols) are not currently bound.
 //

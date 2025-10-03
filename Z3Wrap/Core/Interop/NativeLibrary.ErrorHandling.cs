@@ -8,15 +8,14 @@
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 // Implementation: https://github.com/Z3Prover/z3/blob/master/src/api/api_context.cpp
 //
-// This file provides bindings for Z3's error handling API (3 functions):
+// This file provides bindings for Z3's error handling API (4 functions):
 // - Error code retrieval (Z3_get_error_code)
 // - Error message retrieval (Z3_get_error_msg)
+// - Error code setting (Z3_set_error)
 // - Custom error handler registration (Z3_set_error_handler)
 //
-// Note: Missing Z3_set_error (manual error code setting) - rarely needed in client code
-//
 // Missing Functions (0 functions):
-// None - all functions implemented ✓
+// None - all functions implemented
 
 using System.Runtime.InteropServices;
 

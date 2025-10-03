@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Models API (27 functions):
+// This file provides bindings for Z3's Models API (28 functions):
 // - Model reference counting (Z3_model_inc_ref, Z3_model_dec_ref)
 // - Constant interpretations (Z3_model_get_num_consts, Z3_model_get_const_decl, Z3_model_get_const_interp)
 // - Function interpretations (Z3_model_get_num_funcs, Z3_model_get_func_decl, Z3_model_get_func_interp)

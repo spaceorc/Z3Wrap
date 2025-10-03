@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides complete bindings for Z3's solver API (31 functions):
+// This file provides bindings for Z3's solver API (31 functions):
 // - Solver creation (Z3_mk_solver, Z3_mk_simple_solver, Z3_mk_solver_from_tactic, Z3_mk_solver_for_logic)
 // - Reference counting (inc_ref, dec_ref)
 // - Assertions and satisfiability checking (assert, check, check_assumptions)

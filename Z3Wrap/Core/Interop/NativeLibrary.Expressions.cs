@@ -7,8 +7,9 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's basic expression API (1 function):
-// - Constant creation
+// This file provides bindings for Z3's basic expression API (3 functions):
+// - Constant creation (Z3_mk_const)
+// - Type conversions (Z3_mk_int2real, Z3_mk_real2int)
 //
 // Note: Sort creation (bool, int, real) moved to NativeLibrary.Sorts.cs
 // Note: Boolean operations, equality, and conditionals moved to NativeLibrary.PropositionalLogicAndEquality.cs

@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Tactics, Simplifiers, and Probes API (47 functions):
+// This file provides bindings for Z3's Tactics, Simplifiers, and Probes API (45 functions):
 //
 // Tactics (21 functions):
 // - Tactic creation and reference counting

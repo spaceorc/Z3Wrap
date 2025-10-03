@@ -15,7 +15,7 @@
 // - Floating-point approximation extraction
 // - Small numeral predicate checking
 //
-// Note: Rational decomposition (Z3_get_numerator/denominator) is in NativeLibrary.Queries.cs
+// Note: Rational decomposition (Z3_get_numerator/denominator) is in NativeLibrary.Accessors.cs
 //
 // Missing Functions (7 functions):
 // - Z3_mk_bv_numeral

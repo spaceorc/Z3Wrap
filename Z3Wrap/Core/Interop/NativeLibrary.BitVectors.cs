@@ -7,7 +7,7 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's bitvector theory API (52/52 functions - 100% complete):
+// This file provides bindings for Z3's bitvector theory API (52 functions):
 // - Sort creation (2 functions): Bitvector sorts and size queries
 // - Numeral creation (2 functions): Create bitvector constants from strings or bit arrays
 // - Bit manipulation (5 functions): Concat, extract, sign/zero extend, repeat

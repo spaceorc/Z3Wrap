@@ -7,7 +7,7 @@
 // Source: z3_fpa.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_fpa.h
 //
-// This file provides bindings for Z3's floating-point theory API (80/80 functions - 100% complete):
+// This file provides bindings for Z3's floating-point theory API (80 functions):
 // - Sort creation (10 functions): FP sorts, rounding mode sort, standard IEEE formats
 // - Rounding mode constants (10 functions): RNE, RNA, RTP, RTN, RTZ with aliases
 // - Numeral creation (9 functions): Create FP values from float, double, int, components, bitvectors
