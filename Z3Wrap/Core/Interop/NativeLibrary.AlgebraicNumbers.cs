@@ -1,3 +1,24 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Algebraic Numbers API - P/Invoke bindings for Z3 algebraic number operations
+//
+// Source: z3_api.h from Z3 C API (bound approximation functions)
+//         z3_algebraic.h from Z3 C API (extended algebraic operations - NOT YET BOUND)
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//      https://github.com/Z3Prover/z3/blob/master/src/api/z3_algebraic.h
+//
+// This file provides bindings for Z3's algebraic number API (2 functions from z3_api.h):
+// - Rational bound approximations for algebraic numbers (lower/upper bounds with precision)
+//
+// NOTE: Extended algebraic operations from z3_algebraic.h (~20 functions) are NOT yet bound:
+// - Algebraic predicates (is_value, is_pos, is_neg, is_zero)
+// - Sign operations (algebraic_sign)
+// - Arithmetic operations (add, sub, mul, div, root, power)
+// - Comparison operations (lt, gt, le, ge, eq, neq)
+// - Polynomial operations (roots, eval, get_poly)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
