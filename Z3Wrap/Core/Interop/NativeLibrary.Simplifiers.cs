@@ -1,3 +1,27 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Simplifiers API - P/Invoke bindings for Z3 formula simplification
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Simplifiers API (8/11 functions, 72.7% complete):
+// - Simplifier creation and management (Z3_mk_simplifier)
+// - Reference counting (inc_ref/dec_ref)
+// - Parameter configuration (using_params, get_param_descrs)
+// - Simplifier composition (and_then for sequential application)
+// - Documentation queries (get_help, get_descr)
+//
+// Missing functions (see COMPARISON_Simplifiers.md):
+// - Z3_solver_add_simplifier (belongs in NativeLibrary.Solver.cs)
+// - Z3_get_num_simplifiers, Z3_get_simplifier_name (discovery/enumeration)
+//
+// Simplifiers are basic building blocks for creating custom pre-processing
+// simplifiers for specific problem domains. They can be combined and configured
+// with parameters before being applied to formulas.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
