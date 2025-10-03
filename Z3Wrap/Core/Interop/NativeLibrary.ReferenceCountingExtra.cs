@@ -1,3 +1,31 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Reference Counting (Extra Objects) API - P/Invoke bindings for Z3 memory management
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's reference counting API for additional object types (12 functions):
+// - Apply Result reference counting (tactic application results)
+// - Statistics reference counting (solver statistics objects)
+// - Function Entry reference counting (function interpretation entries)
+// - Function Interpretation reference counting (model function interpretations)
+// - Pattern reference counting (quantifier instantiation patterns)
+// - Fixedpoint reference counting (Horn clause solver context)
+//
+// Note: Core reference counting functions are in other NativeLibrary partial classes:
+// - Z3_inc_ref/Z3_dec_ref for ASTs (Context.cs)
+// - Z3_solver_inc_ref/Z3_solver_dec_ref (Solver.cs)
+// - Z3_model_inc_ref/Z3_model_dec_ref (Model.cs)
+// - Z3_goal_inc_ref/Z3_goal_dec_ref (Goals.cs)
+// - Z3_tactic_inc_ref/Z3_tactic_dec_ref (Tactics.cs)
+// - Z3_params_inc_ref/Z3_params_dec_ref (Parameters.cs)
+// - Z3_ast_vector_inc_ref/Z3_ast_vector_dec_ref (AstCollections.cs)
+// - Z3_ast_map_inc_ref/Z3_ast_map_dec_ref (AstCollections.cs)
+// - And others in their respective domain-specific files
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
