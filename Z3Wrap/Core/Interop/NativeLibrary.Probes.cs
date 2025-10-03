@@ -1,3 +1,23 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Probes API - P/Invoke bindings for Z3 goal inspection and tactic selection
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Probes API (14 functions):
+// - Probe creation (Z3_mk_probe, Z3_probe_const)
+// - Reference counting (Z3_probe_inc_ref, Z3_probe_dec_ref)
+// - Comparison probes (Z3_probe_lt, Z3_probe_gt, Z3_probe_le, Z3_probe_ge, Z3_probe_eq)
+// - Logical probes (Z3_probe_and, Z3_probe_or, Z3_probe_not)
+// - Probe utilities (Z3_probe_get_descr, Z3_probe_apply)
+//
+// Probes are functions/predicates used to inspect goals and collect information
+// that may be used to decide which solver and/or preprocessing step will be used.
+// They always return double values (0.0 = false, non-zero = true for Boolean probes).
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
