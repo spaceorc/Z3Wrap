@@ -1,3 +1,25 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Solver API - P/Invoke bindings for Z3 basic solver operations
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's basic solver API (13 of 14 functions - 92.9% complete):
+// - Solver creation (Z3_mk_solver, Z3_mk_simple_solver, Z3_mk_solver_from_tactic)
+// - Reference counting (inc_ref, dec_ref)
+// - Assertions and satisfiability checking
+// - Backtracking stack operations (push, pop, reset)
+// - Model extraction
+// - Parameter configuration
+//
+// Missing: Z3_mk_solver_for_logic (logic-specific solver creation for performance optimization)
+//
+// Advanced solver features (assumptions, cores, proofs, statistics, etc.) are in NativeLibrary.SolverExtensions.cs
+// See COMPARISON_Solver.md for complete API coverage analysis.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
