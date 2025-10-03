@@ -1,3 +1,20 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Error Handling API - P/Invoke bindings for Z3 error management
+//
+// Source: z3_api.h from Z3 C API (Error Handling section, implemented in api_context.cpp)
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+// Implementation: https://github.com/Z3Prover/z3/blob/master/src/api/api_context.cpp
+//
+// This file provides bindings for Z3's error handling API (3 functions):
+// - Error code retrieval (Z3_get_error_code)
+// - Error message retrieval (Z3_get_error_msg)
+// - Custom error handler registration (Z3_set_error_handler)
+//
+// Note: Missing Z3_set_error (manual error code setting) - rarely needed in client code
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
