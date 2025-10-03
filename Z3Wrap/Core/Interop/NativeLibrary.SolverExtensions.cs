@@ -1,3 +1,24 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Solver Extensions API - P/Invoke bindings for Z3 advanced solver features
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's advanced solver API (17 functions):
+// - Assumption-based checking with unsat core extraction
+// - Proof generation and extraction
+// - SMT-LIB2 format I/O (file and string parsing)
+// - Solver statistics and diagnostics
+// - Context translation (moving solvers between contexts)
+// - Advanced solving modes (cubes, consequences)
+// - Solver control and interruption
+//
+// Basic solver operations (assert, check, push, pop, etc.) are in NativeLibrary.Solver.cs
+// This file focuses on advanced features like tracking, assumptions, cores, proofs, and specialized solving modes.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
