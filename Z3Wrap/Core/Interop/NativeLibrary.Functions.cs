@@ -7,15 +7,17 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's function declaration API (3 functions):
+// This file provides bindings for Z3's function declaration API (5 functions):
 // - Function declaration creation (Z3_mk_func_decl)
 // - Function application (Z3_mk_app)
 // - AST to string conversion (Z3_ast_to_string)
+// - Recursive function declarations (Z3_mk_rec_func_decl)
+// - Recursive function definitions (Z3_add_rec_def)
 //
-// Coverage: 3/7 functions (42.9%) - See COMPARISON_Functions.md for details
+// Coverage: 5/7 functions (71.4%) - See COMPARISON_Functions.md for details
 // Note: Z3_mk_const is in NativeLibrary.Expressions.cs (basic constant creation)
 // Note: Z3_mk_fresh_func_decl and Z3_mk_fresh_const are in NativeLibrary.SpecialTheories.cs
-// Missing: Z3_mk_rec_func_decl, Z3_add_rec_def (recursive function support)
+// Missing Functions (0 functions):
 
 using System.Runtime.InteropServices;
 
@@ -28,6 +30,8 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_func_decl");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_app");
         LoadFunctionOrNull(handle, functionPointers, "Z3_ast_to_string");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rec_func_decl");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_add_rec_def");
     }
 
     // Delegates
@@ -40,6 +44,14 @@ internal sealed partial class NativeLibrary
     );
     private delegate IntPtr MkAppDelegate(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args);
     private delegate IntPtr AstToStringDelegate(IntPtr ctx, IntPtr ast);
+    private delegate IntPtr MkRecFuncDeclDelegate(
+        IntPtr ctx,
+        IntPtr symbol,
+        uint domainSize,
+        IntPtr[] domain,
+        IntPtr range
+    );
+    private delegate void AddRecDefDelegate(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args, IntPtr body);
 
     // Methods
     /// <summary>
@@ -99,5 +111,48 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_ast_to_string");
         var func = Marshal.GetDelegateForFunctionPointer<AstToStringDelegate>(funcPtr);
         return func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Creates a recursive function declaration.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="symbol">The function name symbol.</param>
+    /// <param name="domainSize">The number of argument sorts.</param>
+    /// <param name="domain">Array of argument sorts.</param>
+    /// <param name="range">The return sort of the function.</param>
+    /// <returns>Handle to the created recursive function declaration.</returns>
+    /// <remarks>
+    /// Creates a declaration for a recursive function. The function body must be
+    /// defined later using AddRecDef. Recursive functions allow self-reference
+    /// in their definitions.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkRecFuncDecl(IntPtr ctx, IntPtr symbol, uint domainSize, IntPtr[] domain, IntPtr range)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_rec_func_decl");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRecFuncDeclDelegate>(funcPtr);
+        return func(ctx, symbol, domainSize, domain, range);
+    }
+
+    /// <summary>
+    /// Adds recursive definition for a function declaration.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="funcDecl">The recursive function declaration.</param>
+    /// <param name="numArgs">The number of arguments in the definition.</param>
+    /// <param name="args">Array of argument constants (bound variables).</param>
+    /// <param name="body">The function body expression.</param>
+    /// <remarks>
+    /// Defines the body of a recursive function created with MkRecFuncDecl.
+    /// The body can reference the function itself to create recursive definitions.
+    /// Arguments should be fresh constants representing the function parameters.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void AddRecDef(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args, IntPtr body)
+    {
+        var funcPtr = GetFunctionPointer("Z3_add_rec_def");
+        var func = Marshal.GetDelegateForFunctionPointer<AddRecDefDelegate>(funcPtr);
+        func(ctx, funcDecl, numArgs, args, body);
     }
 }

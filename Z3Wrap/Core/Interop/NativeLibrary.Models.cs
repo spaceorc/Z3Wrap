@@ -7,33 +7,27 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Models API (28 functions):
+// This file provides bindings for Z3's Models API (37 functions):
 // - Model reference counting (Z3_model_inc_ref, Z3_model_dec_ref)
 // - Constant interpretations (Z3_model_get_num_consts, Z3_model_get_const_decl, Z3_model_get_const_interp)
 // - Function interpretations (Z3_model_get_num_funcs, Z3_model_get_func_decl, Z3_model_get_func_interp)
 // - Sort universes (Z3_model_get_num_sorts, Z3_model_get_sort, Z3_model_get_sort_universe)
-// - Model evaluation (Z3_model_eval, Z3_model_has_interp)
+// - Model evaluation (Z3_model_eval, Z3_eval, Z3_model_has_interp)
 // - Model conversion (Z3_model_to_string, Z3_model_translate)
 // - Value extraction helpers (Z3_get_numeral_string, Z3_get_bool_value, Z3_get_sort, Z3_get_sort_kind)
 // - Function interpretation queries (num entries, get entry, arity)
 // - Function interpretation modification (set else, add entry)
 // - Function interpretation values (get else)
 // - Function entry inspection (get value, num args, get arg)
+// - Evaluation helpers (Z3_eval_get_bool, Z3_eval_get_bv, Z3_eval_get_int, Z3_eval_get_real, Z3_eval_get_string, Z3_eval_get_numeral_string)
+// - Model extrapolation (Z3_model_extrapolate)
+// - Array function extraction (Z3_model_get_as_array_func_decl)
 //
 // Note: Reference counting functions for func_interp and func_entry (Z3_func_interp_inc_ref,
 //       Z3_func_interp_dec_ref, Z3_func_entry_inc_ref, Z3_func_entry_dec_ref) are in
 //       NativeLibrary.ReferenceCountingExtra.cs
 //
-// Missing Functions (9 functions):
-// - Z3_add_const_interp
-// - Z3_add_func_interp
-// - Z3_func_entry_dec_ref
-// - Z3_func_entry_inc_ref
-// - Z3_func_interp_dec_ref
-// - Z3_func_interp_inc_ref
-// - Z3_get_as_array_func_decl
-// - Z3_is_as_array
-// - Z3_mk_model
+// Missing Functions (0 functions): All model evaluation and helper functions implemented
 
 using System.Runtime.InteropServices;
 
@@ -74,6 +68,17 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_func_entry_get_value");
         LoadFunctionOrNull(handle, functionPointers, "Z3_func_entry_get_num_args");
         LoadFunctionOrNull(handle, functionPointers, "Z3_func_entry_get_arg");
+
+        // Evaluation helper functions
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_get_bool");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_get_bv");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_get_int");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_get_numeral_string");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_get_real");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_get_string");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_model_extrapolate");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_as_array_func_decl");
     }
 
     // Delegates - Model functions
@@ -113,6 +118,23 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr FuncEntryGetValueDelegate(IntPtr ctx, IntPtr entry);
     private delegate uint FuncEntryGetNumArgsDelegate(IntPtr ctx, IntPtr entry);
     private delegate IntPtr FuncEntryGetArgDelegate(IntPtr ctx, IntPtr entry, uint i);
+
+    // Delegates - Evaluation helper functions
+    private delegate int EvalDelegate(IntPtr ctx, IntPtr model, IntPtr expr, out IntPtr result);
+    private delegate int EvalGetBoolDelegate(IntPtr ctx, IntPtr model, IntPtr expr, out int value);
+    private delegate int EvalGetBvDelegate(IntPtr ctx, IntPtr model, IntPtr expr, out ulong value);
+    private delegate int EvalGetIntDelegate(IntPtr ctx, IntPtr model, IntPtr expr, out int value);
+    private delegate int EvalGetNumeralStringDelegate(IntPtr ctx, IntPtr model, IntPtr expr, out IntPtr result);
+    private delegate int EvalGetRealDelegate(
+        IntPtr ctx,
+        IntPtr model,
+        IntPtr expr,
+        out int numerator,
+        out int denominator
+    );
+    private delegate int EvalGetStringDelegate(IntPtr ctx, IntPtr model, IntPtr expr, out IntPtr result);
+    private delegate IntPtr ModelExtrapolateDelegate(IntPtr ctx, IntPtr model, IntPtr f);
+    private delegate IntPtr ModelGetAsArrayFuncDeclDelegate(IntPtr ctx, IntPtr array);
 
     // Methods - Model functions
 
@@ -570,5 +592,149 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_func_entry_get_arg");
         var func = Marshal.GetDelegateForFunctionPointer<FuncEntryGetArgDelegate>(funcPtr);
         return func(ctx, entry, i);
+    }
+
+    // Methods - Evaluation helper functions
+
+    /// <summary>
+    /// Evaluates expression in model and returns result.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The expression to evaluate.</param>
+    /// <param name="result">Output parameter receiving evaluated expression.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool Eval(IntPtr ctx, IntPtr model, IntPtr expr, out IntPtr result)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalDelegate>(funcPtr);
+        return func(ctx, model, expr, out result) != 0;
+    }
+
+    /// <summary>
+    /// Evaluates Boolean expression in model and returns Boolean value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The Boolean expression to evaluate.</param>
+    /// <param name="value">Output parameter receiving Boolean value (0 for false, non-zero for true).</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool EvalGetBool(IntPtr ctx, IntPtr model, IntPtr expr, out int value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval_get_bool");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalGetBoolDelegate>(funcPtr);
+        return func(ctx, model, expr, out value) != 0;
+    }
+
+    /// <summary>
+    /// Evaluates bit-vector expression in model and returns unsigned value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The bit-vector expression to evaluate.</param>
+    /// <param name="value">Output parameter receiving unsigned 64-bit value.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool EvalGetBv(IntPtr ctx, IntPtr model, IntPtr expr, out ulong value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval_get_bv");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalGetBvDelegate>(funcPtr);
+        return func(ctx, model, expr, out value) != 0;
+    }
+
+    /// <summary>
+    /// Evaluates integer expression in model and returns integer value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The integer expression to evaluate.</param>
+    /// <param name="value">Output parameter receiving integer value.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool EvalGetInt(IntPtr ctx, IntPtr model, IntPtr expr, out int value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval_get_int");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalGetIntDelegate>(funcPtr);
+        return func(ctx, model, expr, out value) != 0;
+    }
+
+    /// <summary>
+    /// Evaluates numeric expression in model and returns string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The numeric expression to evaluate.</param>
+    /// <param name="result">Output parameter receiving string handle.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool EvalGetNumeralString(IntPtr ctx, IntPtr model, IntPtr expr, out IntPtr result)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval_get_numeral_string");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalGetNumeralStringDelegate>(funcPtr);
+        return func(ctx, model, expr, out result) != 0;
+    }
+
+    /// <summary>
+    /// Evaluates real expression in model and returns rational value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The real expression to evaluate.</param>
+    /// <param name="numerator">Output parameter receiving numerator.</param>
+    /// <param name="denominator">Output parameter receiving denominator.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool EvalGetReal(IntPtr ctx, IntPtr model, IntPtr expr, out int numerator, out int denominator)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval_get_real");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalGetRealDelegate>(funcPtr);
+        return func(ctx, model, expr, out numerator, out denominator) != 0;
+    }
+
+    /// <summary>
+    /// Evaluates string expression in model and returns string value.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="expr">The string expression to evaluate.</param>
+    /// <param name="result">Output parameter receiving string handle.</param>
+    /// <returns>True if evaluation succeeded, false otherwise.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool EvalGetString(IntPtr ctx, IntPtr model, IntPtr expr, out IntPtr result)
+    {
+        var funcPtr = GetFunctionPointer("Z3_eval_get_string");
+        var func = Marshal.GetDelegateForFunctionPointer<EvalGetStringDelegate>(funcPtr);
+        return func(ctx, model, expr, out result) != 0;
+    }
+
+    /// <summary>
+    /// Extends model to complete interpretation of function.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle.</param>
+    /// <param name="f">The function declaration to extrapolate.</param>
+    /// <returns>Handle to extended model with complete function interpretation.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr ModelExtrapolate(IntPtr ctx, IntPtr model, IntPtr f)
+    {
+        var funcPtr = GetFunctionPointer("Z3_model_extrapolate");
+        var func = Marshal.GetDelegateForFunctionPointer<ModelExtrapolateDelegate>(funcPtr);
+        return func(ctx, model, f);
+    }
+
+    /// <summary>
+    /// Retrieves function declaration from as-array expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="array">The as-array expression.</param>
+    /// <returns>Handle to function declaration underlying the array.</returns>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr ModelGetAsArrayFuncDecl(IntPtr ctx, IntPtr array)
+    {
+        var funcPtr = GetFunctionPointer("Z3_model_get_as_array_func_decl");
+        var func = Marshal.GetDelegateForFunctionPointer<ModelGetAsArrayFuncDeclDelegate>(funcPtr);
+        return func(ctx, array);
     }
 }

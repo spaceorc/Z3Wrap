@@ -52,7 +52,6 @@ internal sealed partial class NativeLibrary
         func(paramId, paramValue);
     }
 
-
     /// <summary>
     /// Retrieves the value of a global parameter.
     /// </summary>

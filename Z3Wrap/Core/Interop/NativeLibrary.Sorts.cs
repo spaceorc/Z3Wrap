@@ -419,5 +419,4 @@ internal sealed partial class NativeLibrary
             ref tailDecl
         );
     }
-
 }

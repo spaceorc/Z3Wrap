@@ -7,32 +7,37 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Tactics, Simplifiers, and Probes API (45 functions):
+// This file provides bindings for Z3's Tactics, Simplifiers, and Probes API (55 functions):
 //
-// Tactics (21 functions):
+// Tactics (24 functions):
 // - Tactic creation and reference counting
 // - Tactic combinators (sequential, parallel, conditional composition)
 // - Control flow tactics (repeat, timeout, conditional execution)
 // - Trivial tactics (skip, fail) and failure conditions
 // - Introspection (help, descriptions, parameters)
 // - Application to goals
+// - Enumeration (get_num_tactics, get_tactic_name)
 //
-// Probes (14 functions):
+// Probes (16 functions):
 // - Probe creation (Z3_mk_probe, Z3_probe_const)
 // - Reference counting (Z3_probe_inc_ref, Z3_probe_dec_ref)
 // - Comparison probes (Z3_probe_lt, Z3_probe_gt, Z3_probe_le, Z3_probe_ge, Z3_probe_eq)
 // - Logical probes (Z3_probe_and, Z3_probe_or, Z3_probe_not)
 // - Probe utilities (Z3_probe_get_descr, Z3_probe_apply)
+// - Enumeration (get_num_probes, get_probe_name)
 //
-// Simplifiers (8 functions):
+// Simplifiers (10 functions):
 // - Simplifier creation and management (Z3_mk_simplifier)
 // - Reference counting (inc_ref/dec_ref)
 // - Parameter configuration (using_params, get_param_descrs)
 // - Simplifier composition (and_then for sequential application)
 // - Documentation queries (get_help, get_descr)
+// - Enumeration (get_num_simplifiers, get_simplifier_name)
+// - Solver integration (solver_add_simplifier)
 //
-// Apply Results (2 functions):
+// Apply Results (5 functions):
 // - Reference counting for tactic application results (Z3_apply_result_inc_ref, Z3_apply_result_dec_ref)
+// - Result queries (get_num_subgoals, get_subgoal, to_string)
 //
 // Probes are functions/predicates used to inspect goals and collect information
 // that may be used to decide which solver and/or preprocessing step will be used.
@@ -42,17 +47,7 @@
 // simplifiers for specific problem domains. They can be combined and configured
 // with parameters before being applied to formulas.
 //
-// Missing Functions (10 functions):
-// - Z3_apply_result_get_num_subgoals
-// - Z3_apply_result_get_subgoal
-// - Z3_apply_result_to_string
-// - Z3_get_num_probes
-// - Z3_get_num_simplifiers
-// - Z3_get_num_tactics
-// - Z3_get_probe_name
-// - Z3_get_simplifier_name
-// - Z3_get_tactic_name
-// - Z3_solver_add_simplifier
+// Missing Functions (0 functions):
 
 using System.Runtime.InteropServices;
 
@@ -114,6 +109,20 @@ internal sealed partial class NativeLibrary
         // Apply Result
         LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_inc_ref");
         LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_dec_ref");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_get_num_subgoals");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_get_subgoal");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_to_string");
+
+        // Enumeration
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_num_tactics");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_tactic_name");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_num_probes");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_probe_name");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_num_simplifiers");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_simplifier_name");
+
+        // Solver integration
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_add_simplifier");
     }
 
     // Delegates - Tactics
@@ -168,6 +177,20 @@ internal sealed partial class NativeLibrary
     // Delegates - Apply Result
     private delegate void ApplyResultIncRefDelegate(IntPtr ctx, IntPtr applyResult);
     private delegate void ApplyResultDecRefDelegate(IntPtr ctx, IntPtr applyResult);
+    private delegate uint ApplyResultGetNumSubgoalsDelegate(IntPtr ctx, IntPtr applyResult);
+    private delegate IntPtr ApplyResultGetSubgoalDelegate(IntPtr ctx, IntPtr applyResult, uint index);
+    private delegate IntPtr ApplyResultToStringDelegate(IntPtr ctx, IntPtr applyResult);
+
+    // Delegates - Enumeration
+    private delegate uint GetNumTacticsDelegate(IntPtr ctx);
+    private delegate IntPtr GetTacticNameDelegate(IntPtr ctx, uint index);
+    private delegate uint GetNumProbesDelegate(IntPtr ctx);
+    private delegate IntPtr GetProbeNameDelegate(IntPtr ctx, uint index);
+    private delegate uint GetNumSimplifiersDelegate(IntPtr ctx);
+    private delegate IntPtr GetSimplifierNameDelegate(IntPtr ctx, uint index);
+
+    // Delegates - Solver Integration
+    private delegate void SolverAddSimplifierDelegate(IntPtr ctx, IntPtr solver, IntPtr simplifier);
 
     // Methods
     /// <summary>
@@ -978,5 +1001,182 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_apply_result_dec_ref");
         var func = Marshal.GetDelegateForFunctionPointer<ApplyResultDecRefDelegate>(funcPtr);
         func(ctx, applyResult);
+    }
+
+    /// <summary>
+    /// Gets number of subgoals in apply result.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="applyResult">Apply result handle.</param>
+    /// <returns>Number of subgoals produced by tactic application.</returns>
+    /// <remarks>
+    /// Returns the number of subgoals resulting from applying a tactic to a goal.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint ApplyResultGetNumSubgoals(IntPtr ctx, IntPtr applyResult)
+    {
+        var funcPtr = GetFunctionPointer("Z3_apply_result_get_num_subgoals");
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultGetNumSubgoalsDelegate>(funcPtr);
+        return func(ctx, applyResult);
+    }
+
+    /// <summary>
+    /// Gets subgoal from apply result by index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="applyResult">Apply result handle.</param>
+    /// <param name="index">Index of the subgoal (0-based).</param>
+    /// <returns>Goal handle for the specified subgoal.</returns>
+    /// <remarks>
+    /// Returns the i-th subgoal in the apply result. Index must be less than
+    /// the number returned by ApplyResultGetNumSubgoals.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr ApplyResultGetSubgoal(IntPtr ctx, IntPtr applyResult, uint index)
+    {
+        var funcPtr = GetFunctionPointer("Z3_apply_result_get_subgoal");
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultGetSubgoalDelegate>(funcPtr);
+        return func(ctx, applyResult, index);
+    }
+
+    /// <summary>
+    /// Converts apply result to string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="applyResult">Apply result handle.</param>
+    /// <returns>String representation of the apply result.</returns>
+    /// <remarks>
+    /// Returns a string describing the apply result and its subgoals.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr ApplyResultToString(IntPtr ctx, IntPtr applyResult)
+    {
+        var funcPtr = GetFunctionPointer("Z3_apply_result_to_string");
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultToStringDelegate>(funcPtr);
+        return func(ctx, applyResult);
+    }
+
+    // Enumeration Methods
+    /// <summary>
+    /// Gets number of built-in tactics.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Number of available tactics.</returns>
+    /// <remarks>
+    /// Returns the number of built-in tactics available in Z3.
+    /// Use with GetTacticName to enumerate all tactics.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetNumTactics(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_num_tactics");
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumTacticsDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    /// <summary>
+    /// Gets name of tactic by index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="index">Index of the tactic (0-based).</param>
+    /// <returns>String name of the tactic.</returns>
+    /// <remarks>
+    /// Returns the name of the i-th tactic. Index must be less than
+    /// the number returned by GetNumTactics.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetTacticName(IntPtr ctx, uint index)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_tactic_name");
+        var func = Marshal.GetDelegateForFunctionPointer<GetTacticNameDelegate>(funcPtr);
+        return func(ctx, index);
+    }
+
+    /// <summary>
+    /// Gets number of built-in probes.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Number of available probes.</returns>
+    /// <remarks>
+    /// Returns the number of built-in probes available in Z3.
+    /// Use with GetProbeName to enumerate all probes.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetNumProbes(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_num_probes");
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumProbesDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    /// <summary>
+    /// Gets name of probe by index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="index">Index of the probe (0-based).</param>
+    /// <returns>String name of the probe.</returns>
+    /// <remarks>
+    /// Returns the name of the i-th probe. Index must be less than
+    /// the number returned by GetNumProbes.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetProbeName(IntPtr ctx, uint index)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_probe_name");
+        var func = Marshal.GetDelegateForFunctionPointer<GetProbeNameDelegate>(funcPtr);
+        return func(ctx, index);
+    }
+
+    /// <summary>
+    /// Gets number of built-in simplifiers.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Number of available simplifiers.</returns>
+    /// <remarks>
+    /// Returns the number of built-in simplifiers available in Z3.
+    /// Use with GetSimplifierName to enumerate all simplifiers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetNumSimplifiers(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_num_simplifiers");
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumSimplifiersDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    /// <summary>
+    /// Gets name of simplifier by index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="index">Index of the simplifier (0-based).</param>
+    /// <returns>String name of the simplifier.</returns>
+    /// <remarks>
+    /// Returns the name of the i-th simplifier. Index must be less than
+    /// the number returned by GetNumSimplifiers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetSimplifierName(IntPtr ctx, uint index)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_simplifier_name");
+        var func = Marshal.GetDelegateForFunctionPointer<GetSimplifierNameDelegate>(funcPtr);
+        return func(ctx, index);
+    }
+
+    /// <summary>
+    /// Adds simplifier to solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="simplifier">The simplifier to add.</param>
+    /// <remarks>
+    /// Adds a simplifier to be applied to formulas before the solver processes them.
+    /// Simplifiers are applied in the order they are added.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverAddSimplifier(IntPtr ctx, IntPtr solver, IntPtr simplifier)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_add_simplifier");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverAddSimplifierDelegate>(funcPtr);
+        func(ctx, solver, simplifier);
     }
 }

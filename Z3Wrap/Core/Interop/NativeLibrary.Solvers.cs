@@ -7,12 +7,12 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's solver API (31 functions):
+// This file provides bindings for Z3's solver API (56 functions):
 // - Solver creation (Z3_mk_solver, Z3_mk_simple_solver, Z3_mk_solver_from_tactic, Z3_mk_solver_for_logic)
 // - Reference counting (inc_ref, dec_ref)
-// - Assertions and satisfiability checking (assert, check, check_assumptions)
+// - Assertions and satisfiability checking (assert, check, check_assumptions, solve_for)
 // - Backtracking stack operations (push, pop, reset)
-// - Model extraction
+// - Model extraction and conversion
 // - Parameter configuration
 // - Assumption-based checking with unsat core extraction
 // - Proof generation and extraction
@@ -21,33 +21,13 @@
 // - Context translation (moving solvers between contexts)
 // - Advanced solving modes (cubes, consequences)
 // - Solver control and interruption
+// - Congruence closure operations (root, next, explain)
+// - Implied equalities computation
+// - Solver trail and units inspection (trail, units, non-units, levels)
+// - User propagator API (init, register, callbacks for fixed, eq, diseq, created, decide, final, binding)
+// - Clause learning callbacks
 //
-// Missing Functions (25 functions):
-// - Z3_get_implied_equalities
-// - Z3_solver_congruence_explain
-// - Z3_solver_congruence_next
-// - Z3_solver_congruence_root
-// - Z3_solver_get_levels
-// - Z3_solver_get_non_units
-// - Z3_solver_get_trail
-// - Z3_solver_get_units
-// - Z3_solver_import_model_converter
-// - Z3_solver_next_split
-// - Z3_solver_propagate_consequence
-// - Z3_solver_propagate_created
-// - Z3_solver_propagate_decide
-// - Z3_solver_propagate_declare
-// - Z3_solver_propagate_diseq
-// - Z3_solver_propagate_eq
-// - Z3_solver_propagate_final
-// - Z3_solver_propagate_fixed
-// - Z3_solver_propagate_init
-// - Z3_solver_propagate_on_binding
-// - Z3_solver_propagate_register
-// - Z3_solver_propagate_register_cb
-// - Z3_solver_register_on_clause
-// - Z3_solver_set_initial_value
-// - Z3_solver_solve_for
+// Missing Functions (0 functions):
 
 using System.Runtime.InteropServices;
 
@@ -89,6 +69,32 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_cube");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_consequences");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_interrupt");
+
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_implied_equalities");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_congruence_explain");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_congruence_next");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_congruence_root");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_levels");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_non_units");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_trail");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_units");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_import_model_converter");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_next_split");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_consequence");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_created");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_decide");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_declare");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_diseq");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_eq");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_final");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_fixed");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_init");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_on_binding");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_register");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_register_cb");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_register_on_clause");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_set_initial_value");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_solve_for");
     }
 
     // Delegates
@@ -134,6 +140,127 @@ internal sealed partial class NativeLibrary
         IntPtr consequences
     );
     private delegate void SolverInterruptDelegate(IntPtr ctx, IntPtr solver);
+
+    // Callback delegates for user propagators
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void CreatedEhDelegate(IntPtr ctx, IntPtr cb, IntPtr t);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void DecideEhDelegate(IntPtr ctx, IntPtr cb, IntPtr t, uint idx, int phase);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void EqEhDelegate(IntPtr ctx, IntPtr cb, IntPtr s, IntPtr t);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void FinalEhDelegate(IntPtr ctx, IntPtr cb);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void FixedEhDelegate(IntPtr ctx, IntPtr cb, IntPtr t, IntPtr value);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void PushEhDelegate(IntPtr ctx, IntPtr cb);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void PopEhDelegate(IntPtr ctx, IntPtr cb, uint numScopes);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate IntPtr FreshEhDelegate(IntPtr ctx, IntPtr newContext);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate bool OnBindingEhDelegate(IntPtr ctx, IntPtr cb, IntPtr expr, IntPtr value);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void OnClauseEhDelegate(
+        IntPtr ctx,
+        IntPtr expr,
+        uint numLits,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] uint[] litIds,
+        uint numBounds,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] IntPtr[] bounds
+    );
+
+    // New function delegates
+    private delegate int GetImpliedEqualitiesDelegate(
+        IntPtr ctx,
+        IntPtr solver,
+        uint numTerms,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr[] terms,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] uint[] classIds
+    );
+
+    private delegate IntPtr SolverCongruenceExplainDelegate(IntPtr ctx, IntPtr solver, IntPtr a, IntPtr b);
+    private delegate IntPtr SolverCongruenceNextDelegate(IntPtr ctx, IntPtr solver, IntPtr a);
+    private delegate IntPtr SolverCongruenceRootDelegate(IntPtr ctx, IntPtr solver, IntPtr a);
+
+    private delegate void SolverGetLevelsDelegate(
+        IntPtr ctx,
+        IntPtr solver,
+        IntPtr literals,
+        uint sz,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] uint[] levels
+    );
+
+    private delegate IntPtr SolverGetNonUnitsDelegate(IntPtr ctx, IntPtr solver);
+    private delegate IntPtr SolverGetTrailDelegate(IntPtr ctx, IntPtr solver);
+    private delegate IntPtr SolverGetUnitsDelegate(IntPtr ctx, IntPtr solver);
+    private delegate void SolverImportModelConverterDelegate(IntPtr ctx, IntPtr src, IntPtr dst);
+    private delegate bool SolverNextSplitDelegate(IntPtr ctx, IntPtr cb, IntPtr t, uint idx, int phase);
+
+    private delegate bool SolverPropagateConsequenceDelegate(
+        IntPtr ctx,
+        IntPtr cb,
+        uint numFixed,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr[] fixedIds,
+        uint numEqs,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] IntPtr[] eqLhs,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] IntPtr[] eqRhs,
+        IntPtr conseq
+    );
+
+    private delegate void SolverPropagateCreatedDelegate(IntPtr ctx, IntPtr solver, CreatedEhDelegate createdEh);
+    private delegate void SolverPropagateDecideDelegate(IntPtr ctx, IntPtr solver, DecideEhDelegate decideEh);
+
+    private delegate IntPtr SolverPropagateDeclareDelegate(
+        IntPtr ctx,
+        IntPtr name,
+        uint n,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr[] domain,
+        IntPtr range
+    );
+
+    private delegate void SolverPropagateDiseqDelegate(IntPtr ctx, IntPtr solver, EqEhDelegate diseqEh);
+    private delegate void SolverPropagateEqDelegate(IntPtr ctx, IntPtr solver, EqEhDelegate eqEh);
+    private delegate void SolverPropagateFinalDelegate(IntPtr ctx, IntPtr solver, FinalEhDelegate finalEh);
+    private delegate void SolverPropagateFixedDelegate(IntPtr ctx, IntPtr solver, FixedEhDelegate fixedEh);
+
+    private delegate void SolverPropagateInitDelegate(
+        IntPtr ctx,
+        IntPtr solver,
+        IntPtr userContext,
+        PushEhDelegate pushEh,
+        PopEhDelegate popEh,
+        FreshEhDelegate freshEh
+    );
+
+    private delegate void SolverPropagateOnBindingDelegate(IntPtr ctx, IntPtr solver, OnBindingEhDelegate bindingEh);
+    private delegate void SolverPropagateRegisterDelegate(IntPtr ctx, IntPtr solver, IntPtr e);
+    private delegate void SolverPropagateRegisterCbDelegate(IntPtr ctx, IntPtr cb, IntPtr e);
+
+    private delegate void SolverRegisterOnClauseDelegate(
+        IntPtr ctx,
+        IntPtr solver,
+        IntPtr userContext,
+        OnClauseEhDelegate onClauseEh
+    );
+
+    private delegate void SolverSetInitialValueDelegate(IntPtr ctx, IntPtr solver, IntPtr constant, IntPtr value);
+
+    private delegate int SolverSolveForDelegate(
+        IntPtr ctx,
+        IntPtr solver,
+        uint numVars,
+        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr[] vars
+    );
 
     // Methods
     /// <summary>
@@ -700,5 +827,475 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_solver_interrupt");
         var func = Marshal.GetDelegateForFunctionPointer<SolverInterruptDelegate>(funcPtr);
         func(ctx, solver);
+    }
+
+    /// <summary>
+    /// Computes equivalence classes of terms under current solver state.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="numTerms">Number of terms to analyze.</param>
+    /// <param name="terms">Array of term handles.</param>
+    /// <param name="classIds">Output array of class identifiers.</param>
+    /// <returns>Result code: 1 (satisfiable), -1 (unsatisfiable), 0 (unknown).</returns>
+    /// <remarks>
+    /// Assigns each term to an equivalence class. Terms in the same class are implied equal
+    /// under current solver constraints. Returns Z3_L_TRUE if satisfiable, Z3_L_FALSE if unsatisfiable.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal int GetImpliedEqualities(IntPtr ctx, IntPtr solver, uint numTerms, IntPtr[] terms, uint[] classIds)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_implied_equalities");
+        var func = Marshal.GetDelegateForFunctionPointer<GetImpliedEqualitiesDelegate>(funcPtr);
+        return func(ctx, solver, numTerms, terms, classIds);
+    }
+
+    /// <summary>
+    /// Retrieves explanation for why two terms are congruent.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="a">First term handle.</param>
+    /// <param name="b">Second term handle.</param>
+    /// <returns>AST handle representing congruence explanation.</returns>
+    /// <remarks>
+    /// Provides proof or explanation showing why terms are in same congruence class.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverCongruenceExplain(IntPtr ctx, IntPtr solver, IntPtr a, IntPtr b)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_congruence_explain");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCongruenceExplainDelegate>(funcPtr);
+        return func(ctx, solver, a, b);
+    }
+
+    /// <summary>
+    /// Retrieves next term in congruence class.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="a">Term handle.</param>
+    /// <returns>Next term in circular congruence class list.</returns>
+    /// <remarks>
+    /// Returns next term in circular linked list of congruent terms.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverCongruenceNext(IntPtr ctx, IntPtr solver, IntPtr a)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_congruence_next");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCongruenceNextDelegate>(funcPtr);
+        return func(ctx, solver, a);
+    }
+
+    /// <summary>
+    /// Retrieves canonical representative of congruence class.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="a">Term handle.</param>
+    /// <returns>Root term of congruence class.</returns>
+    /// <remarks>
+    /// Returns canonical representative term for congruence class.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverCongruenceRoot(IntPtr ctx, IntPtr solver, IntPtr a)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_congruence_root");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCongruenceRootDelegate>(funcPtr);
+        return func(ctx, solver, a);
+    }
+
+    /// <summary>
+    /// Retrieves decision levels for literals.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="literals">AST vector of literal handles.</param>
+    /// <param name="sz">Number of literals.</param>
+    /// <param name="levels">Output array of decision levels.</param>
+    /// <remarks>
+    /// Returns decision level at which each literal was assigned in solver trail.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverGetLevels(IntPtr ctx, IntPtr solver, IntPtr literals, uint sz, uint[] levels)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_get_levels");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetLevelsDelegate>(funcPtr);
+        func(ctx, solver, literals, sz, levels);
+    }
+
+    /// <summary>
+    /// Retrieves non-unit literals from solver trail.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <returns>AST vector of non-unit literals.</returns>
+    /// <remarks>
+    /// Returns literals that are not unit clauses in current solver state.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverGetNonUnits(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_get_non_units");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetNonUnitsDelegate>(funcPtr);
+        return func(ctx, solver);
+    }
+
+    /// <summary>
+    /// Retrieves complete solver decision trail.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <returns>AST vector of trail literals.</returns>
+    /// <remarks>
+    /// Returns sequence of literals assigned during solver execution.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverGetTrail(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_get_trail");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetTrailDelegate>(funcPtr);
+        return func(ctx, solver);
+    }
+
+    /// <summary>
+    /// Retrieves unit literals from solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <returns>AST vector of unit literals.</returns>
+    /// <remarks>
+    /// Returns literals that form unit clauses in current solver state.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverGetUnits(IntPtr ctx, IntPtr solver)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_get_units");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetUnitsDelegate>(funcPtr);
+        return func(ctx, solver);
+    }
+
+    /// <summary>
+    /// Imports model converter from source to destination solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="src">Source solver handle.</param>
+    /// <param name="dst">Destination solver handle.</param>
+    /// <remarks>
+    /// Transfers model conversion information between solvers for incremental solving.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverImportModelConverter(IntPtr ctx, IntPtr src, IntPtr dst)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_import_model_converter");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverImportModelConverterDelegate>(funcPtr);
+        func(ctx, src, dst);
+    }
+
+    /// <summary>
+    /// Suggests next split decision for solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="cb">Solver callback handle.</param>
+    /// <param name="t">Term to split on.</param>
+    /// <param name="idx">Variable index.</param>
+    /// <param name="phase">Suggested phase value.</param>
+    /// <returns>True if split suggestion accepted.</returns>
+    /// <remarks>
+    /// Used in user propagators to guide solver search decisions.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool SolverNextSplit(IntPtr ctx, IntPtr cb, IntPtr t, uint idx, int phase)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_next_split");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverNextSplitDelegate>(funcPtr);
+        return func(ctx, cb, t, idx, phase);
+    }
+
+    /// <summary>
+    /// Propagates consequence in user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="cb">Solver callback handle.</param>
+    /// <param name="numFixed">Number of fixed terms.</param>
+    /// <param name="fixedIds">Array of fixed term handles.</param>
+    /// <param name="numEqs">Number of equality premises.</param>
+    /// <param name="eqLhs">Array of left-hand sides of equalities.</param>
+    /// <param name="eqRhs">Array of right-hand sides of equalities.</param>
+    /// <param name="conseq">Consequence to propagate.</param>
+    /// <returns>True if propagation succeeded.</returns>
+    /// <remarks>
+    /// Propagates logical consequence based on fixed values and equalities in user propagator.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal bool SolverPropagateConsequence(
+        IntPtr ctx,
+        IntPtr cb,
+        uint numFixed,
+        IntPtr[] fixedIds,
+        uint numEqs,
+        IntPtr[] eqLhs,
+        IntPtr[] eqRhs,
+        IntPtr conseq
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_consequence");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateConsequenceDelegate>(funcPtr);
+        return func(ctx, cb, numFixed, fixedIds, numEqs, eqLhs, eqRhs, conseq);
+    }
+
+    /// <summary>
+    /// Registers created callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="createdEh">Callback invoked when terms created.</param>
+    /// <remarks>
+    /// Registers callback invoked when new terms are created during solving.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateCreated(IntPtr ctx, IntPtr solver, CreatedEhDelegate createdEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_created");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateCreatedDelegate>(funcPtr);
+        func(ctx, solver, createdEh);
+    }
+
+    /// <summary>
+    /// Registers decide callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="decideEh">Callback invoked for decision points.</param>
+    /// <remarks>
+    /// Registers callback invoked when solver makes split decisions.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateDecide(IntPtr ctx, IntPtr solver, DecideEhDelegate decideEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_decide");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDecideDelegate>(funcPtr);
+        func(ctx, solver, decideEh);
+    }
+
+    /// <summary>
+    /// Declares function for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="name">Function name symbol.</param>
+    /// <param name="n">Number of domain sorts.</param>
+    /// <param name="domain">Array of domain sort handles.</param>
+    /// <param name="range">Range sort handle.</param>
+    /// <returns>Function declaration handle.</returns>
+    /// <remarks>
+    /// Creates function declaration tracked by user propagator.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SolverPropagateDeclare(IntPtr ctx, IntPtr name, uint n, IntPtr[] domain, IntPtr range)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_declare");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDeclareDelegate>(funcPtr);
+        return func(ctx, name, n, domain, range);
+    }
+
+    /// <summary>
+    /// Registers disequality callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="diseqEh">Callback invoked for disequalities.</param>
+    /// <remarks>
+    /// Registers callback invoked when terms become disequal.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateDiseq(IntPtr ctx, IntPtr solver, EqEhDelegate diseqEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_diseq");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDiseqDelegate>(funcPtr);
+        func(ctx, solver, diseqEh);
+    }
+
+    /// <summary>
+    /// Registers equality callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="eqEh">Callback invoked for equalities.</param>
+    /// <remarks>
+    /// Registers callback invoked when terms become equal.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateEq(IntPtr ctx, IntPtr solver, EqEhDelegate eqEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_eq");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateEqDelegate>(funcPtr);
+        func(ctx, solver, eqEh);
+    }
+
+    /// <summary>
+    /// Registers final check callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="finalEh">Callback invoked for final check.</param>
+    /// <remarks>
+    /// Registers callback invoked during final satisfiability check.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateFinal(IntPtr ctx, IntPtr solver, FinalEhDelegate finalEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_final");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateFinalDelegate>(funcPtr);
+        func(ctx, solver, finalEh);
+    }
+
+    /// <summary>
+    /// Registers fixed callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="fixedEh">Callback invoked when terms fixed.</param>
+    /// <remarks>
+    /// Registers callback invoked when registered terms become fixed to values.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateFixed(IntPtr ctx, IntPtr solver, FixedEhDelegate fixedEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_fixed");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateFixedDelegate>(funcPtr);
+        func(ctx, solver, fixedEh);
+    }
+
+    /// <summary>
+    /// Initializes user propagator with callbacks.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="userContext">User-provided context pointer.</param>
+    /// <param name="pushEh">Push callback.</param>
+    /// <param name="popEh">Pop callback.</param>
+    /// <param name="freshEh">Fresh context callback.</param>
+    /// <remarks>
+    /// Initializes user propagator with essential callbacks for backtracking and context management.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateInit(
+        IntPtr ctx,
+        IntPtr solver,
+        IntPtr userContext,
+        PushEhDelegate pushEh,
+        PopEhDelegate popEh,
+        FreshEhDelegate freshEh
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_init");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateInitDelegate>(funcPtr);
+        func(ctx, solver, userContext, pushEh, popEh, freshEh);
+    }
+
+    /// <summary>
+    /// Registers binding callback for user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="bindingEh">Callback invoked for variable bindings.</param>
+    /// <remarks>
+    /// Registers callback invoked when quantifier variables are bound.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateOnBinding(IntPtr ctx, IntPtr solver, OnBindingEhDelegate bindingEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_on_binding");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateOnBindingDelegate>(funcPtr);
+        func(ctx, solver, bindingEh);
+    }
+
+    /// <summary>
+    /// Registers expression for propagation in user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="e">Expression handle to register.</param>
+    /// <remarks>
+    /// Registers expression to track in user propagator callbacks.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateRegister(IntPtr ctx, IntPtr solver, IntPtr e)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_register");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateRegisterDelegate>(funcPtr);
+        func(ctx, solver, e);
+    }
+
+    /// <summary>
+    /// Registers expression via callback in user propagator.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="cb">Solver callback handle.</param>
+    /// <param name="e">Expression handle to register.</param>
+    /// <remarks>
+    /// Registers expression dynamically within propagator callback context.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverPropagateRegisterCb(IntPtr ctx, IntPtr cb, IntPtr e)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_propagate_register_cb");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateRegisterCbDelegate>(funcPtr);
+        func(ctx, cb, e);
+    }
+
+    /// <summary>
+    /// Registers clause callback for solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="userContext">User-provided context pointer.</param>
+    /// <param name="onClauseEh">Callback invoked when clauses learned.</param>
+    /// <remarks>
+    /// Registers callback invoked when solver learns new clauses.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverRegisterOnClause(IntPtr ctx, IntPtr solver, IntPtr userContext, OnClauseEhDelegate onClauseEh)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_register_on_clause");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverRegisterOnClauseDelegate>(funcPtr);
+        func(ctx, solver, userContext, onClauseEh);
+    }
+
+    /// <summary>
+    /// Sets initial value hint for constant in solver.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="constant">Constant handle.</param>
+    /// <param name="value">Initial value hint.</param>
+    /// <remarks>
+    /// Provides initial value suggestion for constant to guide solver search.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void SolverSetInitialValue(IntPtr ctx, IntPtr solver, IntPtr constant, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_set_initial_value");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverSetInitialValueDelegate>(funcPtr);
+        func(ctx, solver, constant, value);
+    }
+
+    /// <summary>
+    /// Checks satisfiability focused on specified variables.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="solver">The solver handle.</param>
+    /// <param name="numVars">Number of variables to focus on.</param>
+    /// <param name="vars">Array of variable handles.</param>
+    /// <returns>Satisfiability result: 1 (satisfiable), -1 (unsatisfiable), 0 (unknown).</returns>
+    /// <remarks>
+    /// Performs satisfiability check with search focused on given variables for model projection.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal int SolverSolveFor(IntPtr ctx, IntPtr solver, uint numVars, IntPtr[] vars)
+    {
+        var funcPtr = GetFunctionPointer("Z3_solver_solve_for");
+        var func = Marshal.GetDelegateForFunctionPointer<SolverSolveForDelegate>(funcPtr);
+        return func(ctx, solver, numVars, vars);
     }
 }
