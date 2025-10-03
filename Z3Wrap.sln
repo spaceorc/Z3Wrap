@@ -38,6 +38,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5
 		COMPARISON_Sets.md = COMPARISON_Sets.md
 		COMPARISON_SolverExtensions.md = COMPARISON_SolverExtensions.md
 		COMPARISON_Utilities.md = COMPARISON_Utilities.md
+		COMPARISON_AlgebraicNumbers.md = COMPARISON_AlgebraicNumbers.md
+		COMPARISON_Constraints.md = COMPARISON_Constraints.md
+		COMPARISON_Context.md = COMPARISON_Context.md
+		COMPARISON_ErrorHandling.md = COMPARISON_ErrorHandling.md
+		COMPARISON_Functions.md = COMPARISON_Functions.md
+		COMPARISON_Quantifiers.md = COMPARISON_Quantifiers.md
+		COMPARISON_Simplifiers.md = COMPARISON_Simplifiers.md
+		COMPARISON_Simplify.md = COMPARISON_Simplify.md
+		COMPARISON_Solver.md = COMPARISON_Solver.md
+		COMPARISON_SpecialTheories.md = COMPARISON_SpecialTheories.md
+		COMPARISON_Statistics.md = COMPARISON_Statistics.md
+		COMPARISON_Substitution.md = COMPARISON_Substitution.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{57C34814-857F-4D49-9E65-43A2B80B1DB5}"
