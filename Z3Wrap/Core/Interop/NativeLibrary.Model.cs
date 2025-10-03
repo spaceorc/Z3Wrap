@@ -1,3 +1,23 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Model API - P/Invoke bindings for Z3 model inspection and value extraction
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Model API (15 core functions + 4 helpers):
+// - Reference counting (Z3_model_inc_ref, Z3_model_dec_ref)
+// - Constant interpretations (Z3_model_get_num_consts, Z3_model_get_const_decl, Z3_model_get_const_interp)
+// - Function interpretations (Z3_model_get_num_funcs, Z3_model_get_func_decl, Z3_model_get_func_interp)
+// - Sort universes (Z3_model_get_num_sorts, Z3_model_get_sort, Z3_model_get_sort_universe)
+// - Model evaluation (Z3_model_eval, Z3_model_has_interp)
+// - Model conversion (Z3_model_to_string, Z3_model_translate)
+// - Value extraction helpers (Z3_get_numeral_string, Z3_get_bool_value, Z3_get_sort, Z3_get_sort_kind)
+//
+// Coverage: 100% of Z3 Model API (15/15 functions)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
