@@ -1,3 +1,25 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Utilities API - P/Invoke bindings for Z3 utility and miscellaneous functions
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Utilities API (17 out of 20 functions, 85% complete):
+// - Version Information: Z3_get_version, Z3_get_full_version
+// - Logging and Tracing: Z3_open_log, Z3_append_log, Z3_close_log, Z3_enable_trace, Z3_disable_trace
+// - Memory Management: Z3_reset_memory, Z3_finalize_memory
+// - Translation and Conversion: Z3_translate, Z3_update_term
+// - String Conversions: Z3_sort_to_string, Z3_func_decl_to_string, Z3_pattern_to_string
+// - Miscellaneous: Z3_set_error, Z3_set_ast_print_mode, Z3_toggle_warning_messages
+//
+// Missing functions (3):
+// - Z3_ast_to_string (generic AST to string)
+// - Z3_model_to_string (model to string, may be in Model.cs)
+// - Z3_benchmark_to_smtlib_string (benchmark formatting, specialized use case)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
