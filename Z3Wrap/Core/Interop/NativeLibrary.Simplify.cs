@@ -1,3 +1,18 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Simplify API - P/Invoke bindings for Z3 expression simplification
+//
+// Source: z3_api.h (api_ast.cpp implementation) from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+// Implementation: https://github.com/Z3Prover/z3/blob/master/src/api/api_ast.cpp
+//
+// This file provides bindings for Z3's Simplify API (4 functions):
+// - Expression simplification with default and custom parameters
+// - Simplification parameter discovery and documentation
+// - Algebraic simplification rules (constant propagation, basic rewriting)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
