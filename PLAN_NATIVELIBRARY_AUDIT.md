@@ -11,7 +11,7 @@ Systematically audit all 35 NativeLibrary partial class files to:
 
 ## Current Status
 
-**Files Audited**: 10/35 (28.6%)
+**Files Audited**: 11/35 (31.4%)
 - ✅ NativeLibrary.Optimization.cs - 28/28 functions (100% complete)
 - ✅ NativeLibrary.Goals.cs - 17/17 functions (100% complete)
 - ✅ NativeLibrary.FloatingPoint.cs - 80/80 functions (100% complete)
@@ -22,8 +22,9 @@ Systematically audit all 35 NativeLibrary partial class files to:
 - ✅ NativeLibrary.Tactics.cs - 21/21 functions (100% complete, Z3_mk_solver_from_tactic added to Solver.cs)
 - ✅ NativeLibrary.AstCollections.cs - 21/21 functions (100% complete)
 - ✅ NativeLibrary.Parameters.cs - 19/19 functions (100% complete)
+- ✅ NativeLibrary.Datatypes.cs - 20/20 functions (100% complete)
 
-**Files Remaining**: 25/34 (73.5%) - CoreCreation eliminated
+**Files Remaining**: 24/34 (70.6%) - CoreCreation eliminated
 
 ## File Audit Order
 
@@ -42,7 +43,7 @@ Files ordered by function count (largest first) to maximize impact:
 | 7 | Tactics | 21 | z3_api.h | ✅ **DONE** | Tactic-based solving (100%, [report](COMPARISON_Tactics.md), Z3_mk_solver_from_tactic added to Solver.cs) |
 | 8 | AstCollections | 21 | z3_ast_containers.h | ✅ **DONE** | AST vectors and maps (100%, [report](COMPARISON_AstCollections.md)) |
 | 9 | Parameters | 19 | z3_api.h | ✅ **DONE** | Parameter management (100%, [report](COMPARISON_Parameters.md)) |
-| 10 | Datatypes | 19 | z3_api.h | ⏳ Pending | Algebraic datatype definitions |
+| 10 | Datatypes | 20 | z3_api.h | ✅ **DONE** | Algebraic datatype definitions (100%, [report](COMPARISON_Datatypes.md)) |
 | 11 | Predicates | 18 | z3_api.h | ⏳ Pending | Type checking predicates |
 | 12 | Utilities | 17 | z3_api.h | ⏳ Pending | General utility functions |
 | 13 | SolverExtensions | 17 | z3_api.h | ⏳ Pending | Advanced solver features |

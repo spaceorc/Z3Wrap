@@ -1,3 +1,20 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Datatypes API - P/Invoke bindings for Z3 algebraic datatype definitions
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Datatypes API (20 functions):
+// - Constructor building (mk_constructor, query, field count, delete)
+// - Datatype creation (single and mutually recursive)
+// - Datatype queries (constructor count, accessors, recognizers)
+// - Tuple sorts (special single-constructor datatypes)
+// - List sorts (recursive cons-cell structures)
+// - Relation sorts (multi-column relational types)
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
@@ -10,6 +27,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_constructor");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_constructor_list");
         LoadFunctionOrNull(handle, functionPointers, "Z3_query_constructor");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_constructor_num_fields");
         LoadFunctionOrNull(handle, functionPointers, "Z3_del_constructor");
         LoadFunctionOrNull(handle, functionPointers, "Z3_del_constructor_list");
 
@@ -57,6 +75,8 @@ internal sealed partial class NativeLibrary
         ref IntPtr testerFunc,
         IntPtr[] accessors
     );
+
+    private delegate uint ConstructorNumFieldsDelegate(IntPtr ctx, IntPtr constructor);
 
     private delegate void DelConstructorDelegate(IntPtr ctx, IntPtr constructor);
     private delegate void DelConstructorListDelegate(IntPtr ctx, IntPtr constructorList);
@@ -186,6 +206,23 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_query_constructor");
         var func = Marshal.GetDelegateForFunctionPointer<QueryConstructorDelegate>(funcPtr);
         func(ctx, constructor, numFields, ref constructorFunc, ref testerFunc, accessors);
+    }
+
+    /// <summary>
+    /// Gets number of fields in constructor.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="constructor">Constructor handle.</param>
+    /// <returns>Number of fields in constructor.</returns>
+    /// <remarks>
+    /// Query how many fields exist in a datatype constructor.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint ConstructorNumFields(IntPtr ctx, IntPtr constructor)
+    {
+        var funcPtr = GetFunctionPointer("Z3_constructor_num_fields");
+        var func = Marshal.GetDelegateForFunctionPointer<ConstructorNumFieldsDelegate>(funcPtr);
+        return func(ctx, constructor);
     }
 
     /// <summary>
