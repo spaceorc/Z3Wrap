@@ -11,7 +11,7 @@ Systematically audit all 35 NativeLibrary partial class files to:
 
 ## Current Status
 
-**Files Audited**: 19/35 (54.3%)
+**Files Audited**: 26/35 (74.3%)
 - ✅ NativeLibrary.Optimization.cs - 28/28 functions (100% complete)
 - ✅ NativeLibrary.Goals.cs - 17/17 functions (100% complete)
 - ✅ NativeLibrary.FloatingPoint.cs - 80/80 functions (100% complete)
@@ -27,13 +27,20 @@ Systematically audit all 35 NativeLibrary partial class files to:
 - ✅ NativeLibrary.Utilities.cs - 17/20 functions (85% complete, 3 string conversion functions missing)
 - ✅ NativeLibrary.SolverExtensions.cs - 17/17 functions (100% complete)
 - ✅ NativeLibrary.Probes.cs - 14/14 functions (100% complete)
+- ✅ NativeLibrary.Solver.cs - 13/14 functions (92.9% complete, missing Z3_mk_solver_for_logic)
 - ✅ NativeLibrary.Sets.cs - 12/12 functions (100% complete)
 - ✅ NativeLibrary.ReferenceCountingExtra.cs - 12/12 functions (100% complete)
 - ✅ NativeLibrary.Parsing.cs - 10/10 functions (100% complete)
 - ✅ NativeLibrary.Numerals.cs - 9/10 functions (90.9% complete, missing Z3_get_numeral_string)
 - ✅ NativeLibrary.Arrays.cs - 9/14 functions (64.3% complete, missing multi-dimensional array support)
+- ✅ NativeLibrary.Statistics.cs - 7/9 functions (77.8% complete, missing 2 ref counting functions)
+- ✅ NativeLibrary.Constraints.cs - 5/5 functions (100% complete)
+- ✅ NativeLibrary.Simplify.cs - 4/4 functions (100% complete)
+- ✅ NativeLibrary.Quantifiers.cs - 4/12 functions (33.3% complete, missing 2 lambda, 2 generic const, 4 old-style)
+- ✅ NativeLibrary.ErrorHandling.cs - 3/4 functions (75% complete, missing Z3_set_error - internal use only)
+- ✅ NativeLibrary.AlgebraicNumbers.cs - 2/22 functions (9.1% complete, INCORRECT return types, missing 20 z3_algebraic.h functions)
 
-**Files Remaining**: 16/34 (47.1%) - CoreCreation eliminated
+**Files Remaining**: 9/34 (26.5%) - CoreCreation eliminated
 
 ## File Audit Order
 
@@ -70,29 +77,29 @@ Files ordered by function count (largest first) to maximize impact:
 | 20 | Numerals | 9 | z3_api.h | ✅ **DONE** | Numeral extraction (90.9%, [report](COMPARISON_Numerals.md), missing Z3_get_numeral_string) |
 | 21 | FunctionInterpretations | 9 | z3_api.h | ✅ **DONE** | Function interpretation extraction (100%, [report](COMPARISON_FunctionInterpretations.md)) |
 | 22 | Arrays | 9 | z3_api.h | ✅ **DONE** | Array theory operations (64.3%, [report](COMPARISON_Arrays.md), missing 5 multi-dimensional functions) |
-| 23 | Simplifiers | 8 | z3_api.h | ⏳ Pending | Simplifier creation |
-| 24 | Statistics | 7 | z3_api.h | ⏳ Pending | Solver statistics |
-| 25 | SpecialTheories | 5 | z3_api.h | ⏳ Pending | Special theory operations |
-| 26 | Solver | 5 | z3_api.h | ⏳ Pending | Basic solver operations |
+| 23 | Simplifiers | 8 | z3_api.h | ✅ **DONE** | Simplifier creation (72.7%, [report](COMPARISON_Simplifiers.md), missing 3 functions: 1 in Solver.cs, 2 discovery) |
+| 24 | Statistics | 7 | z3_api.h | ✅ **DONE** | Solver statistics (77.8%, [report](COMPARISON_Statistics.md), missing 2 ref counting functions) |
+| 25 | SpecialTheories | 5 | z3_api.h | ✅ **DONE** | Special relations and theories (41.7%, [report](COMPARISON_SpecialTheories.md), missing 7 functions: 4 order relations, 1 list sort, 2 recursive) |
+| 26 | Solver | 13 | z3_api.h | ✅ **DONE** | Basic solver operations (92.9%, [report](COMPARISON_Solver.md), missing Z3_mk_solver_for_logic) |
 
 ### Priority 3: Small API Sections (2-4 functions) - 7 files
 
 | # | File | Functions | Z3 Header | Status | Notes |
 |---|------|-----------|-----------|--------|-------|
 | ~~27~~ | ~~CoreCreation~~ | ~~3~~ | ~~z3_api.h~~ | ✅ **ELIMINATED** | Functions moved to Expressions.cs |
-| 28 | Constraints | 5 | z3_api.h | ⏳ Pending | Constraint management |
-| 29 | Simplify | 4 | z3_api.h | ⏳ Pending | Simplification operations |
-| 30 | Quantifiers | 4 | z3_api.h | ⏳ Pending | Quantifier operations |
-| 31 | Substitution | 3 | z3_api.h | ⏳ Pending | Expression substitution |
-| 32 | Functions | 3 | z3_api.h | ⏳ Pending | Function declarations |
-| 33 | Context | 2 | z3_api.h | ⏳ Pending | Context management |
+| 28 | Constraints | 5 | z3_api.h | ✅ **DONE** | Pseudo-Boolean and cardinality constraints (100%, [report](COMPARISON_Constraints.md)) |
+| 29 | Simplify | 4 | z3_api.h | ✅ **DONE** | Simplification operations (100%, [report](COMPARISON_Simplify.md)) |
+| 30 | Quantifiers | 4 | z3_api.h | ✅ **DONE** | Quantifier operations (33.3%, [report](COMPARISON_Quantifiers.md), 4 const-based funcs, missing 8: 2 lambda, 2 generic const, 4 old-style) |
+| 31 | Substitution | 3 | z3_api.h | ✅ **DONE** | Expression substitution (100%, [report](COMPARISON_Substitution.md)) |
+| 32 | Functions | 3 | z3_api.h | ✅ **DONE** | Function declarations (71.4% overall, [report](COMPARISON_Functions.md), 3 in file + 3 in other files, missing 2 recursive functions) |
+| 33 | Context | 8 | z3_api.h | ✅ **DONE** | Context management (80%, [report](COMPARISON_Context.md), missing Z3_interrupt and Z3_enable_concurrent_dec_ref) |
 
 ### Priority 4: Special Cases - 2 files
 
 | # | File | Functions | Z3 Header | Status | Notes |
 |---|------|-----------|-----------|--------|-------|
-| 34 | AlgebraicNumbers | 2 | z3_algebraic.h | ⏳ Pending | Algebraic number operations |
-| 35 | ErrorHandling | 0 | z3_api.h | ⏳ Pending | Error handling (enum only?) |
+| 34 | AlgebraicNumbers | 2 | z3_api.h + z3_algebraic.h | ✅ **DONE** | Algebraic number bound approximations (9.1%, [report](COMPARISON_AlgebraicNumbers.md), 2 funcs with INCORRECT return type, missing 20 z3_algebraic.h functions) |
+| 35 | ErrorHandling | 3 | z3_api.h | ✅ **DONE** | Error handling (75%, [report](COMPARISON_ErrorHandling.md), missing Z3_set_error - internal use only) |
 
 ## Audit Process for Each File
 

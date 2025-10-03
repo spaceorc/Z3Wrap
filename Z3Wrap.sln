@@ -28,6 +28,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5
 		COMPARISON_Tactics.md = COMPARISON_Tactics.md
 		COMPARISON_Datatypes.md = COMPARISON_Datatypes.md
 		COMPARISON_Predicates.md = COMPARISON_Predicates.md
+		COMPARISON_Arrays.md = COMPARISON_Arrays.md
+		COMPARISON_FunctionInterpretations.md = COMPARISON_FunctionInterpretations.md
+		COMPARISON_Model.md = COMPARISON_Model.md
+		COMPARISON_Numerals.md = COMPARISON_Numerals.md
+		COMPARISON_Parsing.md = COMPARISON_Parsing.md
+		COMPARISON_Probes.md = COMPARISON_Probes.md
+		COMPARISON_ReferenceCountingExtra.md = COMPARISON_ReferenceCountingExtra.md
+		COMPARISON_Sets.md = COMPARISON_Sets.md
+		COMPARISON_SolverExtensions.md = COMPARISON_SolverExtensions.md
+		COMPARISON_Utilities.md = COMPARISON_Utilities.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{57C34814-857F-4D49-9E65-43A2B80B1DB5}"
