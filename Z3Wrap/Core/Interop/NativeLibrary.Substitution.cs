@@ -1,3 +1,17 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Substitution API - P/Invoke bindings for Z3 expression transformation through substitution
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Substitution API (3 functions):
+// - Z3_substitute: General subexpression replacement
+// - Z3_substitute_vars: Bound variable (de Bruijn index) replacement
+// - Z3_substitute_funs: Function declaration replacement with expressions
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
