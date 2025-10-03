@@ -1,3 +1,22 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Numerals API - P/Invoke bindings for Z3 numeral value extraction
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Numerals API (9 functions):
+// - Numeral string conversion (binary, decimal, generic)
+// - Integer extraction (32-bit and 64-bit, signed and unsigned)
+// - Rational number extraction as numerator/denominator pairs
+// - Floating-point approximation extraction
+// - Small numeral predicate checking
+//
+// Note: Numeral creation (Z3_mk_numeral) is in NativeLibrary.Expressions.cs
+// Note: Rational decomposition (Z3_get_numerator/denominator) is in NativeLibrary.Queries.cs
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
