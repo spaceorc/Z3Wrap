@@ -14,6 +14,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionInternal(handle, functionPointers, "Z3_solver_check");
         LoadFunctionInternal(handle, functionPointers, "Z3_solver_get_model");
 
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_solver_from_tactic");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_push");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_pop");
         LoadFunctionOrNull(handle, functionPointers, "Z3_solver_reset");
@@ -24,6 +25,7 @@ internal sealed partial class NativeLibrary
     // Delegates
     private delegate IntPtr MkSolverDelegate(IntPtr ctx);
     private delegate IntPtr MkSimpleSolverDelegate(IntPtr ctx);
+    private delegate IntPtr MkSolverFromTacticDelegate(IntPtr ctx, IntPtr tactic);
     private delegate void SolverIncRefDelegate(IntPtr ctx, IntPtr solver);
     private delegate void SolverDecRefDelegate(IntPtr ctx, IntPtr solver);
     private delegate void SolverAssertDelegate(IntPtr ctx, IntPtr solver, IntPtr formula);
@@ -68,6 +70,24 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_simple_solver");
         var func = Marshal.GetDelegateForFunctionPointer<MkSimpleSolverDelegate>(funcPtr);
         return func(ctx);
+    }
+
+    /// <summary>
+    /// Creates solver from tactic.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="tactic">The tactic handle.</param>
+    /// <returns>Solver handle created from tactic.</returns>
+    /// <remarks>
+    /// Creates a solver that applies the given tactic to each check-sat call.
+    /// This allows using tactics within the standard solver interface.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkSolverFromTactic(IntPtr ctx, IntPtr tactic)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_solver_from_tactic");
+        var func = Marshal.GetDelegateForFunctionPointer<MkSolverFromTacticDelegate>(funcPtr);
+        return func(ctx, tactic);
     }
 
     /// <summary>

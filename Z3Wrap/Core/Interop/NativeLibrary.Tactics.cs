@@ -1,3 +1,20 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Tactics API - P/Invoke bindings for Z3 tactic-based solving
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Tactics API (21 functions):
+// - Tactic creation and reference counting
+// - Tactic combinators (sequential, parallel, conditional composition)
+// - Control flow tactics (repeat, timeout, conditional execution)
+// - Trivial tactics (skip, fail) and failure conditions
+// - Introspection (help, descriptions, parameters)
+// - Application to goals
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
