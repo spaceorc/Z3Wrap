@@ -1,3 +1,20 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Sets API - P/Invoke bindings for Z3 set theory operations
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's set theory API (12 functions):
+// - Set construction (sort, empty, full, add, delete)
+// - Set operations (union, intersection, difference, complement)
+// - Set predicates (membership, subset, cardinality)
+//
+// Note: Sets in Z3 are represented as arrays from element type to Boolean,
+// where true indicates membership and false indicates non-membership.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
