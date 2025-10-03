@@ -1,3 +1,19 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Predicates API - P/Invoke bindings for Z3 type checking predicates
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's type checking predicates API (18 functions):
+// - AST comparison predicates (equality checks for AST nodes, sorts, function declarations)
+// - AST type predicates (app, numeral, algebraic number, string, as-array, lambda, ground)
+// - Sort type predicates (string, sequence, regular expression, character, recursive datatype)
+// - Quantifier predicates (forall, exists)
+// - Well-sortedness checking
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
