@@ -5,14 +5,20 @@ Add ALL remaining Z3 C API functions to `NativeLibrary` (P/Invoke layer) to crea
 
 **IMPORTANT**: This plan is ONLY about the low-level `NativeLibrary` P/Invoke wrapper class (`Z3Wrap/Core/Interop/NativeLibrary*.cs` files). This is NOT about the high-level `Z3Library` class or any high-level C# API wrappers. The goal is to expose the complete raw Z3 C API through P/Invoke delegates, not to create high-level abstractions.
 
-## Current Status
-- **Currently implemented**: 558 functions (organized into 35 partial class files)
+## Current Status (January 3, 2025)
+
+### NEW Missing Functions Implementation (PLAN_MISSING_NATIVE.md)
+- **Strategy**: Systematic implementation of ~170 missing functions documented in NativeLibrary header comments
+- **Completed**: Phases 1-3 (56 functions implemented and committed)
+- **Remaining**: Phases 4-5 (~114 functions remaining)
+
+### Previous Complete Coverage Status (October 2, 2025)
+- **Previously implemented**: 558 functions (organized into 35 partial class files)
 - **Total in Z3 C API (z3_api.h)**: 556 functions
 - **Actually needed**: 552 functions (4 conversion functions are no-ops in C#)
-- **Missing**: 0 functions
-- **Progress**: 100% complete ✅
+- **Previous milestone**: 100% complete ✅ (October 2025)
 
-🎉 **MILESTONE ACHIEVED**: Complete Z3 C API coverage reached!
+**NOTE**: Additional missing functions discovered in header comments during January 2025 audit. These are optional/advanced features intentionally marked with "Missing Functions" sections in header comments.
 
 ### Completed Work
 
@@ -1016,6 +1022,44 @@ All new functions use `LoadFunctionOrNull()`:
 - 🎯 **Final structure**: 35 partial class files, 558 total functions
 - 🏆 **COMPLETE Z3 C API COVERAGE ACHIEVED!**
 - 📊 **Progress**: 100% complete (558/556 functions, accounting for 4 intentional conversion function skips)
+
+### January 3, 2025 - NEW Phase 1-3: Missing Functions Implementation (PLAN_MISSING_NATIVE.md) ✅
+**Commit**: 21fb657 "feat: implement 56 missing NativeLibrary P/Invoke functions (Phases 1-3)"
+
+#### Phase 1: Advanced Solver Features (25 functions) ✅
+- NativeLibrary.Solvers.cs: 31 → 56 functions
+- Congruence closure operations (4): explain, next, root, implied_equalities
+- Solver trail inspection (4): get_levels, get_units, get_non_units, get_trail
+- Model conversion (3): import_model_converter, next_split, solve_for
+- User propagator framework (14 callbacks):
+  - Init: propagate_init (with push/pop/fresh callbacks)
+  - Registration: propagate_register, propagate_register_cb, propagate_declare
+  - Callbacks: propagate_fixed, propagate_eq, propagate_diseq, propagate_created, propagate_decide, propagate_final, propagate_on_binding
+  - Propagation: propagate_consequence
+  - Clause learning: register_on_clause, set_initial_value
+
+#### Phase 2: Tactics, Quantifiers, and Functions (18 functions) ✅
+- **Tactics (10)**: NativeLibrary.Tactics.cs: 45 → 55 functions
+  - Apply result queries (3): get_num_subgoals, get_subgoal, to_string
+  - Enumeration (6): get_num_tactics, get_tactic_name, get_num_probes, get_probe_name, get_num_simplifiers, get_simplifier_name
+  - Solver integration (1): solver_add_simplifier
+- **Quantifiers (6)**: NativeLibrary.Quantifiers.cs: 6 → 12 functions
+  - Modern const-based (2): mk_quantifier_const, mk_quantifier_const_ex
+  - Legacy sorts/symbols (4): mk_forall, mk_exists, mk_quantifier, mk_quantifier_ex
+- **Functions (2)**: NativeLibrary.Functions.cs: 3 → 5 functions (71.4% coverage)
+  - Recursive functions: mk_rec_func_decl, add_rec_def
+
+#### Phase 3: Model Evaluation and Arrays (13 functions) ✅
+- **Models (9)**: NativeLibrary.Models.cs: 28 → 37 functions
+  - Evaluation (7): eval, eval_get_bool, eval_get_int, eval_get_bv, eval_get_real, eval_get_string, eval_get_numeral_string
+  - Extension (2): model_extrapolate, model_get_as_array_func_decl
+- **Arrays (4)**: NativeLibrary.Arrays.cs: 9 → 13 functions
+  - N-dimensional operations: mk_select_n, mk_store_n, mk_array_sort_n, get_array_sort_domain_n
+
+**Status**: 56 functions implemented | 0 warnings | 904 tests passing | 97.9% coverage
+**Next**: Phases 4-5 remaining (~114 functions)
+
+---
 
 ### October 2, 2025 - Phase 1 Setup Complete
 - ✅ Created 10 partial class files organizing 120 existing functions
