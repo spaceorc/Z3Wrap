@@ -7,17 +7,18 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's quantifier creation API (4 functions):
+// This file provides bindings for Z3's quantifier creation API (6 functions):
 // - Universal quantifiers (forall) using constant-based syntax
 // - Existential quantifiers (exists) using constant-based syntax
+// - Lambda expressions (anonymous functions) using constant-based syntax
+// - Lambda expressions (anonymous functions) using sorts/symbols syntax
 // - Patterns for guiding quantifier instantiation
 // - Bound variables for quantifier bodies
 //
-// Note: This file contains only the modern const-based quantifier constructors.
+// Note: This file contains modern const-based quantifier/lambda constructors.
 // Query functions for quantifiers are in NativeLibrary.Queries.cs.
 // Predicate functions for quantifiers are in NativeLibrary.Predicates.cs.
-// Old-style quantifier constructors (using sorts/symbols) and lambda expressions
-// are not currently bound but available in Z3 C API.
+// Old-style quantifier constructors (using sorts/symbols) are not currently bound.
 
 using System.Runtime.InteropServices;
 
@@ -29,6 +30,8 @@ internal sealed partial class NativeLibrary
     {
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_forall_const");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_exists_const");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lambda_const");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lambda");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_pattern");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bound");
     }
@@ -50,6 +53,14 @@ internal sealed partial class NativeLibrary
         IntPtr[] bound,
         uint numPatterns,
         IntPtr[] patterns,
+        IntPtr body
+    );
+    private delegate IntPtr MkLambdaConstDelegate(IntPtr ctx, uint numBound, IntPtr[] bound, IntPtr body);
+    private delegate IntPtr MkLambdaDelegate(
+        IntPtr ctx,
+        uint numDecls,
+        IntPtr[] sorts,
+        IntPtr[] declNames,
         IntPtr body
     );
     private delegate IntPtr MkPatternDelegate(IntPtr ctx, uint numPatterns, IntPtr[] terms);
@@ -114,6 +125,57 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_exists_const");
         var func = Marshal.GetDelegateForFunctionPointer<MkExistsConstDelegate>(funcPtr);
         return func(ctx, weight, numBound, bound, numPatterns, patterns, body);
+    }
+
+    /// <summary>
+    /// Creates lambda expression using constant-based syntax.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numBound">The number of bound variables.</param>
+    /// <param name="bound">Array of bound variable constants.</param>
+    /// <param name="body">The expression body of the lambda.</param>
+    /// <returns>Handle to the created lambda expression.</returns>
+    /// <remarks>
+    /// Creates λ bound_vars . body. Lambda expressions are anonymous functions
+    /// that can be used in higher-order logic and array theory. The result has
+    /// sort (Array domain_sorts range_sort) where range_sort is the sort of body.
+    /// Modern const-based syntax similar to forall_const/exists_const.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkLambdaConst(IntPtr ctx, uint numBound, IntPtr[] bound, IntPtr body)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_lambda_const");
+        var func = Marshal.GetDelegateForFunctionPointer<MkLambdaConstDelegate>(funcPtr);
+        return func(ctx, numBound, bound, body);
+    }
+
+    /// <summary>
+    /// Creates lambda expression using sorts and symbol names.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numDecls">The number of bound variables.</param>
+    /// <param name="sorts">Array of sorts for bound variables.</param>
+    /// <param name="declNames">Array of symbol names for bound variables.</param>
+    /// <param name="body">The expression body of the lambda.</param>
+    /// <returns>Handle to the created lambda expression.</returns>
+    /// <remarks>
+    /// Creates λ (x1:sort1, ..., xn:sortn) . body. Lambda expressions are
+    /// anonymous functions for higher-order logic. The result has sort
+    /// (Array sorts range_sort) where range_sort is the sort of body.
+    /// Old-style syntax using sorts and symbols instead of constants.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkLambda(
+        IntPtr ctx,
+        uint numDecls,
+        IntPtr[] sorts,
+        IntPtr[] declNames,
+        IntPtr body
+    )
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_lambda");
+        var func = Marshal.GetDelegateForFunctionPointer<MkLambdaDelegate>(funcPtr);
+        return func(ctx, numDecls, sorts, declNames, body);
     }
 
     /// <summary>
