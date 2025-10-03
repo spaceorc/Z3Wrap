@@ -22,6 +22,9 @@
 //
 // Complete coverage of Z3's bitvector reasoning API for fixed-width machine arithmetic.
 // See COMPARISON_BitVectors.md for detailed function mapping documentation.
+//
+// Missing Functions (1 functions):
+// - Z3_mk_bit2bool
 
 using System.Runtime.InteropServices;
 

@@ -9,6 +9,11 @@
 //
 // This file provides bindings for Z3's Configuration API (0 functions - placeholder):
 // - TODO: Add functions from c_headers/z3_api_create_configuration.txt
+//
+// Missing Functions (3 functions):
+// - Z3_del_config
+// - Z3_mk_config
+// - Z3_set_param_value
 
 using System.Runtime.InteropServices;
 

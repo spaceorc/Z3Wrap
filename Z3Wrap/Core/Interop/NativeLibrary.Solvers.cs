@@ -21,6 +21,33 @@
 // - Context translation (moving solvers between contexts)
 // - Advanced solving modes (cubes, consequences)
 // - Solver control and interruption
+//
+// Missing Functions (25 functions):
+// - Z3_get_implied_equalities
+// - Z3_solver_congruence_explain
+// - Z3_solver_congruence_next
+// - Z3_solver_congruence_root
+// - Z3_solver_get_levels
+// - Z3_solver_get_non_units
+// - Z3_solver_get_trail
+// - Z3_solver_get_units
+// - Z3_solver_import_model_converter
+// - Z3_solver_next_split
+// - Z3_solver_propagate_consequence
+// - Z3_solver_propagate_created
+// - Z3_solver_propagate_decide
+// - Z3_solver_propagate_declare
+// - Z3_solver_propagate_diseq
+// - Z3_solver_propagate_eq
+// - Z3_solver_propagate_final
+// - Z3_solver_propagate_fixed
+// - Z3_solver_propagate_init
+// - Z3_solver_propagate_on_binding
+// - Z3_solver_propagate_register
+// - Z3_solver_propagate_register_cb
+// - Z3_solver_register_on_clause
+// - Z3_solver_set_initial_value
+// - Z3_solver_solve_for
 
 using System.Runtime.InteropServices;
 

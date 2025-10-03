@@ -14,6 +14,9 @@
 //
 // Note: Sets in Z3 are represented as arrays from element type to Boolean,
 // where true indicates membership and false indicates non-membership.
+//
+// Missing Functions (1 functions):
+// - Z3_mk_array_ext
 
 using System.Runtime.InteropServices;
 

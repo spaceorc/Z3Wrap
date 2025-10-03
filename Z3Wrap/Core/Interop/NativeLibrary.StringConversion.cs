@@ -9,6 +9,11 @@
 //
 // This file provides bindings for Z3's StringConversion API (0 functions - placeholder):
 // - TODO: Add functions from c_headers/z3_api_string_conversion.txt
+//
+// Missing Functions (3 functions):
+// - Z3_ast_to_string
+// - Z3_benchmark_to_smtlib_string
+// - Z3_model_to_string
 
 using System.Runtime.InteropServices;
 

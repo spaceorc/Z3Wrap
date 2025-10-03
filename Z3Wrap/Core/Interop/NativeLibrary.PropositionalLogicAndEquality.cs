@@ -12,6 +12,9 @@
 // - Boolean operations (and, or, not, implies, iff, xor)
 // - Equality and distinctness (eq, distinct)
 // - Conditional expression (if-then-else)
+//
+// Missing Functions (0 functions):
+// None - all functions implemented ✓
 
 using System.Runtime.InteropServices;
 

@@ -16,6 +16,15 @@
 // - Small numeral predicate checking
 //
 // Note: Rational decomposition (Z3_get_numerator/denominator) is in NativeLibrary.Queries.cs
+//
+// Missing Functions (7 functions):
+// - Z3_mk_bv_numeral
+// - Z3_mk_int
+// - Z3_mk_int64
+// - Z3_mk_real
+// - Z3_mk_real_int64
+// - Z3_mk_unsigned_int
+// - Z3_mk_unsigned_int64
 
 using System.Runtime.InteropServices;
 

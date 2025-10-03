@@ -12,6 +12,9 @@
 // - Global parameter reset (Z3_global_param_reset_all)
 //
 // Note: Global parameters affect all Z3 contexts created after they are set
+//
+// Missing Functions (0 functions):
+// None - all functions implemented ✓
 
 using System.Runtime.InteropServices;
 

@@ -9,6 +9,13 @@
 //
 // This file provides bindings for Z3's Modifiers API (0 functions - placeholder):
 // - TODO: Add functions from c_headers/z3_api_modifiers.txt
+//
+// Missing Functions (5 functions):
+// - Z3_substitute
+// - Z3_substitute_funs
+// - Z3_substitute_vars
+// - Z3_translate
+// - Z3_update_term
 
 using System.Runtime.InteropServices;
 

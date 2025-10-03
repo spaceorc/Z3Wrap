@@ -13,6 +13,12 @@
 // - Reference counting for memory management (IncRef, DecRef)
 //
 // Note: Global parameter functions (Z3_global_param_*) are in NativeLibrary.Parameters.cs
+//
+// Missing Functions (4 functions):
+// - Z3_enable_concurrent_dec_ref
+// - Z3_get_global_param_descrs
+// - Z3_interrupt
+// - Z3_mk_context
 
 using System.Runtime.InteropServices;
 

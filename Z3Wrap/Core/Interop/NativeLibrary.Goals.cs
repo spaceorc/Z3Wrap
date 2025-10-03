@@ -13,6 +13,9 @@
 // - Goal state queries (inconsistent, decided sat/unsat)
 // - Goal translation and conversion
 // - DIMACS export
+//
+// Missing Functions (0 functions):
+// None - all functions implemented ✓
 
 using System.Runtime.InteropServices;
 

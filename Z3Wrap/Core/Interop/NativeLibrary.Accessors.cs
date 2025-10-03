@@ -17,6 +17,75 @@
 // - Numeral accessors (GetNumerator, GetDenominator)
 // - Symbol accessors (GetSymbolString, GetSymbolKind)
 // - Sort accessor (GetSortName)
+//
+// Missing Functions (67 functions):
+// - Z3_app_to_ast
+// - Z3_datatype_update_field
+// - Z3_func_decl_to_ast
+// - Z3_get_algebraic_number_lower
+// - Z3_get_algebraic_number_upper
+// - Z3_get_array_arity
+// - Z3_get_array_sort_domain
+// - Z3_get_array_sort_domain_n
+// - Z3_get_array_sort_range
+// - Z3_get_bool_value
+// - Z3_get_bv_sort_size
+// - Z3_get_datatype_sort_constructor
+// - Z3_get_datatype_sort_constructor_accessor
+// - Z3_get_datatype_sort_num_constructors
+// - Z3_get_datatype_sort_recognizer
+// - Z3_get_depth
+// - Z3_get_finite_domain_sort_size
+// - Z3_get_func_decl_id
+// - Z3_get_index_value
+// - Z3_get_numeral_binary_string
+// - Z3_get_numeral_decimal_string
+// - Z3_get_numeral_double
+// - Z3_get_numeral_int
+// - Z3_get_numeral_int64
+// - Z3_get_numeral_rational_int64
+// - Z3_get_numeral_small
+// - Z3_get_numeral_string
+// - Z3_get_numeral_uint
+// - Z3_get_numeral_uint64
+// - Z3_get_quantifier_id
+// - Z3_get_quantifier_no_pattern_ast
+// - Z3_get_quantifier_num_no_patterns
+// - Z3_get_quantifier_skolem_id
+// - Z3_get_quantifier_weight
+// - Z3_get_relation_arity
+// - Z3_get_relation_column
+// - Z3_get_sort
+// - Z3_get_sort_id
+// - Z3_get_sort_kind
+// - Z3_get_tuple_sort_field_decl
+// - Z3_get_tuple_sort_mk_decl
+// - Z3_get_tuple_sort_num_fields
+// - Z3_is_algebraic_number
+// - Z3_is_app
+// - Z3_is_eq_ast
+// - Z3_is_eq_func_decl
+// - Z3_is_eq_sort
+// - Z3_is_ground
+// - Z3_is_lambda
+// - Z3_is_numeral_ast
+// - Z3_is_quantifier_exists
+// - Z3_is_quantifier_forall
+// - Z3_is_recursive_datatype_sort
+// - Z3_is_well_sorted
+// - Z3_mk_atleast
+// - Z3_mk_atmost
+// - Z3_mk_pbeq
+// - Z3_mk_pbge
+// - Z3_mk_pble
+// - Z3_pattern_to_ast
+// - Z3_simplify
+// - Z3_simplify_ex
+// - Z3_simplify_get_help
+// - Z3_simplify_get_param_descrs
+// - Z3_sort_to_ast
+// - Z3_to_app
+// - Z3_to_func_decl
 
 using System.Runtime.InteropServices;
 

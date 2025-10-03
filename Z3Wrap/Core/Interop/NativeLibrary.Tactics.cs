@@ -41,6 +41,18 @@
 // Simplifiers are basic building blocks for creating custom pre-processing
 // simplifiers for specific problem domains. They can be combined and configured
 // with parameters before being applied to formulas.
+//
+// Missing Functions (10 functions):
+// - Z3_apply_result_get_num_subgoals
+// - Z3_apply_result_get_subgoal
+// - Z3_apply_result_to_string
+// - Z3_get_num_probes
+// - Z3_get_num_simplifiers
+// - Z3_get_num_tactics
+// - Z3_get_probe_name
+// - Z3_get_simplifier_name
+// - Z3_get_tactic_name
+// - Z3_solver_add_simplifier
 
 using System.Runtime.InteropServices;
 

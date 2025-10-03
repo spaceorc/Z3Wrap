@@ -15,6 +15,11 @@
 //
 // NOTE: Reference counting functions (Z3_stats_inc_ref, Z3_stats_dec_ref) are in
 // NativeLibrary.ReferenceCountingExtra.cs along with other reference counting functions
+//
+// Missing Functions (3 functions):
+// - Z3_get_estimated_alloc_size
+// - Z3_stats_dec_ref
+// - Z3_stats_inc_ref
 
 using System.Runtime.InteropServices;
 

@@ -23,6 +23,17 @@
 // Note: Reference counting functions for func_interp and func_entry (Z3_func_interp_inc_ref,
 //       Z3_func_interp_dec_ref, Z3_func_entry_inc_ref, Z3_func_entry_dec_ref) are in
 //       NativeLibrary.ReferenceCountingExtra.cs
+//
+// Missing Functions (9 functions):
+// - Z3_add_const_interp
+// - Z3_add_func_interp
+// - Z3_func_entry_dec_ref
+// - Z3_func_entry_inc_ref
+// - Z3_func_interp_dec_ref
+// - Z3_func_interp_inc_ref
+// - Z3_get_as_array_func_decl
+// - Z3_is_as_array
+// - Z3_mk_model
 
 using System.Runtime.InteropServices;
 

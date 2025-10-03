@@ -13,6 +13,15 @@
 // - Datatype creation (single and mutually recursive)
 // - Tuple sorts (special single-constructor datatypes)
 // - List sorts (recursive cons-cell structures)
+//
+// Missing Functions (7 functions):
+// - Z3_mk_array_sort
+// - Z3_mk_array_sort_n
+// - Z3_mk_bv_sort
+// - Z3_mk_enumeration_sort
+// - Z3_mk_finite_domain_sort
+// - Z3_mk_type_variable
+// - Z3_mk_uninterpreted_sort
 
 using System.Runtime.InteropServices;
 

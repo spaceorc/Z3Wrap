@@ -9,6 +9,9 @@
 //
 // This file provides bindings for Z3's Symbols API (0 functions - placeholder):
 // - TODO: Add functions from c_headers/z3_api_symbols.txt
+//
+// Missing Functions (1 functions):
+// - Z3_mk_int_symbol
 
 using System.Runtime.InteropServices;
 

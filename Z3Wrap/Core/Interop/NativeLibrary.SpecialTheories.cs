@@ -18,6 +18,12 @@
 // - Recursive function declarations and definitions (2 functions)
 //
 // See COMPARISON_SpecialTheories.md for complete API comparison and recommendations.
+//
+// Missing Functions (4 functions):
+// - Z3_mk_linear_order
+// - Z3_mk_partial_order
+// - Z3_mk_piecewise_linear_order
+// - Z3_mk_tree_order
 
 using System.Runtime.InteropServices;
 

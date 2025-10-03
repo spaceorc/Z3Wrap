@@ -13,6 +13,9 @@
 // - String conversion (Z3_param_descrs_to_string)
 //
 // Parameter descriptors describe available parameters for solvers, tactics, etc.
+//
+// Missing Functions (0 functions):
+// None - all functions implemented ✓
 
 using System.Runtime.InteropServices;
 

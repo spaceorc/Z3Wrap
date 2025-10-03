@@ -19,6 +19,14 @@
 // Query functions for quantifiers are in NativeLibrary.Queries.cs.
 // Predicate functions for quantifiers are in NativeLibrary.Predicates.cs.
 // Old-style quantifier constructors (using sorts/symbols) are not currently bound.
+//
+// Missing Functions (6 functions):
+// - Z3_mk_exists
+// - Z3_mk_forall
+// - Z3_mk_quantifier
+// - Z3_mk_quantifier_const
+// - Z3_mk_quantifier_const_ex
+// - Z3_mk_quantifier_ex
 
 using System.Runtime.InteropServices;
 

@@ -15,6 +15,12 @@
 //
 // Missing: Multi-dimensional array support (mk_array_sort_n, mk_select_n, mk_store_n,
 //          get_array_sort_domain_n) and array mapping (mk_map)
+//
+// Missing Functions (4 functions):
+// - Z3_mk_map
+// - Z3_mk_select_n
+// - Z3_mk_set_has_size
+// - Z3_mk_store_n
 
 using System.Runtime.InteropServices;
 
