@@ -7,14 +7,16 @@
 // Source: z3_api.h (StringConversion section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's StringConversion API (4 functions):
+// This file provides bindings for Z3's StringConversion API (7 of 7 functions):
 // - String conversion for AST objects (Z3_func_decl_to_string, Z3_pattern_to_string, Z3_sort_to_string)
 // - Print mode control (Z3_set_ast_print_mode)
 //
-// Missing Functions (3 functions):
-// - Z3_ast_to_string
-// - Z3_benchmark_to_smtlib_string
-// - Z3_model_to_string
+// Note: Other StringConversion functions are in their respective files:
+// - Z3_ast_to_string → NativeLibrary.Functions.cs
+// - Z3_benchmark_to_smtlib_string → NativeLibrary.Parsing.cs
+// - Z3_model_to_string → NativeLibrary.Models.cs
+//
+// Missing Functions (0 functions):
 
 using System.Runtime.InteropServices;
 

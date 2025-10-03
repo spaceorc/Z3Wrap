@@ -8,18 +8,14 @@
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 // Docs: https://z3prover.github.io/api/html/classz3_1_1stats.html
 //
-// This file provides bindings for Z3's Statistics API (7 functions):
+// This file provides bindings for Z3's Statistics API (8 functions):
 // - Statistical data retrieval (size, keys, values)
 // - Type checking (uint vs double entries)
 // - String formatting for statistics output
+// - Memory allocation estimation
 //
 // NOTE: Reference counting functions (Z3_stats_inc_ref, Z3_stats_dec_ref) are in
 // NativeLibrary.ReferenceCountingExtra.cs along with other reference counting functions
-//
-// Missing Functions (3 functions):
-// - Z3_get_estimated_alloc_size
-// - Z3_stats_dec_ref
-// - Z3_stats_inc_ref
 
 using System.Runtime.InteropServices;
 
@@ -36,6 +32,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_stats_is_uint");
         LoadFunctionOrNull(handle, functionPointers, "Z3_stats_is_double");
         LoadFunctionOrNull(handle, functionPointers, "Z3_stats_to_string");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_estimated_alloc_size");
     }
 
     // Delegates
@@ -47,6 +44,7 @@ internal sealed partial class NativeLibrary
     private delegate bool StatsIsUintDelegate(IntPtr ctx, IntPtr stats, uint idx);
     private delegate bool StatsIsDoubleDelegate(IntPtr ctx, IntPtr stats, uint idx);
     private delegate IntPtr StatsToStringDelegate(IntPtr ctx, IntPtr stats);
+    private delegate ulong GetEstimatedAllocSizeDelegate();
 
     // Methods
 
@@ -180,5 +178,21 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_stats_to_string");
         var func = Marshal.GetDelegateForFunctionPointer<StatsToStringDelegate>(funcPtr);
         return func(ctx, stats);
+    }
+
+    /// <summary>
+    /// Gets estimated memory allocation size in bytes.
+    /// </summary>
+    /// <returns>Estimated allocated memory in bytes.</returns>
+    /// <remarks>
+    /// Returns approximate memory usage by Z3. Useful for memory profiling and leak detection.
+    /// This is a global function (no context parameter).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal ulong GetEstimatedAllocSize()
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_estimated_alloc_size");
+        var func = Marshal.GetDelegateForFunctionPointer<GetEstimatedAllocSizeDelegate>(funcPtr);
+        return func();
     }
 }

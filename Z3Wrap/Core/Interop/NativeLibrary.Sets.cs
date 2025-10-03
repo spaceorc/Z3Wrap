@@ -4,19 +4,19 @@
 
 // Z3 Sets API - P/Invoke bindings for Z3 set theory operations
 //
-// Source: z3_api.h from Z3 C API
+// Source: z3_api.h from Z3 C API (Sets section) + Z3_mk_array_ext
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's set theory API (12 functions):
+// This file provides bindings for Z3's set theory API (13 of 15 functions from c_headers):
 // - Set construction (sort, empty, full, add, delete)
 // - Set operations (union, intersection, difference, complement)
-// - Set predicates (membership, subset, cardinality)
+// - Set predicates (membership, subset)
+// - Array extensionality (Z3_mk_array_ext)
 //
 // Note: Sets in Z3 are represented as arrays from element type to Boolean,
 // where true indicates membership and false indicates non-membership.
 //
-// Missing Functions (1 functions):
-// - Z3_mk_array_ext
+// Missing Functions (0 functions):
 
 using System.Runtime.InteropServices;
 
@@ -38,6 +38,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_member");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_subset");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_has_size");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_array_ext");
     }
 
     // Delegates
@@ -53,6 +54,7 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkSetMemberDelegate(IntPtr ctx, IntPtr elem, IntPtr set);
     private delegate IntPtr MkSetSubsetDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
     private delegate IntPtr MkSetHasSizeDelegate(IntPtr ctx, IntPtr set, IntPtr k);
+    private delegate IntPtr MkArrayExtDelegate(IntPtr ctx, IntPtr arg1, IntPtr arg2);
 
     // Methods
     /// <summary>
@@ -265,5 +267,24 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_set_has_size");
         var func = Marshal.GetDelegateForFunctionPointer<MkSetHasSizeDelegate>(funcPtr);
         return func(ctx, set, k);
+    }
+
+    /// <summary>
+    /// Creates array extensionality constraint.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="arg1">First array expression.</param>
+    /// <param name="arg2">Second array expression.</param>
+    /// <returns>AST node representing an index where arrays differ (if they differ).</returns>
+    /// <remarks>
+    /// Array extensionality: two arrays are equal iff they agree on all indices.
+    /// This function returns an index witnessing inequality if arrays are not equal.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkArrayExt(IntPtr ctx, IntPtr arg1, IntPtr arg2)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_array_ext");
+        var func = Marshal.GetDelegateForFunctionPointer<MkArrayExtDelegate>(funcPtr);
+        return func(ctx, arg1, arg2);
     }
 }

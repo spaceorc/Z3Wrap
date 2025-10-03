@@ -2,13 +2,14 @@
 // ReSharper disable CommentTypo
 // ReSharper disable StringLiteralTypo
 
-// Z3 Numerals API - P/Invoke bindings for Z3 numeral value extraction
+// Z3 Numerals API - P/Invoke bindings for Z3 numeral creation and extraction
 //
-// Source: z3_api.h from Z3 C API
+// Source: z3_api.h (Numerals section) from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's Numerals API (10 functions):
-// - Numeral creation
+// This file provides bindings for Z3's Numerals API (16 functions):
+// - Numeral creation from native types (int32, uint32, int64, uint64, real fractions)
+// - Polymorphic string-based creation (Z3_mk_numeral)
 // - Numeral string conversion (binary, decimal, generic)
 // - Integer extraction (32-bit and 64-bit, signed and unsigned)
 // - Rational number extraction as numerator/denominator pairs
@@ -16,15 +17,7 @@
 // - Small numeral predicate checking
 //
 // Note: Rational decomposition (Z3_get_numerator/denominator) is in NativeLibrary.Accessors.cs
-//
-// Missing Functions (7 functions):
-// - Z3_mk_bv_numeral
-// - Z3_mk_int
-// - Z3_mk_int64
-// - Z3_mk_real
-// - Z3_mk_real_int64
-// - Z3_mk_unsigned_int
-// - Z3_mk_unsigned_int64
+// Note: Z3_mk_bv_numeral is in NativeLibrary.BitVectors.cs
 
 using System.Runtime.InteropServices;
 
@@ -34,6 +27,16 @@ internal sealed partial class NativeLibrary
 {
     private static void LoadFunctionsNumerals(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
+        // Creation functions
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_numeral");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unsigned_int");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int64");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unsigned_int64");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real_int64");
+
+        // Extraction and conversion functions
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_binary_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_decimal_string");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_int");
@@ -43,12 +46,20 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_rational_int64");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_small");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_double");
-        LoadFunctionInternal(handle, functionPointers, "Z3_mk_numeral");
     }
 
     // Delegates
 
+    // Creation delegates
     private delegate IntPtr MkNumeralDelegate(IntPtr ctx, IntPtr numeral, IntPtr sort);
+    private delegate IntPtr MkIntDelegate(IntPtr ctx, int v, IntPtr sort);
+    private delegate IntPtr MkUnsignedIntDelegate(IntPtr ctx, uint v, IntPtr sort);
+    private delegate IntPtr MkInt64Delegate(IntPtr ctx, long v, IntPtr sort);
+    private delegate IntPtr MkUnsignedInt64Delegate(IntPtr ctx, ulong v, IntPtr sort);
+    private delegate IntPtr MkRealDelegate(IntPtr ctx, int num, int den);
+    private delegate IntPtr MkRealInt64Delegate(IntPtr ctx, long num, long den);
+
+    // Extraction and conversion delegates
     private delegate IntPtr GetNumeralBinaryStringDelegate(IntPtr ctx, IntPtr ast);
     private delegate IntPtr GetNumeralDecimalStringDelegate(IntPtr ctx, IntPtr ast, uint precision);
     private delegate bool GetNumeralIntDelegate(IntPtr ctx, IntPtr ast, out int value);
@@ -60,6 +71,137 @@ internal sealed partial class NativeLibrary
     private delegate bool GetNumeralDoubleDelegate(IntPtr ctx, IntPtr ast, out double value);
 
     // Methods
+
+    // Creation methods
+
+    /// <summary>
+    /// Creates a Z3 numeric literal expression from a string representation.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="numeral">Pointer to the null-terminated string representation of the number.</param>
+    /// <param name="sort">The numeric sort (integer or real) for the literal.</param>
+    /// <returns>Handle to the created numeric literal expression.</returns>
+    /// <remarks>
+    /// The numeral string format depends on the sort. Integers use decimal notation,
+    /// reals can use decimal or fractional notation (e.g., "3.14" or "22/7").
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_numeral");
+        var func = Marshal.GetDelegateForFunctionPointer<MkNumeralDelegate>(funcPtr);
+        return func(ctx, numeral, sort);
+    }
+
+    /// <summary>
+    /// Creates numeral from 32-bit signed integer.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="v">Integer value.</param>
+    /// <param name="sort">Target sort (integer, real, or bitvector).</param>
+    /// <returns>AST node representing numeral with given value.</returns>
+    /// <remarks>
+    /// Direct creation from native int32 value. More efficient than string-based creation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkInt(IntPtr ctx, int v, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_int");
+        var func = Marshal.GetDelegateForFunctionPointer<MkIntDelegate>(funcPtr);
+        return func(ctx, v, sort);
+    }
+
+    /// <summary>
+    /// Creates numeral from 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="v">Unsigned integer value.</param>
+    /// <param name="sort">Target sort (integer, real, or bitvector).</param>
+    /// <returns>AST node representing numeral with given value.</returns>
+    /// <remarks>
+    /// Direct creation from native uint32 value. More efficient than string-based creation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkUnsignedInt(IntPtr ctx, uint v, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_unsigned_int");
+        var func = Marshal.GetDelegateForFunctionPointer<MkUnsignedIntDelegate>(funcPtr);
+        return func(ctx, v, sort);
+    }
+
+    /// <summary>
+    /// Creates numeral from 64-bit signed integer.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="v">Long integer value.</param>
+    /// <param name="sort">Target sort (integer, real, or bitvector).</param>
+    /// <returns>AST node representing numeral with given value.</returns>
+    /// <remarks>
+    /// Direct creation from native int64 value. More efficient than string-based creation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkInt64(IntPtr ctx, long v, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_int64");
+        var func = Marshal.GetDelegateForFunctionPointer<MkInt64Delegate>(funcPtr);
+        return func(ctx, v, sort);
+    }
+
+    /// <summary>
+    /// Creates numeral from 64-bit unsigned integer.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="v">Unsigned long integer value.</param>
+    /// <param name="sort">Target sort (integer, real, or bitvector).</param>
+    /// <returns>AST node representing numeral with given value.</returns>
+    /// <remarks>
+    /// Direct creation from native uint64 value. More efficient than string-based creation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkUnsignedInt64(IntPtr ctx, ulong v, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_unsigned_int64");
+        var func = Marshal.GetDelegateForFunctionPointer<MkUnsignedInt64Delegate>(funcPtr);
+        return func(ctx, v, sort);
+    }
+
+    /// <summary>
+    /// Creates real numeral from 32-bit integer fraction.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="num">Numerator.</param>
+    /// <param name="den">Denominator (must be non-zero).</param>
+    /// <returns>AST node representing rational number num/den.</returns>
+    /// <remarks>
+    /// Creates exact rational representation. Result is automatically simplified (e.g., 2/4 becomes 1/2).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkReal(IntPtr ctx, int num, int den)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_real");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRealDelegate>(funcPtr);
+        return func(ctx, num, den);
+    }
+
+    /// <summary>
+    /// Creates real numeral from 64-bit integer fraction.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="num">Numerator.</param>
+    /// <param name="den">Denominator (must be non-zero).</param>
+    /// <returns>AST node representing rational number num/den.</returns>
+    /// <remarks>
+    /// Creates exact rational representation with 64-bit precision. Result is automatically simplified.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkRealInt64(IntPtr ctx, long num, long den)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_real_int64");
+        var func = Marshal.GetDelegateForFunctionPointer<MkRealInt64Delegate>(funcPtr);
+        return func(ctx, num, den);
+    }
+
+    // Extraction and conversion methods
 
     /// <summary>
     /// Gets binary string representation of numeral.
@@ -232,24 +374,5 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_get_numeral_double");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralDoubleDelegate>(funcPtr);
         return func(ctx, ast, out value);
-    }
-
-    /// <summary>
-    /// Creates a Z3 numeric literal expression from a string representation.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="numeral">Pointer to the null-terminated string representation of the number.</param>
-    /// <param name="sort">The numeric sort (integer or real) for the literal.</param>
-    /// <returns>Handle to the created numeric literal expression.</returns>
-    /// <remarks>
-    /// The numeral string format depends on the sort. Integers use decimal notation,
-    /// reals can use decimal or fractional notation (e.g., "3.14" or "22/7").
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkNumeral(IntPtr ctx, IntPtr numeral, IntPtr sort)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_numeral");
-        var func = Marshal.GetDelegateForFunctionPointer<MkNumeralDelegate>(funcPtr);
-        return func(ctx, numeral, sort);
     }
 }

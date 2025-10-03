@@ -49,6 +49,7 @@ internal sealed partial class NativeLibrary
 
         // String value accessors
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_string");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_lstring");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_string_length");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_string_contents");
 
@@ -128,6 +129,7 @@ internal sealed partial class NativeLibrary
     // String value accessor delegates
     [return: MarshalAs(UnmanagedType.LPStr)]
     private delegate string GetStringDelegate(IntPtr ctx, IntPtr s);
+    private delegate IntPtr GetLStringDelegate(IntPtr ctx, IntPtr s, out uint length);
     private delegate uint GetStringLengthDelegate(IntPtr ctx, IntPtr s);
     private delegate void GetStringContentsDelegate(IntPtr ctx, IntPtr s, uint length, uint[] contents);
 
@@ -346,6 +348,24 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_get_string");
         var func = Marshal.GetDelegateForFunctionPointer<GetStringDelegate>(funcPtr);
         return func(ctx, s);
+    }
+
+    /// <summary>
+    /// Retrieves string value and length from string constant.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="s">String constant AST node.</param>
+    /// <param name="length">Output parameter for string length.</param>
+    /// <returns>Pointer to string buffer.</returns>
+    /// <remarks>
+    /// Returns raw string buffer along with its length. Unlike GetString, does not escape non-ASCII characters.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetLString(IntPtr ctx, IntPtr s, out uint length)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_lstring");
+        var func = Marshal.GetDelegateForFunctionPointer<GetLStringDelegate>(funcPtr);
+        return func(ctx, s, out length);
     }
 
     /// <summary>

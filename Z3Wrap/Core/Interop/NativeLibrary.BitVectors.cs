@@ -7,10 +7,10 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's bitvector theory API (52 functions):
+// This file provides bindings for Z3's bitvector theory API (53 functions):
 // - Sort creation (2 functions): Bitvector sorts and size queries
 // - Numeral creation (2 functions): Create bitvector constants from strings or bit arrays
-// - Bit manipulation (5 functions): Concat, extract, sign/zero extend, repeat
+// - Bit manipulation (6 functions): Concat, extract, sign/zero extend, repeat, bit2bool
 // - Arithmetic operations (9 functions): Add, sub, mul, div (signed/unsigned), rem, mod, neg
 // - Bitwise operations (7 functions): AND, OR, XOR, NOT, NAND, NOR, XNOR
 // - Bitwise reduction (2 functions): Reduction AND/OR
@@ -22,9 +22,6 @@
 //
 // Complete coverage of Z3's bitvector reasoning API for fixed-width machine arithmetic.
 // See COMPARISON_BitVectors.md for detailed function mapping documentation.
-//
-// Missing Functions (1 functions):
-// - Z3_mk_bit2bool
 
 using System.Runtime.InteropServices;
 
@@ -47,6 +44,7 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sign_ext");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_zero_ext");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_repeat");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bit2bool");
 
         // Arithmetic operations
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd");
@@ -128,6 +126,7 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkSignExtDelegate(IntPtr ctx, uint i, IntPtr t1);
     private delegate IntPtr MkZeroExtDelegate(IntPtr ctx, uint i, IntPtr t1);
     private delegate IntPtr MkRepeatDelegate(IntPtr ctx, uint i, IntPtr t1);
+    private delegate IntPtr MkBit2BoolDelegate(IntPtr ctx, uint i, IntPtr t1);
 
     // Arithmetic operation delegates
     private delegate IntPtr MkBvAddDelegate(IntPtr ctx, IntPtr t1, IntPtr t2);
@@ -580,6 +579,24 @@ internal sealed partial class NativeLibrary
     {
         var funcPtr = GetFunctionPointer("Z3_mk_repeat");
         var func = Marshal.GetDelegateForFunctionPointer<MkRepeatDelegate>(funcPtr);
+        return func(ctx, i, t1);
+    }
+
+    /// <summary>
+    /// Creates a Boolean expression from a specific bit of a bitvector.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="i">The bit index to extract (0 is LSB).</param>
+    /// <param name="t1">The bitvector operand.</param>
+    /// <returns>Handle to a Boolean expression representing the bit value.</returns>
+    /// <remarks>
+    /// Extracts a single bit and converts it to a Boolean value (true if 1, false if 0).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkBit2Bool(IntPtr ctx, uint i, IntPtr t1)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_bit2bool");
+        var func = Marshal.GetDelegateForFunctionPointer<MkBit2BoolDelegate>(funcPtr);
         return func(ctx, i, t1);
     }
 

@@ -7,13 +7,13 @@
 // Source: z3_api.h from Z3 C API
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's array theory API (13 functions):
+// This file provides bindings for Z3's array theory API (11 functions):
 // - Array sort creation (single and multi-dimensional)
-// - Array operations (select, store, const arrays, n-dimensional variants)
+// - Array operations (select, store, const arrays, map, n-dimensional variants)
 // - Array property queries (domain, range, default value, n-th domain)
-// - Array extensionality and function conversion
+// - Array function conversion
 //
-// Missing Functions (0 functions): All array operations including multi-dimensional support implemented
+// Note: Z3_mk_set_has_size is in NativeLibrary.Sets.cs (per c_headers categorization)
 
 using System.Runtime.InteropServices;
 
@@ -26,10 +26,10 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_select");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_store");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_const_array");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_map");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_domain");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_range");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_default");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_ext");
         LoadFunctionOrNull(handle, functionPointers, "Z3_mk_as_array");
 
         // Multi-dimensional array functions
@@ -42,10 +42,10 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr MkSelectDelegate(IntPtr ctx, IntPtr array, IntPtr index);
     private delegate IntPtr MkStoreDelegate(IntPtr ctx, IntPtr array, IntPtr index, IntPtr value);
     private delegate IntPtr MkConstArrayDelegate(IntPtr ctx, IntPtr domain, IntPtr value);
+    private delegate IntPtr MkMapDelegate(IntPtr ctx, IntPtr f, uint n, IntPtr[] args);
     private delegate IntPtr GetArraySortDomainDelegate(IntPtr ctx, IntPtr arraySort);
     private delegate IntPtr GetArraySortRangeDelegate(IntPtr ctx, IntPtr arraySort);
     private delegate IntPtr MkArrayDefaultDelegate(IntPtr ctx, IntPtr array);
-    private delegate IntPtr MkArrayExtDelegate(IntPtr ctx, IntPtr arg1, IntPtr arg2);
     private delegate IntPtr MkAsArrayDelegate(IntPtr ctx, IntPtr f);
 
     // Delegates - Multi-dimensional arrays
@@ -112,6 +112,26 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Creates array map expression applying function to arrays element-wise.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="f">Function declaration to apply.</param>
+    /// <param name="n">Number of array arguments.</param>
+    /// <param name="args">Array of array expressions to map over.</param>
+    /// <returns>AST node representing mapped array.</returns>
+    /// <remarks>
+    /// Creates array where each element is the result of applying f to corresponding elements of input arrays.
+    /// For single array: map(f, a)[i] = f(a[i]). For multiple arrays: map(f, a1, a2)[i] = f(a1[i], a2[i]).
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkMap(IntPtr ctx, IntPtr f, uint n, IntPtr[] args)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_map");
+        var func = Marshal.GetDelegateForFunctionPointer<MkMapDelegate>(funcPtr);
+        return func(ctx, f, n, args);
+    }
+
+    /// <summary>
     /// Retrieves the domain sort (index type) of an array sort.
     /// </summary>
     /// <param name="ctx">The Z3 context handle.</param>
@@ -160,25 +180,6 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_mk_array_default");
         var func = Marshal.GetDelegateForFunctionPointer<MkArrayDefaultDelegate>(funcPtr);
         return func(ctx, array);
-    }
-
-    /// <summary>
-    /// Creates array extensionality constraint.
-    /// </summary>
-    /// <param name="ctx">The Z3 context handle.</param>
-    /// <param name="arg1">First array expression.</param>
-    /// <param name="arg2">Second array expression.</param>
-    /// <returns>AST node representing an index where arrays differ (if they differ).</returns>
-    /// <remarks>
-    /// Array extensionality: two arrays are equal iff they agree on all indices.
-    /// This function returns an index witnessing inequality if arrays are not equal.
-    /// </remarks>
-    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
-    internal IntPtr MkArrayExt(IntPtr ctx, IntPtr arg1, IntPtr arg2)
-    {
-        var funcPtr = GetFunctionPointer("Z3_mk_array_ext");
-        var func = Marshal.GetDelegateForFunctionPointer<MkArrayExtDelegate>(funcPtr);
-        return func(ctx, arg1, arg2);
     }
 
     /// <summary>

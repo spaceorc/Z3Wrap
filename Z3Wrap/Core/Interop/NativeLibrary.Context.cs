@@ -7,18 +7,13 @@
 // Source: z3_api.h from Z3 C API (Context Management section)
 // URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
 //
-// This file provides bindings for Z3's context management API (8 functions):
+// This file provides bindings for Z3's context management API (12 functions):
 // - Configuration object creation and management (MkConfig, DelConfig, SetParamValue)
-// - Context lifecycle management (MkContextRc, DelContext, UpdateParamValue)
-// - Reference counting for memory management (IncRef, DecRef)
+// - Context lifecycle management (MkContext, MkContextRc, DelContext, UpdateParamValue)
+// - Reference counting for memory management (IncRef, DecRef, EnableConcurrentDecRef)
+// - Context control (Interrupt, GetGlobalParamDescrs)
 //
 // Note: Global parameter functions (Z3_global_param_*) are in NativeLibrary.Parameters.cs
-//
-// Missing Functions (4 functions):
-// - Z3_enable_concurrent_dec_ref
-// - Z3_get_global_param_descrs
-// - Z3_interrupt
-// - Z3_mk_context
 
 using System.Runtime.InteropServices;
 
@@ -30,6 +25,7 @@ internal sealed partial class NativeLibrary
     {
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_config");
         LoadFunctionInternal(handle, functionPointers, "Z3_del_config");
+        LoadFunctionInternal(handle, functionPointers, "Z3_mk_context");
         LoadFunctionInternal(handle, functionPointers, "Z3_mk_context_rc");
         LoadFunctionInternal(handle, functionPointers, "Z3_del_context");
         LoadFunctionInternal(handle, functionPointers, "Z3_inc_ref");
@@ -37,15 +33,22 @@ internal sealed partial class NativeLibrary
 
         LoadFunctionOrNull(handle, functionPointers, "Z3_set_param_value");
         LoadFunctionOrNull(handle, functionPointers, "Z3_update_param_value");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_global_param_descrs");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_interrupt");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_enable_concurrent_dec_ref");
     }
 
     // Delegates
     private delegate IntPtr MkConfigDelegate();
     private delegate void DelConfigDelegate(IntPtr cfg);
     private delegate void SetParamValueDelegate(IntPtr cfg, IntPtr paramId, IntPtr paramValue);
+    private delegate IntPtr MkContextDelegate(IntPtr cfg);
     private delegate IntPtr MkContextRcDelegate(IntPtr cfg);
     private delegate void DelContextDelegate(IntPtr ctx);
     private delegate void UpdateParamValueDelegate(IntPtr ctx, IntPtr paramId, IntPtr paramValue);
+    private delegate IntPtr GetGlobalParamDescrsDelegate(IntPtr ctx);
+    private delegate void InterruptDelegate(IntPtr ctx);
+    private delegate void EnableConcurrentDecRefDelegate(IntPtr ctx);
     private delegate void IncRefDelegate(IntPtr ctx, IntPtr ast);
     private delegate void DecRefDelegate(IntPtr ctx, IntPtr ast);
 
@@ -97,6 +100,23 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_set_param_value");
         var func = Marshal.GetDelegateForFunctionPointer<SetParamValueDelegate>(funcPtr);
         func(cfg, paramId, paramValue);
+    }
+
+    /// <summary>
+    /// Creates a Z3 context without reference counting.
+    /// </summary>
+    /// <param name="cfg">The Z3 configuration handle to use for context creation.</param>
+    /// <returns>Handle to the created Z3 context without reference counting.</returns>
+    /// <remarks>
+    /// Manual memory management required. Use MkContextRc for automatic reference counting instead.
+    /// The context must be deleted using DelContext when no longer needed.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkContext(IntPtr cfg)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_context");
+        var func = Marshal.GetDelegateForFunctionPointer<MkContextDelegate>(funcPtr);
+        return func(cfg);
     }
 
     /// <summary>
@@ -181,5 +201,53 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_dec_ref");
         var func = Marshal.GetDelegateForFunctionPointer<DecRefDelegate>(funcPtr);
         func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Retrieves global parameter descriptions for Z3.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to parameter descriptions object.</returns>
+    /// <remarks>
+    /// Returns parameter descriptions that can be queried for available global parameters.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetGlobalParamDescrs(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_global_param_descrs");
+        var func = Marshal.GetDelegateForFunctionPointer<GetGlobalParamDescrsDelegate>(funcPtr);
+        return func(ctx);
+    }
+
+    /// <summary>
+    /// Interrupts ongoing Z3 operations in the specified context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <remarks>
+    /// Can be called from a different thread to interrupt long-running Z3 operations.
+    /// Thread-safe operation for canceling solver execution.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void Interrupt(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_interrupt");
+        var func = Marshal.GetDelegateForFunctionPointer<InterruptDelegate>(funcPtr);
+        func(ctx);
+    }
+
+    /// <summary>
+    /// Enables concurrent reference count decrements for multi-threaded scenarios.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <remarks>
+    /// Allows DecRef to be called concurrently from multiple threads. Must be called before
+    /// multi-threaded DecRef usage. May have performance overhead.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void EnableConcurrentDecRef(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_enable_concurrent_dec_ref");
+        var func = Marshal.GetDelegateForFunctionPointer<EnableConcurrentDecRefDelegate>(funcPtr);
+        func(ctx);
     }
 }
