@@ -1,3 +1,19 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Context Management API - P/Invoke bindings for Z3 context and configuration operations
+//
+// Source: z3_api.h from Z3 C API (Context Management section)
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's context management API (8 functions):
+// - Configuration object creation and management (MkConfig, DelConfig, SetParamValue)
+// - Context lifecycle management (MkContextRc, DelContext, UpdateParamValue)
+// - Reference counting for memory management (IncRef, DecRef)
+//
+// Note: Global parameter functions (Z3_global_param_*) are in NativeLibrary.Parameters.cs
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
