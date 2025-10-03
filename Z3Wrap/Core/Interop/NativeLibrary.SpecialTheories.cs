@@ -1,3 +1,24 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
+// Z3 Special Relations and Theories API - P/Invoke bindings for Z3 special relations, sorts, and theories
+//
+// Source: z3_api.h from Z3 C API
+// URL: https://github.com/Z3Prover/z3/blob/master/src/api/z3_api.h
+//
+// This file provides bindings for Z3's Special Relations and Theories API (5 of 12 functions - 41.7% complete):
+// - Transitive closure of binary relations (1 function)
+// - Special sorts: finite domain and enumeration types (2 functions)
+// - Fresh function/constant declarations with unique names (2 functions)
+//
+// Missing functions (7):
+// - Special order relations: partial, linear, piecewise-linear, tree orders (4 functions)
+// - List sort with constructors and accessors (1 function)
+// - Recursive function declarations and definitions (2 functions)
+//
+// See COMPARISON_SpecialTheories.md for complete API comparison and recommendations.
+
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;
