@@ -11,7 +11,7 @@ Systematically audit all 35 NativeLibrary partial class files to:
 
 ## Current Status
 
-**Files Audited**: 12/35 (34.3%)
+**Files Audited**: 19/35 (54.3%)
 - ✅ NativeLibrary.Optimization.cs - 28/28 functions (100% complete)
 - ✅ NativeLibrary.Goals.cs - 17/17 functions (100% complete)
 - ✅ NativeLibrary.FloatingPoint.cs - 80/80 functions (100% complete)
@@ -24,8 +24,16 @@ Systematically audit all 35 NativeLibrary partial class files to:
 - ✅ NativeLibrary.Parameters.cs - 19/19 functions (100% complete)
 - ✅ NativeLibrary.Datatypes.cs - 20/20 functions (100% complete)
 - ✅ NativeLibrary.Predicates.cs - 18/18 functions (100% complete)
+- ✅ NativeLibrary.Utilities.cs - 17/20 functions (85% complete, 3 string conversion functions missing)
+- ✅ NativeLibrary.SolverExtensions.cs - 17/17 functions (100% complete)
+- ✅ NativeLibrary.Probes.cs - 14/14 functions (100% complete)
+- ✅ NativeLibrary.Sets.cs - 12/12 functions (100% complete)
+- ✅ NativeLibrary.ReferenceCountingExtra.cs - 12/12 functions (100% complete)
+- ✅ NativeLibrary.Parsing.cs - 10/10 functions (100% complete)
+- ✅ NativeLibrary.Numerals.cs - 9/10 functions (90.9% complete, missing Z3_get_numeral_string)
+- ✅ NativeLibrary.Arrays.cs - 9/14 functions (64.3% complete, missing multi-dimensional array support)
 
-**Files Remaining**: 23/34 (67.6%) - CoreCreation eliminated
+**Files Remaining**: 16/34 (47.1%) - CoreCreation eliminated
 
 ## File Audit Order
 
@@ -46,22 +54,22 @@ Files ordered by function count (largest first) to maximize impact:
 | 9 | Parameters | 19 | z3_api.h | ✅ **DONE** | Parameter management (100%, [report](COMPARISON_Parameters.md)) |
 | 10 | Datatypes | 20 | z3_api.h | ✅ **DONE** | Algebraic datatype definitions (100%, [report](COMPARISON_Datatypes.md)) |
 | 11 | Predicates | 18 | z3_api.h | ✅ **DONE** | Type checking predicates (100%, [report](COMPARISON_Predicates.md)) |
-| 12 | Utilities | 17 | z3_api.h | ⏳ Pending | General utility functions |
-| 13 | SolverExtensions | 17 | z3_api.h | ⏳ Pending | Advanced solver features |
+| 12 | Utilities | 17 | z3_api.h | ✅ **DONE** | General utility functions (85%, [report](COMPARISON_Utilities.md), 3 string conversion functions missing) |
+| 13 | SolverExtensions | 17 | z3_api.h | ✅ **DONE** | Advanced solver features (100%, [report](COMPARISON_SolverExtensions.md)) |
 | 14 | Goals | 17 | z3_api.h | ✅ **DONE** | Goal-based solving (100%) |
-| 15 | Probes | 14 | z3_api.h | ⏳ Pending | Solver probes |
-| 16 | Sets | 12 | z3_api.h | ⏳ Pending | Set theory operations |
-| 17 | ReferenceCountingExtra | 12 | z3_api.h | ⏳ Pending | Extra ref counting utilities |
-| 18 | Model | 11 | z3_api.h | ⏳ Pending | Model operations |
+| 15 | Probes | 14 | z3_api.h | ✅ **DONE** | Solver probes (100%, [report](COMPARISON_Probes.md)) |
+| 16 | Sets | 12 | z3_api.h | ✅ **DONE** | Set theory operations (100%, [report](COMPARISON_Sets.md)) |
+| 17 | ReferenceCountingExtra | 12 | z3_api.h | ✅ **DONE** | Extra ref counting utilities (100%, [report](COMPARISON_ReferenceCountingExtra.md)) |
+| 18 | Model | 18 | z3_api.h | ✅ **DONE** | Model operations (100%, [report](COMPARISON_Model.md), 15 core + 4 helpers) |
 
 ### Priority 2: Medium API Sections (5-9 functions) - 8 files
 
 | # | File | Functions | Z3 Header | Status | Notes |
 |---|------|-----------|-----------|--------|-------|
-| 19 | Parsing | 10 | z3_api.h | ⏳ Pending | SMTLIB parsing |
-| 20 | Numerals | 9 | z3_api.h | ⏳ Pending | Numeral extraction/parsing |
-| 21 | FunctionInterpretations | 9 | z3_api.h | ⏳ Pending | Function interpretation extraction |
-| 22 | Arrays | 9 | z3_api.h | ⏳ Pending | Array theory operations |
+| 19 | Parsing | 10 | z3_api.h | ✅ **DONE** | SMT-LIB parsing (100%, [report](COMPARISON_Parsing.md)) |
+| 20 | Numerals | 9 | z3_api.h | ✅ **DONE** | Numeral extraction (90.9%, [report](COMPARISON_Numerals.md), missing Z3_get_numeral_string) |
+| 21 | FunctionInterpretations | 9 | z3_api.h | ✅ **DONE** | Function interpretation extraction (100%, [report](COMPARISON_FunctionInterpretations.md)) |
+| 22 | Arrays | 9 | z3_api.h | ✅ **DONE** | Array theory operations (64.3%, [report](COMPARISON_Arrays.md), missing 5 multi-dimensional functions) |
 | 23 | Simplifiers | 8 | z3_api.h | ⏳ Pending | Simplifier creation |
 | 24 | Statistics | 7 | z3_api.h | ⏳ Pending | Solver statistics |
 | 25 | SpecialTheories | 5 | z3_api.h | ⏳ Pending | Special theory operations |
