@@ -95,13 +95,27 @@ internal sealed partial class NativeLibrary
 {
     private static void LoadFunctionsAccessors(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
+        // Type cast functions
+        LoadFunctionOrNull(handle, functionPointers, "Z3_app_to_ast");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_func_decl_to_ast");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_pattern_to_ast");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_sort_to_ast");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_to_app");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_to_func_decl");
+
+        // Application accessors
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_arg");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_decl");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_num_args");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_arity");
+
+        // AST accessors
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_ast_hash");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_ast_id");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_ast_kind");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_depth");
+
+        // Declaration accessors
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_arity");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_name");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_kind");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_num_parameters");
@@ -113,36 +127,77 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_ast_parameter");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_func_decl_parameter");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_rational_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_denominator");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numerator");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_func_decl_id");
+
+        // Domain/range accessors
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_domain");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_domain_size");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_range");
+
+        // Sort accessors
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort_id");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort_name");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_arity");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_finite_domain_sort_size");
+
+        // Symbol accessors
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_kind");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_string");
+        LoadFunctionInternal(handle, functionPointers, "Z3_get_symbol_int");
+
+        // Numeral accessors
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_denominator");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numerator");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_index_value");
+
+        // Quantifier accessors
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_id");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_bound");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_bound_name");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_bound_sort");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_body");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_weight");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_skolem_id");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_patterns");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_pattern_ast");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_no_patterns");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_no_pattern_ast");
+
+        // Pattern accessors
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_pattern_num_terms");
         LoadFunctionOrNull(handle, functionPointers, "Z3_get_pattern");
-        LoadFunctionInternal(handle, functionPointers, "Z3_get_symbol_int");
+
+        // Datatype accessor
+        LoadFunctionOrNull(handle, functionPointers, "Z3_datatype_update_field");
     }
 
     // Delegates
+
+    // Type cast delegates
+    private delegate IntPtr AppToAstDelegate(IntPtr ctx, IntPtr app);
+    private delegate IntPtr FuncDeclToAstDelegate(IntPtr ctx, IntPtr decl);
+    private delegate IntPtr PatternToAstDelegate(IntPtr ctx, IntPtr pattern);
+    private delegate IntPtr SortToAstDelegate(IntPtr ctx, IntPtr sort);
+    private delegate IntPtr ToAppDelegate(IntPtr ctx, IntPtr ast);
+    private delegate IntPtr ToFuncDeclDelegate(IntPtr ctx, IntPtr ast);
+
+    // Application delegates
     private delegate IntPtr GetAppArgDelegate(IntPtr ctx, IntPtr app, uint idx);
     private delegate IntPtr GetAppDeclDelegate(IntPtr ctx, IntPtr app);
     private delegate uint GetAppNumArgsDelegate(IntPtr ctx, IntPtr app);
-    private delegate uint GetArityDelegate(IntPtr ctx, IntPtr decl);
+
+    // AST delegates
     private delegate uint GetAstHashDelegate(IntPtr ctx, IntPtr ast);
     private delegate uint GetAstIdDelegate(IntPtr ctx, IntPtr ast);
     private delegate int GetAstKindDelegate(IntPtr ctx, IntPtr ast);
+    private delegate uint GetDepthDelegate(IntPtr ctx, IntPtr ast);
+
+    // Declaration delegates
+    private delegate uint GetArityDelegate(IntPtr ctx, IntPtr decl);
     private delegate IntPtr GetDeclNameDelegate(IntPtr ctx, IntPtr decl);
     private delegate int GetDeclKindDelegate(IntPtr ctx, IntPtr decl);
     private delegate uint GetDeclNumParametersDelegate(IntPtr ctx, IntPtr decl);
+    private delegate uint GetFuncDeclIdDelegate(IntPtr ctx, IntPtr decl);
     private delegate int GetDeclParameterKindDelegate(IntPtr ctx, IntPtr decl, uint idx);
     private delegate int GetDeclIntParameterDelegate(IntPtr ctx, IntPtr decl, uint idx);
     private delegate double GetDeclDoubleParameterDelegate(IntPtr ctx, IntPtr decl, uint idx);
@@ -164,12 +219,136 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr GetQuantifierBoundNameDelegate(IntPtr ctx, IntPtr ast, uint i);
     private delegate IntPtr GetQuantifierBoundSortDelegate(IntPtr ctx, IntPtr ast, uint i);
     private delegate IntPtr GetQuantifierBodyDelegate(IntPtr ctx, IntPtr ast);
+    private delegate uint GetQuantifierWeightDelegate(IntPtr ctx, IntPtr ast);
+    private delegate int GetQuantifierSkolemIdDelegate(IntPtr ctx, IntPtr ast);
+    private delegate int GetQuantifierIdDelegate(IntPtr ctx, IntPtr ast);
     private delegate uint GetQuantifierNumPatternsDelegate(IntPtr ctx, IntPtr ast);
     private delegate IntPtr GetQuantifierPatternAstDelegate(IntPtr ctx, IntPtr ast, uint i);
+    private delegate uint GetQuantifierNumNoPatternsDelegate(IntPtr ctx, IntPtr ast);
+    private delegate IntPtr GetQuantifierNoPatternAstDelegate(IntPtr ctx, IntPtr ast, uint i);
     private delegate uint GetPatternNumTermsDelegate(IntPtr ctx, IntPtr pattern);
     private delegate IntPtr GetPatternDelegate(IntPtr ctx, IntPtr pattern, uint idx);
 
+    // Sort accessors delegates
+    private delegate uint GetSortIdDelegate(IntPtr ctx, IntPtr sort);
+    private delegate uint GetArrayArityDelegate(IntPtr ctx, IntPtr sort);
+    private delegate ulong GetFiniteDomainSortSizeDelegate(IntPtr ctx, IntPtr sort, out bool success);
+
+    // Numeral accessor delegates
+    private delegate ulong GetIndexValueDelegate(IntPtr ctx, IntPtr ast);
+
+    // Datatype accessor delegate
+    private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr ctx, IntPtr func_decl, IntPtr arg, IntPtr value);
+
     // Methods
+
+    // Type cast methods (IntPtr identity functions in C# - Z3 C API type system helpers)
+
+    /// <summary>
+    /// Casts application to AST node.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="app">The application node.</param>
+    /// <returns>AST node handle.</returns>
+    /// <remarks>
+    /// Identity function in C# (IntPtr-based). Exists for Z3 C API type system compatibility.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr AppToAst(IntPtr ctx, IntPtr app)
+    {
+        var funcPtr = GetFunctionPointer("Z3_app_to_ast");
+        var func = Marshal.GetDelegateForFunctionPointer<AppToAstDelegate>(funcPtr);
+        return func(ctx, app);
+    }
+
+    /// <summary>
+    /// Casts function declaration to AST node.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="decl">The function declaration.</param>
+    /// <returns>AST node handle.</returns>
+    /// <remarks>
+    /// Identity function in C# (IntPtr-based). Exists for Z3 C API type system compatibility.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr FuncDeclToAst(IntPtr ctx, IntPtr decl)
+    {
+        var funcPtr = GetFunctionPointer("Z3_func_decl_to_ast");
+        var func = Marshal.GetDelegateForFunctionPointer<FuncDeclToAstDelegate>(funcPtr);
+        return func(ctx, decl);
+    }
+
+    /// <summary>
+    /// Casts pattern to AST node.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="pattern">The pattern node.</param>
+    /// <returns>AST node handle.</returns>
+    /// <remarks>
+    /// Identity function in C# (IntPtr-based). Exists for Z3 C API type system compatibility.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr PatternToAst(IntPtr ctx, IntPtr pattern)
+    {
+        var funcPtr = GetFunctionPointer("Z3_pattern_to_ast");
+        var func = Marshal.GetDelegateForFunctionPointer<PatternToAstDelegate>(funcPtr);
+        return func(ctx, pattern);
+    }
+
+    /// <summary>
+    /// Casts sort to AST node.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The sort node.</param>
+    /// <returns>AST node handle.</returns>
+    /// <remarks>
+    /// Identity function in C# (IntPtr-based). Exists for Z3 C API type system compatibility.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr SortToAst(IntPtr ctx, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_sort_to_ast");
+        var func = Marshal.GetDelegateForFunctionPointer<SortToAstDelegate>(funcPtr);
+        return func(ctx, sort);
+    }
+
+    /// <summary>
+    /// Casts AST node to application.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The AST node.</param>
+    /// <returns>Application node handle.</returns>
+    /// <remarks>
+    /// Identity function in C# (IntPtr-based). Exists for Z3 C API type system compatibility.
+    /// Use with IsApp predicate for safety.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr ToApp(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_to_app");
+        var func = Marshal.GetDelegateForFunctionPointer<ToAppDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Casts AST node to function declaration.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The AST node.</param>
+    /// <returns>Function declaration handle.</returns>
+    /// <remarks>
+    /// Identity function in C# (IntPtr-based). Exists for Z3 C API type system compatibility.
+    /// Use with appropriate type checking for safety.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr ToFuncDecl(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_to_func_decl");
+        var func = Marshal.GetDelegateForFunctionPointer<ToFuncDeclDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    // Application accessor methods
 
     /// <summary>
     /// Gets argument at index from application.
@@ -674,5 +853,225 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_get_symbol_int");
         var func = Marshal.GetDelegateForFunctionPointer<GetSymbolIntDelegate>(funcPtr);
         return func(ctx, symbol);
+    }
+
+    // AST depth accessor
+
+    /// <summary>
+    /// Gets depth of AST node.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The AST node.</param>
+    /// <returns>Depth of the AST node in expression tree.</returns>
+    /// <remarks>
+    /// Depth is maximum distance from root to leaf. Useful for complexity analysis.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetDepth(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_depth");
+        var func = Marshal.GetDelegateForFunctionPointer<GetDepthDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    // Sort accessors
+
+    /// <summary>
+    /// Gets unique identifier for sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The sort handle.</param>
+    /// <returns>Unique identifier for the sort.</returns>
+    /// <remarks>
+    /// Sort IDs are unique within a context. Useful for sort comparison and caching.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetSortId(IntPtr ctx, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_sort_id");
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortIdDelegate>(funcPtr);
+        return func(ctx, sort);
+    }
+
+    /// <summary>
+    /// Gets array arity (number of index sorts).
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The array sort handle.</param>
+    /// <returns>Number of index sorts for the array.</returns>
+    /// <remarks>
+    /// For multi-dimensional arrays, returns the number of dimensions.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetArrayArity(IntPtr ctx, IntPtr sort)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_array_arity");
+        var func = Marshal.GetDelegateForFunctionPointer<GetArrayArityDelegate>(funcPtr);
+        return func(ctx, sort);
+    }
+
+    /// <summary>
+    /// Gets size of finite domain sort.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="sort">The finite domain sort handle.</param>
+    /// <param name="success">Output parameter indicating if sort is finite domain.</param>
+    /// <returns>Size of the finite domain if success is true.</returns>
+    /// <remarks>
+    /// Returns size of finite domain sort. Sets success to false if sort is not finite domain.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal ulong GetFiniteDomainSortSize(IntPtr ctx, IntPtr sort, out bool success)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_finite_domain_sort_size");
+        var func = Marshal.GetDelegateForFunctionPointer<GetFiniteDomainSortSizeDelegate>(funcPtr);
+        return func(ctx, sort, out success);
+    }
+
+    // Function declaration accessor
+
+    /// <summary>
+    /// Gets unique identifier for function declaration.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="decl">The function declaration handle.</param>
+    /// <returns>Unique identifier for the function declaration.</returns>
+    /// <remarks>
+    /// Function declaration IDs are unique within a context.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetFuncDeclId(IntPtr ctx, IntPtr decl)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_func_decl_id");
+        var func = Marshal.GetDelegateForFunctionPointer<GetFuncDeclIdDelegate>(funcPtr);
+        return func(ctx, decl);
+    }
+
+    // Numeral accessor
+
+    /// <summary>
+    /// Gets integer value from de Bruijn index.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The de Bruijn index AST node.</param>
+    /// <returns>Integer value of the de Bruijn index.</returns>
+    /// <remarks>
+    /// Retrieves index value from de Bruijn indexed variables used in quantifiers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal ulong GetIndexValue(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_index_value");
+        var func = Marshal.GetDelegateForFunctionPointer<GetIndexValueDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    // Quantifier accessors
+
+    /// <summary>
+    /// Gets unique identifier for quantifier.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The quantifier AST node.</param>
+    /// <returns>Unique identifier for the quantifier.</returns>
+    /// <remarks>
+    /// Quantifier IDs are unique within a context.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal int GetQuantifierId(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_quantifier_id");
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierIdDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Gets weight of quantifier.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The quantifier AST node.</param>
+    /// <returns>Weight assigned to the quantifier.</returns>
+    /// <remarks>
+    /// Quantifier weight affects instantiation priority during solving.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetQuantifierWeight(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_quantifier_weight");
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierWeightDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Gets skolem identifier for quantifier.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The quantifier AST node.</param>
+    /// <returns>Skolem identifier for the quantifier.</returns>
+    /// <remarks>
+    /// Used in quantifier skolemization during solving.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal int GetQuantifierSkolemId(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_quantifier_skolem_id");
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierSkolemIdDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Gets number of no-patterns in quantifier.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The quantifier AST node.</param>
+    /// <returns>Number of no-patterns attached to quantifier.</returns>
+    /// <remarks>
+    /// No-patterns guide solver to avoid certain instantiations.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal uint GetQuantifierNumNoPatterns(IntPtr ctx, IntPtr ast)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_quantifier_num_no_patterns");
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierNumNoPatternsDelegate>(funcPtr);
+        return func(ctx, ast);
+    }
+
+    /// <summary>
+    /// Gets no-pattern at index from quantifier.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="ast">The quantifier AST node.</param>
+    /// <param name="i">The no-pattern index.</param>
+    /// <returns>No-pattern AST node at specified index.</returns>
+    /// <remarks>
+    /// Retrieves specific no-pattern used to restrict instantiation.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetQuantifierNoPatternAst(IntPtr ctx, IntPtr ast, uint i)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_quantifier_no_pattern_ast");
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierNoPatternAstDelegate>(funcPtr);
+        return func(ctx, ast, i);
+    }
+
+    // Datatype accessor
+
+    /// <summary>
+    /// Updates field value in datatype term.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="func_decl">The accessor function declaration for the field.</param>
+    /// <param name="arg">The datatype term to update.</param>
+    /// <param name="value">The new value for the field.</param>
+    /// <returns>New datatype term with updated field value.</returns>
+    /// <remarks>
+    /// Creates functional update - returns new term rather than modifying original.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr DatatypeUpdateField(IntPtr ctx, IntPtr func_decl, IntPtr arg, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_datatype_update_field");
+        var func = Marshal.GetDelegateForFunctionPointer<DatatypeUpdateFieldDelegate>(funcPtr);
+        return func(ctx, func_decl, arg, value);
     }
 }

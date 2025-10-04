@@ -27,7 +27,7 @@
 //       Z3_func_interp_dec_ref, Z3_func_entry_inc_ref, Z3_func_entry_dec_ref) are in
 //       NativeLibrary.ReferenceCountingExtra.cs
 //
-// Missing Functions (0 functions): All model evaluation and helper functions implemented
+// All model evaluation and helper functions implemented
 
 using System.Runtime.InteropServices;
 
@@ -38,6 +38,7 @@ internal sealed partial class NativeLibrary
     private static void LoadFunctionsModels(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
     {
         // Model functions
+        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_model");
         LoadFunctionInternal(handle, functionPointers, "Z3_model_inc_ref");
         LoadFunctionInternal(handle, functionPointers, "Z3_model_dec_ref");
         LoadFunctionInternal(handle, functionPointers, "Z3_model_to_string");
@@ -49,14 +50,17 @@ internal sealed partial class NativeLibrary
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_num_consts");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_const_decl");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_const_interp");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_add_const_interp");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_num_funcs");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_func_decl");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_func_interp");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_add_func_interp");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_has_interp");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_num_sorts");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_sort");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_get_sort_universe");
         LoadFunctionOrNull(handle, functionPointers, "Z3_model_translate");
+        LoadFunctionOrNull(handle, functionPointers, "Z3_get_as_array_func_decl");
 
         // Function interpretation functions
         LoadFunctionOrNull(handle, functionPointers, "Z3_func_interp_get_num_entries");
@@ -82,6 +86,7 @@ internal sealed partial class NativeLibrary
     }
 
     // Delegates - Model functions
+    private delegate IntPtr MkModelDelegate(IntPtr ctx);
     private delegate void ModelIncRefDelegate(IntPtr ctx, IntPtr model);
     private delegate void ModelDecRefDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr ModelToStringDelegate(IntPtr ctx, IntPtr model);
@@ -99,14 +104,17 @@ internal sealed partial class NativeLibrary
     private delegate uint ModelGetNumConstsDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr ModelGetConstDeclDelegate(IntPtr ctx, IntPtr model, uint i);
     private delegate IntPtr ModelGetConstInterpDelegate(IntPtr ctx, IntPtr model, IntPtr decl);
+    private delegate void AddConstInterpDelegate(IntPtr ctx, IntPtr model, IntPtr decl, IntPtr value);
     private delegate uint ModelGetNumFuncsDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr ModelGetFuncDeclDelegate(IntPtr ctx, IntPtr model, uint i);
     private delegate IntPtr ModelGetFuncInterpDelegate(IntPtr ctx, IntPtr model, IntPtr decl);
+    private delegate void AddFuncInterpDelegate(IntPtr ctx, IntPtr model, IntPtr decl, IntPtr funcInterp);
     private delegate int ModelHasInterpDelegate(IntPtr ctx, IntPtr model, IntPtr decl);
     private delegate uint ModelGetNumSortsDelegate(IntPtr ctx, IntPtr model);
     private delegate IntPtr ModelGetSortDelegate(IntPtr ctx, IntPtr model, uint i);
     private delegate IntPtr ModelGetSortUniverseDelegate(IntPtr ctx, IntPtr model, IntPtr sort);
     private delegate IntPtr ModelTranslateDelegate(IntPtr ctx, IntPtr model, IntPtr dstCtx);
+    private delegate IntPtr GetAsArrayFuncDeclDelegate(IntPtr ctx, IntPtr array);
 
     // Delegates - Function interpretation functions
     private delegate uint FuncInterpGetNumEntriesDelegate(IntPtr ctx, IntPtr funcInterp);
@@ -137,6 +145,23 @@ internal sealed partial class NativeLibrary
     private delegate IntPtr ModelGetAsArrayFuncDeclDelegate(IntPtr ctx, IntPtr array);
 
     // Methods - Model functions
+
+    /// <summary>
+    /// Creates an empty model for the given context.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <returns>Handle to the created empty model.</returns>
+    /// <remarks>
+    /// Allows programmatic construction of models by adding interpretations with
+    /// AddConstInterp and AddFuncInterp. Rarely used - most models come from solvers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr MkModel(IntPtr ctx)
+    {
+        var funcPtr = GetFunctionPointer("Z3_mk_model");
+        var func = Marshal.GetDelegateForFunctionPointer<MkModelDelegate>(funcPtr);
+        return func(ctx);
+    }
 
     /// <summary>
     /// Increments the reference counter of the given model.
@@ -325,6 +350,24 @@ internal sealed partial class NativeLibrary
     }
 
     /// <summary>
+    /// Adds constant interpretation to a model.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle to update.</param>
+    /// <param name="decl">The constant declaration to provide interpretation for.</param>
+    /// <param name="value">The interpretation value for the constant.</param>
+    /// <remarks>
+    /// Used when programmatically constructing models. Most models come from solvers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void AddConstInterp(IntPtr ctx, IntPtr model, IntPtr decl, IntPtr value)
+    {
+        var funcPtr = GetFunctionPointer("Z3_add_const_interp");
+        var func = Marshal.GetDelegateForFunctionPointer<AddConstInterpDelegate>(funcPtr);
+        func(ctx, model, decl, value);
+    }
+
+    /// <summary>
     /// Retrieves the number of function interpretations in the model.
     /// </summary>
     /// <param name="ctx">The Z3 context handle.</param>
@@ -366,6 +409,24 @@ internal sealed partial class NativeLibrary
         var funcPtr = GetFunctionPointer("Z3_model_get_func_interp");
         var func = Marshal.GetDelegateForFunctionPointer<ModelGetFuncInterpDelegate>(funcPtr);
         return func(ctx, model, decl);
+    }
+
+    /// <summary>
+    /// Adds function interpretation to a model.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="model">The model handle to update.</param>
+    /// <param name="decl">The function declaration to provide interpretation for.</param>
+    /// <param name="funcInterp">The function interpretation to add.</param>
+    /// <remarks>
+    /// Used when programmatically constructing models. Most models come from solvers.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal void AddFuncInterp(IntPtr ctx, IntPtr model, IntPtr decl, IntPtr funcInterp)
+    {
+        var funcPtr = GetFunctionPointer("Z3_add_func_interp");
+        var func = Marshal.GetDelegateForFunctionPointer<AddFuncInterpDelegate>(funcPtr);
+        func(ctx, model, decl, funcInterp);
     }
 
     /// <summary>
@@ -735,6 +796,23 @@ internal sealed partial class NativeLibrary
     {
         var funcPtr = GetFunctionPointer("Z3_model_get_as_array_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<ModelGetAsArrayFuncDeclDelegate>(funcPtr);
+        return func(ctx, array);
+    }
+
+    /// <summary>
+    /// Retrieves function declaration from as-array expression.
+    /// </summary>
+    /// <param name="ctx">The Z3 context handle.</param>
+    /// <param name="array">The as-array expression.</param>
+    /// <returns>Handle to function declaration representing the array function.</returns>
+    /// <remarks>
+    /// Extracts the underlying function from an as-array expression created with Z3_mk_as_array.
+    /// </remarks>
+    /// <seealso href="https://z3prover.github.io/api/html/group__capi.html">Z3 C API Documentation</seealso>
+    internal IntPtr GetAsArrayFuncDecl(IntPtr ctx, IntPtr array)
+    {
+        var funcPtr = GetFunctionPointer("Z3_get_as_array_func_decl");
+        var func = Marshal.GetDelegateForFunctionPointer<GetAsArrayFuncDeclDelegate>(funcPtr);
         return func(ctx, array);
     }
 }
