@@ -82,31 +82,31 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkSetUnionDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkSetUnionDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Take the union of a list of sets.
     /// </summary>
     [Z3Function("Z3_mk_set_union")]
-    internal IntPtr MkSetUnion(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkSetUnion(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_union");
         var func = Marshal.GetDelegateForFunctionPointer<MkSetUnionDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkSetIntersectDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkSetIntersectDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Take the intersection of a list of sets.
     /// </summary>
     [Z3Function("Z3_mk_set_intersect")]
-    internal IntPtr MkSetIntersect(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkSetIntersect(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_intersect");
         var func = Marshal.GetDelegateForFunctionPointer<MkSetIntersectDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

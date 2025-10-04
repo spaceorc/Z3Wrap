@@ -12,31 +12,31 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ParseSmtlib2StringDelegate(IntPtr c, IntPtr str, uint num_sorts, IntPtr[] sort_names, IntPtr[] sorts, uint num_decls, IntPtr[] decl_names, IntPtr[] decls);
+    private delegate IntPtr ParseSmtlib2StringDelegate(IntPtr c, IntPtr str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls);
 
     /// <summary>
     /// Parse the given string using the SMT-LIB2 parser. It returns a formula comprising of the conjunction of assertions in the scope (up to push/pop) at the end of the string.
     /// </summary>
     [Z3Function("Z3_parse_smtlib2_string")]
-    internal IntPtr ParseSmtlib2String(IntPtr c, IntPtr str, uint num_sorts, IntPtr[] sort_names, IntPtr[] sorts, uint num_decls, IntPtr[] decl_names, IntPtr[] decls)
+    internal IntPtr ParseSmtlib2String(IntPtr c, IntPtr str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
         var funcPtr = GetFunctionPointer("Z3_parse_smtlib2_string");
         var func = Marshal.GetDelegateForFunctionPointer<ParseSmtlib2StringDelegate>(funcPtr);
-        return func(c, str, num_sorts, sort_names, sorts, num_decls, decl_names, decls);
+        return func(c, str, numSorts, sortNames, sorts, numDecls, declNames, decls);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ParseSmtlib2FileDelegate(IntPtr c, IntPtr file_name, uint num_sorts, IntPtr[] sort_names, IntPtr[] sorts, uint num_decls, IntPtr[] decl_names, IntPtr[] decls);
+    private delegate IntPtr ParseSmtlib2FileDelegate(IntPtr c, IntPtr fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls);
 
     /// <summary>
     /// Similar to Z3_parse_smtlib2_string, but reads the benchmark from a file.
     /// </summary>
     [Z3Function("Z3_parse_smtlib2_file")]
-    internal IntPtr ParseSmtlib2File(IntPtr c, IntPtr file_name, uint num_sorts, IntPtr[] sort_names, IntPtr[] sorts, uint num_decls, IntPtr[] decl_names, IntPtr[] decls)
+    internal IntPtr ParseSmtlib2File(IntPtr c, IntPtr fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
         var funcPtr = GetFunctionPointer("Z3_parse_smtlib2_file");
         var func = Marshal.GetDelegateForFunctionPointer<ParseSmtlib2FileDelegate>(funcPtr);
-        return func(c, file_name, num_sorts, sort_names, sorts, num_decls, decl_names, decls);
+        return func(c, fileName, numSorts, sortNames, sorts, numDecls, declNames, decls);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

@@ -12,59 +12,59 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr UpdateTermDelegate(IntPtr c, IntPtr a, uint num_args, IntPtr[] args);
+    private delegate IntPtr UpdateTermDelegate(IntPtr c, IntPtr a, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Update the arguments of term a using the arguments args. The number of arguments num_args should coincide with the number of arguments to a. If a is a quantifier, then num_args has to be 1.
     /// </summary>
     [Z3Function("Z3_update_term")]
-    internal IntPtr UpdateTerm(IntPtr c, IntPtr a, uint num_args, IntPtr[] args)
+    internal IntPtr UpdateTerm(IntPtr c, IntPtr a, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_update_term");
         var func = Marshal.GetDelegateForFunctionPointer<UpdateTermDelegate>(funcPtr);
-        return func(c, a, num_args, args);
+        return func(c, a, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr SubstituteDelegate(IntPtr c, IntPtr a, uint num_exprs, IntPtr[] from, IntPtr[] to);
+    private delegate IntPtr SubstituteDelegate(IntPtr c, IntPtr a, uint numExprs, IntPtr[] from, IntPtr[] to);
 
     /// <summary>
     /// Substitute every occurrence of from[i] in a with to[i], for i smaller than num_exprs. The result is the new AST. The arrays from and to must have size num_exprs. For every i smaller than num_exprs, we must have that sort of from[i] must be equal to sort of to[i].
     /// </summary>
     [Z3Function("Z3_substitute")]
-    internal IntPtr Substitute(IntPtr c, IntPtr a, uint num_exprs, IntPtr[] from, IntPtr[] to)
+    internal IntPtr Substitute(IntPtr c, IntPtr a, uint numExprs, IntPtr[] from, IntPtr[] to)
     {
         var funcPtr = GetFunctionPointer("Z3_substitute");
         var func = Marshal.GetDelegateForFunctionPointer<SubstituteDelegate>(funcPtr);
-        return func(c, a, num_exprs, from, to);
+        return func(c, a, numExprs, from, to);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr SubstituteVarsDelegate(IntPtr c, IntPtr a, uint num_exprs, IntPtr[] to);
+    private delegate IntPtr SubstituteVarsDelegate(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to);
 
     /// <summary>
     /// Substitute the variables in a with the expressions in to. For every i smaller than num_exprs, the variable with de-Bruijn index i is replaced with term to[i]. Note that a variable is created using the function \ref Z3_mk_bound.
     /// </summary>
     [Z3Function("Z3_substitute_vars")]
-    internal IntPtr SubstituteVars(IntPtr c, IntPtr a, uint num_exprs, IntPtr[] to)
+    internal IntPtr SubstituteVars(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to)
     {
         var funcPtr = GetFunctionPointer("Z3_substitute_vars");
         var func = Marshal.GetDelegateForFunctionPointer<SubstituteVarsDelegate>(funcPtr);
-        return func(c, a, num_exprs, to);
+        return func(c, a, numExprs, to);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr SubstituteFunsDelegate(IntPtr c, IntPtr a, uint num_funs, IntPtr[] from, IntPtr[] to);
+    private delegate IntPtr SubstituteFunsDelegate(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to);
 
     /// <summary>
     /// Substitute functions in from with new expressions in to. The expressions in to can have free variables. The free variable in to at index 0 refers to the first argument of from, the free variable at index 1 corresponds to the second argument.
     /// </summary>
     [Z3Function("Z3_substitute_funs")]
-    internal IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint num_funs, IntPtr[] from, IntPtr[] to)
+    internal IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to)
     {
         var funcPtr = GetFunctionPointer("Z3_substitute_funs");
         var func = Marshal.GetDelegateForFunctionPointer<SubstituteFunsDelegate>(funcPtr);
-        return func(c, a, num_funs, from, to);
+        return func(c, a, numFuns, from, to);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

@@ -88,18 +88,18 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void UpdateParamValueDelegate(IntPtr c, IntPtr param_id, IntPtr param_value);
+    private delegate void UpdateParamValueDelegate(IntPtr c, IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
     /// Set a value of a context parameter.
     /// </summary>
     /// <seealso cref="GlobalParamSet"/>
     [Z3Function("Z3_update_param_value")]
-    internal void UpdateParamValue(IntPtr c, IntPtr param_id, IntPtr param_value)
+    internal void UpdateParamValue(IntPtr c, IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_update_param_value");
         var func = Marshal.GetDelegateForFunctionPointer<UpdateParamValueDelegate>(funcPtr);
-        func(c, param_id, param_value);
+        func(c, paramId, paramValue);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

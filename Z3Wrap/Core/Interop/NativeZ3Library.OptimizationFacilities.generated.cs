@@ -193,25 +193,25 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int OptimizeCheckDelegate(IntPtr c, IntPtr o, uint num_assumptions, IntPtr[] assumptions);
+    private delegate int OptimizeCheckDelegate(IntPtr c, IntPtr o, uint numAssumptions, IntPtr[] assumptions);
 
     /// <summary>
     /// Check consistency and produce optimal values.
     /// </summary>
     /// <param name="c">- context</param>
     /// <param name="o">- optimization context</param>
-    /// <param name="num_assumptions">- number of additional assumptions</param>
+    /// <param name="numAssumptions">- number of additional assumptions</param>
     /// <param name="assumptions">- the additional assumptions</param>
     /// <seealso cref="OptimizeGetReasonUnknown"/>
     /// <seealso cref="OptimizeGetModel"/>
     /// <seealso cref="OptimizeGetStatistics"/>
     /// <seealso cref="OptimizeGetUnsatCore"/>
     [Z3Function("Z3_optimize_check")]
-    internal int OptimizeCheck(IntPtr c, IntPtr o, uint num_assumptions, IntPtr[] assumptions)
+    internal int OptimizeCheck(IntPtr c, IntPtr o, uint numAssumptions, IntPtr[] assumptions)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_check");
         var func = Marshal.GetDelegateForFunctionPointer<OptimizeCheckDelegate>(funcPtr);
-        return func(c, o, num_assumptions, assumptions);
+        return func(c, o, numAssumptions, assumptions);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -488,17 +488,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void OptimizeRegisterModelEhDelegate(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr model_eh);
+    private delegate void OptimizeRegisterModelEhDelegate(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr modelEh);
 
     /// <summary>
     /// register a model event handler for new models.
     /// </summary>
     [Z3Function("Z3_optimize_register_model_eh")]
-    internal void OptimizeRegisterModelEh(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr model_eh)
+    internal void OptimizeRegisterModelEh(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr modelEh)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_register_model_eh");
         var func = Marshal.GetDelegateForFunctionPointer<OptimizeRegisterModelEhDelegate>(funcPtr);
-        func(c, o, m, ctx, model_eh);
+        func(c, o, m, ctx, modelEh);
     }
 
 }

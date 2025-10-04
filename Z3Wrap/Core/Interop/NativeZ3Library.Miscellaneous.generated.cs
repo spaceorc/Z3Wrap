@@ -12,18 +12,18 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void GetVersionDelegate(IntPtr major, IntPtr minor, IntPtr build_number, IntPtr revision_number);
+    private delegate void GetVersionDelegate(IntPtr major, IntPtr minor, IntPtr buildNumber, IntPtr revisionNumber);
 
     /// <summary>
     /// Return Z3 version number information.
     /// </summary>
     /// <seealso cref="GetFullVersion"/>
     [Z3Function("Z3_get_version")]
-    internal void GetVersion(IntPtr major, IntPtr minor, IntPtr build_number, IntPtr revision_number)
+    internal void GetVersion(IntPtr major, IntPtr minor, IntPtr buildNumber, IntPtr revisionNumber)
     {
         var funcPtr = GetFunctionPointer("Z3_get_version");
         var func = Marshal.GetDelegateForFunctionPointer<GetVersionDelegate>(funcPtr);
-        func(major, minor, build_number, revision_number);
+        func(major, minor, buildNumber, revisionNumber);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

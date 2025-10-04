@@ -98,7 +98,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr BenchmarkToSmtlibStringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr[] assumptions, IntPtr formula);
+    private delegate IntPtr BenchmarkToSmtlibStringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint numAssumptions, IntPtr[] assumptions, IntPtr formula);
 
     /// <summary>
     /// Convert the given benchmark into SMT-LIB formatted string.
@@ -108,18 +108,18 @@ internal sealed partial class NativeZ3Library
     /// <param name="logic">- the benchmark logic.</param>
     /// <param name="status">- the status string (sat, unsat, or unknown)</param>
     /// <param name="attributes">- other attributes, such as source, difficulty or category.</param>
-    /// <param name="num_assumptions">- number of assumptions.</param>
+    /// <param name="numAssumptions">- number of assumptions.</param>
     /// <param name="assumptions">- auxiliary assumptions.</param>
     /// <param name="formula">- formula to be checked for consistency in conjunction with assumptions.</param>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_benchmark_to_smtlib_string.
     /// </remarks>
     [Z3Function("Z3_benchmark_to_smtlib_string")]
-    internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr[] assumptions, IntPtr formula)
+    internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint numAssumptions, IntPtr[] assumptions, IntPtr formula)
     {
         var funcPtr = GetFunctionPointer("Z3_benchmark_to_smtlib_string");
         var func = Marshal.GetDelegateForFunctionPointer<BenchmarkToSmtlibStringDelegate>(funcPtr);
-        return func(c, name, logic, status, attributes, num_assumptions, assumptions, formula);
+        return func(c, name, logic, status, attributes, numAssumptions, assumptions, formula);
     }
 
 }

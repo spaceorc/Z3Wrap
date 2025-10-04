@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsat_cores, bool proofs);
+    private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsatCores, bool proofs);
 
     /// <summary>
     /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers. If models is true, then model generation is enabled for the new goal. If unsat_cores is true, then unsat core generation is enabled for the new goal. If proofs is true, then proof generation is enabled for the new goal. Remark, the Z3 context c must have been created with proof generation support.
@@ -21,11 +21,11 @@ internal sealed partial class NativeZ3Library
     /// Reference counting must be used to manage goals, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
     /// </remarks>
     [Z3Function("Z3_mk_goal")]
-    internal IntPtr MkGoal(IntPtr c, bool models, bool unsat_cores, bool proofs)
+    internal IntPtr MkGoal(IntPtr c, bool models, bool unsatCores, bool proofs)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_goal");
         var func = Marshal.GetDelegateForFunctionPointer<MkGoalDelegate>(funcPtr);
-        return func(c, models, unsat_cores, proofs);
+        return func(c, models, unsatCores, proofs);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -242,17 +242,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr GoalToDimacsStringDelegate(IntPtr c, IntPtr g, bool include_names);
+    private delegate IntPtr GoalToDimacsStringDelegate(IntPtr c, IntPtr g, bool includeNames);
 
     /// <summary>
     /// Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded.
     /// </summary>
     [Z3Function("Z3_goal_to_dimacs_string")]
-    internal IntPtr GoalToDimacsString(IntPtr c, IntPtr g, bool include_names)
+    internal IntPtr GoalToDimacsString(IntPtr c, IntPtr g, bool includeNames)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_to_dimacs_string");
         var func = Marshal.GetDelegateForFunctionPointer<GoalToDimacsStringDelegate>(funcPtr);
-        return func(c, g, include_names);
+        return func(c, g, includeNames);
     }
 
 }

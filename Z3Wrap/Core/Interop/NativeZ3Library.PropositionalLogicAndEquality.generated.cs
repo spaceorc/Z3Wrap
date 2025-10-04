@@ -54,7 +54,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkDistinctDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkDistinctDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create an AST node representing distinct(args[0], ..., args[num_args-1]). The distinct construct is used for declaring the arguments pairwise distinct. That is, Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]. All arguments must have the same sort.
@@ -63,11 +63,11 @@ internal sealed partial class NativeZ3Library
     /// The number of arguments of a distinct construct must be greater than one.
     /// </remarks>
     [Z3Function("Z3_mk_distinct")]
-    internal IntPtr MkDistinct(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkDistinct(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_distinct");
         var func = Marshal.GetDelegateForFunctionPointer<MkDistinctDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -141,7 +141,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAndDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkAndDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create an AST node representing args[0] and ... and args[num_args-1]. The array args must have num_args elements. All arguments must have Boolean sort.
@@ -150,15 +150,15 @@ internal sealed partial class NativeZ3Library
     /// The number of arguments must be greater than zero.
     /// </remarks>
     [Z3Function("Z3_mk_and")]
-    internal IntPtr MkAnd(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkAnd(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_and");
         var func = Marshal.GetDelegateForFunctionPointer<MkAndDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkOrDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkOrDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create an AST node representing args[0] or ... or args[num_args-1]. The array args must have num_args elements. All arguments must have Boolean sort.
@@ -167,11 +167,11 @@ internal sealed partial class NativeZ3Library
     /// The number of arguments must be greater than zero.
     /// </remarks>
     [Z3Function("Z3_mk_or")]
-    internal IntPtr MkOr(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkOr(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_or");
         var func = Marshal.GetDelegateForFunctionPointer<MkOrDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
 }

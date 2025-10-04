@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAddDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkAddDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create an AST node representing args[0] + ... + args[num_args-1]. The array args must have num_args elements. All arguments must have int or real sort.
@@ -21,15 +21,15 @@ internal sealed partial class NativeZ3Library
     /// The number of arguments must be greater than zero.
     /// </remarks>
     [Z3Function("Z3_mk_add")]
-    internal IntPtr MkAdd(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkAdd(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_add");
         var func = Marshal.GetDelegateForFunctionPointer<MkAddDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkMulDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkMulDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create an AST node representing args[0] * ... * args[num_args-1]. The array args must have num_args elements. All arguments must have int or real sort.
@@ -39,15 +39,15 @@ internal sealed partial class NativeZ3Library
     /// The number of arguments must be greater than zero.
     /// </remarks>
     [Z3Function("Z3_mk_mul")]
-    internal IntPtr MkMul(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkMul(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mul");
         var func = Marshal.GetDelegateForFunctionPointer<MkMulDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkSubDelegate(IntPtr c, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkSubDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create an AST node representing args[0] - ... - args[num_args - 1]. The array args must have num_args elements. All arguments must have int or real sort.
@@ -56,11 +56,11 @@ internal sealed partial class NativeZ3Library
     /// The number of arguments must be greater than zero.
     /// </remarks>
     [Z3Function("Z3_mk_sub")]
-    internal IntPtr MkSub(IntPtr c, uint num_args, IntPtr[] args)
+    internal IntPtr MkSub(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sub");
         var func = Marshal.GetDelegateForFunctionPointer<MkSubDelegate>(funcPtr);
-        return func(c, num_args, args);
+        return func(c, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

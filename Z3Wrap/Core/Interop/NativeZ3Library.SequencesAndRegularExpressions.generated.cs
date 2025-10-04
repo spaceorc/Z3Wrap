@@ -766,17 +766,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkReAllcharDelegate(IntPtr c, IntPtr regex_sort);
+    private delegate IntPtr MkReAllcharDelegate(IntPtr c, IntPtr regexSort);
 
     /// <summary>
     /// Create a regular expression that accepts all singleton sequences of the regular expression sort
     /// </summary>
     [Z3Function("Z3_mk_re_allchar")]
-    internal IntPtr MkReAllchar(IntPtr c, IntPtr regex_sort)
+    internal IntPtr MkReAllchar(IntPtr c, IntPtr regexSort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_allchar");
         var func = Marshal.GetDelegateForFunctionPointer<MkReAllcharDelegate>(funcPtr);
-        return func(c, regex_sort);
+        return func(c, regexSort);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

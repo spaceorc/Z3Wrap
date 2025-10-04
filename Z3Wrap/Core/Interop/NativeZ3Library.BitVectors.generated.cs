@@ -574,31 +574,31 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkBv2intDelegate(IntPtr c, IntPtr t1, bool is_signed);
+    private delegate IntPtr MkBv2intDelegate(IntPtr c, IntPtr t1, bool isSigned);
 
     /// <summary>
     /// Create an integer from the bit-vector argument t1. If is_signed is false, then the bit-vector t1 is treated as unsigned. So the result is non-negative and in the range [0..2^N-1], where N are the number of bits in t1. If is_signed is true, t1 is treated as a signed bit-vector. The node t1 must have a bit-vector sort.
     /// </summary>
     [Z3Function("Z3_mk_bv2int")]
-    internal IntPtr MkBv2int(IntPtr c, IntPtr t1, bool is_signed)
+    internal IntPtr MkBv2int(IntPtr c, IntPtr t1, bool isSigned)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
         var func = Marshal.GetDelegateForFunctionPointer<MkBv2intDelegate>(funcPtr);
-        return func(c, t1, is_signed);
+        return func(c, t1, isSigned);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkBvaddNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
+    private delegate IntPtr MkBvaddNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned);
 
     /// <summary>
     /// Create a predicate that checks that the bit-wise addition of t1 and t2 does not overflow. The nodes t1 and t2 must have the same bit-vector sort. The returned node is of sort Bool.
     /// </summary>
     [Z3Function("Z3_mk_bvadd_no_overflow")]
-    internal IntPtr MkBvaddNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
+    internal IntPtr MkBvaddNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvaddNoOverflowDelegate>(funcPtr);
-        return func(c, t1, t2, is_signed);
+        return func(c, t1, t2, isSigned);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -630,17 +630,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkBvsubNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
+    private delegate IntPtr MkBvsubNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned);
 
     /// <summary>
     /// Create a predicate that checks that the bit-wise subtraction of t1 and t2 does not underflow. The nodes t1 and t2 must have the same bit-vector sort. The returned node is of sort Bool.
     /// </summary>
     [Z3Function("Z3_mk_bvsub_no_underflow")]
-    internal IntPtr MkBvsubNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
+    internal IntPtr MkBvsubNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvsubNoUnderflowDelegate>(funcPtr);
-        return func(c, t1, t2, is_signed);
+        return func(c, t1, t2, isSigned);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -672,17 +672,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkBvmulNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
+    private delegate IntPtr MkBvmulNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned);
 
     /// <summary>
     /// Create a predicate that checks that the bit-wise multiplication of t1 and t2 does not overflow. The nodes t1 and t2 must have the same bit-vector sort. The returned node is of sort Bool.
     /// </summary>
     [Z3Function("Z3_mk_bvmul_no_overflow")]
-    internal IntPtr MkBvmulNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
+    internal IntPtr MkBvmulNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvmulNoOverflowDelegate>(funcPtr);
-        return func(c, t1, t2, is_signed);
+        return func(c, t1, t2, isSigned);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

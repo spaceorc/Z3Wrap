@@ -147,28 +147,28 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkTupleSortDelegate(IntPtr c, IntPtr mk_tuple_name, uint num_fields, IntPtr[] field_names, IntPtr[] field_sorts, IntPtr mk_tuple_decl, IntPtr[] proj_decl);
+    private delegate IntPtr MkTupleSortDelegate(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl);
 
     /// <summary>
     /// Create a tuple type. A tuple with n fields has a constructor and n projections. This function will also declare the constructor and projection functions.
     /// </summary>
     /// <param name="c">logical context</param>
-    /// <param name="mk_tuple_name">name of the constructor function associated with the tuple type.</param>
-    /// <param name="num_fields">number of fields in the tuple type.</param>
-    /// <param name="field_names">name of the projection functions.</param>
-    /// <param name="field_sorts">type of the tuple fields.</param>
-    /// <param name="mk_tuple_decl">output parameter that will contain the constructor declaration.</param>
-    /// <param name="proj_decl">output parameter that will contain the projection function declarations. This field must be a buffer of size num_fields allocated by the user.</param>
+    /// <param name="mkTupleName">name of the constructor function associated with the tuple type.</param>
+    /// <param name="numFields">number of fields in the tuple type.</param>
+    /// <param name="fieldNames">name of the projection functions.</param>
+    /// <param name="fieldSorts">type of the tuple fields.</param>
+    /// <param name="mkTupleDecl">output parameter that will contain the constructor declaration.</param>
+    /// <param name="projDecl">output parameter that will contain the projection function declarations. This field must be a buffer of size num_fields allocated by the user.</param>
     [Z3Function("Z3_mk_tuple_sort")]
-    internal IntPtr MkTupleSort(IntPtr c, IntPtr mk_tuple_name, uint num_fields, IntPtr[] field_names, IntPtr[] field_sorts, IntPtr mk_tuple_decl, IntPtr[] proj_decl)
+    internal IntPtr MkTupleSort(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_tuple_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkTupleSortDelegate>(funcPtr);
-        return func(c, mk_tuple_name, num_fields, field_names, field_sorts, mk_tuple_decl, proj_decl);
+        return func(c, mkTupleName, numFields, fieldNames, fieldSorts, mkTupleDecl, projDecl);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkEnumerationSortDelegate(IntPtr c, IntPtr name, uint n, IntPtr[] enum_names, IntPtr[] enum_consts, IntPtr[] enum_testers);
+    private delegate IntPtr MkEnumerationSortDelegate(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters);
 
     /// <summary>
     /// Create a enumeration sort. An enumeration sort with n elements. This function will also declare the functions corresponding to the enumerations.
@@ -176,42 +176,42 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context</param>
     /// <param name="name">name of the enumeration sort.</param>
     /// <param name="n">number of elements in enumeration sort.</param>
-    /// <param name="enum_names">names of the enumerated elements.</param>
-    /// <param name="enum_consts">constants corresponding to the enumerated elements.</param>
-    /// <param name="enum_testers">predicates testing if terms of the enumeration sort correspond to an enumeration. For example, if this function is called with three symbols A, B, C and the name S, then s is a sort whose name is S, and the function returns three terms corresponding to A, B, C in enum_consts. The array enum_testers has three predicates of type (s -&gt; Bool). The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.</param>
+    /// <param name="enumNames">names of the enumerated elements.</param>
+    /// <param name="enumConsts">constants corresponding to the enumerated elements.</param>
+    /// <param name="enumTesters">predicates testing if terms of the enumeration sort correspond to an enumeration. For example, if this function is called with three symbols A, B, C and the name S, then s is a sort whose name is S, and the function returns three terms corresponding to A, B, C in enum_consts. The array enum_testers has three predicates of type (s -&gt; Bool). The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.</param>
     [Z3Function("Z3_mk_enumeration_sort")]
-    internal IntPtr MkEnumerationSort(IntPtr c, IntPtr name, uint n, IntPtr[] enum_names, IntPtr[] enum_consts, IntPtr[] enum_testers)
+    internal IntPtr MkEnumerationSort(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_enumeration_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkEnumerationSortDelegate>(funcPtr);
-        return func(c, name, n, enum_names, enum_consts, enum_testers);
+        return func(c, name, n, enumNames, enumConsts, enumTesters);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkListSortDelegate(IntPtr c, IntPtr name, IntPtr elem_sort, IntPtr nil_decl, IntPtr is_nil_decl, IntPtr cons_decl, IntPtr is_cons_decl, IntPtr head_decl, IntPtr tail_decl);
+    private delegate IntPtr MkListSortDelegate(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl);
 
     /// <summary>
     /// Create a list sort A list sort over elem_sort This function declares the corresponding constructors and testers for lists.
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="name">name of the list sort.</param>
-    /// <param name="elem_sort">sort of list elements.</param>
-    /// <param name="nil_decl">declaration for the empty list.</param>
-    /// <param name="is_nil_decl">test for the empty list.</param>
-    /// <param name="cons_decl">declaration for a cons cell.</param>
-    /// <param name="is_cons_decl">cons cell test.</param>
-    /// <param name="head_decl">list head.</param>
-    /// <param name="tail_decl">list tail.</param>
+    /// <param name="elemSort">sort of list elements.</param>
+    /// <param name="nilDecl">declaration for the empty list.</param>
+    /// <param name="isNilDecl">test for the empty list.</param>
+    /// <param name="consDecl">declaration for a cons cell.</param>
+    /// <param name="isConsDecl">cons cell test.</param>
+    /// <param name="headDecl">list head.</param>
+    /// <param name="tailDecl">list tail.</param>
     [Z3Function("Z3_mk_list_sort")]
-    internal IntPtr MkListSort(IntPtr c, IntPtr name, IntPtr elem_sort, IntPtr nil_decl, IntPtr is_nil_decl, IntPtr cons_decl, IntPtr is_cons_decl, IntPtr head_decl, IntPtr tail_decl)
+    internal IntPtr MkListSort(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_list_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkListSortDelegate>(funcPtr);
-        return func(c, name, elem_sort, nil_decl, is_nil_decl, cons_decl, is_cons_decl, head_decl, tail_decl);
+        return func(c, name, elemSort, nilDecl, isNilDecl, consDecl, isConsDecl, headDecl, tailDecl);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkConstructorDelegate(IntPtr c, IntPtr name, IntPtr recognizer, uint num_fields, IntPtr[] field_names, IntPtr[] sorts, uint[] sort_refs);
+    private delegate IntPtr MkConstructorDelegate(IntPtr c, IntPtr name, IntPtr recognizer, uint numFields, IntPtr[] fieldNames, IntPtr[] sorts, uint[] sortRefs);
 
     /// <summary>
     /// Create a constructor.
@@ -219,19 +219,19 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context.</param>
     /// <param name="name">constructor name.</param>
     /// <param name="recognizer">name of recognizer function.</param>
-    /// <param name="num_fields">number of fields in constructor.</param>
-    /// <param name="field_names">names of the constructor fields.</param>
+    /// <param name="numFields">number of fields in constructor.</param>
+    /// <param name="fieldNames">names of the constructor fields.</param>
     /// <param name="sorts">field sorts, 0 if the field sort refers to a recursive sort.</param>
-    /// <param name="sort_refs">reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.</param>
+    /// <param name="sortRefs">reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.</param>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="QueryConstructor"/>
     [Z3Function("Z3_mk_constructor")]
-    internal IntPtr MkConstructor(IntPtr c, IntPtr name, IntPtr recognizer, uint num_fields, IntPtr[] field_names, IntPtr[] sorts, uint[] sort_refs)
+    internal IntPtr MkConstructor(IntPtr c, IntPtr name, IntPtr recognizer, uint numFields, IntPtr[] fieldNames, IntPtr[] sorts, uint[] sortRefs)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_constructor");
         var func = Marshal.GetDelegateForFunctionPointer<MkConstructorDelegate>(funcPtr);
-        return func(c, name, recognizer, num_fields, field_names, sorts, sort_refs);
+        return func(c, name, recognizer, numFields, fieldNames, sorts, sortRefs);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -268,24 +268,24 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkDatatypeDelegate(IntPtr c, IntPtr name, uint num_constructors, IntPtr[] constructors);
+    private delegate IntPtr MkDatatypeDelegate(IntPtr c, IntPtr name, uint numConstructors, IntPtr[] constructors);
 
     /// <summary>
     /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="name">name of datatype.</param>
-    /// <param name="num_constructors">number of constructors passed in.</param>
+    /// <param name="numConstructors">number of constructors passed in.</param>
     /// <param name="constructors">array of constructor containers.</param>
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatypes"/>
     [Z3Function("Z3_mk_datatype")]
-    internal IntPtr MkDatatype(IntPtr c, IntPtr name, uint num_constructors, IntPtr[] constructors)
+    internal IntPtr MkDatatype(IntPtr c, IntPtr name, uint numConstructors, IntPtr[] constructors)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_datatype");
         var func = Marshal.GetDelegateForFunctionPointer<MkDatatypeDelegate>(funcPtr);
-        return func(c, name, num_constructors, constructors);
+        return func(c, name, numConstructors, constructors);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -303,22 +303,22 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkConstructorListDelegate(IntPtr c, uint num_constructors, IntPtr[] constructors);
+    private delegate IntPtr MkConstructorListDelegate(IntPtr c, uint numConstructors, IntPtr[] constructors);
 
     /// <summary>
     /// Create list of constructors.
     /// </summary>
     /// <param name="c">logical context.</param>
-    /// <param name="num_constructors">number of constructors in list.</param>
+    /// <param name="numConstructors">number of constructors in list.</param>
     /// <param name="constructors">list of constructors.</param>
     /// <seealso cref="DelConstructorList"/>
     /// <seealso cref="MkConstructor"/>
     [Z3Function("Z3_mk_constructor_list")]
-    internal IntPtr MkConstructorList(IntPtr c, uint num_constructors, IntPtr[] constructors)
+    internal IntPtr MkConstructorList(IntPtr c, uint numConstructors, IntPtr[] constructors)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_constructor_list");
         var func = Marshal.GetDelegateForFunctionPointer<MkConstructorListDelegate>(funcPtr);
-        return func(c, num_constructors, constructors);
+        return func(c, numConstructors, constructors);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -339,46 +339,46 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void MkDatatypesDelegate(IntPtr c, uint num_sorts, IntPtr[] sort_names, IntPtr[] sorts, IntPtr[] constructor_lists);
+    private delegate void MkDatatypesDelegate(IntPtr c, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, IntPtr[] constructorLists);
 
     /// <summary>
     /// Create mutually recursive datatypes.
     /// </summary>
     /// <param name="c">logical context.</param>
-    /// <param name="num_sorts">number of datatype sorts.</param>
-    /// <param name="sort_names">names of datatype sorts.</param>
+    /// <param name="numSorts">number of datatype sorts.</param>
+    /// <param name="sortNames">names of datatype sorts.</param>
     /// <param name="sorts">array of datatype sorts.</param>
-    /// <param name="constructor_lists">list of constructors, one list per sort.</param>
+    /// <param name="constructorLists">list of constructors, one list per sort.</param>
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatype"/>
     [Z3Function("Z3_mk_datatypes")]
-    internal void MkDatatypes(IntPtr c, uint num_sorts, IntPtr[] sort_names, IntPtr[] sorts, IntPtr[] constructor_lists)
+    internal void MkDatatypes(IntPtr c, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, IntPtr[] constructorLists)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_datatypes");
         var func = Marshal.GetDelegateForFunctionPointer<MkDatatypesDelegate>(funcPtr);
-        func(c, num_sorts, sort_names, sorts, constructor_lists);
+        func(c, numSorts, sortNames, sorts, constructorLists);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void QueryConstructorDelegate(IntPtr c, IntPtr constr, uint num_fields, IntPtr constructor, IntPtr tester, IntPtr[] accessors);
+    private delegate void QueryConstructorDelegate(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors);
 
     /// <summary>
     /// Query constructor for declared functions.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="constr">constructor container. The container must have been passed into a Z3_mk_datatype call.</param>
-    /// <param name="num_fields">number of accessor fields in the constructor.</param>
+    /// <param name="numFields">number of accessor fields in the constructor.</param>
     /// <param name="constructor">constructor function declaration, allocated by user.</param>
     /// <param name="tester">constructor test function declaration, allocated by user.</param>
     /// <param name="accessors">array of accessor function declarations allocated by user. The array must contain num_fields elements.</param>
     /// <seealso cref="MkConstructor"/>
     [Z3Function("Z3_query_constructor")]
-    internal void QueryConstructor(IntPtr c, IntPtr constr, uint num_fields, IntPtr constructor, IntPtr tester, IntPtr[] accessors)
+    internal void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors)
     {
         var funcPtr = GetFunctionPointer("Z3_query_constructor");
         var func = Marshal.GetDelegateForFunctionPointer<QueryConstructorDelegate>(funcPtr);
-        func(c, constr, num_fields, constructor, tester, accessors);
+        func(c, constr, numFields, constructor, tester, accessors);
     }
 
 }

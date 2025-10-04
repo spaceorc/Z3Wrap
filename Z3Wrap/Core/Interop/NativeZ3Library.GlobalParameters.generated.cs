@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void GlobalParamSetDelegate(IntPtr param_id, IntPtr param_value);
+    private delegate void GlobalParamSetDelegate(IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
     /// Set a global (or module) parameter. This setting is shared by all Z3 contexts. When a Z3 module is initialized it will use the value of these parameters when Z3_params objects are not provided. The name of parameter can be composed of characters [a-z][A-Z], digits [0-9], '-' and '_'. The character '.' is a delimiter (more later). The parameter names are case-insensitive. The character '-' should be viewed as an "alias" for '_'. Thus, the following parameter names are considered equivalent: "pp.decimal-precision" and "PP.DECIMAL_PRECISION". This function can be used to set parameters for a specific Z3 module. This can be done by using &lt;module-name&gt;.&lt;parameter-name&gt;. For example: Z3_global_param_set('pp.decimal', 'true') will set the parameter "decimal" in the module "pp" to true.
@@ -20,11 +20,11 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="GlobalParamGet"/>
     /// <seealso cref="GlobalParamResetAll"/>
     [Z3Function("Z3_global_param_set")]
-    internal void GlobalParamSet(IntPtr param_id, IntPtr param_value)
+    internal void GlobalParamSet(IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_global_param_set");
         var func = Marshal.GetDelegateForFunctionPointer<GlobalParamSetDelegate>(funcPtr);
-        func(param_id, param_value);
+        func(paramId, paramValue);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -44,7 +44,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GlobalParamGetDelegate(IntPtr param_id, IntPtr param_value);
+    private delegate bool GlobalParamGetDelegate(IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
     /// Get a global (or module) parameter. Returns false if the parameter value does not exist.
@@ -55,11 +55,11 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="GlobalParamResetAll"/>
     /// <seealso cref="GlobalParamSet"/>
     [Z3Function("Z3_global_param_get")]
-    internal bool GlobalParamGet(IntPtr param_id, IntPtr param_value)
+    internal bool GlobalParamGet(IntPtr paramId, IntPtr paramValue)
     {
         var funcPtr = GetFunctionPointer("Z3_global_param_get");
         var func = Marshal.GetDelegateForFunctionPointer<GlobalParamGetDelegate>(funcPtr);
-        return func(param_id, param_value);
+        return func(paramId, paramValue);
     }
 
 }

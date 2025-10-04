@@ -378,7 +378,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr GetDatatypeSortConstructorAccessorDelegate(IntPtr c, IntPtr t, uint idx_c, uint idx_a);
+    private delegate IntPtr GetDatatypeSortConstructorAccessorDelegate(IntPtr c, IntPtr t, uint idxC, uint idxA);
 
     /// <summary>
     /// Return idx_a'th accessor for the idx_c'th constructor.
@@ -392,15 +392,15 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="GetDatatypeSortConstructor"/>
     /// <seealso cref="GetDatatypeSortRecognizer"/>
     [Z3Function("Z3_get_datatype_sort_constructor_accessor")]
-    internal IntPtr GetDatatypeSortConstructorAccessor(IntPtr c, IntPtr t, uint idx_c, uint idx_a)
+    internal IntPtr GetDatatypeSortConstructorAccessor(IntPtr c, IntPtr t, uint idxC, uint idxA)
     {
         var funcPtr = GetFunctionPointer("Z3_get_datatype_sort_constructor_accessor");
         var func = Marshal.GetDelegateForFunctionPointer<GetDatatypeSortConstructorAccessorDelegate>(funcPtr);
-        return func(c, t, idx_c, idx_a);
+        return func(c, t, idxC, idxA);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr c, IntPtr field_access, IntPtr t, IntPtr value);
+    private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr c, IntPtr fieldAccess, IntPtr t, IntPtr value);
 
     /// <summary>
     /// Update record field with a value. This corresponds to the 'with' construct in OCaml. It has the effect of updating a record field with a given value. The remaining fields are left unchanged. It is the record equivalent of an array store (see
@@ -411,11 +411,11 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="MkStore"/>
     [Z3Function("Z3_datatype_update_field")]
-    internal IntPtr DatatypeUpdateField(IntPtr c, IntPtr field_access, IntPtr t, IntPtr value)
+    internal IntPtr DatatypeUpdateField(IntPtr c, IntPtr fieldAccess, IntPtr t, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_datatype_update_field");
         var func = Marshal.GetDelegateForFunctionPointer<DatatypeUpdateFieldDelegate>(funcPtr);
-        return func(c, field_access, t, value);
+        return func(c, fieldAccess, t, value);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -456,73 +456,73 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAtmostDelegate(IntPtr c, uint num_args, IntPtr[] args, uint k);
+    private delegate IntPtr MkAtmostDelegate(IntPtr c, uint numArgs, IntPtr[] args, uint k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode p1 + p2 + ... + pn &lt;= k
     /// </summary>
     [Z3Function("Z3_mk_atmost")]
-    internal IntPtr MkAtmost(IntPtr c, uint num_args, IntPtr[] args, uint k)
+    internal IntPtr MkAtmost(IntPtr c, uint numArgs, IntPtr[] args, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_atmost");
         var func = Marshal.GetDelegateForFunctionPointer<MkAtmostDelegate>(funcPtr);
-        return func(c, num_args, args, k);
+        return func(c, numArgs, args, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAtleastDelegate(IntPtr c, uint num_args, IntPtr[] args, uint k);
+    private delegate IntPtr MkAtleastDelegate(IntPtr c, uint numArgs, IntPtr[] args, uint k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode p1 + p2 + ... + pn &gt;= k
     /// </summary>
     [Z3Function("Z3_mk_atleast")]
-    internal IntPtr MkAtleast(IntPtr c, uint num_args, IntPtr[] args, uint k)
+    internal IntPtr MkAtleast(IntPtr c, uint numArgs, IntPtr[] args, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_atleast");
         var func = Marshal.GetDelegateForFunctionPointer<MkAtleastDelegate>(funcPtr);
-        return func(c, num_args, args, k);
+        return func(c, numArgs, args, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkPbleDelegate(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k);
+    private delegate IntPtr MkPbleDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode k1*p1 + k2*p2 + ... + kn*pn &lt;= k
     /// </summary>
     [Z3Function("Z3_mk_pble")]
-    internal IntPtr MkPble(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k)
+    internal IntPtr MkPble(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pble");
         var func = Marshal.GetDelegateForFunctionPointer<MkPbleDelegate>(funcPtr);
-        return func(c, num_args, args, coeffs, k);
+        return func(c, numArgs, args, coeffs, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkPbgeDelegate(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k);
+    private delegate IntPtr MkPbgeDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode k1*p1 + k2*p2 + ... + kn*pn &gt;= k
     /// </summary>
     [Z3Function("Z3_mk_pbge")]
-    internal IntPtr MkPbge(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k)
+    internal IntPtr MkPbge(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pbge");
         var func = Marshal.GetDelegateForFunctionPointer<MkPbgeDelegate>(funcPtr);
-        return func(c, num_args, args, coeffs, k);
+        return func(c, numArgs, args, coeffs, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkPbeqDelegate(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k);
+    private delegate IntPtr MkPbeqDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode k1*p1 + k2*p2 + ... + kn*pn = k
     /// </summary>
     [Z3Function("Z3_mk_pbeq")]
-    internal IntPtr MkPbeq(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k)
+    internal IntPtr MkPbeq(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pbeq");
         var func = Marshal.GetDelegateForFunctionPointer<MkPbeqDelegate>(funcPtr);
-        return func(c, num_args, args, coeffs, k);
+        return func(c, numArgs, args, coeffs, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

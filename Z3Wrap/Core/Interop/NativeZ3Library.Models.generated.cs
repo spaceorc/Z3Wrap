@@ -54,17 +54,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool ModelEvalDelegate(IntPtr c, IntPtr m, IntPtr t, bool model_completion, IntPtr v);
+    private delegate bool ModelEvalDelegate(IntPtr c, IntPtr m, IntPtr t, bool modelCompletion, IntPtr v);
 
     /// <summary>
     /// Evaluate the AST node t in the given model. Return true if succeeded, and store the result in v. If model_completion is true, then Z3 will assign an interpretation for any constant or function that does not have an interpretation in m. These constants and functions were essentially don't cares. If model_completion is false, then Z3 will not assign interpretations to constants for functions that do not have interpretations in m. Evaluation behaves as the identify function in this case. The evaluation may fail for the following reasons: - t contains a quantifier. - the model m is partial, that is, it doesn't have a complete interpretation for uninterpreted functions. That is, the option MODEL_PARTIAL=true was used. - t is type incorrect. - Z3_interrupt was invoked during evaluation.
     /// </summary>
     [Z3Function("Z3_model_eval")]
-    internal bool ModelEval(IntPtr c, IntPtr m, IntPtr t, bool model_completion, IntPtr v)
+    internal bool ModelEval(IntPtr c, IntPtr m, IntPtr t, bool modelCompletion, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_model_eval");
         var func = Marshal.GetDelegateForFunctionPointer<ModelEvalDelegate>(funcPtr);
-        return func(c, m, t, model_completion, v);
+        return func(c, m, t, modelCompletion, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -282,7 +282,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr AddFuncInterpDelegate(IntPtr c, IntPtr m, IntPtr f, IntPtr default_value);
+    private delegate IntPtr AddFuncInterpDelegate(IntPtr c, IntPtr m, IntPtr f, IntPtr defaultValue);
 
     /// <summary>
     /// Create a fresh func_interp object, add it to a model for a specified function. It has reference count 0.
@@ -290,13 +290,13 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">context</param>
     /// <param name="m">model</param>
     /// <param name="f">function declaration</param>
-    /// <param name="default_value">default value for function interpretation</param>
+    /// <param name="defaultValue">default value for function interpretation</param>
     [Z3Function("Z3_add_func_interp")]
-    internal IntPtr AddFuncInterp(IntPtr c, IntPtr m, IntPtr f, IntPtr default_value)
+    internal IntPtr AddFuncInterp(IntPtr c, IntPtr m, IntPtr f, IntPtr defaultValue)
     {
         var funcPtr = GetFunctionPointer("Z3_add_func_interp");
         var func = Marshal.GetDelegateForFunctionPointer<AddFuncInterpDelegate>(funcPtr);
-        return func(c, m, f, default_value);
+        return func(c, m, f, defaultValue);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -389,17 +389,17 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void FuncInterpSetElseDelegate(IntPtr c, IntPtr f, IntPtr else_value);
+    private delegate void FuncInterpSetElseDelegate(IntPtr c, IntPtr f, IntPtr elseValue);
 
     /// <summary>
     /// Return the 'else' value of the given function interpretation. A function interpretation is represented as a finite map and an 'else' value. This procedure can be used to update the 'else' value.
     /// </summary>
     [Z3Function("Z3_func_interp_set_else")]
-    internal void FuncInterpSetElse(IntPtr c, IntPtr f, IntPtr else_value)
+    internal void FuncInterpSetElse(IntPtr c, IntPtr f, IntPtr elseValue)
     {
         var funcPtr = GetFunctionPointer("Z3_func_interp_set_else");
         var func = Marshal.GetDelegateForFunctionPointer<FuncInterpSetElseDelegate>(funcPtr);
-        func(c, f, else_value);
+        func(c, f, elseValue);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

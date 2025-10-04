@@ -543,6 +543,25 @@ def generate_delegate_name(func_name: str) -> str:
     return f"{csharp_name}Delegate"
 
 
+def convert_param_name_to_camel_case(param_name: str) -> str:
+    """
+    Convert snake_case parameter name to camelCase.
+    Examples:
+    - backtrack_level -> backtrackLevel
+    - var_name -> varName
+    - c -> c
+    """
+    # If no underscores, return as-is
+    if '_' not in param_name:
+        return param_name
+
+    # Split on underscores
+    parts = param_name.split('_')
+
+    # First part stays lowercase, capitalize first letter of remaining parts
+    return parts[0] + ''.join(part.capitalize() for part in parts[1:])
+
+
 def generate_partial_class(group: HeaderGroup, output_dir: Path):
     """
     Generate a partial class file with delegates and P/Invoke implementations.
@@ -582,8 +601,10 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
 
             for param_type_c, param_name in sig.parameters:
                 param_type_cs = map_c_type_to_csharp(param_type_c)
+                # Convert snake_case to camelCase
+                camel_case_name = convert_param_name_to_camel_case(param_name)
                 # Escape C# keywords by prefixing with @
-                safe_param_name = f"@{param_name}" if param_name in csharp_keywords else param_name
+                safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
                 params_cs.append(f"{param_type_cs} {safe_param_name}")
                 param_names.append(safe_param_name)
 
@@ -609,7 +630,9 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
 
                 # Parameter documentation
                 for param_type_c, param_name in sig.parameters:
-                    safe_param_name = f"@{param_name}" if param_name in csharp_keywords else param_name
+                    # Convert snake_case to camelCase
+                    camel_case_name = convert_param_name_to_camel_case(param_name)
+                    safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
                     if param_name in sig.param_docs:
                         param_doc = sig.param_docs[param_name]
                         f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')

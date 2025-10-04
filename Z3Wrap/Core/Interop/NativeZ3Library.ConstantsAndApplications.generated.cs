@@ -12,29 +12,29 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range);
+    private delegate IntPtr MkFuncDeclDelegate(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     /// Declare a constant or function.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="s">name of the constant or function.</param>
-    /// <param name="domain_size">number of arguments. It is 0 when declaring a constant.</param>
+    /// <param name="domainSize">number of arguments. It is 0 when declaring a constant.</param>
     /// <param name="domain">array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant.</param>
     /// <param name="range">sort of the constant or the return sort of the function. After declaring a constant or function, the function Z3_mk_app can be used to create a constant or function application.</param>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_mk_func_decl")]
-    internal IntPtr MkFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range)
+    internal IntPtr MkFuncDecl(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<MkFuncDeclDelegate>(funcPtr);
-        return func(c, s, domain_size, domain, range);
+        return func(c, s, domainSize, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAppDelegate(IntPtr c, IntPtr d, uint num_args, IntPtr[] args);
+    private delegate IntPtr MkAppDelegate(IntPtr c, IntPtr d, uint numArgs, IntPtr[] args);
 
     /// <summary>
     /// Create a constant or function application.
@@ -43,11 +43,11 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_mk_app")]
-    internal IntPtr MkApp(IntPtr c, IntPtr d, uint num_args, IntPtr[] args)
+    internal IntPtr MkApp(IntPtr c, IntPtr d, uint numArgs, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_app");
         var func = Marshal.GetDelegateForFunctionPointer<MkAppDelegate>(funcPtr);
-        return func(c, d, num_args, args);
+        return func(c, d, numArgs, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -68,7 +68,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domain_size, IntPtr[] domain, IntPtr range);
+    private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domainSize, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     /// Declare a fresh constant or function. Z3 will generate an unique name for this function declaration. If prefix is different from NULL, then the name generate by Z3 will start with prefix.
@@ -78,11 +78,11 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="MkFuncDecl"/>
     [Z3Function("Z3_mk_fresh_func_decl")]
-    internal IntPtr MkFreshFuncDecl(IntPtr c, IntPtr prefix, uint domain_size, IntPtr[] domain, IntPtr range)
+    internal IntPtr MkFreshFuncDecl(IntPtr c, IntPtr prefix, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fresh_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<MkFreshFuncDeclDelegate>(funcPtr);
-        return func(c, prefix, domain_size, domain, range);
+        return func(c, prefix, domainSize, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -107,25 +107,25 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkRecFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range);
+    private delegate IntPtr MkRecFuncDeclDelegate(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     /// Declare a recursive function
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="s">name of the function.</param>
-    /// <param name="domain_size">number of arguments. It should be greater than 0.</param>
+    /// <param name="domainSize">number of arguments. It should be greater than 0.</param>
     /// <param name="domain">array containing the sort of each argument. The array must contain domain_size elements.</param>
     /// <param name="range">sort of the constant or the return sort of the function. After declaring recursive function, it should be associated with a recursive definition Z3_add_rec_def. The function Z3_mk_app can be used to create a constant or function application.</param>
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFuncDecl"/>
     [Z3Function("Z3_mk_rec_func_decl")]
-    internal IntPtr MkRecFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range)
+    internal IntPtr MkRecFuncDecl(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_rec_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<MkRecFuncDeclDelegate>(funcPtr);
-        return func(c, s, domain_size, domain, range);
+        return func(c, s, domainSize, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
