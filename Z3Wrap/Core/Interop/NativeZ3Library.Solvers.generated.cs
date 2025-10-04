@@ -771,7 +771,13 @@ internal sealed partial class NativeZ3Library
     /// Assume the callback has the signature: propagate_consequence_eh(context, solver_cb, num_ids, ids, num_eqs, lhs, rhs, consequence).
     /// </summary>
     /// <param name="c">- context</param>
+    /// <param name="cb">- solver callback</param>
+    /// <param name="numFixed">- number of fixed terms used as premise to propagation</param>
+    /// <param name="fixed">- array of length num_ids containing terms that are fixed in the current scope</param>
     /// <param name="numEqs">- number of equalities used as premise to propagation</param>
+    /// <param name="eqLhs">- left side of equalities</param>
+    /// <param name="eqRhs">- right side of equalities</param>
+    /// <param name="conseq">- consequence to propagate. It is typically an atomic formula, but it can be an arbitrary formula.</param>
     [Z3Function("Z3_solver_propagate_consequence")]
     internal bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr @fixed, uint numEqs, IntPtr eqLhs, IntPtr eqRhs, IntPtr conseq)
     {
@@ -1007,7 +1013,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert a solver into a DIMACS formatted string.
     /// </summary>
-    /// <seealso cref="GoalToDiamcsString"/>
+    /// <seealso cref="GoalToDimacsString"/>
     [Z3Function("Z3_solver_to_dimacs_string")]
     internal IntPtr SolverToDimacsString(IntPtr c, IntPtr s, bool includeNames)
     {

@@ -78,6 +78,27 @@ Z3_HEADER_FILES = [
     "src/api/z3_optimization.h"
 ]
 
+# Parameter name mapping for documentation bugs in Z3 headers
+# Maps: function_name -> { actual_param_name: doc_param_name }
+# This fixes cases where \param tags use different names than the actual function signature
+PARAM_NAME_FIXES = {
+    "Z3_solver_propagate_consequence": {
+        "cb": "solver_cb",
+        "num_fixed": "num_ids",
+        "fixed": "ids",
+        "eq_lhs": "lhs",
+        "eq_rhs": "rhs",
+        "conseq": "consequence"
+    }
+}
+
+# Function name typo fixes in Z3 header documentation
+# Maps: incorrect_name_in_docs -> correct_name
+# This fixes cases where \sa tags or other references have typos
+FUNCTION_NAME_TYPO_FIXES = {
+    "Z3_goal_to_diamcs_string": "Z3_goal_to_dimacs_string"  # Missing 'i' after 'm'
+}
+
 
 def download_header_from_github(file_path: str, branch: str = Z3_DEFAULT_BRANCH) -> str:
     """
@@ -511,12 +532,26 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
     # Extract documentation
     docs = extract_function_documentation(header_path, func_name)
 
+    # Apply parameter name fixes if configured
+    param_docs = docs.get('param_docs', {})
+    if func_name in PARAM_NAME_FIXES:
+        fixes = PARAM_NAME_FIXES[func_name]
+        fixed_param_docs = {}
+        for actual_param, doc_param in fixes.items():
+            if doc_param in param_docs:
+                fixed_param_docs[actual_param] = param_docs[doc_param]
+        # Merge with any params that don't need fixing
+        for param_name, param_doc in param_docs.items():
+            if param_name not in fixes.values():
+                fixed_param_docs[param_name] = param_doc
+        param_docs = fixed_param_docs
+
     return FunctionSignature(
         name=func_name,
         return_type=return_type_c,
         parameters=parameters,
         brief=docs.get('brief', ''),
-        param_docs=docs.get('param_docs', {}),
+        param_docs=param_docs,
         returns_doc=docs.get('returns_doc', ''),
         preconditions=docs.get('preconditions', []),
         warnings=docs.get('warnings', []),
@@ -997,8 +1032,10 @@ def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
             # Add see also references
             if enum_def.see_also:
                 for sa_item in enum_def.see_also:
+                    # Apply typo fixes if needed
+                    sa_item_fixed = FUNCTION_NAME_TYPO_FIXES.get(sa_item, sa_item)
                     # Try to convert to C# method name
-                    sa_csharp = generate_csharp_method_name(sa_item)
+                    sa_csharp = generate_csharp_method_name(sa_item_fixed)
                     f.write(f'    /// <seealso cref="{sa_csharp}"/>\n')
 
             f.write(f"    internal enum {enum_def.csharp_name}\n")
@@ -1102,18 +1139,20 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                     # Convert snake_case to camelCase
                     camel_case_name = convert_param_name_to_camel_case(param_name)
                     safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
+                    # XML documentation uses the logical name without @ prefix
+                    xml_param_name = camel_case_name
                     if param_name in sig.param_docs:
                         param_doc = sig.param_docs[param_name]
                         # Check if multi-line
                         if '\n' in param_doc:
                             # Multi-line - put content on separate lines
-                            f.write(f'    /// <param name="{safe_param_name}">\n')
+                            f.write(f'    /// <param name="{xml_param_name}">\n')
                             for line in format_xml_doc_lines(param_doc, "    "):
                                 f.write(f"{line}\n")
                             f.write(f'    /// </param>\n')
                         else:
                             # Single line
-                            f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')
+                            f.write(f'    /// <param name="{xml_param_name}">{param_doc}</param>\n')
 
                 # Returns documentation
                 if sig.returns_doc:
@@ -1150,8 +1189,10 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
 
                 # See also references
                 for sa_func in sig.see_also:
+                    # Apply typo fixes if needed
+                    sa_func_fixed = FUNCTION_NAME_TYPO_FIXES.get(sa_func, sa_func)
                     # Convert Z3_function_name to CSharp MethodName
-                    sa_csharp = generate_csharp_method_name(sa_func)
+                    sa_csharp = generate_csharp_method_name(sa_func_fixed)
                     f.write(f'    /// <seealso cref="{sa_csharp}"/>\n')
 
             # Z3Function attribute
