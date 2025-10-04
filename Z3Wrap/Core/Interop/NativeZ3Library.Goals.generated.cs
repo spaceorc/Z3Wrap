@@ -64,7 +64,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GoalPrecisionDelegate(IntPtr c, IntPtr g);
+    private delegate GoalPrec GoalPrecisionDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
     /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations.
@@ -72,7 +72,7 @@ internal sealed partial class NativeZ3Library
     /// An over approximation is applied when the objective is to find a proof for a given goal.
     /// </summary>
     [Z3Function("Z3_goal_precision")]
-    internal int GoalPrecision(IntPtr c, IntPtr g)
+    internal GoalPrec GoalPrecision(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_precision");
         var func = Marshal.GetDelegateForFunctionPointer<GoalPrecisionDelegate>(funcPtr);

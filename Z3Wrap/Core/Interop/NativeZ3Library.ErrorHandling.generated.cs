@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetErrorCodeDelegate(IntPtr c);
+    private delegate ErrorCode GetErrorCodeDelegate(IntPtr c);
 
     /// <summary>
     /// Return the error code for the last API call.
@@ -21,7 +21,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <seealso cref="SetErrorHandler"/>
     [Z3Function("Z3_get_error_code")]
-    internal int GetErrorCode(IntPtr c)
+    internal ErrorCode GetErrorCode(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_code");
         var func = Marshal.GetDelegateForFunctionPointer<GetErrorCodeDelegate>(funcPtr);
@@ -51,13 +51,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SetErrorDelegate(IntPtr c, int e);
+    private delegate void SetErrorDelegate(IntPtr c, ErrorCode e);
 
     /// <summary>
     /// Set an error.
     /// </summary>
     [Z3Function("Z3_set_error")]
-    internal void SetError(IntPtr c, int e)
+    internal void SetError(IntPtr c, ErrorCode e)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error");
         var func = Marshal.GetDelegateForFunctionPointer<SetErrorDelegate>(funcPtr);
@@ -65,13 +65,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr GetErrorMsgDelegate(IntPtr c, int err);
+    private delegate IntPtr GetErrorMsgDelegate(IntPtr c, ErrorCode err);
 
     /// <summary>
     /// Return a string describing the given error code.
     /// </summary>
     [Z3Function("Z3_get_error_msg")]
-    internal IntPtr GetErrorMsg(IntPtr c, int err)
+    internal IntPtr GetErrorMsg(IntPtr c, ErrorCode err)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_msg");
         var func = Marshal.GetDelegateForFunctionPointer<GetErrorMsgDelegate>(funcPtr);

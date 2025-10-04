@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SetAstPrintModeDelegate(IntPtr c, int mode);
+    private delegate void SetAstPrintModeDelegate(IntPtr c, AstPrintMode mode);
 
     /// <summary>
     /// Select mode for the format used for pretty-printing AST nodes.
@@ -28,7 +28,7 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="PatternToString"/>
     /// <seealso cref="FuncDeclToString"/>
     [Z3Function("Z3_set_ast_print_mode")]
-    internal void SetAstPrintMode(IntPtr c, int mode)
+    internal void SetAstPrintMode(IntPtr c, AstPrintMode mode)
     {
         var funcPtr = GetFunctionPointer("Z3_set_ast_print_mode");
         var func = Marshal.GetDelegateForFunctionPointer<SetAstPrintModeDelegate>(funcPtr);

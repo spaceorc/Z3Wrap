@@ -224,18 +224,18 @@ def map_c_type_to_csharp(c_type: str) -> str:
         'Z3_on_binding_eh': 'IntPtr',
         'Z3_solver_callback': 'IntPtr',
         'Z3_model_eh': 'IntPtr',
-        # Enums - marshaled as int
-        'Z3_lbool': 'int',
-        'Z3_bool': 'int',
-        'Z3_ast_kind': 'int',
-        'Z3_ast_print_mode': 'int',
-        'Z3_decl_kind': 'int',
-        'Z3_error_code': 'int',
-        'Z3_goal_prec': 'int',
-        'Z3_param_kind': 'int',
-        'Z3_parameter_kind': 'int',
-        'Z3_sort_kind': 'int',
-        'Z3_symbol_kind': 'int',
+        # Enums - map to C# enum types
+        'Z3_lbool': 'Lbool',
+        'Z3_bool': 'int',  # Z3_bool is actually a typedef for int, not an enum
+        'Z3_ast_kind': 'AstKind',
+        'Z3_ast_print_mode': 'AstPrintMode',
+        'Z3_decl_kind': 'DeclKind',
+        'Z3_error_code': 'ErrorCode',
+        'Z3_goal_prec': 'GoalPrec',
+        'Z3_param_kind': 'ParamKind',
+        'Z3_parameter_kind': 'ParameterKind',
+        'Z3_sort_kind': 'SortKind',
+        'Z3_symbol_kind': 'SymbolKind',
     }
 
     # Clean the type (remove const, spaces)

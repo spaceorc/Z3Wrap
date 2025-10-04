@@ -18,7 +18,7 @@ namespace Spaceorc.Z3Wrap.Core;
 public sealed partial class Z3Library : IDisposable
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ErrorHandler(IntPtr ctx, int errorCode);
+    private delegate void ErrorHandler(IntPtr ctx, NativeZ3Library.ErrorCode errorCode);
 
     private readonly NativeZ3Library nativeLibrary;
     private readonly ErrorHandler errorHandlerDelegate;
@@ -95,20 +95,19 @@ public sealed partial class Z3Library : IDisposable
 
     private void CheckError(IntPtr ctx)
     {
-        var z3ErrorCode = (Z3ErrorCode)nativeLibrary.GetErrorCode(ctx);
-        if (z3ErrorCode == Z3ErrorCode.Ok)
+        var errorCode = nativeLibrary.GetErrorCode(ctx);
+        if (errorCode == NativeZ3Library.ErrorCode.Ok)
             return;
-        var msgPtr = nativeLibrary.GetErrorMsg(ctx, (int)z3ErrorCode);
+        var msgPtr = nativeLibrary.GetErrorMsg(ctx, errorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
-        throw new Z3Exception(z3ErrorCode, message);
+        throw new Z3Exception((Z3ErrorCode)errorCode, message);
     }
 
-    private void OnZ3ErrorSafe(IntPtr ctx, int errorCode)
+    private void OnZ3ErrorSafe(IntPtr ctx, NativeZ3Library.ErrorCode errorCode)
     {
         // DO NOT THROW EXCEPTIONS HERE - this is called from native Z3 code!
-        var z3ErrorCode = (Z3ErrorCode)errorCode;
-        var msgPtr = nativeLibrary.GetErrorMsg(ctx, (int)z3ErrorCode);
+        var msgPtr = nativeLibrary.GetErrorMsg(ctx, errorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
-        Debug.WriteLine($"Z3 Error: {z3ErrorCode}: {message}");
+        Debug.WriteLine($"Z3 Error: {errorCode}: {message}");
     }
 }

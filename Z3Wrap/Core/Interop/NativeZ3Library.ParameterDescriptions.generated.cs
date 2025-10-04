@@ -40,13 +40,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int ParamDescrsGetKindDelegate(IntPtr c, IntPtr p, IntPtr n);
+    private delegate ParamKind ParamDescrsGetKindDelegate(IntPtr c, IntPtr p, IntPtr n);
 
     /// <summary>
     /// Return the kind associated with the given parameter name n.
     /// </summary>
     [Z3Function("Z3_param_descrs_get_kind")]
-    internal int ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
+    internal ParamKind ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_get_kind");
         var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetKindDelegate>(funcPtr);

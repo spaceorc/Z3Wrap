@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetSymbolKindDelegate(IntPtr c, IntPtr s);
+    private delegate SymbolKind GetSymbolKindDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
     /// Return Z3_INT_SYMBOL if the symbol was constructed
@@ -20,7 +20,7 @@ internal sealed partial class NativeZ3Library
     /// was constructed using <see cref="MkStringSymbol"/>.
     /// </summary>
     [Z3Function("Z3_get_symbol_kind")]
-    internal int GetSymbolKind(IntPtr c, IntPtr s)
+    internal SymbolKind GetSymbolKind(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_symbol_kind");
         var func = Marshal.GetDelegateForFunctionPointer<GetSymbolKindDelegate>(funcPtr);
@@ -123,14 +123,14 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetSortKindDelegate(IntPtr c, IntPtr t);
+    private delegate SortKind GetSortKindDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
     /// Return the sort kind (e.g., array, tuple, int, bool, etc).
     /// </summary>
     /// <seealso cref="SortKind"/>
     [Z3Function("Z3_get_sort_kind")]
-    internal int GetSortKind(IntPtr c, IntPtr t)
+    internal SortKind GetSortKind(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_kind");
         var func = Marshal.GetDelegateForFunctionPointer<GetSortKindDelegate>(funcPtr);
@@ -599,13 +599,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetDeclKindDelegate(IntPtr c, IntPtr d);
+    private delegate DeclKind GetDeclKindDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
     /// Return declaration kind corresponding to declaration.
     /// </summary>
     [Z3Function("Z3_get_decl_kind")]
-    internal int GetDeclKind(IntPtr c, IntPtr d)
+    internal DeclKind GetDeclKind(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_kind");
         var func = Marshal.GetDelegateForFunctionPointer<GetDeclKindDelegate>(funcPtr);
@@ -691,7 +691,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetDeclParameterKindDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate ParameterKind GetDeclParameterKindDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
     /// Return the parameter type associated with a declaration.
@@ -700,7 +700,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="d">the function declaration</param>
     /// <param name="idx">is the index of the named parameter it should be between 0 and the number of parameters.</param>
     [Z3Function("Z3_get_decl_parameter_kind")]
-    internal int GetDeclParameterKind(IntPtr c, IntPtr d, uint idx)
+    internal ParameterKind GetDeclParameterKind(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_parameter_kind");
         var func = Marshal.GetDelegateForFunctionPointer<GetDeclParameterKindDelegate>(funcPtr);
@@ -969,13 +969,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetBoolValueDelegate(IntPtr c, IntPtr a);
+    private delegate Lbool GetBoolValueDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
     /// Return Z3_L_TRUE if a is true, Z3_L_FALSE if it is false, and Z3_L_UNDEF otherwise.
     /// </summary>
     [Z3Function("Z3_get_bool_value")]
-    internal int GetBoolValue(IntPtr c, IntPtr a)
+    internal Lbool GetBoolValue(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bool_value");
         var func = Marshal.GetDelegateForFunctionPointer<GetBoolValueDelegate>(funcPtr);
@@ -983,13 +983,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetAstKindDelegate(IntPtr c, IntPtr a);
+    private delegate AstKind GetAstKindDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
     /// Return the kind of the given AST.
     /// </summary>
     [Z3Function("Z3_get_ast_kind")]
-    internal int GetAstKind(IntPtr c, IntPtr a)
+    internal AstKind GetAstKind(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_ast_kind");
         var func = Marshal.GetDelegateForFunctionPointer<GetAstKindDelegate>(funcPtr);

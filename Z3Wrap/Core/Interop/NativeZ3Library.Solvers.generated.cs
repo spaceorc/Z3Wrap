@@ -704,10 +704,10 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool SolverNextSplitDelegate(IntPtr c, IntPtr cb, IntPtr t, uint idx, int phase);
+    private delegate bool SolverNextSplitDelegate(IntPtr c, IntPtr cb, IntPtr t, uint idx, Lbool phase);
 
     [Z3Function("Z3_solver_next_split")]
-    internal bool SolverNextSplit(IntPtr c, IntPtr cb, IntPtr t, uint idx, int phase)
+    internal bool SolverNextSplit(IntPtr c, IntPtr cb, IntPtr t, uint idx, Lbool phase)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_next_split");
         var func = Marshal.GetDelegateForFunctionPointer<SolverNextSplitDelegate>(funcPtr);
@@ -797,7 +797,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int SolverCheckDelegate(IntPtr c, IntPtr s);
+    private delegate Lbool SolverCheckDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
     /// Check whether the assertions in a given solver are consistent or not.
@@ -813,7 +813,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <seealso cref="SolverCheckAssumptions"/>
     [Z3Function("Z3_solver_check")]
-    internal int SolverCheck(IntPtr c, IntPtr s)
+    internal Lbool SolverCheck(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check");
         var func = Marshal.GetDelegateForFunctionPointer<SolverCheckDelegate>(funcPtr);
@@ -821,7 +821,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int SolverCheckAssumptionsDelegate(IntPtr c, IntPtr s, uint numAssumptions, IntPtr[] assumptions);
+    private delegate Lbool SolverCheckAssumptionsDelegate(IntPtr c, IntPtr s, uint numAssumptions, IntPtr[] assumptions);
 
     /// <summary>
     /// Check whether the assertions in the given solver and
@@ -831,7 +831,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <seealso cref="SolverCheck"/>
     [Z3Function("Z3_solver_check_assumptions")]
-    internal int SolverCheckAssumptions(IntPtr c, IntPtr s, uint numAssumptions, IntPtr[] assumptions)
+    internal Lbool SolverCheckAssumptions(IntPtr c, IntPtr s, uint numAssumptions, IntPtr[] assumptions)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check_assumptions");
         var func = Marshal.GetDelegateForFunctionPointer<SolverCheckAssumptionsDelegate>(funcPtr);
@@ -839,7 +839,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetImpliedEqualitiesDelegate(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds);
+    private delegate Lbool GetImpliedEqualitiesDelegate(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds);
 
     /// <summary>
     /// Retrieve congruence class representatives for terms.
@@ -856,7 +856,7 @@ internal sealed partial class NativeZ3Library
     /// The function return Z3_L_FALSE if the current assertions are not satisfiable.
     /// </summary>
     [Z3Function("Z3_get_implied_equalities")]
-    internal int GetImpliedEqualities(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds)
+    internal Lbool GetImpliedEqualities(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds)
     {
         var funcPtr = GetFunctionPointer("Z3_get_implied_equalities");
         var func = Marshal.GetDelegateForFunctionPointer<GetImpliedEqualitiesDelegate>(funcPtr);
@@ -864,13 +864,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int SolverGetConsequencesDelegate(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences);
+    private delegate Lbool SolverGetConsequencesDelegate(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences);
 
     /// <summary>
     /// retrieve consequences from solver that determine values of the supplied function symbols.
     /// </summary>
     [Z3Function("Z3_solver_get_consequences")]
-    internal int SolverGetConsequences(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences)
+    internal Lbool SolverGetConsequences(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_consequences");
         var func = Marshal.GetDelegateForFunctionPointer<SolverGetConsequencesDelegate>(funcPtr);
