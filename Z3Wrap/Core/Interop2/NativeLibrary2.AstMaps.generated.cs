@@ -5,135 +5,163 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsAstMaps(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ast_map");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_contains");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_find");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_insert");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_erase");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_reset");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_keys");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_map_to_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_ast_mapDelegate(IntPtr c);
+    private delegate IntPtr MkAstMapDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_ast_map(IntPtr c)
+    /// <summary>
+    /// Return an empty mapping from AST to AST
+    /// </summary>
+    [Z3Function("Z3_mk_ast_map")]
+    internal IntPtr MkAstMap(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ast_map");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_ast_mapDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAstMapDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_map_inc_refDelegate(IntPtr c, IntPtr m);
+    private delegate void AstMapIncRefDelegate(IntPtr c, IntPtr m);
 
-    internal void Z3_ast_map_inc_ref(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Increment the reference counter of the given AST map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_inc_ref")]
+    internal void AstMapIncRef(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapIncRefDelegate>(funcPtr);
         func(c, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_map_dec_refDelegate(IntPtr c, IntPtr m);
+    private delegate void AstMapDecRefDelegate(IntPtr c, IntPtr m);
 
-    internal void Z3_ast_map_dec_ref(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Decrement the reference counter of the given AST map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_dec_ref")]
+    internal void AstMapDecRef(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapDecRefDelegate>(funcPtr);
         func(c, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool ast_map_containsDelegate(IntPtr c, IntPtr m, IntPtr k);
+    private delegate bool AstMapContainsDelegate(IntPtr c, IntPtr m, IntPtr k);
 
-    internal bool Z3_ast_map_contains(IntPtr c, IntPtr m, IntPtr k)
+    /// <summary>
+    /// Return true if the map
+    /// </summary>
+    [Z3Function("Z3_ast_map_contains")]
+    internal bool AstMapContains(IntPtr c, IntPtr m, IntPtr k)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_contains");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_containsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapContainsDelegate>(funcPtr);
         return func(c, m, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_map_findDelegate(IntPtr c, IntPtr m, IntPtr k);
+    private delegate IntPtr AstMapFindDelegate(IntPtr c, IntPtr m, IntPtr k);
 
-    internal IntPtr Z3_ast_map_find(IntPtr c, IntPtr m, IntPtr k)
+    /// <summary>
+    /// Return the value associated with the key
+    /// </summary>
+    [Z3Function("Z3_ast_map_find")]
+    internal IntPtr AstMapFind(IntPtr c, IntPtr m, IntPtr k)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_find");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_findDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapFindDelegate>(funcPtr);
         return func(c, m, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_map_insertDelegate(IntPtr c, IntPtr m, IntPtr k, IntPtr v);
+    private delegate void AstMapInsertDelegate(IntPtr c, IntPtr m, IntPtr k, IntPtr v);
 
-    internal void Z3_ast_map_insert(IntPtr c, IntPtr m, IntPtr k, IntPtr v)
+    /// <summary>
+    /// Store/Replace a new key, value pair in the given map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_insert")]
+    internal void AstMapInsert(IntPtr c, IntPtr m, IntPtr k, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_insert");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_insertDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapInsertDelegate>(funcPtr);
         func(c, m, k, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_map_eraseDelegate(IntPtr c, IntPtr m, IntPtr k);
+    private delegate void AstMapEraseDelegate(IntPtr c, IntPtr m, IntPtr k);
 
-    internal void Z3_ast_map_erase(IntPtr c, IntPtr m, IntPtr k)
+    /// <summary>
+    /// Erase a key from the map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_erase")]
+    internal void AstMapErase(IntPtr c, IntPtr m, IntPtr k)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_erase");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_eraseDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapEraseDelegate>(funcPtr);
         func(c, m, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_map_resetDelegate(IntPtr c, IntPtr m);
+    private delegate void AstMapResetDelegate(IntPtr c, IntPtr m);
 
-    internal void Z3_ast_map_reset(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Remove all keys from the given map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_reset")]
+    internal void AstMapReset(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_reset");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_resetDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapResetDelegate>(funcPtr);
         func(c, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint ast_map_sizeDelegate(IntPtr c, IntPtr m);
+    private delegate uint AstMapSizeDelegate(IntPtr c, IntPtr m);
 
-    internal uint Z3_ast_map_size(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Return the size of the given map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_size")]
+    internal uint AstMapSize(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_size");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapSizeDelegate>(funcPtr);
         return func(c, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_map_keysDelegate(IntPtr c, IntPtr m);
+    private delegate IntPtr AstMapKeysDelegate(IntPtr c, IntPtr m);
 
-    internal IntPtr Z3_ast_map_keys(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Return the keys stored in the given map.
+    /// </summary>
+    [Z3Function("Z3_ast_map_keys")]
+    internal IntPtr AstMapKeys(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_keys");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_keysDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapKeysDelegate>(funcPtr);
         return func(c, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_map_to_stringDelegate(IntPtr c, IntPtr m);
+    private delegate IntPtr AstMapToStringDelegate(IntPtr c, IntPtr m);
 
-    internal IntPtr Z3_ast_map_to_string(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Convert the given map into a string.
+    /// </summary>
+    [Z3Function("Z3_ast_map_to_string")]
+    internal IntPtr AstMapToString(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_map_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_map_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstMapToStringDelegate>(funcPtr);
         return func(c, m);
     }
 

@@ -5,223 +5,275 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsZ3SpecificFloatingPointExtensions(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_ebits");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_sbits");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_nan");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_inf");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_zero");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_normal");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_subnormal");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_positive");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_is_numeral_negative");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_sign_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_significand_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_sign");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_significand_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_significand_uint64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_exponent_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_exponent_int64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_fpa_get_numeral_exponent_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_ieee_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_int_real");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint fpa_get_ebitsDelegate(IntPtr c, IntPtr s);
+    private delegate uint FpaGetEbitsDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_fpa_get_ebits(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieves the number of bits reserved for the exponent in a FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_ebits")]
+    internal uint FpaGetEbits(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_ebits");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_ebitsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetEbitsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint fpa_get_sbitsDelegate(IntPtr c, IntPtr s);
+    private delegate uint FpaGetSbitsDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_fpa_get_sbits(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieves the number of bits reserved for the significand in a FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_sbits")]
+    internal uint FpaGetSbits(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_sbits");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_sbitsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetSbitsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_nanDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralNanDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_nan(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is a NaN.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_nan")]
+    internal bool FpaIsNumeralNan(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_nan");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_nanDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralNanDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_infDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralInfDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_inf(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is a +oo or -oo.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_inf")]
+    internal bool FpaIsNumeralInf(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_inf");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_infDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralInfDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_zeroDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralZeroDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_zero(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is +zero or -zero.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_zero")]
+    internal bool FpaIsNumeralZero(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_zero");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_zeroDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralZeroDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_normalDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralNormalDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_normal(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is normal.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_normal")]
+    internal bool FpaIsNumeralNormal(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_normal");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_normalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralNormalDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_subnormalDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralSubnormalDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_subnormal(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is subnormal.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_subnormal")]
+    internal bool FpaIsNumeralSubnormal(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_subnormal");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_subnormalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralSubnormalDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_positiveDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralPositiveDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_positive(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is positive.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_positive")]
+    internal bool FpaIsNumeralPositive(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_positive");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_positiveDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralPositiveDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_is_numeral_negativeDelegate(IntPtr c, IntPtr t);
+    private delegate bool FpaIsNumeralNegativeDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_fpa_is_numeral_negative(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Checks whether a given floating-point numeral is negative.
+    /// </summary>
+    [Z3Function("Z3_fpa_is_numeral_negative")]
+    internal bool FpaIsNumeralNegative(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_is_numeral_negative");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_is_numeral_negativeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaIsNumeralNegativeDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr fpa_get_numeral_sign_bvDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr FpaGetNumeralSignBvDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_fpa_get_numeral_sign_bv(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Retrieves the sign of a floating-point literal as a bit-vector expression.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_sign_bv")]
+    internal IntPtr FpaGetNumeralSignBv(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_sign_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_sign_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignBvDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr fpa_get_numeral_significand_bvDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr FpaGetNumeralSignificandBvDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_fpa_get_numeral_significand_bv(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Retrieves the significand of a floating-point literal as a bit-vector expression.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_significand_bv")]
+    internal IntPtr FpaGetNumeralSignificandBv(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_significand_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_significand_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandBvDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_get_numeral_signDelegate(IntPtr c, IntPtr t, IntPtr sgn);
+    private delegate bool FpaGetNumeralSignDelegate(IntPtr c, IntPtr t, IntPtr sgn);
 
-    internal bool Z3_fpa_get_numeral_sign(IntPtr c, IntPtr t, IntPtr sgn)
+    /// <summary>
+    /// Retrieves the sign of a floating-point literal.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_sign")]
+    internal bool FpaGetNumeralSign(IntPtr c, IntPtr t, IntPtr sgn)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_sign");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_signDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignDelegate>(funcPtr);
         return func(c, t, sgn);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr fpa_get_numeral_significand_stringDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr FpaGetNumeralSignificandStringDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_fpa_get_numeral_significand_string(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the significand value of a floating-point numeral as a string.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_significand_string")]
+    internal IntPtr FpaGetNumeralSignificandString(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_significand_string");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_significand_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandStringDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_get_numeral_significand_uint64Delegate(IntPtr c, IntPtr t, IntPtr n);
+    private delegate bool FpaGetNumeralSignificandUint64Delegate(IntPtr c, IntPtr t, IntPtr n);
 
-    internal bool Z3_fpa_get_numeral_significand_uint64(IntPtr c, IntPtr t, IntPtr n)
+    /// <summary>
+    /// Return the significand value of a floating-point numeral as a uint64.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_significand_uint64")]
+    internal bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, IntPtr n)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_significand_uint64");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_significand_uint64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandUint64Delegate>(funcPtr);
         return func(c, t, n);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr fpa_get_numeral_exponent_stringDelegate(IntPtr c, IntPtr t, bool biased);
+    private delegate IntPtr FpaGetNumeralExponentStringDelegate(IntPtr c, IntPtr t, bool biased);
 
-    internal IntPtr Z3_fpa_get_numeral_exponent_string(IntPtr c, IntPtr t, bool biased)
+    /// <summary>
+    /// Return the exponent value of a floating-point numeral as a string.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_exponent_string")]
+    internal IntPtr FpaGetNumeralExponentString(IntPtr c, IntPtr t, bool biased)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_exponent_string");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_exponent_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralExponentStringDelegate>(funcPtr);
         return func(c, t, biased);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool fpa_get_numeral_exponent_int64Delegate(IntPtr c, IntPtr t, IntPtr n, bool biased);
+    private delegate bool FpaGetNumeralExponentInt64Delegate(IntPtr c, IntPtr t, IntPtr n, bool biased);
 
-    internal bool Z3_fpa_get_numeral_exponent_int64(IntPtr c, IntPtr t, IntPtr n, bool biased)
+    /// <summary>
+    /// Return the exponent value of a floating-point numeral as a signed 64-bit integer
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_exponent_int64")]
+    internal bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, IntPtr n, bool biased)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_exponent_int64");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_exponent_int64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralExponentInt64Delegate>(funcPtr);
         return func(c, t, n, biased);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr fpa_get_numeral_exponent_bvDelegate(IntPtr c, IntPtr t, bool biased);
+    private delegate IntPtr FpaGetNumeralExponentBvDelegate(IntPtr c, IntPtr t, bool biased);
 
-    internal IntPtr Z3_fpa_get_numeral_exponent_bv(IntPtr c, IntPtr t, bool biased)
+    /// <summary>
+    /// Retrieves the exponent of a floating-point literal as a bit-vector expression.
+    /// </summary>
+    [Z3Function("Z3_fpa_get_numeral_exponent_bv")]
+    internal IntPtr FpaGetNumeralExponentBv(IntPtr c, IntPtr t, bool biased)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_exponent_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<fpa_get_numeral_exponent_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralExponentBvDelegate>(funcPtr);
         return func(c, t, biased);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_ieee_bvDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaToIeeeBvDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_to_ieee_bv(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Conversion of a floating-point term into a bit-vector term in IEEE 754-2008 format.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_ieee_bv")]
+    internal IntPtr MkFpaToIeeeBv(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_ieee_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_ieee_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToIeeeBvDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_fp_int_realDelegate(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s);
+    private delegate IntPtr MkFpaToFpIntRealDelegate(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_to_fp_int_real(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s)
+    /// <summary>
+    /// Conversion of a real-sorted significand and an integer-sorted exponent into a term of FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_fp_int_real")]
+    internal IntPtr MkFpaToFpIntReal(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_int_real");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_fp_int_realDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpIntRealDelegate>(funcPtr);
         return func(c, rm, exp, sig, s);
     }
 

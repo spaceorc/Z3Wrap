@@ -9,6 +9,18 @@ internal sealed partial class NativeLibrary2 : IDisposable
     private readonly LoadedLibrary loadedLibrary;
     private bool disposed;
 
+    static NativeLibrary2()
+    {
+        // Discover all Z3 functions via reflection
+        var methods = typeof(NativeLibrary2)
+            .GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .Where(m => m.GetCustomAttributes(typeof(Z3FunctionAttribute), false).Length > 0);
+
+        allFunctions = methods
+            .Select(m => ((Z3FunctionAttribute)m.GetCustomAttributes(typeof(Z3FunctionAttribute), false)[0]).Name)
+            .ToArray();
+    }
+
     private NativeLibrary2(string libraryPath, LoadedLibrary loadedLibrary)
     {
         LibraryPath = libraryPath;
@@ -84,11 +96,14 @@ internal sealed partial class NativeLibrary2 : IDisposable
 
         try
         {
-            // TODO: Generated LoadFunctions calls will be inserted here by generator script
-            // Example:
-            // LoadFunctionsAlgebraicNumbers(handle, functionPointers);
-            // LoadFunctionsGlobalParameters(handle, functionPointers);
-            // ... etc
+            // Load all functions discovered via reflection
+            foreach (var functionName in allFunctions)
+            {
+                LoadFunctionOrNull(handle, functionPointers, functionName);
+            }
+
+            // Validate that all required core functions were loaded
+            ValidateRequiredFunctions(functionPointers);
 
             return new LoadedLibrary(functionPointers, handle);
         }
@@ -106,14 +121,78 @@ internal sealed partial class NativeLibrary2 : IDisposable
         }
     }
 
-    private static void LoadFunctionInternal(
-        IntPtr libraryHandle,
-        Dictionary<string, IntPtr> functionPointers,
-        string functionName
-    )
+    private static readonly string[] allFunctions;
+    
+    /// <summary>
+    /// Core Z3 functions that must be present in any compatible Z3 library.
+    /// These are validated after library loading to ensure basic functionality.
+    /// </summary>
+    private static readonly string[] requiredFunctions =
+    [
+        // Context management
+        "Z3_mk_context",
+        "Z3_mk_context_rc",
+        "Z3_del_context",
+        "Z3_inc_ref",
+        "Z3_dec_ref",
+
+        // Basic sorts
+        "Z3_mk_bool_sort",
+        "Z3_mk_int_sort",
+        "Z3_mk_real_sort",
+
+        // Basic expressions
+        "Z3_mk_true",
+        "Z3_mk_false",
+        "Z3_mk_eq",
+        "Z3_mk_not",
+        "Z3_mk_and",
+        "Z3_mk_or",
+
+        // Constants
+        "Z3_mk_const",
+        "Z3_mk_int_symbol",
+        "Z3_mk_string_symbol",
+
+        // Numerals
+        "Z3_mk_int",
+        "Z3_mk_int64",
+        "Z3_mk_unsigned_int",
+        "Z3_mk_unsigned_int64",
+
+        // Solver
+        "Z3_mk_solver",
+        "Z3_solver_inc_ref",
+        "Z3_solver_dec_ref",
+        "Z3_solver_assert",
+        "Z3_solver_check",
+        "Z3_solver_get_model",
+
+        // Model
+        "Z3_model_inc_ref",
+        "Z3_model_dec_ref",
+        "Z3_model_eval",
+
+        // AST operations
+        "Z3_ast_to_string",
+        "Z3_get_sort",
+    ];
+
+    private static void ValidateRequiredFunctions(Dictionary<string, IntPtr> functionPointers)
     {
-        var functionPtr = NativeLibrary.GetExport(libraryHandle, functionName);
-        functionPointers[functionName] = functionPtr;
+        var missingFunctions = requiredFunctions
+            .Where(name => !functionPointers.TryGetValue(name, out var ptr) || ptr == IntPtr.Zero)
+            .ToList();
+
+        if (missingFunctions.Count > 0)
+        {
+            throw new DllNotFoundException(
+                $"Incompatible Z3 library: missing {missingFunctions.Count} required function(s).\n"
+                    + "Missing functions:\n"
+                    + string.Join("\n", missingFunctions.Select(f => $"  - {f}"))
+                    + "\n\nPlease ensure you have a compatible version of Z3 installed (4.8.0 or newer recommended)."
+            );
+        }
     }
 
     private static void LoadFunctionOrNull(
@@ -206,4 +285,9 @@ internal sealed partial class NativeLibrary2 : IDisposable
     }
 
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
+    
+    private class Z3FunctionAttribute(string name) : Attribute
+    {
+        public string Name { get; } = name;
+    }
 }

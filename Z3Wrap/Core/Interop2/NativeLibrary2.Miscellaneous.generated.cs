@@ -5,80 +5,93 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsMiscellaneous(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_version");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_full_version");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_enable_trace");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_disable_trace");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_reset_memory");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_finalize_memory");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void get_versionDelegate(IntPtr major, IntPtr minor, IntPtr build_number, IntPtr revision_number);
+    private delegate void GetVersionDelegate(IntPtr major, IntPtr minor, IntPtr build_number, IntPtr revision_number);
 
-    internal void Z3_get_version(IntPtr major, IntPtr minor, IntPtr build_number, IntPtr revision_number)
+    /// <summary>
+    /// Return Z3 version number information.
+    /// </summary>
+    [Z3Function("Z3_get_version")]
+    internal void GetVersion(IntPtr major, IntPtr minor, IntPtr build_number, IntPtr revision_number)
     {
         var funcPtr = GetFunctionPointer("Z3_get_version");
-        var func = Marshal.GetDelegateForFunctionPointer<get_versionDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetVersionDelegate>(funcPtr);
         func(major, minor, build_number, revision_number);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_full_versionDelegate();
+    private delegate IntPtr GetFullVersionDelegate();
 
-    internal IntPtr Z3_get_full_version()
+    /// <summary>
+    /// Return a string that fully describes the version of Z3 in use.
+    /// </summary>
+    [Z3Function("Z3_get_full_version")]
+    internal IntPtr GetFullVersion()
     {
         var funcPtr = GetFunctionPointer("Z3_get_full_version");
-        var func = Marshal.GetDelegateForFunctionPointer<get_full_versionDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetFullVersionDelegate>(funcPtr);
         return func();
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void enable_traceDelegate(IntPtr tag);
+    private delegate void EnableTraceDelegate(IntPtr tag);
 
-    internal void Z3_enable_trace(IntPtr tag)
+    /// <summary>
+    /// Enable tracing messages tagged as
+    /// </summary>
+    [Z3Function("Z3_enable_trace")]
+    internal void EnableTrace(IntPtr tag)
     {
         var funcPtr = GetFunctionPointer("Z3_enable_trace");
-        var func = Marshal.GetDelegateForFunctionPointer<enable_traceDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<EnableTraceDelegate>(funcPtr);
         func(tag);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void disable_traceDelegate(IntPtr tag);
+    private delegate void DisableTraceDelegate(IntPtr tag);
 
-    internal void Z3_disable_trace(IntPtr tag)
+    /// <summary>
+    /// Disable tracing messages tagged as
+    /// </summary>
+    [Z3Function("Z3_disable_trace")]
+    internal void DisableTrace(IntPtr tag)
     {
         var funcPtr = GetFunctionPointer("Z3_disable_trace");
-        var func = Marshal.GetDelegateForFunctionPointer<disable_traceDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DisableTraceDelegate>(funcPtr);
         func(tag);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void reset_memoryDelegate();
+    private delegate void ResetMemoryDelegate();
 
-    internal void Z3_reset_memory()
+    /// <summary>
+    /// Reset all allocated resources.
+    /// </summary>
+    [Z3Function("Z3_reset_memory")]
+    internal void ResetMemory()
     {
         var funcPtr = GetFunctionPointer("Z3_reset_memory");
-        var func = Marshal.GetDelegateForFunctionPointer<reset_memoryDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ResetMemoryDelegate>(funcPtr);
         func();
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void finalize_memoryDelegate();
+    private delegate void FinalizeMemoryDelegate();
 
-    internal void Z3_finalize_memory()
+    /// <summary>
+    /// Destroy all allocated resources.
+    /// </summary>
+    [Z3Function("Z3_finalize_memory")]
+    internal void FinalizeMemory()
     {
         var funcPtr = GetFunctionPointer("Z3_finalize_memory");
-        var func = Marshal.GetDelegateForFunctionPointer<finalize_memoryDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FinalizeMemoryDelegate>(funcPtr);
         func();
     }
 

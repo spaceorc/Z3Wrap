@@ -5,58 +5,65 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsErrorHandling(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_error_code");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_set_error_handler");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_set_error");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_error_msg");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_error_codeDelegate(IntPtr c);
+    private delegate int GetErrorCodeDelegate(IntPtr c);
 
-    internal int Z3_get_error_code(IntPtr c)
+    /// <summary>
+    /// Return the error code for the last API call.
+    /// </summary>
+    [Z3Function("Z3_get_error_code")]
+    internal int GetErrorCode(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_code");
-        var func = Marshal.GetDelegateForFunctionPointer<get_error_codeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetErrorCodeDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void set_error_handlerDelegate(IntPtr c, IntPtr h);
+    private delegate void SetErrorHandlerDelegate(IntPtr c, IntPtr h);
 
-    internal void Z3_set_error_handler(IntPtr c, IntPtr h)
+    /// <summary>
+    /// Register a Z3 error handler.
+    /// </summary>
+    [Z3Function("Z3_set_error_handler")]
+    internal void SetErrorHandler(IntPtr c, IntPtr h)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error_handler");
-        var func = Marshal.GetDelegateForFunctionPointer<set_error_handlerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SetErrorHandlerDelegate>(funcPtr);
         func(c, h);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void set_errorDelegate(IntPtr c, int e);
+    private delegate void SetErrorDelegate(IntPtr c, int e);
 
-    internal void Z3_set_error(IntPtr c, int e)
+    /// <summary>
+    /// Set an error.
+    /// </summary>
+    [Z3Function("Z3_set_error")]
+    internal void SetError(IntPtr c, int e)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error");
-        var func = Marshal.GetDelegateForFunctionPointer<set_errorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SetErrorDelegate>(funcPtr);
         func(c, e);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_error_msgDelegate(IntPtr c, int err);
+    private delegate IntPtr GetErrorMsgDelegate(IntPtr c, int err);
 
-    internal IntPtr Z3_get_error_msg(IntPtr c, int err)
+    /// <summary>
+    /// Return a string describing the given error code.
+    /// </summary>
+    [Z3Function("Z3_get_error_msg")]
+    internal IntPtr GetErrorMsg(IntPtr c, int err)
     {
         var funcPtr = GetFunctionPointer("Z3_get_error_msg");
-        var func = Marshal.GetDelegateForFunctionPointer<get_error_msgDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetErrorMsgDelegate>(funcPtr);
         return func(c, err);
     }
 

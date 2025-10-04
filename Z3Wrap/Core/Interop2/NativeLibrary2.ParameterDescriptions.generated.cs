@@ -5,91 +5,107 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsParameterDescriptions(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_get_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_get_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_get_documentation");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_param_descrs_to_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void param_descrs_inc_refDelegate(IntPtr c, IntPtr p);
+    private delegate void ParamDescrsIncRefDelegate(IntPtr c, IntPtr p);
 
-    internal void Z3_param_descrs_inc_ref(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Increment the reference counter of the given parameter description set.
+    /// </summary>
+    [Z3Function("Z3_param_descrs_inc_ref")]
+    internal void ParamDescrsIncRef(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsIncRefDelegate>(funcPtr);
         func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void param_descrs_dec_refDelegate(IntPtr c, IntPtr p);
+    private delegate void ParamDescrsDecRefDelegate(IntPtr c, IntPtr p);
 
-    internal void Z3_param_descrs_dec_ref(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Decrement the reference counter of the given parameter description set.
+    /// </summary>
+    [Z3Function("Z3_param_descrs_dec_ref")]
+    internal void ParamDescrsDecRef(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsDecRefDelegate>(funcPtr);
         func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int param_descrs_get_kindDelegate(IntPtr c, IntPtr p, IntPtr n);
+    private delegate int ParamDescrsGetKindDelegate(IntPtr c, IntPtr p, IntPtr n);
 
-    internal int Z3_param_descrs_get_kind(IntPtr c, IntPtr p, IntPtr n)
+    /// <summary>
+    /// Return the kind associated with the given parameter name
+    /// </summary>
+    [Z3Function("Z3_param_descrs_get_kind")]
+    internal int ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_get_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_get_kindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetKindDelegate>(funcPtr);
         return func(c, p, n);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint param_descrs_sizeDelegate(IntPtr c, IntPtr p);
+    private delegate uint ParamDescrsSizeDelegate(IntPtr c, IntPtr p);
 
-    internal uint Z3_param_descrs_size(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Return the number of parameters in the given parameter description set.
+    /// </summary>
+    [Z3Function("Z3_param_descrs_size")]
+    internal uint ParamDescrsSize(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_size");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsSizeDelegate>(funcPtr);
         return func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr param_descrs_get_nameDelegate(IntPtr c, IntPtr p, uint i);
+    private delegate IntPtr ParamDescrsGetNameDelegate(IntPtr c, IntPtr p, uint i);
 
-    internal IntPtr Z3_param_descrs_get_name(IntPtr c, IntPtr p, uint i)
+    /// <summary>
+    /// Return the name of the parameter at given index
+    /// </summary>
+    [Z3Function("Z3_param_descrs_get_name")]
+    internal IntPtr ParamDescrsGetName(IntPtr c, IntPtr p, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_get_name");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_get_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetNameDelegate>(funcPtr);
         return func(c, p, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr param_descrs_get_documentationDelegate(IntPtr c, IntPtr p, IntPtr s);
+    private delegate IntPtr ParamDescrsGetDocumentationDelegate(IntPtr c, IntPtr p, IntPtr s);
 
-    internal IntPtr Z3_param_descrs_get_documentation(IntPtr c, IntPtr p, IntPtr s)
+    /// <summary>
+    /// Retrieve documentation string corresponding to parameter name
+    /// </summary>
+    [Z3Function("Z3_param_descrs_get_documentation")]
+    internal IntPtr ParamDescrsGetDocumentation(IntPtr c, IntPtr p, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_get_documentation");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_get_documentationDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsGetDocumentationDelegate>(funcPtr);
         return func(c, p, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr param_descrs_to_stringDelegate(IntPtr c, IntPtr p);
+    private delegate IntPtr ParamDescrsToStringDelegate(IntPtr c, IntPtr p);
 
-    internal IntPtr Z3_param_descrs_to_string(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set.
+    /// </summary>
+    [Z3Function("Z3_param_descrs_to_string")]
+    internal IntPtr ParamDescrsToString(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_param_descrs_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<param_descrs_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamDescrsToStringDelegate>(funcPtr);
         return func(c, p);
     }
 

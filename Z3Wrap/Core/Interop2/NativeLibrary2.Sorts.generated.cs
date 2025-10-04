@@ -5,245 +5,303 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsSorts(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_uninterpreted_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_type_variable");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bool_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_finite_domain_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_sort_n");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_tuple_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_enumeration_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_list_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_constructor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_constructor_num_fields");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_del_constructor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_datatype");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_datatype_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_constructor_list");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_del_constructor_list");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_datatypes");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_query_constructor");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_uninterpreted_sortDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkUninterpretedSortDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_uninterpreted_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a free (uninterpreted) type using the given name (symbol).
+    /// </summary>
+    [Z3Function("Z3_mk_uninterpreted_sort")]
+    internal IntPtr MkUninterpretedSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_uninterpreted_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_uninterpreted_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkUninterpretedSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_type_variableDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkTypeVariableDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_type_variable(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a type variable.
+    /// </summary>
+    [Z3Function("Z3_mk_type_variable")]
+    internal IntPtr MkTypeVariable(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_type_variable");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_type_variableDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkTypeVariableDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bool_sortDelegate(IntPtr c);
+    private delegate IntPtr MkBoolSortDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_bool_sort(IntPtr c)
+    /// <summary>
+    /// Create the Boolean type.
+    /// </summary>
+    [Z3Function("Z3_mk_bool_sort")]
+    internal IntPtr MkBoolSort(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bool_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bool_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBoolSortDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_int_sortDelegate(IntPtr c);
+    private delegate IntPtr MkIntSortDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_int_sort(IntPtr c)
+    /// <summary>
+    /// Create the integer type.
+    /// </summary>
+    [Z3Function("Z3_mk_int_sort")]
+    internal IntPtr MkIntSort(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_int_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIntSortDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_real_sortDelegate(IntPtr c);
+    private delegate IntPtr MkRealSortDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_real_sort(IntPtr c)
+    /// <summary>
+    /// Create the real type.
+    /// </summary>
+    [Z3Function("Z3_mk_real_sort")]
+    internal IntPtr MkRealSort(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_real_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRealSortDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bv_sortDelegate(IntPtr c, uint sz);
+    private delegate IntPtr MkBvSortDelegate(IntPtr c, uint sz);
 
-    internal IntPtr Z3_mk_bv_sort(IntPtr c, uint sz)
+    /// <summary>
+    /// Create a bit-vector type of the given size.
+    /// </summary>
+    [Z3Function("Z3_mk_bv_sort")]
+    internal IntPtr MkBvSort(IntPtr c, uint sz)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bv_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvSortDelegate>(funcPtr);
         return func(c, sz);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_finite_domain_sortDelegate(IntPtr c, IntPtr name, ulong size);
+    private delegate IntPtr MkFiniteDomainSortDelegate(IntPtr c, IntPtr name, ulong size);
 
-    internal IntPtr Z3_mk_finite_domain_sort(IntPtr c, IntPtr name, ulong size)
+    /// <summary>
+    /// Create a named finite domain sort.
+    /// </summary>
+    [Z3Function("Z3_mk_finite_domain_sort")]
+    internal IntPtr MkFiniteDomainSort(IntPtr c, IntPtr name, ulong size)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_finite_domain_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_finite_domain_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFiniteDomainSortDelegate>(funcPtr);
         return func(c, name, size);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_array_sortDelegate(IntPtr c, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkArraySortDelegate(IntPtr c, IntPtr domain, IntPtr range);
 
-    internal IntPtr Z3_mk_array_sort(IntPtr c, IntPtr domain, IntPtr range)
+    /// <summary>
+    /// Create an array type.
+    /// </summary>
+    [Z3Function("Z3_mk_array_sort")]
+    internal IntPtr MkArraySort(IntPtr c, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_array_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortDelegate>(funcPtr);
         return func(c, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_array_sort_nDelegate(IntPtr c, uint n, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkArraySortNDelegate(IntPtr c, uint n, IntPtr domain, IntPtr range);
 
-    internal IntPtr Z3_mk_array_sort_n(IntPtr c, uint n, IntPtr domain, IntPtr range)
+    /// <summary>
+    /// Create an array type with N arguments
+    /// </summary>
+    [Z3Function("Z3_mk_array_sort_n")]
+    internal IntPtr MkArraySortN(IntPtr c, uint n, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort_n");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_array_sort_nDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkArraySortNDelegate>(funcPtr);
         return func(c, n, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_tuple_sortDelegate(IntPtr c, IntPtr mk_tuple_name, uint num_fields, IntPtr field_names, IntPtr field_sorts, IntPtr mk_tuple_decl, IntPtr proj_decl);
+    private delegate IntPtr MkTupleSortDelegate(IntPtr c, IntPtr mk_tuple_name, uint num_fields, IntPtr field_names, IntPtr field_sorts, IntPtr mk_tuple_decl, IntPtr proj_decl);
 
-    internal IntPtr Z3_mk_tuple_sort(IntPtr c, IntPtr mk_tuple_name, uint num_fields, IntPtr field_names, IntPtr field_sorts, IntPtr mk_tuple_decl, IntPtr proj_decl)
+    /// <summary>
+    /// Create a tuple type.
+    /// </summary>
+    [Z3Function("Z3_mk_tuple_sort")]
+    internal IntPtr MkTupleSort(IntPtr c, IntPtr mk_tuple_name, uint num_fields, IntPtr field_names, IntPtr field_sorts, IntPtr mk_tuple_decl, IntPtr proj_decl)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_tuple_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_tuple_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkTupleSortDelegate>(funcPtr);
         return func(c, mk_tuple_name, num_fields, field_names, field_sorts, mk_tuple_decl, proj_decl);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_enumeration_sortDelegate(IntPtr c, IntPtr name, uint n, IntPtr enum_names, IntPtr enum_consts, IntPtr enum_testers);
+    private delegate IntPtr MkEnumerationSortDelegate(IntPtr c, IntPtr name, uint n, IntPtr enum_names, IntPtr enum_consts, IntPtr enum_testers);
 
-    internal IntPtr Z3_mk_enumeration_sort(IntPtr c, IntPtr name, uint n, IntPtr enum_names, IntPtr enum_consts, IntPtr enum_testers)
+    /// <summary>
+    /// Create a enumeration sort.
+    /// </summary>
+    [Z3Function("Z3_mk_enumeration_sort")]
+    internal IntPtr MkEnumerationSort(IntPtr c, IntPtr name, uint n, IntPtr enum_names, IntPtr enum_consts, IntPtr enum_testers)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_enumeration_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_enumeration_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkEnumerationSortDelegate>(funcPtr);
         return func(c, name, n, enum_names, enum_consts, enum_testers);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_list_sortDelegate(IntPtr c, IntPtr name, IntPtr elem_sort, IntPtr nil_decl, IntPtr is_nil_decl, IntPtr cons_decl, IntPtr is_cons_decl, IntPtr head_decl, IntPtr tail_decl);
+    private delegate IntPtr MkListSortDelegate(IntPtr c, IntPtr name, IntPtr elem_sort, IntPtr nil_decl, IntPtr is_nil_decl, IntPtr cons_decl, IntPtr is_cons_decl, IntPtr head_decl, IntPtr tail_decl);
 
-    internal IntPtr Z3_mk_list_sort(IntPtr c, IntPtr name, IntPtr elem_sort, IntPtr nil_decl, IntPtr is_nil_decl, IntPtr cons_decl, IntPtr is_cons_decl, IntPtr head_decl, IntPtr tail_decl)
+    /// <summary>
+    /// Create a list sort
+    /// </summary>
+    [Z3Function("Z3_mk_list_sort")]
+    internal IntPtr MkListSort(IntPtr c, IntPtr name, IntPtr elem_sort, IntPtr nil_decl, IntPtr is_nil_decl, IntPtr cons_decl, IntPtr is_cons_decl, IntPtr head_decl, IntPtr tail_decl)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_list_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_list_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkListSortDelegate>(funcPtr);
         return func(c, name, elem_sort, nil_decl, is_nil_decl, cons_decl, is_cons_decl, head_decl, tail_decl);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_constructorDelegate(IntPtr c, IntPtr name, IntPtr recognizer, uint num_fields, IntPtr field_names, IntPtr sorts, uint sort_refs);
+    private delegate IntPtr MkConstructorDelegate(IntPtr c, IntPtr name, IntPtr recognizer, uint num_fields, IntPtr field_names, IntPtr sorts, uint sort_refs);
 
-    internal IntPtr Z3_mk_constructor(IntPtr c, IntPtr name, IntPtr recognizer, uint num_fields, IntPtr field_names, IntPtr sorts, uint sort_refs)
+    /// <summary>
+    /// Create a constructor.
+    /// </summary>
+    [Z3Function("Z3_mk_constructor")]
+    internal IntPtr MkConstructor(IntPtr c, IntPtr name, IntPtr recognizer, uint num_fields, IntPtr field_names, IntPtr sorts, uint sort_refs)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_constructor");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_constructorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConstructorDelegate>(funcPtr);
         return func(c, name, recognizer, num_fields, field_names, sorts, sort_refs);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint constructor_num_fieldsDelegate(IntPtr c, IntPtr constr);
+    private delegate uint ConstructorNumFieldsDelegate(IntPtr c, IntPtr constr);
 
-    internal uint Z3_constructor_num_fields(IntPtr c, IntPtr constr)
+    /// <summary>
+    /// Retrieve the number of fields of a constructor
+    /// </summary>
+    [Z3Function("Z3_constructor_num_fields")]
+    internal uint ConstructorNumFields(IntPtr c, IntPtr constr)
     {
         var funcPtr = GetFunctionPointer("Z3_constructor_num_fields");
-        var func = Marshal.GetDelegateForFunctionPointer<constructor_num_fieldsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ConstructorNumFieldsDelegate>(funcPtr);
         return func(c, constr);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void del_constructorDelegate(IntPtr c, IntPtr constr);
+    private delegate void DelConstructorDelegate(IntPtr c, IntPtr constr);
 
-    internal void Z3_del_constructor(IntPtr c, IntPtr constr)
+    /// <summary>
+    /// Reclaim memory allocated to constructor.
+    /// </summary>
+    [Z3Function("Z3_del_constructor")]
+    internal void DelConstructor(IntPtr c, IntPtr constr)
     {
         var funcPtr = GetFunctionPointer("Z3_del_constructor");
-        var func = Marshal.GetDelegateForFunctionPointer<del_constructorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DelConstructorDelegate>(funcPtr);
         func(c, constr);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_datatypeDelegate(IntPtr c, IntPtr name, uint num_constructors, IntPtr constructors);
+    private delegate IntPtr MkDatatypeDelegate(IntPtr c, IntPtr name, uint num_constructors, IntPtr constructors);
 
-    internal IntPtr Z3_mk_datatype(IntPtr c, IntPtr name, uint num_constructors, IntPtr constructors)
+    /// <summary>
+    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
+    /// </summary>
+    [Z3Function("Z3_mk_datatype")]
+    internal IntPtr MkDatatype(IntPtr c, IntPtr name, uint num_constructors, IntPtr constructors)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_datatype");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_datatypeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkDatatypeDelegate>(funcPtr);
         return func(c, name, num_constructors, constructors);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_datatype_sortDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr MkDatatypeSortDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_mk_datatype_sort(IntPtr c, IntPtr name)
+    /// <summary>
+    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
+    /// </summary>
+    [Z3Function("Z3_mk_datatype_sort")]
+    internal IntPtr MkDatatypeSort(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_datatype_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_datatype_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkDatatypeSortDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_constructor_listDelegate(IntPtr c, uint num_constructors, IntPtr constructors);
+    private delegate IntPtr MkConstructorListDelegate(IntPtr c, uint num_constructors, IntPtr constructors);
 
-    internal IntPtr Z3_mk_constructor_list(IntPtr c, uint num_constructors, IntPtr constructors)
+    /// <summary>
+    /// Create list of constructors.
+    /// </summary>
+    [Z3Function("Z3_mk_constructor_list")]
+    internal IntPtr MkConstructorList(IntPtr c, uint num_constructors, IntPtr constructors)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_constructor_list");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_constructor_listDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConstructorListDelegate>(funcPtr);
         return func(c, num_constructors, constructors);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void del_constructor_listDelegate(IntPtr c, IntPtr clist);
+    private delegate void DelConstructorListDelegate(IntPtr c, IntPtr clist);
 
-    internal void Z3_del_constructor_list(IntPtr c, IntPtr clist)
+    /// <summary>
+    /// Reclaim memory allocated for constructor list.
+    /// </summary>
+    [Z3Function("Z3_del_constructor_list")]
+    internal void DelConstructorList(IntPtr c, IntPtr clist)
     {
         var funcPtr = GetFunctionPointer("Z3_del_constructor_list");
-        var func = Marshal.GetDelegateForFunctionPointer<del_constructor_listDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DelConstructorListDelegate>(funcPtr);
         func(c, clist);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void mk_datatypesDelegate(IntPtr c, uint num_sorts, IntPtr sort_names, IntPtr sorts, IntPtr constructor_lists);
+    private delegate void MkDatatypesDelegate(IntPtr c, uint num_sorts, IntPtr sort_names, IntPtr sorts, IntPtr constructor_lists);
 
-    internal void Z3_mk_datatypes(IntPtr c, uint num_sorts, IntPtr sort_names, IntPtr sorts, IntPtr constructor_lists)
+    /// <summary>
+    /// Create mutually recursive datatypes.
+    /// </summary>
+    [Z3Function("Z3_mk_datatypes")]
+    internal void MkDatatypes(IntPtr c, uint num_sorts, IntPtr sort_names, IntPtr sorts, IntPtr constructor_lists)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_datatypes");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_datatypesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkDatatypesDelegate>(funcPtr);
         func(c, num_sorts, sort_names, sorts, constructor_lists);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void query_constructorDelegate(IntPtr c, IntPtr constr, uint num_fields, IntPtr constructor, IntPtr tester, IntPtr accessors);
+    private delegate void QueryConstructorDelegate(IntPtr c, IntPtr constr, uint num_fields, IntPtr constructor, IntPtr tester, IntPtr accessors);
 
-    internal void Z3_query_constructor(IntPtr c, IntPtr constr, uint num_fields, IntPtr constructor, IntPtr tester, IntPtr accessors)
+    /// <summary>
+    /// Query constructor for declared functions.
+    /// </summary>
+    [Z3Function("Z3_query_constructor")]
+    internal void QueryConstructor(IntPtr c, IntPtr constr, uint num_fields, IntPtr constructor, IntPtr tester, IntPtr accessors)
     {
         var funcPtr = GetFunctionPointer("Z3_query_constructor");
-        var func = Marshal.GetDelegateForFunctionPointer<query_constructorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<QueryConstructorDelegate>(funcPtr);
         func(c, constr, num_fields, constructor, tester, accessors);
     }
 

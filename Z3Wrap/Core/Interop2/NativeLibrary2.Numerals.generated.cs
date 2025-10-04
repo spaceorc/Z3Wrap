@@ -5,102 +5,121 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsNumerals(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_numeral");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real_int64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unsigned_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unsigned_int64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv_numeral");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_numeralDelegate(IntPtr c, IntPtr numeral, IntPtr ty);
+    private delegate IntPtr MkNumeralDelegate(IntPtr c, IntPtr numeral, IntPtr ty);
 
-    internal IntPtr Z3_mk_numeral(IntPtr c, IntPtr numeral, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of a given sort.
+    /// </summary>
+    [Z3Function("Z3_mk_numeral")]
+    internal IntPtr MkNumeral(IntPtr c, IntPtr numeral, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_numeral");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_numeralDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkNumeralDelegate>(funcPtr);
         return func(c, numeral, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_realDelegate(IntPtr c, int num, int den);
+    private delegate IntPtr MkRealDelegate(IntPtr c, int num, int den);
 
-    internal IntPtr Z3_mk_real(IntPtr c, int num, int den)
+    /// <summary>
+    /// Create a real from a fraction.
+    /// </summary>
+    [Z3Function("Z3_mk_real")]
+    internal IntPtr MkReal(IntPtr c, int num, int den)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_realDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRealDelegate>(funcPtr);
         return func(c, num, den);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_real_int64Delegate(IntPtr c, long num, long den);
+    private delegate IntPtr MkRealInt64Delegate(IntPtr c, long num, long den);
 
-    internal IntPtr Z3_mk_real_int64(IntPtr c, long num, long den)
+    /// <summary>
+    /// Create a real from a fraction of int64.
+    /// </summary>
+    [Z3Function("Z3_mk_real_int64")]
+    internal IntPtr MkRealInt64(IntPtr c, long num, long den)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real_int64");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_real_int64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRealInt64Delegate>(funcPtr);
         return func(c, num, den);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_intDelegate(IntPtr c, int v, IntPtr ty);
+    private delegate IntPtr MkIntDelegate(IntPtr c, int v, IntPtr ty);
 
-    internal IntPtr Z3_mk_int(IntPtr c, int v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of an int, bit-vector, or finite-domain sort.
+    /// </summary>
+    [Z3Function("Z3_mk_int")]
+    internal IntPtr MkInt(IntPtr c, int v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIntDelegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_unsigned_intDelegate(IntPtr c, uint v, IntPtr ty);
+    private delegate IntPtr MkUnsignedIntDelegate(IntPtr c, uint v, IntPtr ty);
 
-    internal IntPtr Z3_mk_unsigned_int(IntPtr c, uint v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of a int, bit-vector, or finite-domain sort.
+    /// </summary>
+    [Z3Function("Z3_mk_unsigned_int")]
+    internal IntPtr MkUnsignedInt(IntPtr c, uint v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unsigned_int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_unsigned_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkUnsignedIntDelegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_int64Delegate(IntPtr c, long v, IntPtr ty);
+    private delegate IntPtr MkInt64Delegate(IntPtr c, long v, IntPtr ty);
 
-    internal IntPtr Z3_mk_int64(IntPtr c, long v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of a int, bit-vector, or finite-domain sort.
+    /// </summary>
+    [Z3Function("Z3_mk_int64")]
+    internal IntPtr MkInt64(IntPtr c, long v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int64");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_int64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkInt64Delegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_unsigned_int64Delegate(IntPtr c, ulong v, IntPtr ty);
+    private delegate IntPtr MkUnsignedInt64Delegate(IntPtr c, ulong v, IntPtr ty);
 
-    internal IntPtr Z3_mk_unsigned_int64(IntPtr c, ulong v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of a int, bit-vector, or finite-domain sort.
+    /// </summary>
+    [Z3Function("Z3_mk_unsigned_int64")]
+    internal IntPtr MkUnsignedInt64(IntPtr c, ulong v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unsigned_int64");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_unsigned_int64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkUnsignedInt64Delegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bv_numeralDelegate(IntPtr c, uint sz, IntPtr bits);
+    private delegate IntPtr MkBvNumeralDelegate(IntPtr c, uint sz, IntPtr bits);
 
-    internal IntPtr Z3_mk_bv_numeral(IntPtr c, uint sz, IntPtr bits)
+    /// <summary>
+    /// create a bit-vector numeral from a vector of Booleans.
+    /// </summary>
+    [Z3Function("Z3_mk_bv_numeral")]
+    internal IntPtr MkBvNumeral(IntPtr c, uint sz, IntPtr bits)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv_numeral");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bv_numeralDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvNumeralDelegate>(funcPtr);
         return func(c, sz, bits);
     }
 

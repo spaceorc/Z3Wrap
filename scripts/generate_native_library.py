@@ -19,6 +19,7 @@ class FunctionSignature:
     name: str
     return_type: str
     parameters: List[Tuple[str, str]]  # List of (type, name) tuples
+    documentation: str = ""  # XML documentation comment
 
 
 @dataclass
@@ -167,6 +168,54 @@ def map_c_type_to_csharp(c_type: str) -> str:
     raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map.")
 
 
+def extract_function_documentation(header_path: Path, func_name: str) -> str:
+    """
+    Extract documentation comment for a function from the header file.
+    Returns XML documentation string or empty string if not found.
+    """
+    with open(header_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # Find the function declaration
+    pattern = rf'Z3_API\s+{re.escape(func_name)}\s*\('
+    match = re.search(pattern, content)
+
+    if not match:
+        return ""
+
+    # Find the comment block before the function (/** ... */)
+    # Look backwards from the function declaration
+    before_func = content[:match.start()]
+
+    # Find the last /** ... */ comment block before the function
+    comment_pattern = r'/\*\*\s*(.*?)\s*\*/'
+    comments = list(re.finditer(comment_pattern, before_func, re.DOTALL))
+
+    if not comments:
+        return ""
+
+    last_comment = comments[-1]
+    comment_text = last_comment.group(1)
+
+    # Extract \brief description
+    brief_match = re.search(r'\\brief\s+(.+?)(?=\\|\n\n|def_API|$)', comment_text, re.DOTALL)
+    brief = brief_match.group(1).strip() if brief_match else ""
+
+    # Clean up the brief text
+    brief = re.sub(r'\s+', ' ', brief)  # Normalize whitespace
+    brief = re.sub(r'\\c\s+(\w+)', r'\1', brief)  # Remove \c markers
+    brief = re.sub(r'\\ccode\{([^}]+)\}', r'\1', brief)  # Remove \ccode{...}
+
+    if not brief:
+        return ""
+
+    # Convert to C# XML documentation format
+    # Escape XML special characters
+    brief = brief.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+    return brief
+
+
 def parse_function_signature(header_path: Path, func_name: str) -> FunctionSignature:
     """
     Parse a function signature from the header file.
@@ -226,10 +275,14 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
 
             parameters.append((param_type, param_name))
 
+    # Extract documentation
+    documentation = extract_function_documentation(header_path, func_name)
+
     return FunctionSignature(
         name=func_name,
         return_type=return_type_c,
-        parameters=parameters
+        parameters=parameters,
+        documentation=documentation
     )
 
 
@@ -305,11 +358,30 @@ def analyze_headers(headers_dir: Path) -> List[HeaderGroup]:
 
 
 
+def generate_csharp_method_name(func_name: str) -> str:
+    """
+    Generate C# method name from Z3 function name.
+    Examples:
+    - Z3_mk_bvadd_no_overflow -> MkBvaddNoOverflow
+    - Z3_get_bv_sort_size -> GetBvSortSize
+    - Z3_mk_int -> MkInt
+    """
+    # Remove Z3_ prefix
+    name = func_name[3:] if func_name.startswith('Z3_') else func_name
+
+    # Split on underscores
+    parts = name.split('_')
+
+    # Capitalize first letter of each part, keep rest as-is
+    result = ''.join(part.capitalize() for part in parts)
+
+    return result
+
+
 def generate_delegate_name(func_name: str) -> str:
     """Generate delegate type name from function name."""
-    # Remove Z3_ prefix and add Delegate suffix
-    name = func_name[3:] if func_name.startswith('Z3_') else func_name
-    return f"{name}Delegate"
+    csharp_name = generate_csharp_method_name(func_name)
+    return f"{csharp_name}Delegate"
 
 
 def generate_partial_class(group: HeaderGroup, output_dir: Path):
@@ -329,7 +401,6 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
 
         # Using statements
         f.write("using System;\n")
-        f.write("using System.Collections.Generic;\n")
         f.write("using System.Runtime.InteropServices;\n\n")
 
         # Namespace
@@ -338,13 +409,6 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
         # Class declaration
         f.write("internal sealed partial class NativeLibrary2\n")
         f.write("{\n")
-
-        # LoadFunctions method
-        f.write(f"    private static void LoadFunctions{group.group_name_clean}(IntPtr handle, Dictionary<string, IntPtr> functionPointers)\n")
-        f.write("    {\n")
-        for sig in group.signatures:
-            f.write(f"        LoadFunctionOrNull(handle, functionPointers, \"{sig.name}\");\n")
-        f.write("    }\n\n")
 
         csharp_keywords = {'string', 'object', 'int', 'bool', 'char', 'byte', 'float', 'double', 'decimal', 'long', 'short', 'uint', 'ulong', 'ushort', 'void', 'class', 'struct', 'enum', 'interface', 'delegate', 'event', 'namespace', 'using', 'ref', 'out', 'params', 'base', 'this', 'fixed'}
 
@@ -368,13 +432,23 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
             param_names_str = ", ".join(param_names) if param_names else ""
 
             delegate_name = generate_delegate_name(sig.name)
+            csharp_method_name = generate_csharp_method_name(sig.name)
 
             # Delegate declaration
             f.write(f"    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]\n")
             f.write(f"    private delegate {return_type_cs} {delegate_name}({params_str});\n\n")
 
+            # XML documentation for method
+            if sig.documentation:
+                f.write("    /// <summary>\n")
+                f.write(f"    /// {sig.documentation}\n")
+                f.write("    /// </summary>\n")
+
+            # Z3Function attribute
+            f.write(f"    [Z3Function(\"{sig.name}\")]\n")
+
             # Method implementation
-            f.write(f"    internal {return_type_cs} {sig.name}({params_str})\n")
+            f.write(f"    internal {return_type_cs} {csharp_method_name}({params_str})\n")
             f.write("    {\n")
             f.write(f"        var funcPtr = GetFunctionPointer(\"{sig.name}\");\n")
             f.write(f"        var func = Marshal.GetDelegateForFunctionPointer<{delegate_name}>(funcPtr);\n")
@@ -427,11 +501,14 @@ def main():
 
     print()
     print(f"✅ Generated {len(generated_files)} partial class files")
+    print(f"   Total functions: {sum(len(g.functions) for g in groups)}")
     print(f"   Location: {output_dir}")
     print()
     print("Sample files:")
     for i, file_name in enumerate(sorted(generated_files)[:5], 1):
         print(f"  {i}. {file_name}")
+    print()
+    print("ℹ️  Functions loaded via reflection using [Z3Function] attributes")
 
 
 if __name__ == "__main__":

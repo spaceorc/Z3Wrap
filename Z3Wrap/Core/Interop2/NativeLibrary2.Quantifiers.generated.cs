@@ -5,146 +5,177 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsQuantifiers(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_pattern");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bound");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_forall");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_exists");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_quantifier");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_quantifier_ex");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_forall_const");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_exists_const");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_quantifier_const");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_quantifier_const_ex");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lambda");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lambda_const");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_patternDelegate(IntPtr c, uint num_patterns, IntPtr terms);
+    private delegate IntPtr MkPatternDelegate(IntPtr c, uint num_patterns, IntPtr terms);
 
-    internal IntPtr Z3_mk_pattern(IntPtr c, uint num_patterns, IntPtr terms)
+    /// <summary>
+    /// Create a pattern for quantifier instantiation.
+    /// </summary>
+    [Z3Function("Z3_mk_pattern")]
+    internal IntPtr MkPattern(IntPtr c, uint num_patterns, IntPtr terms)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pattern");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_patternDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPatternDelegate>(funcPtr);
         return func(c, num_patterns, terms);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_boundDelegate(IntPtr c, uint index, IntPtr ty);
+    private delegate IntPtr MkBoundDelegate(IntPtr c, uint index, IntPtr ty);
 
-    internal IntPtr Z3_mk_bound(IntPtr c, uint index, IntPtr ty)
+    /// <summary>
+    /// Create a variable.
+    /// </summary>
+    [Z3Function("Z3_mk_bound")]
+    internal IntPtr MkBound(IntPtr c, uint index, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bound");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_boundDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBoundDelegate>(funcPtr);
         return func(c, index, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_forallDelegate(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
+    private delegate IntPtr MkForallDelegate(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
 
-    internal IntPtr Z3_mk_forall(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
+    /// <summary>
+    /// Create a forall formula. It takes an expression
+    /// </summary>
+    [Z3Function("Z3_mk_forall")]
+    internal IntPtr MkForall(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_forall");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_forallDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkForallDelegate>(funcPtr);
         return func(c, weight, num_patterns, patterns, num_decls, sorts, decl_names, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_existsDelegate(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
+    private delegate IntPtr MkExistsDelegate(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
 
-    internal IntPtr Z3_mk_exists(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
+    /// <summary>
+    /// Create an exists formula. Similar to #Z3_mk_forall.
+    /// </summary>
+    [Z3Function("Z3_mk_exists")]
+    internal IntPtr MkExists(IntPtr c, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_exists");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_existsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExistsDelegate>(funcPtr);
         return func(c, weight, num_patterns, patterns, num_decls, sorts, decl_names, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_quantifierDelegate(IntPtr c, bool is_forall, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
+    private delegate IntPtr MkQuantifierDelegate(IntPtr c, bool is_forall, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
 
-    internal IntPtr Z3_mk_quantifier(IntPtr c, bool is_forall, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
+    /// <summary>
+    /// Create a quantifier - universal or existential, with pattern hints. See the documentation for #Z3_mk_forall for an explanation of the parameters.
+    /// </summary>
+    [Z3Function("Z3_mk_quantifier")]
+    internal IntPtr MkQuantifier(IntPtr c, bool is_forall, uint weight, uint num_patterns, IntPtr patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_quantifier");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_quantifierDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkQuantifierDelegate>(funcPtr);
         return func(c, is_forall, weight, num_patterns, patterns, num_decls, sorts, decl_names, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_quantifier_exDelegate(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
+    private delegate IntPtr MkQuantifierExDelegate(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
 
-    internal IntPtr Z3_mk_quantifier_ex(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
+    /// <summary>
+    /// Create a quantifier - universal or existential, with pattern hints, no patterns, and attributes
+    /// </summary>
+    [Z3Function("Z3_mk_quantifier_ex")]
+    internal IntPtr MkQuantifierEx(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_quantifier_ex");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_quantifier_exDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkQuantifierExDelegate>(funcPtr);
         return func(c, is_forall, weight, quantifier_id, skolem_id, num_patterns, patterns, num_no_patterns, no_patterns, num_decls, sorts, decl_names, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_forall_constDelegate(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body);
+    private delegate IntPtr MkForallConstDelegate(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body);
 
-    internal IntPtr Z3_mk_forall_const(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body)
+    /// <summary>
+    /// Create a universal quantifier using a list of constants that will form the set of bound variables.
+    /// </summary>
+    [Z3Function("Z3_mk_forall_const")]
+    internal IntPtr MkForallConst(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_forall_const");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_forall_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkForallConstDelegate>(funcPtr);
         return func(c, weight, num_bound, bound, num_patterns, patterns, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_exists_constDelegate(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body);
+    private delegate IntPtr MkExistsConstDelegate(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body);
 
-    internal IntPtr Z3_mk_exists_const(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body)
+    /// <summary>
+    /// Similar to #Z3_mk_forall_const.
+    /// </summary>
+    [Z3Function("Z3_mk_exists_const")]
+    internal IntPtr MkExistsConst(IntPtr c, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_exists_const");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_exists_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExistsConstDelegate>(funcPtr);
         return func(c, weight, num_bound, bound, num_patterns, patterns, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_quantifier_constDelegate(IntPtr c, bool is_forall, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body);
+    private delegate IntPtr MkQuantifierConstDelegate(IntPtr c, bool is_forall, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body);
 
-    internal IntPtr Z3_mk_quantifier_const(IntPtr c, bool is_forall, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body)
+    /// <summary>
+    /// Create a universal or existential quantifier using a list of constants that will form the set of bound variables.
+    /// </summary>
+    [Z3Function("Z3_mk_quantifier_const")]
+    internal IntPtr MkQuantifierConst(IntPtr c, bool is_forall, uint weight, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_quantifier_const");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_quantifier_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkQuantifierConstDelegate>(funcPtr);
         return func(c, is_forall, weight, num_bound, bound, num_patterns, patterns, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_quantifier_const_exDelegate(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, IntPtr body);
+    private delegate IntPtr MkQuantifierConstExDelegate(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, IntPtr body);
 
-    internal IntPtr Z3_mk_quantifier_const_ex(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, IntPtr body)
+    /// <summary>
+    /// Create a universal or existential quantifier using a list of constants that will form the set of bound variables.
+    /// </summary>
+    [Z3Function("Z3_mk_quantifier_const_ex")]
+    internal IntPtr MkQuantifierConstEx(IntPtr c, bool is_forall, uint weight, IntPtr quantifier_id, IntPtr skolem_id, uint num_bound, IntPtr bound, uint num_patterns, IntPtr patterns, uint num_no_patterns, IntPtr no_patterns, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_quantifier_const_ex");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_quantifier_const_exDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkQuantifierConstExDelegate>(funcPtr);
         return func(c, is_forall, weight, quantifier_id, skolem_id, num_bound, bound, num_patterns, patterns, num_no_patterns, no_patterns, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_lambdaDelegate(IntPtr c, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
+    private delegate IntPtr MkLambdaDelegate(IntPtr c, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body);
 
-    internal IntPtr Z3_mk_lambda(IntPtr c, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
+    /// <summary>
+    /// Create a lambda expression. It takes an expression
+    /// </summary>
+    [Z3Function("Z3_mk_lambda")]
+    internal IntPtr MkLambda(IntPtr c, uint num_decls, IntPtr sorts, IntPtr decl_names, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lambda");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_lambdaDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLambdaDelegate>(funcPtr);
         return func(c, num_decls, sorts, decl_names, body);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_lambda_constDelegate(IntPtr c, uint num_bound, IntPtr bound, IntPtr body);
+    private delegate IntPtr MkLambdaConstDelegate(IntPtr c, uint num_bound, IntPtr bound, IntPtr body);
 
-    internal IntPtr Z3_mk_lambda_const(IntPtr c, uint num_bound, IntPtr bound, IntPtr body)
+    /// <summary>
+    /// Create a lambda expression using a list of constants that form the set of bound variables
+    /// </summary>
+    [Z3Function("Z3_mk_lambda_const")]
+    internal IntPtr MkLambdaConst(IntPtr c, uint num_bound, IntPtr bound, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lambda_const");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_lambda_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLambdaConstDelegate>(funcPtr);
         return func(c, num_bound, bound, body);
     }
 

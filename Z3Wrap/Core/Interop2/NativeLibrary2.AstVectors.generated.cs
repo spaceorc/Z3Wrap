@@ -5,124 +5,149 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsAstVectors(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ast_vector");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_get");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_set");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_resize");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_push");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_translate");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_vector_to_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_ast_vectorDelegate(IntPtr c);
+    private delegate IntPtr MkAstVectorDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_ast_vector(IntPtr c)
+    /// <summary>
+    /// Return an empty AST vector.
+    /// </summary>
+    [Z3Function("Z3_mk_ast_vector")]
+    internal IntPtr MkAstVector(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ast_vector");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_ast_vectorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAstVectorDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_vector_inc_refDelegate(IntPtr c, IntPtr v);
+    private delegate void AstVectorIncRefDelegate(IntPtr c, IntPtr v);
 
-    internal void Z3_ast_vector_inc_ref(IntPtr c, IntPtr v)
+    /// <summary>
+    /// Increment the reference counter of the given AST vector.
+    /// </summary>
+    [Z3Function("Z3_ast_vector_inc_ref")]
+    internal void AstVectorIncRef(IntPtr c, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorIncRefDelegate>(funcPtr);
         func(c, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_vector_dec_refDelegate(IntPtr c, IntPtr v);
+    private delegate void AstVectorDecRefDelegate(IntPtr c, IntPtr v);
 
-    internal void Z3_ast_vector_dec_ref(IntPtr c, IntPtr v)
+    /// <summary>
+    /// Decrement the reference counter of the given AST vector.
+    /// </summary>
+    [Z3Function("Z3_ast_vector_dec_ref")]
+    internal void AstVectorDecRef(IntPtr c, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorDecRefDelegate>(funcPtr);
         func(c, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint ast_vector_sizeDelegate(IntPtr c, IntPtr v);
+    private delegate uint AstVectorSizeDelegate(IntPtr c, IntPtr v);
 
-    internal uint Z3_ast_vector_size(IntPtr c, IntPtr v)
+    /// <summary>
+    /// Return the size of the given AST vector.
+    /// </summary>
+    [Z3Function("Z3_ast_vector_size")]
+    internal uint AstVectorSize(IntPtr c, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_size");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorSizeDelegate>(funcPtr);
         return func(c, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_vector_getDelegate(IntPtr c, IntPtr v, uint i);
+    private delegate IntPtr AstVectorGetDelegate(IntPtr c, IntPtr v, uint i);
 
-    internal IntPtr Z3_ast_vector_get(IntPtr c, IntPtr v, uint i)
+    /// <summary>
+    /// Return the AST at position
+    /// </summary>
+    [Z3Function("Z3_ast_vector_get")]
+    internal IntPtr AstVectorGet(IntPtr c, IntPtr v, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_get");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_getDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorGetDelegate>(funcPtr);
         return func(c, v, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_vector_setDelegate(IntPtr c, IntPtr v, uint i, IntPtr a);
+    private delegate void AstVectorSetDelegate(IntPtr c, IntPtr v, uint i, IntPtr a);
 
-    internal void Z3_ast_vector_set(IntPtr c, IntPtr v, uint i, IntPtr a)
+    /// <summary>
+    /// Update position
+    /// </summary>
+    [Z3Function("Z3_ast_vector_set")]
+    internal void AstVectorSet(IntPtr c, IntPtr v, uint i, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_set");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_setDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorSetDelegate>(funcPtr);
         func(c, v, i, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_vector_resizeDelegate(IntPtr c, IntPtr v, uint n);
+    private delegate void AstVectorResizeDelegate(IntPtr c, IntPtr v, uint n);
 
-    internal void Z3_ast_vector_resize(IntPtr c, IntPtr v, uint n)
+    /// <summary>
+    /// Resize the AST vector
+    /// </summary>
+    [Z3Function("Z3_ast_vector_resize")]
+    internal void AstVectorResize(IntPtr c, IntPtr v, uint n)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_resize");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_resizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorResizeDelegate>(funcPtr);
         func(c, v, n);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ast_vector_pushDelegate(IntPtr c, IntPtr v, IntPtr a);
+    private delegate void AstVectorPushDelegate(IntPtr c, IntPtr v, IntPtr a);
 
-    internal void Z3_ast_vector_push(IntPtr c, IntPtr v, IntPtr a)
+    /// <summary>
+    /// Add the AST
+    /// </summary>
+    [Z3Function("Z3_ast_vector_push")]
+    internal void AstVectorPush(IntPtr c, IntPtr v, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_push");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_pushDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorPushDelegate>(funcPtr);
         func(c, v, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_vector_translateDelegate(IntPtr s, IntPtr v, IntPtr t);
+    private delegate IntPtr AstVectorTranslateDelegate(IntPtr s, IntPtr v, IntPtr t);
 
-    internal IntPtr Z3_ast_vector_translate(IntPtr s, IntPtr v, IntPtr t)
+    /// <summary>
+    /// Translate the AST vector
+    /// </summary>
+    [Z3Function("Z3_ast_vector_translate")]
+    internal IntPtr AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_translate");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_translateDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorTranslateDelegate>(funcPtr);
         return func(s, v, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_vector_to_stringDelegate(IntPtr c, IntPtr v);
+    private delegate IntPtr AstVectorToStringDelegate(IntPtr c, IntPtr v);
 
-    internal IntPtr Z3_ast_vector_to_string(IntPtr c, IntPtr v)
+    /// <summary>
+    /// Convert AST vector into a string.
+    /// </summary>
+    [Z3Function("Z3_ast_vector_to_string")]
+    internal IntPtr AstVectorToString(IntPtr c, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_vector_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_vector_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstVectorToStringDelegate>(funcPtr);
         return func(c, v);
     }
 

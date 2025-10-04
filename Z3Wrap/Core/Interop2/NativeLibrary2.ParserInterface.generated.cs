@@ -5,113 +5,135 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsParserInterface(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parse_smtlib2_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parse_smtlib2_file");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_eval_smtlib2_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_parser_context");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parser_context_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parser_context_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parser_context_add_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parser_context_add_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_parser_context_from_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr parse_smtlib2_stringDelegate(IntPtr c, IntPtr str, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls);
+    private delegate IntPtr ParseSmtlib2StringDelegate(IntPtr c, IntPtr str, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls);
 
-    internal IntPtr Z3_parse_smtlib2_string(IntPtr c, IntPtr str, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls)
+    /// <summary>
+    /// Parse the given string using the SMT-LIB2 parser.
+    /// </summary>
+    [Z3Function("Z3_parse_smtlib2_string")]
+    internal IntPtr ParseSmtlib2String(IntPtr c, IntPtr str, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls)
     {
         var funcPtr = GetFunctionPointer("Z3_parse_smtlib2_string");
-        var func = Marshal.GetDelegateForFunctionPointer<parse_smtlib2_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParseSmtlib2StringDelegate>(funcPtr);
         return func(c, str, num_sorts, sort_names, sorts, num_decls, decl_names, decls);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr parse_smtlib2_fileDelegate(IntPtr c, IntPtr file_name, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls);
+    private delegate IntPtr ParseSmtlib2FileDelegate(IntPtr c, IntPtr file_name, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls);
 
-    internal IntPtr Z3_parse_smtlib2_file(IntPtr c, IntPtr file_name, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls)
+    /// <summary>
+    /// Similar to #Z3_parse_smtlib2_string, but reads the benchmark from a file.
+    /// </summary>
+    [Z3Function("Z3_parse_smtlib2_file")]
+    internal IntPtr ParseSmtlib2File(IntPtr c, IntPtr file_name, uint num_sorts, IntPtr sort_names, IntPtr sorts, uint num_decls, IntPtr decl_names, IntPtr decls)
     {
         var funcPtr = GetFunctionPointer("Z3_parse_smtlib2_file");
-        var func = Marshal.GetDelegateForFunctionPointer<parse_smtlib2_fileDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParseSmtlib2FileDelegate>(funcPtr);
         return func(c, file_name, num_sorts, sort_names, sorts, num_decls, decl_names, decls);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr eval_smtlib2_stringDelegate(IntPtr c, IntPtr str);
+    private delegate IntPtr EvalSmtlib2StringDelegate(IntPtr c, IntPtr str);
 
-    internal IntPtr Z3_eval_smtlib2_string(IntPtr c, IntPtr str)
+    /// <summary>
+    /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next evaluation builds on top of the previous call.
+    /// </summary>
+    [Z3Function("Z3_eval_smtlib2_string")]
+    internal IntPtr EvalSmtlib2String(IntPtr c, IntPtr str)
     {
         var funcPtr = GetFunctionPointer("Z3_eval_smtlib2_string");
-        var func = Marshal.GetDelegateForFunctionPointer<eval_smtlib2_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<EvalSmtlib2StringDelegate>(funcPtr);
         return func(c, str);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_parser_contextDelegate(IntPtr c);
+    private delegate IntPtr MkParserContextDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_parser_context(IntPtr c)
+    /// <summary>
+    /// Create a parser context.
+    /// </summary>
+    [Z3Function("Z3_mk_parser_context")]
+    internal IntPtr MkParserContext(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_parser_context");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_parser_contextDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkParserContextDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void parser_context_inc_refDelegate(IntPtr c, IntPtr pc);
+    private delegate void ParserContextIncRefDelegate(IntPtr c, IntPtr pc);
 
-    internal void Z3_parser_context_inc_ref(IntPtr c, IntPtr pc)
+    /// <summary>
+    /// Increment the reference counter of the given
+    /// </summary>
+    [Z3Function("Z3_parser_context_inc_ref")]
+    internal void ParserContextIncRef(IntPtr c, IntPtr pc)
     {
         var funcPtr = GetFunctionPointer("Z3_parser_context_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<parser_context_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParserContextIncRefDelegate>(funcPtr);
         func(c, pc);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void parser_context_dec_refDelegate(IntPtr c, IntPtr pc);
+    private delegate void ParserContextDecRefDelegate(IntPtr c, IntPtr pc);
 
-    internal void Z3_parser_context_dec_ref(IntPtr c, IntPtr pc)
+    /// <summary>
+    /// Decrement the reference counter of the given
+    /// </summary>
+    [Z3Function("Z3_parser_context_dec_ref")]
+    internal void ParserContextDecRef(IntPtr c, IntPtr pc)
     {
         var funcPtr = GetFunctionPointer("Z3_parser_context_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<parser_context_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParserContextDecRefDelegate>(funcPtr);
         func(c, pc);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void parser_context_add_sortDelegate(IntPtr c, IntPtr pc, IntPtr s);
+    private delegate void ParserContextAddSortDelegate(IntPtr c, IntPtr pc, IntPtr s);
 
-    internal void Z3_parser_context_add_sort(IntPtr c, IntPtr pc, IntPtr s)
+    /// <summary>
+    /// Add a sort declaration.
+    /// </summary>
+    [Z3Function("Z3_parser_context_add_sort")]
+    internal void ParserContextAddSort(IntPtr c, IntPtr pc, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_parser_context_add_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<parser_context_add_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParserContextAddSortDelegate>(funcPtr);
         func(c, pc, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void parser_context_add_declDelegate(IntPtr c, IntPtr pc, IntPtr f);
+    private delegate void ParserContextAddDeclDelegate(IntPtr c, IntPtr pc, IntPtr f);
 
-    internal void Z3_parser_context_add_decl(IntPtr c, IntPtr pc, IntPtr f)
+    /// <summary>
+    /// Add a function declaration.
+    /// </summary>
+    [Z3Function("Z3_parser_context_add_decl")]
+    internal void ParserContextAddDecl(IntPtr c, IntPtr pc, IntPtr f)
     {
         var funcPtr = GetFunctionPointer("Z3_parser_context_add_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<parser_context_add_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParserContextAddDeclDelegate>(funcPtr);
         func(c, pc, f);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr parser_context_from_stringDelegate(IntPtr c, IntPtr pc, IntPtr s);
+    private delegate IntPtr ParserContextFromStringDelegate(IntPtr c, IntPtr pc, IntPtr s);
 
-    internal IntPtr Z3_parser_context_from_string(IntPtr c, IntPtr pc, IntPtr s)
+    /// <summary>
+    /// Parse a string of SMTLIB2 commands. Return assertions.
+    /// </summary>
+    [Z3Function("Z3_parser_context_from_string")]
+    internal IntPtr ParserContextFromString(IntPtr c, IntPtr pc, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_parser_context_from_string");
-        var func = Marshal.GetDelegateForFunctionPointer<parser_context_from_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParserContextFromStringDelegate>(funcPtr);
         return func(c, pc, s);
     }
 

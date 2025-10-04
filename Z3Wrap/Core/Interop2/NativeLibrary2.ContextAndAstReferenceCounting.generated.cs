@@ -5,113 +5,135 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsContextAndAstReferenceCounting(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_context");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_context_rc");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_del_context");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_update_param_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_global_param_descrs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_interrupt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_enable_concurrent_dec_ref");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_contextDelegate(IntPtr c);
+    private delegate IntPtr MkContextDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_context(IntPtr c)
+    /// <summary>
+    /// Create a context using the given configuration.
+    /// </summary>
+    [Z3Function("Z3_mk_context")]
+    internal IntPtr MkContext(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_context");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_contextDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkContextDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_context_rcDelegate(IntPtr c);
+    private delegate IntPtr MkContextRcDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_context_rc(IntPtr c)
+    /// <summary>
+    /// Create a context using the given configuration. This function is similar to #Z3_mk_context. However, in the context returned by this function, the user is responsible for managing
+    /// </summary>
+    [Z3Function("Z3_mk_context_rc")]
+    internal IntPtr MkContextRc(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_context_rc");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_context_rcDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkContextRcDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void del_contextDelegate(IntPtr c);
+    private delegate void DelContextDelegate(IntPtr c);
 
-    internal void Z3_del_context(IntPtr c)
+    /// <summary>
+    /// Delete the given logical context.
+    /// </summary>
+    [Z3Function("Z3_del_context")]
+    internal void DelContext(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_del_context");
-        var func = Marshal.GetDelegateForFunctionPointer<del_contextDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DelContextDelegate>(funcPtr);
         func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void inc_refDelegate(IntPtr c, IntPtr a);
+    private delegate void IncRefDelegate(IntPtr c, IntPtr a);
 
-    internal void Z3_inc_ref(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Increment the reference counter of the given AST. The context
+    /// </summary>
+    [Z3Function("Z3_inc_ref")]
+    internal void IncRef(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IncRefDelegate>(funcPtr);
         func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void dec_refDelegate(IntPtr c, IntPtr a);
+    private delegate void DecRefDelegate(IntPtr c, IntPtr a);
 
-    internal void Z3_dec_ref(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Decrement the reference counter of the given AST. The context
+    /// </summary>
+    [Z3Function("Z3_dec_ref")]
+    internal void DecRef(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DecRefDelegate>(funcPtr);
         func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void update_param_valueDelegate(IntPtr c, IntPtr param_id, IntPtr param_value);
+    private delegate void UpdateParamValueDelegate(IntPtr c, IntPtr param_id, IntPtr param_value);
 
-    internal void Z3_update_param_value(IntPtr c, IntPtr param_id, IntPtr param_value)
+    /// <summary>
+    /// Set a value of a context parameter.
+    /// </summary>
+    [Z3Function("Z3_update_param_value")]
+    internal void UpdateParamValue(IntPtr c, IntPtr param_id, IntPtr param_value)
     {
         var funcPtr = GetFunctionPointer("Z3_update_param_value");
-        var func = Marshal.GetDelegateForFunctionPointer<update_param_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<UpdateParamValueDelegate>(funcPtr);
         func(c, param_id, param_value);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_global_param_descrsDelegate(IntPtr c);
+    private delegate IntPtr GetGlobalParamDescrsDelegate(IntPtr c);
 
-    internal IntPtr Z3_get_global_param_descrs(IntPtr c)
+    /// <summary>
+    /// Retrieve description of global parameters.
+    /// </summary>
+    [Z3Function("Z3_get_global_param_descrs")]
+    internal IntPtr GetGlobalParamDescrs(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_get_global_param_descrs");
-        var func = Marshal.GetDelegateForFunctionPointer<get_global_param_descrsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetGlobalParamDescrsDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void interruptDelegate(IntPtr c);
+    private delegate void InterruptDelegate(IntPtr c);
 
-    internal void Z3_interrupt(IntPtr c)
+    /// <summary>
+    /// Interrupt the execution of a Z3 procedure. This procedure can be used to interrupt: solvers, simplifiers and tactics.
+    /// </summary>
+    [Z3Function("Z3_interrupt")]
+    internal void Interrupt(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_interrupt");
-        var func = Marshal.GetDelegateForFunctionPointer<interruptDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<InterruptDelegate>(funcPtr);
         func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void enable_concurrent_dec_refDelegate(IntPtr c);
+    private delegate void EnableConcurrentDecRefDelegate(IntPtr c);
 
-    internal void Z3_enable_concurrent_dec_ref(IntPtr c)
+    /// <summary>
+    /// use concurrency control for dec-ref. Reference counting decrements are allowed in separate threads from the context. If this setting is not invoked, reference counting decrements are not going to be thread safe.
+    /// </summary>
+    [Z3Function("Z3_enable_concurrent_dec_ref")]
+    internal void EnableConcurrentDecRef(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_enable_concurrent_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<enable_concurrent_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<EnableConcurrentDecRefDelegate>(funcPtr);
         func(c);
     }
 

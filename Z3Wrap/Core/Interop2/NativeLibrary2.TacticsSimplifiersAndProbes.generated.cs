@@ -5,619 +5,779 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsTacticsSimplifiersAndProbes(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_tactic");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_probe");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_and_then");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_or_else");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_par_or");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_par_and_then");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_try_for");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_when");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_cond");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_repeat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_skip");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_fail");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_fail_if");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_fail_if_not_decided");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_using_params");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_simplifier");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_add_simplifier");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_and_then");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_using_params");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_num_simplifiers");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_simplifier_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_get_help");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_get_param_descrs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplifier_get_descr");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_const");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_lt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_gt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_le");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_ge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_eq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_and");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_or");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_not");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_num_tactics");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_tactic_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_num_probes");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_probe_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_get_help");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_get_param_descrs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_get_descr");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_get_descr");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_probe_apply");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_apply");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_tactic_apply_ex");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_get_num_subgoals");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_apply_result_get_subgoal");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_tacticDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr MkTacticDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_mk_tactic(IntPtr c, IntPtr name)
+    /// <summary>
+    /// Return a tactic associated with the given name. The complete list of tactics may be obtained using the procedures #Z3_get_num_tactics and #Z3_get_tactic_name. It may also be obtained using the command
+    /// </summary>
+    [Z3Function("Z3_mk_tactic")]
+    internal IntPtr MkTactic(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_tactic");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_tacticDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkTacticDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void tactic_inc_refDelegate(IntPtr c, IntPtr t);
+    private delegate void TacticIncRefDelegate(IntPtr c, IntPtr t);
 
-    internal void Z3_tactic_inc_ref(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Increment the reference counter of the given tactic.
+    /// </summary>
+    [Z3Function("Z3_tactic_inc_ref")]
+    internal void TacticIncRef(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticIncRefDelegate>(funcPtr);
         func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void tactic_dec_refDelegate(IntPtr c, IntPtr g);
+    private delegate void TacticDecRefDelegate(IntPtr c, IntPtr g);
 
-    internal void Z3_tactic_dec_ref(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Decrement the reference counter of the given tactic.
+    /// </summary>
+    [Z3Function("Z3_tactic_dec_ref")]
+    internal void TacticDecRef(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticDecRefDelegate>(funcPtr);
         func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_probeDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr MkProbeDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_mk_probe(IntPtr c, IntPtr name)
+    /// <summary>
+    /// Return a probe associated with the given name. The complete list of probes may be obtained using the procedures #Z3_get_num_probes and #Z3_get_probe_name. It may also be obtained using the command
+    /// </summary>
+    [Z3Function("Z3_mk_probe")]
+    internal IntPtr MkProbe(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_probe");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_probeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkProbeDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void probe_inc_refDelegate(IntPtr c, IntPtr p);
+    private delegate void ProbeIncRefDelegate(IntPtr c, IntPtr p);
 
-    internal void Z3_probe_inc_ref(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Increment the reference counter of the given probe.
+    /// </summary>
+    [Z3Function("Z3_probe_inc_ref")]
+    internal void ProbeIncRef(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeIncRefDelegate>(funcPtr);
         func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void probe_dec_refDelegate(IntPtr c, IntPtr p);
+    private delegate void ProbeDecRefDelegate(IntPtr c, IntPtr p);
 
-    internal void Z3_probe_dec_ref(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Decrement the reference counter of the given probe.
+    /// </summary>
+    [Z3Function("Z3_probe_dec_ref")]
+    internal void ProbeDecRef(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeDecRefDelegate>(funcPtr);
         func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_and_thenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr TacticAndThenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_tactic_and_then(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Return a tactic that applies
+    /// </summary>
+    [Z3Function("Z3_tactic_and_then")]
+    internal IntPtr TacticAndThen(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_and_then");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_and_thenDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticAndThenDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_or_elseDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr TacticOrElseDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_tactic_or_else(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Return a tactic that first applies
+    /// </summary>
+    [Z3Function("Z3_tactic_or_else")]
+    internal IntPtr TacticOrElse(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_or_else");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_or_elseDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticOrElseDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_par_orDelegate(IntPtr c, uint num, IntPtr ts);
+    private delegate IntPtr TacticParOrDelegate(IntPtr c, uint num, IntPtr ts);
 
-    internal IntPtr Z3_tactic_par_or(IntPtr c, uint num, IntPtr ts)
+    /// <summary>
+    /// Return a tactic that applies the given tactics in parallel.
+    /// </summary>
+    [Z3Function("Z3_tactic_par_or")]
+    internal IntPtr TacticParOr(IntPtr c, uint num, IntPtr ts)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_par_or");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_par_orDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticParOrDelegate>(funcPtr);
         return func(c, num, ts);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_par_and_thenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr TacticParAndThenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_tactic_par_and_then(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Return a tactic that applies
+    /// </summary>
+    [Z3Function("Z3_tactic_par_and_then")]
+    internal IntPtr TacticParAndThen(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_par_and_then");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_par_and_thenDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticParAndThenDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_try_forDelegate(IntPtr c, IntPtr t, uint ms);
+    private delegate IntPtr TacticTryForDelegate(IntPtr c, IntPtr t, uint ms);
 
-    internal IntPtr Z3_tactic_try_for(IntPtr c, IntPtr t, uint ms)
+    /// <summary>
+    /// Return a tactic that applies
+    /// </summary>
+    [Z3Function("Z3_tactic_try_for")]
+    internal IntPtr TacticTryFor(IntPtr c, IntPtr t, uint ms)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_try_for");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_try_forDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticTryForDelegate>(funcPtr);
         return func(c, t, ms);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_whenDelegate(IntPtr c, IntPtr p, IntPtr t);
+    private delegate IntPtr TacticWhenDelegate(IntPtr c, IntPtr p, IntPtr t);
 
-    internal IntPtr Z3_tactic_when(IntPtr c, IntPtr p, IntPtr t)
+    /// <summary>
+    /// Return a tactic that applies
+    /// </summary>
+    [Z3Function("Z3_tactic_when")]
+    internal IntPtr TacticWhen(IntPtr c, IntPtr p, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_when");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_whenDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticWhenDelegate>(funcPtr);
         return func(c, p, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_condDelegate(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2);
+    private delegate IntPtr TacticCondDelegate(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_tactic_cond(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Return a tactic that applies
+    /// </summary>
+    [Z3Function("Z3_tactic_cond")]
+    internal IntPtr TacticCond(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_cond");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_condDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticCondDelegate>(funcPtr);
         return func(c, p, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_repeatDelegate(IntPtr c, IntPtr t, uint max);
+    private delegate IntPtr TacticRepeatDelegate(IntPtr c, IntPtr t, uint max);
 
-    internal IntPtr Z3_tactic_repeat(IntPtr c, IntPtr t, uint max)
+    /// <summary>
+    /// Return a tactic that keeps applying
+    /// </summary>
+    [Z3Function("Z3_tactic_repeat")]
+    internal IntPtr TacticRepeat(IntPtr c, IntPtr t, uint max)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_repeat");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_repeatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticRepeatDelegate>(funcPtr);
         return func(c, t, max);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_skipDelegate(IntPtr c);
+    private delegate IntPtr TacticSkipDelegate(IntPtr c);
 
-    internal IntPtr Z3_tactic_skip(IntPtr c)
+    /// <summary>
+    /// Return a tactic that just return the given goal.
+    /// </summary>
+    [Z3Function("Z3_tactic_skip")]
+    internal IntPtr TacticSkip(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_skip");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_skipDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticSkipDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_failDelegate(IntPtr c);
+    private delegate IntPtr TacticFailDelegate(IntPtr c);
 
-    internal IntPtr Z3_tactic_fail(IntPtr c)
+    /// <summary>
+    /// Return a tactic that always fails.
+    /// </summary>
+    [Z3Function("Z3_tactic_fail")]
+    internal IntPtr TacticFail(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_fail");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_failDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticFailDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_fail_ifDelegate(IntPtr c, IntPtr p);
+    private delegate IntPtr TacticFailIfDelegate(IntPtr c, IntPtr p);
 
-    internal IntPtr Z3_tactic_fail_if(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Return a tactic that fails if the probe
+    /// </summary>
+    [Z3Function("Z3_tactic_fail_if")]
+    internal IntPtr TacticFailIf(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_fail_if");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_fail_ifDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticFailIfDelegate>(funcPtr);
         return func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_fail_if_not_decidedDelegate(IntPtr c);
+    private delegate IntPtr TacticFailIfNotDecidedDelegate(IntPtr c);
 
-    internal IntPtr Z3_tactic_fail_if_not_decided(IntPtr c)
+    /// <summary>
+    /// Return a tactic that fails if the goal is not trivially satisfiable (i.e., empty) or trivially unsatisfiable (i.e., contains false).
+    /// </summary>
+    [Z3Function("Z3_tactic_fail_if_not_decided")]
+    internal IntPtr TacticFailIfNotDecided(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_fail_if_not_decided");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_fail_if_not_decidedDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticFailIfNotDecidedDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_using_paramsDelegate(IntPtr c, IntPtr t, IntPtr p);
+    private delegate IntPtr TacticUsingParamsDelegate(IntPtr c, IntPtr t, IntPtr p);
 
-    internal IntPtr Z3_tactic_using_params(IntPtr c, IntPtr t, IntPtr p)
+    /// <summary>
+    /// Return a tactic that applies
+    /// </summary>
+    [Z3Function("Z3_tactic_using_params")]
+    internal IntPtr TacticUsingParams(IntPtr c, IntPtr t, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_using_params");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_using_paramsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticUsingParamsDelegate>(funcPtr);
         return func(c, t, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_simplifierDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr MkSimplifierDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_mk_simplifier(IntPtr c, IntPtr name)
+    /// <summary>
+    /// Return a simplifier associated with the given name. The complete list of simplifiers may be obtained using the procedures #Z3_get_num_simplifiers and #Z3_get_simplifier_name. It may also be obtained using the command
+    /// </summary>
+    [Z3Function("Z3_mk_simplifier")]
+    internal IntPtr MkSimplifier(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_simplifier");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_simplifierDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSimplifierDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void simplifier_inc_refDelegate(IntPtr c, IntPtr t);
+    private delegate void SimplifierIncRefDelegate(IntPtr c, IntPtr t);
 
-    internal void Z3_simplifier_inc_ref(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Increment the reference counter of the given simplifier.
+    /// </summary>
+    [Z3Function("Z3_simplifier_inc_ref")]
+    internal void SimplifierIncRef(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierIncRefDelegate>(funcPtr);
         func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void simplifier_dec_refDelegate(IntPtr c, IntPtr g);
+    private delegate void SimplifierDecRefDelegate(IntPtr c, IntPtr g);
 
-    internal void Z3_simplifier_dec_ref(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Decrement the reference counter of the given simplifier.
+    /// </summary>
+    [Z3Function("Z3_simplifier_dec_ref")]
+    internal void SimplifierDecRef(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierDecRefDelegate>(funcPtr);
         func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_add_simplifierDelegate(IntPtr c, IntPtr solver, IntPtr simplifier);
+    private delegate IntPtr SolverAddSimplifierDelegate(IntPtr c, IntPtr solver, IntPtr simplifier);
 
-    internal IntPtr Z3_solver_add_simplifier(IntPtr c, IntPtr solver, IntPtr simplifier)
+    /// <summary>
+    /// Attach simplifier to a solver. The solver will use the simplifier for incremental pre-processing.
+    /// </summary>
+    [Z3Function("Z3_solver_add_simplifier")]
+    internal IntPtr SolverAddSimplifier(IntPtr c, IntPtr solver, IntPtr simplifier)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_add_simplifier");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_add_simplifierDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverAddSimplifierDelegate>(funcPtr);
         return func(c, solver, simplifier);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplifier_and_thenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr SimplifierAndThenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_simplifier_and_then(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Return a simplifier that applies
+    /// </summary>
+    [Z3Function("Z3_simplifier_and_then")]
+    internal IntPtr SimplifierAndThen(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_and_then");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_and_thenDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierAndThenDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplifier_using_paramsDelegate(IntPtr c, IntPtr t, IntPtr p);
+    private delegate IntPtr SimplifierUsingParamsDelegate(IntPtr c, IntPtr t, IntPtr p);
 
-    internal IntPtr Z3_simplifier_using_params(IntPtr c, IntPtr t, IntPtr p)
+    /// <summary>
+    /// Return a simplifier that applies
+    /// </summary>
+    [Z3Function("Z3_simplifier_using_params")]
+    internal IntPtr SimplifierUsingParams(IntPtr c, IntPtr t, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_using_params");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_using_paramsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierUsingParamsDelegate>(funcPtr);
         return func(c, t, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_num_simplifiersDelegate(IntPtr c);
+    private delegate uint GetNumSimplifiersDelegate(IntPtr c);
 
-    internal uint Z3_get_num_simplifiers(IntPtr c)
+    /// <summary>
+    /// Return the number of builtin simplifiers available in Z3.
+    /// </summary>
+    [Z3Function("Z3_get_num_simplifiers")]
+    internal uint GetNumSimplifiers(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_get_num_simplifiers");
-        var func = Marshal.GetDelegateForFunctionPointer<get_num_simplifiersDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumSimplifiersDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_simplifier_nameDelegate(IntPtr c, uint i);
+    private delegate IntPtr GetSimplifierNameDelegate(IntPtr c, uint i);
 
-    internal IntPtr Z3_get_simplifier_name(IntPtr c, uint i)
+    /// <summary>
+    /// Return the name of the idx simplifier.
+    /// </summary>
+    [Z3Function("Z3_get_simplifier_name")]
+    internal IntPtr GetSimplifierName(IntPtr c, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_simplifier_name");
-        var func = Marshal.GetDelegateForFunctionPointer<get_simplifier_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSimplifierNameDelegate>(funcPtr);
         return func(c, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplifier_get_helpDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr SimplifierGetHelpDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_simplifier_get_help(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return a string containing a description of parameters accepted by the given simplifier.
+    /// </summary>
+    [Z3Function("Z3_simplifier_get_help")]
+    internal IntPtr SimplifierGetHelp(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_get_help");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_get_helpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierGetHelpDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplifier_get_param_descrsDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr SimplifierGetParamDescrsDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_simplifier_get_param_descrs(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the parameter description set for the given simplifier object.
+    /// </summary>
+    [Z3Function("Z3_simplifier_get_param_descrs")]
+    internal IntPtr SimplifierGetParamDescrs(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_get_param_descrs");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_get_param_descrsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierGetParamDescrsDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplifier_get_descrDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr SimplifierGetDescrDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_simplifier_get_descr(IntPtr c, IntPtr name)
+    /// <summary>
+    /// Return a string containing a description of the simplifier with the given name.
+    /// </summary>
+    [Z3Function("Z3_simplifier_get_descr")]
+    internal IntPtr SimplifierGetDescr(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_simplifier_get_descr");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifier_get_descrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifierGetDescrDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_constDelegate(IntPtr x, double val);
+    private delegate IntPtr ProbeConstDelegate(IntPtr x, double val);
 
-    internal IntPtr Z3_probe_const(IntPtr x, double val)
+    /// <summary>
+    /// Return a probe that always evaluates to val.
+    /// </summary>
+    [Z3Function("Z3_probe_const")]
+    internal IntPtr ProbeConst(IntPtr x, double val)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_const");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeConstDelegate>(funcPtr);
         return func(x, val);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_ltDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeLtDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_lt(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// </summary>
+    [Z3Function("Z3_probe_lt")]
+    internal IntPtr ProbeLt(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_lt");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_ltDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeLtDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_gtDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeGtDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_gt(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// </summary>
+    [Z3Function("Z3_probe_gt")]
+    internal IntPtr ProbeGt(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_gt");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_gtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeGtDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_leDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeLeDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_le(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// </summary>
+    [Z3Function("Z3_probe_le")]
+    internal IntPtr ProbeLe(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_le");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_leDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeLeDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_geDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeGeDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_ge(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// </summary>
+    [Z3Function("Z3_probe_ge")]
+    internal IntPtr ProbeGe(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_ge");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_geDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeGeDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_eqDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeEqDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_eq(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// </summary>
+    [Z3Function("Z3_probe_eq")]
+    internal IntPtr ProbeEq(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_eq");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_eqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeEqDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_andDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeAndDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_and(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when
+    /// </summary>
+    [Z3Function("Z3_probe_and")]
+    internal IntPtr ProbeAnd(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_and");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_andDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeAndDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_orDelegate(IntPtr x, IntPtr p1, IntPtr p2);
+    private delegate IntPtr ProbeOrDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
-    internal IntPtr Z3_probe_or(IntPtr x, IntPtr p1, IntPtr p2)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when
+    /// </summary>
+    [Z3Function("Z3_probe_or")]
+    internal IntPtr ProbeOr(IntPtr x, IntPtr p1, IntPtr p2)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_or");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_orDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeOrDelegate>(funcPtr);
         return func(x, p1, p2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_notDelegate(IntPtr x, IntPtr p);
+    private delegate IntPtr ProbeNotDelegate(IntPtr x, IntPtr p);
 
-    internal IntPtr Z3_probe_not(IntPtr x, IntPtr p)
+    /// <summary>
+    /// Return a probe that evaluates to "true" when
+    /// </summary>
+    [Z3Function("Z3_probe_not")]
+    internal IntPtr ProbeNot(IntPtr x, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_not");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_notDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeNotDelegate>(funcPtr);
         return func(x, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_num_tacticsDelegate(IntPtr c);
+    private delegate uint GetNumTacticsDelegate(IntPtr c);
 
-    internal uint Z3_get_num_tactics(IntPtr c)
+    /// <summary>
+    /// Return the number of builtin tactics available in Z3.
+    /// </summary>
+    [Z3Function("Z3_get_num_tactics")]
+    internal uint GetNumTactics(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_get_num_tactics");
-        var func = Marshal.GetDelegateForFunctionPointer<get_num_tacticsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumTacticsDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_tactic_nameDelegate(IntPtr c, uint i);
+    private delegate IntPtr GetTacticNameDelegate(IntPtr c, uint i);
 
-    internal IntPtr Z3_get_tactic_name(IntPtr c, uint i)
+    /// <summary>
+    /// Return the name of the idx tactic.
+    /// </summary>
+    [Z3Function("Z3_get_tactic_name")]
+    internal IntPtr GetTacticName(IntPtr c, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_tactic_name");
-        var func = Marshal.GetDelegateForFunctionPointer<get_tactic_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetTacticNameDelegate>(funcPtr);
         return func(c, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_num_probesDelegate(IntPtr c);
+    private delegate uint GetNumProbesDelegate(IntPtr c);
 
-    internal uint Z3_get_num_probes(IntPtr c)
+    /// <summary>
+    /// Return the number of builtin probes available in Z3.
+    /// </summary>
+    [Z3Function("Z3_get_num_probes")]
+    internal uint GetNumProbes(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_get_num_probes");
-        var func = Marshal.GetDelegateForFunctionPointer<get_num_probesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumProbesDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_probe_nameDelegate(IntPtr c, uint i);
+    private delegate IntPtr GetProbeNameDelegate(IntPtr c, uint i);
 
-    internal IntPtr Z3_get_probe_name(IntPtr c, uint i)
+    /// <summary>
+    /// Return the name of the
+    /// </summary>
+    [Z3Function("Z3_get_probe_name")]
+    internal IntPtr GetProbeName(IntPtr c, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_probe_name");
-        var func = Marshal.GetDelegateForFunctionPointer<get_probe_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetProbeNameDelegate>(funcPtr);
         return func(c, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_get_helpDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr TacticGetHelpDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_tactic_get_help(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return a string containing a description of parameters accepted by the given tactic.
+    /// </summary>
+    [Z3Function("Z3_tactic_get_help")]
+    internal IntPtr TacticGetHelp(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_get_help");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_get_helpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticGetHelpDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_get_param_descrsDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr TacticGetParamDescrsDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_tactic_get_param_descrs(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the parameter description set for the given tactic object.
+    /// </summary>
+    [Z3Function("Z3_tactic_get_param_descrs")]
+    internal IntPtr TacticGetParamDescrs(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_get_param_descrs");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_get_param_descrsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticGetParamDescrsDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_get_descrDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr TacticGetDescrDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_tactic_get_descr(IntPtr c, IntPtr name)
+    /// <summary>
+    /// Return a string containing a description of the tactic with the given name.
+    /// </summary>
+    [Z3Function("Z3_tactic_get_descr")]
+    internal IntPtr TacticGetDescr(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_get_descr");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_get_descrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticGetDescrDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr probe_get_descrDelegate(IntPtr c, IntPtr name);
+    private delegate IntPtr ProbeGetDescrDelegate(IntPtr c, IntPtr name);
 
-    internal IntPtr Z3_probe_get_descr(IntPtr c, IntPtr name)
+    /// <summary>
+    /// Return a string containing a description of the probe with the given name.
+    /// </summary>
+    [Z3Function("Z3_probe_get_descr")]
+    internal IntPtr ProbeGetDescr(IntPtr c, IntPtr name)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_get_descr");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_get_descrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeGetDescrDelegate>(funcPtr);
         return func(c, name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate double probe_applyDelegate(IntPtr c, IntPtr p, IntPtr g);
+    private delegate double ProbeApplyDelegate(IntPtr c, IntPtr p, IntPtr g);
 
-    internal double Z3_probe_apply(IntPtr c, IntPtr p, IntPtr g)
+    /// <summary>
+    /// Execute the probe over the goal. The probe always produce a double value. "Boolean" probes return 0.0 for false, and a value different from 0.0 for true.
+    /// </summary>
+    [Z3Function("Z3_probe_apply")]
+    internal double ProbeApply(IntPtr c, IntPtr p, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_probe_apply");
-        var func = Marshal.GetDelegateForFunctionPointer<probe_applyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ProbeApplyDelegate>(funcPtr);
         return func(c, p, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_applyDelegate(IntPtr c, IntPtr t, IntPtr g);
+    private delegate IntPtr TacticApplyDelegate(IntPtr c, IntPtr t, IntPtr g);
 
-    internal IntPtr Z3_tactic_apply(IntPtr c, IntPtr t, IntPtr g)
+    /// <summary>
+    /// Apply tactic
+    /// </summary>
+    [Z3Function("Z3_tactic_apply")]
+    internal IntPtr TacticApply(IntPtr c, IntPtr t, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_apply");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_applyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticApplyDelegate>(funcPtr);
         return func(c, t, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tactic_apply_exDelegate(IntPtr c, IntPtr t, IntPtr g, IntPtr p);
+    private delegate IntPtr TacticApplyExDelegate(IntPtr c, IntPtr t, IntPtr g, IntPtr p);
 
-    internal IntPtr Z3_tactic_apply_ex(IntPtr c, IntPtr t, IntPtr g, IntPtr p)
+    /// <summary>
+    /// Apply tactic
+    /// </summary>
+    [Z3Function("Z3_tactic_apply_ex")]
+    internal IntPtr TacticApplyEx(IntPtr c, IntPtr t, IntPtr g, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_apply_ex");
-        var func = Marshal.GetDelegateForFunctionPointer<tactic_apply_exDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TacticApplyExDelegate>(funcPtr);
         return func(c, t, g, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void apply_result_inc_refDelegate(IntPtr c, IntPtr r);
+    private delegate void ApplyResultIncRefDelegate(IntPtr c, IntPtr r);
 
-    internal void Z3_apply_result_inc_ref(IntPtr c, IntPtr r)
+    /// <summary>
+    /// Increment the reference counter of the given
+    /// </summary>
+    [Z3Function("Z3_apply_result_inc_ref")]
+    internal void ApplyResultIncRef(IntPtr c, IntPtr r)
     {
         var funcPtr = GetFunctionPointer("Z3_apply_result_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<apply_result_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultIncRefDelegate>(funcPtr);
         func(c, r);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void apply_result_dec_refDelegate(IntPtr c, IntPtr r);
+    private delegate void ApplyResultDecRefDelegate(IntPtr c, IntPtr r);
 
-    internal void Z3_apply_result_dec_ref(IntPtr c, IntPtr r)
+    /// <summary>
+    /// Decrement the reference counter of the given
+    /// </summary>
+    [Z3Function("Z3_apply_result_dec_ref")]
+    internal void ApplyResultDecRef(IntPtr c, IntPtr r)
     {
         var funcPtr = GetFunctionPointer("Z3_apply_result_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<apply_result_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultDecRefDelegate>(funcPtr);
         func(c, r);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr apply_result_to_stringDelegate(IntPtr c, IntPtr r);
+    private delegate IntPtr ApplyResultToStringDelegate(IntPtr c, IntPtr r);
 
-    internal IntPtr Z3_apply_result_to_string(IntPtr c, IntPtr r)
+    /// <summary>
+    /// Convert the
+    /// </summary>
+    [Z3Function("Z3_apply_result_to_string")]
+    internal IntPtr ApplyResultToString(IntPtr c, IntPtr r)
     {
         var funcPtr = GetFunctionPointer("Z3_apply_result_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<apply_result_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultToStringDelegate>(funcPtr);
         return func(c, r);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint apply_result_get_num_subgoalsDelegate(IntPtr c, IntPtr r);
+    private delegate uint ApplyResultGetNumSubgoalsDelegate(IntPtr c, IntPtr r);
 
-    internal uint Z3_apply_result_get_num_subgoals(IntPtr c, IntPtr r)
+    /// <summary>
+    /// Return the number of subgoals in the
+    /// </summary>
+    [Z3Function("Z3_apply_result_get_num_subgoals")]
+    internal uint ApplyResultGetNumSubgoals(IntPtr c, IntPtr r)
     {
         var funcPtr = GetFunctionPointer("Z3_apply_result_get_num_subgoals");
-        var func = Marshal.GetDelegateForFunctionPointer<apply_result_get_num_subgoalsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultGetNumSubgoalsDelegate>(funcPtr);
         return func(c, r);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr apply_result_get_subgoalDelegate(IntPtr c, IntPtr r, uint i);
+    private delegate IntPtr ApplyResultGetSubgoalDelegate(IntPtr c, IntPtr r, uint i);
 
-    internal IntPtr Z3_apply_result_get_subgoal(IntPtr c, IntPtr r, uint i)
+    /// <summary>
+    /// Return one of the subgoals in the
+    /// </summary>
+    [Z3Function("Z3_apply_result_get_subgoal")]
+    internal IntPtr ApplyResultGetSubgoal(IntPtr c, IntPtr r, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_apply_result_get_subgoal");
-        var func = Marshal.GetDelegateForFunctionPointer<apply_result_get_subgoalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ApplyResultGetSubgoalDelegate>(funcPtr);
         return func(c, r, i);
     }
 

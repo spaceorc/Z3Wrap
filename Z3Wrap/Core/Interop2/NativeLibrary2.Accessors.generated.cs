@@ -5,1136 +5,1425 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsAccessors(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_symbol_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort_id");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_sort_to_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_eq_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_bv_sort_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_finite_domain_sort_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_arity");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_domain");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_domain_n");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_array_sort_range");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_tuple_sort_mk_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_tuple_sort_num_fields");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_tuple_sort_field_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_recursive_datatype_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_datatype_sort_num_constructors");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_datatype_sort_constructor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_datatype_sort_recognizer");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_datatype_sort_constructor_accessor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_datatype_update_field");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_relation_arity");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_relation_column");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_atmost");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_atleast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_pble");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_pbge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_pbeq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_func_decl_to_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_eq_func_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_func_decl_id");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_domain_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_arity");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_domain");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_range");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_num_parameters");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_parameter_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_int_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_double_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_symbol_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_sort_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_ast_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_func_decl_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_decl_rational_parameter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_app_to_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_num_args");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_app_arg");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_eq_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_ast_id");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_ast_hash");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_well_sorted");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_bool_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_ast_kind");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_app");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_ground");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_depth");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_numeral_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_algebraic_number");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_to_app");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_to_func_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_binary_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_decimal_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_double");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numerator");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_denominator");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_small");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_uint");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_uint64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_int64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_numeral_rational_int64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_algebraic_number_lower");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_algebraic_number_upper");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_pattern_to_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_pattern_num_terms");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_pattern");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_index_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_quantifier_forall");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_quantifier_exists");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_lambda");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_weight");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_skolem_id");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_id");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_patterns");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_pattern_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_no_patterns");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_no_pattern_ast");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_num_bound");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_bound_name");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_bound_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_quantifier_body");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplify");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplify_ex");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplify_get_help");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_simplify_get_param_descrs");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_symbol_kindDelegate(IntPtr c, IntPtr s);
+    private delegate int GetSymbolKindDelegate(IntPtr c, IntPtr s);
 
-    internal int Z3_get_symbol_kind(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_get_symbol_kind")]
+    internal int GetSymbolKind(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_symbol_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<get_symbol_kindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSymbolKindDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_symbol_intDelegate(IntPtr c, IntPtr s);
+    private delegate int GetSymbolIntDelegate(IntPtr c, IntPtr s);
 
-    internal int Z3_get_symbol_int(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the symbol int value.
+    /// </summary>
+    [Z3Function("Z3_get_symbol_int")]
+    internal int GetSymbolInt(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_symbol_int");
-        var func = Marshal.GetDelegateForFunctionPointer<get_symbol_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSymbolIntDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_symbol_stringDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr GetSymbolStringDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_get_symbol_string(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the symbol name.
+    /// </summary>
+    [Z3Function("Z3_get_symbol_string")]
+    internal IntPtr GetSymbolString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_symbol_string");
-        var func = Marshal.GetDelegateForFunctionPointer<get_symbol_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSymbolStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_sort_nameDelegate(IntPtr c, IntPtr d);
+    private delegate IntPtr GetSortNameDelegate(IntPtr c, IntPtr d);
 
-    internal IntPtr Z3_get_sort_name(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Return the sort name as a symbol.
+    /// </summary>
+    [Z3Function("Z3_get_sort_name")]
+    internal IntPtr GetSortName(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_name");
-        var func = Marshal.GetDelegateForFunctionPointer<get_sort_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortNameDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_sort_idDelegate(IntPtr c, IntPtr s);
+    private delegate uint GetSortIdDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_get_sort_id(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return a unique identifier for
+    /// </summary>
+    [Z3Function("Z3_get_sort_id")]
+    internal uint GetSortId(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_id");
-        var func = Marshal.GetDelegateForFunctionPointer<get_sort_idDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortIdDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr sort_to_astDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SortToAstDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_sort_to_ast(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Convert a
+    /// </summary>
+    [Z3Function("Z3_sort_to_ast")]
+    internal IntPtr SortToAst(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_sort_to_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<sort_to_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SortToAstDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_eq_sortDelegate(IntPtr c, IntPtr s1, IntPtr s2);
+    private delegate bool IsEqSortDelegate(IntPtr c, IntPtr s1, IntPtr s2);
 
-    internal bool Z3_is_eq_sort(IntPtr c, IntPtr s1, IntPtr s2)
+    /// <summary>
+    /// compare sorts.
+    /// </summary>
+    [Z3Function("Z3_is_eq_sort")]
+    internal bool IsEqSort(IntPtr c, IntPtr s1, IntPtr s2)
     {
         var funcPtr = GetFunctionPointer("Z3_is_eq_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<is_eq_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsEqSortDelegate>(funcPtr);
         return func(c, s1, s2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_sort_kindDelegate(IntPtr c, IntPtr t);
+    private delegate int GetSortKindDelegate(IntPtr c, IntPtr t);
 
-    internal int Z3_get_sort_kind(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the sort kind (e.g., array, tuple, int, bool, etc).
+    /// </summary>
+    [Z3Function("Z3_get_sort_kind")]
+    internal int GetSortKind(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<get_sort_kindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortKindDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_bv_sort_sizeDelegate(IntPtr c, IntPtr t);
+    private delegate uint GetBvSortSizeDelegate(IntPtr c, IntPtr t);
 
-    internal uint Z3_get_bv_sort_size(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the size of the given bit-vector sort.
+    /// </summary>
+    [Z3Function("Z3_get_bv_sort_size")]
+    internal uint GetBvSortSize(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bv_sort_size");
-        var func = Marshal.GetDelegateForFunctionPointer<get_bv_sort_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetBvSortSizeDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_finite_domain_sort_sizeDelegate(IntPtr c, IntPtr s, IntPtr r);
+    private delegate bool GetFiniteDomainSortSizeDelegate(IntPtr c, IntPtr s, IntPtr r);
 
-    internal bool Z3_get_finite_domain_sort_size(IntPtr c, IntPtr s, IntPtr r)
+    /// <summary>
+    /// Store the size of the sort in
+    /// </summary>
+    [Z3Function("Z3_get_finite_domain_sort_size")]
+    internal bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, IntPtr r)
     {
         var funcPtr = GetFunctionPointer("Z3_get_finite_domain_sort_size");
-        var func = Marshal.GetDelegateForFunctionPointer<get_finite_domain_sort_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetFiniteDomainSortSizeDelegate>(funcPtr);
         return func(c, s, r);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_array_arityDelegate(IntPtr c, IntPtr s);
+    private delegate uint GetArrayArityDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_get_array_arity(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the arity (number of dimensions) of the given array sort.
+    /// </summary>
+    [Z3Function("Z3_get_array_arity")]
+    internal uint GetArrayArity(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_arity");
-        var func = Marshal.GetDelegateForFunctionPointer<get_array_arityDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArrayArityDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_array_sort_domainDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr GetArraySortDomainDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_get_array_sort_domain(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the sort of the first dimension.
+    /// </summary>
+    [Z3Function("Z3_get_array_sort_domain")]
+    internal IntPtr GetArraySortDomain(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_domain");
-        var func = Marshal.GetDelegateForFunctionPointer<get_array_sort_domainDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArraySortDomainDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_array_sort_domain_nDelegate(IntPtr c, IntPtr t, uint idx);
+    private delegate IntPtr GetArraySortDomainNDelegate(IntPtr c, IntPtr t, uint idx);
 
-    internal IntPtr Z3_get_array_sort_domain_n(IntPtr c, IntPtr t, uint idx)
+    /// <summary>
+    /// Return the i'th domain sort of an n-dimensional array.
+    /// </summary>
+    [Z3Function("Z3_get_array_sort_domain_n")]
+    internal IntPtr GetArraySortDomainN(IntPtr c, IntPtr t, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_domain_n");
-        var func = Marshal.GetDelegateForFunctionPointer<get_array_sort_domain_nDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArraySortDomainNDelegate>(funcPtr);
         return func(c, t, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_array_sort_rangeDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr GetArraySortRangeDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_get_array_sort_range(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the range of the given array sort.
+    /// </summary>
+    [Z3Function("Z3_get_array_sort_range")]
+    internal IntPtr GetArraySortRange(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_array_sort_range");
-        var func = Marshal.GetDelegateForFunctionPointer<get_array_sort_rangeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArraySortRangeDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_tuple_sort_mk_declDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr GetTupleSortMkDeclDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_get_tuple_sort_mk_decl(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the constructor declaration of the given tuple sort.
+    /// </summary>
+    [Z3Function("Z3_get_tuple_sort_mk_decl")]
+    internal IntPtr GetTupleSortMkDecl(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_tuple_sort_mk_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<get_tuple_sort_mk_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetTupleSortMkDeclDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_tuple_sort_num_fieldsDelegate(IntPtr c, IntPtr t);
+    private delegate uint GetTupleSortNumFieldsDelegate(IntPtr c, IntPtr t);
 
-    internal uint Z3_get_tuple_sort_num_fields(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return the number of fields of the given tuple sort.
+    /// </summary>
+    [Z3Function("Z3_get_tuple_sort_num_fields")]
+    internal uint GetTupleSortNumFields(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_tuple_sort_num_fields");
-        var func = Marshal.GetDelegateForFunctionPointer<get_tuple_sort_num_fieldsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetTupleSortNumFieldsDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_tuple_sort_field_declDelegate(IntPtr c, IntPtr t, uint i);
+    private delegate IntPtr GetTupleSortFieldDeclDelegate(IntPtr c, IntPtr t, uint i);
 
-    internal IntPtr Z3_get_tuple_sort_field_decl(IntPtr c, IntPtr t, uint i)
+    /// <summary>
+    /// Return the i-th field declaration (i.e., projection function declaration) of the given tuple sort.
+    /// </summary>
+    [Z3Function("Z3_get_tuple_sort_field_decl")]
+    internal IntPtr GetTupleSortFieldDecl(IntPtr c, IntPtr t, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_tuple_sort_field_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<get_tuple_sort_field_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetTupleSortFieldDeclDelegate>(funcPtr);
         return func(c, t, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_recursive_datatype_sortDelegate(IntPtr c, IntPtr s);
+    private delegate bool IsRecursiveDatatypeSortDelegate(IntPtr c, IntPtr s);
 
-    internal bool Z3_is_recursive_datatype_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_is_recursive_datatype_sort")]
+    internal bool IsRecursiveDatatypeSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_is_recursive_datatype_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<is_recursive_datatype_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsRecursiveDatatypeSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_datatype_sort_num_constructorsDelegate(IntPtr c, IntPtr t);
+    private delegate uint GetDatatypeSortNumConstructorsDelegate(IntPtr c, IntPtr t);
 
-    internal uint Z3_get_datatype_sort_num_constructors(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return number of constructors for datatype.
+    /// </summary>
+    [Z3Function("Z3_get_datatype_sort_num_constructors")]
+    internal uint GetDatatypeSortNumConstructors(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_datatype_sort_num_constructors");
-        var func = Marshal.GetDelegateForFunctionPointer<get_datatype_sort_num_constructorsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDatatypeSortNumConstructorsDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_datatype_sort_constructorDelegate(IntPtr c, IntPtr t, uint idx);
+    private delegate IntPtr GetDatatypeSortConstructorDelegate(IntPtr c, IntPtr t, uint idx);
 
-    internal IntPtr Z3_get_datatype_sort_constructor(IntPtr c, IntPtr t, uint idx)
+    /// <summary>
+    /// Return idx'th constructor.
+    /// </summary>
+    [Z3Function("Z3_get_datatype_sort_constructor")]
+    internal IntPtr GetDatatypeSortConstructor(IntPtr c, IntPtr t, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_datatype_sort_constructor");
-        var func = Marshal.GetDelegateForFunctionPointer<get_datatype_sort_constructorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDatatypeSortConstructorDelegate>(funcPtr);
         return func(c, t, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_datatype_sort_recognizerDelegate(IntPtr c, IntPtr t, uint idx);
+    private delegate IntPtr GetDatatypeSortRecognizerDelegate(IntPtr c, IntPtr t, uint idx);
 
-    internal IntPtr Z3_get_datatype_sort_recognizer(IntPtr c, IntPtr t, uint idx)
+    /// <summary>
+    /// Return idx'th recognizer.
+    /// </summary>
+    [Z3Function("Z3_get_datatype_sort_recognizer")]
+    internal IntPtr GetDatatypeSortRecognizer(IntPtr c, IntPtr t, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_datatype_sort_recognizer");
-        var func = Marshal.GetDelegateForFunctionPointer<get_datatype_sort_recognizerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDatatypeSortRecognizerDelegate>(funcPtr);
         return func(c, t, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_datatype_sort_constructor_accessorDelegate(IntPtr c, IntPtr t, uint idx_c, uint idx_a);
+    private delegate IntPtr GetDatatypeSortConstructorAccessorDelegate(IntPtr c, IntPtr t, uint idx_c, uint idx_a);
 
-    internal IntPtr Z3_get_datatype_sort_constructor_accessor(IntPtr c, IntPtr t, uint idx_c, uint idx_a)
+    /// <summary>
+    /// Return idx_a'th accessor for the idx_c'th constructor.
+    /// </summary>
+    [Z3Function("Z3_get_datatype_sort_constructor_accessor")]
+    internal IntPtr GetDatatypeSortConstructorAccessor(IntPtr c, IntPtr t, uint idx_c, uint idx_a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_datatype_sort_constructor_accessor");
-        var func = Marshal.GetDelegateForFunctionPointer<get_datatype_sort_constructor_accessorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDatatypeSortConstructorAccessorDelegate>(funcPtr);
         return func(c, t, idx_c, idx_a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr datatype_update_fieldDelegate(IntPtr c, IntPtr field_access, IntPtr t, IntPtr value);
+    private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr c, IntPtr field_access, IntPtr t, IntPtr value);
 
-    internal IntPtr Z3_datatype_update_field(IntPtr c, IntPtr field_access, IntPtr t, IntPtr value)
+    /// <summary>
+    /// Update record field with a value.
+    /// </summary>
+    [Z3Function("Z3_datatype_update_field")]
+    internal IntPtr DatatypeUpdateField(IntPtr c, IntPtr field_access, IntPtr t, IntPtr value)
     {
         var funcPtr = GetFunctionPointer("Z3_datatype_update_field");
-        var func = Marshal.GetDelegateForFunctionPointer<datatype_update_fieldDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DatatypeUpdateFieldDelegate>(funcPtr);
         return func(c, field_access, t, value);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_relation_arityDelegate(IntPtr c, IntPtr s);
+    private delegate uint GetRelationArityDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_get_relation_arity(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return arity of relation.
+    /// </summary>
+    [Z3Function("Z3_get_relation_arity")]
+    internal uint GetRelationArity(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_relation_arity");
-        var func = Marshal.GetDelegateForFunctionPointer<get_relation_arityDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetRelationArityDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_relation_columnDelegate(IntPtr c, IntPtr s, uint col);
+    private delegate IntPtr GetRelationColumnDelegate(IntPtr c, IntPtr s, uint col);
 
-    internal IntPtr Z3_get_relation_column(IntPtr c, IntPtr s, uint col)
+    /// <summary>
+    /// Return sort at i'th column of relation sort.
+    /// </summary>
+    [Z3Function("Z3_get_relation_column")]
+    internal IntPtr GetRelationColumn(IntPtr c, IntPtr s, uint col)
     {
         var funcPtr = GetFunctionPointer("Z3_get_relation_column");
-        var func = Marshal.GetDelegateForFunctionPointer<get_relation_columnDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetRelationColumnDelegate>(funcPtr);
         return func(c, s, col);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_atmostDelegate(IntPtr c, uint num_args, IntPtr args, uint k);
+    private delegate IntPtr MkAtmostDelegate(IntPtr c, uint num_args, IntPtr args, uint k);
 
-    internal IntPtr Z3_mk_atmost(IntPtr c, uint num_args, IntPtr args, uint k)
+    /// <summary>
+    /// Pseudo-Boolean relations.
+    /// </summary>
+    [Z3Function("Z3_mk_atmost")]
+    internal IntPtr MkAtmost(IntPtr c, uint num_args, IntPtr args, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_atmost");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_atmostDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAtmostDelegate>(funcPtr);
         return func(c, num_args, args, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_atleastDelegate(IntPtr c, uint num_args, IntPtr args, uint k);
+    private delegate IntPtr MkAtleastDelegate(IntPtr c, uint num_args, IntPtr args, uint k);
 
-    internal IntPtr Z3_mk_atleast(IntPtr c, uint num_args, IntPtr args, uint k)
+    /// <summary>
+    /// Pseudo-Boolean relations.
+    /// </summary>
+    [Z3Function("Z3_mk_atleast")]
+    internal IntPtr MkAtleast(IntPtr c, uint num_args, IntPtr args, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_atleast");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_atleastDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAtleastDelegate>(funcPtr);
         return func(c, num_args, args, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_pbleDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
+    private delegate IntPtr MkPbleDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
 
-    internal IntPtr Z3_mk_pble(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
+    /// <summary>
+    /// Pseudo-Boolean relations.
+    /// </summary>
+    [Z3Function("Z3_mk_pble")]
+    internal IntPtr MkPble(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pble");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_pbleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPbleDelegate>(funcPtr);
         return func(c, num_args, args, coeffs, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_pbgeDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
+    private delegate IntPtr MkPbgeDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
 
-    internal IntPtr Z3_mk_pbge(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
+    /// <summary>
+    /// Pseudo-Boolean relations.
+    /// </summary>
+    [Z3Function("Z3_mk_pbge")]
+    internal IntPtr MkPbge(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pbge");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_pbgeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPbgeDelegate>(funcPtr);
         return func(c, num_args, args, coeffs, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_pbeqDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
+    private delegate IntPtr MkPbeqDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
 
-    internal IntPtr Z3_mk_pbeq(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
+    /// <summary>
+    /// Pseudo-Boolean relations.
+    /// </summary>
+    [Z3Function("Z3_mk_pbeq")]
+    internal IntPtr MkPbeq(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pbeq");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_pbeqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPbeqDelegate>(funcPtr);
         return func(c, num_args, args, coeffs, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr func_decl_to_astDelegate(IntPtr c, IntPtr f);
+    private delegate IntPtr FuncDeclToAstDelegate(IntPtr c, IntPtr f);
 
-    internal IntPtr Z3_func_decl_to_ast(IntPtr c, IntPtr f)
+    /// <summary>
+    /// Convert a
+    /// </summary>
+    [Z3Function("Z3_func_decl_to_ast")]
+    internal IntPtr FuncDeclToAst(IntPtr c, IntPtr f)
     {
         var funcPtr = GetFunctionPointer("Z3_func_decl_to_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<func_decl_to_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FuncDeclToAstDelegate>(funcPtr);
         return func(c, f);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_eq_func_declDelegate(IntPtr c, IntPtr f1, IntPtr f2);
+    private delegate bool IsEqFuncDeclDelegate(IntPtr c, IntPtr f1, IntPtr f2);
 
-    internal bool Z3_is_eq_func_decl(IntPtr c, IntPtr f1, IntPtr f2)
+    /// <summary>
+    /// Compare terms.
+    /// </summary>
+    [Z3Function("Z3_is_eq_func_decl")]
+    internal bool IsEqFuncDecl(IntPtr c, IntPtr f1, IntPtr f2)
     {
         var funcPtr = GetFunctionPointer("Z3_is_eq_func_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<is_eq_func_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsEqFuncDeclDelegate>(funcPtr);
         return func(c, f1, f2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_func_decl_idDelegate(IntPtr c, IntPtr f);
+    private delegate uint GetFuncDeclIdDelegate(IntPtr c, IntPtr f);
 
-    internal uint Z3_get_func_decl_id(IntPtr c, IntPtr f)
+    /// <summary>
+    /// Return a unique identifier for
+    /// </summary>
+    [Z3Function("Z3_get_func_decl_id")]
+    internal uint GetFuncDeclId(IntPtr c, IntPtr f)
     {
         var funcPtr = GetFunctionPointer("Z3_get_func_decl_id");
-        var func = Marshal.GetDelegateForFunctionPointer<get_func_decl_idDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetFuncDeclIdDelegate>(funcPtr);
         return func(c, f);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_decl_nameDelegate(IntPtr c, IntPtr d);
+    private delegate IntPtr GetDeclNameDelegate(IntPtr c, IntPtr d);
 
-    internal IntPtr Z3_get_decl_name(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Return the constant declaration name as a symbol.
+    /// </summary>
+    [Z3Function("Z3_get_decl_name")]
+    internal IntPtr GetDeclName(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_name");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclNameDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_decl_kindDelegate(IntPtr c, IntPtr d);
+    private delegate int GetDeclKindDelegate(IntPtr c, IntPtr d);
 
-    internal int Z3_get_decl_kind(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Return declaration kind corresponding to declaration.
+    /// </summary>
+    [Z3Function("Z3_get_decl_kind")]
+    internal int GetDeclKind(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_kindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclKindDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_domain_sizeDelegate(IntPtr c, IntPtr d);
+    private delegate uint GetDomainSizeDelegate(IntPtr c, IntPtr d);
 
-    internal uint Z3_get_domain_size(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Return the number of parameters of the given declaration.
+    /// </summary>
+    [Z3Function("Z3_get_domain_size")]
+    internal uint GetDomainSize(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_domain_size");
-        var func = Marshal.GetDelegateForFunctionPointer<get_domain_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDomainSizeDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_arityDelegate(IntPtr c, IntPtr d);
+    private delegate uint GetArityDelegate(IntPtr c, IntPtr d);
 
-    internal uint Z3_get_arity(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Alias for
+    /// </summary>
+    [Z3Function("Z3_get_arity")]
+    internal uint GetArity(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_arity");
-        var func = Marshal.GetDelegateForFunctionPointer<get_arityDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetArityDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_domainDelegate(IntPtr c, IntPtr d, uint i);
+    private delegate IntPtr GetDomainDelegate(IntPtr c, IntPtr d, uint i);
 
-    internal IntPtr Z3_get_domain(IntPtr c, IntPtr d, uint i)
+    /// <summary>
+    /// Return the sort of the i-th parameter of the given function declaration.
+    /// </summary>
+    [Z3Function("Z3_get_domain")]
+    internal IntPtr GetDomain(IntPtr c, IntPtr d, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_domain");
-        var func = Marshal.GetDelegateForFunctionPointer<get_domainDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDomainDelegate>(funcPtr);
         return func(c, d, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_rangeDelegate(IntPtr c, IntPtr d);
+    private delegate IntPtr GetRangeDelegate(IntPtr c, IntPtr d);
 
-    internal IntPtr Z3_get_range(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Return the range of the given declaration.
+    /// </summary>
+    [Z3Function("Z3_get_range")]
+    internal IntPtr GetRange(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_range");
-        var func = Marshal.GetDelegateForFunctionPointer<get_rangeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetRangeDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_decl_num_parametersDelegate(IntPtr c, IntPtr d);
+    private delegate uint GetDeclNumParametersDelegate(IntPtr c, IntPtr d);
 
-    internal uint Z3_get_decl_num_parameters(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Return the number of parameters associated with a declaration.
+    /// </summary>
+    [Z3Function("Z3_get_decl_num_parameters")]
+    internal uint GetDeclNumParameters(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_num_parameters");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_num_parametersDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclNumParametersDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_decl_parameter_kindDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate int GetDeclParameterKindDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal int Z3_get_decl_parameter_kind(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the parameter type associated with a declaration.
+    /// </summary>
+    [Z3Function("Z3_get_decl_parameter_kind")]
+    internal int GetDeclParameterKind(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_parameter_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_parameter_kindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclParameterKindDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_decl_int_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate int GetDeclIntParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal int Z3_get_decl_int_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the integer value associated with an integer parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_int_parameter")]
+    internal int GetDeclIntParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_int_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_int_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclIntParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate double get_decl_double_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate double GetDeclDoubleParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal double Z3_get_decl_double_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the double value associated with an double parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_double_parameter")]
+    internal double GetDeclDoubleParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_double_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_double_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclDoubleParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_decl_symbol_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate IntPtr GetDeclSymbolParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal IntPtr Z3_get_decl_symbol_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the double value associated with an double parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_symbol_parameter")]
+    internal IntPtr GetDeclSymbolParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_symbol_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_symbol_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclSymbolParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_decl_sort_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate IntPtr GetDeclSortParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal IntPtr Z3_get_decl_sort_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the sort value associated with a sort parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_sort_parameter")]
+    internal IntPtr GetDeclSortParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_sort_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_sort_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclSortParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_decl_ast_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate IntPtr GetDeclAstParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal IntPtr Z3_get_decl_ast_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the expression value associated with an expression parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_ast_parameter")]
+    internal IntPtr GetDeclAstParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_ast_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_ast_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclAstParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_decl_func_decl_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate IntPtr GetDeclFuncDeclParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal IntPtr Z3_get_decl_func_decl_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the expression value associated with an expression parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_func_decl_parameter")]
+    internal IntPtr GetDeclFuncDeclParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_func_decl_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_func_decl_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclFuncDeclParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_decl_rational_parameterDelegate(IntPtr c, IntPtr d, uint idx);
+    private delegate IntPtr GetDeclRationalParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
-    internal IntPtr Z3_get_decl_rational_parameter(IntPtr c, IntPtr d, uint idx)
+    /// <summary>
+    /// Return the rational value, as a string, associated with a rational parameter.
+    /// </summary>
+    [Z3Function("Z3_get_decl_rational_parameter")]
+    internal IntPtr GetDeclRationalParameter(IntPtr c, IntPtr d, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_decl_rational_parameter");
-        var func = Marshal.GetDelegateForFunctionPointer<get_decl_rational_parameterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDeclRationalParameterDelegate>(funcPtr);
         return func(c, d, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr app_to_astDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr AppToAstDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_app_to_ast(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Convert a
+    /// </summary>
+    [Z3Function("Z3_app_to_ast")]
+    internal IntPtr AppToAst(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_app_to_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<app_to_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AppToAstDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_app_declDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetAppDeclDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_app_decl(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the declaration of a constant or function application.
+    /// </summary>
+    [Z3Function("Z3_get_app_decl")]
+    internal IntPtr GetAppDecl(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_app_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<get_app_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAppDeclDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_app_num_argsDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetAppNumArgsDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_app_num_args(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the number of argument of an application. If
+    /// </summary>
+    [Z3Function("Z3_get_app_num_args")]
+    internal uint GetAppNumArgs(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_app_num_args");
-        var func = Marshal.GetDelegateForFunctionPointer<get_app_num_argsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAppNumArgsDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_app_argDelegate(IntPtr c, IntPtr a, uint i);
+    private delegate IntPtr GetAppArgDelegate(IntPtr c, IntPtr a, uint i);
 
-    internal IntPtr Z3_get_app_arg(IntPtr c, IntPtr a, uint i)
+    /// <summary>
+    /// Return the i-th argument of the given application.
+    /// </summary>
+    [Z3Function("Z3_get_app_arg")]
+    internal IntPtr GetAppArg(IntPtr c, IntPtr a, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_app_arg");
-        var func = Marshal.GetDelegateForFunctionPointer<get_app_argDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAppArgDelegate>(funcPtr);
         return func(c, a, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_eq_astDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate bool IsEqAstDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal bool Z3_is_eq_ast(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Compare terms.
+    /// </summary>
+    [Z3Function("Z3_is_eq_ast")]
+    internal bool IsEqAst(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_is_eq_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<is_eq_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsEqAstDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_ast_idDelegate(IntPtr c, IntPtr t);
+    private delegate uint GetAstIdDelegate(IntPtr c, IntPtr t);
 
-    internal uint Z3_get_ast_id(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return a unique identifier for
+    /// </summary>
+    [Z3Function("Z3_get_ast_id")]
+    internal uint GetAstId(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_get_ast_id");
-        var func = Marshal.GetDelegateForFunctionPointer<get_ast_idDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAstIdDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_ast_hashDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetAstHashDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_ast_hash(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the same hash. The result of
+    /// </summary>
+    [Z3Function("Z3_get_ast_hash")]
+    internal uint GetAstHash(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_ast_hash");
-        var func = Marshal.GetDelegateForFunctionPointer<get_ast_hashDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAstHashDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_sortDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetSortDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_sort(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the sort of an AST node.
+    /// </summary>
+    [Z3Function("Z3_get_sort")]
+    internal IntPtr GetSort(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<get_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSortDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_well_sortedDelegate(IntPtr c, IntPtr t);
+    private delegate bool IsWellSortedDelegate(IntPtr c, IntPtr t);
 
-    internal bool Z3_is_well_sorted(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_is_well_sorted")]
+    internal bool IsWellSorted(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_is_well_sorted");
-        var func = Marshal.GetDelegateForFunctionPointer<is_well_sortedDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsWellSortedDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_bool_valueDelegate(IntPtr c, IntPtr a);
+    private delegate int GetBoolValueDelegate(IntPtr c, IntPtr a);
 
-    internal int Z3_get_bool_value(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_get_bool_value")]
+    internal int GetBoolValue(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_bool_value");
-        var func = Marshal.GetDelegateForFunctionPointer<get_bool_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetBoolValueDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_ast_kindDelegate(IntPtr c, IntPtr a);
+    private delegate int GetAstKindDelegate(IntPtr c, IntPtr a);
 
-    internal int Z3_get_ast_kind(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the kind of the given AST.
+    /// </summary>
+    [Z3Function("Z3_get_ast_kind")]
+    internal int GetAstKind(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_ast_kind");
-        var func = Marshal.GetDelegateForFunctionPointer<get_ast_kindDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAstKindDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_appDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsAppDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_app(IntPtr c, IntPtr a)
+    [Z3Function("Z3_is_app")]
+    internal bool IsApp(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_app");
-        var func = Marshal.GetDelegateForFunctionPointer<is_appDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsAppDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_groundDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsGroundDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_ground(IntPtr c, IntPtr a)
+    [Z3Function("Z3_is_ground")]
+    internal bool IsGround(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_ground");
-        var func = Marshal.GetDelegateForFunctionPointer<is_groundDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsGroundDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_depthDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetDepthDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_depth(IntPtr c, IntPtr a)
+    [Z3Function("Z3_get_depth")]
+    internal uint GetDepth(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_depth");
-        var func = Marshal.GetDelegateForFunctionPointer<get_depthDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDepthDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_numeral_astDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsNumeralAstDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_numeral_ast(IntPtr c, IntPtr a)
+    [Z3Function("Z3_is_numeral_ast")]
+    internal bool IsNumeralAst(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_numeral_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<is_numeral_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsNumeralAstDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_algebraic_numberDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsAlgebraicNumberDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_algebraic_number(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_is_algebraic_number")]
+    internal bool IsAlgebraicNumber(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_algebraic_number");
-        var func = Marshal.GetDelegateForFunctionPointer<is_algebraic_numberDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsAlgebraicNumberDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr to_appDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr ToAppDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_to_app(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Convert an
+    /// </summary>
+    [Z3Function("Z3_to_app")]
+    internal IntPtr ToApp(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_to_app");
-        var func = Marshal.GetDelegateForFunctionPointer<to_appDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ToAppDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr to_func_declDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr ToFuncDeclDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_to_func_decl(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Convert an AST into a FUNC_DECL_AST. This is just type casting.
+    /// </summary>
+    [Z3Function("Z3_to_func_decl")]
+    internal IntPtr ToFuncDecl(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_to_func_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<to_func_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ToFuncDeclDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_numeral_stringDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetNumeralStringDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_numeral_string(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return numeral value, as a decimal string of a numeric constant term
+    /// </summary>
+    [Z3Function("Z3_get_numeral_string")]
+    internal IntPtr GetNumeralString(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_string");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralStringDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_numeral_binary_stringDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetNumeralBinaryStringDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_numeral_binary_string(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return numeral value, as a binary string of a numeric constant term
+    /// </summary>
+    [Z3Function("Z3_get_numeral_binary_string")]
+    internal IntPtr GetNumeralBinaryString(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_binary_string");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_binary_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralBinaryStringDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_numeral_decimal_stringDelegate(IntPtr c, IntPtr a, uint precision);
+    private delegate IntPtr GetNumeralDecimalStringDelegate(IntPtr c, IntPtr a, uint precision);
 
-    internal IntPtr Z3_get_numeral_decimal_string(IntPtr c, IntPtr a, uint precision)
+    /// <summary>
+    /// Return numeral as a string in decimal notation. The result has at most
+    /// </summary>
+    [Z3Function("Z3_get_numeral_decimal_string")]
+    internal IntPtr GetNumeralDecimalString(IntPtr c, IntPtr a, uint precision)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_decimal_string");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_decimal_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralDecimalStringDelegate>(funcPtr);
         return func(c, a, precision);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate double get_numeral_doubleDelegate(IntPtr c, IntPtr a);
+    private delegate double GetNumeralDoubleDelegate(IntPtr c, IntPtr a);
 
-    internal double Z3_get_numeral_double(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return numeral as a double.
+    /// </summary>
+    [Z3Function("Z3_get_numeral_double")]
+    internal double GetNumeralDouble(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_double");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_doubleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralDoubleDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_numeratorDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetNumeratorDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_numerator(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the numerator (as a numeral AST) of a numeral AST of sort Real.
+    /// </summary>
+    [Z3Function("Z3_get_numerator")]
+    internal IntPtr GetNumerator(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numerator");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeratorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeratorDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_denominatorDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetDenominatorDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_denominator(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the denominator (as a numeral AST) of a numeral AST of sort Real.
+    /// </summary>
+    [Z3Function("Z3_get_denominator")]
+    internal IntPtr GetDenominator(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_denominator");
-        var func = Marshal.GetDelegateForFunctionPointer<get_denominatorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetDenominatorDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_numeral_smallDelegate(IntPtr c, IntPtr a, IntPtr num, IntPtr den);
+    private delegate bool GetNumeralSmallDelegate(IntPtr c, IntPtr a, IntPtr num, IntPtr den);
 
-    internal bool Z3_get_numeral_small(IntPtr c, IntPtr a, IntPtr num, IntPtr den)
+    /// <summary>
+    /// Return numeral value, as a pair of 64 bit numbers if the representation fits.
+    /// </summary>
+    [Z3Function("Z3_get_numeral_small")]
+    internal bool GetNumeralSmall(IntPtr c, IntPtr a, IntPtr num, IntPtr den)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_small");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_smallDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralSmallDelegate>(funcPtr);
         return func(c, a, num, den);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_numeral_intDelegate(IntPtr c, IntPtr v, IntPtr i);
+    private delegate bool GetNumeralIntDelegate(IntPtr c, IntPtr v, IntPtr i);
 
-    internal bool Z3_get_numeral_int(IntPtr c, IntPtr v, IntPtr i)
+    /// <summary>
+    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine int. Return
+    /// </summary>
+    [Z3Function("Z3_get_numeral_int")]
+    internal bool GetNumeralInt(IntPtr c, IntPtr v, IntPtr i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_int");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralIntDelegate>(funcPtr);
         return func(c, v, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_numeral_uintDelegate(IntPtr c, IntPtr v, IntPtr u);
+    private delegate bool GetNumeralUintDelegate(IntPtr c, IntPtr v, IntPtr u);
 
-    internal bool Z3_get_numeral_uint(IntPtr c, IntPtr v, IntPtr u)
+    /// <summary>
+    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine unsigned int. Return
+    /// </summary>
+    [Z3Function("Z3_get_numeral_uint")]
+    internal bool GetNumeralUint(IntPtr c, IntPtr v, IntPtr u)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_uint");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_uintDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralUintDelegate>(funcPtr);
         return func(c, v, u);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_numeral_uint64Delegate(IntPtr c, IntPtr v, IntPtr u);
+    private delegate bool GetNumeralUint64Delegate(IntPtr c, IntPtr v, IntPtr u);
 
-    internal bool Z3_get_numeral_uint64(IntPtr c, IntPtr v, IntPtr u)
+    /// <summary>
+    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine
+    /// </summary>
+    [Z3Function("Z3_get_numeral_uint64")]
+    internal bool GetNumeralUint64(IntPtr c, IntPtr v, IntPtr u)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_uint64");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_uint64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralUint64Delegate>(funcPtr);
         return func(c, v, u);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_numeral_int64Delegate(IntPtr c, IntPtr v, IntPtr i);
+    private delegate bool GetNumeralInt64Delegate(IntPtr c, IntPtr v, IntPtr i);
 
-    internal bool Z3_get_numeral_int64(IntPtr c, IntPtr v, IntPtr i)
+    /// <summary>
+    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine
+    /// </summary>
+    [Z3Function("Z3_get_numeral_int64")]
+    internal bool GetNumeralInt64(IntPtr c, IntPtr v, IntPtr i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_int64");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_int64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralInt64Delegate>(funcPtr);
         return func(c, v, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool get_numeral_rational_int64Delegate(IntPtr c, IntPtr v, IntPtr num, IntPtr den);
+    private delegate bool GetNumeralRationalInt64Delegate(IntPtr c, IntPtr v, IntPtr num, IntPtr den);
 
-    internal bool Z3_get_numeral_rational_int64(IntPtr c, IntPtr v, IntPtr num, IntPtr den)
+    /// <summary>
+    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit as a rational number as machine
+    /// </summary>
+    [Z3Function("Z3_get_numeral_rational_int64")]
+    internal bool GetNumeralRationalInt64(IntPtr c, IntPtr v, IntPtr num, IntPtr den)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_rational_int64");
-        var func = Marshal.GetDelegateForFunctionPointer<get_numeral_rational_int64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetNumeralRationalInt64Delegate>(funcPtr);
         return func(c, v, num, den);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_algebraic_number_lowerDelegate(IntPtr c, IntPtr a, uint precision);
+    private delegate IntPtr GetAlgebraicNumberLowerDelegate(IntPtr c, IntPtr a, uint precision);
 
-    internal IntPtr Z3_get_algebraic_number_lower(IntPtr c, IntPtr a, uint precision)
+    /// <summary>
+    /// Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    /// </summary>
+    [Z3Function("Z3_get_algebraic_number_lower")]
+    internal IntPtr GetAlgebraicNumberLower(IntPtr c, IntPtr a, uint precision)
     {
         var funcPtr = GetFunctionPointer("Z3_get_algebraic_number_lower");
-        var func = Marshal.GetDelegateForFunctionPointer<get_algebraic_number_lowerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAlgebraicNumberLowerDelegate>(funcPtr);
         return func(c, a, precision);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_algebraic_number_upperDelegate(IntPtr c, IntPtr a, uint precision);
+    private delegate IntPtr GetAlgebraicNumberUpperDelegate(IntPtr c, IntPtr a, uint precision);
 
-    internal IntPtr Z3_get_algebraic_number_upper(IntPtr c, IntPtr a, uint precision)
+    /// <summary>
+    /// Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    /// </summary>
+    [Z3Function("Z3_get_algebraic_number_upper")]
+    internal IntPtr GetAlgebraicNumberUpper(IntPtr c, IntPtr a, uint precision)
     {
         var funcPtr = GetFunctionPointer("Z3_get_algebraic_number_upper");
-        var func = Marshal.GetDelegateForFunctionPointer<get_algebraic_number_upperDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetAlgebraicNumberUpperDelegate>(funcPtr);
         return func(c, a, precision);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr pattern_to_astDelegate(IntPtr c, IntPtr p);
+    private delegate IntPtr PatternToAstDelegate(IntPtr c, IntPtr p);
 
-    internal IntPtr Z3_pattern_to_ast(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Convert a Z3_pattern into Z3_ast. This is just type casting.
+    /// </summary>
+    [Z3Function("Z3_pattern_to_ast")]
+    internal IntPtr PatternToAst(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_pattern_to_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<pattern_to_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<PatternToAstDelegate>(funcPtr);
         return func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_pattern_num_termsDelegate(IntPtr c, IntPtr p);
+    private delegate uint GetPatternNumTermsDelegate(IntPtr c, IntPtr p);
 
-    internal uint Z3_get_pattern_num_terms(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Return number of terms in pattern.
+    /// </summary>
+    [Z3Function("Z3_get_pattern_num_terms")]
+    internal uint GetPatternNumTerms(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_get_pattern_num_terms");
-        var func = Marshal.GetDelegateForFunctionPointer<get_pattern_num_termsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetPatternNumTermsDelegate>(funcPtr);
         return func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_patternDelegate(IntPtr c, IntPtr p, uint idx);
+    private delegate IntPtr GetPatternDelegate(IntPtr c, IntPtr p, uint idx);
 
-    internal IntPtr Z3_get_pattern(IntPtr c, IntPtr p, uint idx)
+    /// <summary>
+    /// Return i'th ast in pattern.
+    /// </summary>
+    [Z3Function("Z3_get_pattern")]
+    internal IntPtr GetPattern(IntPtr c, IntPtr p, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_get_pattern");
-        var func = Marshal.GetDelegateForFunctionPointer<get_patternDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetPatternDelegate>(funcPtr);
         return func(c, p, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_index_valueDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetIndexValueDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_index_value(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return index of de-Bruijn bound variable.
+    /// </summary>
+    [Z3Function("Z3_get_index_value")]
+    internal uint GetIndexValue(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_index_value");
-        var func = Marshal.GetDelegateForFunctionPointer<get_index_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetIndexValueDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_quantifier_forallDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsQuantifierForallDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_quantifier_forall(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Determine if an ast is a universal quantifier.
+    /// </summary>
+    [Z3Function("Z3_is_quantifier_forall")]
+    internal bool IsQuantifierForall(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_quantifier_forall");
-        var func = Marshal.GetDelegateForFunctionPointer<is_quantifier_forallDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsQuantifierForallDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_quantifier_existsDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsQuantifierExistsDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_quantifier_exists(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Determine if ast is an existential quantifier.
+    /// </summary>
+    [Z3Function("Z3_is_quantifier_exists")]
+    internal bool IsQuantifierExists(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_quantifier_exists");
-        var func = Marshal.GetDelegateForFunctionPointer<is_quantifier_existsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsQuantifierExistsDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_lambdaDelegate(IntPtr c, IntPtr a);
+    private delegate bool IsLambdaDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_is_lambda(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Determine if ast is a lambda expression.
+    /// </summary>
+    [Z3Function("Z3_is_lambda")]
+    internal bool IsLambda(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_is_lambda");
-        var func = Marshal.GetDelegateForFunctionPointer<is_lambdaDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsLambdaDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_quantifier_weightDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetQuantifierWeightDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_quantifier_weight(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Obtain weight of quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_weight")]
+    internal uint GetQuantifierWeight(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_weight");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_weightDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierWeightDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_skolem_idDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetQuantifierSkolemIdDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_quantifier_skolem_id(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Obtain skolem id of quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_skolem_id")]
+    internal IntPtr GetQuantifierSkolemId(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_skolem_id");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_skolem_idDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierSkolemIdDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_idDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetQuantifierIdDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_quantifier_id(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Obtain id of quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_id")]
+    internal IntPtr GetQuantifierId(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_id");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_idDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierIdDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_quantifier_num_patternsDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetQuantifierNumPatternsDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_quantifier_num_patterns(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return number of patterns used in quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_num_patterns")]
+    internal uint GetQuantifierNumPatterns(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_num_patterns");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_num_patternsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierNumPatternsDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_pattern_astDelegate(IntPtr c, IntPtr a, uint i);
+    private delegate IntPtr GetQuantifierPatternAstDelegate(IntPtr c, IntPtr a, uint i);
 
-    internal IntPtr Z3_get_quantifier_pattern_ast(IntPtr c, IntPtr a, uint i)
+    /// <summary>
+    /// Return i'th pattern.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_pattern_ast")]
+    internal IntPtr GetQuantifierPatternAst(IntPtr c, IntPtr a, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_pattern_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_pattern_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierPatternAstDelegate>(funcPtr);
         return func(c, a, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_quantifier_num_no_patternsDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetQuantifierNumNoPatternsDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_quantifier_num_no_patterns(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return number of no_patterns used in quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_num_no_patterns")]
+    internal uint GetQuantifierNumNoPatterns(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_num_no_patterns");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_num_no_patternsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierNumNoPatternsDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_no_pattern_astDelegate(IntPtr c, IntPtr a, uint i);
+    private delegate IntPtr GetQuantifierNoPatternAstDelegate(IntPtr c, IntPtr a, uint i);
 
-    internal IntPtr Z3_get_quantifier_no_pattern_ast(IntPtr c, IntPtr a, uint i)
+    /// <summary>
+    /// Return i'th no_pattern.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_no_pattern_ast")]
+    internal IntPtr GetQuantifierNoPatternAst(IntPtr c, IntPtr a, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_no_pattern_ast");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_no_pattern_astDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierNoPatternAstDelegate>(funcPtr);
         return func(c, a, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_quantifier_num_boundDelegate(IntPtr c, IntPtr a);
+    private delegate uint GetQuantifierNumBoundDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_get_quantifier_num_bound(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return number of bound variables of quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_num_bound")]
+    internal uint GetQuantifierNumBound(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_num_bound");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_num_boundDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierNumBoundDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_bound_nameDelegate(IntPtr c, IntPtr a, uint i);
+    private delegate IntPtr GetQuantifierBoundNameDelegate(IntPtr c, IntPtr a, uint i);
 
-    internal IntPtr Z3_get_quantifier_bound_name(IntPtr c, IntPtr a, uint i)
+    /// <summary>
+    /// Return symbol of the i'th bound variable.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_bound_name")]
+    internal IntPtr GetQuantifierBoundName(IntPtr c, IntPtr a, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_bound_name");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_bound_nameDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierBoundNameDelegate>(funcPtr);
         return func(c, a, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_bound_sortDelegate(IntPtr c, IntPtr a, uint i);
+    private delegate IntPtr GetQuantifierBoundSortDelegate(IntPtr c, IntPtr a, uint i);
 
-    internal IntPtr Z3_get_quantifier_bound_sort(IntPtr c, IntPtr a, uint i)
+    /// <summary>
+    /// Return sort of the i'th bound variable.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_bound_sort")]
+    internal IntPtr GetQuantifierBoundSort(IntPtr c, IntPtr a, uint i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_bound_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_bound_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierBoundSortDelegate>(funcPtr);
         return func(c, a, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_quantifier_bodyDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr GetQuantifierBodyDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_get_quantifier_body(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return body of quantifier.
+    /// </summary>
+    [Z3Function("Z3_get_quantifier_body")]
+    internal IntPtr GetQuantifierBody(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_get_quantifier_body");
-        var func = Marshal.GetDelegateForFunctionPointer<get_quantifier_bodyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetQuantifierBodyDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplifyDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr SimplifyDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_simplify(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Interface to simplifier.
+    /// </summary>
+    [Z3Function("Z3_simplify")]
+    internal IntPtr Simplify(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_simplify");
-        var func = Marshal.GetDelegateForFunctionPointer<simplifyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifyDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplify_exDelegate(IntPtr c, IntPtr a, IntPtr p);
+    private delegate IntPtr SimplifyExDelegate(IntPtr c, IntPtr a, IntPtr p);
 
-    internal IntPtr Z3_simplify_ex(IntPtr c, IntPtr a, IntPtr p)
+    /// <summary>
+    /// Interface to simplifier.
+    /// </summary>
+    [Z3Function("Z3_simplify_ex")]
+    internal IntPtr SimplifyEx(IntPtr c, IntPtr a, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_simplify_ex");
-        var func = Marshal.GetDelegateForFunctionPointer<simplify_exDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifyExDelegate>(funcPtr);
         return func(c, a, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplify_get_helpDelegate(IntPtr c);
+    private delegate IntPtr SimplifyGetHelpDelegate(IntPtr c);
 
-    internal IntPtr Z3_simplify_get_help(IntPtr c)
+    /// <summary>
+    /// Return a string describing all available parameters.
+    /// </summary>
+    [Z3Function("Z3_simplify_get_help")]
+    internal IntPtr SimplifyGetHelp(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_simplify_get_help");
-        var func = Marshal.GetDelegateForFunctionPointer<simplify_get_helpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifyGetHelpDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr simplify_get_param_descrsDelegate(IntPtr c);
+    private delegate IntPtr SimplifyGetParamDescrsDelegate(IntPtr c);
 
-    internal IntPtr Z3_simplify_get_param_descrs(IntPtr c)
+    /// <summary>
+    /// Return the parameter description set for the simplify procedure.
+    /// </summary>
+    [Z3Function("Z3_simplify_get_param_descrs")]
+    internal IntPtr SimplifyGetParamDescrs(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_simplify_get_param_descrs");
-        var func = Marshal.GetDelegateForFunctionPointer<simplify_get_param_descrsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SimplifyGetParamDescrsDelegate>(funcPtr);
         return func(c);
     }
 

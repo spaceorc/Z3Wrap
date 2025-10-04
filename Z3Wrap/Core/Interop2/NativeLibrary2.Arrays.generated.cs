@@ -5,113 +5,135 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsArrays(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_select");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_select_n");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_store");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_store_n");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_const_array");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_map");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_default");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_as_array");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_has_size");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_selectDelegate(IntPtr c, IntPtr a, IntPtr i);
+    private delegate IntPtr MkSelectDelegate(IntPtr c, IntPtr a, IntPtr i);
 
-    internal IntPtr Z3_mk_select(IntPtr c, IntPtr a, IntPtr i)
+    /// <summary>
+    /// Array read. The argument
+    /// </summary>
+    [Z3Function("Z3_mk_select")]
+    internal IntPtr MkSelect(IntPtr c, IntPtr a, IntPtr i)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_select");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_selectDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSelectDelegate>(funcPtr);
         return func(c, a, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_select_nDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs);
+    private delegate IntPtr MkSelectNDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs);
 
-    internal IntPtr Z3_mk_select_n(IntPtr c, IntPtr a, uint n, IntPtr idxs)
+    /// <summary>
+    /// n-ary Array read. The argument
+    /// </summary>
+    [Z3Function("Z3_mk_select_n")]
+    internal IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, IntPtr idxs)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_select_n");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_select_nDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSelectNDelegate>(funcPtr);
         return func(c, a, n, idxs);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_storeDelegate(IntPtr c, IntPtr a, IntPtr i, IntPtr v);
+    private delegate IntPtr MkStoreDelegate(IntPtr c, IntPtr a, IntPtr i, IntPtr v);
 
-    internal IntPtr Z3_mk_store(IntPtr c, IntPtr a, IntPtr i, IntPtr v)
+    /// <summary>
+    /// Array update.
+    /// </summary>
+    [Z3Function("Z3_mk_store")]
+    internal IntPtr MkStore(IntPtr c, IntPtr a, IntPtr i, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_store");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_storeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStoreDelegate>(funcPtr);
         return func(c, a, i, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_store_nDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v);
+    private delegate IntPtr MkStoreNDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v);
 
-    internal IntPtr Z3_mk_store_n(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v)
+    /// <summary>
+    /// n-ary Array update.
+    /// </summary>
+    [Z3Function("Z3_mk_store_n")]
+    internal IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_store_n");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_store_nDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStoreNDelegate>(funcPtr);
         return func(c, a, n, idxs, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_const_arrayDelegate(IntPtr c, IntPtr domain, IntPtr v);
+    private delegate IntPtr MkConstArrayDelegate(IntPtr c, IntPtr domain, IntPtr v);
 
-    internal IntPtr Z3_mk_const_array(IntPtr c, IntPtr domain, IntPtr v)
+    /// <summary>
+    /// Create the constant array.
+    /// </summary>
+    [Z3Function("Z3_mk_const_array")]
+    internal IntPtr MkConstArray(IntPtr c, IntPtr domain, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const_array");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_const_arrayDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConstArrayDelegate>(funcPtr);
         return func(c, domain, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_mapDelegate(IntPtr c, IntPtr f, uint n, IntPtr args);
+    private delegate IntPtr MkMapDelegate(IntPtr c, IntPtr f, uint n, IntPtr args);
 
-    internal IntPtr Z3_mk_map(IntPtr c, IntPtr f, uint n, IntPtr args)
+    /// <summary>
+    /// Map f on the argument arrays.
+    /// </summary>
+    [Z3Function("Z3_mk_map")]
+    internal IntPtr MkMap(IntPtr c, IntPtr f, uint n, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_map");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_mapDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkMapDelegate>(funcPtr);
         return func(c, f, n, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_array_defaultDelegate(IntPtr c, IntPtr array);
+    private delegate IntPtr MkArrayDefaultDelegate(IntPtr c, IntPtr array);
 
-    internal IntPtr Z3_mk_array_default(IntPtr c, IntPtr array)
+    /// <summary>
+    /// Access the array default value. Produces the default range value, for arrays that can be represented as finite maps with a default range value.
+    /// </summary>
+    [Z3Function("Z3_mk_array_default")]
+    internal IntPtr MkArrayDefault(IntPtr c, IntPtr array)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_default");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_array_defaultDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkArrayDefaultDelegate>(funcPtr);
         return func(c, array);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_as_arrayDelegate(IntPtr c, IntPtr f);
+    private delegate IntPtr MkAsArrayDelegate(IntPtr c, IntPtr f);
 
-    internal IntPtr Z3_mk_as_array(IntPtr c, IntPtr f)
+    /// <summary>
+    /// Create array with the same interpretation as a function. The array satisfies the property (f x) = (select (_ as-array f) x) for every argument x.
+    /// </summary>
+    [Z3Function("Z3_mk_as_array")]
+    internal IntPtr MkAsArray(IntPtr c, IntPtr f)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_as_array");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_as_arrayDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAsArrayDelegate>(funcPtr);
         return func(c, f);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_has_sizeDelegate(IntPtr c, IntPtr set, IntPtr k);
+    private delegate IntPtr MkSetHasSizeDelegate(IntPtr c, IntPtr set, IntPtr k);
 
-    internal IntPtr Z3_mk_set_has_size(IntPtr c, IntPtr set, IntPtr k)
+    /// <summary>
+    /// Create predicate that holds if Boolean array
+    /// </summary>
+    [Z3Function("Z3_mk_set_has_size")]
+    internal IntPtr MkSetHasSize(IntPtr c, IntPtr set, IntPtr k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_has_size");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_has_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetHasSizeDelegate>(funcPtr);
         return func(c, set, k);
     }
 

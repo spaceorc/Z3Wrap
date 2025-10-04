@@ -5,201 +5,247 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsGoals(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_goal");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_precision");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_assert");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_inconsistent");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_depth");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_reset");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_formula");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_num_exprs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_is_decided_sat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_is_decided_unsat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_translate");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_convert_model");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_goal_to_dimacs_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_goalDelegate(IntPtr c, bool models, bool unsat_cores, bool proofs);
+    private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsat_cores, bool proofs);
 
-    internal IntPtr Z3_mk_goal(IntPtr c, bool models, bool unsat_cores, bool proofs)
+    /// <summary>
+    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers.
+    /// </summary>
+    [Z3Function("Z3_mk_goal")]
+    internal IntPtr MkGoal(IntPtr c, bool models, bool unsat_cores, bool proofs)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_goal");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_goalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkGoalDelegate>(funcPtr);
         return func(c, models, unsat_cores, proofs);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void goal_inc_refDelegate(IntPtr c, IntPtr g);
+    private delegate void GoalIncRefDelegate(IntPtr c, IntPtr g);
 
-    internal void Z3_goal_inc_ref(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Increment the reference counter of the given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_inc_ref")]
+    internal void GoalIncRef(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalIncRefDelegate>(funcPtr);
         func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void goal_dec_refDelegate(IntPtr c, IntPtr g);
+    private delegate void GoalDecRefDelegate(IntPtr c, IntPtr g);
 
-    internal void Z3_goal_dec_ref(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Decrement the reference counter of the given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_dec_ref")]
+    internal void GoalDecRef(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalDecRefDelegate>(funcPtr);
         func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int goal_precisionDelegate(IntPtr c, IntPtr g);
+    private delegate int GoalPrecisionDelegate(IntPtr c, IntPtr g);
 
-    internal int Z3_goal_precision(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A under approximation is applied when the objective is to find a model for a given goal. An over approximation is applied when the objective is to find a proof for a given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_precision")]
+    internal int GoalPrecision(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_precision");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_precisionDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalPrecisionDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void goal_assertDelegate(IntPtr c, IntPtr g, IntPtr a);
+    private delegate void GoalAssertDelegate(IntPtr c, IntPtr g, IntPtr a);
 
-    internal void Z3_goal_assert(IntPtr c, IntPtr g, IntPtr a)
+    /// <summary>
+    /// Add a new formula
+    /// </summary>
+    [Z3Function("Z3_goal_assert")]
+    internal void GoalAssert(IntPtr c, IntPtr g, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_assert");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_assertDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalAssertDelegate>(funcPtr);
         func(c, g, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool goal_inconsistentDelegate(IntPtr c, IntPtr g);
+    private delegate bool GoalInconsistentDelegate(IntPtr c, IntPtr g);
 
-    internal bool Z3_goal_inconsistent(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_goal_inconsistent")]
+    internal bool GoalInconsistent(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_inconsistent");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_inconsistentDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalInconsistentDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint goal_depthDelegate(IntPtr c, IntPtr g);
+    private delegate uint GoalDepthDelegate(IntPtr c, IntPtr g);
 
-    internal uint Z3_goal_depth(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return the depth of the given goal. It tracks how many transformations were applied to it.
+    /// </summary>
+    [Z3Function("Z3_goal_depth")]
+    internal uint GoalDepth(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_depth");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_depthDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalDepthDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void goal_resetDelegate(IntPtr c, IntPtr g);
+    private delegate void GoalResetDelegate(IntPtr c, IntPtr g);
 
-    internal void Z3_goal_reset(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Erase all formulas from the given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_reset")]
+    internal void GoalReset(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_reset");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_resetDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalResetDelegate>(funcPtr);
         func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint goal_sizeDelegate(IntPtr c, IntPtr g);
+    private delegate uint GoalSizeDelegate(IntPtr c, IntPtr g);
 
-    internal uint Z3_goal_size(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return the number of formulas in the given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_size")]
+    internal uint GoalSize(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_size");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalSizeDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr goal_formulaDelegate(IntPtr c, IntPtr g, uint idx);
+    private delegate IntPtr GoalFormulaDelegate(IntPtr c, IntPtr g, uint idx);
 
-    internal IntPtr Z3_goal_formula(IntPtr c, IntPtr g, uint idx)
+    /// <summary>
+    /// Return a formula from the given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_formula")]
+    internal IntPtr GoalFormula(IntPtr c, IntPtr g, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_formula");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_formulaDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalFormulaDelegate>(funcPtr);
         return func(c, g, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint goal_num_exprsDelegate(IntPtr c, IntPtr g);
+    private delegate uint GoalNumExprsDelegate(IntPtr c, IntPtr g);
 
-    internal uint Z3_goal_num_exprs(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return the number of formulas, subformulas and terms in the given goal.
+    /// </summary>
+    [Z3Function("Z3_goal_num_exprs")]
+    internal uint GoalNumExprs(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_num_exprs");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_num_exprsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalNumExprsDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool goal_is_decided_satDelegate(IntPtr c, IntPtr g);
+    private delegate bool GoalIsDecidedSatDelegate(IntPtr c, IntPtr g);
 
-    internal bool Z3_goal_is_decided_sat(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_goal_is_decided_sat")]
+    internal bool GoalIsDecidedSat(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_is_decided_sat");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_is_decided_satDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalIsDecidedSatDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool goal_is_decided_unsatDelegate(IntPtr c, IntPtr g);
+    private delegate bool GoalIsDecidedUnsatDelegate(IntPtr c, IntPtr g);
 
-    internal bool Z3_goal_is_decided_unsat(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_goal_is_decided_unsat")]
+    internal bool GoalIsDecidedUnsat(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_is_decided_unsat");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_is_decided_unsatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalIsDecidedUnsatDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr goal_translateDelegate(IntPtr source, IntPtr g, IntPtr target);
+    private delegate IntPtr GoalTranslateDelegate(IntPtr source, IntPtr g, IntPtr target);
 
-    internal IntPtr Z3_goal_translate(IntPtr source, IntPtr g, IntPtr target)
+    /// <summary>
+    /// Copy a goal
+    /// </summary>
+    [Z3Function("Z3_goal_translate")]
+    internal IntPtr GoalTranslate(IntPtr source, IntPtr g, IntPtr target)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_translate");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_translateDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalTranslateDelegate>(funcPtr);
         return func(source, g, target);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr goal_convert_modelDelegate(IntPtr c, IntPtr g, IntPtr m);
+    private delegate IntPtr GoalConvertModelDelegate(IntPtr c, IntPtr g, IntPtr m);
 
-    internal IntPtr Z3_goal_convert_model(IntPtr c, IntPtr g, IntPtr m)
+    /// <summary>
+    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable.
+    /// </summary>
+    [Z3Function("Z3_goal_convert_model")]
+    internal IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_convert_model");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_convert_modelDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalConvertModelDelegate>(funcPtr);
         return func(c, g, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr goal_to_stringDelegate(IntPtr c, IntPtr g);
+    private delegate IntPtr GoalToStringDelegate(IntPtr c, IntPtr g);
 
-    internal IntPtr Z3_goal_to_string(IntPtr c, IntPtr g)
+    /// <summary>
+    /// Convert a goal into a string.
+    /// </summary>
+    [Z3Function("Z3_goal_to_string")]
+    internal IntPtr GoalToString(IntPtr c, IntPtr g)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalToStringDelegate>(funcPtr);
         return func(c, g);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr goal_to_dimacs_stringDelegate(IntPtr c, IntPtr g, bool include_names);
+    private delegate IntPtr GoalToDimacsStringDelegate(IntPtr c, IntPtr g, bool include_names);
 
-    internal IntPtr Z3_goal_to_dimacs_string(IntPtr c, IntPtr g, bool include_names)
+    /// <summary>
+    /// Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded.
+    /// </summary>
+    [Z3Function("Z3_goal_to_dimacs_string")]
+    internal IntPtr GoalToDimacsString(IntPtr c, IntPtr g, bool include_names)
     {
         var funcPtr = GetFunctionPointer("Z3_goal_to_dimacs_string");
-        var func = Marshal.GetDelegateForFunctionPointer<goal_to_dimacs_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GoalToDimacsStringDelegate>(funcPtr);
         return func(c, g, include_names);
     }
 

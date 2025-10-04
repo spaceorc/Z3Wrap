@@ -5,91 +5,98 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsStringConversion(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_set_ast_print_mode");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_ast_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_pattern_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_sort_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_func_decl_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_model_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_benchmark_to_smtlib_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void set_ast_print_modeDelegate(IntPtr c, int mode);
+    private delegate void SetAstPrintModeDelegate(IntPtr c, int mode);
 
-    internal void Z3_set_ast_print_mode(IntPtr c, int mode)
+    /// <summary>
+    /// Select mode for the format used for pretty-printing AST nodes.
+    /// </summary>
+    [Z3Function("Z3_set_ast_print_mode")]
+    internal void SetAstPrintMode(IntPtr c, int mode)
     {
         var funcPtr = GetFunctionPointer("Z3_set_ast_print_mode");
-        var func = Marshal.GetDelegateForFunctionPointer<set_ast_print_modeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SetAstPrintModeDelegate>(funcPtr);
         func(c, mode);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr ast_to_stringDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr AstToStringDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_ast_to_string(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Convert the given AST node into a string.
+    /// </summary>
+    [Z3Function("Z3_ast_to_string")]
+    internal IntPtr AstToString(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_ast_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<ast_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AstToStringDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr pattern_to_stringDelegate(IntPtr c, IntPtr p);
+    private delegate IntPtr PatternToStringDelegate(IntPtr c, IntPtr p);
 
-    internal IntPtr Z3_pattern_to_string(IntPtr c, IntPtr p)
+    [Z3Function("Z3_pattern_to_string")]
+    internal IntPtr PatternToString(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_pattern_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<pattern_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<PatternToStringDelegate>(funcPtr);
         return func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr sort_to_stringDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SortToStringDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_sort_to_string(IntPtr c, IntPtr s)
+    [Z3Function("Z3_sort_to_string")]
+    internal IntPtr SortToString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_sort_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<sort_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SortToStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr func_decl_to_stringDelegate(IntPtr c, IntPtr d);
+    private delegate IntPtr FuncDeclToStringDelegate(IntPtr c, IntPtr d);
 
-    internal IntPtr Z3_func_decl_to_string(IntPtr c, IntPtr d)
+    [Z3Function("Z3_func_decl_to_string")]
+    internal IntPtr FuncDeclToString(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_func_decl_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<func_decl_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<FuncDeclToStringDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr model_to_stringDelegate(IntPtr c, IntPtr m);
+    private delegate IntPtr ModelToStringDelegate(IntPtr c, IntPtr m);
 
-    internal IntPtr Z3_model_to_string(IntPtr c, IntPtr m)
+    /// <summary>
+    /// Convert the given model into a string.
+    /// </summary>
+    [Z3Function("Z3_model_to_string")]
+    internal IntPtr ModelToString(IntPtr c, IntPtr m)
     {
         var funcPtr = GetFunctionPointer("Z3_model_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<model_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ModelToStringDelegate>(funcPtr);
         return func(c, m);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr benchmark_to_smtlib_stringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula);
+    private delegate IntPtr BenchmarkToSmtlibStringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula);
 
-    internal IntPtr Z3_benchmark_to_smtlib_string(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula)
+    /// <summary>
+    /// Convert the given benchmark into SMT-LIB formatted string.
+    /// </summary>
+    [Z3Function("Z3_benchmark_to_smtlib_string")]
+    internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula)
     {
         var funcPtr = GetFunctionPointer("Z3_benchmark_to_smtlib_string");
-        var func = Marshal.GetDelegateForFunctionPointer<benchmark_to_smtlib_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<BenchmarkToSmtlibStringDelegate>(funcPtr);
         return func(c, name, logic, status, attributes, num_assumptions, assumptions, formula);
     }
 

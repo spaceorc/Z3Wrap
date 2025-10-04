@@ -5,36 +5,37 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsSymbols(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int_symbol");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string_symbol");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_int_symbolDelegate(IntPtr c, int i);
+    private delegate IntPtr MkIntSymbolDelegate(IntPtr c, int i);
 
-    internal IntPtr Z3_mk_int_symbol(IntPtr c, int i)
+    /// <summary>
+    /// Create a Z3 symbol using an integer.
+    /// </summary>
+    [Z3Function("Z3_mk_int_symbol")]
+    internal IntPtr MkIntSymbol(IntPtr c, int i)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_symbol");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_int_symbolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIntSymbolDelegate>(funcPtr);
         return func(c, i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_string_symbolDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkStringSymbolDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_string_symbol(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a Z3 symbol using a C string.
+    /// </summary>
+    [Z3Function("Z3_mk_string_symbol")]
+    internal IntPtr MkStringSymbol(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_symbol");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_string_symbolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringSymbolDelegate>(funcPtr);
         return func(c, s);
     }
 

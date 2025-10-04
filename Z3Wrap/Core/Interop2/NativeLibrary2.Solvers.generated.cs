@@ -5,630 +5,787 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsSolvers(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_solver");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_simple_solver");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_solver_for_logic");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_solver_from_tactic");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_translate");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_import_model_converter");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_help");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_param_descrs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_set_params");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_interrupt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_push");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_pop");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_reset");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_num_scopes");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_assert");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_assert_and_track");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_from_file");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_from_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_assertions");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_units");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_trail");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_non_units");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_levels");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_congruence_root");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_congruence_next");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_congruence_explain");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_solve_for");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_register_on_clause");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_init");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_fixed");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_final");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_eq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_diseq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_created");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_decide");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_on_binding");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_next_split");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_declare");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_register");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_register_cb");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_propagate_consequence");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_set_initial_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_check");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_check_assumptions");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_implied_equalities");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_consequences");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_cube");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_model");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_proof");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_unsat_core");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_reason_unknown");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_get_statistics");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_solver_to_dimacs_string");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_solverDelegate(IntPtr c);
+    private delegate IntPtr MkSolverDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_solver(IntPtr c)
+    /// <summary>
+    /// Create a new solver. This solver is a "combined solver" (see combined_solver module) that internally uses a non-incremental (solver1) and an incremental solver (solver2). This combined solver changes its behaviour based on how it is used and how its parameters are set.
+    /// </summary>
+    [Z3Function("Z3_mk_solver")]
+    internal IntPtr MkSolver(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_solver");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_solverDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSolverDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_simple_solverDelegate(IntPtr c);
+    private delegate IntPtr MkSimpleSolverDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_simple_solver(IntPtr c)
+    /// <summary>
+    /// Create a new incremental solver.
+    /// </summary>
+    [Z3Function("Z3_mk_simple_solver")]
+    internal IntPtr MkSimpleSolver(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_simple_solver");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_simple_solverDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSimpleSolverDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_solver_for_logicDelegate(IntPtr c, IntPtr logic);
+    private delegate IntPtr MkSolverForLogicDelegate(IntPtr c, IntPtr logic);
 
-    internal IntPtr Z3_mk_solver_for_logic(IntPtr c, IntPtr logic)
+    /// <summary>
+    /// Create a new solver customized for the given logic. It behaves like #Z3_mk_solver if the logic is unknown or unsupported.
+    /// </summary>
+    [Z3Function("Z3_mk_solver_for_logic")]
+    internal IntPtr MkSolverForLogic(IntPtr c, IntPtr logic)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_solver_for_logic");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_solver_for_logicDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSolverForLogicDelegate>(funcPtr);
         return func(c, logic);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_solver_from_tacticDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkSolverFromTacticDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_solver_from_tactic(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Create a new solver that is implemented using the given tactic. The solver supports the commands #Z3_solver_push and #Z3_solver_pop, but it will always solve each #Z3_solver_check from scratch.
+    /// </summary>
+    [Z3Function("Z3_mk_solver_from_tactic")]
+    internal IntPtr MkSolverFromTactic(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_solver_from_tactic");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_solver_from_tacticDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSolverFromTacticDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_translateDelegate(IntPtr source, IntPtr s, IntPtr target);
+    private delegate IntPtr SolverTranslateDelegate(IntPtr source, IntPtr s, IntPtr target);
 
-    internal IntPtr Z3_solver_translate(IntPtr source, IntPtr s, IntPtr target)
+    /// <summary>
+    /// Copy a solver
+    /// </summary>
+    [Z3Function("Z3_solver_translate")]
+    internal IntPtr SolverTranslate(IntPtr source, IntPtr s, IntPtr target)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_translate");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_translateDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverTranslateDelegate>(funcPtr);
         return func(source, s, target);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_import_model_converterDelegate(IntPtr ctx, IntPtr src, IntPtr dst);
+    private delegate void SolverImportModelConverterDelegate(IntPtr ctx, IntPtr src, IntPtr dst);
 
-    internal void Z3_solver_import_model_converter(IntPtr ctx, IntPtr src, IntPtr dst)
+    /// <summary>
+    /// Ad-hoc method for importing model conversion from solver.
+    /// </summary>
+    [Z3Function("Z3_solver_import_model_converter")]
+    internal void SolverImportModelConverter(IntPtr ctx, IntPtr src, IntPtr dst)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_import_model_converter");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_import_model_converterDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverImportModelConverterDelegate>(funcPtr);
         func(ctx, src, dst);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_helpDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetHelpDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_help(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return a string describing all solver available parameters.
+    /// </summary>
+    [Z3Function("Z3_solver_get_help")]
+    internal IntPtr SolverGetHelp(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_help");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_helpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetHelpDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_param_descrsDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetParamDescrsDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_param_descrs(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the parameter description set for the given solver object.
+    /// </summary>
+    [Z3Function("Z3_solver_get_param_descrs")]
+    internal IntPtr SolverGetParamDescrs(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_param_descrs");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_param_descrsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetParamDescrsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_set_paramsDelegate(IntPtr c, IntPtr s, IntPtr p);
+    private delegate void SolverSetParamsDelegate(IntPtr c, IntPtr s, IntPtr p);
 
-    internal void Z3_solver_set_params(IntPtr c, IntPtr s, IntPtr p)
+    /// <summary>
+    /// Set the given solver using the given parameters.
+    /// </summary>
+    [Z3Function("Z3_solver_set_params")]
+    internal void SolverSetParams(IntPtr c, IntPtr s, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_set_params");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_set_paramsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverSetParamsDelegate>(funcPtr);
         func(c, s, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_inc_refDelegate(IntPtr c, IntPtr s);
+    private delegate void SolverIncRefDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_solver_inc_ref(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Increment the reference counter of the given solver.
+    /// </summary>
+    [Z3Function("Z3_solver_inc_ref")]
+    internal void SolverIncRef(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverIncRefDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_dec_refDelegate(IntPtr c, IntPtr s);
+    private delegate void SolverDecRefDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_solver_dec_ref(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Decrement the reference counter of the given solver.
+    /// </summary>
+    [Z3Function("Z3_solver_dec_ref")]
+    internal void SolverDecRef(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverDecRefDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_interruptDelegate(IntPtr c, IntPtr s);
+    private delegate void SolverInterruptDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_solver_interrupt(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Solver local interrupt. Normally you should use Z3_interrupt to cancel solvers because only one solver is enabled concurrently per context. However, per GitHub issue #1006, there are use cases where it is more convenient to cancel a specific solver. Solvers that are not selected for interrupts are left alone.
+    /// </summary>
+    [Z3Function("Z3_solver_interrupt")]
+    internal void SolverInterrupt(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_interrupt");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_interruptDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverInterruptDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_pushDelegate(IntPtr c, IntPtr s);
+    private delegate void SolverPushDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_solver_push(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a backtracking point.
+    /// </summary>
+    [Z3Function("Z3_solver_push")]
+    internal void SolverPush(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_push");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_pushDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPushDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_popDelegate(IntPtr c, IntPtr s, uint n);
+    private delegate void SolverPopDelegate(IntPtr c, IntPtr s, uint n);
 
-    internal void Z3_solver_pop(IntPtr c, IntPtr s, uint n)
+    /// <summary>
+    /// Backtrack
+    /// </summary>
+    [Z3Function("Z3_solver_pop")]
+    internal void SolverPop(IntPtr c, IntPtr s, uint n)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_pop");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_popDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPopDelegate>(funcPtr);
         func(c, s, n);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_resetDelegate(IntPtr c, IntPtr s);
+    private delegate void SolverResetDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_solver_reset(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Remove all assertions from the solver.
+    /// </summary>
+    [Z3Function("Z3_solver_reset")]
+    internal void SolverReset(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_reset");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_resetDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverResetDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint solver_get_num_scopesDelegate(IntPtr c, IntPtr s);
+    private delegate uint SolverGetNumScopesDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_solver_get_num_scopes(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the number of backtracking points.
+    /// </summary>
+    [Z3Function("Z3_solver_get_num_scopes")]
+    internal uint SolverGetNumScopes(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_num_scopes");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_num_scopesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetNumScopesDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_assertDelegate(IntPtr c, IntPtr s, IntPtr a);
+    private delegate void SolverAssertDelegate(IntPtr c, IntPtr s, IntPtr a);
 
-    internal void Z3_solver_assert(IntPtr c, IntPtr s, IntPtr a)
+    /// <summary>
+    /// Assert a constraint into the solver.
+    /// </summary>
+    [Z3Function("Z3_solver_assert")]
+    internal void SolverAssert(IntPtr c, IntPtr s, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_assert");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_assertDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverAssertDelegate>(funcPtr);
         func(c, s, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_assert_and_trackDelegate(IntPtr c, IntPtr s, IntPtr a, IntPtr p);
+    private delegate void SolverAssertAndTrackDelegate(IntPtr c, IntPtr s, IntPtr a, IntPtr p);
 
-    internal void Z3_solver_assert_and_track(IntPtr c, IntPtr s, IntPtr a, IntPtr p)
+    /// <summary>
+    /// Assert a constraint
+    /// </summary>
+    [Z3Function("Z3_solver_assert_and_track")]
+    internal void SolverAssertAndTrack(IntPtr c, IntPtr s, IntPtr a, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_assert_and_track");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_assert_and_trackDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverAssertAndTrackDelegate>(funcPtr);
         func(c, s, a, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_from_fileDelegate(IntPtr c, IntPtr s, IntPtr file_name);
+    private delegate void SolverFromFileDelegate(IntPtr c, IntPtr s, IntPtr file_name);
 
-    internal void Z3_solver_from_file(IntPtr c, IntPtr s, IntPtr file_name)
+    /// <summary>
+    /// load solver assertions from a file.
+    /// </summary>
+    [Z3Function("Z3_solver_from_file")]
+    internal void SolverFromFile(IntPtr c, IntPtr s, IntPtr file_name)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_from_file");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_from_fileDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverFromFileDelegate>(funcPtr);
         func(c, s, file_name);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_from_stringDelegate(IntPtr c, IntPtr s, IntPtr str);
+    private delegate void SolverFromStringDelegate(IntPtr c, IntPtr s, IntPtr str);
 
-    internal void Z3_solver_from_string(IntPtr c, IntPtr s, IntPtr str)
+    /// <summary>
+    /// load solver assertions from a string.
+    /// </summary>
+    [Z3Function("Z3_solver_from_string")]
+    internal void SolverFromString(IntPtr c, IntPtr s, IntPtr str)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_from_string");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_from_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverFromStringDelegate>(funcPtr);
         func(c, s, str);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_assertionsDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetAssertionsDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_assertions(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the set of asserted formulas on the solver.
+    /// </summary>
+    [Z3Function("Z3_solver_get_assertions")]
+    internal IntPtr SolverGetAssertions(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_assertions");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_assertionsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetAssertionsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_unitsDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetUnitsDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_units(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the set of units modulo model conversion.
+    /// </summary>
+    [Z3Function("Z3_solver_get_units")]
+    internal IntPtr SolverGetUnits(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_units");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_unitsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetUnitsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_trailDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetTrailDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_trail(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the trail modulo model conversion, in order of decision level The decision level can be retrieved using
+    /// </summary>
+    [Z3Function("Z3_solver_get_trail")]
+    internal IntPtr SolverGetTrail(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_trail");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_trailDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetTrailDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_non_unitsDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetNonUnitsDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_non_units(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the set of non units in the solver state.
+    /// </summary>
+    [Z3Function("Z3_solver_get_non_units")]
+    internal IntPtr SolverGetNonUnits(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_non_units");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_non_unitsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetNonUnitsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_get_levelsDelegate(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint levels);
+    private delegate void SolverGetLevelsDelegate(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint levels);
 
-    internal void Z3_solver_get_levels(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint levels)
+    /// <summary>
+    /// retrieve the decision depth of Boolean literals (variables or their negations). Assumes a check-sat call and no other calls (to extract models) have been invoked.
+    /// </summary>
+    [Z3Function("Z3_solver_get_levels")]
+    internal void SolverGetLevels(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint levels)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_levels");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_levelsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetLevelsDelegate>(funcPtr);
         func(c, s, literals, sz, levels);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_congruence_rootDelegate(IntPtr c, IntPtr s, IntPtr a);
+    private delegate IntPtr SolverCongruenceRootDelegate(IntPtr c, IntPtr s, IntPtr a);
 
-    internal IntPtr Z3_solver_congruence_root(IntPtr c, IntPtr s, IntPtr a)
+    /// <summary>
+    /// retrieve the congruence closure root of an expression. The root is retrieved relative to the state where the solver was in when it completed. If it completed during a set of case splits, the congruence roots are relative to these case splits. That is, the congruences are not consequences but they are true under the current state.
+    /// </summary>
+    [Z3Function("Z3_solver_congruence_root")]
+    internal IntPtr SolverCongruenceRoot(IntPtr c, IntPtr s, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_congruence_root");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_congruence_rootDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCongruenceRootDelegate>(funcPtr);
         return func(c, s, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_congruence_nextDelegate(IntPtr c, IntPtr s, IntPtr a);
+    private delegate IntPtr SolverCongruenceNextDelegate(IntPtr c, IntPtr s, IntPtr a);
 
-    internal IntPtr Z3_solver_congruence_next(IntPtr c, IntPtr s, IntPtr a)
+    /// <summary>
+    /// retrieve the next expression in the congruence class. The set of congruent siblings form a cyclic list. Repeated calls on the siblings will result in returning to the original expression.
+    /// </summary>
+    [Z3Function("Z3_solver_congruence_next")]
+    internal IntPtr SolverCongruenceNext(IntPtr c, IntPtr s, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_congruence_next");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_congruence_nextDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCongruenceNextDelegate>(funcPtr);
         return func(c, s, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_congruence_explainDelegate(IntPtr c, IntPtr s, IntPtr a, IntPtr b);
+    private delegate IntPtr SolverCongruenceExplainDelegate(IntPtr c, IntPtr s, IntPtr a, IntPtr b);
 
-    internal IntPtr Z3_solver_congruence_explain(IntPtr c, IntPtr s, IntPtr a, IntPtr b)
+    /// <summary>
+    /// retrieve explanation for congruence.
+    /// </summary>
+    [Z3Function("Z3_solver_congruence_explain")]
+    internal IntPtr SolverCongruenceExplain(IntPtr c, IntPtr s, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_congruence_explain");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_congruence_explainDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCongruenceExplainDelegate>(funcPtr);
         return func(c, s, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_solve_forDelegate(IntPtr c, IntPtr s, IntPtr variables, IntPtr terms, IntPtr guards);
+    private delegate void SolverSolveForDelegate(IntPtr c, IntPtr s, IntPtr variables, IntPtr terms, IntPtr guards);
 
-    internal void Z3_solver_solve_for(IntPtr c, IntPtr s, IntPtr variables, IntPtr terms, IntPtr guards)
+    /// <summary>
+    /// retrieve a 'solution' for
+    /// </summary>
+    [Z3Function("Z3_solver_solve_for")]
+    internal void SolverSolveFor(IntPtr c, IntPtr s, IntPtr variables, IntPtr terms, IntPtr guards)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_solve_for");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_solve_forDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverSolveForDelegate>(funcPtr);
         func(c, s, variables, terms, guards);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_register_on_clauseDelegate(IntPtr c, IntPtr s, IntPtr user_context, IntPtr on_clause_eh);
+    private delegate void SolverRegisterOnClauseDelegate(IntPtr c, IntPtr s, IntPtr user_context, IntPtr on_clause_eh);
 
-    internal void Z3_solver_register_on_clause(IntPtr c, IntPtr s, IntPtr user_context, IntPtr on_clause_eh)
+    /// <summary>
+    /// register a callback to that retrieves assumed, inferred and deleted clauses during search.
+    /// </summary>
+    [Z3Function("Z3_solver_register_on_clause")]
+    internal void SolverRegisterOnClause(IntPtr c, IntPtr s, IntPtr user_context, IntPtr on_clause_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_register_on_clause");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_register_on_clauseDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverRegisterOnClauseDelegate>(funcPtr);
         func(c, s, user_context, on_clause_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_initDelegate(IntPtr c, IntPtr s, IntPtr user_context, IntPtr push_eh, IntPtr pop_eh, IntPtr fresh_eh);
+    private delegate void SolverPropagateInitDelegate(IntPtr c, IntPtr s, IntPtr user_context, IntPtr push_eh, IntPtr pop_eh, IntPtr fresh_eh);
 
-    internal void Z3_solver_propagate_init(IntPtr c, IntPtr s, IntPtr user_context, IntPtr push_eh, IntPtr pop_eh, IntPtr fresh_eh)
+    /// <summary>
+    /// register a user-propagator with the solver.
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_init")]
+    internal void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr user_context, IntPtr push_eh, IntPtr pop_eh, IntPtr fresh_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_init");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_initDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateInitDelegate>(funcPtr);
         func(c, s, user_context, push_eh, pop_eh, fresh_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_fixedDelegate(IntPtr c, IntPtr s, IntPtr fixed_eh);
+    private delegate void SolverPropagateFixedDelegate(IntPtr c, IntPtr s, IntPtr fixed_eh);
 
-    internal void Z3_solver_propagate_fixed(IntPtr c, IntPtr s, IntPtr fixed_eh)
+    /// <summary>
+    /// register a callback for when an expression is bound to a fixed value. The supported expression types are - Booleans - Bit-vectors
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_fixed")]
+    internal void SolverPropagateFixed(IntPtr c, IntPtr s, IntPtr fixed_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_fixed");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_fixedDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateFixedDelegate>(funcPtr);
         func(c, s, fixed_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_finalDelegate(IntPtr c, IntPtr s, IntPtr final_eh);
+    private delegate void SolverPropagateFinalDelegate(IntPtr c, IntPtr s, IntPtr final_eh);
 
-    internal void Z3_solver_propagate_final(IntPtr c, IntPtr s, IntPtr final_eh)
+    /// <summary>
+    /// register a callback on final check. This provides freedom to the propagator to delay actions or implement a branch-and bound solver. The final check is invoked when all decision variables have been assigned by the solver.
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_final")]
+    internal void SolverPropagateFinal(IntPtr c, IntPtr s, IntPtr final_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_final");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_finalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateFinalDelegate>(funcPtr);
         func(c, s, final_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_eqDelegate(IntPtr c, IntPtr s, IntPtr eq_eh);
+    private delegate void SolverPropagateEqDelegate(IntPtr c, IntPtr s, IntPtr eq_eh);
 
-    internal void Z3_solver_propagate_eq(IntPtr c, IntPtr s, IntPtr eq_eh)
+    /// <summary>
+    /// register a callback on expression equalities.
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_eq")]
+    internal void SolverPropagateEq(IntPtr c, IntPtr s, IntPtr eq_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_eq");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_eqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateEqDelegate>(funcPtr);
         func(c, s, eq_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_diseqDelegate(IntPtr c, IntPtr s, IntPtr eq_eh);
+    private delegate void SolverPropagateDiseqDelegate(IntPtr c, IntPtr s, IntPtr eq_eh);
 
-    internal void Z3_solver_propagate_diseq(IntPtr c, IntPtr s, IntPtr eq_eh)
+    /// <summary>
+    /// register a callback on expression dis-equalities.
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_diseq")]
+    internal void SolverPropagateDiseq(IntPtr c, IntPtr s, IntPtr eq_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_diseq");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_diseqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDiseqDelegate>(funcPtr);
         func(c, s, eq_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_createdDelegate(IntPtr c, IntPtr s, IntPtr created_eh);
+    private delegate void SolverPropagateCreatedDelegate(IntPtr c, IntPtr s, IntPtr created_eh);
 
-    internal void Z3_solver_propagate_created(IntPtr c, IntPtr s, IntPtr created_eh)
+    /// <summary>
+    /// register a callback when a new expression with a registered function is used by the solver The registered function appears at the top level and is created using
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_created")]
+    internal void SolverPropagateCreated(IntPtr c, IntPtr s, IntPtr created_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_created");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_createdDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateCreatedDelegate>(funcPtr);
         func(c, s, created_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_decideDelegate(IntPtr c, IntPtr s, IntPtr decide_eh);
+    private delegate void SolverPropagateDecideDelegate(IntPtr c, IntPtr s, IntPtr decide_eh);
 
-    internal void Z3_solver_propagate_decide(IntPtr c, IntPtr s, IntPtr decide_eh)
+    /// <summary>
+    /// register a callback when the solver decides to split on a registered expression. The callback may change the arguments by providing other values by calling
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_decide")]
+    internal void SolverPropagateDecide(IntPtr c, IntPtr s, IntPtr decide_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_decide");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_decideDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDecideDelegate>(funcPtr);
         func(c, s, decide_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_on_bindingDelegate(IntPtr c, IntPtr s, IntPtr on_binding_eh);
+    private delegate void SolverPropagateOnBindingDelegate(IntPtr c, IntPtr s, IntPtr on_binding_eh);
 
-    internal void Z3_solver_propagate_on_binding(IntPtr c, IntPtr s, IntPtr on_binding_eh)
+    /// <summary>
+    /// register a callback when the solver instantiates a quantifier. If the callback returns false, the actual instantiation of the quantifier is blocked. This allows the user propagator selectively prioritize instantiations without relying on default or configured weights.
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_on_binding")]
+    internal void SolverPropagateOnBinding(IntPtr c, IntPtr s, IntPtr on_binding_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_on_binding");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_on_bindingDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateOnBindingDelegate>(funcPtr);
         func(c, s, on_binding_eh);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool solver_next_splitDelegate(IntPtr c, IntPtr cb, IntPtr t, uint idx, int phase);
+    private delegate bool SolverNextSplitDelegate(IntPtr c, IntPtr cb, IntPtr t, uint idx, int phase);
 
-    internal bool Z3_solver_next_split(IntPtr c, IntPtr cb, IntPtr t, uint idx, int phase)
+    [Z3Function("Z3_solver_next_split")]
+    internal bool SolverNextSplit(IntPtr c, IntPtr cb, IntPtr t, uint idx, int phase)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_next_split");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_next_splitDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverNextSplitDelegate>(funcPtr);
         return func(c, cb, t, idx, phase);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_propagate_declareDelegate(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range);
+    private delegate IntPtr SolverPropagateDeclareDelegate(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range);
 
-    internal IntPtr Z3_solver_propagate_declare(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
+    [Z3Function("Z3_solver_propagate_declare")]
+    internal IntPtr SolverPropagateDeclare(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_declare");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_declareDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDeclareDelegate>(funcPtr);
         return func(c, name, n, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_registerDelegate(IntPtr c, IntPtr s, IntPtr e);
+    private delegate void SolverPropagateRegisterDelegate(IntPtr c, IntPtr s, IntPtr e);
 
-    internal void Z3_solver_propagate_register(IntPtr c, IntPtr s, IntPtr e)
+    /// <summary>
+    /// register an expression to propagate on with the solver. Only expressions of type Bool and type Bit-Vector can be registered for propagation.
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_register")]
+    internal void SolverPropagateRegister(IntPtr c, IntPtr s, IntPtr e)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_register");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_registerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateRegisterDelegate>(funcPtr);
         func(c, s, e);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_propagate_register_cbDelegate(IntPtr c, IntPtr cb, IntPtr e);
+    private delegate void SolverPropagateRegisterCbDelegate(IntPtr c, IntPtr cb, IntPtr e);
 
-    internal void Z3_solver_propagate_register_cb(IntPtr c, IntPtr cb, IntPtr e)
+    /// <summary>
+    /// register an expression to propagate on with the solver. Only expressions of type Bool and type Bit-Vector can be registered for propagation. Unlike
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_register_cb")]
+    internal void SolverPropagateRegisterCb(IntPtr c, IntPtr cb, IntPtr e)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_register_cb");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_register_cbDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateRegisterCbDelegate>(funcPtr);
         func(c, cb, e);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool solver_propagate_consequenceDelegate(IntPtr c, IntPtr cb, uint num_fixed, IntPtr @fixed, uint num_eqs, IntPtr eq_lhs, IntPtr eq_rhs, IntPtr conseq);
+    private delegate bool SolverPropagateConsequenceDelegate(IntPtr c, IntPtr cb, uint num_fixed, IntPtr @fixed, uint num_eqs, IntPtr eq_lhs, IntPtr eq_rhs, IntPtr conseq);
 
-    internal bool Z3_solver_propagate_consequence(IntPtr c, IntPtr cb, uint num_fixed, IntPtr @fixed, uint num_eqs, IntPtr eq_lhs, IntPtr eq_rhs, IntPtr conseq)
+    /// <summary>
+    /// propagate a consequence based on fixed values and equalities. A client may invoke it during the
+    /// </summary>
+    [Z3Function("Z3_solver_propagate_consequence")]
+    internal bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint num_fixed, IntPtr @fixed, uint num_eqs, IntPtr eq_lhs, IntPtr eq_rhs, IntPtr conseq)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_consequence");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_propagate_consequenceDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateConsequenceDelegate>(funcPtr);
         return func(c, cb, num_fixed, @fixed, num_eqs, eq_lhs, eq_rhs, conseq);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void solver_set_initial_valueDelegate(IntPtr c, IntPtr s, IntPtr v, IntPtr val);
+    private delegate void SolverSetInitialValueDelegate(IntPtr c, IntPtr s, IntPtr v, IntPtr val);
 
-    internal void Z3_solver_set_initial_value(IntPtr c, IntPtr s, IntPtr v, IntPtr val)
+    /// <summary>
+    /// provide an initialization hint to the solver. The initialization hint is used to calibrate an initial value of the expression that represents a variable. If the variable is Boolean, the initial phase is set according to
+    /// </summary>
+    [Z3Function("Z3_solver_set_initial_value")]
+    internal void SolverSetInitialValue(IntPtr c, IntPtr s, IntPtr v, IntPtr val)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_set_initial_value");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_set_initial_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverSetInitialValueDelegate>(funcPtr);
         func(c, s, v, val);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int solver_checkDelegate(IntPtr c, IntPtr s);
+    private delegate int SolverCheckDelegate(IntPtr c, IntPtr s);
 
-    internal int Z3_solver_check(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Check whether the assertions in a given solver are consistent or not.
+    /// </summary>
+    [Z3Function("Z3_solver_check")]
+    internal int SolverCheck(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_checkDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCheckDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int solver_check_assumptionsDelegate(IntPtr c, IntPtr s, uint num_assumptions, IntPtr assumptions);
+    private delegate int SolverCheckAssumptionsDelegate(IntPtr c, IntPtr s, uint num_assumptions, IntPtr assumptions);
 
-    internal int Z3_solver_check_assumptions(IntPtr c, IntPtr s, uint num_assumptions, IntPtr assumptions)
+    /// <summary>
+    /// Check whether the assertions in the given solver and optional assumptions are consistent or not.
+    /// </summary>
+    [Z3Function("Z3_solver_check_assumptions")]
+    internal int SolverCheckAssumptions(IntPtr c, IntPtr s, uint num_assumptions, IntPtr assumptions)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check_assumptions");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_check_assumptionsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCheckAssumptionsDelegate>(funcPtr);
         return func(c, s, num_assumptions, assumptions);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int get_implied_equalitiesDelegate(IntPtr c, IntPtr s, uint num_terms, IntPtr terms, uint class_ids);
+    private delegate int GetImpliedEqualitiesDelegate(IntPtr c, IntPtr s, uint num_terms, IntPtr terms, uint class_ids);
 
-    internal int Z3_get_implied_equalities(IntPtr c, IntPtr s, uint num_terms, IntPtr terms, uint class_ids)
+    /// <summary>
+    /// Retrieve congruence class representatives for terms.
+    /// </summary>
+    [Z3Function("Z3_get_implied_equalities")]
+    internal int GetImpliedEqualities(IntPtr c, IntPtr s, uint num_terms, IntPtr terms, uint class_ids)
     {
         var funcPtr = GetFunctionPointer("Z3_get_implied_equalities");
-        var func = Marshal.GetDelegateForFunctionPointer<get_implied_equalitiesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetImpliedEqualitiesDelegate>(funcPtr);
         return func(c, s, num_terms, terms, class_ids);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int solver_get_consequencesDelegate(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences);
+    private delegate int SolverGetConsequencesDelegate(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences);
 
-    internal int Z3_solver_get_consequences(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences)
+    /// <summary>
+    /// retrieve consequences from solver that determine values of the supplied function symbols.
+    /// </summary>
+    [Z3Function("Z3_solver_get_consequences")]
+    internal int SolverGetConsequences(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_consequences");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_consequencesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetConsequencesDelegate>(funcPtr);
         return func(c, s, assumptions, variables, consequences);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_cubeDelegate(IntPtr c, IntPtr s, IntPtr vars, uint backtrack_level);
+    private delegate IntPtr SolverCubeDelegate(IntPtr c, IntPtr s, IntPtr vars, uint backtrack_level);
 
-    internal IntPtr Z3_solver_cube(IntPtr c, IntPtr s, IntPtr vars, uint backtrack_level)
+    /// <summary>
+    /// extract a next cube for a solver. The last cube is the constant
+    /// </summary>
+    [Z3Function("Z3_solver_cube")]
+    internal IntPtr SolverCube(IntPtr c, IntPtr s, IntPtr vars, uint backtrack_level)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_cube");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_cubeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverCubeDelegate>(funcPtr);
         return func(c, s, vars, backtrack_level);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_modelDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetModelDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_model(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve the model for the last #Z3_solver_check or #Z3_solver_check_assumptions
+    /// </summary>
+    [Z3Function("Z3_solver_get_model")]
+    internal IntPtr SolverGetModel(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_model");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_modelDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetModelDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_proofDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetProofDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_proof(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve the proof for the last #Z3_solver_check or #Z3_solver_check_assumptions
+    /// </summary>
+    [Z3Function("Z3_solver_get_proof")]
+    internal IntPtr SolverGetProof(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_proof");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_proofDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetProofDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_unsat_coreDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetUnsatCoreDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_unsat_core(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve the unsat core for the last #Z3_solver_check_assumptions The unsat core is a subset of the assumptions
+    /// </summary>
+    [Z3Function("Z3_solver_get_unsat_core")]
+    internal IntPtr SolverGetUnsatCore(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_unsat_core");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_unsat_coreDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetUnsatCoreDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_reason_unknownDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetReasonUnknownDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_reason_unknown(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return a brief justification for an "unknown" result (i.e.,
+    /// </summary>
+    [Z3Function("Z3_solver_get_reason_unknown")]
+    internal IntPtr SolverGetReasonUnknown(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_reason_unknown");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_reason_unknownDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetReasonUnknownDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_get_statisticsDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverGetStatisticsDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_get_statistics(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return statistics for the given solver.
+    /// </summary>
+    [Z3Function("Z3_solver_get_statistics")]
+    internal IntPtr SolverGetStatistics(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_statistics");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_get_statisticsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverGetStatisticsDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_to_stringDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr SolverToStringDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_solver_to_string(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Convert a solver into a string.
+    /// </summary>
+    [Z3Function("Z3_solver_to_string")]
+    internal IntPtr SolverToString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverToStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr solver_to_dimacs_stringDelegate(IntPtr c, IntPtr s, bool include_names);
+    private delegate IntPtr SolverToDimacsStringDelegate(IntPtr c, IntPtr s, bool include_names);
 
-    internal IntPtr Z3_solver_to_dimacs_string(IntPtr c, IntPtr s, bool include_names)
+    /// <summary>
+    /// Convert a solver into a DIMACS formatted string.
+    /// </summary>
+    [Z3Function("Z3_solver_to_dimacs_string")]
+    internal IntPtr SolverToDimacsString(IntPtr c, IntPtr s, bool include_names)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_to_dimacs_string");
-        var func = Marshal.GetDelegateForFunctionPointer<solver_to_dimacs_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SolverToDimacsStringDelegate>(funcPtr);
         return func(c, s, include_names);
     }
 

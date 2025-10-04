@@ -5,146 +5,177 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsSets(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_empty_set");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_full_set");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_add");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_del");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_union");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_intersect");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_difference");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_complement");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_member");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_set_subset");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_array_ext");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_sortDelegate(IntPtr c, IntPtr ty);
+    private delegate IntPtr MkSetSortDelegate(IntPtr c, IntPtr ty);
 
-    internal IntPtr Z3_mk_set_sort(IntPtr c, IntPtr ty)
+    /// <summary>
+    /// Create Set type.
+    /// </summary>
+    [Z3Function("Z3_mk_set_sort")]
+    internal IntPtr MkSetSort(IntPtr c, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetSortDelegate>(funcPtr);
         return func(c, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_empty_setDelegate(IntPtr c, IntPtr domain);
+    private delegate IntPtr MkEmptySetDelegate(IntPtr c, IntPtr domain);
 
-    internal IntPtr Z3_mk_empty_set(IntPtr c, IntPtr domain)
+    /// <summary>
+    /// Create the empty set.
+    /// </summary>
+    [Z3Function("Z3_mk_empty_set")]
+    internal IntPtr MkEmptySet(IntPtr c, IntPtr domain)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_empty_set");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_empty_setDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkEmptySetDelegate>(funcPtr);
         return func(c, domain);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_full_setDelegate(IntPtr c, IntPtr domain);
+    private delegate IntPtr MkFullSetDelegate(IntPtr c, IntPtr domain);
 
-    internal IntPtr Z3_mk_full_set(IntPtr c, IntPtr domain)
+    /// <summary>
+    /// Create the full set.
+    /// </summary>
+    [Z3Function("Z3_mk_full_set")]
+    internal IntPtr MkFullSet(IntPtr c, IntPtr domain)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_full_set");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_full_setDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFullSetDelegate>(funcPtr);
         return func(c, domain);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_addDelegate(IntPtr c, IntPtr set, IntPtr elem);
+    private delegate IntPtr MkSetAddDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
-    internal IntPtr Z3_mk_set_add(IntPtr c, IntPtr set, IntPtr elem)
+    /// <summary>
+    /// Add an element to a set.
+    /// </summary>
+    [Z3Function("Z3_mk_set_add")]
+    internal IntPtr MkSetAdd(IntPtr c, IntPtr set, IntPtr elem)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_add");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_addDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetAddDelegate>(funcPtr);
         return func(c, set, elem);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_delDelegate(IntPtr c, IntPtr set, IntPtr elem);
+    private delegate IntPtr MkSetDelDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
-    internal IntPtr Z3_mk_set_del(IntPtr c, IntPtr set, IntPtr elem)
+    /// <summary>
+    /// Remove an element to a set.
+    /// </summary>
+    [Z3Function("Z3_mk_set_del")]
+    internal IntPtr MkSetDel(IntPtr c, IntPtr set, IntPtr elem)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_del");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_delDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetDelDelegate>(funcPtr);
         return func(c, set, elem);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_unionDelegate(IntPtr c, uint num_args, IntPtr args);
+    private delegate IntPtr MkSetUnionDelegate(IntPtr c, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_mk_set_union(IntPtr c, uint num_args, IntPtr args)
+    /// <summary>
+    /// Take the union of a list of sets.
+    /// </summary>
+    [Z3Function("Z3_mk_set_union")]
+    internal IntPtr MkSetUnion(IntPtr c, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_union");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_unionDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetUnionDelegate>(funcPtr);
         return func(c, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_intersectDelegate(IntPtr c, uint num_args, IntPtr args);
+    private delegate IntPtr MkSetIntersectDelegate(IntPtr c, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_mk_set_intersect(IntPtr c, uint num_args, IntPtr args)
+    /// <summary>
+    /// Take the intersection of a list of sets.
+    /// </summary>
+    [Z3Function("Z3_mk_set_intersect")]
+    internal IntPtr MkSetIntersect(IntPtr c, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_intersect");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_intersectDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetIntersectDelegate>(funcPtr);
         return func(c, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_differenceDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkSetDifferenceDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_set_difference(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Take the set difference between two sets.
+    /// </summary>
+    [Z3Function("Z3_mk_set_difference")]
+    internal IntPtr MkSetDifference(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_difference");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_differenceDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetDifferenceDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_complementDelegate(IntPtr c, IntPtr arg);
+    private delegate IntPtr MkSetComplementDelegate(IntPtr c, IntPtr arg);
 
-    internal IntPtr Z3_mk_set_complement(IntPtr c, IntPtr arg)
+    /// <summary>
+    /// Take the complement of a set.
+    /// </summary>
+    [Z3Function("Z3_mk_set_complement")]
+    internal IntPtr MkSetComplement(IntPtr c, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_complement");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_complementDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetComplementDelegate>(funcPtr);
         return func(c, arg);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_memberDelegate(IntPtr c, IntPtr elem, IntPtr set);
+    private delegate IntPtr MkSetMemberDelegate(IntPtr c, IntPtr elem, IntPtr set);
 
-    internal IntPtr Z3_mk_set_member(IntPtr c, IntPtr elem, IntPtr set)
+    /// <summary>
+    /// Check for set membership.
+    /// </summary>
+    [Z3Function("Z3_mk_set_member")]
+    internal IntPtr MkSetMember(IntPtr c, IntPtr elem, IntPtr set)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_member");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_memberDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetMemberDelegate>(funcPtr);
         return func(c, elem, set);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_set_subsetDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkSetSubsetDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_set_subset(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Check for subsetness of sets.
+    /// </summary>
+    [Z3Function("Z3_mk_set_subset")]
+    internal IntPtr MkSetSubset(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_set_subset");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_set_subsetDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSetSubsetDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_array_extDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkArrayExtDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_array_ext(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
+    /// </summary>
+    [Z3Function("Z3_mk_array_ext")]
+    internal IntPtr MkArrayExt(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_ext");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_array_extDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkArrayExtDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 

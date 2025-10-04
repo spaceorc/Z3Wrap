@@ -5,685 +5,863 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsFloatingPointArithmetic(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rounding_mode_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_round_nearest_ties_to_even");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rne");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_round_nearest_ties_to_away");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rna");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_round_toward_positive");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rtp");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_round_toward_negative");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rtn");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_round_toward_zero");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rtz");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_half");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_16");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_single");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_32");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_double");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_quadruple");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sort_128");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_nan");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_inf");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_zero");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_fp");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_float");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_double");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int_uint");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_numeral_int64_uint64");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_abs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_neg");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_add");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sub");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_mul");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_div");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_fma");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_sqrt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_rem");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_round_to_integral");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_min");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_max");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_leq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_lt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_geq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_gt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_eq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_normal");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_subnormal");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_zero");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_infinite");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_nan");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_negative");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_is_positive");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_float");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_real");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_signed");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_fp_unsigned");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_ubv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_sbv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fpa_to_real");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_rounding_mode_sortDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRoundingModeSortDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_rounding_mode_sort(IntPtr c)
+    /// <summary>
+    /// Create the RoundingMode sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rounding_mode_sort")]
+    internal IntPtr MkFpaRoundingModeSort(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rounding_mode_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_rounding_mode_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundingModeSortDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_round_nearest_ties_to_evenDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRoundNearestTiesToEvenDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_round_nearest_ties_to_even(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_round_nearest_ties_to_even")]
+    internal IntPtr MkFpaRoundNearestTiesToEven(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_round_nearest_ties_to_even");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_round_nearest_ties_to_evenDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundNearestTiesToEvenDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_rneDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRneDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_rne(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rne")]
+    internal IntPtr MkFpaRne(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rne");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_rneDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRneDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_round_nearest_ties_to_awayDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRoundNearestTiesToAwayDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_round_nearest_ties_to_away(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_round_nearest_ties_to_away")]
+    internal IntPtr MkFpaRoundNearestTiesToAway(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_round_nearest_ties_to_away");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_round_nearest_ties_to_awayDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundNearestTiesToAwayDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_rnaDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRnaDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_rna(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rna")]
+    internal IntPtr MkFpaRna(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rna");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_rnaDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRnaDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_round_toward_positiveDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRoundTowardPositiveDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_round_toward_positive(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_round_toward_positive")]
+    internal IntPtr MkFpaRoundTowardPositive(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_round_toward_positive");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_round_toward_positiveDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundTowardPositiveDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_rtpDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRtpDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_rtp(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rtp")]
+    internal IntPtr MkFpaRtp(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rtp");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_rtpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRtpDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_round_toward_negativeDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRoundTowardNegativeDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_round_toward_negative(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_round_toward_negative")]
+    internal IntPtr MkFpaRoundTowardNegative(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_round_toward_negative");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_round_toward_negativeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundTowardNegativeDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_rtnDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRtnDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_rtn(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rtn")]
+    internal IntPtr MkFpaRtn(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rtn");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_rtnDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRtnDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_round_toward_zeroDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRoundTowardZeroDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_round_toward_zero(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the TowardZero rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_round_toward_zero")]
+    internal IntPtr MkFpaRoundTowardZero(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_round_toward_zero");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_round_toward_zeroDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundTowardZeroDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_rtzDelegate(IntPtr c);
+    private delegate IntPtr MkFpaRtzDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_rtz(IntPtr c)
+    /// <summary>
+    /// Create a numeral of RoundingMode sort which represents the TowardZero rounding mode.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rtz")]
+    internal IntPtr MkFpaRtz(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rtz");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_rtzDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRtzDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sortDelegate(IntPtr c, uint ebits, uint sbits);
+    private delegate IntPtr MkFpaSortDelegate(IntPtr c, uint ebits, uint sbits);
 
-    internal IntPtr Z3_mk_fpa_sort(IntPtr c, uint ebits, uint sbits)
+    /// <summary>
+    /// Create a FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort")]
+    internal IntPtr MkFpaSort(IntPtr c, uint ebits, uint sbits)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSortDelegate>(funcPtr);
         return func(c, ebits, sbits);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_halfDelegate(IntPtr c);
+    private delegate IntPtr MkFpaSortHalfDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_half(IntPtr c)
+    /// <summary>
+    /// Create the half-precision (16-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_half")]
+    internal IntPtr MkFpaSortHalf(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_half");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_halfDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSortHalfDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_16Delegate(IntPtr c);
+    private delegate IntPtr MkFpaSort16Delegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_16(IntPtr c)
+    /// <summary>
+    /// Create the half-precision (16-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_16")]
+    internal IntPtr MkFpaSort16(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_16");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_16Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSort16Delegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_singleDelegate(IntPtr c);
+    private delegate IntPtr MkFpaSortSingleDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_single(IntPtr c)
+    /// <summary>
+    /// Create the single-precision (32-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_single")]
+    internal IntPtr MkFpaSortSingle(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_single");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_singleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSortSingleDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_32Delegate(IntPtr c);
+    private delegate IntPtr MkFpaSort32Delegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_32(IntPtr c)
+    /// <summary>
+    /// Create the single-precision (32-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_32")]
+    internal IntPtr MkFpaSort32(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_32");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_32Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSort32Delegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_doubleDelegate(IntPtr c);
+    private delegate IntPtr MkFpaSortDoubleDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_double(IntPtr c)
+    /// <summary>
+    /// Create the double-precision (64-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_double")]
+    internal IntPtr MkFpaSortDouble(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_double");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_doubleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSortDoubleDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_64Delegate(IntPtr c);
+    private delegate IntPtr MkFpaSort64Delegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_64(IntPtr c)
+    /// <summary>
+    /// Create the double-precision (64-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_64")]
+    internal IntPtr MkFpaSort64(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_64");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSort64Delegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_quadrupleDelegate(IntPtr c);
+    private delegate IntPtr MkFpaSortQuadrupleDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_quadruple(IntPtr c)
+    /// <summary>
+    /// Create the quadruple-precision (128-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_quadruple")]
+    internal IntPtr MkFpaSortQuadruple(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_quadruple");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_quadrupleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSortQuadrupleDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sort_128Delegate(IntPtr c);
+    private delegate IntPtr MkFpaSort128Delegate(IntPtr c);
 
-    internal IntPtr Z3_mk_fpa_sort_128(IntPtr c)
+    /// <summary>
+    /// Create the quadruple-precision (128-bit) FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sort_128")]
+    internal IntPtr MkFpaSort128(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sort_128");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sort_128Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSort128Delegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_nanDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkFpaNanDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_nan(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a floating-point NaN of sort
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_nan")]
+    internal IntPtr MkFpaNan(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_nan");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_nanDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNanDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_infDelegate(IntPtr c, IntPtr s, bool negative);
+    private delegate IntPtr MkFpaInfDelegate(IntPtr c, IntPtr s, bool negative);
 
-    internal IntPtr Z3_mk_fpa_inf(IntPtr c, IntPtr s, bool negative)
+    /// <summary>
+    /// Create a floating-point infinity of sort
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_inf")]
+    internal IntPtr MkFpaInf(IntPtr c, IntPtr s, bool negative)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_inf");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_infDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaInfDelegate>(funcPtr);
         return func(c, s, negative);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_zeroDelegate(IntPtr c, IntPtr s, bool negative);
+    private delegate IntPtr MkFpaZeroDelegate(IntPtr c, IntPtr s, bool negative);
 
-    internal IntPtr Z3_mk_fpa_zero(IntPtr c, IntPtr s, bool negative)
+    /// <summary>
+    /// Create a floating-point zero of sort
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_zero")]
+    internal IntPtr MkFpaZero(IntPtr c, IntPtr s, bool negative)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_zero");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_zeroDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaZeroDelegate>(funcPtr);
         return func(c, s, negative);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_fpDelegate(IntPtr c, IntPtr sgn, IntPtr exp, IntPtr sig);
+    private delegate IntPtr MkFpaFpDelegate(IntPtr c, IntPtr sgn, IntPtr exp, IntPtr sig);
 
-    internal IntPtr Z3_mk_fpa_fp(IntPtr c, IntPtr sgn, IntPtr exp, IntPtr sig)
+    /// <summary>
+    /// Create an expression of FloatingPoint sort from three bit-vector expressions.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_fp")]
+    internal IntPtr MkFpaFp(IntPtr c, IntPtr sgn, IntPtr exp, IntPtr sig)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_fp");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_fpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaFpDelegate>(funcPtr);
         return func(c, sgn, exp, sig);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_numeral_floatDelegate(IntPtr c, float v, IntPtr ty);
+    private delegate IntPtr MkFpaNumeralFloatDelegate(IntPtr c, float v, IntPtr ty);
 
-    internal IntPtr Z3_mk_fpa_numeral_float(IntPtr c, float v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of FloatingPoint sort from a float.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_numeral_float")]
+    internal IntPtr MkFpaNumeralFloat(IntPtr c, float v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_float");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_numeral_floatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralFloatDelegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_numeral_doubleDelegate(IntPtr c, double v, IntPtr ty);
+    private delegate IntPtr MkFpaNumeralDoubleDelegate(IntPtr c, double v, IntPtr ty);
 
-    internal IntPtr Z3_mk_fpa_numeral_double(IntPtr c, double v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of FloatingPoint sort from a double.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_numeral_double")]
+    internal IntPtr MkFpaNumeralDouble(IntPtr c, double v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_double");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_numeral_doubleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralDoubleDelegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_numeral_intDelegate(IntPtr c, int v, IntPtr ty);
+    private delegate IntPtr MkFpaNumeralIntDelegate(IntPtr c, int v, IntPtr ty);
 
-    internal IntPtr Z3_mk_fpa_numeral_int(IntPtr c, int v, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of FloatingPoint sort from a signed integer.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_numeral_int")]
+    internal IntPtr MkFpaNumeralInt(IntPtr c, int v, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_numeral_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralIntDelegate>(funcPtr);
         return func(c, v, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_numeral_int_uintDelegate(IntPtr c, bool sgn, int exp, uint sig, IntPtr ty);
+    private delegate IntPtr MkFpaNumeralIntUintDelegate(IntPtr c, bool sgn, int exp, uint sig, IntPtr ty);
 
-    internal IntPtr Z3_mk_fpa_numeral_int_uint(IntPtr c, bool sgn, int exp, uint sig, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of FloatingPoint sort from a sign bit and two integers.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_numeral_int_uint")]
+    internal IntPtr MkFpaNumeralIntUint(IntPtr c, bool sgn, int exp, uint sig, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_int_uint");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_numeral_int_uintDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralIntUintDelegate>(funcPtr);
         return func(c, sgn, exp, sig, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_numeral_int64_uint64Delegate(IntPtr c, bool sgn, long exp, ulong sig, IntPtr ty);
+    private delegate IntPtr MkFpaNumeralInt64Uint64Delegate(IntPtr c, bool sgn, long exp, ulong sig, IntPtr ty);
 
-    internal IntPtr Z3_mk_fpa_numeral_int64_uint64(IntPtr c, bool sgn, long exp, ulong sig, IntPtr ty)
+    /// <summary>
+    /// Create a numeral of FloatingPoint sort from a sign bit and two 64-bit integers.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_numeral_int64_uint64")]
+    internal IntPtr MkFpaNumeralInt64Uint64(IntPtr c, bool sgn, long exp, ulong sig, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_numeral_int64_uint64");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_numeral_int64_uint64Delegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNumeralInt64Uint64Delegate>(funcPtr);
         return func(c, sgn, exp, sig, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_absDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaAbsDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_abs(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Floating-point absolute value
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_abs")]
+    internal IntPtr MkFpaAbs(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_abs");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_absDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaAbsDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_negDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaNegDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_neg(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Floating-point negation
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_neg")]
+    internal IntPtr MkFpaNeg(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_neg");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_negDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaNegDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_addDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaAddDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_add(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point addition
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_add")]
+    internal IntPtr MkFpaAdd(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_add");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_addDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaAddDelegate>(funcPtr);
         return func(c, rm, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_subDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaSubDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_sub(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point subtraction
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sub")]
+    internal IntPtr MkFpaSub(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sub");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_subDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSubDelegate>(funcPtr);
         return func(c, rm, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_mulDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaMulDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_mul(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point multiplication
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_mul")]
+    internal IntPtr MkFpaMul(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_mul");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_mulDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaMulDelegate>(funcPtr);
         return func(c, rm, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_divDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaDivDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_div(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point division
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_div")]
+    internal IntPtr MkFpaDiv(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_div");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_divDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaDivDelegate>(funcPtr);
         return func(c, rm, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_fmaDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2, IntPtr t3);
+    private delegate IntPtr MkFpaFmaDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2, IntPtr t3);
 
-    internal IntPtr Z3_mk_fpa_fma(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2, IntPtr t3)
+    /// <summary>
+    /// Floating-point fused multiply-add.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_fma")]
+    internal IntPtr MkFpaFma(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2, IntPtr t3)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_fma");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_fmaDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaFmaDelegate>(funcPtr);
         return func(c, rm, t1, t2, t3);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_sqrtDelegate(IntPtr c, IntPtr rm, IntPtr t);
+    private delegate IntPtr MkFpaSqrtDelegate(IntPtr c, IntPtr rm, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_sqrt(IntPtr c, IntPtr rm, IntPtr t)
+    /// <summary>
+    /// Floating-point square root
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_sqrt")]
+    internal IntPtr MkFpaSqrt(IntPtr c, IntPtr rm, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_sqrt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_sqrtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaSqrtDelegate>(funcPtr);
         return func(c, rm, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_remDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaRemDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_rem(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point remainder
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_rem")]
+    internal IntPtr MkFpaRem(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_rem");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_remDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRemDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_round_to_integralDelegate(IntPtr c, IntPtr rm, IntPtr t);
+    private delegate IntPtr MkFpaRoundToIntegralDelegate(IntPtr c, IntPtr rm, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_round_to_integral(IntPtr c, IntPtr rm, IntPtr t)
+    /// <summary>
+    /// Floating-point roundToIntegral. Rounds a floating-point number to the closest integer, again represented as a floating-point number.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_round_to_integral")]
+    internal IntPtr MkFpaRoundToIntegral(IntPtr c, IntPtr rm, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_round_to_integral");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_round_to_integralDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaRoundToIntegralDelegate>(funcPtr);
         return func(c, rm, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_minDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaMinDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_min(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Minimum of floating-point numbers.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_min")]
+    internal IntPtr MkFpaMin(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_min");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_minDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaMinDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_maxDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaMaxDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_max(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Maximum of floating-point numbers.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_max")]
+    internal IntPtr MkFpaMax(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_max");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_maxDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaMaxDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_leqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaLeqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_leq(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point less than or equal.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_leq")]
+    internal IntPtr MkFpaLeq(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_leq");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_leqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaLeqDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_ltDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaLtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_lt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point less than.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_lt")]
+    internal IntPtr MkFpaLt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_lt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_ltDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaLtDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_geqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaGeqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_geq(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point greater than or equal.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_geq")]
+    internal IntPtr MkFpaGeq(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_geq");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_geqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaGeqDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_gtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaGtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_gt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point greater than.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_gt")]
+    internal IntPtr MkFpaGt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_gt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_gtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaGtDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_eqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkFpaEqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_fpa_eq(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Floating-point equality.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_eq")]
+    internal IntPtr MkFpaEq(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_eq");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_eqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaEqDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_normalDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsNormalDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_normal(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_normal")]
+    internal IntPtr MkFpaIsNormal(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_normal");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_normalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsNormalDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_subnormalDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsSubnormalDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_subnormal(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_subnormal")]
+    internal IntPtr MkFpaIsSubnormal(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_subnormal");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_subnormalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsSubnormalDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_zeroDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsZeroDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_zero(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_zero")]
+    internal IntPtr MkFpaIsZero(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_zero");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_zeroDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsZeroDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_infiniteDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsInfiniteDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_infinite(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_infinite")]
+    internal IntPtr MkFpaIsInfinite(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_infinite");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_infiniteDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsInfiniteDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_nanDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsNanDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_nan(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_nan")]
+    internal IntPtr MkFpaIsNan(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_nan");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_nanDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsNanDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_negativeDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsNegativeDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_negative(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_negative")]
+    internal IntPtr MkFpaIsNegative(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_negative");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_negativeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsNegativeDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_is_positiveDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaIsPositiveDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_is_positive(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Predicate indicating whether
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_is_positive")]
+    internal IntPtr MkFpaIsPositive(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_is_positive");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_is_positiveDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaIsPositiveDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_fp_bvDelegate(IntPtr c, IntPtr bv, IntPtr s);
+    private delegate IntPtr MkFpaToFpBvDelegate(IntPtr c, IntPtr bv, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_to_fp_bv(IntPtr c, IntPtr bv, IntPtr s)
+    /// <summary>
+    /// Conversion of a single IEEE 754-2008 bit-vector into a floating-point number.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_fp_bv")]
+    internal IntPtr MkFpaToFpBv(IntPtr c, IntPtr bv, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_fp_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpBvDelegate>(funcPtr);
         return func(c, bv, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_fp_floatDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
+    private delegate IntPtr MkFpaToFpFloatDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_to_fp_float(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
+    /// <summary>
+    /// Conversion of a FloatingPoint term into another term of different FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_fp_float")]
+    internal IntPtr MkFpaToFpFloat(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_float");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_fp_floatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpFloatDelegate>(funcPtr);
         return func(c, rm, t, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_fp_realDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
+    private delegate IntPtr MkFpaToFpRealDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_to_fp_real(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
+    /// <summary>
+    /// Conversion of a term of real sort into a term of FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_fp_real")]
+    internal IntPtr MkFpaToFpReal(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_real");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_fp_realDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpRealDelegate>(funcPtr);
         return func(c, rm, t, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_fp_signedDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
+    private delegate IntPtr MkFpaToFpSignedDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_to_fp_signed(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
+    /// <summary>
+    /// Conversion of a 2's complement signed bit-vector term into a term of FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_fp_signed")]
+    internal IntPtr MkFpaToFpSigned(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_signed");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_fp_signedDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpSignedDelegate>(funcPtr);
         return func(c, rm, t, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_fp_unsignedDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
+    private delegate IntPtr MkFpaToFpUnsignedDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
-    internal IntPtr Z3_mk_fpa_to_fp_unsigned(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
+    /// <summary>
+    /// Conversion of a 2's complement unsigned bit-vector term into a term of FloatingPoint sort.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_fp_unsigned")]
+    internal IntPtr MkFpaToFpUnsigned(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_fp_unsigned");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_fp_unsignedDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToFpUnsignedDelegate>(funcPtr);
         return func(c, rm, t, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_ubvDelegate(IntPtr c, IntPtr rm, IntPtr t, uint sz);
+    private delegate IntPtr MkFpaToUbvDelegate(IntPtr c, IntPtr rm, IntPtr t, uint sz);
 
-    internal IntPtr Z3_mk_fpa_to_ubv(IntPtr c, IntPtr rm, IntPtr t, uint sz)
+    /// <summary>
+    /// Conversion of a floating-point term into an unsigned bit-vector.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_ubv")]
+    internal IntPtr MkFpaToUbv(IntPtr c, IntPtr rm, IntPtr t, uint sz)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_ubv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_ubvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToUbvDelegate>(funcPtr);
         return func(c, rm, t, sz);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_sbvDelegate(IntPtr c, IntPtr rm, IntPtr t, uint sz);
+    private delegate IntPtr MkFpaToSbvDelegate(IntPtr c, IntPtr rm, IntPtr t, uint sz);
 
-    internal IntPtr Z3_mk_fpa_to_sbv(IntPtr c, IntPtr rm, IntPtr t, uint sz)
+    /// <summary>
+    /// Conversion of a floating-point term into a signed bit-vector.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_sbv")]
+    internal IntPtr MkFpaToSbv(IntPtr c, IntPtr rm, IntPtr t, uint sz)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_sbv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_sbvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToSbvDelegate>(funcPtr);
         return func(c, rm, t, sz);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fpa_to_realDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr MkFpaToRealDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_mk_fpa_to_real(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Conversion of a floating-point term into a real-numbered term.
+    /// </summary>
+    [Z3Function("Z3_mk_fpa_to_real")]
+    internal IntPtr MkFpaToReal(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fpa_to_real");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fpa_to_realDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFpaToRealDelegate>(funcPtr);
         return func(c, t);
     }
 

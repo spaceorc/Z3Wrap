@@ -5,124 +5,149 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsStatistics(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_size");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_get_key");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_is_uint");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_is_double");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_get_uint_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_stats_get_double_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_estimated_alloc_size");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr stats_to_stringDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr StatsToStringDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_stats_to_string(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Convert a statistics into a string.
+    /// </summary>
+    [Z3Function("Z3_stats_to_string")]
+    internal IntPtr StatsToString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsToStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void stats_inc_refDelegate(IntPtr c, IntPtr s);
+    private delegate void StatsIncRefDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_stats_inc_ref(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Increment the reference counter of the given statistics object.
+    /// </summary>
+    [Z3Function("Z3_stats_inc_ref")]
+    internal void StatsIncRef(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsIncRefDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void stats_dec_refDelegate(IntPtr c, IntPtr s);
+    private delegate void StatsDecRefDelegate(IntPtr c, IntPtr s);
 
-    internal void Z3_stats_dec_ref(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Decrement the reference counter of the given statistics object.
+    /// </summary>
+    [Z3Function("Z3_stats_dec_ref")]
+    internal void StatsDecRef(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsDecRefDelegate>(funcPtr);
         func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint stats_sizeDelegate(IntPtr c, IntPtr s);
+    private delegate uint StatsSizeDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_stats_size(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the number of statistical data in
+    /// </summary>
+    [Z3Function("Z3_stats_size")]
+    internal uint StatsSize(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_size");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsSizeDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr stats_get_keyDelegate(IntPtr c, IntPtr s, uint idx);
+    private delegate IntPtr StatsGetKeyDelegate(IntPtr c, IntPtr s, uint idx);
 
-    internal IntPtr Z3_stats_get_key(IntPtr c, IntPtr s, uint idx)
+    /// <summary>
+    /// Return the key (a string) for a particular statistical data.
+    /// </summary>
+    [Z3Function("Z3_stats_get_key")]
+    internal IntPtr StatsGetKey(IntPtr c, IntPtr s, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_get_key");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_get_keyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsGetKeyDelegate>(funcPtr);
         return func(c, s, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool stats_is_uintDelegate(IntPtr c, IntPtr s, uint idx);
+    private delegate bool StatsIsUintDelegate(IntPtr c, IntPtr s, uint idx);
 
-    internal bool Z3_stats_is_uint(IntPtr c, IntPtr s, uint idx)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_stats_is_uint")]
+    internal bool StatsIsUint(IntPtr c, IntPtr s, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_is_uint");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_is_uintDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsIsUintDelegate>(funcPtr);
         return func(c, s, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool stats_is_doubleDelegate(IntPtr c, IntPtr s, uint idx);
+    private delegate bool StatsIsDoubleDelegate(IntPtr c, IntPtr s, uint idx);
 
-    internal bool Z3_stats_is_double(IntPtr c, IntPtr s, uint idx)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_stats_is_double")]
+    internal bool StatsIsDouble(IntPtr c, IntPtr s, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_is_double");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_is_doubleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsIsDoubleDelegate>(funcPtr);
         return func(c, s, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint stats_get_uint_valueDelegate(IntPtr c, IntPtr s, uint idx);
+    private delegate uint StatsGetUintValueDelegate(IntPtr c, IntPtr s, uint idx);
 
-    internal uint Z3_stats_get_uint_value(IntPtr c, IntPtr s, uint idx)
+    /// <summary>
+    /// Return the unsigned value of the given statistical data.
+    /// </summary>
+    [Z3Function("Z3_stats_get_uint_value")]
+    internal uint StatsGetUintValue(IntPtr c, IntPtr s, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_get_uint_value");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_get_uint_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsGetUintValueDelegate>(funcPtr);
         return func(c, s, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate double stats_get_double_valueDelegate(IntPtr c, IntPtr s, uint idx);
+    private delegate double StatsGetDoubleValueDelegate(IntPtr c, IntPtr s, uint idx);
 
-    internal double Z3_stats_get_double_value(IntPtr c, IntPtr s, uint idx)
+    /// <summary>
+    /// Return the double value of the given statistical data.
+    /// </summary>
+    [Z3Function("Z3_stats_get_double_value")]
+    internal double StatsGetDoubleValue(IntPtr c, IntPtr s, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_stats_get_double_value");
-        var func = Marshal.GetDelegateForFunctionPointer<stats_get_double_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<StatsGetDoubleValueDelegate>(funcPtr);
         return func(c, s, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate ulong get_estimated_alloc_sizeDelegate();
+    private delegate ulong GetEstimatedAllocSizeDelegate();
 
-    internal ulong Z3_get_estimated_alloc_size()
+    /// <summary>
+    /// Return the estimated allocated memory in bytes.
+    /// </summary>
+    [Z3Function("Z3_get_estimated_alloc_size")]
+    internal ulong GetEstimatedAllocSize()
     {
         var funcPtr = GetFunctionPointer("Z3_get_estimated_alloc_size");
-        var func = Marshal.GetDelegateForFunctionPointer<get_estimated_alloc_sizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetEstimatedAllocSizeDelegate>(funcPtr);
         return func();
     }
 

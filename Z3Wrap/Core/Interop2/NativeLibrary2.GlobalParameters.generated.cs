@@ -5,47 +5,51 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsGlobalParameters(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_global_param_set");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_global_param_reset_all");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_global_param_get");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void global_param_setDelegate(IntPtr param_id, IntPtr param_value);
+    private delegate void GlobalParamSetDelegate(IntPtr param_id, IntPtr param_value);
 
-    internal void Z3_global_param_set(IntPtr param_id, IntPtr param_value)
+    /// <summary>
+    /// Set a global (or module) parameter. This setting is shared by all Z3 contexts.
+    /// </summary>
+    [Z3Function("Z3_global_param_set")]
+    internal void GlobalParamSet(IntPtr param_id, IntPtr param_value)
     {
         var funcPtr = GetFunctionPointer("Z3_global_param_set");
-        var func = Marshal.GetDelegateForFunctionPointer<global_param_setDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GlobalParamSetDelegate>(funcPtr);
         func(param_id, param_value);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void global_param_reset_allDelegate();
+    private delegate void GlobalParamResetAllDelegate();
 
-    internal void Z3_global_param_reset_all()
+    /// <summary>
+    /// Restore the value of all global (and module) parameters. This command will not affect already created objects (such as tactics and solvers).
+    /// </summary>
+    [Z3Function("Z3_global_param_reset_all")]
+    internal void GlobalParamResetAll()
     {
         var funcPtr = GetFunctionPointer("Z3_global_param_reset_all");
-        var func = Marshal.GetDelegateForFunctionPointer<global_param_reset_allDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GlobalParamResetAllDelegate>(funcPtr);
         func();
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool global_param_getDelegate(IntPtr param_id, IntPtr param_value);
+    private delegate bool GlobalParamGetDelegate(IntPtr param_id, IntPtr param_value);
 
-    internal bool Z3_global_param_get(IntPtr param_id, IntPtr param_value)
+    /// <summary>
+    /// Get a global (or module) parameter.
+    /// </summary>
+    [Z3Function("Z3_global_param_get")]
+    internal bool GlobalParamGet(IntPtr param_id, IntPtr param_value)
     {
         var funcPtr = GetFunctionPointer("Z3_global_param_get");
-        var func = Marshal.GetDelegateForFunctionPointer<global_param_getDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GlobalParamGetDelegate>(funcPtr);
         return func(param_id, param_value);
     }
 

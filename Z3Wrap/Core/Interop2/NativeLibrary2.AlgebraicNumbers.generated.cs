@@ -5,245 +5,303 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsAlgebraicNumbers(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_is_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_is_pos");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_is_neg");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_is_zero");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_sign");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_add");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_sub");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_mul");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_div");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_root");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_power");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_lt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_gt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_le");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_ge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_eq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_neq");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_roots");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_eval");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_get_poly");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_algebraic_get_i");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_is_valueDelegate(IntPtr c, IntPtr a);
+    private delegate bool AlgebraicIsValueDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_algebraic_is_value(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_is_value")]
+    internal bool AlgebraicIsValue(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_is_value");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_is_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicIsValueDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_is_posDelegate(IntPtr c, IntPtr a);
+    private delegate bool AlgebraicIsPosDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_algebraic_is_pos(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_is_pos")]
+    internal bool AlgebraicIsPos(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_is_pos");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_is_posDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicIsPosDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_is_negDelegate(IntPtr c, IntPtr a);
+    private delegate bool AlgebraicIsNegDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_algebraic_is_neg(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_is_neg")]
+    internal bool AlgebraicIsNeg(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_is_neg");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_is_negDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicIsNegDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_is_zeroDelegate(IntPtr c, IntPtr a);
+    private delegate bool AlgebraicIsZeroDelegate(IntPtr c, IntPtr a);
 
-    internal bool Z3_algebraic_is_zero(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_is_zero")]
+    internal bool AlgebraicIsZero(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_is_zero");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_is_zeroDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicIsZeroDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int algebraic_signDelegate(IntPtr c, IntPtr a);
+    private delegate int AlgebraicSignDelegate(IntPtr c, IntPtr a);
 
-    internal int Z3_algebraic_sign(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return 1 if
+    /// </summary>
+    [Z3Function("Z3_algebraic_sign")]
+    internal int AlgebraicSign(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_sign");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_signDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicSignDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_addDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate IntPtr AlgebraicAddDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal IntPtr Z3_algebraic_add(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return the value a + b.
+    /// </summary>
+    [Z3Function("Z3_algebraic_add")]
+    internal IntPtr AlgebraicAdd(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_add");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_addDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicAddDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_subDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate IntPtr AlgebraicSubDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal IntPtr Z3_algebraic_sub(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return the value a - b.
+    /// </summary>
+    [Z3Function("Z3_algebraic_sub")]
+    internal IntPtr AlgebraicSub(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_sub");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_subDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicSubDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_mulDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate IntPtr AlgebraicMulDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal IntPtr Z3_algebraic_mul(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return the value a * b.
+    /// </summary>
+    [Z3Function("Z3_algebraic_mul")]
+    internal IntPtr AlgebraicMul(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_mul");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_mulDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicMulDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_divDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate IntPtr AlgebraicDivDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal IntPtr Z3_algebraic_div(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return the value a / b.
+    /// </summary>
+    [Z3Function("Z3_algebraic_div")]
+    internal IntPtr AlgebraicDiv(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_div");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_divDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicDivDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_rootDelegate(IntPtr c, IntPtr a, uint k);
+    private delegate IntPtr AlgebraicRootDelegate(IntPtr c, IntPtr a, uint k);
 
-    internal IntPtr Z3_algebraic_root(IntPtr c, IntPtr a, uint k)
+    /// <summary>
+    /// Return the a^(1/k)
+    /// </summary>
+    [Z3Function("Z3_algebraic_root")]
+    internal IntPtr AlgebraicRoot(IntPtr c, IntPtr a, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_root");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_rootDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicRootDelegate>(funcPtr);
         return func(c, a, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_powerDelegate(IntPtr c, IntPtr a, uint k);
+    private delegate IntPtr AlgebraicPowerDelegate(IntPtr c, IntPtr a, uint k);
 
-    internal IntPtr Z3_algebraic_power(IntPtr c, IntPtr a, uint k)
+    /// <summary>
+    /// Return the a^k
+    /// </summary>
+    [Z3Function("Z3_algebraic_power")]
+    internal IntPtr AlgebraicPower(IntPtr c, IntPtr a, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_power");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_powerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicPowerDelegate>(funcPtr);
         return func(c, a, k);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_ltDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate bool AlgebraicLtDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal bool Z3_algebraic_lt(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_lt")]
+    internal bool AlgebraicLt(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_lt");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_ltDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicLtDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_gtDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate bool AlgebraicGtDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal bool Z3_algebraic_gt(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_gt")]
+    internal bool AlgebraicGt(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_gt");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_gtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicGtDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_leDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate bool AlgebraicLeDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal bool Z3_algebraic_le(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_le")]
+    internal bool AlgebraicLe(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_le");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_leDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicLeDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_geDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate bool AlgebraicGeDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal bool Z3_algebraic_ge(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_ge")]
+    internal bool AlgebraicGe(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_ge");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_geDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicGeDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_eqDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate bool AlgebraicEqDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal bool Z3_algebraic_eq(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_eq")]
+    internal bool AlgebraicEq(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_eq");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_eqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicEqDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool algebraic_neqDelegate(IntPtr c, IntPtr a, IntPtr b);
+    private delegate bool AlgebraicNeqDelegate(IntPtr c, IntPtr a, IntPtr b);
 
-    internal bool Z3_algebraic_neq(IntPtr c, IntPtr a, IntPtr b)
+    /// <summary>
+    /// Return
+    /// </summary>
+    [Z3Function("Z3_algebraic_neq")]
+    internal bool AlgebraicNeq(IntPtr c, IntPtr a, IntPtr b)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_neq");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_neqDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicNeqDelegate>(funcPtr);
         return func(c, a, b);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_rootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr a);
+    private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr a);
 
-    internal IntPtr Z3_algebraic_roots(IntPtr c, IntPtr p, uint n, IntPtr a)
+    /// <summary>
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
+    /// </summary>
+    [Z3Function("Z3_algebraic_roots")]
+    internal IntPtr AlgebraicRoots(IntPtr c, IntPtr p, uint n, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_roots");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_rootsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicRootsDelegate>(funcPtr);
         return func(c, p, n, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int algebraic_evalDelegate(IntPtr c, IntPtr p, uint n, IntPtr a);
+    private delegate int AlgebraicEvalDelegate(IntPtr c, IntPtr p, uint n, IntPtr a);
 
-    internal int Z3_algebraic_eval(IntPtr c, IntPtr p, uint n, IntPtr a)
+    /// <summary>
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
+    /// </summary>
+    [Z3Function("Z3_algebraic_eval")]
+    internal int AlgebraicEval(IntPtr c, IntPtr p, uint n, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_eval");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_evalDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicEvalDelegate>(funcPtr);
         return func(c, p, n, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr algebraic_get_polyDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr AlgebraicGetPolyDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_algebraic_get_poly(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return the coefficients of the defining polynomial.
+    /// </summary>
+    [Z3Function("Z3_algebraic_get_poly")]
+    internal IntPtr AlgebraicGetPoly(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_get_poly");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_get_polyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicGetPolyDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint algebraic_get_iDelegate(IntPtr c, IntPtr a);
+    private delegate uint AlgebraicGetIDelegate(IntPtr c, IntPtr a);
 
-    internal uint Z3_algebraic_get_i(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Return which root of the polynomial the algebraic number represents.
+    /// </summary>
+    [Z3Function("Z3_algebraic_get_i")]
+    internal uint AlgebraicGetI(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_get_i");
-        var func = Marshal.GetDelegateForFunctionPointer<algebraic_get_iDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AlgebraicGetIDelegate>(funcPtr);
         return func(c, a);
     }
 

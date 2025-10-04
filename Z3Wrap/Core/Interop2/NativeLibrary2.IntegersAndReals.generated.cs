@@ -5,201 +5,247 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsIntegersAndReals(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_add");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_mul");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sub");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_unary_minus");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_div");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_mod");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rem");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_power");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_abs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_le");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_gt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_divides");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2real");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_real2int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_is_int");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_addDelegate(IntPtr c, uint num_args, IntPtr args);
+    private delegate IntPtr MkAddDelegate(IntPtr c, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_mk_add(IntPtr c, uint num_args, IntPtr args)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_add")]
+    internal IntPtr MkAdd(IntPtr c, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_add");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_addDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAddDelegate>(funcPtr);
         return func(c, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_mulDelegate(IntPtr c, uint num_args, IntPtr args);
+    private delegate IntPtr MkMulDelegate(IntPtr c, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_mk_mul(IntPtr c, uint num_args, IntPtr args)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_mul")]
+    internal IntPtr MkMul(IntPtr c, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mul");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_mulDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkMulDelegate>(funcPtr);
         return func(c, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_subDelegate(IntPtr c, uint num_args, IntPtr args);
+    private delegate IntPtr MkSubDelegate(IntPtr c, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_mk_sub(IntPtr c, uint num_args, IntPtr args)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_sub")]
+    internal IntPtr MkSub(IntPtr c, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sub");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_subDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSubDelegate>(funcPtr);
         return func(c, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_unary_minusDelegate(IntPtr c, IntPtr arg);
+    private delegate IntPtr MkUnaryMinusDelegate(IntPtr c, IntPtr arg);
 
-    internal IntPtr Z3_mk_unary_minus(IntPtr c, IntPtr arg)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_unary_minus")]
+    internal IntPtr MkUnaryMinus(IntPtr c, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_unary_minus");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_unary_minusDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkUnaryMinusDelegate>(funcPtr);
         return func(c, arg);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_divDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkDivDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_div(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_div")]
+    internal IntPtr MkDiv(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_div");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_divDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkDivDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_modDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkModDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_mod(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_mod")]
+    internal IntPtr MkMod(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_mod");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_modDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkModDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_remDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkRemDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_rem(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_rem")]
+    internal IntPtr MkRem(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_rem");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_remDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRemDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_powerDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
+    private delegate IntPtr MkPowerDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
-    internal IntPtr Z3_mk_power(IntPtr c, IntPtr arg1, IntPtr arg2)
+    /// <summary>
+    /// Create an AST node representing
+    /// </summary>
+    [Z3Function("Z3_mk_power")]
+    internal IntPtr MkPower(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_power");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_powerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPowerDelegate>(funcPtr);
         return func(c, arg1, arg2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_absDelegate(IntPtr c, IntPtr arg);
+    private delegate IntPtr MkAbsDelegate(IntPtr c, IntPtr arg);
 
-    internal IntPtr Z3_mk_abs(IntPtr c, IntPtr arg)
+    /// <summary>
+    /// Take the absolute value of an integer
+    /// </summary>
+    [Z3Function("Z3_mk_abs")]
+    internal IntPtr MkAbs(IntPtr c, IntPtr arg)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_abs");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_absDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAbsDelegate>(funcPtr);
         return func(c, arg);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_ltDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkLtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_lt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create less than.
+    /// </summary>
+    [Z3Function("Z3_mk_lt")]
+    internal IntPtr MkLt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_ltDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLtDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_leDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkLeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_le(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create less than or equal to.
+    /// </summary>
+    [Z3Function("Z3_mk_le")]
+    internal IntPtr MkLe(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_le");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_leDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLeDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_gtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkGtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_gt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create greater than.
+    /// </summary>
+    [Z3Function("Z3_mk_gt")]
+    internal IntPtr MkGt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_gt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_gtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkGtDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_geDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkGeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_ge(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create greater than or equal to.
+    /// </summary>
+    [Z3Function("Z3_mk_ge")]
+    internal IntPtr MkGe(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ge");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_geDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkGeDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_dividesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkDividesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_divides(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create division predicate.
+    /// </summary>
+    [Z3Function("Z3_mk_divides")]
+    internal IntPtr MkDivides(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_divides");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_dividesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkDividesDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_int2realDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkInt2realDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_int2real(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Coerce an integer to a real.
+    /// </summary>
+    [Z3Function("Z3_mk_int2real")]
+    internal IntPtr MkInt2real(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2real");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_int2realDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkInt2realDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_real2intDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkReal2intDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_real2int(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Coerce a real to an integer.
+    /// </summary>
+    [Z3Function("Z3_mk_real2int")]
+    internal IntPtr MkReal2int(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_real2int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_real2intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReal2intDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_is_intDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkIsIntDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_is_int(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Check if a real number is an integer.
+    /// </summary>
+    [Z3Function("Z3_mk_is_int")]
+    internal IntPtr MkIsInt(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_is_int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_is_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIsIntDelegate>(funcPtr);
         return func(c, t1);
     }
 

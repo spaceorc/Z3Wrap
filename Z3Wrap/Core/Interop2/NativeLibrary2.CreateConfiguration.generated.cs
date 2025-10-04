@@ -5,47 +5,51 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsCreateConfiguration(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_config");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_del_config");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_set_param_value");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_configDelegate();
+    private delegate IntPtr MkConfigDelegate();
 
-    internal IntPtr Z3_mk_config()
+    /// <summary>
+    /// Create a configuration object for the Z3 context object.
+    /// </summary>
+    [Z3Function("Z3_mk_config")]
+    internal IntPtr MkConfig()
     {
         var funcPtr = GetFunctionPointer("Z3_mk_config");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_configDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConfigDelegate>(funcPtr);
         return func();
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void del_configDelegate(IntPtr c);
+    private delegate void DelConfigDelegate(IntPtr c);
 
-    internal void Z3_del_config(IntPtr c)
+    /// <summary>
+    /// Delete the given configuration object.
+    /// </summary>
+    [Z3Function("Z3_del_config")]
+    internal void DelConfig(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_del_config");
-        var func = Marshal.GetDelegateForFunctionPointer<del_configDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<DelConfigDelegate>(funcPtr);
         func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void set_param_valueDelegate(IntPtr c, IntPtr param_id, IntPtr param_value);
+    private delegate void SetParamValueDelegate(IntPtr c, IntPtr param_id, IntPtr param_value);
 
-    internal void Z3_set_param_value(IntPtr c, IntPtr param_id, IntPtr param_value)
+    /// <summary>
+    /// Set a configuration parameter.
+    /// </summary>
+    [Z3Function("Z3_set_param_value")]
+    internal void SetParamValue(IntPtr c, IntPtr param_id, IntPtr param_value)
     {
         var funcPtr = GetFunctionPointer("Z3_set_param_value");
-        var func = Marshal.GetDelegateForFunctionPointer<set_param_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SetParamValueDelegate>(funcPtr);
         func(c, param_id, param_value);
     }
 

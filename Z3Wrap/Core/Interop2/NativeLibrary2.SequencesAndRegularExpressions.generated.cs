@@ -5,729 +5,919 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsSequencesAndRegularExpressions(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_seq_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_seq_sort_basis");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_re_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_re_sort_basis");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_string_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_char_sort");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_lstring");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_u32string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_is_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_lstring");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_string_length");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_get_string_contents");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_empty");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_unit");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_concat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_prefix");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_suffix");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_contains");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_str_lt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_str_le");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_extract");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_replace");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_at");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_nth");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_length");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_index");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_last_index");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_map");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_mapi");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_foldl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_foldli");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_str_to_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int_to_str");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string_to_code");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_string_from_code");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ubv_to_str");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sbv_to_str");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_to_re");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_seq_in_re");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_plus");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_star");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_option");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_union");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_concat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_range");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_allchar");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_loop");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_power");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_intersect");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_complement");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_diff");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_empty");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_re_full");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_le");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_to_int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_to_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_from_bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_char_is_digit");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_sortDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkSeqSortDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a sequence sort out of the sort for the elements.
+    /// </summary>
+    [Z3Function("Z3_mk_seq_sort")]
+    internal IntPtr MkSeqSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_seq_sortDelegate(IntPtr c, IntPtr s);
+    private delegate bool IsSeqSortDelegate(IntPtr c, IntPtr s);
 
-    internal bool Z3_is_seq_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_is_seq_sort")]
+    internal bool IsSeqSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_is_seq_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<is_seq_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsSeqSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_seq_sort_basisDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr GetSeqSortBasisDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_get_seq_sort_basis(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve basis sort for sequence sort.
+    /// </summary>
+    [Z3Function("Z3_get_seq_sort_basis")]
+    internal IntPtr GetSeqSortBasis(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_seq_sort_basis");
-        var func = Marshal.GetDelegateForFunctionPointer<get_seq_sort_basisDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetSeqSortBasisDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_sortDelegate(IntPtr c, IntPtr seq);
+    private delegate IntPtr MkReSortDelegate(IntPtr c, IntPtr seq);
 
-    internal IntPtr Z3_mk_re_sort(IntPtr c, IntPtr seq)
+    /// <summary>
+    /// Create a regular expression sort out of a sequence sort.
+    /// </summary>
+    [Z3Function("Z3_mk_re_sort")]
+    internal IntPtr MkReSort(IntPtr c, IntPtr seq)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReSortDelegate>(funcPtr);
         return func(c, seq);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_re_sortDelegate(IntPtr c, IntPtr s);
+    private delegate bool IsReSortDelegate(IntPtr c, IntPtr s);
 
-    internal bool Z3_is_re_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_is_re_sort")]
+    internal bool IsReSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_is_re_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<is_re_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsReSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_re_sort_basisDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr GetReSortBasisDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_get_re_sort_basis(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve basis sort for regex sort.
+    /// </summary>
+    [Z3Function("Z3_get_re_sort_basis")]
+    internal IntPtr GetReSortBasis(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_re_sort_basis");
-        var func = Marshal.GetDelegateForFunctionPointer<get_re_sort_basisDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetReSortBasisDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_string_sortDelegate(IntPtr c);
+    private delegate IntPtr MkStringSortDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_string_sort(IntPtr c)
+    /// <summary>
+    /// Create a sort for unicode strings.
+    /// </summary>
+    [Z3Function("Z3_mk_string_sort")]
+    internal IntPtr MkStringSort(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_string_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringSortDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_char_sortDelegate(IntPtr c);
+    private delegate IntPtr MkCharSortDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_char_sort(IntPtr c)
+    /// <summary>
+    /// Create a sort for unicode characters.
+    /// </summary>
+    [Z3Function("Z3_mk_char_sort")]
+    internal IntPtr MkCharSort(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_char_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharSortDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_string_sortDelegate(IntPtr c, IntPtr s);
+    private delegate bool IsStringSortDelegate(IntPtr c, IntPtr s);
 
-    internal bool Z3_is_string_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_is_string_sort")]
+    internal bool IsStringSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_is_string_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<is_string_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsStringSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_char_sortDelegate(IntPtr c, IntPtr s);
+    private delegate bool IsCharSortDelegate(IntPtr c, IntPtr s);
 
-    internal bool Z3_is_char_sort(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_is_char_sort")]
+    internal bool IsCharSort(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_is_char_sort");
-        var func = Marshal.GetDelegateForFunctionPointer<is_char_sortDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsCharSortDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_stringDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkStringDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_string(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Create a string constant out of the string that is passed in The string may contain escape encoding for non-printable characters or characters outside of the basic printable ASCII range. For example, the escape encoding
+    /// </summary>
+    [Z3Function("Z3_mk_string")]
+    internal IntPtr MkString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_lstringDelegate(IntPtr c, uint len, IntPtr s);
+    private delegate IntPtr MkLstringDelegate(IntPtr c, uint len, IntPtr s);
 
-    internal IntPtr Z3_mk_lstring(IntPtr c, uint len, IntPtr s)
+    /// <summary>
+    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is treated as if it is unescaped so a sequence of characters
+    /// </summary>
+    [Z3Function("Z3_mk_lstring")]
+    internal IntPtr MkLstring(IntPtr c, uint len, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_lstring");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_lstringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLstringDelegate>(funcPtr);
         return func(c, len, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_u32stringDelegate(IntPtr c, uint len, uint chars);
+    private delegate IntPtr MkU32stringDelegate(IntPtr c, uint len, uint chars);
 
-    internal IntPtr Z3_mk_u32string(IntPtr c, uint len, uint chars)
+    /// <summary>
+    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is unescaped.
+    /// </summary>
+    [Z3Function("Z3_mk_u32string")]
+    internal IntPtr MkU32string(IntPtr c, uint len, uint chars)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_u32string");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_u32stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkU32stringDelegate>(funcPtr);
         return func(c, len, chars);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool is_stringDelegate(IntPtr c, IntPtr s);
+    private delegate bool IsStringDelegate(IntPtr c, IntPtr s);
 
-    internal bool Z3_is_string(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Determine if
+    /// </summary>
+    [Z3Function("Z3_is_string")]
+    internal bool IsString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_is_string");
-        var func = Marshal.GetDelegateForFunctionPointer<is_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<IsStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_stringDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr GetStringDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_get_string(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve the string constant stored in
+    /// </summary>
+    [Z3Function("Z3_get_string")]
+    internal IntPtr GetString(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_string");
-        var func = Marshal.GetDelegateForFunctionPointer<get_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetStringDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr get_lstringDelegate(IntPtr c, IntPtr s, IntPtr length);
+    private delegate IntPtr GetLstringDelegate(IntPtr c, IntPtr s, IntPtr length);
 
-    internal IntPtr Z3_get_lstring(IntPtr c, IntPtr s, IntPtr length)
+    /// <summary>
+    /// Retrieve the string constant stored in
+    /// </summary>
+    [Z3Function("Z3_get_lstring")]
+    internal IntPtr GetLstring(IntPtr c, IntPtr s, IntPtr length)
     {
         var funcPtr = GetFunctionPointer("Z3_get_lstring");
-        var func = Marshal.GetDelegateForFunctionPointer<get_lstringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetLstringDelegate>(funcPtr);
         return func(c, s, length);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint get_string_lengthDelegate(IntPtr c, IntPtr s);
+    private delegate uint GetStringLengthDelegate(IntPtr c, IntPtr s);
 
-    internal uint Z3_get_string_length(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Retrieve the length of the unescaped string constant stored in
+    /// </summary>
+    [Z3Function("Z3_get_string_length")]
+    internal uint GetStringLength(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_get_string_length");
-        var func = Marshal.GetDelegateForFunctionPointer<get_string_lengthDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetStringLengthDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void get_string_contentsDelegate(IntPtr c, IntPtr s, uint length, uint contents);
+    private delegate void GetStringContentsDelegate(IntPtr c, IntPtr s, uint length, uint contents);
 
-    internal void Z3_get_string_contents(IntPtr c, IntPtr s, uint length, uint contents)
+    /// <summary>
+    /// Retrieve the unescaped string constant stored in
+    /// </summary>
+    [Z3Function("Z3_get_string_contents")]
+    internal void GetStringContents(IntPtr c, IntPtr s, uint length, uint contents)
     {
         var funcPtr = GetFunctionPointer("Z3_get_string_contents");
-        var func = Marshal.GetDelegateForFunctionPointer<get_string_contentsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<GetStringContentsDelegate>(funcPtr);
         func(c, s, length, contents);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_emptyDelegate(IntPtr c, IntPtr seq);
+    private delegate IntPtr MkSeqEmptyDelegate(IntPtr c, IntPtr seq);
 
-    internal IntPtr Z3_mk_seq_empty(IntPtr c, IntPtr seq)
+    /// <summary>
+    /// Create an empty sequence of the sequence sort
+    /// </summary>
+    [Z3Function("Z3_mk_seq_empty")]
+    internal IntPtr MkSeqEmpty(IntPtr c, IntPtr seq)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_empty");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_emptyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqEmptyDelegate>(funcPtr);
         return func(c, seq);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_unitDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr MkSeqUnitDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_mk_seq_unit(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Create a unit sequence of
+    /// </summary>
+    [Z3Function("Z3_mk_seq_unit")]
+    internal IntPtr MkSeqUnit(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_unit");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_unitDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqUnitDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_concatDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkSeqConcatDelegate(IntPtr c, uint n, IntPtr args);
 
-    internal IntPtr Z3_mk_seq_concat(IntPtr c, uint n, IntPtr args)
+    /// <summary>
+    /// Concatenate sequences.
+    /// </summary>
+    [Z3Function("Z3_mk_seq_concat")]
+    internal IntPtr MkSeqConcat(IntPtr c, uint n, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_concat");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_concatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqConcatDelegate>(funcPtr);
         return func(c, n, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_prefixDelegate(IntPtr c, IntPtr prefix, IntPtr s);
+    private delegate IntPtr MkSeqPrefixDelegate(IntPtr c, IntPtr prefix, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_prefix(IntPtr c, IntPtr prefix, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_mk_seq_prefix")]
+    internal IntPtr MkSeqPrefix(IntPtr c, IntPtr prefix, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_prefix");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_prefixDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqPrefixDelegate>(funcPtr);
         return func(c, prefix, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_suffixDelegate(IntPtr c, IntPtr suffix, IntPtr s);
+    private delegate IntPtr MkSeqSuffixDelegate(IntPtr c, IntPtr suffix, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_suffix(IntPtr c, IntPtr suffix, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_mk_seq_suffix")]
+    internal IntPtr MkSeqSuffix(IntPtr c, IntPtr suffix, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_suffix");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_suffixDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqSuffixDelegate>(funcPtr);
         return func(c, suffix, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_containsDelegate(IntPtr c, IntPtr container, IntPtr containee);
+    private delegate IntPtr MkSeqContainsDelegate(IntPtr c, IntPtr container, IntPtr containee);
 
-    internal IntPtr Z3_mk_seq_contains(IntPtr c, IntPtr container, IntPtr containee)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_mk_seq_contains")]
+    internal IntPtr MkSeqContains(IntPtr c, IntPtr container, IntPtr containee)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_contains");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_containsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqContainsDelegate>(funcPtr);
         return func(c, container, containee);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_str_ltDelegate(IntPtr c, IntPtr prefix, IntPtr s);
+    private delegate IntPtr MkStrLtDelegate(IntPtr c, IntPtr prefix, IntPtr s);
 
-    internal IntPtr Z3_mk_str_lt(IntPtr c, IntPtr prefix, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_mk_str_lt")]
+    internal IntPtr MkStrLt(IntPtr c, IntPtr prefix, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_str_lt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_str_ltDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStrLtDelegate>(funcPtr);
         return func(c, prefix, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_str_leDelegate(IntPtr c, IntPtr prefix, IntPtr s);
+    private delegate IntPtr MkStrLeDelegate(IntPtr c, IntPtr prefix, IntPtr s);
 
-    internal IntPtr Z3_mk_str_le(IntPtr c, IntPtr prefix, IntPtr s)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_mk_str_le")]
+    internal IntPtr MkStrLe(IntPtr c, IntPtr prefix, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_str_le");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_str_leDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStrLeDelegate>(funcPtr);
         return func(c, prefix, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_extractDelegate(IntPtr c, IntPtr s, IntPtr offset, IntPtr length);
+    private delegate IntPtr MkSeqExtractDelegate(IntPtr c, IntPtr s, IntPtr offset, IntPtr length);
 
-    internal IntPtr Z3_mk_seq_extract(IntPtr c, IntPtr s, IntPtr offset, IntPtr length)
+    /// <summary>
+    /// Extract subsequence starting at
+    /// </summary>
+    [Z3Function("Z3_mk_seq_extract")]
+    internal IntPtr MkSeqExtract(IntPtr c, IntPtr s, IntPtr offset, IntPtr length)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_extract");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_extractDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqExtractDelegate>(funcPtr);
         return func(c, s, offset, length);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_replaceDelegate(IntPtr c, IntPtr s, IntPtr src, IntPtr dst);
+    private delegate IntPtr MkSeqReplaceDelegate(IntPtr c, IntPtr s, IntPtr src, IntPtr dst);
 
-    internal IntPtr Z3_mk_seq_replace(IntPtr c, IntPtr s, IntPtr src, IntPtr dst)
+    /// <summary>
+    /// Replace the first occurrence of
+    /// </summary>
+    [Z3Function("Z3_mk_seq_replace")]
+    internal IntPtr MkSeqReplace(IntPtr c, IntPtr s, IntPtr src, IntPtr dst)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_replace");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_replaceDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqReplaceDelegate>(funcPtr);
         return func(c, s, src, dst);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_atDelegate(IntPtr c, IntPtr s, IntPtr index);
+    private delegate IntPtr MkSeqAtDelegate(IntPtr c, IntPtr s, IntPtr index);
 
-    internal IntPtr Z3_mk_seq_at(IntPtr c, IntPtr s, IntPtr index)
+    /// <summary>
+    /// Retrieve from
+    /// </summary>
+    [Z3Function("Z3_mk_seq_at")]
+    internal IntPtr MkSeqAt(IntPtr c, IntPtr s, IntPtr index)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_at");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_atDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqAtDelegate>(funcPtr);
         return func(c, s, index);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_nthDelegate(IntPtr c, IntPtr s, IntPtr index);
+    private delegate IntPtr MkSeqNthDelegate(IntPtr c, IntPtr s, IntPtr index);
 
-    internal IntPtr Z3_mk_seq_nth(IntPtr c, IntPtr s, IntPtr index)
+    /// <summary>
+    /// Retrieve from
+    /// </summary>
+    [Z3Function("Z3_mk_seq_nth")]
+    internal IntPtr MkSeqNth(IntPtr c, IntPtr s, IntPtr index)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_nth");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_nthDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqNthDelegate>(funcPtr);
         return func(c, s, index);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_lengthDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkSeqLengthDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_length(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Return the length of the sequence
+    /// </summary>
+    [Z3Function("Z3_mk_seq_length")]
+    internal IntPtr MkSeqLength(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_length");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_lengthDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqLengthDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_indexDelegate(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset);
+    private delegate IntPtr MkSeqIndexDelegate(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset);
 
-    internal IntPtr Z3_mk_seq_index(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset)
+    /// <summary>
+    /// Return index of the first occurrence of
+    /// </summary>
+    [Z3Function("Z3_mk_seq_index")]
+    internal IntPtr MkSeqIndex(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_index");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_indexDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqIndexDelegate>(funcPtr);
         return func(c, s, substr, offset);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_last_indexDelegate(IntPtr c, IntPtr s, IntPtr substr);
+    private delegate IntPtr MkSeqLastIndexDelegate(IntPtr c, IntPtr s, IntPtr substr);
 
-    internal IntPtr Z3_mk_seq_last_index(IntPtr c, IntPtr s, IntPtr substr)
+    /// <summary>
+    /// Return index of the last occurrence of
+    /// </summary>
+    [Z3Function("Z3_mk_seq_last_index")]
+    internal IntPtr MkSeqLastIndex(IntPtr c, IntPtr s, IntPtr substr)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_last_index");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_last_indexDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqLastIndexDelegate>(funcPtr);
         return func(c, s, substr);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_mapDelegate(IntPtr c, IntPtr f, IntPtr s);
+    private delegate IntPtr MkSeqMapDelegate(IntPtr c, IntPtr f, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_map(IntPtr c, IntPtr f, IntPtr s)
+    /// <summary>
+    /// Create a map of the function
+    /// </summary>
+    [Z3Function("Z3_mk_seq_map")]
+    internal IntPtr MkSeqMap(IntPtr c, IntPtr f, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_map");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_mapDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqMapDelegate>(funcPtr);
         return func(c, f, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_mapiDelegate(IntPtr c, IntPtr f, IntPtr i, IntPtr s);
+    private delegate IntPtr MkSeqMapiDelegate(IntPtr c, IntPtr f, IntPtr i, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_mapi(IntPtr c, IntPtr f, IntPtr i, IntPtr s)
+    /// <summary>
+    /// Create a map of the function
+    /// </summary>
+    [Z3Function("Z3_mk_seq_mapi")]
+    internal IntPtr MkSeqMapi(IntPtr c, IntPtr f, IntPtr i, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_mapi");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_mapiDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqMapiDelegate>(funcPtr);
         return func(c, f, i, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_foldlDelegate(IntPtr c, IntPtr f, IntPtr a, IntPtr s);
+    private delegate IntPtr MkSeqFoldlDelegate(IntPtr c, IntPtr f, IntPtr a, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_foldl(IntPtr c, IntPtr f, IntPtr a, IntPtr s)
+    /// <summary>
+    /// Create a fold of the function
+    /// </summary>
+    [Z3Function("Z3_mk_seq_foldl")]
+    internal IntPtr MkSeqFoldl(IntPtr c, IntPtr f, IntPtr a, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_foldl");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_foldlDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqFoldlDelegate>(funcPtr);
         return func(c, f, a, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_foldliDelegate(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s);
+    private delegate IntPtr MkSeqFoldliDelegate(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s);
 
-    internal IntPtr Z3_mk_seq_foldli(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s)
+    /// <summary>
+    /// Create a fold with index tracking of the function
+    /// </summary>
+    [Z3Function("Z3_mk_seq_foldli")]
+    internal IntPtr MkSeqFoldli(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_foldli");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_foldliDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqFoldliDelegate>(funcPtr);
         return func(c, f, i, a, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_str_to_intDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkStrToIntDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_str_to_int(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Convert string to integer.
+    /// </summary>
+    [Z3Function("Z3_mk_str_to_int")]
+    internal IntPtr MkStrToInt(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_str_to_int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_str_to_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStrToIntDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_int_to_strDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkIntToStrDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_int_to_str(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Integer to string conversion.
+    /// </summary>
+    [Z3Function("Z3_mk_int_to_str")]
+    internal IntPtr MkIntToStr(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int_to_str");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_int_to_strDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkIntToStrDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_string_to_codeDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr MkStringToCodeDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_mk_string_to_code(IntPtr c, IntPtr a)
+    /// <summary>
+    /// String to code conversion.
+    /// </summary>
+    [Z3Function("Z3_mk_string_to_code")]
+    internal IntPtr MkStringToCode(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_to_code");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_string_to_codeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringToCodeDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_string_from_codeDelegate(IntPtr c, IntPtr a);
+    private delegate IntPtr MkStringFromCodeDelegate(IntPtr c, IntPtr a);
 
-    internal IntPtr Z3_mk_string_from_code(IntPtr c, IntPtr a)
+    /// <summary>
+    /// Code to string conversion.
+    /// </summary>
+    [Z3Function("Z3_mk_string_from_code")]
+    internal IntPtr MkStringFromCode(IntPtr c, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_string_from_code");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_string_from_codeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkStringFromCodeDelegate>(funcPtr);
         return func(c, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_ubv_to_strDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkUbvToStrDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_ubv_to_str(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Unsigned bit-vector to string conversion.
+    /// </summary>
+    [Z3Function("Z3_mk_ubv_to_str")]
+    internal IntPtr MkUbvToStr(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ubv_to_str");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_ubv_to_strDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkUbvToStrDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_sbv_to_strDelegate(IntPtr c, IntPtr s);
+    private delegate IntPtr MkSbvToStrDelegate(IntPtr c, IntPtr s);
 
-    internal IntPtr Z3_mk_sbv_to_str(IntPtr c, IntPtr s)
+    /// <summary>
+    /// Signed bit-vector to string conversion.
+    /// </summary>
+    [Z3Function("Z3_mk_sbv_to_str")]
+    internal IntPtr MkSbvToStr(IntPtr c, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sbv_to_str");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_sbv_to_strDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSbvToStrDelegate>(funcPtr);
         return func(c, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_to_reDelegate(IntPtr c, IntPtr seq);
+    private delegate IntPtr MkSeqToReDelegate(IntPtr c, IntPtr seq);
 
-    internal IntPtr Z3_mk_seq_to_re(IntPtr c, IntPtr seq)
+    /// <summary>
+    /// Create a regular expression that accepts the sequence
+    /// </summary>
+    [Z3Function("Z3_mk_seq_to_re")]
+    internal IntPtr MkSeqToRe(IntPtr c, IntPtr seq)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_to_re");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_to_reDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqToReDelegate>(funcPtr);
         return func(c, seq);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_seq_in_reDelegate(IntPtr c, IntPtr seq, IntPtr re);
+    private delegate IntPtr MkSeqInReDelegate(IntPtr c, IntPtr seq, IntPtr re);
 
-    internal IntPtr Z3_mk_seq_in_re(IntPtr c, IntPtr seq, IntPtr re)
+    /// <summary>
+    /// Check if
+    /// </summary>
+    [Z3Function("Z3_mk_seq_in_re")]
+    internal IntPtr MkSeqInRe(IntPtr c, IntPtr seq, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_in_re");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_seq_in_reDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSeqInReDelegate>(funcPtr);
         return func(c, seq, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_plusDelegate(IntPtr c, IntPtr re);
+    private delegate IntPtr MkRePlusDelegate(IntPtr c, IntPtr re);
 
-    internal IntPtr Z3_mk_re_plus(IntPtr c, IntPtr re)
+    /// <summary>
+    /// Create the regular language
+    /// </summary>
+    [Z3Function("Z3_mk_re_plus")]
+    internal IntPtr MkRePlus(IntPtr c, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_plus");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_plusDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRePlusDelegate>(funcPtr);
         return func(c, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_starDelegate(IntPtr c, IntPtr re);
+    private delegate IntPtr MkReStarDelegate(IntPtr c, IntPtr re);
 
-    internal IntPtr Z3_mk_re_star(IntPtr c, IntPtr re)
+    /// <summary>
+    /// Create the regular language
+    /// </summary>
+    [Z3Function("Z3_mk_re_star")]
+    internal IntPtr MkReStar(IntPtr c, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_star");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_starDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReStarDelegate>(funcPtr);
         return func(c, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_optionDelegate(IntPtr c, IntPtr re);
+    private delegate IntPtr MkReOptionDelegate(IntPtr c, IntPtr re);
 
-    internal IntPtr Z3_mk_re_option(IntPtr c, IntPtr re)
+    /// <summary>
+    /// Create the regular language
+    /// </summary>
+    [Z3Function("Z3_mk_re_option")]
+    internal IntPtr MkReOption(IntPtr c, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_option");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_optionDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReOptionDelegate>(funcPtr);
         return func(c, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_unionDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkReUnionDelegate(IntPtr c, uint n, IntPtr args);
 
-    internal IntPtr Z3_mk_re_union(IntPtr c, uint n, IntPtr args)
+    /// <summary>
+    /// Create the union of the regular languages.
+    /// </summary>
+    [Z3Function("Z3_mk_re_union")]
+    internal IntPtr MkReUnion(IntPtr c, uint n, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_union");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_unionDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReUnionDelegate>(funcPtr);
         return func(c, n, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_concatDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkReConcatDelegate(IntPtr c, uint n, IntPtr args);
 
-    internal IntPtr Z3_mk_re_concat(IntPtr c, uint n, IntPtr args)
+    /// <summary>
+    /// Create the concatenation of the regular languages.
+    /// </summary>
+    [Z3Function("Z3_mk_re_concat")]
+    internal IntPtr MkReConcat(IntPtr c, uint n, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_concat");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_concatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReConcatDelegate>(funcPtr);
         return func(c, n, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_rangeDelegate(IntPtr c, IntPtr lo, IntPtr hi);
+    private delegate IntPtr MkReRangeDelegate(IntPtr c, IntPtr lo, IntPtr hi);
 
-    internal IntPtr Z3_mk_re_range(IntPtr c, IntPtr lo, IntPtr hi)
+    /// <summary>
+    /// Create the range regular expression over two sequences of length 1.
+    /// </summary>
+    [Z3Function("Z3_mk_re_range")]
+    internal IntPtr MkReRange(IntPtr c, IntPtr lo, IntPtr hi)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_range");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_rangeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReRangeDelegate>(funcPtr);
         return func(c, lo, hi);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_allcharDelegate(IntPtr c, IntPtr regex_sort);
+    private delegate IntPtr MkReAllcharDelegate(IntPtr c, IntPtr regex_sort);
 
-    internal IntPtr Z3_mk_re_allchar(IntPtr c, IntPtr regex_sort)
+    /// <summary>
+    /// Create a regular expression that accepts all singleton sequences of the regular expression sort
+    /// </summary>
+    [Z3Function("Z3_mk_re_allchar")]
+    internal IntPtr MkReAllchar(IntPtr c, IntPtr regex_sort)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_allchar");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_allcharDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReAllcharDelegate>(funcPtr);
         return func(c, regex_sort);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_loopDelegate(IntPtr c, IntPtr r, uint lo, uint hi);
+    private delegate IntPtr MkReLoopDelegate(IntPtr c, IntPtr r, uint lo, uint hi);
 
-    internal IntPtr Z3_mk_re_loop(IntPtr c, IntPtr r, uint lo, uint hi)
+    /// <summary>
+    /// Create a regular expression loop. The supplied regular expression
+    /// </summary>
+    [Z3Function("Z3_mk_re_loop")]
+    internal IntPtr MkReLoop(IntPtr c, IntPtr r, uint lo, uint hi)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_loop");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_loopDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReLoopDelegate>(funcPtr);
         return func(c, r, lo, hi);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_powerDelegate(IntPtr c, IntPtr re, uint n);
+    private delegate IntPtr MkRePowerDelegate(IntPtr c, IntPtr re, uint n);
 
-    internal IntPtr Z3_mk_re_power(IntPtr c, IntPtr re, uint n)
+    /// <summary>
+    /// Create a power regular expression.
+    /// </summary>
+    [Z3Function("Z3_mk_re_power")]
+    internal IntPtr MkRePower(IntPtr c, IntPtr re, uint n)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_power");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_powerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRePowerDelegate>(funcPtr);
         return func(c, re, n);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_intersectDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkReIntersectDelegate(IntPtr c, uint n, IntPtr args);
 
-    internal IntPtr Z3_mk_re_intersect(IntPtr c, uint n, IntPtr args)
+    /// <summary>
+    /// Create the intersection of the regular languages.
+    /// </summary>
+    [Z3Function("Z3_mk_re_intersect")]
+    internal IntPtr MkReIntersect(IntPtr c, uint n, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_intersect");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_intersectDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReIntersectDelegate>(funcPtr);
         return func(c, n, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_complementDelegate(IntPtr c, IntPtr re);
+    private delegate IntPtr MkReComplementDelegate(IntPtr c, IntPtr re);
 
-    internal IntPtr Z3_mk_re_complement(IntPtr c, IntPtr re)
+    /// <summary>
+    /// Create the complement of the regular language
+    /// </summary>
+    [Z3Function("Z3_mk_re_complement")]
+    internal IntPtr MkReComplement(IntPtr c, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_complement");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_complementDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReComplementDelegate>(funcPtr);
         return func(c, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_diffDelegate(IntPtr c, IntPtr re1, IntPtr re2);
+    private delegate IntPtr MkReDiffDelegate(IntPtr c, IntPtr re1, IntPtr re2);
 
-    internal IntPtr Z3_mk_re_diff(IntPtr c, IntPtr re1, IntPtr re2)
+    /// <summary>
+    /// Create the difference of regular expressions.
+    /// </summary>
+    [Z3Function("Z3_mk_re_diff")]
+    internal IntPtr MkReDiff(IntPtr c, IntPtr re1, IntPtr re2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_diff");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_diffDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReDiffDelegate>(funcPtr);
         return func(c, re1, re2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_emptyDelegate(IntPtr c, IntPtr re);
+    private delegate IntPtr MkReEmptyDelegate(IntPtr c, IntPtr re);
 
-    internal IntPtr Z3_mk_re_empty(IntPtr c, IntPtr re)
+    /// <summary>
+    /// Create an empty regular expression of sort
+    /// </summary>
+    [Z3Function("Z3_mk_re_empty")]
+    internal IntPtr MkReEmpty(IntPtr c, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_empty");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_emptyDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReEmptyDelegate>(funcPtr);
         return func(c, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_re_fullDelegate(IntPtr c, IntPtr re);
+    private delegate IntPtr MkReFullDelegate(IntPtr c, IntPtr re);
 
-    internal IntPtr Z3_mk_re_full(IntPtr c, IntPtr re)
+    /// <summary>
+    /// Create an universal regular expression of sort
+    /// </summary>
+    [Z3Function("Z3_mk_re_full")]
+    internal IntPtr MkReFull(IntPtr c, IntPtr re)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_full");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_re_fullDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkReFullDelegate>(funcPtr);
         return func(c, re);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_charDelegate(IntPtr c, uint ch);
+    private delegate IntPtr MkCharDelegate(IntPtr c, uint ch);
 
-    internal IntPtr Z3_mk_char(IntPtr c, uint ch)
+    /// <summary>
+    /// Create a character literal
+    /// </summary>
+    [Z3Function("Z3_mk_char")]
+    internal IntPtr MkChar(IntPtr c, uint ch)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_charDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharDelegate>(funcPtr);
         return func(c, ch);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_char_leDelegate(IntPtr c, IntPtr ch1, IntPtr ch2);
+    private delegate IntPtr MkCharLeDelegate(IntPtr c, IntPtr ch1, IntPtr ch2);
 
-    internal IntPtr Z3_mk_char_le(IntPtr c, IntPtr ch1, IntPtr ch2)
+    /// <summary>
+    /// Create less than or equal to between two characters.
+    /// </summary>
+    [Z3Function("Z3_mk_char_le")]
+    internal IntPtr MkCharLe(IntPtr c, IntPtr ch1, IntPtr ch2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char_le");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_char_leDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharLeDelegate>(funcPtr);
         return func(c, ch1, ch2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_char_to_intDelegate(IntPtr c, IntPtr ch);
+    private delegate IntPtr MkCharToIntDelegate(IntPtr c, IntPtr ch);
 
-    internal IntPtr Z3_mk_char_to_int(IntPtr c, IntPtr ch)
+    /// <summary>
+    /// Create an integer (code point) from character.
+    /// </summary>
+    [Z3Function("Z3_mk_char_to_int")]
+    internal IntPtr MkCharToInt(IntPtr c, IntPtr ch)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char_to_int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_char_to_intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharToIntDelegate>(funcPtr);
         return func(c, ch);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_char_to_bvDelegate(IntPtr c, IntPtr ch);
+    private delegate IntPtr MkCharToBvDelegate(IntPtr c, IntPtr ch);
 
-    internal IntPtr Z3_mk_char_to_bv(IntPtr c, IntPtr ch)
+    /// <summary>
+    /// Create a bit-vector (code point) from character.
+    /// </summary>
+    [Z3Function("Z3_mk_char_to_bv")]
+    internal IntPtr MkCharToBv(IntPtr c, IntPtr ch)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char_to_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_char_to_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharToBvDelegate>(funcPtr);
         return func(c, ch);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_char_from_bvDelegate(IntPtr c, IntPtr bv);
+    private delegate IntPtr MkCharFromBvDelegate(IntPtr c, IntPtr bv);
 
-    internal IntPtr Z3_mk_char_from_bv(IntPtr c, IntPtr bv)
+    /// <summary>
+    /// Create a character from a bit-vector (code point).
+    /// </summary>
+    [Z3Function("Z3_mk_char_from_bv")]
+    internal IntPtr MkCharFromBv(IntPtr c, IntPtr bv)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char_from_bv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_char_from_bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharFromBvDelegate>(funcPtr);
         return func(c, bv);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_char_is_digitDelegate(IntPtr c, IntPtr ch);
+    private delegate IntPtr MkCharIsDigitDelegate(IntPtr c, IntPtr ch);
 
-    internal IntPtr Z3_mk_char_is_digit(IntPtr c, IntPtr ch)
+    /// <summary>
+    /// Create a check if the character is a digit.
+    /// </summary>
+    [Z3Function("Z3_mk_char_is_digit")]
+    internal IntPtr MkCharIsDigit(IntPtr c, IntPtr ch)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_char_is_digit");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_char_is_digitDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkCharIsDigitDelegate>(funcPtr);
         return func(c, ch);
     }
 

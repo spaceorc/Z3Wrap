@@ -5,91 +5,107 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsConstantsAndApplications(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_func_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_app");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_const");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fresh_func_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_fresh_const");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rec_func_decl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_add_rec_def");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_func_declDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range);
 
-    internal IntPtr Z3_mk_func_decl(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range)
+    /// <summary>
+    /// Declare a constant or function.
+    /// </summary>
+    [Z3Function("Z3_mk_func_decl")]
+    internal IntPtr MkFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_func_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFuncDeclDelegate>(funcPtr);
         return func(c, s, domain_size, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_appDelegate(IntPtr c, IntPtr d, uint num_args, IntPtr args);
+    private delegate IntPtr MkAppDelegate(IntPtr c, IntPtr d, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_mk_app(IntPtr c, IntPtr d, uint num_args, IntPtr args)
+    /// <summary>
+    /// Create a constant or function application.
+    /// </summary>
+    [Z3Function("Z3_mk_app")]
+    internal IntPtr MkApp(IntPtr c, IntPtr d, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_app");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_appDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkAppDelegate>(funcPtr);
         return func(c, d, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_constDelegate(IntPtr c, IntPtr s, IntPtr ty);
+    private delegate IntPtr MkConstDelegate(IntPtr c, IntPtr s, IntPtr ty);
 
-    internal IntPtr Z3_mk_const(IntPtr c, IntPtr s, IntPtr ty)
+    /// <summary>
+    /// Declare and create a constant.
+    /// </summary>
+    [Z3Function("Z3_mk_const")]
+    internal IntPtr MkConst(IntPtr c, IntPtr s, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_const");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConstDelegate>(funcPtr);
         return func(c, s, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fresh_func_declDelegate(IntPtr c, IntPtr prefix, uint domain_size, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domain_size, IntPtr domain, IntPtr range);
 
-    internal IntPtr Z3_mk_fresh_func_decl(IntPtr c, IntPtr prefix, uint domain_size, IntPtr domain, IntPtr range)
+    /// <summary>
+    /// Declare a fresh constant or function.
+    /// </summary>
+    [Z3Function("Z3_mk_fresh_func_decl")]
+    internal IntPtr MkFreshFuncDecl(IntPtr c, IntPtr prefix, uint domain_size, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fresh_func_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fresh_func_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFreshFuncDeclDelegate>(funcPtr);
         return func(c, prefix, domain_size, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_fresh_constDelegate(IntPtr c, IntPtr prefix, IntPtr ty);
+    private delegate IntPtr MkFreshConstDelegate(IntPtr c, IntPtr prefix, IntPtr ty);
 
-    internal IntPtr Z3_mk_fresh_const(IntPtr c, IntPtr prefix, IntPtr ty)
+    /// <summary>
+    /// Declare and create a fresh constant.
+    /// </summary>
+    [Z3Function("Z3_mk_fresh_const")]
+    internal IntPtr MkFreshConst(IntPtr c, IntPtr prefix, IntPtr ty)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fresh_const");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_fresh_constDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkFreshConstDelegate>(funcPtr);
         return func(c, prefix, ty);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_rec_func_declDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkRecFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range);
 
-    internal IntPtr Z3_mk_rec_func_decl(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range)
+    /// <summary>
+    /// Declare a recursive function
+    /// </summary>
+    [Z3Function("Z3_mk_rec_func_decl")]
+    internal IntPtr MkRecFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_rec_func_decl");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_rec_func_declDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRecFuncDeclDelegate>(funcPtr);
         return func(c, s, domain_size, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void add_rec_defDelegate(IntPtr c, IntPtr f, uint n, IntPtr args, IntPtr body);
+    private delegate void AddRecDefDelegate(IntPtr c, IntPtr f, uint n, IntPtr args, IntPtr body);
 
-    internal void Z3_add_rec_def(IntPtr c, IntPtr f, uint n, IntPtr args, IntPtr body)
+    /// <summary>
+    /// Define the body of a recursive function.
+    /// </summary>
+    [Z3Function("Z3_add_rec_def")]
+    internal void AddRecDef(IntPtr c, IntPtr f, uint n, IntPtr args, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_add_rec_def");
-        var func = Marshal.GetDelegateForFunctionPointer<add_rec_defDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AddRecDefDelegate>(funcPtr);
         func(c, f, n, args, body);
     }
 

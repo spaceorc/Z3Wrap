@@ -5,333 +5,415 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsOptimizationFacilities(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_optimize");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_assert");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_assert_and_track");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_assert_soft");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_maximize");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_minimize");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_push");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_pop");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_set_initial_value");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_check");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_reason_unknown");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_model");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_unsat_core");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_set_params");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_param_descrs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_lower");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_upper");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_lower_as_vector");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_upper_as_vector");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_from_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_from_file");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_help");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_statistics");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_assertions");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_get_objectives");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_optimize_register_model_eh");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_optimizeDelegate(IntPtr c);
+    private delegate IntPtr MkOptimizeDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_optimize(IntPtr c)
+    /// <summary>
+    /// Create a new optimize context.
+    /// </summary>
+    [Z3Function("Z3_mk_optimize")]
+    internal IntPtr MkOptimize(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_optimize");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_optimizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkOptimizeDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_inc_refDelegate(IntPtr c, IntPtr d);
+    private delegate void OptimizeIncRefDelegate(IntPtr c, IntPtr d);
 
-    internal void Z3_optimize_inc_ref(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Increment the reference counter of the given optimize context
+    /// </summary>
+    [Z3Function("Z3_optimize_inc_ref")]
+    internal void OptimizeIncRef(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeIncRefDelegate>(funcPtr);
         func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_dec_refDelegate(IntPtr c, IntPtr d);
+    private delegate void OptimizeDecRefDelegate(IntPtr c, IntPtr d);
 
-    internal void Z3_optimize_dec_ref(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Decrement the reference counter of the given optimize context.
+    /// </summary>
+    [Z3Function("Z3_optimize_dec_ref")]
+    internal void OptimizeDecRef(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeDecRefDelegate>(funcPtr);
         func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_assertDelegate(IntPtr c, IntPtr o, IntPtr a);
+    private delegate void OptimizeAssertDelegate(IntPtr c, IntPtr o, IntPtr a);
 
-    internal void Z3_optimize_assert(IntPtr c, IntPtr o, IntPtr a)
+    /// <summary>
+    /// Assert hard constraint to the optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_assert")]
+    internal void OptimizeAssert(IntPtr c, IntPtr o, IntPtr a)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_assert");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_assertDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeAssertDelegate>(funcPtr);
         func(c, o, a);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_assert_and_trackDelegate(IntPtr c, IntPtr o, IntPtr a, IntPtr t);
+    private delegate void OptimizeAssertAndTrackDelegate(IntPtr c, IntPtr o, IntPtr a, IntPtr t);
 
-    internal void Z3_optimize_assert_and_track(IntPtr c, IntPtr o, IntPtr a, IntPtr t)
+    /// <summary>
+    /// Assert tracked hard constraint to the optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_assert_and_track")]
+    internal void OptimizeAssertAndTrack(IntPtr c, IntPtr o, IntPtr a, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_assert_and_track");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_assert_and_trackDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeAssertAndTrackDelegate>(funcPtr);
         func(c, o, a, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint optimize_assert_softDelegate(IntPtr c, IntPtr o, IntPtr a, IntPtr weight, IntPtr id);
+    private delegate uint OptimizeAssertSoftDelegate(IntPtr c, IntPtr o, IntPtr a, IntPtr weight, IntPtr id);
 
-    internal uint Z3_optimize_assert_soft(IntPtr c, IntPtr o, IntPtr a, IntPtr weight, IntPtr id)
+    /// <summary>
+    /// Assert soft constraint to the optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_assert_soft")]
+    internal uint OptimizeAssertSoft(IntPtr c, IntPtr o, IntPtr a, IntPtr weight, IntPtr id)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_assert_soft");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_assert_softDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeAssertSoftDelegate>(funcPtr);
         return func(c, o, a, weight, id);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint optimize_maximizeDelegate(IntPtr c, IntPtr o, IntPtr t);
+    private delegate uint OptimizeMaximizeDelegate(IntPtr c, IntPtr o, IntPtr t);
 
-    internal uint Z3_optimize_maximize(IntPtr c, IntPtr o, IntPtr t)
+    /// <summary>
+    /// Add a maximization constraint.
+    /// </summary>
+    [Z3Function("Z3_optimize_maximize")]
+    internal uint OptimizeMaximize(IntPtr c, IntPtr o, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_maximize");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_maximizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeMaximizeDelegate>(funcPtr);
         return func(c, o, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate uint optimize_minimizeDelegate(IntPtr c, IntPtr o, IntPtr t);
+    private delegate uint OptimizeMinimizeDelegate(IntPtr c, IntPtr o, IntPtr t);
 
-    internal uint Z3_optimize_minimize(IntPtr c, IntPtr o, IntPtr t)
+    /// <summary>
+    /// Add a minimization constraint.
+    /// </summary>
+    [Z3Function("Z3_optimize_minimize")]
+    internal uint OptimizeMinimize(IntPtr c, IntPtr o, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_minimize");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_minimizeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeMinimizeDelegate>(funcPtr);
         return func(c, o, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_pushDelegate(IntPtr c, IntPtr d);
+    private delegate void OptimizePushDelegate(IntPtr c, IntPtr d);
 
-    internal void Z3_optimize_push(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Create a backtracking point.
+    /// </summary>
+    [Z3Function("Z3_optimize_push")]
+    internal void OptimizePush(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_push");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_pushDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizePushDelegate>(funcPtr);
         func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_popDelegate(IntPtr c, IntPtr d);
+    private delegate void OptimizePopDelegate(IntPtr c, IntPtr d);
 
-    internal void Z3_optimize_pop(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Backtrack one level.
+    /// </summary>
+    [Z3Function("Z3_optimize_pop")]
+    internal void OptimizePop(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_pop");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_popDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizePopDelegate>(funcPtr);
         func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_set_initial_valueDelegate(IntPtr c, IntPtr o, IntPtr v, IntPtr val);
+    private delegate void OptimizeSetInitialValueDelegate(IntPtr c, IntPtr o, IntPtr v, IntPtr val);
 
-    internal void Z3_optimize_set_initial_value(IntPtr c, IntPtr o, IntPtr v, IntPtr val)
+    /// <summary>
+    /// provide an initialization hint to the solver. The initialization hint is used to calibrate an initial value of the expression that represents a variable. If the variable is Boolean, the initial phase is set according to
+    /// </summary>
+    [Z3Function("Z3_optimize_set_initial_value")]
+    internal void OptimizeSetInitialValue(IntPtr c, IntPtr o, IntPtr v, IntPtr val)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_set_initial_value");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_set_initial_valueDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeSetInitialValueDelegate>(funcPtr);
         func(c, o, v, val);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int optimize_checkDelegate(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions);
+    private delegate int OptimizeCheckDelegate(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions);
 
-    internal int Z3_optimize_check(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions)
+    /// <summary>
+    /// Check consistency and produce optimal values.
+    /// </summary>
+    [Z3Function("Z3_optimize_check")]
+    internal int OptimizeCheck(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_check");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_checkDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeCheckDelegate>(funcPtr);
         return func(c, o, num_assumptions, assumptions);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_reason_unknownDelegate(IntPtr c, IntPtr d);
+    private delegate IntPtr OptimizeGetReasonUnknownDelegate(IntPtr c, IntPtr d);
 
-    internal IntPtr Z3_optimize_get_reason_unknown(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Retrieve a string that describes the last status returned by #Z3_optimize_check.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_reason_unknown")]
+    internal IntPtr OptimizeGetReasonUnknown(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_reason_unknown");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_reason_unknownDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetReasonUnknownDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_modelDelegate(IntPtr c, IntPtr o);
+    private delegate IntPtr OptimizeGetModelDelegate(IntPtr c, IntPtr o);
 
-    internal IntPtr Z3_optimize_get_model(IntPtr c, IntPtr o)
+    /// <summary>
+    /// Retrieve the model for the last #Z3_optimize_check
+    /// </summary>
+    [Z3Function("Z3_optimize_get_model")]
+    internal IntPtr OptimizeGetModel(IntPtr c, IntPtr o)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_model");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_modelDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetModelDelegate>(funcPtr);
         return func(c, o);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_unsat_coreDelegate(IntPtr c, IntPtr o);
+    private delegate IntPtr OptimizeGetUnsatCoreDelegate(IntPtr c, IntPtr o);
 
-    internal IntPtr Z3_optimize_get_unsat_core(IntPtr c, IntPtr o)
+    /// <summary>
+    /// Retrieve the unsat core for the last #Z3_optimize_check The unsat core is a subset of the assumptions
+    /// </summary>
+    [Z3Function("Z3_optimize_get_unsat_core")]
+    internal IntPtr OptimizeGetUnsatCore(IntPtr c, IntPtr o)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_unsat_core");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_unsat_coreDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetUnsatCoreDelegate>(funcPtr);
         return func(c, o);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_set_paramsDelegate(IntPtr c, IntPtr o, IntPtr p);
+    private delegate void OptimizeSetParamsDelegate(IntPtr c, IntPtr o, IntPtr p);
 
-    internal void Z3_optimize_set_params(IntPtr c, IntPtr o, IntPtr p)
+    /// <summary>
+    /// Set parameters on optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_set_params")]
+    internal void OptimizeSetParams(IntPtr c, IntPtr o, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_set_params");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_set_paramsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeSetParamsDelegate>(funcPtr);
         func(c, o, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_param_descrsDelegate(IntPtr c, IntPtr o);
+    private delegate IntPtr OptimizeGetParamDescrsDelegate(IntPtr c, IntPtr o);
 
-    internal IntPtr Z3_optimize_get_param_descrs(IntPtr c, IntPtr o)
+    /// <summary>
+    /// Return the parameter description set for the given optimize object.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_param_descrs")]
+    internal IntPtr OptimizeGetParamDescrs(IntPtr c, IntPtr o)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_param_descrs");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_param_descrsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetParamDescrsDelegate>(funcPtr);
         return func(c, o);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_lowerDelegate(IntPtr c, IntPtr o, uint idx);
+    private delegate IntPtr OptimizeGetLowerDelegate(IntPtr c, IntPtr o, uint idx);
 
-    internal IntPtr Z3_optimize_get_lower(IntPtr c, IntPtr o, uint idx)
+    /// <summary>
+    /// Retrieve lower bound value or approximation for the i'th optimization objective.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_lower")]
+    internal IntPtr OptimizeGetLower(IntPtr c, IntPtr o, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_lower");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_lowerDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetLowerDelegate>(funcPtr);
         return func(c, o, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_upperDelegate(IntPtr c, IntPtr o, uint idx);
+    private delegate IntPtr OptimizeGetUpperDelegate(IntPtr c, IntPtr o, uint idx);
 
-    internal IntPtr Z3_optimize_get_upper(IntPtr c, IntPtr o, uint idx)
+    /// <summary>
+    /// Retrieve upper bound value or approximation for the i'th optimization objective.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_upper")]
+    internal IntPtr OptimizeGetUpper(IntPtr c, IntPtr o, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_upper");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_upperDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetUpperDelegate>(funcPtr);
         return func(c, o, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_lower_as_vectorDelegate(IntPtr c, IntPtr o, uint idx);
+    private delegate IntPtr OptimizeGetLowerAsVectorDelegate(IntPtr c, IntPtr o, uint idx);
 
-    internal IntPtr Z3_optimize_get_lower_as_vector(IntPtr c, IntPtr o, uint idx)
+    /// <summary>
+    /// Retrieve lower bound value or approximation for the i'th optimization objective. The returned vector is of length 3. It always contains numerals. The three numerals are coefficients
+    /// </summary>
+    [Z3Function("Z3_optimize_get_lower_as_vector")]
+    internal IntPtr OptimizeGetLowerAsVector(IntPtr c, IntPtr o, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_lower_as_vector");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_lower_as_vectorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetLowerAsVectorDelegate>(funcPtr);
         return func(c, o, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_upper_as_vectorDelegate(IntPtr c, IntPtr o, uint idx);
+    private delegate IntPtr OptimizeGetUpperAsVectorDelegate(IntPtr c, IntPtr o, uint idx);
 
-    internal IntPtr Z3_optimize_get_upper_as_vector(IntPtr c, IntPtr o, uint idx)
+    /// <summary>
+    /// Retrieve upper bound value or approximation for the i'th optimization objective.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_upper_as_vector")]
+    internal IntPtr OptimizeGetUpperAsVector(IntPtr c, IntPtr o, uint idx)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_upper_as_vector");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_upper_as_vectorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetUpperAsVectorDelegate>(funcPtr);
         return func(c, o, idx);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_to_stringDelegate(IntPtr c, IntPtr o);
+    private delegate IntPtr OptimizeToStringDelegate(IntPtr c, IntPtr o);
 
-    internal IntPtr Z3_optimize_to_string(IntPtr c, IntPtr o)
+    /// <summary>
+    /// Print the current context as a string.
+    /// </summary>
+    [Z3Function("Z3_optimize_to_string")]
+    internal IntPtr OptimizeToString(IntPtr c, IntPtr o)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeToStringDelegate>(funcPtr);
         return func(c, o);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_from_stringDelegate(IntPtr c, IntPtr o, IntPtr s);
+    private delegate void OptimizeFromStringDelegate(IntPtr c, IntPtr o, IntPtr s);
 
-    internal void Z3_optimize_from_string(IntPtr c, IntPtr o, IntPtr s)
+    /// <summary>
+    /// Parse an SMT-LIB2 string with assertions, soft constraints and optimization objectives. Add the parsed constraints and objectives to the optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_from_string")]
+    internal void OptimizeFromString(IntPtr c, IntPtr o, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_from_string");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_from_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeFromStringDelegate>(funcPtr);
         func(c, o, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_from_fileDelegate(IntPtr c, IntPtr o, IntPtr s);
+    private delegate void OptimizeFromFileDelegate(IntPtr c, IntPtr o, IntPtr s);
 
-    internal void Z3_optimize_from_file(IntPtr c, IntPtr o, IntPtr s)
+    /// <summary>
+    /// Parse an SMT-LIB2 file with assertions, soft constraints and optimization objectives. Add the parsed constraints and objectives to the optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_from_file")]
+    internal void OptimizeFromFile(IntPtr c, IntPtr o, IntPtr s)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_from_file");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_from_fileDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeFromFileDelegate>(funcPtr);
         func(c, o, s);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_helpDelegate(IntPtr c, IntPtr t);
+    private delegate IntPtr OptimizeGetHelpDelegate(IntPtr c, IntPtr t);
 
-    internal IntPtr Z3_optimize_get_help(IntPtr c, IntPtr t)
+    /// <summary>
+    /// Return a string containing a description of parameters accepted by optimize.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_help")]
+    internal IntPtr OptimizeGetHelp(IntPtr c, IntPtr t)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_help");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_helpDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetHelpDelegate>(funcPtr);
         return func(c, t);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_statisticsDelegate(IntPtr c, IntPtr d);
+    private delegate IntPtr OptimizeGetStatisticsDelegate(IntPtr c, IntPtr d);
 
-    internal IntPtr Z3_optimize_get_statistics(IntPtr c, IntPtr d)
+    /// <summary>
+    /// Retrieve statistics information from the last call to #Z3_optimize_check
+    /// </summary>
+    [Z3Function("Z3_optimize_get_statistics")]
+    internal IntPtr OptimizeGetStatistics(IntPtr c, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_statistics");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_statisticsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetStatisticsDelegate>(funcPtr);
         return func(c, d);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_assertionsDelegate(IntPtr c, IntPtr o);
+    private delegate IntPtr OptimizeGetAssertionsDelegate(IntPtr c, IntPtr o);
 
-    internal IntPtr Z3_optimize_get_assertions(IntPtr c, IntPtr o)
+    /// <summary>
+    /// Return the set of asserted formulas on the optimization context.
+    /// </summary>
+    [Z3Function("Z3_optimize_get_assertions")]
+    internal IntPtr OptimizeGetAssertions(IntPtr c, IntPtr o)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_assertions");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_assertionsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetAssertionsDelegate>(funcPtr);
         return func(c, o);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr optimize_get_objectivesDelegate(IntPtr c, IntPtr o);
+    private delegate IntPtr OptimizeGetObjectivesDelegate(IntPtr c, IntPtr o);
 
-    internal IntPtr Z3_optimize_get_objectives(IntPtr c, IntPtr o)
+    /// <summary>
+    /// Return objectives on the optimization context. If the objective function is a max-sat objective it is returned as a Pseudo-Boolean (minimization) sum of the form
+    /// </summary>
+    [Z3Function("Z3_optimize_get_objectives")]
+    internal IntPtr OptimizeGetObjectives(IntPtr c, IntPtr o)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_get_objectives");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_get_objectivesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeGetObjectivesDelegate>(funcPtr);
         return func(c, o);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void optimize_register_model_ehDelegate(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr model_eh);
+    private delegate void OptimizeRegisterModelEhDelegate(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr model_eh);
 
-    internal void Z3_optimize_register_model_eh(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr model_eh)
+    /// <summary>
+    /// register a model event handler for new models.
+    /// </summary>
+    [Z3Function("Z3_optimize_register_model_eh")]
+    internal void OptimizeRegisterModelEh(IntPtr c, IntPtr o, IntPtr m, IntPtr ctx, IntPtr model_eh)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_register_model_eh");
-        var func = Marshal.GetDelegateForFunctionPointer<optimize_register_model_ehDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OptimizeRegisterModelEhDelegate>(funcPtr);
         func(c, o, m, ctx, model_eh);
     }
 

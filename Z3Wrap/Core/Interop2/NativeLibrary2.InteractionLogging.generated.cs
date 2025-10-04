@@ -5,58 +5,65 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsInteractionLogging(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_open_log");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_append_log");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_close_log");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_toggle_warning_messages");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool open_logDelegate(IntPtr filename);
+    private delegate bool OpenLogDelegate(IntPtr filename);
 
-    internal bool Z3_open_log(IntPtr filename)
+    /// <summary>
+    /// Log interaction to a file.
+    /// </summary>
+    [Z3Function("Z3_open_log")]
+    internal bool OpenLog(IntPtr filename)
     {
         var funcPtr = GetFunctionPointer("Z3_open_log");
-        var func = Marshal.GetDelegateForFunctionPointer<open_logDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<OpenLogDelegate>(funcPtr);
         return func(filename);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void append_logDelegate(IntPtr @string);
+    private delegate void AppendLogDelegate(IntPtr @string);
 
-    internal void Z3_append_log(IntPtr @string)
+    /// <summary>
+    /// Append user-defined string to interaction log.
+    /// </summary>
+    [Z3Function("Z3_append_log")]
+    internal void AppendLog(IntPtr @string)
     {
         var funcPtr = GetFunctionPointer("Z3_append_log");
-        var func = Marshal.GetDelegateForFunctionPointer<append_logDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<AppendLogDelegate>(funcPtr);
         func(@string);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void close_logDelegate();
+    private delegate void CloseLogDelegate();
 
-    internal void Z3_close_log()
+    /// <summary>
+    /// Close interaction log.
+    /// </summary>
+    [Z3Function("Z3_close_log")]
+    internal void CloseLog()
     {
         var funcPtr = GetFunctionPointer("Z3_close_log");
-        var func = Marshal.GetDelegateForFunctionPointer<close_logDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<CloseLogDelegate>(funcPtr);
         func();
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void toggle_warning_messagesDelegate(bool enabled);
+    private delegate void ToggleWarningMessagesDelegate(bool enabled);
 
-    internal void Z3_toggle_warning_messages(bool enabled)
+    /// <summary>
+    /// Enable/disable printing warning messages to the console.
+    /// </summary>
+    [Z3Function("Z3_toggle_warning_messages")]
+    internal void ToggleWarningMessages(bool enabled)
     {
         var funcPtr = GetFunctionPointer("Z3_toggle_warning_messages");
-        var func = Marshal.GetDelegateForFunctionPointer<toggle_warning_messagesDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ToggleWarningMessagesDelegate>(funcPtr);
         func(enabled);
     }
 

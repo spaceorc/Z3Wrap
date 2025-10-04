@@ -5,553 +5,695 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsBitVectors(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnot");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredand");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvredor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvand");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnand");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvnor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvxnor");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvudiv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsdiv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvurem");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsrem");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsmod");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvult");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvslt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvule");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsle");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvuge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsge");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvugt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsgt");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_concat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_extract");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_sign_ext");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_zero_ext");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_repeat");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bit2bool");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvshl");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvlshr");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvashr");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rotate_left");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_rotate_right");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ext_rotate_left");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_ext_rotate_right");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_int2bv");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bv2int");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd_no_overflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvadd_no_underflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub_no_overflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsub_no_underflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvsdiv_no_overflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvneg_no_overflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul_no_overflow");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_bvmul_no_underflow");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvnotDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkBvnotDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_bvnot(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Bitwise negation.
+    /// </summary>
+    [Z3Function("Z3_mk_bvnot")]
+    internal IntPtr MkBvnot(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvnot");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvnotDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvnotDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvredandDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkBvredandDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_bvredand(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Take conjunction of bits in vector, return vector of length 1.
+    /// </summary>
+    [Z3Function("Z3_mk_bvredand")]
+    internal IntPtr MkBvredand(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvredand");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvredandDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvredandDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvredorDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkBvredorDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_bvredor(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Take disjunction of bits in vector, return vector of length 1.
+    /// </summary>
+    [Z3Function("Z3_mk_bvredor")]
+    internal IntPtr MkBvredor(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvredor");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvredorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvredorDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvandDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvandDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvand(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Bitwise and.
+    /// </summary>
+    [Z3Function("Z3_mk_bvand")]
+    internal IntPtr MkBvand(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvand");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvandDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvandDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvor(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Bitwise or.
+    /// </summary>
+    [Z3Function("Z3_mk_bvor")]
+    internal IntPtr MkBvor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvor");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvorDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvxorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvxorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvxor(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Bitwise exclusive-or.
+    /// </summary>
+    [Z3Function("Z3_mk_bvxor")]
+    internal IntPtr MkBvxor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvxor");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvxorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvxorDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvnandDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvnandDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvnand(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Bitwise nand.
+    /// </summary>
+    [Z3Function("Z3_mk_bvnand")]
+    internal IntPtr MkBvnand(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvnand");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvnandDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvnandDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvnorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvnorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvnor(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Bitwise nor.
+    /// </summary>
+    [Z3Function("Z3_mk_bvnor")]
+    internal IntPtr MkBvnor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvnor");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvnorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvnorDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvxnorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvxnorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvxnor(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Bitwise xnor.
+    /// </summary>
+    [Z3Function("Z3_mk_bvxnor")]
+    internal IntPtr MkBvxnor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvxnor");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvxnorDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvxnorDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvnegDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkBvnegDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_bvneg(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Standard two's complement unary minus.
+    /// </summary>
+    [Z3Function("Z3_mk_bvneg")]
+    internal IntPtr MkBvneg(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvnegDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvnegDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvaddDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvaddDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvadd(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Standard two's complement addition.
+    /// </summary>
+    [Z3Function("Z3_mk_bvadd")]
+    internal IntPtr MkBvadd(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvaddDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvaddDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsubDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsubDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsub(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Standard two's complement subtraction.
+    /// </summary>
+    [Z3Function("Z3_mk_bvsub")]
+    internal IntPtr MkBvsub(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsubDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsubDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvmulDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvmulDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvmul(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Standard two's complement multiplication.
+    /// </summary>
+    [Z3Function("Z3_mk_bvmul")]
+    internal IntPtr MkBvmul(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvmulDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvmulDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvudivDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvudivDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvudiv(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Unsigned division.
+    /// </summary>
+    [Z3Function("Z3_mk_bvudiv")]
+    internal IntPtr MkBvudiv(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvudiv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvudivDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvudivDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsdivDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsdivDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsdiv(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed division.
+    /// </summary>
+    [Z3Function("Z3_mk_bvsdiv")]
+    internal IntPtr MkBvsdiv(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsdivDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsdivDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvuremDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvuremDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvurem(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Unsigned remainder.
+    /// </summary>
+    [Z3Function("Z3_mk_bvurem")]
+    internal IntPtr MkBvurem(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvurem");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvuremDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvuremDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsremDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsremDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsrem(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed remainder (sign follows dividend).
+    /// </summary>
+    [Z3Function("Z3_mk_bvsrem")]
+    internal IntPtr MkBvsrem(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsrem");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsremDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsremDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsmodDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsmodDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsmod(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed remainder (sign follows divisor).
+    /// </summary>
+    [Z3Function("Z3_mk_bvsmod")]
+    internal IntPtr MkBvsmod(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsmod");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsmodDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsmodDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvultDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvultDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvult(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Unsigned less than.
+    /// </summary>
+    [Z3Function("Z3_mk_bvult")]
+    internal IntPtr MkBvult(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvult");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvultDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvultDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsltDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsltDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvslt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed less than.
+    /// </summary>
+    [Z3Function("Z3_mk_bvslt")]
+    internal IntPtr MkBvslt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvslt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsltDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsltDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvuleDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvuleDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvule(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Unsigned less than or equal to.
+    /// </summary>
+    [Z3Function("Z3_mk_bvule")]
+    internal IntPtr MkBvule(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvule");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvuleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvuleDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsleDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsleDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsle(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed less than or equal to.
+    /// </summary>
+    [Z3Function("Z3_mk_bvsle")]
+    internal IntPtr MkBvsle(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsle");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsleDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvugeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvugeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvuge(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Unsigned greater than or equal to.
+    /// </summary>
+    [Z3Function("Z3_mk_bvuge")]
+    internal IntPtr MkBvuge(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvuge");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvugeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvugeDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsgeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsgeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsge(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed greater than or equal to.
+    /// </summary>
+    [Z3Function("Z3_mk_bvsge")]
+    internal IntPtr MkBvsge(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsge");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsgeDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsgeDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvugtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvugtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvugt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Unsigned greater than.
+    /// </summary>
+    [Z3Function("Z3_mk_bvugt")]
+    internal IntPtr MkBvugt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvugt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvugtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvugtDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsgtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsgtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsgt(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Two's complement signed greater than.
+    /// </summary>
+    [Z3Function("Z3_mk_bvsgt")]
+    internal IntPtr MkBvsgt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsgt");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsgtDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsgtDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_concatDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkConcatDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_concat(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Concatenate the given bit-vectors.
+    /// </summary>
+    [Z3Function("Z3_mk_concat")]
+    internal IntPtr MkConcat(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_concat");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_concatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkConcatDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_extractDelegate(IntPtr c, uint high, uint low, IntPtr t1);
+    private delegate IntPtr MkExtractDelegate(IntPtr c, uint high, uint low, IntPtr t1);
 
-    internal IntPtr Z3_mk_extract(IntPtr c, uint high, uint low, IntPtr t1)
+    /// <summary>
+    /// Extract the bits
+    /// </summary>
+    [Z3Function("Z3_mk_extract")]
+    internal IntPtr MkExtract(IntPtr c, uint high, uint low, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_extract");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_extractDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExtractDelegate>(funcPtr);
         return func(c, high, low, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_sign_extDelegate(IntPtr c, uint i, IntPtr t1);
+    private delegate IntPtr MkSignExtDelegate(IntPtr c, uint i, IntPtr t1);
 
-    internal IntPtr Z3_mk_sign_ext(IntPtr c, uint i, IntPtr t1)
+    /// <summary>
+    /// Sign-extend of the given bit-vector to the (signed) equivalent bit-vector of size
+    /// </summary>
+    [Z3Function("Z3_mk_sign_ext")]
+    internal IntPtr MkSignExt(IntPtr c, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_sign_ext");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_sign_extDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkSignExtDelegate>(funcPtr);
         return func(c, i, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_zero_extDelegate(IntPtr c, uint i, IntPtr t1);
+    private delegate IntPtr MkZeroExtDelegate(IntPtr c, uint i, IntPtr t1);
 
-    internal IntPtr Z3_mk_zero_ext(IntPtr c, uint i, IntPtr t1)
+    /// <summary>
+    /// Extend the given bit-vector with zeros to the (unsigned) equivalent bit-vector of size
+    /// </summary>
+    [Z3Function("Z3_mk_zero_ext")]
+    internal IntPtr MkZeroExt(IntPtr c, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_zero_ext");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_zero_extDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkZeroExtDelegate>(funcPtr);
         return func(c, i, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_repeatDelegate(IntPtr c, uint i, IntPtr t1);
+    private delegate IntPtr MkRepeatDelegate(IntPtr c, uint i, IntPtr t1);
 
-    internal IntPtr Z3_mk_repeat(IntPtr c, uint i, IntPtr t1)
+    /// <summary>
+    /// Repeat the given bit-vector up length
+    /// </summary>
+    [Z3Function("Z3_mk_repeat")]
+    internal IntPtr MkRepeat(IntPtr c, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_repeat");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_repeatDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRepeatDelegate>(funcPtr);
         return func(c, i, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bit2boolDelegate(IntPtr c, uint i, IntPtr t1);
+    private delegate IntPtr MkBit2boolDelegate(IntPtr c, uint i, IntPtr t1);
 
-    internal IntPtr Z3_mk_bit2bool(IntPtr c, uint i, IntPtr t1)
+    /// <summary>
+    /// Extracts the bit at position
+    /// </summary>
+    [Z3Function("Z3_mk_bit2bool")]
+    internal IntPtr MkBit2bool(IntPtr c, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bit2bool");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bit2boolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBit2boolDelegate>(funcPtr);
         return func(c, i, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvshlDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvshlDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvshl(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Shift left.
+    /// </summary>
+    [Z3Function("Z3_mk_bvshl")]
+    internal IntPtr MkBvshl(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvshl");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvshlDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvshlDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvlshrDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvlshrDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvlshr(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Logical shift right.
+    /// </summary>
+    [Z3Function("Z3_mk_bvlshr")]
+    internal IntPtr MkBvlshr(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvlshr");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvlshrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvlshrDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvashrDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvashrDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvashr(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Arithmetic shift right.
+    /// </summary>
+    [Z3Function("Z3_mk_bvashr")]
+    internal IntPtr MkBvashr(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvashr");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvashrDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvashrDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_rotate_leftDelegate(IntPtr c, uint i, IntPtr t1);
+    private delegate IntPtr MkRotateLeftDelegate(IntPtr c, uint i, IntPtr t1);
 
-    internal IntPtr Z3_mk_rotate_left(IntPtr c, uint i, IntPtr t1)
+    /// <summary>
+    /// Rotate bits of
+    /// </summary>
+    [Z3Function("Z3_mk_rotate_left")]
+    internal IntPtr MkRotateLeft(IntPtr c, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_rotate_left");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_rotate_leftDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRotateLeftDelegate>(funcPtr);
         return func(c, i, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_rotate_rightDelegate(IntPtr c, uint i, IntPtr t1);
+    private delegate IntPtr MkRotateRightDelegate(IntPtr c, uint i, IntPtr t1);
 
-    internal IntPtr Z3_mk_rotate_right(IntPtr c, uint i, IntPtr t1)
+    /// <summary>
+    /// Rotate bits of
+    /// </summary>
+    [Z3Function("Z3_mk_rotate_right")]
+    internal IntPtr MkRotateRight(IntPtr c, uint i, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_rotate_right");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_rotate_rightDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkRotateRightDelegate>(funcPtr);
         return func(c, i, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_ext_rotate_leftDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkExtRotateLeftDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_ext_rotate_left(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Rotate bits of
+    /// </summary>
+    [Z3Function("Z3_mk_ext_rotate_left")]
+    internal IntPtr MkExtRotateLeft(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ext_rotate_left");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_ext_rotate_leftDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExtRotateLeftDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_ext_rotate_rightDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkExtRotateRightDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_ext_rotate_right(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Rotate bits of
+    /// </summary>
+    [Z3Function("Z3_mk_ext_rotate_right")]
+    internal IntPtr MkExtRotateRight(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_ext_rotate_right");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_ext_rotate_rightDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkExtRotateRightDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_int2bvDelegate(IntPtr c, uint n, IntPtr t1);
+    private delegate IntPtr MkInt2bvDelegate(IntPtr c, uint n, IntPtr t1);
 
-    internal IntPtr Z3_mk_int2bv(IntPtr c, uint n, IntPtr t1)
+    /// <summary>
+    /// Create an
+    /// </summary>
+    [Z3Function("Z3_mk_int2bv")]
+    internal IntPtr MkInt2bv(IntPtr c, uint n, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_int2bv");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_int2bvDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkInt2bvDelegate>(funcPtr);
         return func(c, n, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bv2intDelegate(IntPtr c, IntPtr t1, bool is_signed);
+    private delegate IntPtr MkBv2intDelegate(IntPtr c, IntPtr t1, bool is_signed);
 
-    internal IntPtr Z3_mk_bv2int(IntPtr c, IntPtr t1, bool is_signed)
+    /// <summary>
+    /// Create an integer from the bit-vector argument
+    /// </summary>
+    [Z3Function("Z3_mk_bv2int")]
+    internal IntPtr MkBv2int(IntPtr c, IntPtr t1, bool is_signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv2int");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bv2intDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBv2intDelegate>(funcPtr);
         return func(c, t1, is_signed);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvadd_no_overflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
+    private delegate IntPtr MkBvaddNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
 
-    internal IntPtr Z3_mk_bvadd_no_overflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise addition of
+    /// </summary>
+    [Z3Function("Z3_mk_bvadd_no_overflow")]
+    internal IntPtr MkBvaddNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvadd_no_overflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvaddNoOverflowDelegate>(funcPtr);
         return func(c, t1, t2, is_signed);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvadd_no_underflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvaddNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvadd_no_underflow(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise signed addition of
+    /// </summary>
+    [Z3Function("Z3_mk_bvadd_no_underflow")]
+    internal IntPtr MkBvaddNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvadd_no_underflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvadd_no_underflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvaddNoUnderflowDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsub_no_overflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsubNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsub_no_overflow(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise signed subtraction of
+    /// </summary>
+    [Z3Function("Z3_mk_bvsub_no_overflow")]
+    internal IntPtr MkBvsubNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsub_no_overflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsubNoOverflowDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsub_no_underflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
+    private delegate IntPtr MkBvsubNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
 
-    internal IntPtr Z3_mk_bvsub_no_underflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise subtraction of
+    /// </summary>
+    [Z3Function("Z3_mk_bvsub_no_underflow")]
+    internal IntPtr MkBvsubNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsub_no_underflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsub_no_underflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsubNoUnderflowDelegate>(funcPtr);
         return func(c, t1, t2, is_signed);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvsdiv_no_overflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvsdivNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvsdiv_no_overflow(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise signed division of
+    /// </summary>
+    [Z3Function("Z3_mk_bvsdiv_no_overflow")]
+    internal IntPtr MkBvsdivNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvsdiv_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvsdiv_no_overflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvsdivNoOverflowDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvneg_no_overflowDelegate(IntPtr c, IntPtr t1);
+    private delegate IntPtr MkBvnegNoOverflowDelegate(IntPtr c, IntPtr t1);
 
-    internal IntPtr Z3_mk_bvneg_no_overflow(IntPtr c, IntPtr t1)
+    /// <summary>
+    /// Check that bit-wise negation does not overflow when
+    /// </summary>
+    [Z3Function("Z3_mk_bvneg_no_overflow")]
+    internal IntPtr MkBvnegNoOverflow(IntPtr c, IntPtr t1)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvneg_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvneg_no_overflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvnegNoOverflowDelegate>(funcPtr);
         return func(c, t1);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvmul_no_overflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
+    private delegate IntPtr MkBvmulNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed);
 
-    internal IntPtr Z3_mk_bvmul_no_overflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise multiplication of
+    /// </summary>
+    [Z3Function("Z3_mk_bvmul_no_overflow")]
+    internal IntPtr MkBvmulNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool is_signed)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_overflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvmul_no_overflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvmulNoOverflowDelegate>(funcPtr);
         return func(c, t1, t2, is_signed);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_bvmul_no_underflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
+    private delegate IntPtr MkBvmulNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
-    internal IntPtr Z3_mk_bvmul_no_underflow(IntPtr c, IntPtr t1, IntPtr t2)
+    /// <summary>
+    /// Create a predicate that checks that the bit-wise signed multiplication of
+    /// </summary>
+    [Z3Function("Z3_mk_bvmul_no_underflow")]
+    internal IntPtr MkBvmulNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bvmul_no_underflow");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_bvmul_no_underflowDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkBvmulNoUnderflowDelegate>(funcPtr);
         return func(c, t1, t2);
     }
 

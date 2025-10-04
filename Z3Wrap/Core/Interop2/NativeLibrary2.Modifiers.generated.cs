@@ -5,69 +5,79 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsModifiers(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_update_term");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_substitute");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_substitute_vars");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_substitute_funs");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_translate");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr update_termDelegate(IntPtr c, IntPtr a, uint num_args, IntPtr args);
+    private delegate IntPtr UpdateTermDelegate(IntPtr c, IntPtr a, uint num_args, IntPtr args);
 
-    internal IntPtr Z3_update_term(IntPtr c, IntPtr a, uint num_args, IntPtr args)
+    /// <summary>
+    /// Update the arguments of term
+    /// </summary>
+    [Z3Function("Z3_update_term")]
+    internal IntPtr UpdateTerm(IntPtr c, IntPtr a, uint num_args, IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_update_term");
-        var func = Marshal.GetDelegateForFunctionPointer<update_termDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<UpdateTermDelegate>(funcPtr);
         return func(c, a, num_args, args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr substituteDelegate(IntPtr c, IntPtr a, uint num_exprs, IntPtr from, IntPtr to);
+    private delegate IntPtr SubstituteDelegate(IntPtr c, IntPtr a, uint num_exprs, IntPtr from, IntPtr to);
 
-    internal IntPtr Z3_substitute(IntPtr c, IntPtr a, uint num_exprs, IntPtr from, IntPtr to)
+    /// <summary>
+    /// Substitute every occurrence of
+    /// </summary>
+    [Z3Function("Z3_substitute")]
+    internal IntPtr Substitute(IntPtr c, IntPtr a, uint num_exprs, IntPtr from, IntPtr to)
     {
         var funcPtr = GetFunctionPointer("Z3_substitute");
-        var func = Marshal.GetDelegateForFunctionPointer<substituteDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SubstituteDelegate>(funcPtr);
         return func(c, a, num_exprs, from, to);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr substitute_varsDelegate(IntPtr c, IntPtr a, uint num_exprs, IntPtr to);
+    private delegate IntPtr SubstituteVarsDelegate(IntPtr c, IntPtr a, uint num_exprs, IntPtr to);
 
-    internal IntPtr Z3_substitute_vars(IntPtr c, IntPtr a, uint num_exprs, IntPtr to)
+    /// <summary>
+    /// Substitute the variables in
+    /// </summary>
+    [Z3Function("Z3_substitute_vars")]
+    internal IntPtr SubstituteVars(IntPtr c, IntPtr a, uint num_exprs, IntPtr to)
     {
         var funcPtr = GetFunctionPointer("Z3_substitute_vars");
-        var func = Marshal.GetDelegateForFunctionPointer<substitute_varsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SubstituteVarsDelegate>(funcPtr);
         return func(c, a, num_exprs, to);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr substitute_funsDelegate(IntPtr c, IntPtr a, uint num_funs, IntPtr from, IntPtr to);
+    private delegate IntPtr SubstituteFunsDelegate(IntPtr c, IntPtr a, uint num_funs, IntPtr from, IntPtr to);
 
-    internal IntPtr Z3_substitute_funs(IntPtr c, IntPtr a, uint num_funs, IntPtr from, IntPtr to)
+    /// <summary>
+    /// Substitute functions in
+    /// </summary>
+    [Z3Function("Z3_substitute_funs")]
+    internal IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint num_funs, IntPtr from, IntPtr to)
     {
         var funcPtr = GetFunctionPointer("Z3_substitute_funs");
-        var func = Marshal.GetDelegateForFunctionPointer<substitute_funsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<SubstituteFunsDelegate>(funcPtr);
         return func(c, a, num_funs, from, to);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr translateDelegate(IntPtr source, IntPtr a, IntPtr target);
+    private delegate IntPtr TranslateDelegate(IntPtr source, IntPtr a, IntPtr target);
 
-    internal IntPtr Z3_translate(IntPtr source, IntPtr a, IntPtr target)
+    /// <summary>
+    /// Translate/Copy the AST
+    /// </summary>
+    [Z3Function("Z3_translate")]
+    internal IntPtr Translate(IntPtr source, IntPtr a, IntPtr target)
     {
         var funcPtr = GetFunctionPointer("Z3_translate");
-        var func = Marshal.GetDelegateForFunctionPointer<translateDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<TranslateDelegate>(funcPtr);
         return func(source, a, target);
     }
 

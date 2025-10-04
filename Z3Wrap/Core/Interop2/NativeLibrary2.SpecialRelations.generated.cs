@@ -5,69 +5,79 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsSpecialRelations(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_linear_order");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_partial_order");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_piecewise_linear_order");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_tree_order");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_transitive_closure");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_linear_orderDelegate(IntPtr c, IntPtr a, uint id);
+    private delegate IntPtr MkLinearOrderDelegate(IntPtr c, IntPtr a, uint id);
 
-    internal IntPtr Z3_mk_linear_order(IntPtr c, IntPtr a, uint id)
+    /// <summary>
+    /// create a linear ordering relation over signature
+    /// </summary>
+    [Z3Function("Z3_mk_linear_order")]
+    internal IntPtr MkLinearOrder(IntPtr c, IntPtr a, uint id)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_linear_order");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_linear_orderDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkLinearOrderDelegate>(funcPtr);
         return func(c, a, id);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_partial_orderDelegate(IntPtr c, IntPtr a, uint id);
+    private delegate IntPtr MkPartialOrderDelegate(IntPtr c, IntPtr a, uint id);
 
-    internal IntPtr Z3_mk_partial_order(IntPtr c, IntPtr a, uint id)
+    /// <summary>
+    /// create a partial ordering relation over signature
+    /// </summary>
+    [Z3Function("Z3_mk_partial_order")]
+    internal IntPtr MkPartialOrder(IntPtr c, IntPtr a, uint id)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_partial_order");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_partial_orderDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPartialOrderDelegate>(funcPtr);
         return func(c, a, id);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_piecewise_linear_orderDelegate(IntPtr c, IntPtr a, uint id);
+    private delegate IntPtr MkPiecewiseLinearOrderDelegate(IntPtr c, IntPtr a, uint id);
 
-    internal IntPtr Z3_mk_piecewise_linear_order(IntPtr c, IntPtr a, uint id)
+    /// <summary>
+    /// create a piecewise linear ordering relation over signature
+    /// </summary>
+    [Z3Function("Z3_mk_piecewise_linear_order")]
+    internal IntPtr MkPiecewiseLinearOrder(IntPtr c, IntPtr a, uint id)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_piecewise_linear_order");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_piecewise_linear_orderDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkPiecewiseLinearOrderDelegate>(funcPtr);
         return func(c, a, id);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_tree_orderDelegate(IntPtr c, IntPtr a, uint id);
+    private delegate IntPtr MkTreeOrderDelegate(IntPtr c, IntPtr a, uint id);
 
-    internal IntPtr Z3_mk_tree_order(IntPtr c, IntPtr a, uint id)
+    /// <summary>
+    /// create a tree ordering relation over signature
+    /// </summary>
+    [Z3Function("Z3_mk_tree_order")]
+    internal IntPtr MkTreeOrder(IntPtr c, IntPtr a, uint id)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_tree_order");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_tree_orderDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkTreeOrderDelegate>(funcPtr);
         return func(c, a, id);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_transitive_closureDelegate(IntPtr c, IntPtr f);
+    private delegate IntPtr MkTransitiveClosureDelegate(IntPtr c, IntPtr f);
 
-    internal IntPtr Z3_mk_transitive_closure(IntPtr c, IntPtr f)
+    /// <summary>
+    /// create transitive closure of binary relation.
+    /// </summary>
+    [Z3Function("Z3_mk_transitive_closure")]
+    internal IntPtr MkTransitiveClosure(IntPtr c, IntPtr f)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_transitive_closure");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_transitive_closureDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkTransitiveClosureDelegate>(funcPtr);
         return func(c, f);
     }
 

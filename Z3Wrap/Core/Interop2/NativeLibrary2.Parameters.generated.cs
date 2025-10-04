@@ -5,113 +5,135 @@
 // </auto-generated>
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Spaceorc.Z3Wrap.Core.Interop2;
 
 internal sealed partial class NativeLibrary2
 {
-    private static void LoadFunctionsParameters(IntPtr handle, Dictionary<string, IntPtr> functionPointers)
-    {
-        LoadFunctionOrNull(handle, functionPointers, "Z3_mk_params");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_inc_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_dec_ref");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_bool");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_uint");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_double");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_set_symbol");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_to_string");
-        LoadFunctionOrNull(handle, functionPointers, "Z3_params_validate");
-    }
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr mk_paramsDelegate(IntPtr c);
+    private delegate IntPtr MkParamsDelegate(IntPtr c);
 
-    internal IntPtr Z3_mk_params(IntPtr c)
+    /// <summary>
+    /// Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc.
+    /// </summary>
+    [Z3Function("Z3_mk_params")]
+    internal IntPtr MkParams(IntPtr c)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_params");
-        var func = Marshal.GetDelegateForFunctionPointer<mk_paramsDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<MkParamsDelegate>(funcPtr);
         return func(c);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_inc_refDelegate(IntPtr c, IntPtr p);
+    private delegate void ParamsIncRefDelegate(IntPtr c, IntPtr p);
 
-    internal void Z3_params_inc_ref(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Increment the reference counter of the given parameter set.
+    /// </summary>
+    [Z3Function("Z3_params_inc_ref")]
+    internal void ParamsIncRef(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_params_inc_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<params_inc_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsIncRefDelegate>(funcPtr);
         func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_dec_refDelegate(IntPtr c, IntPtr p);
+    private delegate void ParamsDecRefDelegate(IntPtr c, IntPtr p);
 
-    internal void Z3_params_dec_ref(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Decrement the reference counter of the given parameter set.
+    /// </summary>
+    [Z3Function("Z3_params_dec_ref")]
+    internal void ParamsDecRef(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_params_dec_ref");
-        var func = Marshal.GetDelegateForFunctionPointer<params_dec_refDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsDecRefDelegate>(funcPtr);
         func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_set_boolDelegate(IntPtr c, IntPtr p, IntPtr k, bool v);
+    private delegate void ParamsSetBoolDelegate(IntPtr c, IntPtr p, IntPtr k, bool v);
 
-    internal void Z3_params_set_bool(IntPtr c, IntPtr p, IntPtr k, bool v)
+    /// <summary>
+    /// Add a Boolean parameter
+    /// </summary>
+    [Z3Function("Z3_params_set_bool")]
+    internal void ParamsSetBool(IntPtr c, IntPtr p, IntPtr k, bool v)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_bool");
-        var func = Marshal.GetDelegateForFunctionPointer<params_set_boolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetBoolDelegate>(funcPtr);
         func(c, p, k, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_set_uintDelegate(IntPtr c, IntPtr p, IntPtr k, uint v);
+    private delegate void ParamsSetUintDelegate(IntPtr c, IntPtr p, IntPtr k, uint v);
 
-    internal void Z3_params_set_uint(IntPtr c, IntPtr p, IntPtr k, uint v)
+    /// <summary>
+    /// Add a unsigned parameter
+    /// </summary>
+    [Z3Function("Z3_params_set_uint")]
+    internal void ParamsSetUint(IntPtr c, IntPtr p, IntPtr k, uint v)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_uint");
-        var func = Marshal.GetDelegateForFunctionPointer<params_set_uintDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetUintDelegate>(funcPtr);
         func(c, p, k, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_set_doubleDelegate(IntPtr c, IntPtr p, IntPtr k, double v);
+    private delegate void ParamsSetDoubleDelegate(IntPtr c, IntPtr p, IntPtr k, double v);
 
-    internal void Z3_params_set_double(IntPtr c, IntPtr p, IntPtr k, double v)
+    /// <summary>
+    /// Add a double parameter
+    /// </summary>
+    [Z3Function("Z3_params_set_double")]
+    internal void ParamsSetDouble(IntPtr c, IntPtr p, IntPtr k, double v)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_double");
-        var func = Marshal.GetDelegateForFunctionPointer<params_set_doubleDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetDoubleDelegate>(funcPtr);
         func(c, p, k, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_set_symbolDelegate(IntPtr c, IntPtr p, IntPtr k, IntPtr v);
+    private delegate void ParamsSetSymbolDelegate(IntPtr c, IntPtr p, IntPtr k, IntPtr v);
 
-    internal void Z3_params_set_symbol(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
+    /// <summary>
+    /// Add a symbol parameter
+    /// </summary>
+    [Z3Function("Z3_params_set_symbol")]
+    internal void ParamsSetSymbol(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_params_set_symbol");
-        var func = Marshal.GetDelegateForFunctionPointer<params_set_symbolDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsSetSymbolDelegate>(funcPtr);
         func(c, p, k, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr params_to_stringDelegate(IntPtr c, IntPtr p);
+    private delegate IntPtr ParamsToStringDelegate(IntPtr c, IntPtr p);
 
-    internal IntPtr Z3_params_to_string(IntPtr c, IntPtr p)
+    /// <summary>
+    /// Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter set.
+    /// </summary>
+    [Z3Function("Z3_params_to_string")]
+    internal IntPtr ParamsToString(IntPtr c, IntPtr p)
     {
         var funcPtr = GetFunctionPointer("Z3_params_to_string");
-        var func = Marshal.GetDelegateForFunctionPointer<params_to_stringDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsToStringDelegate>(funcPtr);
         return func(c, p);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void params_validateDelegate(IntPtr c, IntPtr p, IntPtr d);
+    private delegate void ParamsValidateDelegate(IntPtr c, IntPtr p, IntPtr d);
 
-    internal void Z3_params_validate(IntPtr c, IntPtr p, IntPtr d)
+    /// <summary>
+    /// Validate the parameter set
+    /// </summary>
+    [Z3Function("Z3_params_validate")]
+    internal void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)
     {
         var funcPtr = GetFunctionPointer("Z3_params_validate");
-        var func = Marshal.GetDelegateForFunctionPointer<params_validateDelegate>(funcPtr);
+        var func = Marshal.GetDelegateForFunctionPointer<ParamsValidateDelegate>(funcPtr);
         func(c, p, d);
     }
 
