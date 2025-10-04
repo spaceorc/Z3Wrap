@@ -197,6 +197,9 @@
     <Compile Update="Core\Interop\NativeZ3Library.*.generated.cs">
       <DependentUpon>NativeZ3Library.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Library\Z3Library2.Context.cs">
+      <DependentUpon>Z3Library2.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
