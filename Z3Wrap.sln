@@ -41,39 +41,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "commands", "commands", "{7B
 		.claude\commands\changelog.md = .claude\commands\changelog.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "c_headers", "c_headers", "{998AFF9E-6E83-419F-8047-79399EDDAF47}"
-	ProjectSection(SolutionItems) = preProject
-		c_headers\z3_api_sets.txt = c_headers\z3_api_sets.txt
-		c_headers\z3_api_goals.txt = c_headers\z3_api_goals.txt
-		c_headers\z3_api_sorts.txt = c_headers\z3_api_sorts.txt
-		c_headers\z3_api_arrays.txt = c_headers\z3_api_arrays.txt
-		c_headers\z3_api_models.txt = c_headers\z3_api_models.txt
-		c_headers\z3_api_solvers.txt = c_headers\z3_api_solvers.txt
-		c_headers\z3_api_symbols.txt = c_headers\z3_api_symbols.txt
-		c_headers\z3_api_numerals.txt = c_headers\z3_api_numerals.txt
-		c_headers\z3_api_accessors.txt = c_headers\z3_api_accessors.txt
-		c_headers\z3_api_modifiers.txt = c_headers\z3_api_modifiers.txt
-		c_headers\z3_api_parameters.txt = c_headers\z3_api_parameters.txt
-		c_headers\z3_api_statistics.txt = c_headers\z3_api_statistics.txt
-		c_headers\z3_api_bit_vectors.txt = c_headers\z3_api_bit_vectors.txt
-		c_headers\z3_api_quantifiers.txt = c_headers\z3_api_quantifiers.txt
-		c_headers\z3_api_miscellaneous.txt = c_headers\z3_api_miscellaneous.txt
-		c_headers\z3_api_error_handling.txt = c_headers\z3_api_error_handling.txt
-		c_headers\z3_api_parser_interface.txt = c_headers\z3_api_parser_interface.txt
-		c_headers\z3_api_global_parameters.txt = c_headers\z3_api_global_parameters.txt
-		c_headers\z3_api_special_relations.txt = c_headers\z3_api_special_relations.txt
-		c_headers\z3_api_string_conversion.txt = c_headers\z3_api_string_conversion.txt
-		c_headers\z3_api_integers_and_reals.txt = c_headers\z3_api_integers_and_reals.txt
-		c_headers\z3_api_interaction_logging.txt = c_headers\z3_api_interaction_logging.txt
-		c_headers\z3_api_create_configuration.txt = c_headers\z3_api_create_configuration.txt
-		c_headers\z3_api_parameter_descriptions.txt = c_headers\z3_api_parameter_descriptions.txt
-		c_headers\z3_api_constants_and_applications.txt = c_headers\z3_api_constants_and_applications.txt
-		c_headers\z3_api_tactics_simplifiers_and_probes.txt = c_headers\z3_api_tactics_simplifiers_and_probes.txt
-		c_headers\z3_api_propositional_logic_and_equality.txt = c_headers\z3_api_propositional_logic_and_equality.txt
-		c_headers\z3_api_sequences_and_regular_expressions.txt = c_headers\z3_api_sequences_and_regular_expressions.txt
-		c_headers\z3_api_context_and_ast_reference_counting.txt = c_headers\z3_api_context_and_ast_reference_counting.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

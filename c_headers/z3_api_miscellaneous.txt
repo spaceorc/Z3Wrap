@@ -1,9 +1,0 @@
-Miscellaneous
-================================================================================
-
-Z3_get_version
-Z3_get_full_version
-Z3_enable_trace
-Z3_disable_trace
-Z3_reset_memory
-Z3_finalize_memory

@@ -1,6 +1,0 @@
-Global Parameters
-================================================================================
-
-Z3_global_param_set
-Z3_global_param_reset_all
-Z3_global_param_get

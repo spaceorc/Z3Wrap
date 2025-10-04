@@ -1,6 +1,0 @@
-Create configuration
-================================================================================
-
-Z3_mk_config
-Z3_del_config
-Z3_set_param_value
