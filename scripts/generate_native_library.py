@@ -183,6 +183,10 @@ def extract_functions_from_group(header_path: Path, start_line: int, end_line: i
     return functions
 
 
+# Global set of all enum value names (populated by find_enums_in_headers)
+ALL_ENUM_VALUES = set()
+
+
 def clean_documentation_text(text: str, preserve_formatting: bool = False) -> str:
     """Clean up documentation text with support for paragraphs and bullet lists."""
     if preserve_formatting:
@@ -288,11 +292,16 @@ def clean_documentation_text(text: str, preserve_formatting: bool = False) -> st
                 # Process the line content (Doxygen markers, XML escaping)
                 line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
                 line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
-                # Convert #Z3_function_name to <see cref="FunctionName"/>
+                # Convert #Z3_name references - check if it's an enum value or function
                 def replace_reference(match):
                     z3_name = match.group(1)
-                    csharp_name = generate_csharp_method_name(z3_name)
-                    return f'<see cref="{csharp_name}"/>'
+                    if z3_name in ALL_ENUM_VALUES:
+                        # Keep enum value name unchanged
+                        return f'<see cref="{z3_name}"/>'
+                    else:
+                        # Convert function name to C# style
+                        csharp_name = generate_csharp_method_name(z3_name)
+                        return f'<see cref="{csharp_name}"/>'
                 line = re.sub(r'#(Z3_\w+)', replace_reference, line)
 
                 # Escape XML
@@ -317,8 +326,13 @@ def clean_documentation_text(text: str, preserve_formatting: bool = False) -> st
                 line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)
                 def replace_reference(match):
                     z3_name = match.group(1)
-                    csharp_name = generate_csharp_method_name(z3_name)
-                    return f'<see cref="{csharp_name}"/>'
+                    if z3_name in ALL_ENUM_VALUES:
+                        # Keep enum value name unchanged
+                        return f'<see cref="{z3_name}"/>'
+                    else:
+                        # Convert function name to C# style
+                        csharp_name = generate_csharp_method_name(z3_name)
+                        return f'<see cref="{csharp_name}"/>'
                 line = re.sub(r'#(Z3_\w+)', replace_reference, line)
 
                 # Escape XML
@@ -352,11 +366,16 @@ def clean_documentation_text(text: str, preserve_formatting: bool = False) -> st
                 if not in_code_block:
                     line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
                     line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
-                    # Convert #Z3_function_name to <see cref="FunctionName"/>
+                    # Convert #Z3_name references - check if it's an enum value or function
                     def replace_reference(match):
                         z3_name = match.group(1)
-                        csharp_name = generate_csharp_method_name(z3_name)
-                        return f'<see cref="{csharp_name}"/>'
+                        if z3_name in ALL_ENUM_VALUES:
+                            # Keep enum value name unchanged
+                            return f'<see cref="{z3_name}"/>'
+                        else:
+                            # Convert function name to C# style
+                            csharp_name = generate_csharp_method_name(z3_name)
+                            return f'<see cref="{csharp_name}"/>'
                     line = re.sub(r'#(Z3_\w+)', replace_reference, line)
 
                 # Escape XML special characters (but not our own tags)
@@ -514,8 +533,8 @@ def map_c_type_to_csharp(c_type: str) -> str:
     if cleaned in type_map:
         return type_map[cleaned]
 
-    # Unknown type - raise error
-    raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map.")
+    # Unknown type - raise error with clear message
+    raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map in map_c_type_to_csharp().")
 
 
 def extract_function_documentation(header_path: Path, func_name: str) -> dict:
@@ -710,34 +729,13 @@ def convert_enum_name_to_csharp(enum_name: str) -> str:
 
 def convert_enum_value_to_csharp(value_name: str, enum_name: str) -> str:
     """
-    Convert Z3 enum value name to C# enum value name.
+    Keep original Z3 enum value name unchanged.
     Examples:
-    - Z3_PK_UINT -> Uint (for Z3_param_kind)
-    - Z3_L_TRUE -> True (for Z3_lbool)
-    - Z3_INT_SYMBOL -> IntSymbol (for Z3_symbol_kind)
+    - Z3_PK_UINT -> Z3_PK_UINT
+    - Z3_L_TRUE -> Z3_L_TRUE
+    - Z3_OP_LE -> Z3_OP_LE
     """
-    # Try to remove common prefixes
-    # First, try the enum-specific prefix (e.g., Z3_PK_ for Z3_param_kind)
-    if enum_name.startswith('Z3_'):
-        enum_short = enum_name[3:]  # Remove Z3_
-        # Try to extract prefix from enum name
-        # E.g., param_kind -> PK_, symbol_kind -> SK_
-        parts = enum_short.split('_')
-        if parts:
-            # Try abbreviation (first letters of each word)
-            prefix_abbrev = 'Z3_' + ''.join(p[0].upper() for p in parts) + '_'
-            if value_name.startswith(prefix_abbrev):
-                value_name = value_name[len(prefix_abbrev):]
-
-    # If still starts with Z3_, remove it
-    if value_name.startswith('Z3_'):
-        value_name = value_name[3:]
-
-    # Split on underscores and capitalize
-    parts = value_name.split('_')
-    result = ''.join(part.capitalize() for part in parts)
-
-    return result
+    return value_name
 
 
 def clean_group_name_for_class(group_name: str) -> str:
@@ -806,7 +804,11 @@ def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
     """
     Find all enum definitions in header files.
     Returns list of EnumDefinition objects.
+    Also populates the global ALL_ENUM_VALUES set.
     """
+    global ALL_ENUM_VALUES
+    ALL_ENUM_VALUES.clear()
+
     header_files = sorted(headers_dir.glob('*.h'))
     enums = []
     seen_names = set()
@@ -861,6 +863,9 @@ def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
                     value_doc = docs['value_docs'].get(value_name, '')
 
                     values.append((value_name, csharp_value, explicit_value, value_doc))
+
+                    # Add to global set of all enum values
+                    ALL_ENUM_VALUES.add(value_name)
 
                     # Increment for next value (if this was a simple integer)
                     try:

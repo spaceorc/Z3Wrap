@@ -96,7 +96,7 @@ public sealed partial class Z3Library : IDisposable
     private void CheckError(IntPtr ctx)
     {
         var errorCode = nativeLibrary.GetErrorCode(ctx);
-        if (errorCode == NativeZ3Library.ErrorCode.Ok)
+        if (errorCode == NativeZ3Library.ErrorCode.Z3_OK)
             return;
         var msgPtr = nativeLibrary.GetErrorMsg(ctx, errorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";

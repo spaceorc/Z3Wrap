@@ -21,44 +21,44 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// numeral constants
         /// </remarks>
-        NumeralAst = 0,
+        Z3_NUMERAL_AST = 0,
         /// <summary>
         /// Z3_APP_AST
         /// </summary>
         /// <remarks>
         /// constant and applications
         /// </remarks>
-        AppAst = 1,
+        Z3_APP_AST = 1,
         /// <summary>
         /// Z3_VAR_AST
         /// </summary>
         /// <remarks>
         /// bound variables
         /// </remarks>
-        VarAst = 2,
+        Z3_VAR_AST = 2,
         /// <summary>
         /// Z3_QUANTIFIER_AST
         /// </summary>
         /// <remarks>
         /// quantifiers
         /// </remarks>
-        QuantifierAst = 3,
+        Z3_QUANTIFIER_AST = 3,
         /// <summary>
         /// Z3_SORT_AST
         /// </summary>
         /// <remarks>
         /// sort
         /// </remarks>
-        SortAst = 4,
+        Z3_SORT_AST = 4,
         /// <summary>
         /// Z3_FUNC_DECL_AST
         /// </summary>
         /// <remarks>
         /// function declaration
         /// </remarks>
-        FuncDeclAst = 5,
+        Z3_FUNC_DECL_AST = 5,
         /// <summary>Z3_UNKNOWN_AST</summary>
-        UnknownAst = 1000,
+        Z3_UNKNOWN_AST = 1000,
     }
 
     /// <summary>
@@ -72,16 +72,16 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// Print AST nodes in SMTLIB verbose format.
         /// </remarks>
-        PrintSmtlibFull = 0,
+        Z3_PRINT_SMTLIB_FULL = 0,
         /// <summary>
         /// Z3_PRINT_LOW_LEVEL
         /// </summary>
         /// <remarks>
         /// Print AST nodes using a low-level format.
         /// </remarks>
-        PrintLowLevel = 1,
+        Z3_PRINT_LOW_LEVEL = 1,
         /// <summary>Z3_PRINT_SMTLIB2_COMPLIANT</summary>
-        PrintSmtlib2Compliant = 2,
+        Z3_PRINT_SMTLIB2_COMPLIANT = 2,
     }
 
     /// <summary>
@@ -97,77 +97,77 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// The constant true.
         /// </remarks>
-        OpTrue = 0x100,
+        Z3_OP_TRUE = 0x100,
         /// <summary>
         /// Z3_OP_FALSE
         /// </summary>
         /// <remarks>
         /// The constant false.
         /// </remarks>
-        OpFalse = 257,
+        Z3_OP_FALSE = 257,
         /// <summary>
         /// Z3_OP_EQ
         /// </summary>
         /// <remarks>
         /// The equality predicate.
         /// </remarks>
-        OpEq = 258,
+        Z3_OP_EQ = 258,
         /// <summary>
         /// Z3_OP_DISTINCT
         /// </summary>
         /// <remarks>
         /// The n-ary distinct predicate (every argument is mutually distinct).
         /// </remarks>
-        OpDistinct = 259,
+        Z3_OP_DISTINCT = 259,
         /// <summary>
         /// Z3_OP_ITE
         /// </summary>
         /// <remarks>
         /// The ternary if-then-else term.
         /// </remarks>
-        OpIte = 260,
+        Z3_OP_ITE = 260,
         /// <summary>
         /// Z3_OP_AND
         /// </summary>
         /// <remarks>
         /// n-ary conjunction.
         /// </remarks>
-        OpAnd = 261,
+        Z3_OP_AND = 261,
         /// <summary>
         /// Z3_OP_OR
         /// </summary>
         /// <remarks>
         /// n-ary disjunction.
         /// </remarks>
-        OpOr = 262,
+        Z3_OP_OR = 262,
         /// <summary>
         /// Z3_OP_IFF
         /// </summary>
         /// <remarks>
         /// equivalence (binary).
         /// </remarks>
-        OpIff = 263,
+        Z3_OP_IFF = 263,
         /// <summary>
         /// Z3_OP_XOR
         /// </summary>
         /// <remarks>
         /// Exclusive or.
         /// </remarks>
-        OpXor = 264,
+        Z3_OP_XOR = 264,
         /// <summary>
         /// Z3_OP_NOT
         /// </summary>
         /// <remarks>
         /// Negation.
         /// </remarks>
-        OpNot = 265,
+        Z3_OP_NOT = 265,
         /// <summary>
         /// Z3_OP_IMPLIES
         /// </summary>
         /// <remarks>
         /// Implication.
         /// </remarks>
-        OpImplies = 266,
+        Z3_OP_IMPLIES = 266,
         /// <summary>
         /// Z3_OP_OEQ
         /// </summary>
@@ -175,135 +175,135 @@ internal sealed partial class NativeZ3Library
         /// Binary equivalence modulo namings. This binary predicate is used in proof terms.
         /// It captures equisatisfiability and equivalence modulo renamings.
         /// </remarks>
-        OpOeq = 267,
+        Z3_OP_OEQ = 267,
         /// <summary>
         /// Z3_OP_ANUM
         /// </summary>
         /// <remarks>
         /// Arithmetic numeral.
         /// </remarks>
-        OpAnum = 0x200,
+        Z3_OP_ANUM = 0x200,
         /// <summary>
         /// Z3_OP_AGNUM
         /// </summary>
         /// <remarks>
         /// Arithmetic algebraic numeral. Algebraic numbers are used to represent irrational numbers in Z3.
         /// </remarks>
-        OpAgnum = 513,
+        Z3_OP_AGNUM = 513,
         /// <summary>
         /// Z3_OP_LE
         /// </summary>
         /// <remarks>
         /// &lt;=.
         /// </remarks>
-        OpLe = 514,
+        Z3_OP_LE = 514,
         /// <summary>
         /// Z3_OP_GE
         /// </summary>
         /// <remarks>
         /// &gt;=.
         /// </remarks>
-        OpGe = 515,
+        Z3_OP_GE = 515,
         /// <summary>
         /// Z3_OP_LT
         /// </summary>
         /// <remarks>
         /// &lt;.
         /// </remarks>
-        OpLt = 516,
+        Z3_OP_LT = 516,
         /// <summary>
         /// Z3_OP_GT
         /// </summary>
         /// <remarks>
         /// &gt;.
         /// </remarks>
-        OpGt = 517,
+        Z3_OP_GT = 517,
         /// <summary>
         /// Z3_OP_ADD
         /// </summary>
         /// <remarks>
         /// Addition - Binary.
         /// </remarks>
-        OpAdd = 518,
+        Z3_OP_ADD = 518,
         /// <summary>
         /// Z3_OP_SUB
         /// </summary>
         /// <remarks>
         /// Binary subtraction.
         /// </remarks>
-        OpSub = 519,
+        Z3_OP_SUB = 519,
         /// <summary>
         /// Z3_OP_UMINUS
         /// </summary>
         /// <remarks>
         /// Unary minus.
         /// </remarks>
-        OpUminus = 520,
+        Z3_OP_UMINUS = 520,
         /// <summary>
         /// Z3_OP_MUL
         /// </summary>
         /// <remarks>
         /// Multiplication - Binary.
         /// </remarks>
-        OpMul = 521,
+        Z3_OP_MUL = 521,
         /// <summary>
         /// Z3_OP_DIV
         /// </summary>
         /// <remarks>
         /// Division - Binary.
         /// </remarks>
-        OpDiv = 522,
+        Z3_OP_DIV = 522,
         /// <summary>
         /// Z3_OP_IDIV
         /// </summary>
         /// <remarks>
         /// Integer division - Binary.
         /// </remarks>
-        OpIdiv = 523,
+        Z3_OP_IDIV = 523,
         /// <summary>
         /// Z3_OP_REM
         /// </summary>
         /// <remarks>
         /// Remainder - Binary.
         /// </remarks>
-        OpRem = 524,
+        Z3_OP_REM = 524,
         /// <summary>
         /// Z3_OP_MOD
         /// </summary>
         /// <remarks>
         /// Modulus - Binary.
         /// </remarks>
-        OpMod = 525,
+        Z3_OP_MOD = 525,
         /// <summary>
         /// Z3_OP_TO_REAL
         /// </summary>
         /// <remarks>
         /// Coercion of integer to real - Unary.
         /// </remarks>
-        OpToReal = 526,
+        Z3_OP_TO_REAL = 526,
         /// <summary>
         /// Z3_OP_TO_INT
         /// </summary>
         /// <remarks>
         /// Coercion of real to integer - Unary.
         /// </remarks>
-        OpToInt = 527,
+        Z3_OP_TO_INT = 527,
         /// <summary>
         /// Z3_OP_IS_INT
         /// </summary>
         /// <remarks>
         /// Check if real is also an integer - Unary.
         /// </remarks>
-        OpIsInt = 528,
+        Z3_OP_IS_INT = 528,
         /// <summary>
         /// Z3_OP_POWER
         /// </summary>
         /// <remarks>
         /// Power operator x^y.
         /// </remarks>
-        OpPower = 529,
+        Z3_OP_POWER = 529,
         /// <summary>Z3_OP_ABS</summary>
-        OpAbs = 530,
+        Z3_OP_ABS = 530,
         /// <summary>
         /// Z3_OP_STORE
         /// </summary>
@@ -311,21 +311,21 @@ internal sealed partial class NativeZ3Library
         /// Array store. It satisfies select(store(a,i,v),j) = if i = j then v else select(a,j).
         /// Array store takes at least 3 arguments.
         /// </remarks>
-        OpStore = 0x300,
+        Z3_OP_STORE = 0x300,
         /// <summary>
         /// Z3_OP_SELECT
         /// </summary>
         /// <remarks>
         /// Array select.
         /// </remarks>
-        OpSelect = 769,
+        Z3_OP_SELECT = 769,
         /// <summary>
         /// Z3_OP_CONST_ARRAY
         /// </summary>
         /// <remarks>
         /// The constant array. For example, select(const(v),i) = v holds for every v and i. The function is unary.
         /// </remarks>
-        OpConstArray = 770,
+        Z3_OP_CONST_ARRAY = 770,
         /// <summary>
         /// Z3_OP_ARRAY_MAP
         /// </summary>
@@ -333,49 +333,49 @@ internal sealed partial class NativeZ3Library
         /// Array map operator.
         /// It satisfies map[f](a1,..,a_n)[i] = f(a1[i],...,a_n[i]) for every i.
         /// </remarks>
-        OpArrayMap = 771,
+        Z3_OP_ARRAY_MAP = 771,
         /// <summary>
         /// Z3_OP_ARRAY_DEFAULT
         /// </summary>
         /// <remarks>
         /// Default value of arrays. For example default(const(v)) = v. The function is unary.
         /// </remarks>
-        OpArrayDefault = 772,
+        Z3_OP_ARRAY_DEFAULT = 772,
         /// <summary>
         /// Z3_OP_SET_UNION
         /// </summary>
         /// <remarks>
         /// Set union between two Boolean arrays (two arrays whose range type is Boolean). The function is binary.
         /// </remarks>
-        OpSetUnion = 773,
+        Z3_OP_SET_UNION = 773,
         /// <summary>
         /// Z3_OP_SET_INTERSECT
         /// </summary>
         /// <remarks>
         /// Set intersection between two Boolean arrays. The function is binary.
         /// </remarks>
-        OpSetIntersect = 774,
+        Z3_OP_SET_INTERSECT = 774,
         /// <summary>
         /// Z3_OP_SET_DIFFERENCE
         /// </summary>
         /// <remarks>
         /// Set difference between two Boolean arrays. The function is binary.
         /// </remarks>
-        OpSetDifference = 775,
+        Z3_OP_SET_DIFFERENCE = 775,
         /// <summary>
         /// Z3_OP_SET_COMPLEMENT
         /// </summary>
         /// <remarks>
         /// Set complement of a Boolean array. The function is unary.
         /// </remarks>
-        OpSetComplement = 776,
+        Z3_OP_SET_COMPLEMENT = 776,
         /// <summary>
         /// Z3_OP_SET_SUBSET
         /// </summary>
         /// <remarks>
         /// Subset predicate between two Boolean arrays. The relation is binary.
         /// </remarks>
-        OpSetSubset = 777,
+        Z3_OP_SET_SUBSET = 777,
         /// <summary>
         /// Z3_OP_AS_ARRAY
         /// </summary>
@@ -383,7 +383,7 @@ internal sealed partial class NativeZ3Library
         /// An array value that behaves as the function graph of the
         /// function passed as parameter.
         /// </remarks>
-        OpAsArray = 778,
+        Z3_OP_AS_ARRAY = 778,
         /// <summary>
         /// Z3_OP_ARRAY_EXT
         /// </summary>
@@ -391,363 +391,363 @@ internal sealed partial class NativeZ3Library
         /// Array extensionality function. It takes two arrays as arguments and produces an index, such that the arrays
         /// are different if they are different on the index.
         /// </remarks>
-        OpArrayExt = 779,
+        Z3_OP_ARRAY_EXT = 779,
         /// <summary>Z3_OP_SET_HAS_SIZE</summary>
-        OpSetHasSize = 780,
+        Z3_OP_SET_HAS_SIZE = 780,
         /// <summary>Z3_OP_SET_CARD</summary>
-        OpSetCard = 781,
+        Z3_OP_SET_CARD = 781,
         /// <summary>
         /// Z3_OP_BNUM
         /// </summary>
         /// <remarks>
         /// Bit-vector numeral.
         /// </remarks>
-        OpBnum = 0x400,
+        Z3_OP_BNUM = 0x400,
         /// <summary>
         /// Z3_OP_BIT1
         /// </summary>
         /// <remarks>
         /// One bit bit-vector.
         /// </remarks>
-        OpBit1 = 1025,
+        Z3_OP_BIT1 = 1025,
         /// <summary>
         /// Z3_OP_BIT0
         /// </summary>
         /// <remarks>
         /// Zero bit bit-vector.
         /// </remarks>
-        OpBit0 = 1026,
+        Z3_OP_BIT0 = 1026,
         /// <summary>
         /// Z3_OP_BNEG
         /// </summary>
         /// <remarks>
         /// Unary minus.
         /// </remarks>
-        OpBneg = 1027,
+        Z3_OP_BNEG = 1027,
         /// <summary>
         /// Z3_OP_BADD
         /// </summary>
         /// <remarks>
         /// Binary addition.
         /// </remarks>
-        OpBadd = 1028,
+        Z3_OP_BADD = 1028,
         /// <summary>
         /// Z3_OP_BSUB
         /// </summary>
         /// <remarks>
         /// Binary subtraction.
         /// </remarks>
-        OpBsub = 1029,
+        Z3_OP_BSUB = 1029,
         /// <summary>
         /// Z3_OP_BMUL
         /// </summary>
         /// <remarks>
         /// Binary multiplication.
         /// </remarks>
-        OpBmul = 1030,
+        Z3_OP_BMUL = 1030,
         /// <summary>
         /// Z3_OP_BSDIV
         /// </summary>
         /// <remarks>
         /// Binary signed division.
         /// </remarks>
-        OpBsdiv = 1031,
+        Z3_OP_BSDIV = 1031,
         /// <summary>
         /// Z3_OP_BUDIV
         /// </summary>
         /// <remarks>
         /// Binary unsigned division.
         /// </remarks>
-        OpBudiv = 1032,
+        Z3_OP_BUDIV = 1032,
         /// <summary>
         /// Z3_OP_BSREM
         /// </summary>
         /// <remarks>
         /// Binary signed remainder.
         /// </remarks>
-        OpBsrem = 1033,
+        Z3_OP_BSREM = 1033,
         /// <summary>
         /// Z3_OP_BUREM
         /// </summary>
         /// <remarks>
         /// Binary unsigned remainder.
         /// </remarks>
-        OpBurem = 1034,
+        Z3_OP_BUREM = 1034,
         /// <summary>
         /// Z3_OP_BSMOD
         /// </summary>
         /// <remarks>
         /// Binary signed modulus.
         /// </remarks>
-        OpBsmod = 1035,
+        Z3_OP_BSMOD = 1035,
         /// <summary>
         /// Z3_OP_BSDIV0
         /// </summary>
         /// <remarks>
         /// Unary function. bsdiv(x,0) is congruent to bsdiv0(x).
         /// </remarks>
-        OpBsdiv0 = 1036,
+        Z3_OP_BSDIV0 = 1036,
         /// <summary>
         /// Z3_OP_BUDIV0
         /// </summary>
         /// <remarks>
         /// Unary function. budiv(x,0) is congruent to budiv0(x).
         /// </remarks>
-        OpBudiv0 = 1037,
+        Z3_OP_BUDIV0 = 1037,
         /// <summary>
         /// Z3_OP_BSREM0
         /// </summary>
         /// <remarks>
         /// Unary function. bsrem(x,0) is congruent to bsrem0(x).
         /// </remarks>
-        OpBsrem0 = 1038,
+        Z3_OP_BSREM0 = 1038,
         /// <summary>
         /// Z3_OP_BUREM0
         /// </summary>
         /// <remarks>
         /// Unary function. burem(x,0) is congruent to burem0(x).
         /// </remarks>
-        OpBurem0 = 1039,
+        Z3_OP_BUREM0 = 1039,
         /// <summary>
         /// Z3_OP_BSMOD0
         /// </summary>
         /// <remarks>
         /// Unary function. bsmod(x,0) is congruent to bsmod0(x).
         /// </remarks>
-        OpBsmod0 = 1040,
+        Z3_OP_BSMOD0 = 1040,
         /// <summary>
         /// Z3_OP_ULEQ
         /// </summary>
         /// <remarks>
         /// Unsigned bit-vector &lt;= - Binary relation.
         /// </remarks>
-        OpUleq = 1041,
+        Z3_OP_ULEQ = 1041,
         /// <summary>
         /// Z3_OP_SLEQ
         /// </summary>
         /// <remarks>
         /// Signed bit-vector  &lt;= - Binary relation.
         /// </remarks>
-        OpSleq = 1042,
+        Z3_OP_SLEQ = 1042,
         /// <summary>
         /// Z3_OP_UGEQ
         /// </summary>
         /// <remarks>
         /// Unsigned bit-vector  &gt;= - Binary relation.
         /// </remarks>
-        OpUgeq = 1043,
+        Z3_OP_UGEQ = 1043,
         /// <summary>
         /// Z3_OP_SGEQ
         /// </summary>
         /// <remarks>
         /// Signed bit-vector  &gt;= - Binary relation.
         /// </remarks>
-        OpSgeq = 1044,
+        Z3_OP_SGEQ = 1044,
         /// <summary>
         /// Z3_OP_ULT
         /// </summary>
         /// <remarks>
         /// Unsigned bit-vector  &lt; - Binary relation.
         /// </remarks>
-        OpUlt = 1045,
+        Z3_OP_ULT = 1045,
         /// <summary>
         /// Z3_OP_SLT
         /// </summary>
         /// <remarks>
         /// Signed bit-vector &lt; - Binary relation.
         /// </remarks>
-        OpSlt = 1046,
+        Z3_OP_SLT = 1046,
         /// <summary>
         /// Z3_OP_UGT
         /// </summary>
         /// <remarks>
         /// Unsigned bit-vector &gt; - Binary relation.
         /// </remarks>
-        OpUgt = 1047,
+        Z3_OP_UGT = 1047,
         /// <summary>
         /// Z3_OP_SGT
         /// </summary>
         /// <remarks>
         /// Signed bit-vector &gt; - Binary relation.
         /// </remarks>
-        OpSgt = 1048,
+        Z3_OP_SGT = 1048,
         /// <summary>
         /// Z3_OP_BAND
         /// </summary>
         /// <remarks>
         /// Bit-wise and - Binary.
         /// </remarks>
-        OpBand = 1049,
+        Z3_OP_BAND = 1049,
         /// <summary>
         /// Z3_OP_BOR
         /// </summary>
         /// <remarks>
         /// Bit-wise or - Binary.
         /// </remarks>
-        OpBor = 1050,
+        Z3_OP_BOR = 1050,
         /// <summary>
         /// Z3_OP_BNOT
         /// </summary>
         /// <remarks>
         /// Bit-wise not - Unary.
         /// </remarks>
-        OpBnot = 1051,
+        Z3_OP_BNOT = 1051,
         /// <summary>
         /// Z3_OP_BXOR
         /// </summary>
         /// <remarks>
         /// Bit-wise xor - Binary.
         /// </remarks>
-        OpBxor = 1052,
+        Z3_OP_BXOR = 1052,
         /// <summary>
         /// Z3_OP_BNAND
         /// </summary>
         /// <remarks>
         /// Bit-wise nand - Binary.
         /// </remarks>
-        OpBnand = 1053,
+        Z3_OP_BNAND = 1053,
         /// <summary>
         /// Z3_OP_BNOR
         /// </summary>
         /// <remarks>
         /// Bit-wise nor - Binary.
         /// </remarks>
-        OpBnor = 1054,
+        Z3_OP_BNOR = 1054,
         /// <summary>
         /// Z3_OP_BXNOR
         /// </summary>
         /// <remarks>
         /// Bit-wise xnor - Binary.
         /// </remarks>
-        OpBxnor = 1055,
+        Z3_OP_BXNOR = 1055,
         /// <summary>
         /// Z3_OP_CONCAT
         /// </summary>
         /// <remarks>
         /// Bit-vector concatenation - Binary.
         /// </remarks>
-        OpConcat = 1056,
+        Z3_OP_CONCAT = 1056,
         /// <summary>
         /// Z3_OP_SIGN_EXT
         /// </summary>
         /// <remarks>
         /// Bit-vector sign extension.
         /// </remarks>
-        OpSignExt = 1057,
+        Z3_OP_SIGN_EXT = 1057,
         /// <summary>
         /// Z3_OP_ZERO_EXT
         /// </summary>
         /// <remarks>
         /// Bit-vector zero extension.
         /// </remarks>
-        OpZeroExt = 1058,
+        Z3_OP_ZERO_EXT = 1058,
         /// <summary>
         /// Z3_OP_EXTRACT
         /// </summary>
         /// <remarks>
         /// Bit-vector extraction.
         /// </remarks>
-        OpExtract = 1059,
+        Z3_OP_EXTRACT = 1059,
         /// <summary>
         /// Z3_OP_REPEAT
         /// </summary>
         /// <remarks>
         /// Repeat bit-vector n times.
         /// </remarks>
-        OpRepeat = 1060,
+        Z3_OP_REPEAT = 1060,
         /// <summary>
         /// Z3_OP_BREDOR
         /// </summary>
         /// <remarks>
         /// Bit-vector reduce or - Unary.
         /// </remarks>
-        OpBredor = 1061,
+        Z3_OP_BREDOR = 1061,
         /// <summary>
         /// Z3_OP_BREDAND
         /// </summary>
         /// <remarks>
         /// Bit-vector reduce and - Unary.
         /// </remarks>
-        OpBredand = 1062,
+        Z3_OP_BREDAND = 1062,
         /// <summary>
         /// Z3_OP_BCOMP
         /// </summary>
         /// <remarks>
         /// .
         /// </remarks>
-        OpBcomp = 1063,
+        Z3_OP_BCOMP = 1063,
         /// <summary>
         /// Z3_OP_BSHL
         /// </summary>
         /// <remarks>
         /// Shift left.
         /// </remarks>
-        OpBshl = 1064,
+        Z3_OP_BSHL = 1064,
         /// <summary>
         /// Z3_OP_BLSHR
         /// </summary>
         /// <remarks>
         /// Logical shift right.
         /// </remarks>
-        OpBlshr = 1065,
+        Z3_OP_BLSHR = 1065,
         /// <summary>
         /// Z3_OP_BASHR
         /// </summary>
         /// <remarks>
         /// Arithmetical shift right.
         /// </remarks>
-        OpBashr = 1066,
+        Z3_OP_BASHR = 1066,
         /// <summary>
         /// Z3_OP_ROTATE_LEFT
         /// </summary>
         /// <remarks>
         /// Left rotation.
         /// </remarks>
-        OpRotateLeft = 1067,
+        Z3_OP_ROTATE_LEFT = 1067,
         /// <summary>
         /// Z3_OP_ROTATE_RIGHT
         /// </summary>
         /// <remarks>
         /// Right rotation.
         /// </remarks>
-        OpRotateRight = 1068,
+        Z3_OP_ROTATE_RIGHT = 1068,
         /// <summary>
         /// Z3_OP_EXT_ROTATE_LEFT
         /// </summary>
         /// <remarks>
         /// (extended) Left rotation. Similar to Z3_OP_ROTATE_LEFT, but it is a binary operator instead of a parametric one.
         /// </remarks>
-        OpExtRotateLeft = 1069,
+        Z3_OP_EXT_ROTATE_LEFT = 1069,
         /// <summary>
         /// Z3_OP_EXT_ROTATE_RIGHT
         /// </summary>
         /// <remarks>
         /// (extended) Right rotation. Similar to Z3_OP_ROTATE_RIGHT, but it is a binary operator instead of a parametric one.
         /// </remarks>
-        OpExtRotateRight = 1070,
+        Z3_OP_EXT_ROTATE_RIGHT = 1070,
         /// <summary>Z3_OP_BIT2BOOL</summary>
-        OpBit2bool = 1071,
+        Z3_OP_BIT2BOOL = 1071,
         /// <summary>
         /// Z3_OP_INT2BV
         /// </summary>
         /// <remarks>
         /// Coerce integer to bit-vector.
         /// </remarks>
-        OpInt2bv = 1072,
+        Z3_OP_INT2BV = 1072,
         /// <summary>
         /// Z3_OP_BV2INT
         /// </summary>
         /// <remarks>
         /// Coerce bit-vector to integer.
         /// </remarks>
-        OpBv2int = 1073,
+        Z3_OP_BV2INT = 1073,
         /// <summary>
         /// Z3_OP_SBV2INT
         /// </summary>
         /// <remarks>
         /// Coerce signed bit-vector to integer.
         /// </remarks>
-        OpSbv2int = 1074,
+        Z3_OP_SBV2INT = 1074,
         /// <summary>
         /// Z3_OP_CARRY
         /// </summary>
@@ -756,7 +756,7 @@ internal sealed partial class NativeZ3Library
         /// The meaning is given by the equivalence
         /// (carry l1 l2 l3) &lt;=&gt; (or (and l1 l2) (and l1 l3) (and l2 l3)))
         /// </remarks>
-        OpCarry = 1075,
+        Z3_OP_CARRY = 1075,
         /// <summary>
         /// Z3_OP_XOR3
         /// </summary>
@@ -765,7 +765,7 @@ internal sealed partial class NativeZ3Library
         /// The meaning is given by the equivalence
         /// (xor3 l1 l2 l3) &lt;=&gt; (xor (xor l1 l2) l3)
         /// </remarks>
-        OpXor3 = 1076,
+        Z3_OP_XOR3 = 1076,
         /// <summary>
         /// Z3_OP_BSMUL_NO_OVFL
         /// </summary>
@@ -774,7 +774,7 @@ internal sealed partial class NativeZ3Library
         /// Signed multiplication overflows if the operands have the same sign and the result of multiplication
         /// does not fit within the available bits. \sa Z3_mk_bvmul_no_overflow.
         /// </remarks>
-        OpBsmulNoOvfl = 1077,
+        Z3_OP_BSMUL_NO_OVFL = 1077,
         /// <summary>
         /// Z3_OP_BUMUL_NO_OVFL
         /// </summary>
@@ -783,7 +783,7 @@ internal sealed partial class NativeZ3Library
         /// Unsigned multiplication overflows if the result does not fit within the available bits.
         /// \sa Z3_mk_bvmul_no_overflow.
         /// </remarks>
-        OpBumulNoOvfl = 1078,
+        Z3_OP_BUMUL_NO_OVFL = 1078,
         /// <summary>
         /// Z3_OP_BSMUL_NO_UDFL
         /// </summary>
@@ -792,7 +792,7 @@ internal sealed partial class NativeZ3Library
         /// Signed multiplication underflows if the operands have opposite signs and the result of multiplication
         /// does not fit within the available bits. Z3_mk_bvmul_no_underflow.
         /// </remarks>
-        OpBsmulNoUdfl = 1079,
+        Z3_OP_BSMUL_NO_UDFL = 1079,
         /// <summary>
         /// Z3_OP_BSDIV_I
         /// </summary>
@@ -800,7 +800,7 @@ internal sealed partial class NativeZ3Library
         /// Binary signed division.
         /// It has the same semantics as Z3_OP_BSDIV, but created in a context where the second operand can be assumed to be non-zero.
         /// </remarks>
-        OpBsdivI = 1080,
+        Z3_OP_BSDIV_I = 1080,
         /// <summary>
         /// Z3_OP_BUDIV_I
         /// </summary>
@@ -808,7 +808,7 @@ internal sealed partial class NativeZ3Library
         /// Binary unsigned division.
         /// It has the same semantics as Z3_OP_BUDIV, but created in a context where the second operand can be assumed to be non-zero.
         /// </remarks>
-        OpBudivI = 1081,
+        Z3_OP_BUDIV_I = 1081,
         /// <summary>
         /// Z3_OP_BSREM_I
         /// </summary>
@@ -816,7 +816,7 @@ internal sealed partial class NativeZ3Library
         /// Binary signed remainder.
         /// It has the same semantics as Z3_OP_BSREM, but created in a context where the second operand can be assumed to be non-zero.
         /// </remarks>
-        OpBsremI = 1082,
+        Z3_OP_BSREM_I = 1082,
         /// <summary>
         /// Z3_OP_BUREM_I
         /// </summary>
@@ -824,7 +824,7 @@ internal sealed partial class NativeZ3Library
         /// Binary unsigned remainder.
         /// It has the same semantics as Z3_OP_BUREM, but created in a context where the second operand can be assumed to be non-zero.
         /// </remarks>
-        OpBuremI = 1083,
+        Z3_OP_BUREM_I = 1083,
         /// <summary>
         /// Z3_OP_BSMOD_I
         /// </summary>
@@ -832,35 +832,35 @@ internal sealed partial class NativeZ3Library
         /// Binary signed modulus.
         /// It has the same semantics as Z3_OP_BSMOD, but created in a context where the second operand can be assumed to be non-zero.
         /// </remarks>
-        OpBsmodI = 1084,
+        Z3_OP_BSMOD_I = 1084,
         /// <summary>
         /// Z3_OP_PR_UNDEF
         /// </summary>
         /// <remarks>
         /// Undef/Null proof object.
         /// </remarks>
-        OpPrUndef = 0x500,
+        Z3_OP_PR_UNDEF = 0x500,
         /// <summary>
         /// Z3_OP_PR_TRUE
         /// </summary>
         /// <remarks>
         /// Proof for the expression 'true'.
         /// </remarks>
-        OpPrTrue = 1281,
+        Z3_OP_PR_TRUE = 1281,
         /// <summary>
         /// Z3_OP_PR_ASSERTED
         /// </summary>
         /// <remarks>
         /// Proof for a fact asserted by the user.
         /// </remarks>
-        OpPrAsserted = 1282,
+        Z3_OP_PR_ASSERTED = 1282,
         /// <summary>
         /// Z3_OP_PR_GOAL
         /// </summary>
         /// <remarks>
         /// Proof for a fact (tagged as goal) asserted by the user.
         /// </remarks>
-        OpPrGoal = 1283,
+        Z3_OP_PR_GOAL = 1283,
         /// <summary>
         /// Z3_OP_PR_MODUS_PONENS
         /// </summary>
@@ -877,7 +877,7 @@ internal sealed partial class NativeZ3Library
         /// The second antecedents may also be a proof for (iff p q).
         /// </para>
         /// </remarks>
-        OpPrModusPonens = 1284,
+        Z3_OP_PR_MODUS_PONENS = 1284,
         /// <summary>
         /// Z3_OP_PR_REFLEXIVITY
         /// </summary>
@@ -887,7 +887,7 @@ internal sealed partial class NativeZ3Library
         /// equivalence modulo namings, equality and equivalence.
         /// That is, R is either '~', '=' or 'iff'.
         /// </remarks>
-        OpPrReflexivity = 1285,
+        Z3_OP_PR_REFLEXIVITY = 1285,
         /// <summary>
         /// Z3_OP_PR_SYMMETRY
         /// </summary>
@@ -901,7 +901,7 @@ internal sealed partial class NativeZ3Library
         /// </code>
         /// T1 is the antecedent of this proof object.
         /// </remarks>
-        OpPrSymmetry = 1286,
+        Z3_OP_PR_SYMMETRY = 1286,
         /// <summary>
         /// Z3_OP_PR_TRANSITIVITY
         /// </summary>
@@ -916,7 +916,7 @@ internal sealed partial class NativeZ3Library
         /// ╚════════════════════════╝
         /// </code>
         /// </remarks>
-        OpPrTransitivity = 1287,
+        Z3_OP_PR_TRANSITIVITY = 1287,
         /// <summary>
         /// Z3_OP_PR_TRANSITIVITY_STAR
         /// </summary>
@@ -942,7 +942,7 @@ internal sealed partial class NativeZ3Library
         /// antecedent (R a b) as an edge between a and b.
         /// </para>
         /// </remarks>
-        OpPrTransitivityStar = 1288,
+        Z3_OP_PR_TRANSITIVITY_STAR = 1288,
         /// <summary>
         /// Z3_OP_PR_MONOTONICITY
         /// </summary>
@@ -961,7 +961,7 @@ internal sealed partial class NativeZ3Library
         /// That is, reflexivity proofs are suppressed to save space.
         /// </para>
         /// </remarks>
-        OpPrMonotonicity = 1289,
+        Z3_OP_PR_MONOTONICITY = 1289,
         /// <summary>
         /// Z3_OP_PR_QUANT_INTRO
         /// </summary>
@@ -974,7 +974,7 @@ internal sealed partial class NativeZ3Library
         /// [quant-intro T1]: (~ (forall (x) p) (forall (x) q))
         /// </para>
         /// </remarks>
-        OpPrQuantIntro = 1290,
+        Z3_OP_PR_QUANT_INTRO = 1290,
         /// <summary>
         /// Z3_OP_PR_BIND
         /// </summary>
@@ -987,7 +987,7 @@ internal sealed partial class NativeZ3Library
         /// [proof-bind T1] forall (x) f
         /// </para>
         /// </remarks>
-        OpPrBind = 1291,
+        Z3_OP_PR_BIND = 1291,
         /// <summary>
         /// Z3_OP_PR_DISTRIBUTIVITY
         /// </summary>
@@ -1016,7 +1016,7 @@ internal sealed partial class NativeZ3Library
         /// instantiated by f = or, and g = and.
         /// </para>
         /// </remarks>
-        OpPrDistributivity = 1292,
+        Z3_OP_PR_DISTRIBUTIVITY = 1292,
         /// <summary>
         /// Z3_OP_PR_AND_ELIM
         /// </summary>
@@ -1029,7 +1029,7 @@ internal sealed partial class NativeZ3Library
         /// [and-elim T1]: l_i
         /// </para>
         /// </remarks>
-        OpPrAndElim = 1293,
+        Z3_OP_PR_AND_ELIM = 1293,
         /// <summary>
         /// Z3_OP_PR_NOT_OR_ELIM
         /// </summary>
@@ -1042,7 +1042,7 @@ internal sealed partial class NativeZ3Library
         /// [not-or-elim T1]: (not l_i)
         /// </para>
         /// </remarks>
-        OpPrNotOrElim = 1294,
+        Z3_OP_PR_NOT_OR_ELIM = 1294,
         /// <summary>
         /// Z3_OP_PR_REWRITE
         /// </summary>
@@ -1066,7 +1066,7 @@ internal sealed partial class NativeZ3Library
         /// </code>
         /// </para>
         /// </remarks>
-        OpPrRewrite = 1295,
+        Z3_OP_PR_REWRITE = 1295,
         /// <summary>
         /// Z3_OP_PR_REWRITE_STAR
         /// </summary>
@@ -1080,14 +1080,14 @@ internal sealed partial class NativeZ3Library
         /// <item><description>When converting bit-vectors to Booleans (BIT2BOOL=true)</description></item>
         /// </list>
         /// </remarks>
-        OpPrRewriteStar = 1296,
+        Z3_OP_PR_REWRITE_STAR = 1296,
         /// <summary>
         /// Z3_OP_PR_PULL_QUANT
         /// </summary>
         /// <remarks>
         /// A proof for (iff (f (forall (x) q(x)) r) (forall (x) (f (q x) r))). This proof object has no antecedents.
         /// </remarks>
-        OpPrPullQuant = 1297,
+        Z3_OP_PR_PULL_QUANT = 1297,
         /// <summary>
         /// Z3_OP_PR_PUSH_QUANT
         /// </summary>
@@ -1103,7 +1103,7 @@ internal sealed partial class NativeZ3Library
         /// </code>
         /// This proof object has no antecedents.
         /// </remarks>
-        OpPrPushQuant = 1298,
+        Z3_OP_PR_PUSH_QUANT = 1298,
         /// <summary>
         /// Z3_OP_PR_ELIM_UNUSED_VARS
         /// </summary>
@@ -1117,7 +1117,7 @@ internal sealed partial class NativeZ3Library
         /// This proof object has no antecedents.
         /// </para>
         /// </remarks>
-        OpPrElimUnusedVars = 1299,
+        Z3_OP_PR_ELIM_UNUSED_VARS = 1299,
         /// <summary>
         /// Z3_OP_PR_DER
         /// </summary>
@@ -1134,21 +1134,21 @@ internal sealed partial class NativeZ3Library
         /// Several variables can be eliminated simultaneously.
         /// </para>
         /// </remarks>
-        OpPrDer = 1300,
+        Z3_OP_PR_DER = 1300,
         /// <summary>
         /// Z3_OP_PR_QUANT_INST
         /// </summary>
         /// <remarks>
         /// A proof of (or (not (forall (x) (P x))) (P a))
         /// </remarks>
-        OpPrQuantInst = 1301,
+        Z3_OP_PR_QUANT_INST = 1301,
         /// <summary>
         /// Z3_OP_PR_HYPOTHESIS
         /// </summary>
         /// <remarks>
         /// Mark a hypothesis in a natural deduction style proof.
         /// </remarks>
-        OpPrHypothesis = 1302,
+        Z3_OP_PR_HYPOTHESIS = 1302,
         /// <summary>
         /// Z3_OP_PR_LEMMA
         /// </summary>
@@ -1166,7 +1166,7 @@ internal sealed partial class NativeZ3Library
         /// the lemma.
         /// </para>
         /// </remarks>
-        OpPrLemma = 1303,
+        Z3_OP_PR_LEMMA = 1303,
         /// <summary>
         /// Z3_OP_PR_UNIT_RESOLUTION
         /// </summary>
@@ -1181,7 +1181,7 @@ internal sealed partial class NativeZ3Library
         /// ╚═════════════════════════════════════════════════════╝
         /// </code>
         /// </remarks>
-        OpPrUnitResolution = 1304,
+        Z3_OP_PR_UNIT_RESOLUTION = 1304,
         /// <summary>
         /// Z3_OP_PR_IFF_TRUE
         /// </summary>
@@ -1193,7 +1193,7 @@ internal sealed partial class NativeZ3Library
         /// ╚═════════════════════════════╝
         /// </code>
         /// </remarks>
-        OpPrIffTrue = 1305,
+        Z3_OP_PR_IFF_TRUE = 1305,
         /// <summary>
         /// Z3_OP_PR_IFF_FALSE
         /// </summary>
@@ -1205,7 +1205,7 @@ internal sealed partial class NativeZ3Library
         /// ╚═══════════════════════════════╝
         /// </code>
         /// </remarks>
-        OpPrIffFalse = 1306,
+        Z3_OP_PR_IFF_FALSE = 1306,
         /// <summary>
         /// Z3_OP_PR_COMMUTATIVITY
         /// </summary>
@@ -1221,7 +1221,7 @@ internal sealed partial class NativeZ3Library
         /// Remark: if f is bool, then = is iff.
         /// </para>
         /// </remarks>
-        OpPrCommutativity = 1307,
+        Z3_OP_PR_COMMUTATIVITY = 1307,
         /// <summary>
         /// Z3_OP_PR_DEF_AXIOM
         /// </summary>
@@ -1258,30 +1258,30 @@ internal sealed partial class NativeZ3Library
         /// unfolding the Boolean connectives in the axioms a small
         /// bounded number of steps (=3).
         /// </remarks>
-        OpPrDefAxiom = 1308,
+        Z3_OP_PR_DEF_AXIOM = 1308,
         /// <summary>
         /// Z3_OP_PR_ASSUMPTION_ADD
         /// </summary>
         /// <remarks>
         /// Clausal proof adding axiom
         /// </remarks>
-        OpPrAssumptionAdd = 1309,
+        Z3_OP_PR_ASSUMPTION_ADD = 1309,
         /// <summary>
         /// Z3_OP_PR_LEMMA_ADD
         /// </summary>
         /// <remarks>
         /// Clausal proof lemma addition
         /// </remarks>
-        OpPrLemmaAdd = 1310,
+        Z3_OP_PR_LEMMA_ADD = 1310,
         /// <summary>
         /// Z3_OP_PR_REDUNDANT_DEL
         /// </summary>
         /// <remarks>
         /// Clausal proof lemma deletion
         /// </remarks>
-        OpPrRedundantDel = 1311,
+        Z3_OP_PR_REDUNDANT_DEL = 1311,
         /// <summary>Z3_OP_PR_CLAUSE_TRAIL</summary>
-        OpPrClauseTrail = 1312,
+        Z3_OP_PR_CLAUSE_TRAIL = 1312,
         /// <summary>
         /// Z3_OP_PR_DEF_INTRO
         /// </summary>
@@ -1309,7 +1309,7 @@ internal sealed partial class NativeZ3Library
         /// [def-intro]: (= n e)
         /// </para>
         /// </remarks>
-        OpPrDefIntro = 1313,
+        Z3_OP_PR_DEF_INTRO = 1313,
         /// <summary>
         /// Z3_OP_PR_APPLY_DEF
         /// </summary>
@@ -1322,7 +1322,7 @@ internal sealed partial class NativeZ3Library
         /// n is a name for F.
         /// </para>
         /// </remarks>
-        OpPrApplyDef = 1314,
+        Z3_OP_PR_APPLY_DEF = 1314,
         /// <summary>
         /// Z3_OP_PR_IFF_OEQ
         /// </summary>
@@ -1330,7 +1330,7 @@ internal sealed partial class NativeZ3Library
         /// T1: (iff p q)
         /// [iff~ T1]: (~ p q)
         /// </remarks>
-        OpPrIffOeq = 1315,
+        Z3_OP_PR_IFF_OEQ = 1315,
         /// <summary>
         /// Z3_OP_PR_NNF_POS
         /// </summary>
@@ -1363,7 +1363,7 @@ internal sealed partial class NativeZ3Library
         /// over Boolean connectives 'and' and 'or'.
         /// </para>
         /// </remarks>
-        OpPrNnfPos = 1316,
+        Z3_OP_PR_NNF_POS = 1316,
         /// <summary>
         /// Z3_OP_PR_NNF_NEG
         /// </summary>
@@ -1398,7 +1398,7 @@ internal sealed partial class NativeZ3Library
         /// (and (or r_1 r_2) (or r_1' r_2')))
         /// </para>
         /// </remarks>
-        OpPrNnfNeg = 1317,
+        Z3_OP_PR_NNF_NEG = 1317,
         /// <summary>
         /// Z3_OP_PR_SKOLEMIZE
         /// </summary>
@@ -1414,7 +1414,7 @@ internal sealed partial class NativeZ3Library
         /// This proof object has no antecedents.
         /// </para>
         /// </remarks>
-        OpPrSkolemize = 1318,
+        Z3_OP_PR_SKOLEMIZE = 1318,
         /// <summary>
         /// Z3_OP_PR_MODUS_PONENS_OEQ
         /// </summary>
@@ -1428,7 +1428,7 @@ internal sealed partial class NativeZ3Library
         /// [mp~ T1 T2]: q
         /// </para>
         /// </remarks>
-        OpPrModusPonensOeq = 1319,
+        Z3_OP_PR_MODUS_PONENS_OEQ = 1319,
         /// <summary>
         /// Z3_OP_PR_TH_LEMMA
         /// </summary>
@@ -1460,7 +1460,7 @@ internal sealed partial class NativeZ3Library
         /// </list>
         /// </para>
         /// </remarks>
-        OpPrThLemma = 1320,
+        Z3_OP_PR_TH_LEMMA = 1320,
         /// <summary>
         /// Z3_OP_PR_HYPER_RESOLVE
         /// </summary>
@@ -1520,7 +1520,7 @@ internal sealed partial class NativeZ3Library
         /// of literal positions from the main clause and side clause.
         /// </para>
         /// </remarks>
-        OpPrHyperResolve = 1321,
+        Z3_OP_PR_HYPER_RESOLVE = 1321,
         /// <summary>
         /// Z3_OP_RA_STORE
         /// </summary>
@@ -1529,28 +1529,28 @@ internal sealed partial class NativeZ3Library
         /// The function takes n+1 arguments, where the first argument is the relation and the remaining n elements
         /// correspond to the n columns of the relation.
         /// </remarks>
-        OpRaStore = 0x600,
+        Z3_OP_RA_STORE = 0x600,
         /// <summary>
         /// Z3_OP_RA_EMPTY
         /// </summary>
         /// <remarks>
         /// Creates the empty relation.
         /// </remarks>
-        OpRaEmpty = 1537,
+        Z3_OP_RA_EMPTY = 1537,
         /// <summary>
         /// Z3_OP_RA_IS_EMPTY
         /// </summary>
         /// <remarks>
         /// Tests if the relation is empty.
         /// </remarks>
-        OpRaIsEmpty = 1538,
+        Z3_OP_RA_IS_EMPTY = 1538,
         /// <summary>
         /// Z3_OP_RA_JOIN
         /// </summary>
         /// <remarks>
         /// Create the relational join.
         /// </remarks>
-        OpRaJoin = 1539,
+        Z3_OP_RA_JOIN = 1539,
         /// <summary>
         /// Z3_OP_RA_UNION
         /// </summary>
@@ -1558,7 +1558,7 @@ internal sealed partial class NativeZ3Library
         /// Create the union or convex hull of two relations.
         /// The function takes two arguments.
         /// </remarks>
-        OpRaUnion = 1540,
+        Z3_OP_RA_UNION = 1540,
         /// <summary>
         /// Z3_OP_RA_WIDEN
         /// </summary>
@@ -1566,7 +1566,7 @@ internal sealed partial class NativeZ3Library
         /// Widen two relations.
         /// The function takes two arguments.
         /// </remarks>
-        OpRaWiden = 1541,
+        Z3_OP_RA_WIDEN = 1541,
         /// <summary>
         /// Z3_OP_RA_PROJECT
         /// </summary>
@@ -1574,7 +1574,7 @@ internal sealed partial class NativeZ3Library
         /// Project the columns (provided as numbers in the parameters).
         /// The function takes one argument.
         /// </remarks>
-        OpRaProject = 1542,
+        Z3_OP_RA_PROJECT = 1542,
         /// <summary>
         /// Z3_OP_RA_FILTER
         /// </summary>
@@ -1585,7 +1585,7 @@ internal sealed partial class NativeZ3Library
         /// corresponding to the columns of the relation.
         /// So the first column in the relation has index 0.
         /// </remarks>
-        OpRaFilter = 1543,
+        Z3_OP_RA_FILTER = 1543,
         /// <summary>
         /// Z3_OP_RA_NEGATION_FILTER
         /// </summary>
@@ -1604,7 +1604,7 @@ internal sealed partial class NativeZ3Library
         /// x on the columns c1, d1, .., cN, dN.
         /// </para>
         /// </remarks>
-        OpRaNegationFilter = 1544,
+        Z3_OP_RA_NEGATION_FILTER = 1544,
         /// <summary>
         /// Z3_OP_RA_RENAME
         /// </summary>
@@ -1613,14 +1613,14 @@ internal sealed partial class NativeZ3Library
         /// The function takes one argument.
         /// The parameters contain the renaming as a cycle.
         /// </remarks>
-        OpRaRename = 1545,
+        Z3_OP_RA_RENAME = 1545,
         /// <summary>
         /// Z3_OP_RA_COMPLEMENT
         /// </summary>
         /// <remarks>
         /// Complement the relation.
         /// </remarks>
-        OpRaComplement = 1546,
+        Z3_OP_RA_COMPLEMENT = 1546,
         /// <summary>
         /// Z3_OP_RA_SELECT
         /// </summary>
@@ -1629,7 +1629,7 @@ internal sealed partial class NativeZ3Library
         /// The function takes n+1 arguments, where the first argument is a relation,
         /// and the remaining n arguments correspond to a record.
         /// </remarks>
-        OpRaSelect = 1547,
+        Z3_OP_RA_SELECT = 1547,
         /// <summary>
         /// Z3_OP_RA_CLONE
         /// </summary>
@@ -1639,122 +1639,122 @@ internal sealed partial class NativeZ3Library
         /// in the context of a register machine allows
         /// for <see cref="OpRaUnion"/> to perform destructive updates to the first argument.
         /// </remarks>
-        OpRaClone = 1548,
+        Z3_OP_RA_CLONE = 1548,
         /// <summary>Z3_OP_FD_CONSTANT</summary>
-        OpFdConstant = 1549,
+        Z3_OP_FD_CONSTANT = 1549,
         /// <summary>
         /// Z3_OP_FD_LT
         /// </summary>
         /// <remarks>
         /// A less than predicate over the finite domain Z3_FINITE_DOMAIN_SORT.
         /// </remarks>
-        OpFdLt = 1550,
+        Z3_OP_FD_LT = 1550,
         /// <summary>Z3_OP_SEQ_UNIT</summary>
-        OpSeqUnit = 1551,
+        Z3_OP_SEQ_UNIT = 1551,
         /// <summary>Z3_OP_SEQ_EMPTY</summary>
-        OpSeqEmpty = 1552,
+        Z3_OP_SEQ_EMPTY = 1552,
         /// <summary>Z3_OP_SEQ_CONCAT</summary>
-        OpSeqConcat = 1553,
+        Z3_OP_SEQ_CONCAT = 1553,
         /// <summary>Z3_OP_SEQ_PREFIX</summary>
-        OpSeqPrefix = 1554,
+        Z3_OP_SEQ_PREFIX = 1554,
         /// <summary>Z3_OP_SEQ_SUFFIX</summary>
-        OpSeqSuffix = 1555,
+        Z3_OP_SEQ_SUFFIX = 1555,
         /// <summary>Z3_OP_SEQ_CONTAINS</summary>
-        OpSeqContains = 1556,
+        Z3_OP_SEQ_CONTAINS = 1556,
         /// <summary>Z3_OP_SEQ_EXTRACT</summary>
-        OpSeqExtract = 1557,
+        Z3_OP_SEQ_EXTRACT = 1557,
         /// <summary>Z3_OP_SEQ_REPLACE</summary>
-        OpSeqReplace = 1558,
+        Z3_OP_SEQ_REPLACE = 1558,
         /// <summary>Z3_OP_SEQ_REPLACE_RE</summary>
-        OpSeqReplaceRe = 1559,
+        Z3_OP_SEQ_REPLACE_RE = 1559,
         /// <summary>Z3_OP_SEQ_REPLACE_RE_ALL</summary>
-        OpSeqReplaceReAll = 1560,
+        Z3_OP_SEQ_REPLACE_RE_ALL = 1560,
         /// <summary>Z3_OP_SEQ_REPLACE_ALL</summary>
-        OpSeqReplaceAll = 1561,
+        Z3_OP_SEQ_REPLACE_ALL = 1561,
         /// <summary>Z3_OP_SEQ_AT</summary>
-        OpSeqAt = 1562,
+        Z3_OP_SEQ_AT = 1562,
         /// <summary>Z3_OP_SEQ_NTH</summary>
-        OpSeqNth = 1563,
+        Z3_OP_SEQ_NTH = 1563,
         /// <summary>Z3_OP_SEQ_LENGTH</summary>
-        OpSeqLength = 1564,
+        Z3_OP_SEQ_LENGTH = 1564,
         /// <summary>Z3_OP_SEQ_INDEX</summary>
-        OpSeqIndex = 1565,
+        Z3_OP_SEQ_INDEX = 1565,
         /// <summary>Z3_OP_SEQ_LAST_INDEX</summary>
-        OpSeqLastIndex = 1566,
+        Z3_OP_SEQ_LAST_INDEX = 1566,
         /// <summary>Z3_OP_SEQ_TO_RE</summary>
-        OpSeqToRe = 1567,
+        Z3_OP_SEQ_TO_RE = 1567,
         /// <summary>Z3_OP_SEQ_IN_RE</summary>
-        OpSeqInRe = 1568,
+        Z3_OP_SEQ_IN_RE = 1568,
         /// <summary>Z3_OP_SEQ_MAP</summary>
-        OpSeqMap = 1569,
+        Z3_OP_SEQ_MAP = 1569,
         /// <summary>Z3_OP_SEQ_MAPI</summary>
-        OpSeqMapi = 1570,
+        Z3_OP_SEQ_MAPI = 1570,
         /// <summary>Z3_OP_SEQ_FOLDL</summary>
-        OpSeqFoldl = 1571,
+        Z3_OP_SEQ_FOLDL = 1571,
         /// <summary>Z3_OP_SEQ_FOLDLI</summary>
-        OpSeqFoldli = 1572,
+        Z3_OP_SEQ_FOLDLI = 1572,
         /// <summary>Z3_OP_STR_TO_INT</summary>
-        OpStrToInt = 1573,
+        Z3_OP_STR_TO_INT = 1573,
         /// <summary>Z3_OP_INT_TO_STR</summary>
-        OpIntToStr = 1574,
+        Z3_OP_INT_TO_STR = 1574,
         /// <summary>Z3_OP_UBV_TO_STR</summary>
-        OpUbvToStr = 1575,
+        Z3_OP_UBV_TO_STR = 1575,
         /// <summary>Z3_OP_SBV_TO_STR</summary>
-        OpSbvToStr = 1576,
+        Z3_OP_SBV_TO_STR = 1576,
         /// <summary>Z3_OP_STR_TO_CODE</summary>
-        OpStrToCode = 1577,
+        Z3_OP_STR_TO_CODE = 1577,
         /// <summary>Z3_OP_STR_FROM_CODE</summary>
-        OpStrFromCode = 1578,
+        Z3_OP_STR_FROM_CODE = 1578,
         /// <summary>Z3_OP_STRING_LT</summary>
-        OpStringLt = 1579,
+        Z3_OP_STRING_LT = 1579,
         /// <summary>Z3_OP_STRING_LE</summary>
-        OpStringLe = 1580,
+        Z3_OP_STRING_LE = 1580,
         /// <summary>Z3_OP_RE_PLUS</summary>
-        OpRePlus = 1581,
+        Z3_OP_RE_PLUS = 1581,
         /// <summary>Z3_OP_RE_STAR</summary>
-        OpReStar = 1582,
+        Z3_OP_RE_STAR = 1582,
         /// <summary>Z3_OP_RE_OPTION</summary>
-        OpReOption = 1583,
+        Z3_OP_RE_OPTION = 1583,
         /// <summary>Z3_OP_RE_CONCAT</summary>
-        OpReConcat = 1584,
+        Z3_OP_RE_CONCAT = 1584,
         /// <summary>Z3_OP_RE_UNION</summary>
-        OpReUnion = 1585,
+        Z3_OP_RE_UNION = 1585,
         /// <summary>Z3_OP_RE_RANGE</summary>
-        OpReRange = 1586,
+        Z3_OP_RE_RANGE = 1586,
         /// <summary>Z3_OP_RE_DIFF</summary>
-        OpReDiff = 1587,
+        Z3_OP_RE_DIFF = 1587,
         /// <summary>Z3_OP_RE_INTERSECT</summary>
-        OpReIntersect = 1588,
+        Z3_OP_RE_INTERSECT = 1588,
         /// <summary>Z3_OP_RE_LOOP</summary>
-        OpReLoop = 1589,
+        Z3_OP_RE_LOOP = 1589,
         /// <summary>Z3_OP_RE_POWER</summary>
-        OpRePower = 1590,
+        Z3_OP_RE_POWER = 1590,
         /// <summary>Z3_OP_RE_COMPLEMENT</summary>
-        OpReComplement = 1591,
+        Z3_OP_RE_COMPLEMENT = 1591,
         /// <summary>Z3_OP_RE_EMPTY_SET</summary>
-        OpReEmptySet = 1592,
+        Z3_OP_RE_EMPTY_SET = 1592,
         /// <summary>Z3_OP_RE_FULL_SET</summary>
-        OpReFullSet = 1593,
+        Z3_OP_RE_FULL_SET = 1593,
         /// <summary>Z3_OP_RE_FULL_CHAR_SET</summary>
-        OpReFullCharSet = 1594,
+        Z3_OP_RE_FULL_CHAR_SET = 1594,
         /// <summary>Z3_OP_RE_OF_PRED</summary>
-        OpReOfPred = 1595,
+        Z3_OP_RE_OF_PRED = 1595,
         /// <summary>Z3_OP_RE_REVERSE</summary>
-        OpReReverse = 1596,
+        Z3_OP_RE_REVERSE = 1596,
         /// <summary>Z3_OP_RE_DERIVATIVE</summary>
-        OpReDerivative = 1597,
+        Z3_OP_RE_DERIVATIVE = 1597,
         /// <summary>Z3_OP_CHAR_CONST</summary>
-        OpCharConst = 1598,
+        Z3_OP_CHAR_CONST = 1598,
         /// <summary>Z3_OP_CHAR_LE</summary>
-        OpCharLe = 1599,
+        Z3_OP_CHAR_LE = 1599,
         /// <summary>Z3_OP_CHAR_TO_INT</summary>
-        OpCharToInt = 1600,
+        Z3_OP_CHAR_TO_INT = 1600,
         /// <summary>Z3_OP_CHAR_TO_BV</summary>
-        OpCharToBv = 1601,
+        Z3_OP_CHAR_TO_BV = 1601,
         /// <summary>Z3_OP_CHAR_FROM_BV</summary>
-        OpCharFromBv = 1602,
+        Z3_OP_CHAR_FROM_BV = 1602,
         /// <summary>Z3_OP_CHAR_IS_DIGIT</summary>
-        OpCharIsDigit = 1603,
+        Z3_OP_CHAR_IS_DIGIT = 1603,
         /// <summary>
         /// Z3_OP_LABEL
         /// </summary>
@@ -1763,7 +1763,7 @@ internal sealed partial class NativeZ3Library
         /// The label has two parameters, a string and a Boolean polarity.
         /// It takes one argument, a formula.
         /// </remarks>
-        OpLabel = 0x700,
+        Z3_OP_LABEL = 0x700,
         /// <summary>
         /// Z3_OP_LABEL_LIT
         /// </summary>
@@ -1771,42 +1771,42 @@ internal sealed partial class NativeZ3Library
         /// A label literal (used by the Boogie Verification condition generator).
         /// A label literal has a set of string parameters. It takes no arguments.
         /// </remarks>
-        OpLabelLit = 1793,
+        Z3_OP_LABEL_LIT = 1793,
         /// <summary>
         /// Z3_OP_DT_CONSTRUCTOR
         /// </summary>
         /// <remarks>
         /// datatype constructor.
         /// </remarks>
-        OpDtConstructor = 0x800,
+        Z3_OP_DT_CONSTRUCTOR = 0x800,
         /// <summary>
         /// Z3_OP_DT_RECOGNISER
         /// </summary>
         /// <remarks>
         /// datatype recognizer.
         /// </remarks>
-        OpDtRecogniser = 2049,
+        Z3_OP_DT_RECOGNISER = 2049,
         /// <summary>
         /// Z3_OP_DT_IS
         /// </summary>
         /// <remarks>
         /// datatype recognizer.
         /// </remarks>
-        OpDtIs = 2050,
+        Z3_OP_DT_IS = 2050,
         /// <summary>
         /// Z3_OP_DT_ACCESSOR
         /// </summary>
         /// <remarks>
         /// datatype accessor.
         /// </remarks>
-        OpDtAccessor = 2051,
+        Z3_OP_DT_ACCESSOR = 2051,
         /// <summary>
         /// Z3_OP_DT_UPDATE_FIELD
         /// </summary>
         /// <remarks>
         /// datatype field update.
         /// </remarks>
-        OpDtUpdateField = 2052,
+        Z3_OP_DT_UPDATE_FIELD = 2052,
         /// <summary>
         /// Z3_OP_PB_AT_MOST
         /// </summary>
@@ -1814,7 +1814,7 @@ internal sealed partial class NativeZ3Library
         /// Cardinality constraint.
         /// E.g., x + y + z &lt;= 2
         /// </remarks>
-        OpPbAtMost = 0x900,
+        Z3_OP_PB_AT_MOST = 0x900,
         /// <summary>
         /// Z3_OP_PB_AT_LEAST
         /// </summary>
@@ -1822,7 +1822,7 @@ internal sealed partial class NativeZ3Library
         /// Cardinality constraint.
         /// E.g., x + y + z &gt;= 2
         /// </remarks>
-        OpPbAtLeast = 2305,
+        Z3_OP_PB_AT_LEAST = 2305,
         /// <summary>
         /// Z3_OP_PB_LE
         /// </summary>
@@ -1830,7 +1830,7 @@ internal sealed partial class NativeZ3Library
         /// Generalized Pseudo-Boolean cardinality constraint.
         /// Example  2*x + 3*y &lt;= 4
         /// </remarks>
-        OpPbLe = 2306,
+        Z3_OP_PB_LE = 2306,
         /// <summary>
         /// Z3_OP_PB_GE
         /// </summary>
@@ -1838,7 +1838,7 @@ internal sealed partial class NativeZ3Library
         /// Generalized Pseudo-Boolean cardinality constraint.
         /// Example  2*x + 3*y + 2*z &gt;= 4
         /// </remarks>
-        OpPbGe = 2307,
+        Z3_OP_PB_GE = 2307,
         /// <summary>
         /// Z3_OP_PB_EQ
         /// </summary>
@@ -1846,343 +1846,343 @@ internal sealed partial class NativeZ3Library
         /// Generalized Pseudo-Boolean equality constraint.
         /// Example  2*x + 1*y + 2*z + 1*u = 4
         /// </remarks>
-        OpPbEq = 2308,
+        Z3_OP_PB_EQ = 2308,
         /// <summary>
         /// Z3_OP_SPECIAL_RELATION_LO
         /// </summary>
         /// <remarks>
         /// A relation that is a total linear order
         /// </remarks>
-        OpSpecialRelationLo = 0xa000,
+        Z3_OP_SPECIAL_RELATION_LO = 0xa000,
         /// <summary>
         /// Z3_OP_SPECIAL_RELATION_PO
         /// </summary>
         /// <remarks>
         /// A relation that is a partial order
         /// </remarks>
-        OpSpecialRelationPo = 40961,
+        Z3_OP_SPECIAL_RELATION_PO = 40961,
         /// <summary>
         /// Z3_OP_SPECIAL_RELATION_PLO
         /// </summary>
         /// <remarks>
         /// A relation that is a piecewise linear order
         /// </remarks>
-        OpSpecialRelationPlo = 40962,
+        Z3_OP_SPECIAL_RELATION_PLO = 40962,
         /// <summary>
         /// Z3_OP_SPECIAL_RELATION_TO
         /// </summary>
         /// <remarks>
         /// A relation that is a tree order
         /// </remarks>
-        OpSpecialRelationTo = 40963,
+        Z3_OP_SPECIAL_RELATION_TO = 40963,
         /// <summary>
         /// Z3_OP_SPECIAL_RELATION_TC
         /// </summary>
         /// <remarks>
         /// Transitive closure of a relation
         /// </remarks>
-        OpSpecialRelationTc = 40964,
+        Z3_OP_SPECIAL_RELATION_TC = 40964,
         /// <summary>
         /// Z3_OP_SPECIAL_RELATION_TRC
         /// </summary>
         /// <remarks>
         /// Transitive reflexive closure of a relation
         /// </remarks>
-        OpSpecialRelationTrc = 40965,
+        Z3_OP_SPECIAL_RELATION_TRC = 40965,
         /// <summary>
         /// Z3_OP_FPA_RM_NEAREST_TIES_TO_EVEN
         /// </summary>
         /// <remarks>
         /// Floating-point rounding mode RNE
         /// </remarks>
-        OpFpaRmNearestTiesToEven = 0xb000,
+        Z3_OP_FPA_RM_NEAREST_TIES_TO_EVEN = 0xb000,
         /// <summary>
         /// Z3_OP_FPA_RM_NEAREST_TIES_TO_AWAY
         /// </summary>
         /// <remarks>
         /// Floating-point rounding mode RNA
         /// </remarks>
-        OpFpaRmNearestTiesToAway = 45057,
+        Z3_OP_FPA_RM_NEAREST_TIES_TO_AWAY = 45057,
         /// <summary>
         /// Z3_OP_FPA_RM_TOWARD_POSITIVE
         /// </summary>
         /// <remarks>
         /// Floating-point rounding mode RTP
         /// </remarks>
-        OpFpaRmTowardPositive = 45058,
+        Z3_OP_FPA_RM_TOWARD_POSITIVE = 45058,
         /// <summary>
         /// Z3_OP_FPA_RM_TOWARD_NEGATIVE
         /// </summary>
         /// <remarks>
         /// Floating-point rounding mode RTN
         /// </remarks>
-        OpFpaRmTowardNegative = 45059,
+        Z3_OP_FPA_RM_TOWARD_NEGATIVE = 45059,
         /// <summary>
         /// Z3_OP_FPA_RM_TOWARD_ZERO
         /// </summary>
         /// <remarks>
         /// Floating-point rounding mode RTZ
         /// </remarks>
-        OpFpaRmTowardZero = 45060,
+        Z3_OP_FPA_RM_TOWARD_ZERO = 45060,
         /// <summary>
         /// Z3_OP_FPA_NUM
         /// </summary>
         /// <remarks>
         /// Floating-point value
         /// </remarks>
-        OpFpaNum = 45061,
+        Z3_OP_FPA_NUM = 45061,
         /// <summary>
         /// Z3_OP_FPA_PLUS_INF
         /// </summary>
         /// <remarks>
         /// Floating-point +oo
         /// </remarks>
-        OpFpaPlusInf = 45062,
+        Z3_OP_FPA_PLUS_INF = 45062,
         /// <summary>
         /// Z3_OP_FPA_MINUS_INF
         /// </summary>
         /// <remarks>
         /// Floating-point -oo
         /// </remarks>
-        OpFpaMinusInf = 45063,
+        Z3_OP_FPA_MINUS_INF = 45063,
         /// <summary>
         /// Z3_OP_FPA_NAN
         /// </summary>
         /// <remarks>
         /// Floating-point NaN
         /// </remarks>
-        OpFpaNan = 45064,
+        Z3_OP_FPA_NAN = 45064,
         /// <summary>
         /// Z3_OP_FPA_PLUS_ZERO
         /// </summary>
         /// <remarks>
         /// Floating-point +zero
         /// </remarks>
-        OpFpaPlusZero = 45065,
+        Z3_OP_FPA_PLUS_ZERO = 45065,
         /// <summary>
         /// Z3_OP_FPA_MINUS_ZERO
         /// </summary>
         /// <remarks>
         /// Floating-point -zero
         /// </remarks>
-        OpFpaMinusZero = 45066,
+        Z3_OP_FPA_MINUS_ZERO = 45066,
         /// <summary>
         /// Z3_OP_FPA_ADD
         /// </summary>
         /// <remarks>
         /// Floating-point addition
         /// </remarks>
-        OpFpaAdd = 45067,
+        Z3_OP_FPA_ADD = 45067,
         /// <summary>
         /// Z3_OP_FPA_SUB
         /// </summary>
         /// <remarks>
         /// Floating-point subtraction
         /// </remarks>
-        OpFpaSub = 45068,
+        Z3_OP_FPA_SUB = 45068,
         /// <summary>
         /// Z3_OP_FPA_NEG
         /// </summary>
         /// <remarks>
         /// Floating-point negation
         /// </remarks>
-        OpFpaNeg = 45069,
+        Z3_OP_FPA_NEG = 45069,
         /// <summary>
         /// Z3_OP_FPA_MUL
         /// </summary>
         /// <remarks>
         /// Floating-point multiplication
         /// </remarks>
-        OpFpaMul = 45070,
+        Z3_OP_FPA_MUL = 45070,
         /// <summary>
         /// Z3_OP_FPA_DIV
         /// </summary>
         /// <remarks>
         /// Floating-point division
         /// </remarks>
-        OpFpaDiv = 45071,
+        Z3_OP_FPA_DIV = 45071,
         /// <summary>
         /// Z3_OP_FPA_REM
         /// </summary>
         /// <remarks>
         /// Floating-point remainder
         /// </remarks>
-        OpFpaRem = 45072,
+        Z3_OP_FPA_REM = 45072,
         /// <summary>
         /// Z3_OP_FPA_ABS
         /// </summary>
         /// <remarks>
         /// Floating-point absolute value
         /// </remarks>
-        OpFpaAbs = 45073,
+        Z3_OP_FPA_ABS = 45073,
         /// <summary>
         /// Z3_OP_FPA_MIN
         /// </summary>
         /// <remarks>
         /// Floating-point minimum
         /// </remarks>
-        OpFpaMin = 45074,
+        Z3_OP_FPA_MIN = 45074,
         /// <summary>
         /// Z3_OP_FPA_MAX
         /// </summary>
         /// <remarks>
         /// Floating-point maximum
         /// </remarks>
-        OpFpaMax = 45075,
+        Z3_OP_FPA_MAX = 45075,
         /// <summary>
         /// Z3_OP_FPA_FMA
         /// </summary>
         /// <remarks>
         /// Floating-point fused multiply-add
         /// </remarks>
-        OpFpaFma = 45076,
+        Z3_OP_FPA_FMA = 45076,
         /// <summary>
         /// Z3_OP_FPA_SQRT
         /// </summary>
         /// <remarks>
         /// Floating-point square root
         /// </remarks>
-        OpFpaSqrt = 45077,
+        Z3_OP_FPA_SQRT = 45077,
         /// <summary>
         /// Z3_OP_FPA_ROUND_TO_INTEGRAL
         /// </summary>
         /// <remarks>
         /// Floating-point round to integral
         /// </remarks>
-        OpFpaRoundToIntegral = 45078,
+        Z3_OP_FPA_ROUND_TO_INTEGRAL = 45078,
         /// <summary>
         /// Z3_OP_FPA_EQ
         /// </summary>
         /// <remarks>
         /// Floating-point equality
         /// </remarks>
-        OpFpaEq = 45079,
+        Z3_OP_FPA_EQ = 45079,
         /// <summary>
         /// Z3_OP_FPA_LT
         /// </summary>
         /// <remarks>
         /// Floating-point less than
         /// </remarks>
-        OpFpaLt = 45080,
+        Z3_OP_FPA_LT = 45080,
         /// <summary>
         /// Z3_OP_FPA_GT
         /// </summary>
         /// <remarks>
         /// Floating-point greater than
         /// </remarks>
-        OpFpaGt = 45081,
+        Z3_OP_FPA_GT = 45081,
         /// <summary>
         /// Z3_OP_FPA_LE
         /// </summary>
         /// <remarks>
         /// Floating-point less than or equal
         /// </remarks>
-        OpFpaLe = 45082,
+        Z3_OP_FPA_LE = 45082,
         /// <summary>
         /// Z3_OP_FPA_GE
         /// </summary>
         /// <remarks>
         /// Floating-point greater than or equal
         /// </remarks>
-        OpFpaGe = 45083,
+        Z3_OP_FPA_GE = 45083,
         /// <summary>
         /// Z3_OP_FPA_IS_NAN
         /// </summary>
         /// <remarks>
         /// Floating-point isNaN
         /// </remarks>
-        OpFpaIsNan = 45084,
+        Z3_OP_FPA_IS_NAN = 45084,
         /// <summary>
         /// Z3_OP_FPA_IS_INF
         /// </summary>
         /// <remarks>
         /// Floating-point isInfinite
         /// </remarks>
-        OpFpaIsInf = 45085,
+        Z3_OP_FPA_IS_INF = 45085,
         /// <summary>
         /// Z3_OP_FPA_IS_ZERO
         /// </summary>
         /// <remarks>
         /// Floating-point isZero
         /// </remarks>
-        OpFpaIsZero = 45086,
+        Z3_OP_FPA_IS_ZERO = 45086,
         /// <summary>
         /// Z3_OP_FPA_IS_NORMAL
         /// </summary>
         /// <remarks>
         /// Floating-point isNormal
         /// </remarks>
-        OpFpaIsNormal = 45087,
+        Z3_OP_FPA_IS_NORMAL = 45087,
         /// <summary>
         /// Z3_OP_FPA_IS_SUBNORMAL
         /// </summary>
         /// <remarks>
         /// Floating-point isSubnormal
         /// </remarks>
-        OpFpaIsSubnormal = 45088,
+        Z3_OP_FPA_IS_SUBNORMAL = 45088,
         /// <summary>
         /// Z3_OP_FPA_IS_NEGATIVE
         /// </summary>
         /// <remarks>
         /// Floating-point isNegative
         /// </remarks>
-        OpFpaIsNegative = 45089,
+        Z3_OP_FPA_IS_NEGATIVE = 45089,
         /// <summary>
         /// Z3_OP_FPA_IS_POSITIVE
         /// </summary>
         /// <remarks>
         /// Floating-point isPositive
         /// </remarks>
-        OpFpaIsPositive = 45090,
+        Z3_OP_FPA_IS_POSITIVE = 45090,
         /// <summary>
         /// Z3_OP_FPA_FP
         /// </summary>
         /// <remarks>
         /// Floating-point constructor from 3 bit-vectors
         /// </remarks>
-        OpFpaFp = 45091,
+        Z3_OP_FPA_FP = 45091,
         /// <summary>
         /// Z3_OP_FPA_TO_FP
         /// </summary>
         /// <remarks>
         /// Floating-point conversion (various)
         /// </remarks>
-        OpFpaToFp = 45092,
+        Z3_OP_FPA_TO_FP = 45092,
         /// <summary>
         /// Z3_OP_FPA_TO_FP_UNSIGNED
         /// </summary>
         /// <remarks>
         /// Floating-point conversion from unsigned bit-vector
         /// </remarks>
-        OpFpaToFpUnsigned = 45093,
+        Z3_OP_FPA_TO_FP_UNSIGNED = 45093,
         /// <summary>
         /// Z3_OP_FPA_TO_UBV
         /// </summary>
         /// <remarks>
         /// Floating-point conversion to unsigned bit-vector
         /// </remarks>
-        OpFpaToUbv = 45094,
+        Z3_OP_FPA_TO_UBV = 45094,
         /// <summary>
         /// Z3_OP_FPA_TO_SBV
         /// </summary>
         /// <remarks>
         /// Floating-point conversion to signed bit-vector
         /// </remarks>
-        OpFpaToSbv = 45095,
+        Z3_OP_FPA_TO_SBV = 45095,
         /// <summary>
         /// Z3_OP_FPA_TO_REAL
         /// </summary>
         /// <remarks>
         /// Floating-point conversion to real number
         /// </remarks>
-        OpFpaToReal = 45096,
+        Z3_OP_FPA_TO_REAL = 45096,
         /// <summary>
         /// Z3_OP_FPA_TO_IEEE_BV
         /// </summary>
         /// <remarks>
         /// Floating-point conversion to IEEE-754 bit-vector
         /// </remarks>
-        OpFpaToIeeeBv = 45097,
+        Z3_OP_FPA_TO_IEEE_BV = 45097,
         /// <summary>
         /// Z3_OP_FPA_BVWRAP
         /// </summary>
@@ -2191,7 +2191,7 @@ internal sealed partial class NativeZ3Library
         /// representation of a floating-point term (used for the lazy encoding
         /// of non-relevant terms in theory_fpa)
         /// </remarks>
-        OpFpaBvwrap = 45098,
+        Z3_OP_FPA_BVWRAP = 45098,
         /// <summary>
         /// Z3_OP_FPA_BV2RM
         /// </summary>
@@ -2209,7 +2209,7 @@ internal sealed partial class NativeZ3Library
         /// 4 = 100 = Z3_OP_FPA_RM_TOWARD_ZERO.
         /// </para>
         /// </remarks>
-        OpFpaBv2rm = 45099,
+        Z3_OP_FPA_BV2RM = 45099,
         /// <summary>
         /// Z3_OP_INTERNAL
         /// </summary>
@@ -2218,16 +2218,16 @@ internal sealed partial class NativeZ3Library
         /// information is exposed. Tools may use the string representation of the
         /// function declaration to obtain more information.
         /// </remarks>
-        OpInternal = 45100,
+        Z3_OP_INTERNAL = 45100,
         /// <summary>
         /// Z3_OP_RECURSIVE
         /// </summary>
         /// <remarks>
         /// function declared as recursive
         /// </remarks>
-        OpRecursive = 45101,
+        Z3_OP_RECURSIVE = 45101,
         /// <summary>Z3_OP_UNINTERPRETED</summary>
-        OpUninterpreted = 45102,
+        Z3_OP_UNINTERPRETED = 45102,
     }
 
     /// <summary>
@@ -2241,86 +2241,86 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// No error.
         /// </remarks>
-        Ok = 0,
+        Z3_OK = 0,
         /// <summary>
         /// Z3_SORT_ERROR
         /// </summary>
         /// <remarks>
         /// User tried to build an invalid (type incorrect) AST.
         /// </remarks>
-        SortError = 1,
+        Z3_SORT_ERROR = 1,
         /// <summary>
         /// Z3_IOB
         /// </summary>
         /// <remarks>
         /// Index out of bounds.
         /// </remarks>
-        Iob = 2,
+        Z3_IOB = 2,
         /// <summary>
         /// Z3_INVALID_ARG
         /// </summary>
         /// <remarks>
         /// Invalid argument was provided.
         /// </remarks>
-        InvalidArg = 3,
+        Z3_INVALID_ARG = 3,
         /// <summary>
         /// Z3_PARSER_ERROR
         /// </summary>
         /// <remarks>
         /// An error occurred when parsing a string or file.
         /// </remarks>
-        ParserError = 4,
+        Z3_PARSER_ERROR = 4,
         /// <summary>
         /// Z3_NO_PARSER
         /// </summary>
         /// <remarks>
         /// Parser output is not available, that is, user didn't invoke <see cref="ParseSmtlib2String"/> or <see cref="ParseSmtlib2File"/>.
         /// </remarks>
-        NoParser = 5,
+        Z3_NO_PARSER = 5,
         /// <summary>
         /// Z3_INVALID_PATTERN
         /// </summary>
         /// <remarks>
         /// Invalid pattern was used to build a quantifier.
         /// </remarks>
-        InvalidPattern = 6,
+        Z3_INVALID_PATTERN = 6,
         /// <summary>
         /// Z3_MEMOUT_FAIL
         /// </summary>
         /// <remarks>
         /// A memory allocation failure was encountered.
         /// </remarks>
-        MemoutFail = 7,
+        Z3_MEMOUT_FAIL = 7,
         /// <summary>
         /// Z3_FILE_ACCESS_ERROR
         /// </summary>
         /// <remarks>
         /// A file could not be accessed.
         /// </remarks>
-        FileAccessError = 8,
+        Z3_FILE_ACCESS_ERROR = 8,
         /// <summary>
         /// Z3_INTERNAL_FATAL
         /// </summary>
         /// <remarks>
         /// An error internal to Z3 occurred.
         /// </remarks>
-        InternalFatal = 9,
+        Z3_INTERNAL_FATAL = 9,
         /// <summary>
         /// Z3_INVALID_USAGE
         /// </summary>
         /// <remarks>
         /// API call is invalid in the current state.
         /// </remarks>
-        InvalidUsage = 10,
+        Z3_INVALID_USAGE = 10,
         /// <summary>
         /// Z3_DEC_REF_ERROR
         /// </summary>
         /// <remarks>
         /// Trying to decrement the reference counter of an AST that was deleted or the reference counter was not initialized with <see cref="IncRef"/>.
         /// </remarks>
-        DecRefError = 11,
+        Z3_DEC_REF_ERROR = 11,
         /// <summary>Z3_EXCEPTION</summary>
-        Exception = 12,
+        Z3_EXCEPTION = 12,
     }
 
     /// <summary>
@@ -2336,23 +2336,23 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// Approximations/Relaxations were not applied on the goal (sat and unsat answers were preserved).
         /// </remarks>
-        GoalPrecise = 0,
+        Z3_GOAL_PRECISE = 0,
         /// <summary>
         /// Z3_GOAL_UNDER
         /// </summary>
         /// <remarks>
         /// Goal is the product of a under-approximation (sat answers are preserved).
         /// </remarks>
-        GoalUnder = 1,
+        Z3_GOAL_UNDER = 1,
         /// <summary>
         /// Z3_GOAL_OVER
         /// </summary>
         /// <remarks>
         /// Goal is the product of an over-approximation (unsat answers are preserved).
         /// </remarks>
-        GoalOver = 2,
+        Z3_GOAL_OVER = 2,
         /// <summary>Z3_GOAL_UNDER_OVER</summary>
-        GoalUnderOver = 3,
+        Z3_GOAL_UNDER_OVER = 3,
     }
 
     /// <summary>
@@ -2361,11 +2361,11 @@ internal sealed partial class NativeZ3Library
     internal enum Lbool
     {
         /// <summary>Z3_L_FALSE</summary>
-        False = -1,
+        Z3_L_FALSE = -1,
         /// <summary>Z3_L_UNDEF</summary>
-        Undef = 0,
+        Z3_L_UNDEF = 0,
         /// <summary>Z3_L_TRUE</summary>
-        True = 1,
+        Z3_L_TRUE = 1,
     }
 
     /// <summary>
@@ -2380,44 +2380,44 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// integer parameters.
         /// </remarks>
-        Uint = 0,
+        Z3_PK_UINT = 0,
         /// <summary>
         /// Z3_PK_BOOL
         /// </summary>
         /// <remarks>
         /// boolean parameters.
         /// </remarks>
-        Bool = 1,
+        Z3_PK_BOOL = 1,
         /// <summary>
         /// Z3_PK_DOUBLE
         /// </summary>
         /// <remarks>
         /// double parameters.
         /// </remarks>
-        Double = 2,
+        Z3_PK_DOUBLE = 2,
         /// <summary>
         /// Z3_PK_SYMBOL
         /// </summary>
         /// <remarks>
         /// symbol parameters.
         /// </remarks>
-        Symbol = 3,
+        Z3_PK_SYMBOL = 3,
         /// <summary>
         /// Z3_PK_STRING
         /// </summary>
         /// <remarks>
         /// string parameters.
         /// </remarks>
-        String = 4,
+        Z3_PK_STRING = 4,
         /// <summary>
         /// Z3_PK_OTHER
         /// </summary>
         /// <remarks>
         /// all internal parameter kinds which are not exposed in the API.
         /// </remarks>
-        Other = 5,
+        Z3_PK_OTHER = 5,
         /// <summary>Z3_PK_INVALID</summary>
-        Invalid = 6,
+        Z3_PK_INVALID = 6,
     }
 
     /// <summary>
@@ -2433,58 +2433,58 @@ internal sealed partial class NativeZ3Library
         /// <remarks>
         /// is used for integer parameters.
         /// </remarks>
-        ParameterInt = 0,
+        Z3_PARAMETER_INT = 0,
         /// <summary>
         /// Z3_PARAMETER_DOUBLE
         /// </summary>
         /// <remarks>
         /// is used for double parameters.
         /// </remarks>
-        ParameterDouble = 1,
+        Z3_PARAMETER_DOUBLE = 1,
         /// <summary>
         /// Z3_PARAMETER_RATIONAL
         /// </summary>
         /// <remarks>
         /// is used for parameters that are rational numbers.
         /// </remarks>
-        ParameterRational = 2,
+        Z3_PARAMETER_RATIONAL = 2,
         /// <summary>
         /// Z3_PARAMETER_SYMBOL
         /// </summary>
         /// <remarks>
         /// is used for parameters that are symbols.
         /// </remarks>
-        ParameterSymbol = 3,
+        Z3_PARAMETER_SYMBOL = 3,
         /// <summary>
         /// Z3_PARAMETER_SORT
         /// </summary>
         /// <remarks>
         /// is used for sort parameters.
         /// </remarks>
-        ParameterSort = 4,
+        Z3_PARAMETER_SORT = 4,
         /// <summary>
         /// Z3_PARAMETER_AST
         /// </summary>
         /// <remarks>
         /// is used for expression parameters.
         /// </remarks>
-        ParameterAst = 5,
+        Z3_PARAMETER_AST = 5,
         /// <summary>
         /// Z3_PARAMETER_FUNC_DECL
         /// </summary>
         /// <remarks>
         /// is used for function declaration parameters.
         /// </remarks>
-        ParameterFuncDecl = 6,
+        Z3_PARAMETER_FUNC_DECL = 6,
         /// <summary>
         /// Z3_PARAMETER_INTERNAL
         /// </summary>
         /// <remarks>
         /// is used for parameters that are private to Z3. They cannot be accessed.
         /// </remarks>
-        ParameterInternal = 7,
+        Z3_PARAMETER_INTERNAL = 7,
         /// <summary>Z3_PARAMETER_ZSTRING</summary>
-        ParameterZstring = 8,
+        Z3_PARAMETER_ZSTRING = 8,
     }
 
     /// <summary>
@@ -2493,37 +2493,37 @@ internal sealed partial class NativeZ3Library
     internal enum SortKind
     {
         /// <summary>Z3_UNINTERPRETED_SORT</summary>
-        UninterpretedSort = 0,
+        Z3_UNINTERPRETED_SORT = 0,
         /// <summary>Z3_BOOL_SORT</summary>
-        BoolSort = 1,
+        Z3_BOOL_SORT = 1,
         /// <summary>Z3_INT_SORT</summary>
-        IntSort = 2,
+        Z3_INT_SORT = 2,
         /// <summary>Z3_REAL_SORT</summary>
-        RealSort = 3,
+        Z3_REAL_SORT = 3,
         /// <summary>Z3_BV_SORT</summary>
-        BvSort = 4,
+        Z3_BV_SORT = 4,
         /// <summary>Z3_ARRAY_SORT</summary>
-        ArraySort = 5,
+        Z3_ARRAY_SORT = 5,
         /// <summary>Z3_DATATYPE_SORT</summary>
-        DatatypeSort = 6,
+        Z3_DATATYPE_SORT = 6,
         /// <summary>Z3_RELATION_SORT</summary>
-        RelationSort = 7,
+        Z3_RELATION_SORT = 7,
         /// <summary>Z3_FINITE_DOMAIN_SORT</summary>
-        FiniteDomainSort = 8,
+        Z3_FINITE_DOMAIN_SORT = 8,
         /// <summary>Z3_FLOATING_POINT_SORT</summary>
-        FloatingPointSort = 9,
+        Z3_FLOATING_POINT_SORT = 9,
         /// <summary>Z3_ROUNDING_MODE_SORT</summary>
-        RoundingModeSort = 10,
+        Z3_ROUNDING_MODE_SORT = 10,
         /// <summary>Z3_SEQ_SORT</summary>
-        SeqSort = 11,
+        Z3_SEQ_SORT = 11,
         /// <summary>Z3_RE_SORT</summary>
-        ReSort = 12,
+        Z3_RE_SORT = 12,
         /// <summary>Z3_CHAR_SORT</summary>
-        CharSort = 13,
+        Z3_CHAR_SORT = 13,
         /// <summary>Z3_TYPE_VAR</summary>
-        TypeVar = 14,
+        Z3_TYPE_VAR = 14,
         /// <summary>Z3_UNKNOWN_SORT</summary>
-        UnknownSort = 1000,
+        Z3_UNKNOWN_SORT = 1000,
     }
 
     /// <summary>
@@ -2535,9 +2535,9 @@ internal sealed partial class NativeZ3Library
     internal enum SymbolKind
     {
         /// <summary>Z3_INT_SYMBOL</summary>
-        IntSymbol = 0,
+        Z3_INT_SYMBOL = 0,
         /// <summary>Z3_STRING_SYMBOL</summary>
-        StringSymbol = 1,
+        Z3_STRING_SYMBOL = 1,
     }
 
 }
