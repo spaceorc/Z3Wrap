@@ -3,7 +3,7 @@
 Z3 Native Library Generator
 
 This script analyzes Z3 C API header files and generates a plan for creating
-NativeLibrary2 partial class files that match the header file groups 1-to-1.
+NativeZ3Library partial class files that match the header file groups 1-to-1.
 """
 
 import os
@@ -534,7 +534,7 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
     """
     Generate a partial class file with delegates and P/Invoke implementations.
     """
-    file_name = f"NativeLibrary2.{group.group_name_clean}.generated.cs"
+    file_name = f"NativeZ3Library.{group.group_name_clean}.generated.cs"
     file_path = output_dir / file_name
 
     with open(file_path, 'w', encoding='utf-8') as f:
@@ -550,10 +550,10 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
         f.write("using System.Runtime.InteropServices;\n\n")
 
         # Namespace
-        f.write("namespace Spaceorc.Z3Wrap.Core.Interop2;\n\n")
+        f.write("namespace Spaceorc.Z3Wrap.Core.Interop;\n\n")
 
         # Class declaration
-        f.write("internal sealed partial class NativeLibrary2\n")
+        f.write("internal sealed partial class NativeZ3Library\n")
         f.write("{\n")
 
         csharp_keywords = {'string', 'object', 'int', 'bool', 'char', 'byte', 'float', 'double', 'decimal', 'long', 'short', 'uint', 'ulong', 'ushort', 'void', 'class', 'struct', 'enum', 'interface', 'delegate', 'event', 'namespace', 'using', 'ref', 'out', 'params', 'base', 'this', 'fixed'}
@@ -656,7 +656,7 @@ def main():
     import argparse
 
     # Parse command-line arguments
-    parser = argparse.ArgumentParser(description='Generate NativeLibrary2 partial classes from Z3 headers')
+    parser = argparse.ArgumentParser(description='Generate NativeZ3Library partial classes from Z3 headers')
     parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output with all function names')
     parser.add_argument('--branch', '-b', default=Z3_DEFAULT_BRANCH, help=f'Z3 GitHub branch to use (default: {Z3_DEFAULT_BRANCH})')
     parser.add_argument('--force-download', '-f', action='store_true', help='Force re-download headers even if cached')
@@ -666,7 +666,7 @@ def main():
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
     headers_cache_dir = project_root / ".cache" / "z3_headers"
-    output_dir = project_root / "Z3Wrap" / "Core" / "Interop2"
+    output_dir = project_root / "Z3Wrap" / "Core" / "Interop"
 
     print("Z3 Native Library Generator")
     print("=" * 80)

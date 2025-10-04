@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using NativeLibrary = Spaceorc.Z3Wrap.Core.Interop.NativeLibrary;
+using Spaceorc.Z3Wrap.Core.Interop;
 
 namespace Spaceorc.Z3Wrap.Core;
 
@@ -17,10 +17,10 @@ namespace Spaceorc.Z3Wrap.Core;
 /// </summary>
 public sealed partial class Z3Library : IDisposable
 {
-    private readonly NativeLibrary nativeLibrary;
+    private readonly NativeZ3Library nativeLibrary;
     private bool disposed;
 
-    private Z3Library(NativeLibrary nativeLibrary)
+    private Z3Library(NativeZ3Library nativeLibrary)
     {
         this.nativeLibrary = nativeLibrary ?? throw new ArgumentNullException(nameof(nativeLibrary));
     }
@@ -57,7 +57,7 @@ public sealed partial class Z3Library : IDisposable
     /// <exception cref="FileNotFoundException">Thrown when the library file is not found at the specified path.</exception>
     public static Z3Library Load(string libraryPath)
     {
-        var nativeLib = NativeLibrary.Load(libraryPath);
+        var nativeLib = NativeZ3Library.Load(libraryPath);
         return new Z3Library(nativeLib);
     }
 
@@ -68,7 +68,7 @@ public sealed partial class Z3Library : IDisposable
     /// <exception cref="InvalidOperationException">Thrown when the Z3 library cannot be automatically located.</exception>
     public static Z3Library LoadAuto()
     {
-        var nativeLib = NativeLibrary.LoadAuto();
+        var nativeLib = NativeZ3Library.LoadAuto();
         return new Z3Library(nativeLib);
     }
 
@@ -90,10 +90,10 @@ public sealed partial class Z3Library : IDisposable
 
     private void CheckError(IntPtr ctx)
     {
-        var z3ErrorCode = nativeLibrary.GetErrorCode(ctx);
+        var z3ErrorCode = (Z3ErrorCode)nativeLibrary.GetErrorCode(ctx);
         if (z3ErrorCode == Z3ErrorCode.Ok)
             return;
-        var msgPtr = nativeLibrary.GetErrorMsg(ctx, z3ErrorCode);
+        var msgPtr = nativeLibrary.GetErrorMsg(ctx, (int)z3ErrorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
         throw new Z3Exception(z3ErrorCode, message);
     }
@@ -102,7 +102,7 @@ public sealed partial class Z3Library : IDisposable
     {
         // DO NOT THROW EXCEPTIONS HERE - this is called from native Z3 code!
         var z3ErrorCode = (Z3ErrorCode)errorCode;
-        var msgPtr = nativeLibrary.GetErrorMsg(ctx, z3ErrorCode);
+        var msgPtr = nativeLibrary.GetErrorMsg(ctx, (int)z3ErrorCode);
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
         Debug.WriteLine($"Z3 Error: {z3ErrorCode}: {message}");
     }
