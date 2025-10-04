@@ -99,10 +99,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkStringSortDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a sort for unicode strings.
+    /// </para>
+    /// <para>
     /// The sort for characters can be changed to ASCII by setting
     /// the global parameter encoding to ascii, or alternative
     /// to 16 bit characters by setting encoding to bmp.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_string_sort")]
     internal IntPtr MkStringSort(IntPtr c)
@@ -116,10 +120,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkCharSortDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a sort for unicode characters.
+    /// </para>
+    /// <para>
     /// The sort for characters can be changed to ASCII by setting
     /// the global parameter encoding to ascii, or alternative
     /// to 16 bit characters by setting encoding to bmp.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_char_sort")]
     internal IntPtr MkCharSort(IntPtr c)

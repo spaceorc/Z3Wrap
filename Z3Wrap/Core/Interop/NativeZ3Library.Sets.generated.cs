@@ -57,8 +57,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetAddDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
+    /// <para>
     /// Add an element to a set.
+    /// </para>
+    /// <para>
     /// The first argument must be a set, the second an element.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_set_add")]
     internal IntPtr MkSetAdd(IntPtr c, IntPtr set, IntPtr elem)
@@ -72,8 +76,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetDelDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
+    /// <para>
     /// Remove an element to a set.
+    /// </para>
+    /// <para>
     /// The first argument must be a set, the second an element.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_set_del")]
     internal IntPtr MkSetDel(IntPtr c, IntPtr set, IntPtr elem)
@@ -143,8 +151,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetMemberDelegate(IntPtr c, IntPtr elem, IntPtr set);
 
     /// <summary>
+    /// <para>
     /// Check for set membership.
+    /// </para>
+    /// <para>
     /// The first argument should be an element type of the set.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_set_member")]
     internal IntPtr MkSetMember(IntPtr c, IntPtr elem, IntPtr set)

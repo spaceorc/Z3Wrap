@@ -183,6 +183,236 @@ def extract_functions_from_group(header_path: Path, start_line: int, end_line: i
     return functions
 
 
+def clean_documentation_text(text: str, preserve_formatting: bool = False) -> str:
+    """Clean up documentation text with support for paragraphs and bullet lists."""
+    if preserve_formatting:
+        # Preserve line breaks and formatting - only do minimal cleaning
+        raw_lines = text.split('\n')
+
+        # First pass: strip and track empty lines, remove asterisks
+        processed_lines = []
+        for line in raw_lines:
+            stripped = line.strip()
+            # Remove leading asterisks from continuation lines
+            stripped = re.sub(r'^\*\s*', '', stripped)
+            processed_lines.append(stripped)
+
+        cleaned_lines = []
+        in_code_block = False
+        in_nicebox = False
+        nicebox_lines = []
+        in_bullet_list = False
+        current_bullet_item = []
+
+        i = 0
+        while i < len(processed_lines):
+            line = processed_lines[i]
+
+            # Skip empty lines - they'll be used for paragraph separation
+            if not line:
+                # Close bullet list if we were in one
+                if in_bullet_list:
+                    if current_bullet_item:
+                        cleaned_lines.append('<item><description>' + ' '.join(current_bullet_item) + '</description></item>')
+                        current_bullet_item = []
+                    cleaned_lines.append('</list>')
+                    in_bullet_list = False
+                # Add paragraph break if next non-empty line exists
+                if i + 1 < len(processed_lines):
+                    # Look ahead to see if there's more content
+                    has_more = any(processed_lines[j] for j in range(i + 1, len(processed_lines)))
+                    if has_more:
+                        cleaned_lines.append('</para>')
+                        cleaned_lines.append('<para>')
+                i += 1
+                continue
+
+            # Handle nicebox blocks - convert to code blocks with box drawing
+            if '\\nicebox{' in line:
+                in_nicebox = True
+                nicebox_lines = []
+                i += 1
+                continue
+            if in_nicebox and '}' in line:
+                in_nicebox = False
+                # Find the longest line for box width
+                max_width = max(len(l) for l in nicebox_lines) if nicebox_lines else 0
+                # Add code block with box drawing
+                cleaned_lines.append('<code>')
+                cleaned_lines.append('╔' + '═' * (max_width + 2) + '╗')
+                for box_line in nicebox_lines:
+                    padded = box_line.ljust(max_width)
+                    cleaned_lines.append('║ ' + padded + ' ║')
+                cleaned_lines.append('╚' + '═' * (max_width + 2) + '╝')
+                cleaned_lines.append('</code>')
+                i += 1
+                continue
+            if in_nicebox:
+                nicebox_lines.append(line)
+                i += 1
+                continue
+
+            # Handle code blocks
+            if '\\code' in line:
+                in_code_block = True
+                line = line.replace('\\code', '<code>')
+            if '\\endcode' in line:
+                in_code_block = False
+                line = line.replace('\\endcode', '</code>')
+
+            # Check if this is a bullet point (starts with -)
+            is_bullet = line.startswith('-') and not in_code_block
+
+            # Check if this is a continuation of a bullet item (indented)
+            is_continuation = False
+            if in_bullet_list and not is_bullet and not in_code_block:
+                # Look at original line to check indentation
+                original_line = raw_lines[i] if i < len(raw_lines) else ''
+                # Continuation lines typically have leading whitespace (at least 2 spaces)
+                is_continuation = len(original_line) > 0 and (original_line[0] == ' ' or original_line[0] == '\t')
+
+            if is_bullet:
+                # Start bullet list if not already in one
+                if not in_bullet_list:
+                    cleaned_lines.append('<list type="bullet">')
+                    in_bullet_list = True
+                else:
+                    # Close previous bullet item
+                    if current_bullet_item:
+                        cleaned_lines.append('<item><description>' + ' '.join(current_bullet_item) + '</description></item>')
+                        current_bullet_item = []
+
+                # Remove leading dash and whitespace
+                line = re.sub(r'^-\s*', '', line)
+
+                # Process the line content (Doxygen markers, XML escaping)
+                line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
+                line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
+                # Convert #Z3_function_name to <see cref="FunctionName"/>
+                def replace_reference(match):
+                    z3_name = match.group(1)
+                    csharp_name = generate_csharp_method_name(z3_name)
+                    return f'<see cref="{csharp_name}"/>'
+                line = re.sub(r'#(Z3_\w+)', replace_reference, line)
+
+                # Escape XML
+                line = line.replace('<code>', '\x00CODE_OPEN\x00')
+                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
+                see_cref_placeholders = {}
+                def protect_see_cref(match):
+                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
+                    see_cref_placeholders[placeholder] = match.group(0)
+                    return placeholder
+                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
+                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                line = line.replace('\x00CODE_OPEN\x00', '<code>')
+                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
+                for placeholder, original in see_cref_placeholders.items():
+                    line = line.replace(placeholder, original)
+
+                current_bullet_item = [line]
+            elif is_continuation and in_bullet_list:
+                # Process the continuation line
+                line = re.sub(r'\\c\s+(\w+)', r'\1', line)
+                line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)
+                def replace_reference(match):
+                    z3_name = match.group(1)
+                    csharp_name = generate_csharp_method_name(z3_name)
+                    return f'<see cref="{csharp_name}"/>'
+                line = re.sub(r'#(Z3_\w+)', replace_reference, line)
+
+                # Escape XML
+                line = line.replace('<code>', '\x00CODE_OPEN\x00')
+                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
+                see_cref_placeholders = {}
+                def protect_see_cref(match):
+                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
+                    see_cref_placeholders[placeholder] = match.group(0)
+                    return placeholder
+                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
+                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                line = line.replace('\x00CODE_OPEN\x00', '<code>')
+                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
+                for placeholder, original in see_cref_placeholders.items():
+                    line = line.replace(placeholder, original)
+
+                # Add to current bullet item
+                current_bullet_item.append(line)
+            else:
+                # Close bullet list if we were in one
+                if in_bullet_list:
+                    if current_bullet_item:
+                        cleaned_lines.append('<item><description>' + ' '.join(current_bullet_item) + '</description></item>')
+                        current_bullet_item = []
+                    cleaned_lines.append('</list>')
+                    in_bullet_list = False
+
+                # Regular line processing
+                # Remove Doxygen markers (but not inside code blocks)
+                if not in_code_block:
+                    line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
+                    line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
+                    # Convert #Z3_function_name to <see cref="FunctionName"/>
+                    def replace_reference(match):
+                        z3_name = match.group(1)
+                        csharp_name = generate_csharp_method_name(z3_name)
+                        return f'<see cref="{csharp_name}"/>'
+                    line = re.sub(r'#(Z3_\w+)', replace_reference, line)
+
+                # Escape XML special characters (but not our own tags)
+                # First, protect our tags
+                line = line.replace('<code>', '\x00CODE_OPEN\x00')
+                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
+                # Protect see cref tags - use a unique placeholder
+                see_cref_placeholders = {}
+                def protect_see_cref(match):
+                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
+                    see_cref_placeholders[placeholder] = match.group(0)
+                    return placeholder
+                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
+                # Escape XML
+                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                # Restore our tags
+                line = line.replace('\x00CODE_OPEN\x00', '<code>')
+                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
+                # Restore see cref tags
+                for placeholder, original in see_cref_placeholders.items():
+                    line = line.replace(placeholder, original)
+
+                cleaned_lines.append(line)
+
+            i += 1
+
+        # Close any open bullet list at the end
+        if in_bullet_list:
+            if current_bullet_item:
+                cleaned_lines.append('<item><description>' + ' '.join(current_bullet_item) + '</description></item>')
+            cleaned_lines.append('</list>')
+
+        # Wrap entire content in a paragraph if we added paragraph breaks
+        result = '\n'.join(cleaned_lines)
+        if '</para>' in result:
+            result = '<para>\n' + result + '\n</para>'
+
+        return result
+    else:
+        # Old behavior: collapse to single line
+        text = text.strip()
+        text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
+        text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
+        text = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', text)  # Convert \ccode{...}
+        text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
+        # Handle code blocks
+        text = text.replace('\\code', '<code>').replace('\\endcode', '</code>')
+        # Escape XML special characters (but not our own tags)
+        text = text.replace('<code>', '\x00CODE_OPEN\x00')
+        text = text.replace('</code>', '\x00CODE_CLOSE\x00')
+        text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        text = text.replace('\x00CODE_OPEN\x00', '<code>')
+        text = text.replace('\x00CODE_CLOSE\x00', '</code>')
+        return text
+
+
 def map_c_type_to_csharp(c_type: str) -> str:
     """
     Map C type to C# type for P/Invoke.
@@ -316,105 +546,6 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     last_comment = comments[-1]
     comment_text = last_comment.group(1)
 
-    def clean_text(text: str, preserve_formatting: bool = False) -> str:
-        """Clean up documentation text."""
-        if preserve_formatting:
-            # Preserve line breaks and formatting - only do minimal cleaning
-            lines = text.split('\n')
-            cleaned_lines = []
-            in_code_block = False
-            in_nicebox = False
-            nicebox_lines = []
-
-            for line in lines:
-                line = line.strip()
-                if not line:
-                    continue
-
-                # Remove leading asterisks from continuation lines
-                line = re.sub(r'^\*\s*', '', line)
-
-                # Handle nicebox blocks - convert to code blocks with box drawing
-                if '\\nicebox{' in line:
-                    in_nicebox = True
-                    nicebox_lines = []
-                    continue
-                if in_nicebox and '}' in line:
-                    in_nicebox = False
-                    # Find the longest line for box width
-                    max_width = max(len(l) for l in nicebox_lines) if nicebox_lines else 0
-                    # Add code block with box drawing
-                    cleaned_lines.append('<code>')
-                    cleaned_lines.append('╔' + '═' * (max_width + 2) + '╗')
-                    for box_line in nicebox_lines:
-                        padded = box_line.ljust(max_width)
-                        cleaned_lines.append('║ ' + padded + ' ║')
-                    cleaned_lines.append('╚' + '═' * (max_width + 2) + '╝')
-                    cleaned_lines.append('</code>')
-                    continue
-                if in_nicebox:
-                    nicebox_lines.append(line)
-                    continue
-
-                # Handle code blocks
-                if '\\code' in line:
-                    in_code_block = True
-                    line = line.replace('\\code', '<code>')
-                if '\\endcode' in line:
-                    in_code_block = False
-                    line = line.replace('\\endcode', '</code>')
-
-                # Remove Doxygen markers (but not inside code blocks)
-                if not in_code_block:
-                    line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
-                    line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
-                    # Convert #Z3_function_name to <see cref="FunctionName"/>
-                    def replace_reference(match):
-                        z3_name = match.group(1)
-                        csharp_name = generate_csharp_method_name(z3_name)
-                        return f'<see cref="{csharp_name}"/>'
-                    line = re.sub(r'#(Z3_\w+)', replace_reference, line)
-
-                # Escape XML special characters (but not our own tags)
-                # First, protect our tags
-                line = line.replace('<code>', '\x00CODE_OPEN\x00')
-                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
-                # Protect see cref tags - use a unique placeholder
-                see_cref_placeholders = {}
-                def protect_see_cref(match):
-                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
-                    see_cref_placeholders[placeholder] = match.group(0)
-                    return placeholder
-                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
-                # Escape XML
-                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-                # Restore our tags
-                line = line.replace('\x00CODE_OPEN\x00', '<code>')
-                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
-                # Restore see cref tags
-                for placeholder, original in see_cref_placeholders.items():
-                    line = line.replace(placeholder, original)
-
-                cleaned_lines.append(line)
-
-            return '\n'.join(cleaned_lines)
-        else:
-            # Old behavior: collapse to single line
-            text = text.strip()
-            text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
-            text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
-            text = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', text)  # Convert \ccode{...}
-            text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
-            # Handle code blocks
-            text = text.replace('\\code', '<code>').replace('\\endcode', '</code>')
-            # Escape XML special characters (but not our own tags)
-            text = text.replace('<code>', '\x00CODE_OPEN\x00')
-            text = text.replace('</code>', '\x00CODE_CLOSE\x00')
-            text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-            text = text.replace('\x00CODE_OPEN\x00', '<code>')
-            text = text.replace('\x00CODE_CLOSE\x00', '</code>')
-            return text
-
     result = {
         'brief': '',
         'param_docs': {},
@@ -428,34 +559,34 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     # Extract \brief description
     brief_match = re.search(r'\\brief\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     if brief_match:
-        result['brief'] = clean_text(brief_match.group(1), preserve_formatting=True)
+        result['brief'] = clean_documentation_text(brief_match.group(1), preserve_formatting=True)
 
     # Extract \param tags (can have multiple)
     param_matches = re.finditer(r'\\param\s+(\w+)\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for param_match in param_matches:
         param_name = param_match.group(1)
-        param_desc = clean_text(param_match.group(2), preserve_formatting=True)
+        param_desc = clean_documentation_text(param_match.group(2), preserve_formatting=True)
         result['param_docs'][param_name] = param_desc
 
     # Extract \returns
     returns_match = re.search(r'\\returns\s+(.+?)(?=\\param|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     if returns_match:
-        result['returns_doc'] = clean_text(returns_match.group(1), preserve_formatting=True)
+        result['returns_doc'] = clean_documentation_text(returns_match.group(1), preserve_formatting=True)
 
     # Extract \pre tags (can have multiple)
     pre_matches = re.finditer(r'\\pre\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for pre_match in pre_matches:
-        result['preconditions'].append(clean_text(pre_match.group(1), preserve_formatting=True))
+        result['preconditions'].append(clean_documentation_text(pre_match.group(1), preserve_formatting=True))
 
     # Extract \warning tags (can have multiple)
     warning_matches = re.finditer(r'\\warning\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for warning_match in warning_matches:
-        result['warnings'].append(clean_text(warning_match.group(1), preserve_formatting=True))
+        result['warnings'].append(clean_documentation_text(warning_match.group(1), preserve_formatting=True))
 
     # Extract \remark tags (can have multiple)
     remark_matches = re.finditer(r'\\remark\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for remark_match in remark_matches:
-        result['remarks'].append(clean_text(remark_match.group(1), preserve_formatting=True))
+        result['remarks'].append(clean_documentation_text(remark_match.group(1), preserve_formatting=True))
 
     # Extract \sa tags (can have multiple, often one per line)
     sa_matches = re.finditer(r'\\sa\s+(Z3_\w+)', comment_text)
@@ -642,105 +773,6 @@ def extract_enum_documentation(content: str, enum_position: int) -> dict:
     last_comment = comments[-1]
     comment_text = last_comment.group(1)
 
-    def clean_text(text: str, preserve_formatting: bool = False) -> str:
-        """Clean up documentation text."""
-        if preserve_formatting:
-            # Preserve line breaks and formatting - only do minimal cleaning
-            lines = text.split('\n')
-            cleaned_lines = []
-            in_code_block = False
-            in_nicebox = False
-            nicebox_lines = []
-
-            for line in lines:
-                line = line.strip()
-                if not line:
-                    continue
-
-                # Remove leading asterisks from continuation lines
-                line = re.sub(r'^\*\s*', '', line)
-
-                # Handle nicebox blocks - convert to code blocks with box drawing
-                if '\\nicebox{' in line:
-                    in_nicebox = True
-                    nicebox_lines = []
-                    continue
-                if in_nicebox and '}' in line:
-                    in_nicebox = False
-                    # Find the longest line for box width
-                    max_width = max(len(l) for l in nicebox_lines) if nicebox_lines else 0
-                    # Add code block with box drawing
-                    cleaned_lines.append('<code>')
-                    cleaned_lines.append('╔' + '═' * (max_width + 2) + '╗')
-                    for box_line in nicebox_lines:
-                        padded = box_line.ljust(max_width)
-                        cleaned_lines.append('║ ' + padded + ' ║')
-                    cleaned_lines.append('╚' + '═' * (max_width + 2) + '╝')
-                    cleaned_lines.append('</code>')
-                    continue
-                if in_nicebox:
-                    nicebox_lines.append(line)
-                    continue
-
-                # Handle code blocks
-                if '\\code' in line:
-                    in_code_block = True
-                    line = line.replace('\\code', '<code>')
-                if '\\endcode' in line:
-                    in_code_block = False
-                    line = line.replace('\\endcode', '</code>')
-
-                # Remove Doxygen markers (but not inside code blocks)
-                if not in_code_block:
-                    line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
-                    line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
-                    # Convert #Z3_function_name to <see cref="FunctionName"/>
-                    def replace_reference(match):
-                        z3_name = match.group(1)
-                        csharp_name = generate_csharp_method_name(z3_name)
-                        return f'<see cref="{csharp_name}"/>'
-                    line = re.sub(r'#(Z3_\w+)', replace_reference, line)
-
-                # Escape XML special characters (but not our own tags)
-                # First, protect our tags
-                line = line.replace('<code>', '\x00CODE_OPEN\x00')
-                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
-                # Protect see cref tags - use a unique placeholder
-                see_cref_placeholders = {}
-                def protect_see_cref(match):
-                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
-                    see_cref_placeholders[placeholder] = match.group(0)
-                    return placeholder
-                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
-                # Escape XML
-                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-                # Restore our tags
-                line = line.replace('\x00CODE_OPEN\x00', '<code>')
-                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
-                # Restore see cref tags
-                for placeholder, original in see_cref_placeholders.items():
-                    line = line.replace(placeholder, original)
-
-                cleaned_lines.append(line)
-
-            return '\n'.join(cleaned_lines)
-        else:
-            # Old behavior: collapse to single line
-            text = text.strip()
-            text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
-            text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
-            text = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', text)  # Convert \ccode{...}
-            text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
-            # Handle code blocks
-            text = text.replace('\\code', '<code>').replace('\\endcode', '</code>')
-            # Escape XML special characters (but not our own tags)
-            text = text.replace('<code>', '\x00CODE_OPEN\x00')
-            text = text.replace('</code>', '\x00CODE_CLOSE\x00')
-            text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-            text = text.replace('\x00CODE_OPEN\x00', '<code>')
-            text = text.replace('\x00CODE_CLOSE\x00', '</code>')
-            return text
-
     result = {
         'brief': '',
         'see_also': [],
@@ -750,20 +782,21 @@ def extract_enum_documentation(content: str, enum_position: int) -> dict:
     # Extract \brief description
     brief_match = re.search(r'\\brief\s+(.+?)(?=\\sa|-\s+Z3_|$)', comment_text, re.DOTALL)
     if brief_match:
-        result['brief'] = clean_text(brief_match.group(1), preserve_formatting=True)
+        result['brief'] = clean_documentation_text(brief_match.group(1), preserve_formatting=True)
 
     # Extract \sa tags
     sa_matches = re.finditer(r'\\sa\s+(Z3_\w+)', comment_text)
     for sa_match in sa_matches:
         result['see_also'].append(sa_match.group(1))
 
-    # Extract value descriptions (bullet points like "- Z3_VALUE_NAME: description...")
+    # Extract value descriptions (bullet points like "- Z3_VALUE_NAME description..." or "- Z3_VALUE_NAME: description...")
     # Note: descriptions can span multiple lines with indented content
-    value_pattern = r'-\s+(Z3_\w+):\s*(.+?)(?=\n\s*-\s+Z3_|\*/$)'
+    # Pattern matches: "- Z3_NAME" followed by optional ":" and then the description
+    value_pattern = r'-\s+(Z3_\w+):?\s+(.+?)(?=\n\s*-\s+Z3_|\*/$)'
     for value_match in re.finditer(value_pattern, comment_text, re.DOTALL):
         value_name = value_match.group(1)
         value_desc_raw = value_match.group(2).strip()
-        value_desc = clean_text(value_desc_raw, preserve_formatting=True)
+        value_desc = clean_documentation_text(value_desc_raw, preserve_formatting=True)
         result['value_docs'][value_name] = value_desc
 
     return result

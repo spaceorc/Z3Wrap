@@ -95,11 +95,31 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Assert soft constraint to the optimization context.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="a">- formula</param>
-    /// <param name="weight">- a penalty for violating soft constraint. Negative weights convert into rewards.</param>
-    /// <param name="id">- optional identifier to group soft constraints</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="a">
+    /// <list type="bullet">
+    /// <item><description>formula</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="weight">
+    /// <list type="bullet">
+    /// <item><description>a penalty for violating soft constraint. Negative weights convert into rewards.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="id">
+    /// <list type="bullet">
+    /// <item><description>optional identifier to group soft constraints</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeAssert"/>
     /// <seealso cref="OptimizeAssertAndTrack"/>
     [Z3Function("Z3_optimize_assert_soft")]
@@ -116,9 +136,21 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a maximization constraint.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="t">- arithmetical term</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="t">
+    /// <list type="bullet">
+    /// <item><description>arithmetical term</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeMinimize"/>
     [Z3Function("Z3_optimize_maximize")]
     internal uint OptimizeMaximize(IntPtr c, IntPtr o, IntPtr t)
@@ -134,9 +166,21 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a minimization constraint.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="t">- arithmetical term</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="t">
+    /// <list type="bullet">
+    /// <item><description>arithmetical term</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeMaximize"/>
     [Z3Function("Z3_optimize_minimize")]
     internal uint OptimizeMinimize(IntPtr c, IntPtr o, IntPtr t)
@@ -150,9 +194,13 @@ internal sealed partial class NativeZ3Library
     private delegate void OptimizePushDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
+    /// <para>
     /// Create a backtracking point.
+    /// </para>
+    /// <para>
     /// The optimize solver contains a set of rules, added facts and assertions.
     /// The set of rules, facts and assertions are restored upon calling <see cref="OptimizePop"/>.
+    /// </para>
     /// </summary>
     /// <seealso cref="OptimizePop"/>
     [Z3Function("Z3_optimize_push")]
@@ -205,10 +253,26 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check consistency and produce optimal values.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="numAssumptions">- number of additional assumptions</param>
-    /// <param name="assumptions">- the additional assumptions</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="numAssumptions">
+    /// <list type="bullet">
+    /// <item><description>number of additional assumptions</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="assumptions">
+    /// <list type="bullet">
+    /// <item><description>the additional assumptions</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetReasonUnknown"/>
     /// <seealso cref="OptimizeGetModel"/>
     /// <seealso cref="OptimizeGetStatistics"/>
@@ -225,8 +289,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetReasonUnknownDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
+    /// <para>
     /// Retrieve a string that describes the last status returned by <see cref="OptimizeCheck"/>.
+    /// </para>
+    /// <para>
     /// Use this method when <see cref="OptimizeCheck"/> returns Z3_L_UNDEF.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_optimize_get_reason_unknown")]
     internal IntPtr OptimizeGetReasonUnknown(IntPtr c, IntPtr d)
@@ -240,10 +308,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetModelDelegate(IntPtr c, IntPtr o);
 
     /// <summary>
+    /// <para>
     /// Retrieve the model for the last <see cref="OptimizeCheck"/>
+    /// </para>
+    /// <para>
     /// The error handler is invoked if a model is not available because
     /// the commands above were not invoked for the given optimization
     /// solver, or if the result was Z3_L_FALSE.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_optimize_get_model")]
     internal IntPtr OptimizeGetModel(IntPtr c, IntPtr o)
@@ -274,9 +346,21 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Set parameters on optimization context.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="p">- parameters</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="p">
+    /// <list type="bullet">
+    /// <item><description>parameters</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetHelp"/>
     /// <seealso cref="OptimizeGetParamDescrs"/>
     [Z3Function("Z3_optimize_set_params")]
@@ -293,8 +377,16 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the parameter description set for the given optimize object.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetHelp"/>
     /// <seealso cref="OptimizeSetParams"/>
     [Z3Function("Z3_optimize_get_param_descrs")]
@@ -311,9 +403,21 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve lower bound value or approximation for the i'th optimization objective.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="idx">- index of optimization objective</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="idx">
+    /// <list type="bullet">
+    /// <item><description>index of optimization objective</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetUpper"/>
     /// <seealso cref="OptimizeGetLowerAsVector"/>
     /// <seealso cref="OptimizeGetUpperAsVector"/>
@@ -331,9 +435,21 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve upper bound value or approximation for the i'th optimization objective.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="idx">- index of optimization objective</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="idx">
+    /// <list type="bullet">
+    /// <item><description>index of optimization objective</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetLower"/>
     /// <seealso cref="OptimizeGetLowerAsVector"/>
     /// <seealso cref="OptimizeGetUpperAsVector"/>
@@ -354,9 +470,21 @@ internal sealed partial class NativeZ3Library
     /// The three numerals are coefficients a, b, c and encode the result of
     /// <see cref="OptimizeGetLower"/> <code>a * infinity + b + c * epsilon</code>.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="idx">- index of optimization objective</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="idx">
+    /// <list type="bullet">
+    /// <item><description>index of optimization objective</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetLower"/>
     /// <seealso cref="OptimizeGetUpper"/>
     /// <seealso cref="OptimizeGetUpperAsVector"/>
@@ -374,9 +502,21 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve upper bound value or approximation for the i'th optimization objective.
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="o">- optimization context</param>
-    /// <param name="idx">- index of optimization objective</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="idx">
+    /// <list type="bullet">
+    /// <item><description>index of optimization objective</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeGetLower"/>
     /// <seealso cref="OptimizeGetUpper"/>
     /// <seealso cref="OptimizeGetLowerAsVector"/>
@@ -394,8 +534,16 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Print the current context as a string.
     /// </summary>
-    /// <param name="c">- context.</param>
-    /// <param name="o">- optimization context.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimization context.</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeFromFile"/>
     /// <seealso cref="OptimizeFromString"/>
     [Z3Function("Z3_optimize_to_string")]
@@ -414,9 +562,21 @@ internal sealed partial class NativeZ3Library
     /// soft constraints and optimization objectives.
     /// Add the parsed constraints and objectives to the optimization context.
     /// </summary>
-    /// <param name="c">- context.</param>
-    /// <param name="o">- optimize context.</param>
-    /// <param name="s">- string containing SMT2 specification.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimize context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="s">
+    /// <list type="bullet">
+    /// <item><description>string containing SMT2 specification.</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeFromFile"/>
     /// <seealso cref="OptimizeToString"/>
     [Z3Function("Z3_optimize_from_string")]
@@ -435,9 +595,21 @@ internal sealed partial class NativeZ3Library
     /// soft constraints and optimization objectives.
     /// Add the parsed constraints and objectives to the optimization context.
     /// </summary>
-    /// <param name="c">- context.</param>
-    /// <param name="o">- optimize context.</param>
-    /// <param name="s">- path to file containing SMT2 specification.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="o">
+    /// <list type="bullet">
+    /// <item><description>optimize context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="s">
+    /// <list type="bullet">
+    /// <item><description>path to file containing SMT2 specification.</description></item>
+    /// </list>
+    /// </param>
     /// <seealso cref="OptimizeFromString"/>
     /// <seealso cref="OptimizeToString"/>
     [Z3Function("Z3_optimize_from_file")]

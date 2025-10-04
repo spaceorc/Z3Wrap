@@ -15,9 +15,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParseSmtlib2StringDelegate(IntPtr c, IntPtr str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls);
 
     /// <summary>
+    /// <para>
     /// Parse the given string using the SMT-LIB2 parser.
+    /// </para>
+    /// <para>
     /// It returns a formula comprising of the conjunction of assertions in the scope
     /// (up to push/pop) at the end of the string.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_parse_smtlib2_string")]
     internal IntPtr ParseSmtlib2String(IntPtr c, IntPtr str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
@@ -61,11 +65,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkParserContextDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a parser context.
+    /// </para>
+    /// <para>
     /// A parser context maintains state between calls to Z3_parser_context_parse_string
     /// where the caller can pass in a set of SMTLIB2 commands.
     /// It maintains all the declarations from previous calls together with
     /// of sorts and function declarations (including 0-ary) that are added directly to the context.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_parser_context")]
     internal IntPtr MkParserContext(IntPtr c)

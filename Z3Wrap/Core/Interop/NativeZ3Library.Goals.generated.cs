@@ -15,13 +15,21 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsatCores, bool proofs);
 
     /// <summary>
+    /// <para>
     /// Create a goal (aka problem). A goal is essentially a set
     /// of formulas, that can be solved and/or transformed using
     /// tactics and solvers.
+    /// </para>
+    /// <para>
     /// If models is true, then model generation is enabled for the new goal.
+    /// </para>
+    /// <para>
     /// If unsat_cores is true, then unsat core generation is enabled for the new goal.
+    /// </para>
+    /// <para>
     /// If proofs is true, then proof generation is enabled for the new goal. Remark, the
     /// Z3 context c must have been created with proof generation support.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// Reference counting must be used to manage goals, even when the Z3_context was
@@ -233,13 +241,17 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalConvertModelDelegate(IntPtr c, IntPtr g, IntPtr m);
 
     /// <summary>
+    /// <para>
     /// Convert a model of the formulas of a goal to a model of an original goal.
     /// The model may be null, in which case the returned model is valid if the goal was
     /// established satisfiable.
+    /// </para>
+    /// <para>
     /// When using this feature it is advisable to set the parameter model.compact to false.
     /// It is by default true, which erases variables created by the solver from models.
     /// Without access to model values for intermediary variables, values of other variables
     /// may end up having the wrong values.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_goal_convert_model")]
     internal IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)

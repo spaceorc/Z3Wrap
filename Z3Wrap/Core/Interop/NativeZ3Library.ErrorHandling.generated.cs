@@ -15,9 +15,13 @@ internal sealed partial class NativeZ3Library
     private delegate ErrorCode GetErrorCodeDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Return the error code for the last API call.
+    /// </para>
+    /// <para>
     /// A call to a Z3 function may return a non Z3_OK error code,
     /// when it is not used correctly.
+    /// </para>
     /// </summary>
     /// <seealso cref="SetErrorHandler"/>
     [Z3Function("Z3_get_error_code")]
@@ -32,11 +36,15 @@ internal sealed partial class NativeZ3Library
     private delegate void SetErrorHandlerDelegate(IntPtr c, IntPtr h);
 
     /// <summary>
+    /// <para>
     /// Register a Z3 error handler.
+    /// </para>
+    /// <para>
     /// A call to a Z3 function may return a non Z3_OK error code, when
     /// it is not used correctly.  An error handler can be registered
     /// and will be called in this case.  To disable the use of the
     /// error handler, simply register with h=NULL.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// Warning: Log files, created using <see cref="OpenLog"/>, may be potentially incomplete/incorrect if error handlers are used.

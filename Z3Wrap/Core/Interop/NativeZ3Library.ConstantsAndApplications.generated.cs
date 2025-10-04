@@ -22,10 +22,14 @@ internal sealed partial class NativeZ3Library
     /// <param name="domainSize">number of arguments. It is 0 when declaring a constant.</param>
     /// <param name="domain">array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant.</param>
     /// <param name="range">
+    /// <para>
     /// sort of the constant or the return sort of the function.
+    /// </para>
+    /// <para>
     /// After declaring a constant or function, the function
     /// <see cref="MkApp"/> can be used to create a constant or function
     /// application.
+    /// </para>
     /// </param>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
@@ -59,12 +63,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConstDelegate(IntPtr c, IntPtr s, IntPtr ty);
 
     /// <summary>
+    /// <para>
     /// Declare and create a constant.
+    /// </para>
+    /// <para>
     /// This function is a shorthand for:
     /// <code>
     /// Z3_func_decl d = Z3_mk_func_decl(c, s, 0, 0, ty);
     /// Z3_ast n            = Z3_mk_app(c, d, 0, 0);
     /// </code>
+    /// </para>
     /// </summary>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshConst"/>
@@ -81,9 +89,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domainSize, IntPtr[] domain, IntPtr range);
 
     /// <summary>
+    /// <para>
     /// Declare a fresh constant or function.
+    /// </para>
+    /// <para>
     /// Z3 will generate an unique name for this function declaration.
     /// If prefix is different from NULL, then the name generate by Z3 will start with prefix.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// If prefix is NULL, then it is assumed to be the empty string.
@@ -101,9 +113,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFreshConstDelegate(IntPtr c, IntPtr prefix, IntPtr ty);
 
     /// <summary>
+    /// <para>
     /// Declare and create a fresh constant.
+    /// </para>
+    /// <para>
     /// This function is a shorthand for:
     /// <code> Z3_func_decl d = Z3_mk_fresh_func_decl(c, prefix, 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0); </code>
+    /// </para>
     /// </summary>
     /// <remarks>
     /// If prefix is NULL, then it is assumed to be the empty string.
@@ -131,10 +147,14 @@ internal sealed partial class NativeZ3Library
     /// <param name="domainSize">number of arguments. It should be greater than 0.</param>
     /// <param name="domain">array containing the sort of each argument. The array must contain domain_size elements.</param>
     /// <param name="range">
+    /// <para>
     /// sort of the constant or the return sort of the function.
+    /// </para>
+    /// <para>
     /// After declaring recursive function, it should be associated with a recursive definition <see cref="AddRecDef"/>.
     /// The function <see cref="MkApp"/> can be used to create a constant or function
     /// application.
+    /// </para>
     /// </param>
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>
@@ -158,9 +178,13 @@ internal sealed partial class NativeZ3Library
     /// <param name="n">number of arguments to the function</param>
     /// <param name="args">constants that are used as arguments to the recursive function in the definition.</param>
     /// <param name="body">
+    /// <para>
     /// body of the recursive function
+    /// </para>
+    /// <para>
     /// After declaring a recursive function or a collection of mutually recursive functions, use
     /// this function to provide the definition for the recursive function.
+    /// </para>
     /// </param>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_add_rec_def")]

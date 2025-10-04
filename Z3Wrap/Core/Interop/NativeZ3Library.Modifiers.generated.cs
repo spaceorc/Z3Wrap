@@ -64,9 +64,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SubstituteFunsDelegate(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to);
 
     /// <summary>
+    /// <para>
     /// Substitute functions in from with new expressions in to.
+    /// </para>
+    /// <para>
     /// The expressions in to can have free variables. The free variable in to at index 0
     /// refers to the first argument of from, the free variable at index 1 corresponds to the second argument.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_substitute_funs")]
     internal IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to)

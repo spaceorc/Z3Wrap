@@ -15,11 +15,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSelectDelegate(IntPtr c, IntPtr a, IntPtr i);
 
     /// <summary>
+    /// <para>
     /// Array read.
     /// The argument a is the array and i is the index of the array that gets read.
+    /// </para>
+    /// <para>
     /// The node a must have an array sort <code>[domain -&gt; range]</code>,
     /// and i must have the sort domain.
     /// The sort of the result is range.
+    /// </para>
     /// </summary>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
@@ -50,7 +54,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkStoreDelegate(IntPtr c, IntPtr a, IntPtr i, IntPtr v);
 
     /// <summary>
+    /// <para>
     /// Array update.
+    /// </para>
+    /// <para>
     /// The node a must have an array sort <code>[domain -&gt; range]</code>, i must have sort domain,
     /// v must have sort range. The sort of the result is <code>[domain -&gt; range]</code>.
     /// The semantics of this function is given by the theory of arrays described in the SMT-LIB
@@ -58,6 +65,7 @@ internal sealed partial class NativeZ3Library
     /// The result of this function is an array that is equal to a (with respect to select)
     /// on all indices except for i, where it maps to v (and the select of a with
     /// respect to i may be a different value).
+    /// </para>
     /// </summary>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkSelect"/>
@@ -87,9 +95,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConstArrayDelegate(IntPtr c, IntPtr domain, IntPtr v);
 
     /// <summary>
+    /// <para>
     /// Create the constant array.
+    /// </para>
+    /// <para>
     /// The resulting term is an array, such that a select on an arbitrary index
     /// produces the value v.
+    /// </para>
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="domain">domain sort for the array.</param>
@@ -106,10 +118,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkMapDelegate(IntPtr c, IntPtr f, uint n, IntPtr args);
 
     /// <summary>
+    /// <para>
     /// Map f on the argument arrays.
+    /// </para>
+    /// <para>
     /// The n nodes args must be of array sorts <code>[domain_i -&gt; range_i]</code>.
     /// The function declaration f must have type <code> range_1 .. range_n -&gt; range</code>.
     /// v must have sort range. The sort of the result is <code>[domain_i -&gt; range]</code>.
+    /// </para>
     /// </summary>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>

@@ -91,201 +91,680 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkBvmulNoOverflow"/>
     internal enum DeclKind
     {
-        /// <summary>Z3_OP_TRUE</summary>
+        /// <summary>
+        /// Z3_OP_TRUE
+        /// </summary>
+        /// <remarks>
+        /// The constant true.
+        /// </remarks>
         OpTrue = 0x100,
-        /// <summary>Z3_OP_FALSE</summary>
+        /// <summary>
+        /// Z3_OP_FALSE
+        /// </summary>
+        /// <remarks>
+        /// The constant false.
+        /// </remarks>
         OpFalse = 257,
-        /// <summary>Z3_OP_EQ</summary>
+        /// <summary>
+        /// Z3_OP_EQ
+        /// </summary>
+        /// <remarks>
+        /// The equality predicate.
+        /// </remarks>
         OpEq = 258,
-        /// <summary>Z3_OP_DISTINCT</summary>
+        /// <summary>
+        /// Z3_OP_DISTINCT
+        /// </summary>
+        /// <remarks>
+        /// The n-ary distinct predicate (every argument is mutually distinct).
+        /// </remarks>
         OpDistinct = 259,
-        /// <summary>Z3_OP_ITE</summary>
+        /// <summary>
+        /// Z3_OP_ITE
+        /// </summary>
+        /// <remarks>
+        /// The ternary if-then-else term.
+        /// </remarks>
         OpIte = 260,
-        /// <summary>Z3_OP_AND</summary>
+        /// <summary>
+        /// Z3_OP_AND
+        /// </summary>
+        /// <remarks>
+        /// n-ary conjunction.
+        /// </remarks>
         OpAnd = 261,
-        /// <summary>Z3_OP_OR</summary>
+        /// <summary>
+        /// Z3_OP_OR
+        /// </summary>
+        /// <remarks>
+        /// n-ary disjunction.
+        /// </remarks>
         OpOr = 262,
-        /// <summary>Z3_OP_IFF</summary>
+        /// <summary>
+        /// Z3_OP_IFF
+        /// </summary>
+        /// <remarks>
+        /// equivalence (binary).
+        /// </remarks>
         OpIff = 263,
-        /// <summary>Z3_OP_XOR</summary>
+        /// <summary>
+        /// Z3_OP_XOR
+        /// </summary>
+        /// <remarks>
+        /// Exclusive or.
+        /// </remarks>
         OpXor = 264,
-        /// <summary>Z3_OP_NOT</summary>
+        /// <summary>
+        /// Z3_OP_NOT
+        /// </summary>
+        /// <remarks>
+        /// Negation.
+        /// </remarks>
         OpNot = 265,
-        /// <summary>Z3_OP_IMPLIES</summary>
+        /// <summary>
+        /// Z3_OP_IMPLIES
+        /// </summary>
+        /// <remarks>
+        /// Implication.
+        /// </remarks>
         OpImplies = 266,
-        /// <summary>Z3_OP_OEQ</summary>
+        /// <summary>
+        /// Z3_OP_OEQ
+        /// </summary>
+        /// <remarks>
+        /// Binary equivalence modulo namings. This binary predicate is used in proof terms.
+        /// It captures equisatisfiability and equivalence modulo renamings.
+        /// </remarks>
         OpOeq = 267,
-        /// <summary>Z3_OP_ANUM</summary>
+        /// <summary>
+        /// Z3_OP_ANUM
+        /// </summary>
+        /// <remarks>
+        /// Arithmetic numeral.
+        /// </remarks>
         OpAnum = 0x200,
-        /// <summary>Z3_OP_AGNUM</summary>
+        /// <summary>
+        /// Z3_OP_AGNUM
+        /// </summary>
+        /// <remarks>
+        /// Arithmetic algebraic numeral. Algebraic numbers are used to represent irrational numbers in Z3.
+        /// </remarks>
         OpAgnum = 513,
-        /// <summary>Z3_OP_LE</summary>
+        /// <summary>
+        /// Z3_OP_LE
+        /// </summary>
+        /// <remarks>
+        /// &lt;=.
+        /// </remarks>
         OpLe = 514,
-        /// <summary>Z3_OP_GE</summary>
+        /// <summary>
+        /// Z3_OP_GE
+        /// </summary>
+        /// <remarks>
+        /// &gt;=.
+        /// </remarks>
         OpGe = 515,
-        /// <summary>Z3_OP_LT</summary>
+        /// <summary>
+        /// Z3_OP_LT
+        /// </summary>
+        /// <remarks>
+        /// &lt;.
+        /// </remarks>
         OpLt = 516,
-        /// <summary>Z3_OP_GT</summary>
+        /// <summary>
+        /// Z3_OP_GT
+        /// </summary>
+        /// <remarks>
+        /// &gt;.
+        /// </remarks>
         OpGt = 517,
-        /// <summary>Z3_OP_ADD</summary>
+        /// <summary>
+        /// Z3_OP_ADD
+        /// </summary>
+        /// <remarks>
+        /// Addition - Binary.
+        /// </remarks>
         OpAdd = 518,
-        /// <summary>Z3_OP_SUB</summary>
+        /// <summary>
+        /// Z3_OP_SUB
+        /// </summary>
+        /// <remarks>
+        /// Binary subtraction.
+        /// </remarks>
         OpSub = 519,
-        /// <summary>Z3_OP_UMINUS</summary>
+        /// <summary>
+        /// Z3_OP_UMINUS
+        /// </summary>
+        /// <remarks>
+        /// Unary minus.
+        /// </remarks>
         OpUminus = 520,
-        /// <summary>Z3_OP_MUL</summary>
+        /// <summary>
+        /// Z3_OP_MUL
+        /// </summary>
+        /// <remarks>
+        /// Multiplication - Binary.
+        /// </remarks>
         OpMul = 521,
-        /// <summary>Z3_OP_DIV</summary>
+        /// <summary>
+        /// Z3_OP_DIV
+        /// </summary>
+        /// <remarks>
+        /// Division - Binary.
+        /// </remarks>
         OpDiv = 522,
-        /// <summary>Z3_OP_IDIV</summary>
+        /// <summary>
+        /// Z3_OP_IDIV
+        /// </summary>
+        /// <remarks>
+        /// Integer division - Binary.
+        /// </remarks>
         OpIdiv = 523,
-        /// <summary>Z3_OP_REM</summary>
+        /// <summary>
+        /// Z3_OP_REM
+        /// </summary>
+        /// <remarks>
+        /// Remainder - Binary.
+        /// </remarks>
         OpRem = 524,
-        /// <summary>Z3_OP_MOD</summary>
+        /// <summary>
+        /// Z3_OP_MOD
+        /// </summary>
+        /// <remarks>
+        /// Modulus - Binary.
+        /// </remarks>
         OpMod = 525,
-        /// <summary>Z3_OP_TO_REAL</summary>
+        /// <summary>
+        /// Z3_OP_TO_REAL
+        /// </summary>
+        /// <remarks>
+        /// Coercion of integer to real - Unary.
+        /// </remarks>
         OpToReal = 526,
-        /// <summary>Z3_OP_TO_INT</summary>
+        /// <summary>
+        /// Z3_OP_TO_INT
+        /// </summary>
+        /// <remarks>
+        /// Coercion of real to integer - Unary.
+        /// </remarks>
         OpToInt = 527,
-        /// <summary>Z3_OP_IS_INT</summary>
+        /// <summary>
+        /// Z3_OP_IS_INT
+        /// </summary>
+        /// <remarks>
+        /// Check if real is also an integer - Unary.
+        /// </remarks>
         OpIsInt = 528,
-        /// <summary>Z3_OP_POWER</summary>
+        /// <summary>
+        /// Z3_OP_POWER
+        /// </summary>
+        /// <remarks>
+        /// Power operator x^y.
+        /// </remarks>
         OpPower = 529,
         /// <summary>Z3_OP_ABS</summary>
         OpAbs = 530,
-        /// <summary>Z3_OP_STORE</summary>
+        /// <summary>
+        /// Z3_OP_STORE
+        /// </summary>
+        /// <remarks>
+        /// Array store. It satisfies select(store(a,i,v),j) = if i = j then v else select(a,j).
+        /// Array store takes at least 3 arguments.
+        /// </remarks>
         OpStore = 0x300,
-        /// <summary>Z3_OP_SELECT</summary>
+        /// <summary>
+        /// Z3_OP_SELECT
+        /// </summary>
+        /// <remarks>
+        /// Array select.
+        /// </remarks>
         OpSelect = 769,
-        /// <summary>Z3_OP_CONST_ARRAY</summary>
+        /// <summary>
+        /// Z3_OP_CONST_ARRAY
+        /// </summary>
+        /// <remarks>
+        /// The constant array. For example, select(const(v),i) = v holds for every v and i. The function is unary.
+        /// </remarks>
         OpConstArray = 770,
-        /// <summary>Z3_OP_ARRAY_MAP</summary>
+        /// <summary>
+        /// Z3_OP_ARRAY_MAP
+        /// </summary>
+        /// <remarks>
+        /// Array map operator.
+        /// It satisfies map[f](a1,..,a_n)[i] = f(a1[i],...,a_n[i]) for every i.
+        /// </remarks>
         OpArrayMap = 771,
-        /// <summary>Z3_OP_ARRAY_DEFAULT</summary>
+        /// <summary>
+        /// Z3_OP_ARRAY_DEFAULT
+        /// </summary>
+        /// <remarks>
+        /// Default value of arrays. For example default(const(v)) = v. The function is unary.
+        /// </remarks>
         OpArrayDefault = 772,
-        /// <summary>Z3_OP_SET_UNION</summary>
+        /// <summary>
+        /// Z3_OP_SET_UNION
+        /// </summary>
+        /// <remarks>
+        /// Set union between two Boolean arrays (two arrays whose range type is Boolean). The function is binary.
+        /// </remarks>
         OpSetUnion = 773,
-        /// <summary>Z3_OP_SET_INTERSECT</summary>
+        /// <summary>
+        /// Z3_OP_SET_INTERSECT
+        /// </summary>
+        /// <remarks>
+        /// Set intersection between two Boolean arrays. The function is binary.
+        /// </remarks>
         OpSetIntersect = 774,
-        /// <summary>Z3_OP_SET_DIFFERENCE</summary>
+        /// <summary>
+        /// Z3_OP_SET_DIFFERENCE
+        /// </summary>
+        /// <remarks>
+        /// Set difference between two Boolean arrays. The function is binary.
+        /// </remarks>
         OpSetDifference = 775,
-        /// <summary>Z3_OP_SET_COMPLEMENT</summary>
+        /// <summary>
+        /// Z3_OP_SET_COMPLEMENT
+        /// </summary>
+        /// <remarks>
+        /// Set complement of a Boolean array. The function is unary.
+        /// </remarks>
         OpSetComplement = 776,
-        /// <summary>Z3_OP_SET_SUBSET</summary>
+        /// <summary>
+        /// Z3_OP_SET_SUBSET
+        /// </summary>
+        /// <remarks>
+        /// Subset predicate between two Boolean arrays. The relation is binary.
+        /// </remarks>
         OpSetSubset = 777,
-        /// <summary>Z3_OP_AS_ARRAY</summary>
+        /// <summary>
+        /// Z3_OP_AS_ARRAY
+        /// </summary>
+        /// <remarks>
+        /// An array value that behaves as the function graph of the
+        /// function passed as parameter.
+        /// </remarks>
         OpAsArray = 778,
-        /// <summary>Z3_OP_ARRAY_EXT</summary>
+        /// <summary>
+        /// Z3_OP_ARRAY_EXT
+        /// </summary>
+        /// <remarks>
+        /// Array extensionality function. It takes two arrays as arguments and produces an index, such that the arrays
+        /// are different if they are different on the index.
+        /// </remarks>
         OpArrayExt = 779,
         /// <summary>Z3_OP_SET_HAS_SIZE</summary>
         OpSetHasSize = 780,
         /// <summary>Z3_OP_SET_CARD</summary>
         OpSetCard = 781,
-        /// <summary>Z3_OP_BNUM</summary>
+        /// <summary>
+        /// Z3_OP_BNUM
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector numeral.
+        /// </remarks>
         OpBnum = 0x400,
-        /// <summary>Z3_OP_BIT1</summary>
+        /// <summary>
+        /// Z3_OP_BIT1
+        /// </summary>
+        /// <remarks>
+        /// One bit bit-vector.
+        /// </remarks>
         OpBit1 = 1025,
-        /// <summary>Z3_OP_BIT0</summary>
+        /// <summary>
+        /// Z3_OP_BIT0
+        /// </summary>
+        /// <remarks>
+        /// Zero bit bit-vector.
+        /// </remarks>
         OpBit0 = 1026,
-        /// <summary>Z3_OP_BNEG</summary>
+        /// <summary>
+        /// Z3_OP_BNEG
+        /// </summary>
+        /// <remarks>
+        /// Unary minus.
+        /// </remarks>
         OpBneg = 1027,
-        /// <summary>Z3_OP_BADD</summary>
+        /// <summary>
+        /// Z3_OP_BADD
+        /// </summary>
+        /// <remarks>
+        /// Binary addition.
+        /// </remarks>
         OpBadd = 1028,
-        /// <summary>Z3_OP_BSUB</summary>
+        /// <summary>
+        /// Z3_OP_BSUB
+        /// </summary>
+        /// <remarks>
+        /// Binary subtraction.
+        /// </remarks>
         OpBsub = 1029,
-        /// <summary>Z3_OP_BMUL</summary>
+        /// <summary>
+        /// Z3_OP_BMUL
+        /// </summary>
+        /// <remarks>
+        /// Binary multiplication.
+        /// </remarks>
         OpBmul = 1030,
-        /// <summary>Z3_OP_BSDIV</summary>
+        /// <summary>
+        /// Z3_OP_BSDIV
+        /// </summary>
+        /// <remarks>
+        /// Binary signed division.
+        /// </remarks>
         OpBsdiv = 1031,
-        /// <summary>Z3_OP_BUDIV</summary>
+        /// <summary>
+        /// Z3_OP_BUDIV
+        /// </summary>
+        /// <remarks>
+        /// Binary unsigned division.
+        /// </remarks>
         OpBudiv = 1032,
-        /// <summary>Z3_OP_BSREM</summary>
+        /// <summary>
+        /// Z3_OP_BSREM
+        /// </summary>
+        /// <remarks>
+        /// Binary signed remainder.
+        /// </remarks>
         OpBsrem = 1033,
-        /// <summary>Z3_OP_BUREM</summary>
+        /// <summary>
+        /// Z3_OP_BUREM
+        /// </summary>
+        /// <remarks>
+        /// Binary unsigned remainder.
+        /// </remarks>
         OpBurem = 1034,
-        /// <summary>Z3_OP_BSMOD</summary>
+        /// <summary>
+        /// Z3_OP_BSMOD
+        /// </summary>
+        /// <remarks>
+        /// Binary signed modulus.
+        /// </remarks>
         OpBsmod = 1035,
-        /// <summary>Z3_OP_BSDIV0</summary>
+        /// <summary>
+        /// Z3_OP_BSDIV0
+        /// </summary>
+        /// <remarks>
+        /// Unary function. bsdiv(x,0) is congruent to bsdiv0(x).
+        /// </remarks>
         OpBsdiv0 = 1036,
-        /// <summary>Z3_OP_BUDIV0</summary>
+        /// <summary>
+        /// Z3_OP_BUDIV0
+        /// </summary>
+        /// <remarks>
+        /// Unary function. budiv(x,0) is congruent to budiv0(x).
+        /// </remarks>
         OpBudiv0 = 1037,
-        /// <summary>Z3_OP_BSREM0</summary>
+        /// <summary>
+        /// Z3_OP_BSREM0
+        /// </summary>
+        /// <remarks>
+        /// Unary function. bsrem(x,0) is congruent to bsrem0(x).
+        /// </remarks>
         OpBsrem0 = 1038,
-        /// <summary>Z3_OP_BUREM0</summary>
+        /// <summary>
+        /// Z3_OP_BUREM0
+        /// </summary>
+        /// <remarks>
+        /// Unary function. burem(x,0) is congruent to burem0(x).
+        /// </remarks>
         OpBurem0 = 1039,
-        /// <summary>Z3_OP_BSMOD0</summary>
+        /// <summary>
+        /// Z3_OP_BSMOD0
+        /// </summary>
+        /// <remarks>
+        /// Unary function. bsmod(x,0) is congruent to bsmod0(x).
+        /// </remarks>
         OpBsmod0 = 1040,
-        /// <summary>Z3_OP_ULEQ</summary>
+        /// <summary>
+        /// Z3_OP_ULEQ
+        /// </summary>
+        /// <remarks>
+        /// Unsigned bit-vector &lt;= - Binary relation.
+        /// </remarks>
         OpUleq = 1041,
-        /// <summary>Z3_OP_SLEQ</summary>
+        /// <summary>
+        /// Z3_OP_SLEQ
+        /// </summary>
+        /// <remarks>
+        /// Signed bit-vector  &lt;= - Binary relation.
+        /// </remarks>
         OpSleq = 1042,
-        /// <summary>Z3_OP_UGEQ</summary>
+        /// <summary>
+        /// Z3_OP_UGEQ
+        /// </summary>
+        /// <remarks>
+        /// Unsigned bit-vector  &gt;= - Binary relation.
+        /// </remarks>
         OpUgeq = 1043,
-        /// <summary>Z3_OP_SGEQ</summary>
+        /// <summary>
+        /// Z3_OP_SGEQ
+        /// </summary>
+        /// <remarks>
+        /// Signed bit-vector  &gt;= - Binary relation.
+        /// </remarks>
         OpSgeq = 1044,
-        /// <summary>Z3_OP_ULT</summary>
+        /// <summary>
+        /// Z3_OP_ULT
+        /// </summary>
+        /// <remarks>
+        /// Unsigned bit-vector  &lt; - Binary relation.
+        /// </remarks>
         OpUlt = 1045,
-        /// <summary>Z3_OP_SLT</summary>
+        /// <summary>
+        /// Z3_OP_SLT
+        /// </summary>
+        /// <remarks>
+        /// Signed bit-vector &lt; - Binary relation.
+        /// </remarks>
         OpSlt = 1046,
-        /// <summary>Z3_OP_UGT</summary>
+        /// <summary>
+        /// Z3_OP_UGT
+        /// </summary>
+        /// <remarks>
+        /// Unsigned bit-vector &gt; - Binary relation.
+        /// </remarks>
         OpUgt = 1047,
-        /// <summary>Z3_OP_SGT</summary>
+        /// <summary>
+        /// Z3_OP_SGT
+        /// </summary>
+        /// <remarks>
+        /// Signed bit-vector &gt; - Binary relation.
+        /// </remarks>
         OpSgt = 1048,
-        /// <summary>Z3_OP_BAND</summary>
+        /// <summary>
+        /// Z3_OP_BAND
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise and - Binary.
+        /// </remarks>
         OpBand = 1049,
-        /// <summary>Z3_OP_BOR</summary>
+        /// <summary>
+        /// Z3_OP_BOR
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise or - Binary.
+        /// </remarks>
         OpBor = 1050,
-        /// <summary>Z3_OP_BNOT</summary>
+        /// <summary>
+        /// Z3_OP_BNOT
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise not - Unary.
+        /// </remarks>
         OpBnot = 1051,
-        /// <summary>Z3_OP_BXOR</summary>
+        /// <summary>
+        /// Z3_OP_BXOR
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise xor - Binary.
+        /// </remarks>
         OpBxor = 1052,
-        /// <summary>Z3_OP_BNAND</summary>
+        /// <summary>
+        /// Z3_OP_BNAND
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise nand - Binary.
+        /// </remarks>
         OpBnand = 1053,
-        /// <summary>Z3_OP_BNOR</summary>
+        /// <summary>
+        /// Z3_OP_BNOR
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise nor - Binary.
+        /// </remarks>
         OpBnor = 1054,
-        /// <summary>Z3_OP_BXNOR</summary>
+        /// <summary>
+        /// Z3_OP_BXNOR
+        /// </summary>
+        /// <remarks>
+        /// Bit-wise xnor - Binary.
+        /// </remarks>
         OpBxnor = 1055,
-        /// <summary>Z3_OP_CONCAT</summary>
+        /// <summary>
+        /// Z3_OP_CONCAT
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector concatenation - Binary.
+        /// </remarks>
         OpConcat = 1056,
-        /// <summary>Z3_OP_SIGN_EXT</summary>
+        /// <summary>
+        /// Z3_OP_SIGN_EXT
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector sign extension.
+        /// </remarks>
         OpSignExt = 1057,
-        /// <summary>Z3_OP_ZERO_EXT</summary>
+        /// <summary>
+        /// Z3_OP_ZERO_EXT
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector zero extension.
+        /// </remarks>
         OpZeroExt = 1058,
-        /// <summary>Z3_OP_EXTRACT</summary>
+        /// <summary>
+        /// Z3_OP_EXTRACT
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector extraction.
+        /// </remarks>
         OpExtract = 1059,
-        /// <summary>Z3_OP_REPEAT</summary>
+        /// <summary>
+        /// Z3_OP_REPEAT
+        /// </summary>
+        /// <remarks>
+        /// Repeat bit-vector n times.
+        /// </remarks>
         OpRepeat = 1060,
-        /// <summary>Z3_OP_BREDOR</summary>
+        /// <summary>
+        /// Z3_OP_BREDOR
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector reduce or - Unary.
+        /// </remarks>
         OpBredor = 1061,
-        /// <summary>Z3_OP_BREDAND</summary>
+        /// <summary>
+        /// Z3_OP_BREDAND
+        /// </summary>
+        /// <remarks>
+        /// Bit-vector reduce and - Unary.
+        /// </remarks>
         OpBredand = 1062,
-        /// <summary>Z3_OP_BCOMP</summary>
+        /// <summary>
+        /// Z3_OP_BCOMP
+        /// </summary>
+        /// <remarks>
+        /// .
+        /// </remarks>
         OpBcomp = 1063,
-        /// <summary>Z3_OP_BSHL</summary>
+        /// <summary>
+        /// Z3_OP_BSHL
+        /// </summary>
+        /// <remarks>
+        /// Shift left.
+        /// </remarks>
         OpBshl = 1064,
-        /// <summary>Z3_OP_BLSHR</summary>
+        /// <summary>
+        /// Z3_OP_BLSHR
+        /// </summary>
+        /// <remarks>
+        /// Logical shift right.
+        /// </remarks>
         OpBlshr = 1065,
-        /// <summary>Z3_OP_BASHR</summary>
+        /// <summary>
+        /// Z3_OP_BASHR
+        /// </summary>
+        /// <remarks>
+        /// Arithmetical shift right.
+        /// </remarks>
         OpBashr = 1066,
-        /// <summary>Z3_OP_ROTATE_LEFT</summary>
+        /// <summary>
+        /// Z3_OP_ROTATE_LEFT
+        /// </summary>
+        /// <remarks>
+        /// Left rotation.
+        /// </remarks>
         OpRotateLeft = 1067,
-        /// <summary>Z3_OP_ROTATE_RIGHT</summary>
+        /// <summary>
+        /// Z3_OP_ROTATE_RIGHT
+        /// </summary>
+        /// <remarks>
+        /// Right rotation.
+        /// </remarks>
         OpRotateRight = 1068,
-        /// <summary>Z3_OP_EXT_ROTATE_LEFT</summary>
+        /// <summary>
+        /// Z3_OP_EXT_ROTATE_LEFT
+        /// </summary>
+        /// <remarks>
+        /// (extended) Left rotation. Similar to Z3_OP_ROTATE_LEFT, but it is a binary operator instead of a parametric one.
+        /// </remarks>
         OpExtRotateLeft = 1069,
-        /// <summary>Z3_OP_EXT_ROTATE_RIGHT</summary>
+        /// <summary>
+        /// Z3_OP_EXT_ROTATE_RIGHT
+        /// </summary>
+        /// <remarks>
+        /// (extended) Right rotation. Similar to Z3_OP_ROTATE_RIGHT, but it is a binary operator instead of a parametric one.
+        /// </remarks>
         OpExtRotateRight = 1070,
         /// <summary>Z3_OP_BIT2BOOL</summary>
         OpBit2bool = 1071,
-        /// <summary>Z3_OP_INT2BV</summary>
+        /// <summary>
+        /// Z3_OP_INT2BV
+        /// </summary>
+        /// <remarks>
+        /// Coerce integer to bit-vector.
+        /// </remarks>
         OpInt2bv = 1072,
-        /// <summary>Z3_OP_BV2INT</summary>
+        /// <summary>
+        /// Z3_OP_BV2INT
+        /// </summary>
+        /// <remarks>
+        /// Coerce bit-vector to integer.
+        /// </remarks>
         OpBv2int = 1073,
-        /// <summary>Z3_OP_SBV2INT</summary>
+        /// <summary>
+        /// Z3_OP_SBV2INT
+        /// </summary>
+        /// <remarks>
+        /// Coerce signed bit-vector to integer.
+        /// </remarks>
         OpSbv2int = 1074,
-        /// <summary>Z3_OP_CARRY</summary>
+        /// <summary>
+        /// Z3_OP_CARRY
+        /// </summary>
+        /// <remarks>
+        /// Compute the carry bit in a full-adder.
+        /// The meaning is given by the equivalence
+        /// (carry l1 l2 l3) &lt;=&gt; (or (and l1 l2) (and l1 l3) (and l2 l3)))
+        /// </remarks>
         OpCarry = 1075,
-        /// <summary>Z3_OP_XOR3</summary>
+        /// <summary>
+        /// Z3_OP_XOR3
+        /// </summary>
+        /// <remarks>
+        /// Compute ternary XOR.
+        /// The meaning is given by the equivalence
+        /// (xor3 l1 l2 l3) &lt;=&gt; (xor (xor l1 l2) l3)
+        /// </remarks>
         OpXor3 = 1076,
         /// <summary>
         /// Z3_OP_BSMUL_NO_OVFL
@@ -386,11 +865,17 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_MODUS_PONENS
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Given a proof for p and a proof for (implies p q), produces a proof for q.
+        /// </para>
+        /// <para>
         /// T1: p
         /// T2: (implies p q)
         /// [mp T1 T2]: q
+        /// </para>
+        /// <para>
         /// The second antecedents may also be a proof for (iff p q).
+        /// </para>
         /// </remarks>
         OpPrModusPonens = 1284,
         /// <summary>
@@ -436,6 +921,7 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_TRANSITIVITY_STAR
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Condensed transitivity proof.
         /// It combines several symmetry and transitivity proofs. Example:
         /// <code>
@@ -447,48 +933,66 @@ internal sealed partial class NativeZ3Library
         /// ╚════════════════════════════╝
         /// </code>
         /// R must be a symmetric and transitive relation.
+        /// </para>
+        /// <para>
         /// Assuming that this proof object is a proof for (R s t), then
         /// a proof checker must check if it is possible to prove (R s t)
         /// using the antecedents, symmetry and transitivity.  That is,
         /// if there is a path from s to t, if we view every
         /// antecedent (R a b) as an edge between a and b.
+        /// </para>
         /// </remarks>
         OpPrTransitivityStar = 1288,
         /// <summary>
         /// Z3_OP_PR_MONOTONICITY
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Monotonicity proof object.
+        /// </para>
+        /// <para>
         /// T1: (R t_1 s_1)
         /// ...
         /// Tn: (R t_n s_n)
         /// [monotonicity T1 ... Tn]: (R (f t_1 ... t_n) (f s_1 ... s_n))
+        /// </para>
+        /// <para>
         /// Remark: if t_i == s_i, then the antecedent Ti is suppressed.
         /// That is, reflexivity proofs are suppressed to save space.
+        /// </para>
         /// </remarks>
         OpPrMonotonicity = 1289,
         /// <summary>
         /// Z3_OP_PR_QUANT_INTRO
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Given a proof for (~ p q), produces a proof for (~ (forall (x) p) (forall (x) q)).
+        /// </para>
+        /// <para>
         /// T1: (~ p q)
         /// [quant-intro T1]: (~ (forall (x) p) (forall (x) q))
+        /// </para>
         /// </remarks>
         OpPrQuantIntro = 1290,
         /// <summary>
         /// Z3_OP_PR_BIND
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Given a proof p, produces a proof of lambda x . p, where x are free variables in p.
+        /// </para>
+        /// <para>
         /// T1: f
         /// [proof-bind T1] forall (x) f
+        /// </para>
         /// </remarks>
         OpPrBind = 1291,
         /// <summary>
         /// Z3_OP_PR_DISTRIBUTIVITY
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Distributivity proof object.
         /// Given that f (= or) distributes over g (= and), produces a proof for
         /// <code>
@@ -505,35 +1009,49 @@ internal sealed partial class NativeZ3Library
         /// ╚══════════════════════════════════════╝
         /// </code>
         /// where each f and g can have arbitrary number of arguments.
+        /// </para>
+        /// <para>
         /// This proof object has no antecedents.
         /// Remark. This rule is used by the CNF conversion pass and
         /// instantiated by f = or, and g = and.
+        /// </para>
         /// </remarks>
         OpPrDistributivity = 1292,
         /// <summary>
         /// Z3_OP_PR_AND_ELIM
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Given a proof for (and l_1 ... l_n), produces a proof for l_i
+        /// </para>
+        /// <para>
         /// T1: (and l_1 ... l_n)
         /// [and-elim T1]: l_i
+        /// </para>
         /// </remarks>
         OpPrAndElim = 1293,
         /// <summary>
         /// Z3_OP_PR_NOT_OR_ELIM
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Given a proof for (not (or l_1 ... l_n)), produces a proof for (not l_i).
+        /// </para>
+        /// <para>
         /// T1: (not (or l_1 ... l_n))
         /// [not-or-elim T1]: (not l_i)
+        /// </para>
         /// </remarks>
         OpPrNotOrElim = 1294,
         /// <summary>
         /// Z3_OP_PR_REWRITE
         /// </summary>
         /// <remarks>
+        /// <para>
         /// A proof for a local rewriting step (= t s).
         /// The head function symbol of t is interpreted.
+        /// </para>
+        /// <para>
         /// This proof object has no antecedents.
         /// The conclusion of a rewrite rule is either an equality (= t s),
         /// an equivalence (iff t s), or equi-satisfiability (~ t s).
@@ -546,6 +1064,7 @@ internal sealed partial class NativeZ3Library
         /// ║ (iff (or x false) x)  ║
         /// ╚═══════════════════════╝
         /// </code>
+        /// </para>
         /// </remarks>
         OpPrRewrite = 1295,
         /// <summary>
@@ -556,8 +1075,10 @@ internal sealed partial class NativeZ3Library
         /// This proof object can have n antecedents.
         /// The antecedents are proofs for equalities used as substitution rules.
         /// The proof rule is used in a few cases. The cases are:
-        /// - When applying contextual simplification (CONTEXT_SIMPLIFIER=true)
-        /// - When converting bit-vectors to Booleans (BIT2BOOL=true)
+        /// <list type="bullet">
+        /// <item><description>When applying contextual simplification (CONTEXT_SIMPLIFIER=true)</description></item>
+        /// <item><description>When converting bit-vectors to Booleans (BIT2BOOL=true)</description></item>
+        /// </list>
         /// </remarks>
         OpPrRewriteStar = 1296,
         /// <summary>
@@ -587,21 +1108,31 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_ELIM_UNUSED_VARS
         /// </summary>
         /// <remarks>
+        /// <para>
         /// A proof for (iff (forall (x_1 ... x_n y_1 ... y_m) p[x_1 ... x_n])
         /// (forall (x_1 ... x_n) p[x_1 ... x_n]))
+        /// </para>
+        /// <para>
         /// It is used to justify the elimination of unused variables.
         /// This proof object has no antecedents.
+        /// </para>
         /// </remarks>
         OpPrElimUnusedVars = 1299,
         /// <summary>
         /// Z3_OP_PR_DER
         /// </summary>
         /// <remarks>
+        /// <para>
         /// A proof for destructive equality resolution:
         /// (iff (forall (x) (or (not (= x t)) P[x])) P[t])
         /// if x does not occur in t.
+        /// </para>
+        /// <para>
         /// This proof object has no antecedents.
+        /// </para>
+        /// <para>
         /// Several variables can be eliminated simultaneously.
+        /// </para>
         /// </remarks>
         OpPrDer = 1300,
         /// <summary>
@@ -622,14 +1153,18 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_LEMMA
         /// </summary>
         /// <remarks>
+        /// <para>
         /// T1: false
         /// [lemma T1]: (or (not l_1) ... (not l_n))
+        /// </para>
+        /// <para>
         /// This proof object has one antecedent: a hypothetical proof for false.
         /// It converts the proof in a proof for (or (not l_1) ... (not l_n)),
         /// when T1 contains the open hypotheses: l_1, ..., l_n.
         /// The hypotheses are closed after an application of a lemma.
         /// Furthermore, there are no other open hypotheses in the subtree covered by
         /// the lemma.
+        /// </para>
         /// </remarks>
         OpPrLemma = 1303,
         /// <summary>
@@ -675,10 +1210,16 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_COMMUTATIVITY
         /// </summary>
         /// <remarks>
+        /// <para>
         /// [comm]: (= (f a b) (f b a))
+        /// </para>
+        /// <para>
         /// f is a commutative operator.
+        /// </para>
+        /// <para>
         /// This proof object has no antecedents.
         /// Remark: if f is bool, then = is iff.
+        /// </para>
         /// </remarks>
         OpPrCommutativity = 1307,
         /// <summary>
@@ -718,11 +1259,26 @@ internal sealed partial class NativeZ3Library
         /// bounded number of steps (=3).
         /// </remarks>
         OpPrDefAxiom = 1308,
-        /// <summary>Z3_OP_PR_ASSUMPTION_ADD</summary>
+        /// <summary>
+        /// Z3_OP_PR_ASSUMPTION_ADD
+        /// </summary>
+        /// <remarks>
+        /// Clausal proof adding axiom
+        /// </remarks>
         OpPrAssumptionAdd = 1309,
-        /// <summary>Z3_OP_PR_LEMMA_ADD</summary>
+        /// <summary>
+        /// Z3_OP_PR_LEMMA_ADD
+        /// </summary>
+        /// <remarks>
+        /// Clausal proof lemma addition
+        /// </remarks>
         OpPrLemmaAdd = 1310,
-        /// <summary>Z3_OP_PR_REDUNDANT_DEL</summary>
+        /// <summary>
+        /// Z3_OP_PR_REDUNDANT_DEL
+        /// </summary>
+        /// <remarks>
+        /// Clausal proof lemma deletion
+        /// </remarks>
         OpPrRedundantDel = 1311,
         /// <summary>Z3_OP_PR_CLAUSE_TRAIL</summary>
         OpPrClauseTrail = 1312,
@@ -730,27 +1286,41 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_DEF_INTRO
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Introduces a name for a formula/term.
         /// Suppose e is an expression with free variables x, and def-intro
         /// introduces the name n(x). The possible cases are:
+        /// </para>
+        /// <para>
         /// When e is of Boolean type:
         /// [def-intro]: (and (or n (not e)) (or (not n) e))
+        /// </para>
+        /// <para>
         /// or:
         /// [def-intro]: (or (not n) e)
         /// when e only occurs positively.
+        /// </para>
+        /// <para>
         /// When e is of the form (ite cond th el):
         /// [def-intro]: (and (or (not cond) (= n th)) (or cond (= n el)))
+        /// </para>
+        /// <para>
         /// Otherwise:
         /// [def-intro]: (= n e)
+        /// </para>
         /// </remarks>
         OpPrDefIntro = 1313,
         /// <summary>
         /// Z3_OP_PR_APPLY_DEF
         /// </summary>
         /// <remarks>
+        /// <para>
         /// [apply-def T1]: F ~ n
+        /// </para>
+        /// <para>
         /// F is 'equivalent' to n, given that T1 is a proof that
         /// n is a name for F.
+        /// </para>
         /// </remarks>
         OpPrApplyDef = 1314,
         /// <summary>
@@ -765,93 +1335,145 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_PR_NNF_POS
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Proof for a (positive) NNF step. Example:
+        /// </para>
+        /// <para>
         /// T1: (not s_1) ~ r_1
         /// T2: (not s_2) ~ r_2
         /// T3: s_1 ~ r_1'
         /// T4: s_2 ~ r_2'
         /// [nnf-pos T1 T2 T3 T4]: (~ (iff s_1 s_2) (and (or r_1 r_2') (or r_1' r_2)))
+        /// </para>
+        /// <para>
         /// The negation normal form steps NNF_POS and NNF_NEG are used in the following cases:
         /// (a) When creating the NNF of a positive force quantifier.
         /// The quantifier is retained (unless the bound variables are eliminated).
         /// Example
+        /// </para>
+        /// <para>
         /// T1: q ~ q_new
         /// [nnf-pos T1]: (~ (forall (x T) q) (forall (x T) q_new))
+        /// </para>
+        /// <para>
         /// (b) When recursively creating NNF over Boolean formulas, where the top-level
         /// connective is changed during NNF conversion. The relevant Boolean connectives
         /// for NNF_POS are 'implies', 'iff', 'xor', 'ite'.
         /// NNF_NEG furthermore handles the case where negation is pushed
         /// over Boolean connectives 'and' and 'or'.
+        /// </para>
         /// </remarks>
         OpPrNnfPos = 1316,
         /// <summary>
         /// Z3_OP_PR_NNF_NEG
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Proof for a (negative) NNF step. Examples:
+        /// </para>
+        /// <para>
         /// T1: (not s_1) ~ r_1
         /// ...
         /// Tn: (not s_n) ~ r_n
         /// [nnf-neg T1 ... Tn]: (not (and s_1 ... s_n)) ~ (or r_1 ... r_n)
+        /// </para>
+        /// <para>
         /// and
+        /// </para>
+        /// <para>
         /// T1: (not s_1) ~ r_1
         /// ...
         /// Tn: (not s_n) ~ r_n
         /// [nnf-neg T1 ... Tn]: (not (or s_1 ... s_n)) ~ (and r_1 ... r_n)
+        /// </para>
+        /// <para>
         /// and
+        /// </para>
+        /// <para>
         /// T1: (not s_1) ~ r_1
         /// T2: (not s_2) ~ r_2
         /// T3: s_1 ~ r_1'
         /// T4: s_2 ~ r_2'
         /// [nnf-neg T1 T2 T3 T4]: (~ (not (iff s_1 s_2))
         /// (and (or r_1 r_2) (or r_1' r_2')))
+        /// </para>
         /// </remarks>
         OpPrNnfNeg = 1317,
         /// <summary>
         /// Z3_OP_PR_SKOLEMIZE
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Proof for:
+        /// </para>
+        /// <para>
         /// [sk]: (~ (not (forall x (p x y))) (not (p (sk y) y)))
         /// [sk]: (~ (exists x (p x y)) (p (sk y) y))
+        /// </para>
+        /// <para>
         /// This proof object has no antecedents.
+        /// </para>
         /// </remarks>
         OpPrSkolemize = 1318,
         /// <summary>
         /// Z3_OP_PR_MODUS_PONENS_OEQ
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Modus ponens style rule for equi-satisfiability.
+        /// </para>
+        /// <para>
         /// T1: p
         /// T2: (~ p q)
         /// [mp~ T1 T2]: q
+        /// </para>
         /// </remarks>
         OpPrModusPonensOeq = 1319,
         /// <summary>
         /// Z3_OP_PR_TH_LEMMA
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Generic proof for theory lemmas.
         /// The theory lemma function comes with one or more parameters.
         /// The first parameter indicates the name of the theory.
         /// For the theory of arithmetic, additional parameters provide hints for
         /// checking the theory lemma.
         /// The hints for arithmetic are:
-        /// - farkas - followed by rational coefficients. Multiply the coefficients to the
-        /// inequalities in the lemma, add the (negated) inequalities and obtain a contradiction.
-        /// - triangle-eq - Indicates a lemma related to the equivalence:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item><description>farkas - followed by rational coefficients. Multiply the coefficients to the inequalities in the lemma, add the (negated) inequalities and obtain a contradiction.</description></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item><description>triangle-eq - Indicates a lemma related to the equivalence:</description></item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// (iff (= t1 t2) (and (&lt;= t1 t2) (&lt;= t2 t1)))
-        /// - gcd-test - Indicates an integer linear arithmetic lemma that uses a gcd test.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item><description>gcd-test - Indicates an integer linear arithmetic lemma that uses a gcd test.</description></item>
+        /// </list>
+        /// </para>
         /// </remarks>
         OpPrThLemma = 1320,
         /// <summary>
         /// Z3_OP_PR_HYPER_RESOLVE
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Hyper-resolution rule.
+        /// </para>
+        /// <para>
         /// The premises of the rules is a sequence of clauses.
         /// The first clause argument is the main clause of the rule.
         /// with a literal from the first (main) clause.
+        /// </para>
+        /// <para>
         /// Premises of the rules are of the form
         /// <code>
         /// ╔═════════════════════╗
@@ -875,19 +1497,28 @@ internal sealed partial class NativeZ3Library
         /// The head of a Horn implication is position 0,
         /// the first conjunct in the body of an implication is position 1
         /// the second conjunct in the body of an implication is position 2
+        /// </para>
+        /// <para>
         /// For general implications where the head is a disjunction, the
         /// first n positions correspond to the n disjuncts in the head.
         /// The next m positions correspond to the m conjuncts in the body.
+        /// </para>
+        /// <para>
         /// The premises can be universally quantified so that the most
         /// general non-ground form is:
+        /// </para>
+        /// <para>
         /// <code>
         /// ╔═══════════════════════════════════════════════════════════════╗
         /// ║ (forall (vars) (=> (and ln+1 ln+2 .. ln+m) (or l0 l1 .. ln))) ║
         /// ╚═══════════════════════════════════════════════════════════════╝
         /// </code>
+        /// </para>
+        /// <para>
         /// The hyper-resolution rule takes a sequence of parameters.
         /// The parameters are substitutions of bound variables separated by pairs
         /// of literal positions from the main clause and side clause.
+        /// </para>
         /// </remarks>
         OpPrHyperResolve = 1321,
         /// <summary>
@@ -959,13 +1590,19 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_RA_NEGATION_FILTER
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Intersect the first relation with respect to negation
         /// of the second relation (the function takes two arguments).
         /// Logically, the specification can be described by a function
+        /// </para>
+        /// <para>
         /// target = filter_by_negation(pos, neg, columns)
+        /// </para>
+        /// <para>
         /// where columns are pairs c1, d1, .., cN, dN of columns from pos and neg, such that
         /// target are elements in x in pos, such that there is no y in neg that agrees with
         /// x on the columns c1, d1, .., cN, dN.
+        /// </para>
         /// </remarks>
         OpRaNegationFilter = 1544,
         /// <summary>
@@ -1559,14 +2196,18 @@ internal sealed partial class NativeZ3Library
         /// Z3_OP_FPA_BV2RM
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Conversion of a 3-bit bit-vector term to a
         /// floating-point rounding-mode term
+        /// </para>
+        /// <para>
         /// The conversion uses the following values:
         /// 0 = 000 = Z3_OP_FPA_RM_NEAREST_TIES_TO_EVEN,
         /// 1 = 001 = Z3_OP_FPA_RM_NEAREST_TIES_TO_AWAY,
         /// 2 = 010 = Z3_OP_FPA_RM_TOWARD_POSITIVE,
         /// 3 = 011 = Z3_OP_FPA_RM_TOWARD_NEGATIVE,
         /// 4 = 100 = Z3_OP_FPA_RM_TOWARD_ZERO.
+        /// </para>
         /// </remarks>
         OpFpaBv2rm = 45099,
         /// <summary>
@@ -1733,17 +2374,47 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     internal enum ParamKind
     {
-        /// <summary>Z3_PK_UINT</summary>
+        /// <summary>
+        /// Z3_PK_UINT
+        /// </summary>
+        /// <remarks>
+        /// integer parameters.
+        /// </remarks>
         Uint = 0,
-        /// <summary>Z3_PK_BOOL</summary>
+        /// <summary>
+        /// Z3_PK_BOOL
+        /// </summary>
+        /// <remarks>
+        /// boolean parameters.
+        /// </remarks>
         Bool = 1,
-        /// <summary>Z3_PK_DOUBLE</summary>
+        /// <summary>
+        /// Z3_PK_DOUBLE
+        /// </summary>
+        /// <remarks>
+        /// double parameters.
+        /// </remarks>
         Double = 2,
-        /// <summary>Z3_PK_SYMBOL</summary>
+        /// <summary>
+        /// Z3_PK_SYMBOL
+        /// </summary>
+        /// <remarks>
+        /// symbol parameters.
+        /// </remarks>
         Symbol = 3,
-        /// <summary>Z3_PK_STRING</summary>
+        /// <summary>
+        /// Z3_PK_STRING
+        /// </summary>
+        /// <remarks>
+        /// string parameters.
+        /// </remarks>
         String = 4,
-        /// <summary>Z3_PK_OTHER</summary>
+        /// <summary>
+        /// Z3_PK_OTHER
+        /// </summary>
+        /// <remarks>
+        /// all internal parameter kinds which are not exposed in the API.
+        /// </remarks>
         Other = 5,
         /// <summary>Z3_PK_INVALID</summary>
         Invalid = 6,
@@ -1756,21 +2427,61 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="GetDeclParameterKind"/>
     internal enum ParameterKind
     {
-        /// <summary>Z3_PARAMETER_INT</summary>
+        /// <summary>
+        /// Z3_PARAMETER_INT
+        /// </summary>
+        /// <remarks>
+        /// is used for integer parameters.
+        /// </remarks>
         ParameterInt = 0,
-        /// <summary>Z3_PARAMETER_DOUBLE</summary>
+        /// <summary>
+        /// Z3_PARAMETER_DOUBLE
+        /// </summary>
+        /// <remarks>
+        /// is used for double parameters.
+        /// </remarks>
         ParameterDouble = 1,
-        /// <summary>Z3_PARAMETER_RATIONAL</summary>
+        /// <summary>
+        /// Z3_PARAMETER_RATIONAL
+        /// </summary>
+        /// <remarks>
+        /// is used for parameters that are rational numbers.
+        /// </remarks>
         ParameterRational = 2,
-        /// <summary>Z3_PARAMETER_SYMBOL</summary>
+        /// <summary>
+        /// Z3_PARAMETER_SYMBOL
+        /// </summary>
+        /// <remarks>
+        /// is used for parameters that are symbols.
+        /// </remarks>
         ParameterSymbol = 3,
-        /// <summary>Z3_PARAMETER_SORT</summary>
+        /// <summary>
+        /// Z3_PARAMETER_SORT
+        /// </summary>
+        /// <remarks>
+        /// is used for sort parameters.
+        /// </remarks>
         ParameterSort = 4,
-        /// <summary>Z3_PARAMETER_AST</summary>
+        /// <summary>
+        /// Z3_PARAMETER_AST
+        /// </summary>
+        /// <remarks>
+        /// is used for expression parameters.
+        /// </remarks>
         ParameterAst = 5,
-        /// <summary>Z3_PARAMETER_FUNC_DECL</summary>
+        /// <summary>
+        /// Z3_PARAMETER_FUNC_DECL
+        /// </summary>
+        /// <remarks>
+        /// is used for function declaration parameters.
+        /// </remarks>
         ParameterFuncDecl = 6,
-        /// <summary>Z3_PARAMETER_INTERNAL</summary>
+        /// <summary>
+        /// Z3_PARAMETER_INTERNAL
+        /// </summary>
+        /// <remarks>
+        /// is used for parameters that are private to Z3. They cannot be accessed.
+        /// </remarks>
         ParameterInternal = 7,
         /// <summary>Z3_PARAMETER_ZSTRING</summary>
         ParameterZstring = 8,

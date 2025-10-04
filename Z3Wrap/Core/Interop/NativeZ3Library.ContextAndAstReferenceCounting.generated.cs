@@ -15,15 +15,23 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkContextDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a context using the given configuration.
+    /// </para>
+    /// <para>
     /// After a context is created, the configuration cannot be changed,
     /// although some parameters can be changed using <see cref="UpdateParamValue"/>.
     /// All main interaction with Z3 happens in the context of a Z3_context.
+    /// </para>
+    /// <para>
     /// In contrast to Z3_mk_context_rc the life time of Z3_ast objects
     /// persists with the life time of the context.
+    /// </para>
+    /// <para>
     /// Note that all other reference counted objects, including Z3_model,
     /// Z3_solver, Z3_func_interp have to be managed by the caller.
     /// Their reference counts are not handled by the context.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// Thread safety: objects created using a given context should not be
@@ -32,9 +40,10 @@ internal sealed partial class NativeZ3Library
     /// create separate context objects. The Z3_translate, Z3_solver_translate,
     /// Z3_model_translate, Z3_goal_translate
     /// methods are exposed to allow copying state from one context to another.
-    /// - Z3_sort, Z3_func_decl, Z3_app, Z3_pattern are Z3_ast's.
-    /// - Z3 uses hash-consing, i.e., when the same Z3_ast is created twice,
-    /// Z3 will return the same pointer twice.
+    /// <list type="bullet">
+    /// <item><description>Z3_sort, Z3_func_decl, Z3_app, Z3_pattern are Z3_ast's.</description></item>
+    /// <item><description>Z3 uses hash-consing, i.e., when the same Z3_ast is created twice, Z3 will return the same pointer twice.</description></item>
+    /// </list>
     /// </remarks>
     /// <seealso cref="DelContext"/>
     [Z3Function("Z3_mk_context")]
@@ -49,6 +58,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkContextRcDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a context using the given configuration.
     /// This function is similar to <see cref="MkContext"/>. However,
     /// in the context returned by this function, the user
@@ -59,12 +69,18 @@ internal sealed partial class NativeZ3Library
     /// by Z3, and <see cref="DecRef"/> whenever the Z3_ast is not needed
     /// anymore. This idiom is similar to the one used in
     /// BDD (binary decision diagrams) packages such as CUDD.
+    /// </para>
+    /// <para>
     /// Remarks:
-    /// - Z3_sort, Z3_func_decl, Z3_app, Z3_pattern are Z3_ast's.
-    /// - After a context is created, the configuration cannot be changed.
-    /// - All main interaction with Z3 happens in the context of a Z3_context.
-    /// - Z3 uses hash-consing, i.e., when the same Z3_ast is created twice,
-    /// Z3 will return the same pointer twice.
+    /// </para>
+    /// <para>
+    /// <list type="bullet">
+    /// <item><description>Z3_sort, Z3_func_decl, Z3_app, Z3_pattern are Z3_ast's.</description></item>
+    /// <item><description>After a context is created, the configuration cannot be changed.</description></item>
+    /// <item><description>All main interaction with Z3 happens in the context of a Z3_context.</description></item>
+    /// <item><description>Z3 uses hash-consing, i.e., when the same Z3_ast is created twice, Z3 will return the same pointer twice.</description></item>
+    /// </list>
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_context_rc")]
     internal IntPtr MkContextRc(IntPtr c)

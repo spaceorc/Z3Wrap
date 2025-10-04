@@ -15,8 +15,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvnotDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Bitwise negation.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvnot")]
     internal IntPtr MkBvnot(IntPtr c, IntPtr t1)
@@ -30,8 +34,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvredandDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Take conjunction of bits in vector, return vector of length 1.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvredand")]
     internal IntPtr MkBvredand(IntPtr c, IntPtr t1)
@@ -45,8 +53,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvredorDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Take disjunction of bits in vector, return vector of length 1.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvredor")]
     internal IntPtr MkBvredor(IntPtr c, IntPtr t1)
@@ -60,8 +72,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvandDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Bitwise and.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvand")]
     internal IntPtr MkBvand(IntPtr c, IntPtr t1, IntPtr t2)
@@ -75,8 +91,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Bitwise or.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvor")]
     internal IntPtr MkBvor(IntPtr c, IntPtr t1, IntPtr t2)
@@ -90,8 +110,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvxorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Bitwise exclusive-or.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvxor")]
     internal IntPtr MkBvxor(IntPtr c, IntPtr t1, IntPtr t2)
@@ -105,8 +129,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvnandDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Bitwise nand.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvnand")]
     internal IntPtr MkBvnand(IntPtr c, IntPtr t1, IntPtr t2)
@@ -120,8 +148,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvnorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Bitwise nor.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvnor")]
     internal IntPtr MkBvnor(IntPtr c, IntPtr t1, IntPtr t2)
@@ -135,8 +167,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvxnorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Bitwise xnor.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvxnor")]
     internal IntPtr MkBvxnor(IntPtr c, IntPtr t1, IntPtr t2)
@@ -150,8 +186,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvnegDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Standard two's complement unary minus.
+    /// </para>
+    /// <para>
     /// The node t1 must have bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvneg")]
     internal IntPtr MkBvneg(IntPtr c, IntPtr t1)
@@ -165,8 +205,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvaddDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Standard two's complement addition.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvadd")]
     internal IntPtr MkBvadd(IntPtr c, IntPtr t1, IntPtr t2)
@@ -180,8 +224,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsubDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Standard two's complement subtraction.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsub")]
     internal IntPtr MkBvsub(IntPtr c, IntPtr t1, IntPtr t2)
@@ -195,8 +243,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvmulDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Standard two's complement multiplication.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvmul")]
     internal IntPtr MkBvmul(IntPtr c, IntPtr t1, IntPtr t2)
@@ -210,11 +262,17 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvudivDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Unsigned division.
+    /// </para>
+    /// <para>
     /// It is defined as the floor of <code>t1/t2</code> if t2 is
     /// different from zero. If <code>t2</code> is zero, then the result
     /// is undefined.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvudiv")]
     internal IntPtr MkBvudiv(IntPtr c, IntPtr t1, IntPtr t2)
@@ -228,12 +286,28 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsdivDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed division.
+    /// </para>
+    /// <para>
     /// It is defined in the following way:
-    /// - The floor of <code>t1/t2</code> if t2 is different from zero, and <code>t1*t2 &gt;= 0</code>.
-    /// - The ceiling of <code>t1/t2</code> if t2 is different from zero, and <code>t1*t2 &lt; 0</code>.
+    /// </para>
+    /// <para>
+    /// <list type="bullet">
+    /// <item><description>The floor of <code>t1/t2</code> if t2 is different from zero, and <code>t1*t2 &gt;= 0</code>.</description></item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <list type="bullet">
+    /// <item><description>The ceiling of <code>t1/t2</code> if t2 is different from zero, and <code>t1*t2 &lt; 0</code>.</description></item>
+    /// </list>
+    /// </para>
+    /// <para>
     /// If <code>t2</code> is zero, then the result is undefined.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsdiv")]
     internal IntPtr MkBvsdiv(IntPtr c, IntPtr t1, IntPtr t2)
@@ -247,10 +321,18 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvuremDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Unsigned remainder.
+    /// </para>
+    /// <para>
     /// It is defined as <code>t1 - (t1 /u t2) * t2</code>, where <code>/u</code> represents unsigned division.
+    /// </para>
+    /// <para>
     /// If <code>t2</code> is zero, then the result is undefined.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvurem")]
     internal IntPtr MkBvurem(IntPtr c, IntPtr t1, IntPtr t2)
@@ -264,11 +346,19 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsremDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed remainder (sign follows dividend).
+    /// </para>
+    /// <para>
     /// It is defined as <code>t1 - (t1 /s t2) * t2</code>, where <code>/s</code> represents signed division.
     /// The most significant bit (sign) of the result is equal to the most significant bit of t1.
+    /// </para>
+    /// <para>
     /// If <code>t2</code> is zero, then the result is undefined.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     /// <seealso cref="MkBvsmod"/>
     [Z3Function("Z3_mk_bvsrem")]
@@ -283,9 +373,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsmodDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed remainder (sign follows divisor).
+    /// </para>
+    /// <para>
     /// If <code>t2</code> is zero, then the result is undefined.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     /// <seealso cref="MkBvsrem"/>
     [Z3Function("Z3_mk_bvsmod")]
@@ -300,8 +396,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvultDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Unsigned less than.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvult")]
     internal IntPtr MkBvult(IntPtr c, IntPtr t1, IntPtr t2)
@@ -315,7 +415,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsltDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed less than.
+    /// </para>
+    /// <para>
     /// It abbreviates:
     /// <code>
     /// (or (and (= (extract[|m-1|:|m-1|] t1) bit1)
@@ -323,7 +426,10 @@ internal sealed partial class NativeZ3Library
     /// (and (= (extract[|m-1|:|m-1|] t1) (extract[|m-1|:|m-1|] t2))
     /// (bvult t1 t2)))
     /// </code>
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvslt")]
     internal IntPtr MkBvslt(IntPtr c, IntPtr t1, IntPtr t2)
@@ -337,8 +443,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvuleDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Unsigned less than or equal to.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvule")]
     internal IntPtr MkBvule(IntPtr c, IntPtr t1, IntPtr t2)
@@ -352,8 +462,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsleDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed less than or equal to.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsle")]
     internal IntPtr MkBvsle(IntPtr c, IntPtr t1, IntPtr t2)
@@ -367,8 +481,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvugeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Unsigned greater than or equal to.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvuge")]
     internal IntPtr MkBvuge(IntPtr c, IntPtr t1, IntPtr t2)
@@ -382,8 +500,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsgeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed greater than or equal to.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsge")]
     internal IntPtr MkBvsge(IntPtr c, IntPtr t1, IntPtr t2)
@@ -397,8 +519,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvugtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Unsigned greater than.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvugt")]
     internal IntPtr MkBvugt(IntPtr c, IntPtr t1, IntPtr t2)
@@ -412,8 +538,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsgtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Two's complement signed greater than.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsgt")]
     internal IntPtr MkBvsgt(IntPtr c, IntPtr t1, IntPtr t2)
@@ -427,10 +557,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConcatDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Concatenate the given bit-vectors.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have (possibly different) bit-vector sorts
+    /// </para>
+    /// <para>
     /// The result is a bit-vector of size <code>n1+n2</code>, where n1 (n2) is the size
     /// of t1 (t2).
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_concat")]
     internal IntPtr MkConcat(IntPtr c, IntPtr t1, IntPtr t2)
@@ -444,9 +580,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkExtractDelegate(IntPtr c, uint high, uint low, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Extract the bits high down to low from a bit-vector of
     /// size m to yield a new bit-vector of size n, where <code>n = high - low + 1</code>.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_extract")]
     internal IntPtr MkExtract(IntPtr c, uint high, uint low, IntPtr t1)
@@ -460,10 +600,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSignExtDelegate(IntPtr c, uint i, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Sign-extend of the given bit-vector to the (signed) equivalent bit-vector of
     /// size <code>m+i</code>, where m is the size of the given
     /// bit-vector.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_sign_ext")]
     internal IntPtr MkSignExt(IntPtr c, uint i, IntPtr t1)
@@ -477,10 +621,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkZeroExtDelegate(IntPtr c, uint i, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Extend the given bit-vector with zeros to the (unsigned) equivalent
     /// bit-vector of size <code>m+i</code>, where m is the size of the
     /// given bit-vector.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_zero_ext")]
     internal IntPtr MkZeroExt(IntPtr c, uint i, IntPtr t1)
@@ -494,8 +642,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkRepeatDelegate(IntPtr c, uint i, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Repeat the given bit-vector up length <code>i</code>.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_repeat")]
     internal IntPtr MkRepeat(IntPtr c, uint i, IntPtr t1)
@@ -509,9 +661,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBit2boolDelegate(IntPtr c, uint i, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Extracts the bit at position <code>i</code> of a bit-vector and
     /// yields a boolean.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bit2bool")]
     internal IntPtr MkBit2bool(IntPtr c, uint i, IntPtr t1)
@@ -525,13 +681,21 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvshlDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Shift left.
+    /// </para>
+    /// <para>
     /// It is equivalent to multiplication by <code>2^x</code> where x is the value of the
     /// third argument.
+    /// </para>
+    /// <para>
     /// NB. The semantics of shift operations varies between environments. This
     /// definition does not necessarily capture directly the semantics of the
     /// programming language or assembly architecture you are modeling.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvshl")]
     internal IntPtr MkBvshl(IntPtr c, IntPtr t1, IntPtr t2)
@@ -545,13 +709,21 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvlshrDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Logical shift right.
+    /// </para>
+    /// <para>
     /// It is equivalent to unsigned division by <code>2^x</code> where x is the
     /// value of the third argument.
+    /// </para>
+    /// <para>
     /// NB. The semantics of shift operations varies between environments. This
     /// definition does not necessarily capture directly the semantics of the
     /// programming language or assembly architecture you are modeling.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvlshr")]
     internal IntPtr MkBvlshr(IntPtr c, IntPtr t1, IntPtr t2)
@@ -565,14 +737,22 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvashrDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Arithmetic shift right.
+    /// </para>
+    /// <para>
     /// It is like logical shift right except that the most significant
     /// bits of the result always copy the most significant bit of the
     /// second argument.
+    /// </para>
+    /// <para>
     /// The semantics of shift operations varies between environments. This
     /// definition does not necessarily capture directly the semantics of the
     /// programming language or assembly architecture you are modeling.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvashr")]
     internal IntPtr MkBvashr(IntPtr c, IntPtr t1, IntPtr t2)
@@ -586,8 +766,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkRotateLeftDelegate(IntPtr c, uint i, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Rotate bits of t1 to the left i times.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_rotate_left")]
     internal IntPtr MkRotateLeft(IntPtr c, uint i, IntPtr t1)
@@ -601,8 +785,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkRotateRightDelegate(IntPtr c, uint i, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Rotate bits of t1 to the right i times.
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_rotate_right")]
     internal IntPtr MkRotateRight(IntPtr c, uint i, IntPtr t1)
@@ -616,8 +804,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkExtRotateLeftDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Rotate bits of t1 to the left t2 times.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_ext_rotate_left")]
     internal IntPtr MkExtRotateLeft(IntPtr c, IntPtr t1, IntPtr t2)
@@ -631,8 +823,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkExtRotateRightDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Rotate bits of t1 to the right t2 times.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_ext_rotate_right")]
     internal IntPtr MkExtRotateRight(IntPtr c, IntPtr t1, IntPtr t2)
@@ -646,10 +842,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkInt2bvDelegate(IntPtr c, uint n, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Create an n bit bit-vector from the integer argument t1.
+    /// </para>
+    /// <para>
     /// The resulting bit-vector has n bits, where the i'th bit (counting
     /// from 0 to n-1) is 1 if \c (t1 div 2^i) mod 2 is 1.
+    /// </para>
+    /// <para>
     /// The node t1 must have integer sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_int2bv")]
     internal IntPtr MkInt2bv(IntPtr c, uint n, IntPtr t1)
@@ -663,12 +865,18 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBv2intDelegate(IntPtr c, IntPtr t1, bool isSigned);
 
     /// <summary>
+    /// <para>
     /// Create an integer from the bit-vector argument t1.
     /// If is_signed is false, then the bit-vector t1 is treated as unsigned.
     /// So the result is non-negative
     /// and in the range <code>[0..2^N-1]</code>, where N are the number of bits in t1.
     /// If is_signed is true, t1 is treated as a signed bit-vector.
+    /// </para>
+    /// <para>
+    /// </para>
+    /// <para>
     /// The node t1 must have a bit-vector sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bv2int")]
     internal IntPtr MkBv2int(IntPtr c, IntPtr t1, bool isSigned)
@@ -682,10 +890,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvaddNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise addition
     /// of t1 and t2 does not overflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvadd_no_overflow")]
     internal IntPtr MkBvaddNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
@@ -699,10 +911,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvaddNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise signed addition
     /// of t1 and t2 does not underflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvadd_no_underflow")]
     internal IntPtr MkBvaddNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
@@ -716,10 +932,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsubNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise signed subtraction
     /// of t1 and t2 does not overflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsub_no_overflow")]
     internal IntPtr MkBvsubNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
@@ -733,10 +953,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsubNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise subtraction
     /// of t1 and t2 does not underflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsub_no_underflow")]
     internal IntPtr MkBvsubNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
@@ -750,10 +974,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvsdivNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise signed division
     /// of t1 and t2 does not overflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvsdiv_no_overflow")]
     internal IntPtr MkBvsdivNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
@@ -767,10 +995,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvnegNoOverflowDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
+    /// <para>
     /// Check that bit-wise negation does not overflow when
     /// t1 is interpreted as a signed bit-vector.
+    /// </para>
+    /// <para>
     /// The node t1 must have bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvneg_no_overflow")]
     internal IntPtr MkBvnegNoOverflow(IntPtr c, IntPtr t1)
@@ -784,10 +1016,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvmulNoOverflowDelegate(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise multiplication
     /// of t1 and t2 does not overflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvmul_no_overflow")]
     internal IntPtr MkBvmulNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
@@ -801,10 +1037,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBvmulNoUnderflowDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create a predicate that checks that the bit-wise signed multiplication
     /// of t1 and t2 does not underflow.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// The returned node is of sort Bool.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_bvmul_no_underflow")]
     internal IntPtr MkBvmulNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)

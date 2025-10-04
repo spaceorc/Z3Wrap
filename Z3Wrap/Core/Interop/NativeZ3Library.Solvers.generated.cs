@@ -15,30 +15,42 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSolverDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a new solver. This solver is a "combined solver" (see
     /// combined_solver module) that internally uses a non-incremental (solver1) and an
     /// incremental solver (solver2). This combined solver changes its behaviour based
     /// on how it is used and how its parameters are set.
+    /// </para>
+    /// <para>
     /// If the solver is used in a non incremental way (i.e. no calls to
     /// <see cref="SolverPush"/>() or <see cref="SolverPop"/>(), and no calls to
     /// <see cref="SolverAssert"/>() or <see cref="SolverAssertAndTrack"/>() after checking
     /// satisfiability without an intervening <see cref="SolverReset"/>()) then solver1
     /// will be used. This solver will apply Z3's "default" tactic.
+    /// </para>
+    /// <para>
     /// The "default" tactic will attempt to probe the logic used by the
     /// assertions and will apply a specialized tactic if one is supported.
     /// Otherwise the general `(and-then simplify smt)` tactic will be used.
+    /// </para>
+    /// <para>
     /// If the solver is used in an incremental way then the combined solver
     /// will switch to using solver2 (which behaves similarly to the general
     /// "smt" tactic).
+    /// </para>
+    /// <para>
     /// Note however it is possible to set the `solver2_timeout`,
     /// `solver2_unknown`, and `ignore_solver1` parameters of the combined
     /// solver to change its behaviour.
+    /// </para>
+    /// <para>
     /// The function <see cref="SolverGetModel"/> retrieves a model if the
     /// assertions is satisfiable (i.e., the result is \c
     /// Z3_L_TRUE) and model construction is enabled.
     /// The function <see cref="SolverGetModel"/> can also be used even
     /// if the result is Z3_L_UNDEF, but the returned model
     /// is not guaranteed to satisfy quantified assertions.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects.
@@ -59,20 +71,31 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSimpleSolverDelegate(IntPtr c);
 
     /// <summary>
+    /// <para>
     /// Create a new incremental solver.
+    /// </para>
+    /// <para>
     /// This is equivalent to applying the "smt" tactic.
+    /// </para>
+    /// <para>
     /// Unlike <see cref="MkSolver"/>() this solver
-    /// - Does not attempt to apply any logic specific tactics.
-    /// - Does not change its behaviour based on whether it used
-    /// incrementally/non-incrementally.
+    /// <list type="bullet">
+    /// <item><description>Does not attempt to apply any logic specific tactics.</description></item>
+    /// <item><description>Does not change its behaviour based on whether it used incrementally/non-incrementally.</description></item>
+    /// </list>
+    /// </para>
+    /// <para>
     /// Note that these differences can result in very different performance
     /// compared to <see cref="MkSolver"/>().
+    /// </para>
+    /// <para>
     /// The function <see cref="SolverGetModel"/> retrieves a model if the
     /// assertions is satisfiable (i.e., the result is \c
     /// Z3_L_TRUE) and model construction is enabled.
     /// The function <see cref="SolverGetModel"/> can also be used even
     /// if the result is Z3_L_UNDEF, but the returned model
     /// is not guaranteed to satisfy quantified assertions.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects.
@@ -152,7 +175,10 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverImportModelConverterDelegate(IntPtr ctx, IntPtr src, IntPtr dst);
 
     /// <summary>
+    /// <para>
     /// Ad-hoc method for importing model conversion from solver.
+    /// </para>
+    /// <para>
     /// This method is used for scenarios where src has been used to solve a set
     /// of formulas and was interrupted. The dst solver may be a strengthening of src
     /// obtained from cubing (assigning a subset of literals or adding constraints over the
@@ -160,6 +186,7 @@ internal sealed partial class NativeZ3Library
     /// may not correspond to a model of the original formula due to inprocessing in src.
     /// This method is used to take the side-effect of inprocessing into account when returning
     /// a model for dst.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_solver_import_model_converter")]
     internal void SolverImportModelConverter(IntPtr ctx, IntPtr src, IntPtr dst)
@@ -268,8 +295,12 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverPushDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
+    /// <para>
     /// Create a backtracking point.
+    /// </para>
+    /// <para>
     /// The solver contains a stack of assertions.
+    /// </para>
     /// </summary>
     /// <seealso cref="SolverGetNumScopes"/>
     /// <seealso cref="SolverPop"/>
@@ -336,9 +367,13 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverAssertDelegate(IntPtr c, IntPtr s, IntPtr a);
 
     /// <summary>
+    /// <para>
     /// Assert a constraint into the solver.
+    /// </para>
+    /// <para>
     /// The functions <see cref="SolverCheck"/> and <see cref="SolverCheckAssumptions"/> should be
     /// used to check whether the logical context is consistent or not.
+    /// </para>
     /// </summary>
     /// <seealso cref="SolverAssertAndTrack"/>
     /// <seealso cref="SolverReset"/>
@@ -354,12 +389,16 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverAssertAndTrackDelegate(IntPtr c, IntPtr s, IntPtr a, IntPtr p);
 
     /// <summary>
+    /// <para>
     /// Assert a constraint a into the solver, and track it (in the unsat) core using
     /// the Boolean constant p.
+    /// </para>
+    /// <para>
     /// This API is an alternative to <see cref="SolverCheckAssumptions"/> for extracting unsat cores.
     /// Both APIs can be used in the same solver. The unsat core will contain a combination
     /// of the Boolean variables provided using Z3_solver_assert_and_track and the Boolean literals
     /// provided using <see cref="SolverCheckAssumptions"/>.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// Precondition: a must be a Boolean expression
@@ -551,14 +590,28 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a callback to that retrieves assumed, inferred and deleted clauses during search.
     /// </summary>
-    /// <param name="c">- context.</param>
-    /// <param name="s">- solver object.</param>
-    /// <param name="userContext">- a context used to maintain state for callbacks.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="s">
+    /// <list type="bullet">
+    /// <item><description>solver object.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="userContext">
+    /// <list type="bullet">
+    /// <item><description>a context used to maintain state for callbacks.</description></item>
+    /// </list>
+    /// </param>
     /// <param name="onClauseEh">
-    /// - a callback that is invoked by when a clause is
-    /// - asserted to the CDCL engine (corresponding to an input clause after pre-processing)
-    /// - inferred by CDCL(T) using either a SAT or theory conflict/propagation
-    /// - deleted by the CDCL(T) engine
+    /// <list type="bullet">
+    /// <item><description>a callback that is invoked by when a clause is</description></item>
+    /// <item><description>asserted to the CDCL engine (corresponding to an input clause after pre-processing)</description></item>
+    /// <item><description>inferred by CDCL(T) using either a SAT or theory conflict/propagation</description></item>
+    /// <item><description>deleted by the CDCL(T) engine</description></item>
+    /// </list>
     /// </param>
     [Z3Function("Z3_solver_register_on_clause")]
     internal void SolverRegisterOnClause(IntPtr c, IntPtr s, IntPtr userContext, IntPtr onClauseEh)
@@ -574,12 +627,36 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a user-propagator with the solver.
     /// </summary>
-    /// <param name="c">- context.</param>
-    /// <param name="s">- solver object.</param>
-    /// <param name="userContext">- a context used to maintain state for callbacks.</param>
-    /// <param name="pushEh">- a callback invoked when scopes are pushed</param>
-    /// <param name="popEh">- a callback invoked when scopes are popped</param>
-    /// <param name="freshEh">- a solver may spawn new solvers internally. This callback is used to produce a fresh user_context to be associated with fresh solvers.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="s">
+    /// <list type="bullet">
+    /// <item><description>solver object.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="userContext">
+    /// <list type="bullet">
+    /// <item><description>a context used to maintain state for callbacks.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="pushEh">
+    /// <list type="bullet">
+    /// <item><description>a callback invoked when scopes are pushed</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="popEh">
+    /// <list type="bullet">
+    /// <item><description>a callback invoked when scopes are popped</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="freshEh">
+    /// <list type="bullet">
+    /// <item><description>a solver may spawn new solvers internally. This callback is used to produce a fresh user_context to be associated with fresh solvers.</description></item>
+    /// </list>
+    /// </param>
     [Z3Function("Z3_solver_propagate_init")]
     internal void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr userContext, IntPtr pushEh, IntPtr popEh, IntPtr freshEh)
     {
@@ -594,8 +671,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a callback for when an expression is bound to a fixed value.
     /// The supported expression types are
-    /// - Booleans
-    /// - Bit-vectors
+    /// <list type="bullet">
+    /// <item><description>Booleans</description></item>
+    /// <item><description>Bit-vectors</description></item>
+    /// </list>
     /// </summary>
     [Z3Function("Z3_solver_propagate_fixed")]
     internal void SolverPropagateFixed(IntPtr c, IntPtr s, IntPtr fixedEh)
@@ -609,9 +688,12 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverPropagateFinalDelegate(IntPtr c, IntPtr s, IntPtr finalEh);
 
     /// <summary>
+    /// <para>
     /// register a callback on final check.
     /// This provides freedom to the propagator to delay actions or implement a branch-and bound solver.
     /// The final check is invoked when all decision variables have been assigned by the solver.
+    /// </para>
+    /// <para>
     /// The final_eh callback takes as argument the original user_context that was used
     /// when calling Z3_solver_propagate_init, and it takes a callback context with the
     /// opaque type Z3_solver_callback.
@@ -619,6 +701,7 @@ internal sealed partial class NativeZ3Library
     /// The callback context can only be accessed (for propagation and for dynamically registering expressions) within a callback.
     /// If the callback context gets used for propagation or conflicts, those propagations take effect and
     /// may trigger new decision variables to be set.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_solver_propagate_final")]
     internal void SolverPropagateFinal(IntPtr c, IntPtr s, IntPtr finalEh)
@@ -761,23 +844,61 @@ internal sealed partial class NativeZ3Library
     private delegate bool SolverPropagateConsequenceDelegate(IntPtr c, IntPtr cb, uint numFixed, IntPtr @fixed, uint numEqs, IntPtr eqLhs, IntPtr eqRhs, IntPtr conseq);
 
     /// <summary>
+    /// <para>
     /// propagate a consequence based on fixed values and equalities.
     /// A client may invoke it during the propagate_fixed, propagate_eq, propagate_diseq, and propagate_final callbacks.
     /// The callback adds a propagation consequence based on the fixed values passed ids and equalities eqs based on parameters lhs, rhs.
+    /// </para>
+    /// <para>
     /// The solver might discard the propagation in case it is true in the current state.
     /// The function returns false in this case; otw. the function returns true.
     /// At least one propagation in the final callback has to return true in order to
     /// prevent the solver from finishing.
+    /// </para>
+    /// <para>
     /// Assume the callback has the signature: propagate_consequence_eh(context, solver_cb, num_ids, ids, num_eqs, lhs, rhs, consequence).
+    /// </para>
     /// </summary>
-    /// <param name="c">- context</param>
-    /// <param name="cb">- solver callback</param>
-    /// <param name="numFixed">- number of fixed terms used as premise to propagation</param>
-    /// <param name="fixed">- array of length num_ids containing terms that are fixed in the current scope</param>
-    /// <param name="numEqs">- number of equalities used as premise to propagation</param>
-    /// <param name="eqLhs">- left side of equalities</param>
-    /// <param name="eqRhs">- right side of equalities</param>
-    /// <param name="conseq">- consequence to propagate. It is typically an atomic formula, but it can be an arbitrary formula.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="cb">
+    /// <list type="bullet">
+    /// <item><description>solver callback</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="numFixed">
+    /// <list type="bullet">
+    /// <item><description>number of fixed terms used as premise to propagation</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="fixed">
+    /// <list type="bullet">
+    /// <item><description>array of length num_ids containing terms that are fixed in the current scope</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="numEqs">
+    /// <list type="bullet">
+    /// <item><description>number of equalities used as premise to propagation</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="eqLhs">
+    /// <list type="bullet">
+    /// <item><description>left side of equalities</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="eqRhs">
+    /// <list type="bullet">
+    /// <item><description>right side of equalities</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="conseq">
+    /// <list type="bullet">
+    /// <item><description>consequence to propagate. It is typically an atomic formula, but it can be an arbitrary formula.</description></item>
+    /// </list>
+    /// </param>
     [Z3Function("Z3_solver_propagate_consequence")]
     internal bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr @fixed, uint numEqs, IntPtr eqLhs, IntPtr eqRhs, IntPtr conseq)
     {
@@ -806,16 +927,22 @@ internal sealed partial class NativeZ3Library
     private delegate Lbool SolverCheckDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
+    /// <para>
     /// Check whether the assertions in a given solver are consistent or not.
+    /// </para>
+    /// <para>
     /// The function <see cref="SolverGetModel"/> retrieves a model if the
     /// assertions is satisfiable (i.e., the result is \c
     /// Z3_L_TRUE) and model construction is enabled.
     /// Note that if the call returns Z3_L_UNDEF, Z3 does not
     /// ensure that calls to <see cref="SolverGetModel"/> succeed and any models
     /// produced in this case are not guaranteed to satisfy the assertions.
+    /// </para>
+    /// <para>
     /// The function <see cref="SolverGetProof"/> retrieves a proof if proof
     /// generation was enabled when the context was created, and the
     /// assertions are unsatisfiable (i.e., the result is Z3_L_FALSE).
+    /// </para>
     /// </summary>
     /// <seealso cref="SolverCheckAssumptions"/>
     [Z3Function("Z3_solver_check")]
@@ -830,10 +957,14 @@ internal sealed partial class NativeZ3Library
     private delegate Lbool SolverCheckAssumptionsDelegate(IntPtr c, IntPtr s, uint numAssumptions, IntPtr[] assumptions);
 
     /// <summary>
+    /// <para>
     /// Check whether the assertions in the given solver and
     /// optional assumptions are consistent or not.
+    /// </para>
+    /// <para>
     /// The function <see cref="SolverGetUnsatCore"/> retrieves the subset of the
     /// assumptions used in the unsatisfiability proof produced by Z3.
+    /// </para>
     /// </summary>
     /// <seealso cref="SolverCheck"/>
     [Z3Function("Z3_solver_check_assumptions")]
@@ -848,7 +979,10 @@ internal sealed partial class NativeZ3Library
     private delegate Lbool GetImpliedEqualitiesDelegate(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds);
 
     /// <summary>
+    /// <para>
     /// Retrieve congruence class representatives for terms.
+    /// </para>
+    /// <para>
     /// The function can be used for relying on Z3 to identify equal terms under the current
     /// set of assumptions. The array of terms and array of class identifiers should have
     /// the same length. The class identifiers are numerals that are assigned to the same
@@ -858,8 +992,11 @@ internal sealed partial class NativeZ3Library
     /// All implied equalities are returned by this call.
     /// This means that two terms map to the same class identifier if and only if
     /// the current context implies that they are equal.
+    /// </para>
+    /// <para>
     /// A side-effect of the function is a satisfiability check on the assertions on the solver that is passed in.
     /// The function return Z3_L_FALSE if the current assertions are not satisfiable.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_get_implied_equalities")]
     internal Lbool GetImpliedEqualities(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds)
@@ -887,17 +1024,23 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverCubeDelegate(IntPtr c, IntPtr s, IntPtr vars, uint backtrackLevel);
 
     /// <summary>
+    /// <para>
     /// extract a next cube for a solver. The last cube is the constant true or false.
     /// The number of (non-constant) cubes is by default 1. For the sat solver cubing is controlled
     /// using parameters sat.lookahead.cube.cutoff and sat.lookahead.cube.fraction.
+    /// </para>
+    /// <para>
     /// The third argument is a vector of variables that may be used for cubing.
     /// The contents of the vector is only used in the first call. The initial list of variables
     /// is used in subsequent calls until it returns the unsatisfiable cube.
     /// The vector is modified to contain a set of Autarky variables that occur in clauses that
     /// are affected by the (last literal in the) cube. These variables could be used by a different
     /// cuber (on a different solver object) for further recursive cubing.
+    /// </para>
+    /// <para>
     /// The last argument is a backtracking level. It instructs the cube process to backtrack below
     /// the indicated level for the next cube.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_solver_cube")]
     internal IntPtr SolverCube(IntPtr c, IntPtr s, IntPtr vars, uint backtrackLevel)
@@ -911,9 +1054,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetModelDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
+    /// <para>
     /// Retrieve the model for the last <see cref="SolverCheck"/> or <see cref="SolverCheckAssumptions"/>
+    /// </para>
+    /// <para>
     /// The error handler is invoked if a model is not available because
     /// the commands above were not invoked for the given solver, or if the result was Z3_L_FALSE.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_solver_get_model")]
     internal IntPtr SolverGetModel(IntPtr c, IntPtr s)
@@ -927,10 +1074,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetProofDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
+    /// <para>
     /// Retrieve the proof for the last <see cref="SolverCheck"/> or <see cref="SolverCheckAssumptions"/>
+    /// </para>
+    /// <para>
     /// The error handler is invoked if proof generation is not enabled,
     /// or if the commands above were not invoked for the given solver,
     /// or if the result was different from Z3_L_FALSE.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_solver_get_proof")]
     internal IntPtr SolverGetProof(IntPtr c, IntPtr s)
@@ -944,12 +1095,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetUnsatCoreDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
+    /// <para>
     /// Retrieve the unsat core for the last <see cref="SolverCheckAssumptions"/>
     /// The unsat core is a subset of the assumptions a.
+    /// </para>
+    /// <para>
     /// By default, the unsat core will not be minimized. Generation of a minimized
     /// unsat core can be enabled via the `"sat.core.minimize"` and `"smt.core.minimize"`
     /// settings for SAT and SMT cores respectively. Generation of minimized unsat cores
     /// will be more expensive.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_solver_get_unsat_core")]
     internal IntPtr SolverGetUnsatCore(IntPtr c, IntPtr s)

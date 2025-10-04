@@ -134,8 +134,12 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsValidateDelegate(IntPtr c, IntPtr p, IntPtr d);
 
     /// <summary>
+    /// <para>
     /// Validate the parameter set p against the parameter description set d.
+    /// </para>
+    /// <para>
     /// The procedure invokes the error handler if p is invalid.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_params_validate")]
     internal void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)

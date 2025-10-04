@@ -75,8 +75,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AstMapFindDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
+    /// <para>
     /// Return the value associated with the key k.
+    /// </para>
+    /// <para>
     /// The procedure invokes the error handler if k is not in the map.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_ast_map_find")]
     internal IntPtr AstMapFind(IntPtr c, IntPtr m, IntPtr k)

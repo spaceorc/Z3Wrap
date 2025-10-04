@@ -15,19 +15,29 @@ internal sealed partial class NativeZ3Library
     private delegate void GlobalParamSetDelegate(IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
+    /// <para>
     /// Set a global (or module) parameter.
     /// This setting is shared by all Z3 contexts.
+    /// </para>
+    /// <para>
     /// When a Z3 module is initialized it will use the value of these parameters
     /// when Z3_params objects are not provided.
+    /// </para>
+    /// <para>
     /// The name of parameter can be composed of characters [a-z][A-Z], digits [0-9], '-' and '_'.
     /// The character '.' is a delimiter (more later).
+    /// </para>
+    /// <para>
     /// The parameter names are case-insensitive. The character '-' should be viewed as an "alias" for '_'.
     /// Thus, the following parameter names are considered equivalent: "pp.decimal-precision"  and "PP.DECIMAL_PRECISION".
+    /// </para>
+    /// <para>
     /// This function can be used to set parameters for a specific Z3 module.
     /// This can be done by using &lt;module-name&gt;.&lt;parameter-name&gt;.
     /// For example:
     /// Z3_global_param_set('pp.decimal', 'true')
     /// will set the parameter "decimal" in the module "pp" to true.
+    /// </para>
     /// </summary>
     /// <seealso cref="GlobalParamGet"/>
     /// <seealso cref="GlobalParamResetAll"/>
@@ -60,8 +70,12 @@ internal sealed partial class NativeZ3Library
     private delegate bool GlobalParamGetDelegate(IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
+    /// <para>
     /// Get a global (or module) parameter.
+    /// </para>
+    /// <para>
     /// Returns false if the parameter value does not exist.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// This function cannot be invoked simultaneously from different threads without synchronization.

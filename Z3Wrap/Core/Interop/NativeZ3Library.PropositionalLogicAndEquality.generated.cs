@@ -43,8 +43,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkEqDelegate(IntPtr c, IntPtr l, IntPtr r);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>l = r</code>.
+    /// </para>
+    /// <para>
     /// The nodes l and r must have the same type.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_eq")]
     internal IntPtr MkEq(IntPtr c, IntPtr l, IntPtr r)
@@ -58,10 +62,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDistinctDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>distinct(args[0], ..., args[num_args-1])</code>.
+    /// </para>
+    /// <para>
     /// The distinct construct is used for declaring the arguments pairwise distinct.
     /// That is, <code>Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]</code>.
+    /// </para>
+    /// <para>
     /// All arguments must have the same sort.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// The number of arguments of a distinct construct must be greater than one.
@@ -78,8 +88,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkNotDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>not(a)</code>.
+    /// </para>
+    /// <para>
     /// The node a must have Boolean sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_not")]
     internal IntPtr MkNot(IntPtr c, IntPtr a)
@@ -93,9 +107,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIteDelegate(IntPtr c, IntPtr t1, IntPtr t2, IntPtr t3);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing an if-then-else: <code>ite(t1, t2, t3)</code>.
+    /// </para>
+    /// <para>
     /// The node t1 must have Boolean sort, t2 and t3 must have the same sort.
     /// The sort of the new node is equal to the sort of t2 and t3.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_ite")]
     internal IntPtr MkIte(IntPtr c, IntPtr t1, IntPtr t2, IntPtr t3)
@@ -109,8 +127,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIffDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>t1 iff t2</code>.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have Boolean sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_iff")]
     internal IntPtr MkIff(IntPtr c, IntPtr t1, IntPtr t2)
@@ -124,8 +146,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkImpliesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>t1 implies t2</code>.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have Boolean sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_implies")]
     internal IntPtr MkImplies(IntPtr c, IntPtr t1, IntPtr t2)
@@ -139,8 +165,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkXorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>t1 xor t2</code>.
+    /// </para>
+    /// <para>
     /// The nodes t1 and t2 must have Boolean sort.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_xor")]
     internal IntPtr MkXor(IntPtr c, IntPtr t1, IntPtr t2)
@@ -154,9 +184,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAndDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>args[0] and ... and args[num_args-1]</code>.
+    /// </para>
+    /// <para>
     /// The array args must have num_args elements.
     /// All arguments must have Boolean sort.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// The number of arguments must be greater than zero.
@@ -173,9 +207,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkOrDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
+    /// <para>
     /// Create an AST node representing <code>args[0] or ... or args[num_args-1]</code>.
+    /// </para>
+    /// <para>
     /// The array args must have num_args elements.
     /// All arguments must have Boolean sort.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// The number of arguments must be greater than zero.

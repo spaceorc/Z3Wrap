@@ -15,7 +15,10 @@ internal sealed partial class NativeZ3Library
     private delegate void SetAstPrintModeDelegate(IntPtr c, AstPrintMode mode);
 
     /// <summary>
+    /// <para>
     /// Select mode for the format used for pretty-printing AST nodes.
+    /// </para>
+    /// <para>
     /// The default mode for pretty printing AST nodes is to produce
     /// SMT-LIB style output where common subexpressions are printed
     /// at each occurrence. The mode is called Z3_PRINT_SMTLIB_FULL.
@@ -23,6 +26,7 @@ internal sealed partial class NativeZ3Library
     /// use the Z3_PRINT_LOW_LEVEL mode.
     /// To print in way that conforms to SMT-LIB standards and uses let
     /// expressions to share common sub-expressions use Z3_PRINT_SMTLIB2_COMPLIANT.
+    /// </para>
     /// </summary>
     /// <seealso cref="AstToString"/>
     /// <seealso cref="PatternToString"/>
@@ -114,14 +118,46 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert the given benchmark into SMT-LIB formatted string.
     /// </summary>
-    /// <param name="c">- context.</param>
-    /// <param name="name">- name of benchmark. The argument is optional.</param>
-    /// <param name="logic">- the benchmark logic.</param>
-    /// <param name="status">- the status string (sat, unsat, or unknown)</param>
-    /// <param name="attributes">- other attributes, such as source, difficulty or category.</param>
-    /// <param name="numAssumptions">- number of assumptions.</param>
-    /// <param name="assumptions">- auxiliary assumptions.</param>
-    /// <param name="formula">- formula to be checked for consistency in conjunction with assumptions.</param>
+    /// <param name="c">
+    /// <list type="bullet">
+    /// <item><description>context.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="name">
+    /// <list type="bullet">
+    /// <item><description>name of benchmark. The argument is optional.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="logic">
+    /// <list type="bullet">
+    /// <item><description>the benchmark logic.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="status">
+    /// <list type="bullet">
+    /// <item><description>the status string (sat, unsat, or unknown)</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="attributes">
+    /// <list type="bullet">
+    /// <item><description>other attributes, such as source, difficulty or category.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="numAssumptions">
+    /// <list type="bullet">
+    /// <item><description>number of assumptions.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="assumptions">
+    /// <list type="bullet">
+    /// <item><description>auxiliary assumptions.</description></item>
+    /// </list>
+    /// </param>
+    /// <param name="formula">
+    /// <list type="bullet">
+    /// <item><description>formula to be checked for consistency in conjunction with assumptions.</description></item>
+    /// </list>
+    /// </param>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will
     /// be automatically deallocated when <see cref="DelContext"/> is invoked.

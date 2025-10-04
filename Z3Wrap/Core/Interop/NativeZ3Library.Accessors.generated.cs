@@ -411,11 +411,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr c, IntPtr fieldAccess, IntPtr t, IntPtr value);
 
     /// <summary>
+    /// <para>
     /// Update record field with a value.
+    /// </para>
+    /// <para>
     /// This corresponds to the 'with' construct in OCaml.
     /// It has the effect of updating a record field with a given value.
     /// The remaining fields are left unchanged. It is the record
     /// equivalent of an array store (see
+    /// </para>
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(Z3_get_sort(c, t)) == Z3_get_domain(c, field_access, 1) == Z3_DATATYPE_SORT
@@ -471,8 +475,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAtmostDelegate(IntPtr c, uint numArgs, IntPtr[] args, uint k);
 
     /// <summary>
+    /// <para>
     /// Pseudo-Boolean relations.
+    /// </para>
+    /// <para>
     /// Encode p1 + p2 + ... + pn &lt;= k
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_atmost")]
     internal IntPtr MkAtmost(IntPtr c, uint numArgs, IntPtr[] args, uint k)
@@ -486,8 +494,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAtleastDelegate(IntPtr c, uint numArgs, IntPtr[] args, uint k);
 
     /// <summary>
+    /// <para>
     /// Pseudo-Boolean relations.
+    /// </para>
+    /// <para>
     /// Encode p1 + p2 + ... + pn &gt;= k
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_atleast")]
     internal IntPtr MkAtleast(IntPtr c, uint numArgs, IntPtr[] args, uint k)
@@ -501,8 +513,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPbleDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
+    /// <para>
     /// Pseudo-Boolean relations.
+    /// </para>
+    /// <para>
     /// Encode k1*p1 + k2*p2 + ... + kn*pn &lt;= k
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_pble")]
     internal IntPtr MkPble(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
@@ -516,8 +532,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPbgeDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
+    /// <para>
     /// Pseudo-Boolean relations.
+    /// </para>
+    /// <para>
     /// Encode k1*p1 + k2*p2 + ... + kn*pn &gt;= k
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_pbge")]
     internal IntPtr MkPbge(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
@@ -531,8 +551,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPbeqDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
+    /// <para>
     /// Pseudo-Boolean relations.
+    /// </para>
+    /// <para>
     /// Encode k1*p1 + k2*p2 + ... + kn*pn = k
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_pbeq")]
     internal IntPtr MkPbeq(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
@@ -664,9 +688,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetRangeDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
+    /// <para>
     /// Return the range of the given declaration.
+    /// </para>
+    /// <para>
     /// If d is a constant (i.e., has zero arguments), then this
     /// function returns the sort of the constant.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_get_range")]
     internal IntPtr GetRange(IntPtr c, IntPtr d)
@@ -943,8 +971,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetSortDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
+    /// <para>
     /// Return the sort of an AST node.
+    /// </para>
+    /// <para>
     /// The AST node must be a constant, application, numeral, bound variable, or quantifier.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_get_sort")]
     internal IntPtr GetSort(IntPtr c, IntPtr a)
@@ -1202,9 +1234,15 @@ internal sealed partial class NativeZ3Library
     /// <param name="a">term.</param>
     /// <param name="num">numerator.</param>
     /// <param name="den">
+    /// <para>
     /// denominator.
+    /// </para>
+    /// <para>
     /// Return true if the numeral value fits in 64 bit numerals, false otherwise.
+    /// </para>
+    /// <para>
     /// Equivalent to Z3_get_numeral_rational_int64 except that for unsupported expression arguments Z3_get_numeral_small signals an error while Z3_get_numeral_rational_int64 returns false.
+    /// </para>
     /// </param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST
@@ -1645,11 +1683,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
+    /// <para>
     /// Interface to simplifier.
+    /// </para>
+    /// <para>
     /// Provides an interface to the AST simplifier used by Z3.
     /// It returns an AST object which is equal to the argument.
     /// The returned AST is simplified using algebraic simplification rules,
     /// such as constant propagation (propagating true/false over logical connectives).
+    /// </para>
     /// </summary>
     /// <seealso cref="SimplifyEx"/>
     [Z3Function("Z3_simplify")]
@@ -1664,10 +1706,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyExDelegate(IntPtr c, IntPtr a, IntPtr p);
 
     /// <summary>
+    /// <para>
     /// Interface to simplifier.
+    /// </para>
+    /// <para>
     /// Provides an interface to the AST simplifier used by Z3.
     /// This procedure is similar to <see cref="Simplify"/>, but the behavior of the simplifier
     /// can be configured using the given parameter set.
+    /// </para>
     /// </summary>
     /// <seealso cref="Simplify"/>
     /// <seealso cref="SimplifyGetHelp"/>

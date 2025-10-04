@@ -15,10 +15,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTacticDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
+    /// <para>
     /// Return a tactic associated with the given name.
     /// The complete list of tactics may be obtained using the procedures <see cref="GetNumTactics"/> and <see cref="GetTacticName"/>.
     /// It may also be obtained using the command <code>(help-tactic)</code> in the SMT 2.0 front-end.
+    /// </para>
+    /// <para>
     /// Tactics are the basic building block for creating custom solvers for specific problem domains.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_tactic")]
     internal IntPtr MkTactic(IntPtr c, IntPtr name)
@@ -60,11 +64,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkProbeDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
+    /// <para>
     /// Return a probe associated with the given name.
     /// The complete list of probes may be obtained using the procedures <see cref="GetNumProbes"/> and <see cref="GetProbeName"/>.
     /// It may also be obtained using the command <code>(help-tactic)</code> in the SMT 2.0 front-end.
+    /// </para>
+    /// <para>
     /// Probes are used to inspect a goal (aka problem) and collect information that may be used to decide
     /// which solver and/or preprocessing step will be used.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_probe")]
     internal IntPtr MkProbe(IntPtr c, IntPtr name)
@@ -296,10 +304,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSimplifierDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
+    /// <para>
     /// Return a simplifier associated with the given name.
     /// The complete list of simplifiers may be obtained using the procedures <see cref="GetNumSimplifiers"/> and <see cref="GetSimplifierName"/>.
     /// It may also be obtained using the command <code>(help-simplifier)</code> in the SMT 2.0 front-end.
+    /// </para>
+    /// <para>
     /// Simplifiers are the basic building block for creating custom solvers for specific problem domains.
+    /// </para>
     /// </summary>
     [Z3Function("Z3_mk_simplifier")]
     internal IntPtr MkSimplifier(IntPtr c, IntPtr name)
