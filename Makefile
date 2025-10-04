@@ -131,9 +131,12 @@ publish-build: restore release test-release ## Build for publishing (restore, re
 # Code Generation Commands
 # =============================================================================
 
-generate-native: ## Generate NativeLibrary2 partial classes from Z3 headers (use VERBOSE=1 for detailed output)
+generate-native: ## Generate NativeLibrary2 partial classes from Z3 headers (VERBOSE=1, BRANCH=<name>, FORCE=1)
 	@echo "$(BLUE)Generating NativeLibrary2 from Z3 headers...$(NC)"
-	@python3 scripts/generate_native_library.py $(if $(VERBOSE),--verbose,)
+	@python3 scripts/generate_native_library.py \
+		$(if $(VERBOSE),--verbose,) \
+		$(if $(BRANCH),--branch $(BRANCH),) \
+		$(if $(FORCE),--force-download,)
 	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Interop2/$(NC)"
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
