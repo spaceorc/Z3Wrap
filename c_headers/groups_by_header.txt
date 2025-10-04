@@ -1,0 +1,44 @@
+z3_algebraic.h:
+  - Algebraic Numbers
+
+z3_api.h:
+  - Global Parameters
+  - Create configuration
+  - Context and AST Reference Counting
+  - Parameters
+  - Parameter Descriptions
+  - Symbols
+  - Sorts
+  - Constants and Applications
+  - Propositional Logic and Equality
+  - Integers and Reals
+  - Bit-vectors
+  - Arrays
+  - Sets
+  - Numerals
+  - Sequences and regular expressions
+  - Special relations
+  - Quantifiers
+  - Accessors
+  - Modifiers
+  - Models
+  - Interaction logging
+  - String conversion
+  - Parser interface
+  - Error Handling
+  - Miscellaneous
+  - Goals
+  - Tactics, Simplifiers and Probes
+  - Solvers
+  - Statistics
+
+z3_ast_containers.h:
+  - AST vectors
+  - AST maps
+
+z3_fpa.h:
+  - Floating-Point Arithmetic
+  - Z3-specific floating-point extensions
+
+z3_optimization.h:
+  - Optimization facilities

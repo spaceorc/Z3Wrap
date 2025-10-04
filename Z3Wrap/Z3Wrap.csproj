@@ -344,6 +344,9 @@
     <Compile Update="Core\Interop\NativeLibrary.Symbols.cs">
       <DependentUpon>NativeLibrary.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Interop2\NativeLibrary2.*.generated.cs">
+      <DependentUpon>NativeLibrary2.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />

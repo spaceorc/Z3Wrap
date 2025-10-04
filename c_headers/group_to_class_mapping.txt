@@ -1,0 +1,57 @@
+Header Groups → NativeLibrary Partial Classes Mapping
+
+z3_algebraic.h:
+  Algebraic Numbers → AlgebraicNumbers ✓
+
+z3_api.h:
+  Global Parameters → GlobalParameters ✓
+  Create configuration → Configuration ✓
+  Context and AST Reference Counting → Context ✓
+  Parameters → Parameters ✓
+  Parameter Descriptions → ParameterDescriptions ✓
+  Symbols → Symbols ✓
+  Sorts → Sorts ✓
+  Constants and Applications → ConstantsAndApplications ✓
+  Propositional Logic and Equality → PropositionalLogicAndEquality ✓
+  Integers and Reals → IntegersAndReals ✓
+  Bit-vectors → BitVectors ✓
+  Arrays → Arrays ✓
+  Sets → Sets ✓
+  Numerals → Numerals ✓
+  Sequences and regular expressions → StringTheory ✓
+  Special relations → SpecialTheories ✓
+  Quantifiers → Quantifiers ✓
+  Accessors → Accessors ✓
+  Modifiers → Modifiers ✓
+  Models → Models ✓
+  Interaction logging → InteractionLogging ✓
+  String conversion → StringConversion ✓
+  Parser interface → Parsing ✓
+  Error Handling → ErrorHandling ✓
+  Miscellaneous → Miscellaneous ✓
+  Goals → Goals ✓
+  Tactics, Simplifiers and Probes → Tactics ✓
+  Solvers → Solvers ✓
+  Statistics → Statistics ✓
+
+z3_ast_containers.h:
+  AST vectors → AstCollections ✓
+  AST maps → AstCollections ✓
+
+z3_fpa.h:
+  Floating-Point Arithmetic → FloatingPoint ✓
+  Z3-specific floating-point extensions → FloatingPoint ✓
+
+z3_optimization.h:
+  Optimization facilities → Optimization ✓
+
+Extra NativeLibrary classes (not directly from header groups):
+  - Constraints
+  - Datatypes
+  - Expressions
+  - Functions
+  - Predicates
+  - ReferenceCountingExtra
+  - Simplify
+  - Substitution
+  - Utilities

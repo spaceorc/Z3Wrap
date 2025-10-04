@@ -1,7 +1,7 @@
 # Z3Wrap Library Makefile
 # Provides convenient commands for building, testing, and coverage
 
-.PHONY: help build test clean coverage coverage-open restore format lint release all ci test-release release-notes pack publish-build dev-setup quick watch info version
+.PHONY: help build test clean coverage coverage-open restore format lint release all ci test-release release-notes pack publish-build dev-setup quick watch info version generate-native
 .DEFAULT_GOAL := help
 
 # Colors for output
@@ -126,6 +126,15 @@ ci: restore lint build test coverage ## CI pipeline (restore, lint, build, test,
 
 publish-build: restore release test-release ## Build for publishing (restore, release build, release test)
 	@echo "$(GREEN)✅ Publish build completed successfully!$(NC)"
+
+# =============================================================================
+# Code Generation Commands
+# =============================================================================
+
+generate-native: ## Generate NativeLibrary2 partial classes from Z3 headers
+	@echo "$(BLUE)Generating NativeLibrary2 from Z3 headers...$(NC)"
+	@python3 scripts/generate_native_library.py
+	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Interop2/$(NC)"
 
 # =============================================================================
 # Setup & Info Commands

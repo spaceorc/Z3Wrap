@@ -75,6 +75,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{7581
 		scripts\coverage.sh = scripts\coverage.sh
 		scripts\coverage.ps1 = scripts\coverage.ps1
 		scripts\update-changelog.sh = scripts\update-changelog.sh
+		scripts\generate_native_library.py = scripts\generate_native_library.py
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".claude", ".claude", "{60E583E6-47DD-4B1C-83A5-69EF8FD863CA}"

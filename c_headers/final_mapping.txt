@@ -1,0 +1,61 @@
+✅ FINAL 1-TO-1 MAPPING: Header Groups → NativeLibrary Partial Classes
+
+z3_algebraic.h:
+  1. Algebraic Numbers → AlgebraicNumbers.cs ✓
+
+z3_api.h:
+  2. Global Parameters → GlobalParameters.cs ✓
+  3. Create configuration → Configuration.cs ✓
+  4. Context and AST Reference Counting → ContextAndAstReferenceCounting.cs ✓
+  5. Parameters → Parameters.cs ✓
+  6. Parameter Descriptions → ParameterDescriptions.cs ✓
+  7. Symbols → Symbols.cs ✓
+  8. Sorts → Sorts.cs ✓
+  9. Constants and Applications → ConstantsAndApplications.cs ✓
+  10. Propositional Logic and Equality → PropositionalLogicAndEquality.cs ✓
+  11. Integers and Reals → IntegersAndReals.cs ✓
+  12. Bit-vectors → BitVectors.cs ✓
+  13. Arrays → Arrays.cs ✓
+  14. Sets → Sets.cs ✓
+  15. Numerals → Numerals.cs ✓
+  16. Sequences and regular expressions → SequencesAndRegularExpressions.cs ✓
+  17. Special relations → SpecialRelations.cs ✓
+  18. Quantifiers → Quantifiers.cs ✓
+  19. Accessors → Accessors.cs ✓
+  20. Modifiers → Modifiers.cs ✓
+  21. Models → Models.cs ✓
+  22. Interaction logging → InteractionLogging.cs ✓
+  23. String conversion → StringConversion.cs ✓
+  24. Parser interface → ParserInterface.cs ✓
+  25. Error Handling → ErrorHandling.cs ✓
+  26. Miscellaneous → Miscellaneous.cs ✓
+  27. Goals → Goals.cs ✓
+  28. Tactics, Simplifiers and Probes → TacticsSimplifiersAndProbes.cs ✓
+  29. Solvers → Solvers.cs ✓
+  30. Statistics → Statistics.cs ✓
+
+z3_ast_containers.h:
+  31. AST vectors → AstVectors.cs ✓ (NEW)
+  32. AST maps → AstMaps.cs ✓ (NEW)
+
+z3_fpa.h:
+  33. Floating-Point Arithmetic → FloatingPointArithmetic.cs ✓ (NEW)
+  34. Z3-specific floating-point extensions → FloatingPointExtensions.cs ✓ (NEW)
+
+z3_optimization.h:
+  35. Optimization facilities → OptimizationFacilities.cs ✓
+
+TOTAL: 35 groups = 35 files (perfect 1-to-1 mapping)
+
+INVALID FILES (marked with _Invalid.cs suffix):
+  - AstCollections_Invalid.cs (split into AstVectors + AstMaps)
+  - FloatingPoint_Invalid.cs (split into FloatingPointArithmetic + FloatingPointExtensions)
+  - Constraints_Invalid.cs (no matching header group)
+  - Datatypes_Invalid.cs (no matching header group)
+  - Expressions_Invalid.cs (no matching header group)
+  - Functions_Invalid.cs (no matching header group)
+  - Predicates_Invalid.cs (no matching header group)
+  - ReferenceCountingExtra_Invalid.cs (no matching header group)
+  - Simplify_Invalid.cs (no matching header group)
+  - Substitution_Invalid.cs (no matching header group)
+  - Utilities_Invalid.cs (no matching header group)
