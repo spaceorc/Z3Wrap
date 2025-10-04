@@ -15,8 +15,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkAddDelegate(IntPtr c, uint num_args, IntPtr args);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing args[0] + ... + args[num_args-1]. The array args must have num_args elements. All arguments must have int or real sort.
     /// </summary>
+    /// <remarks>
+    /// The number of arguments must be greater than zero.
+    /// </remarks>
     [Z3Function("Z3_mk_add")]
     internal IntPtr MkAdd(IntPtr c, uint num_args, IntPtr args)
     {
@@ -29,8 +32,12 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkMulDelegate(IntPtr c, uint num_args, IntPtr args);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing args[0] * ... * args[num_args-1]. The array args must have num_args elements. All arguments must have int or real sort.
     /// </summary>
+    /// <remarks>
+    /// Z3 has limited support for non-linear arithmetic.
+    /// The number of arguments must be greater than zero.
+    /// </remarks>
     [Z3Function("Z3_mk_mul")]
     internal IntPtr MkMul(IntPtr c, uint num_args, IntPtr args)
     {
@@ -43,8 +50,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkSubDelegate(IntPtr c, uint num_args, IntPtr args);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing args[0] - ... - args[num_args - 1]. The array args must have num_args elements. All arguments must have int or real sort.
     /// </summary>
+    /// <remarks>
+    /// The number of arguments must be greater than zero.
+    /// </remarks>
     [Z3Function("Z3_mk_sub")]
     internal IntPtr MkSub(IntPtr c, uint num_args, IntPtr args)
     {
@@ -57,7 +67,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkUnaryMinusDelegate(IntPtr c, IntPtr arg);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing - arg. The arguments must have int or real type.
     /// </summary>
     [Z3Function("Z3_mk_unary_minus")]
     internal IntPtr MkUnaryMinus(IntPtr c, IntPtr arg)
@@ -71,7 +81,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkDivDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing arg1 div arg2. The arguments must either both have int type or both have real type. If the arguments have int type, then the result type is an int type, otherwise the the result type is real.
     /// </summary>
     [Z3Function("Z3_mk_div")]
     internal IntPtr MkDiv(IntPtr c, IntPtr arg1, IntPtr arg2)
@@ -85,7 +95,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkModDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing arg1 mod arg2. The arguments must have int type.
     /// </summary>
     [Z3Function("Z3_mk_mod")]
     internal IntPtr MkMod(IntPtr c, IntPtr arg1, IntPtr arg2)
@@ -99,7 +109,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkRemDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing arg1 rem arg2. The arguments must have int type.
     /// </summary>
     [Z3Function("Z3_mk_rem")]
     internal IntPtr MkRem(IntPtr c, IntPtr arg1, IntPtr arg2)
@@ -113,7 +123,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkPowerDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing
+    /// Create an AST node representing arg1 ^ arg2. The arguments must have int or real type.
     /// </summary>
     [Z3Function("Z3_mk_power")]
     internal IntPtr MkPower(IntPtr c, IntPtr arg1, IntPtr arg2)
@@ -141,7 +151,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkLtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create less than.
+    /// Create less than. The nodes t1 and t2 must have the same sort, and must be int or real.
     /// </summary>
     [Z3Function("Z3_mk_lt")]
     internal IntPtr MkLt(IntPtr c, IntPtr t1, IntPtr t2)
@@ -155,7 +165,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkLeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create less than or equal to.
+    /// Create less than or equal to. The nodes t1 and t2 must have the same sort, and must be int or real.
     /// </summary>
     [Z3Function("Z3_mk_le")]
     internal IntPtr MkLe(IntPtr c, IntPtr t1, IntPtr t2)
@@ -169,7 +179,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkGtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create greater than.
+    /// Create greater than. The nodes t1 and t2 must have the same sort, and must be int or real.
     /// </summary>
     [Z3Function("Z3_mk_gt")]
     internal IntPtr MkGt(IntPtr c, IntPtr t1, IntPtr t2)
@@ -183,7 +193,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkGeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create greater than or equal to.
+    /// Create greater than or equal to. The nodes t1 and t2 must have the same sort, and must be int or real.
     /// </summary>
     [Z3Function("Z3_mk_ge")]
     internal IntPtr MkGe(IntPtr c, IntPtr t1, IntPtr t2)
@@ -197,7 +207,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkDividesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create division predicate.
+    /// Create division predicate. The nodes t1 and t2 must be of integer sort. The predicate is true when t1 divides t2. For the predicate to be part of linear integer arithmetic, the first argument t1 must be a non-zero integer.
     /// </summary>
     [Z3Function("Z3_mk_divides")]
     internal IntPtr MkDivides(IntPtr c, IntPtr t1, IntPtr t2)
@@ -211,8 +221,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkInt2realDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
-    /// Coerce an integer to a real.
+    /// Coerce an integer to a real. There is also a converse operation exposed. It follows the semantics prescribed by the SMT-LIB standard. You can take the floor of a real by creating an auxiliary integer constant k and and asserting mk_int2real(k) &lt;= t1 &lt; mk_int2real(k)+1. The node t1 must have sort integer.
     /// </summary>
+    /// <seealso cref="MkReal2int"/>
+    /// <seealso cref="MkIsInt"/>
     [Z3Function("Z3_mk_int2real")]
     internal IntPtr MkInt2real(IntPtr c, IntPtr t1)
     {
@@ -225,8 +237,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkReal2intDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
-    /// Coerce a real to an integer.
+    /// Coerce a real to an integer. The semantics of this function follows the SMT-LIB standard for the function to_int
     /// </summary>
+    /// <seealso cref="MkInt2real"/>
+    /// <seealso cref="MkIsInt"/>
     [Z3Function("Z3_mk_real2int")]
     internal IntPtr MkReal2int(IntPtr c, IntPtr t1)
     {
@@ -241,6 +255,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Check if a real number is an integer.
     /// </summary>
+    /// <seealso cref="MkInt2real"/>
+    /// <seealso cref="MkReal2int"/>
     [Z3Function("Z3_mk_is_int")]
     internal IntPtr MkIsInt(IntPtr c, IntPtr t1)
     {

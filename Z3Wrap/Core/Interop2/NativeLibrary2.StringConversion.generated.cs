@@ -15,8 +15,11 @@ internal sealed partial class NativeLibrary2
     private delegate void SetAstPrintModeDelegate(IntPtr c, int mode);
 
     /// <summary>
-    /// Select mode for the format used for pretty-printing AST nodes.
+    /// Select mode for the format used for pretty-printing AST nodes. The default mode for pretty printing AST nodes is to produce SMT-LIB style output where common subexpressions are printed at each occurrence. The mode is called Z3_PRINT_SMTLIB_FULL. To print shared common subexpressions only once, use the Z3_PRINT_LOW_LEVEL mode. To print in way that conforms to SMT-LIB standards and uses let expressions to share common sub-expressions use Z3_PRINT_SMTLIB2_COMPLIANT.
     /// </summary>
+    /// <seealso cref="AstToString"/>
+    /// <seealso cref="PatternToString"/>
+    /// <seealso cref="FuncDeclToString"/>
     [Z3Function("Z3_set_ast_print_mode")]
     internal void SetAstPrintMode(IntPtr c, int mode)
     {
@@ -31,6 +34,11 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Convert the given AST node into a string.
     /// </summary>
+    /// <remarks>
+    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_ast_to_string.
+    /// </remarks>
+    /// <seealso cref="PatternToString"/>
+    /// <seealso cref="SortToString"/>
     [Z3Function("Z3_ast_to_string")]
     internal IntPtr AstToString(IntPtr c, IntPtr a)
     {
@@ -78,6 +86,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Convert the given model into a string.
     /// </summary>
+    /// <remarks>
+    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_model_to_string.
+    /// </remarks>
     [Z3Function("Z3_model_to_string")]
     internal IntPtr ModelToString(IntPtr c, IntPtr m)
     {
@@ -92,6 +103,17 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Convert the given benchmark into SMT-LIB formatted string.
     /// </summary>
+    /// <param name="c">- context.</param>
+    /// <param name="name">- name of benchmark. The argument is optional.</param>
+    /// <param name="logic">- the benchmark logic.</param>
+    /// <param name="status">- the status string (sat, unsat, or unknown)</param>
+    /// <param name="attributes">- other attributes, such as source, difficulty or category.</param>
+    /// <param name="num_assumptions">- number of assumptions.</param>
+    /// <param name="assumptions">- auxiliary assumptions.</param>
+    /// <param name="formula">- formula to be checked for consistency in conjunction with assumptions.</param>
+    /// <remarks>
+    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_benchmark_to_smtlib_string.
+    /// </remarks>
     [Z3Function("Z3_benchmark_to_smtlib_string")]
     internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula)
     {

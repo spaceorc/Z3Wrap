@@ -17,6 +17,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return an empty mapping from AST to AST
     /// </summary>
+    /// <remarks>
+    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// </remarks>
     [Z3Function("Z3_mk_ast_map")]
     internal IntPtr MkAstMap(IntPtr c)
     {
@@ -57,7 +60,7 @@ internal sealed partial class NativeLibrary2
     private delegate bool AstMapContainsDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// Return true if the map
+    /// Return true if the map m contains the AST key k.
     /// </summary>
     [Z3Function("Z3_ast_map_contains")]
     internal bool AstMapContains(IntPtr c, IntPtr m, IntPtr k)
@@ -71,7 +74,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr AstMapFindDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// Return the value associated with the key
+    /// Return the value associated with the key k. The procedure invokes the error handler if k is not in the map.
     /// </summary>
     [Z3Function("Z3_ast_map_find")]
     internal IntPtr AstMapFind(IntPtr c, IntPtr m, IntPtr k)

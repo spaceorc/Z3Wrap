@@ -15,8 +15,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkSelectDelegate(IntPtr c, IntPtr a, IntPtr i);
 
     /// <summary>
-    /// Array read. The argument
+    /// Array read. The argument a is the array and i is the index of the array that gets read. The node a must have an array sort [domain -&gt; range], and i must have the sort domain. The sort of the result is range.
     /// </summary>
+    /// <seealso cref="MkArraySort"/>
+    /// <seealso cref="MkStore"/>
     [Z3Function("Z3_mk_select")]
     internal IntPtr MkSelect(IntPtr c, IntPtr a, IntPtr i)
     {
@@ -29,7 +31,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkSelectNDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs);
 
     /// <summary>
-    /// n-ary Array read. The argument
+    /// n-ary Array read. The argument a is the array and idxs are the indices of the array that gets read.
     /// </summary>
     [Z3Function("Z3_mk_select_n")]
     internal IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, IntPtr idxs)
@@ -43,8 +45,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkStoreDelegate(IntPtr c, IntPtr a, IntPtr i, IntPtr v);
 
     /// <summary>
-    /// Array update.
+    /// Array update. The node a must have an array sort [domain -&gt; range], i must have sort domain, v must have sort range. The sort of the result is [domain -&gt; range]. The semantics of this function is given by the theory of arrays described in the SMT-LIB standard. See http://smtlib.org for more details. The result of this function is an array that is equal to a (with respect to select) on all indices except for i, where it maps to v (and the select of a with respect to i may be a different value).
     /// </summary>
+    /// <seealso cref="MkArraySort"/>
+    /// <seealso cref="MkSelect"/>
     [Z3Function("Z3_mk_store")]
     internal IntPtr MkStore(IntPtr c, IntPtr a, IntPtr i, IntPtr v)
     {
@@ -71,8 +75,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkConstArrayDelegate(IntPtr c, IntPtr domain, IntPtr v);
 
     /// <summary>
-    /// Create the constant array.
+    /// Create the constant array. The resulting term is an array, such that a select on an arbitrary index produces the value v.
     /// </summary>
+    /// <param name="c">logical context.</param>
+    /// <param name="domain">domain sort for the array.</param>
+    /// <param name="v">value that the array maps to.</param>
     [Z3Function("Z3_mk_const_array")]
     internal IntPtr MkConstArray(IntPtr c, IntPtr domain, IntPtr v)
     {
@@ -85,8 +92,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkMapDelegate(IntPtr c, IntPtr f, uint n, IntPtr args);
 
     /// <summary>
-    /// Map f on the argument arrays.
+    /// Map f on the argument arrays. The n nodes args must be of array sorts [domain_i -&gt; range_i]. The function declaration f must have type  range_1 .. range_n -&gt; range. v must have sort range. The sort of the result is [domain_i -&gt; range].
     /// </summary>
+    /// <seealso cref="MkArraySort"/>
+    /// <seealso cref="MkStore"/>
+    /// <seealso cref="MkSelect"/>
     [Z3Function("Z3_mk_map")]
     internal IntPtr MkMap(IntPtr c, IntPtr f, uint n, IntPtr args)
     {
@@ -101,6 +111,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Access the array default value. Produces the default range value, for arrays that can be represented as finite maps with a default range value.
     /// </summary>
+    /// <param name="c">logical context.</param>
+    /// <param name="array">array value whose default range value is accessed.</param>
     [Z3Function("Z3_mk_array_default")]
     internal IntPtr MkArrayDefault(IntPtr c, IntPtr array)
     {
@@ -127,7 +139,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkSetHasSizeDelegate(IntPtr c, IntPtr set, IntPtr k);
 
     /// <summary>
-    /// Create predicate that holds if Boolean array
+    /// Create predicate that holds if Boolean array set has k elements set to true.
     /// </summary>
     [Z3Function("Z3_mk_set_has_size")]
     internal IntPtr MkSetHasSize(IntPtr c, IntPtr set, IntPtr k)

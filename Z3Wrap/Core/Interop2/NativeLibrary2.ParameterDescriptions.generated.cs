@@ -43,7 +43,7 @@ internal sealed partial class NativeLibrary2
     private delegate int ParamDescrsGetKindDelegate(IntPtr c, IntPtr p, IntPtr n);
 
     /// <summary>
-    /// Return the kind associated with the given parameter name
+    /// Return the kind associated with the given parameter name n.
     /// </summary>
     [Z3Function("Z3_param_descrs_get_kind")]
     internal int ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
@@ -71,8 +71,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ParamDescrsGetNameDelegate(IntPtr c, IntPtr p, uint i);
 
     /// <summary>
-    /// Return the name of the parameter at given index
+    /// Return the name of the parameter at given index i.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_param_descrs_size(c, p)
+    /// </remarks>
     [Z3Function("Z3_param_descrs_get_name")]
     internal IntPtr ParamDescrsGetName(IntPtr c, IntPtr p, uint i)
     {
@@ -85,7 +88,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ParamDescrsGetDocumentationDelegate(IntPtr c, IntPtr p, IntPtr s);
 
     /// <summary>
-    /// Retrieve documentation string corresponding to parameter name
+    /// Retrieve documentation string corresponding to parameter name s.
     /// </summary>
     [Z3Function("Z3_param_descrs_get_documentation")]
     internal IntPtr ParamDescrsGetDocumentation(IntPtr c, IntPtr p, IntPtr s)

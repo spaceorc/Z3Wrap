@@ -135,6 +135,8 @@ generate-native: ## Generate NativeLibrary2 partial classes from Z3 headers
 	@echo "$(BLUE)Generating NativeLibrary2 from Z3 headers...$(NC)"
 	@python3 scripts/generate_native_library.py
 	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Interop2/$(NC)"
+	@echo "$(BLUE)Formatting generated code...$(NC)"
+	@$(MAKE) format
 
 # =============================================================================
 # Setup & Info Commands

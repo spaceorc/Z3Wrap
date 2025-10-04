@@ -17,6 +17,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Create a new optimize context.
     /// </summary>
+    /// <remarks>
+    /// User must use Z3_optimize_inc_ref and Z3_optimize_dec_ref to manage optimize objects. Even if the context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// </remarks>
     [Z3Function("Z3_mk_optimize")]
     internal IntPtr MkOptimize(IntPtr c)
     {
@@ -59,6 +62,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Assert hard constraint to the optimization context.
     /// </summary>
+    /// <seealso cref="OptimizeAssertSoft"/>
+    /// <seealso cref="OptimizeAssertAndTrack"/>
     [Z3Function("Z3_optimize_assert")]
     internal void OptimizeAssert(IntPtr c, IntPtr o, IntPtr a)
     {
@@ -73,6 +78,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Assert tracked hard constraint to the optimization context.
     /// </summary>
+    /// <seealso cref="OptimizeAssert"/>
+    /// <seealso cref="OptimizeAssertSoft"/>
     [Z3Function("Z3_optimize_assert_and_track")]
     internal void OptimizeAssertAndTrack(IntPtr c, IntPtr o, IntPtr a, IntPtr t)
     {
@@ -87,6 +94,13 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Assert soft constraint to the optimization context.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="a">- formula</param>
+    /// <param name="weight">- a penalty for violating soft constraint. Negative weights convert into rewards.</param>
+    /// <param name="id">- optional identifier to group soft constraints</param>
+    /// <seealso cref="OptimizeAssert"/>
+    /// <seealso cref="OptimizeAssertAndTrack"/>
     [Z3Function("Z3_optimize_assert_soft")]
     internal uint OptimizeAssertSoft(IntPtr c, IntPtr o, IntPtr a, IntPtr weight, IntPtr id)
     {
@@ -101,6 +115,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Add a maximization constraint.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="t">- arithmetical term</param>
+    /// <seealso cref="OptimizeMinimize"/>
     [Z3Function("Z3_optimize_maximize")]
     internal uint OptimizeMaximize(IntPtr c, IntPtr o, IntPtr t)
     {
@@ -115,6 +133,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Add a minimization constraint.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="t">- arithmetical term</param>
+    /// <seealso cref="OptimizeMaximize"/>
     [Z3Function("Z3_optimize_minimize")]
     internal uint OptimizeMinimize(IntPtr c, IntPtr o, IntPtr t)
     {
@@ -127,8 +149,9 @@ internal sealed partial class NativeLibrary2
     private delegate void OptimizePushDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Create a backtracking point.
+    /// Create a backtracking point. The optimize solver contains a set of rules, added facts and assertions. The set of rules, facts and assertions are restored upon calling Z3_optimize_pop.
     /// </summary>
+    /// <seealso cref="OptimizePop"/>
     [Z3Function("Z3_optimize_push")]
     internal void OptimizePush(IntPtr c, IntPtr d)
     {
@@ -143,6 +166,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Backtrack one level.
     /// </summary>
+    /// <remarks>
+    /// Precondition: The number of calls to pop cannot exceed calls to push.
+    /// </remarks>
+    /// <seealso cref="OptimizePush"/>
     [Z3Function("Z3_optimize_pop")]
     internal void OptimizePop(IntPtr c, IntPtr d)
     {
@@ -155,7 +182,7 @@ internal sealed partial class NativeLibrary2
     private delegate void OptimizeSetInitialValueDelegate(IntPtr c, IntPtr o, IntPtr v, IntPtr val);
 
     /// <summary>
-    /// provide an initialization hint to the solver. The initialization hint is used to calibrate an initial value of the expression that represents a variable. If the variable is Boolean, the initial phase is set according to
+    /// provide an initialization hint to the solver. The initialization hint is used to calibrate an initial value of the expression that represents a variable. If the variable is Boolean, the initial phase is set according to value. If the variable is an integer or real, the initial Simplex tableau is recalibrated to attempt to follow the value assignment.
     /// </summary>
     [Z3Function("Z3_optimize_set_initial_value")]
     internal void OptimizeSetInitialValue(IntPtr c, IntPtr o, IntPtr v, IntPtr val)
@@ -171,6 +198,14 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Check consistency and produce optimal values.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="num_assumptions">- number of additional assumptions</param>
+    /// <param name="assumptions">- the additional assumptions</param>
+    /// <seealso cref="OptimizeGetReasonUnknown"/>
+    /// <seealso cref="OptimizeGetModel"/>
+    /// <seealso cref="OptimizeGetStatistics"/>
+    /// <seealso cref="OptimizeGetUnsatCore"/>
     [Z3Function("Z3_optimize_check")]
     internal int OptimizeCheck(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions)
     {
@@ -183,7 +218,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr OptimizeGetReasonUnknownDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Retrieve a string that describes the last status returned by #Z3_optimize_check.
+    /// Retrieve a string that describes the last status returned by Z3_optimize_check. Use this method when Z3_optimize_check returns Z3_L_UNDEF.
     /// </summary>
     [Z3Function("Z3_optimize_get_reason_unknown")]
     internal IntPtr OptimizeGetReasonUnknown(IntPtr c, IntPtr d)
@@ -197,7 +232,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr OptimizeGetModelDelegate(IntPtr c, IntPtr o);
 
     /// <summary>
-    /// Retrieve the model for the last #Z3_optimize_check
+    /// Retrieve the model for the last Z3_optimize_check The error handler is invoked if a model is not available because the commands above were not invoked for the given optimization solver, or if the result was Z3_L_FALSE.
     /// </summary>
     [Z3Function("Z3_optimize_get_model")]
     internal IntPtr OptimizeGetModel(IntPtr c, IntPtr o)
@@ -211,7 +246,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr OptimizeGetUnsatCoreDelegate(IntPtr c, IntPtr o);
 
     /// <summary>
-    /// Retrieve the unsat core for the last #Z3_optimize_check The unsat core is a subset of the assumptions
+    /// Retrieve the unsat core for the last Z3_optimize_check The unsat core is a subset of the assumptions a.
     /// </summary>
     [Z3Function("Z3_optimize_get_unsat_core")]
     internal IntPtr OptimizeGetUnsatCore(IntPtr c, IntPtr o)
@@ -227,6 +262,11 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Set parameters on optimization context.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="p">- parameters</param>
+    /// <seealso cref="OptimizeGetHelp"/>
+    /// <seealso cref="OptimizeGetParamDescrs"/>
     [Z3Function("Z3_optimize_set_params")]
     internal void OptimizeSetParams(IntPtr c, IntPtr o, IntPtr p)
     {
@@ -241,6 +281,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the parameter description set for the given optimize object.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <seealso cref="OptimizeGetHelp"/>
+    /// <seealso cref="OptimizeSetParams"/>
     [Z3Function("Z3_optimize_get_param_descrs")]
     internal IntPtr OptimizeGetParamDescrs(IntPtr c, IntPtr o)
     {
@@ -255,6 +299,12 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Retrieve lower bound value or approximation for the i'th optimization objective.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="idx">- index of optimization objective</param>
+    /// <seealso cref="OptimizeGetUpper"/>
+    /// <seealso cref="OptimizeGetLowerAsVector"/>
+    /// <seealso cref="OptimizeGetUpperAsVector"/>
     [Z3Function("Z3_optimize_get_lower")]
     internal IntPtr OptimizeGetLower(IntPtr c, IntPtr o, uint idx)
     {
@@ -269,6 +319,12 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Retrieve upper bound value or approximation for the i'th optimization objective.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="idx">- index of optimization objective</param>
+    /// <seealso cref="OptimizeGetLower"/>
+    /// <seealso cref="OptimizeGetLowerAsVector"/>
+    /// <seealso cref="OptimizeGetUpperAsVector"/>
     [Z3Function("Z3_optimize_get_upper")]
     internal IntPtr OptimizeGetUpper(IntPtr c, IntPtr o, uint idx)
     {
@@ -281,8 +337,14 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr OptimizeGetLowerAsVectorDelegate(IntPtr c, IntPtr o, uint idx);
 
     /// <summary>
-    /// Retrieve lower bound value or approximation for the i'th optimization objective. The returned vector is of length 3. It always contains numerals. The three numerals are coefficients
+    /// Retrieve lower bound value or approximation for the i'th optimization objective. The returned vector is of length 3. It always contains numerals. The three numerals are coefficients a, b, c and encode the result of Z3_optimize_get_lower a * infinity + b + c * epsilon.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="idx">- index of optimization objective</param>
+    /// <seealso cref="OptimizeGetLower"/>
+    /// <seealso cref="OptimizeGetUpper"/>
+    /// <seealso cref="OptimizeGetUpperAsVector"/>
     [Z3Function("Z3_optimize_get_lower_as_vector")]
     internal IntPtr OptimizeGetLowerAsVector(IntPtr c, IntPtr o, uint idx)
     {
@@ -297,6 +359,12 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Retrieve upper bound value or approximation for the i'th optimization objective.
     /// </summary>
+    /// <param name="c">- context</param>
+    /// <param name="o">- optimization context</param>
+    /// <param name="idx">- index of optimization objective</param>
+    /// <seealso cref="OptimizeGetLower"/>
+    /// <seealso cref="OptimizeGetUpper"/>
+    /// <seealso cref="OptimizeGetLowerAsVector"/>
     [Z3Function("Z3_optimize_get_upper_as_vector")]
     internal IntPtr OptimizeGetUpperAsVector(IntPtr c, IntPtr o, uint idx)
     {
@@ -311,6 +379,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Print the current context as a string.
     /// </summary>
+    /// <param name="c">- context.</param>
+    /// <param name="o">- optimization context.</param>
+    /// <seealso cref="OptimizeFromFile"/>
+    /// <seealso cref="OptimizeFromString"/>
     [Z3Function("Z3_optimize_to_string")]
     internal IntPtr OptimizeToString(IntPtr c, IntPtr o)
     {
@@ -325,6 +397,11 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Parse an SMT-LIB2 string with assertions, soft constraints and optimization objectives. Add the parsed constraints and objectives to the optimization context.
     /// </summary>
+    /// <param name="c">- context.</param>
+    /// <param name="o">- optimize context.</param>
+    /// <param name="s">- string containing SMT2 specification.</param>
+    /// <seealso cref="OptimizeFromFile"/>
+    /// <seealso cref="OptimizeToString"/>
     [Z3Function("Z3_optimize_from_string")]
     internal void OptimizeFromString(IntPtr c, IntPtr o, IntPtr s)
     {
@@ -339,6 +416,11 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Parse an SMT-LIB2 file with assertions, soft constraints and optimization objectives. Add the parsed constraints and objectives to the optimization context.
     /// </summary>
+    /// <param name="c">- context.</param>
+    /// <param name="o">- optimize context.</param>
+    /// <param name="s">- path to file containing SMT2 specification.</param>
+    /// <seealso cref="OptimizeFromString"/>
+    /// <seealso cref="OptimizeToString"/>
     [Z3Function("Z3_optimize_from_file")]
     internal void OptimizeFromFile(IntPtr c, IntPtr o, IntPtr s)
     {
@@ -353,6 +435,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return a string containing a description of parameters accepted by optimize.
     /// </summary>
+    /// <seealso cref="OptimizeGetParamDescrs"/>
+    /// <seealso cref="OptimizeSetParams"/>
     [Z3Function("Z3_optimize_get_help")]
     internal IntPtr OptimizeGetHelp(IntPtr c, IntPtr t)
     {
@@ -365,7 +449,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr OptimizeGetStatisticsDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Retrieve statistics information from the last call to #Z3_optimize_check
+    /// Retrieve statistics information from the last call to Z3_optimize_check
     /// </summary>
     [Z3Function("Z3_optimize_get_statistics")]
     internal IntPtr OptimizeGetStatistics(IntPtr c, IntPtr d)
@@ -393,7 +477,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr OptimizeGetObjectivesDelegate(IntPtr c, IntPtr o);
 
     /// <summary>
-    /// Return objectives on the optimization context. If the objective function is a max-sat objective it is returned as a Pseudo-Boolean (minimization) sum of the form
+    /// Return objectives on the optimization context. If the objective function is a max-sat objective it is returned as a Pseudo-Boolean (minimization) sum of the form (+ (if f1 w1 0) (if f2 w2 0) ...) If the objective function is entered as a maximization objective, then return the corresponding minimization objective. In this way the resulting objective function is always returned as a minimization objective.
     /// </summary>
     [Z3Function("Z3_optimize_get_objectives")]
     internal IntPtr OptimizeGetObjectives(IntPtr c, IntPtr o)

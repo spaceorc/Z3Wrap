@@ -15,8 +15,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkIntSymbolDelegate(IntPtr c, int i);
 
     /// <summary>
-    /// Create a Z3 symbol using an integer.
+    /// Create a Z3 symbol using an integer. Symbols are used to name several term and type constructors. NB. Not all integers can be passed to this function. The legal range of unsigned integers is 0 to 2^30-1.
     /// </summary>
+    /// <seealso cref="GetSymbolInt"/>
+    /// <seealso cref="MkStringSymbol"/>
     [Z3Function("Z3_mk_int_symbol")]
     internal IntPtr MkIntSymbol(IntPtr c, int i)
     {
@@ -29,8 +31,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkStringSymbolDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Create a Z3 symbol using a C string.
+    /// Create a Z3 symbol using a C string. Symbols are used to name several term and type constructors.
     /// </summary>
+    /// <seealso cref="GetSymbolString"/>
+    /// <seealso cref="MkIntSymbol"/>
     [Z3Function("Z3_mk_string_symbol")]
     internal IntPtr MkStringSymbol(IntPtr c, IntPtr s)
     {

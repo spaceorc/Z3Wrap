@@ -15,7 +15,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkLinearOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a linear ordering relation over signature
+    /// create a linear ordering relation over signature a. The relation is identified by the index id.
     /// </summary>
     [Z3Function("Z3_mk_linear_order")]
     internal IntPtr MkLinearOrder(IntPtr c, IntPtr a, uint id)
@@ -29,7 +29,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkPartialOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a partial ordering relation over signature
+    /// create a partial ordering relation over signature a and index id.
     /// </summary>
     [Z3Function("Z3_mk_partial_order")]
     internal IntPtr MkPartialOrder(IntPtr c, IntPtr a, uint id)
@@ -43,7 +43,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkPiecewiseLinearOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a piecewise linear ordering relation over signature
+    /// create a piecewise linear ordering relation over signature a and index id.
     /// </summary>
     [Z3Function("Z3_mk_piecewise_linear_order")]
     internal IntPtr MkPiecewiseLinearOrder(IntPtr c, IntPtr a, uint id)
@@ -57,7 +57,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkTreeOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a tree ordering relation over signature
+    /// create a tree ordering relation over signature a identified using index id.
     /// </summary>
     [Z3Function("Z3_mk_tree_order")]
     internal IntPtr MkTreeOrder(IntPtr c, IntPtr a, uint id)
@@ -73,6 +73,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// create transitive closure of binary relation.
     /// </summary>
+    /// <remarks>
+    /// Precondition: f is a binary relation, such that the two arguments have the same sorts. The resulting relation f+ represents the transitive closure of f.
+    /// </remarks>
     [Z3Function("Z3_mk_transitive_closure")]
     internal IntPtr MkTransitiveClosure(IntPtr c, IntPtr f)
     {

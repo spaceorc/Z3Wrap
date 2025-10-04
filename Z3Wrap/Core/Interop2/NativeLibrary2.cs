@@ -122,7 +122,7 @@ internal sealed partial class NativeLibrary2 : IDisposable
     }
 
     private static readonly string[] allFunctions;
-    
+
     /// <summary>
     /// Core Z3 functions that must be present in any compatible Z3 library.
     /// These are validated after library loading to ensure basic functionality.
@@ -135,12 +135,10 @@ internal sealed partial class NativeLibrary2 : IDisposable
         "Z3_del_context",
         "Z3_inc_ref",
         "Z3_dec_ref",
-
         // Basic sorts
         "Z3_mk_bool_sort",
         "Z3_mk_int_sort",
         "Z3_mk_real_sort",
-
         // Basic expressions
         "Z3_mk_true",
         "Z3_mk_false",
@@ -148,18 +146,15 @@ internal sealed partial class NativeLibrary2 : IDisposable
         "Z3_mk_not",
         "Z3_mk_and",
         "Z3_mk_or",
-
         // Constants
         "Z3_mk_const",
         "Z3_mk_int_symbol",
         "Z3_mk_string_symbol",
-
         // Numerals
         "Z3_mk_int",
         "Z3_mk_int64",
         "Z3_mk_unsigned_int",
         "Z3_mk_unsigned_int64",
-
         // Solver
         "Z3_mk_solver",
         "Z3_solver_inc_ref",
@@ -167,12 +162,10 @@ internal sealed partial class NativeLibrary2 : IDisposable
         "Z3_solver_assert",
         "Z3_solver_check",
         "Z3_solver_get_model",
-
         // Model
         "Z3_model_inc_ref",
         "Z3_model_dec_ref",
         "Z3_model_eval",
-
         // AST operations
         "Z3_ast_to_string",
         "Z3_get_sort",
@@ -285,7 +278,7 @@ internal sealed partial class NativeLibrary2 : IDisposable
     }
 
     private record LoadedLibrary(Dictionary<string, IntPtr> FunctionPointers, IntPtr LibraryHandle);
-    
+
     private class Z3FunctionAttribute(string name) : Attribute
     {
         public string Name { get; } = name;

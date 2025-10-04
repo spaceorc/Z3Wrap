@@ -15,7 +15,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkTacticDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    /// Return a tactic associated with the given name. The complete list of tactics may be obtained using the procedures #Z3_get_num_tactics and #Z3_get_tactic_name. It may also be obtained using the command
+    /// Return a tactic associated with the given name. The complete list of tactics may be obtained using the procedures Z3_get_num_tactics and Z3_get_tactic_name. It may also be obtained using the command (help-tactic) in the SMT 2.0 front-end. Tactics are the basic building block for creating custom solvers for specific problem domains.
     /// </summary>
     [Z3Function("Z3_mk_tactic")]
     internal IntPtr MkTactic(IntPtr c, IntPtr name)
@@ -57,7 +57,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkProbeDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    /// Return a probe associated with the given name. The complete list of probes may be obtained using the procedures #Z3_get_num_probes and #Z3_get_probe_name. It may also be obtained using the command
+    /// Return a probe associated with the given name. The complete list of probes may be obtained using the procedures Z3_get_num_probes and Z3_get_probe_name. It may also be obtained using the command (help-tactic) in the SMT 2.0 front-end. Probes are used to inspect a goal (aka problem) and collect information that may be used to decide which solver and/or preprocessing step will be used.
     /// </summary>
     [Z3Function("Z3_mk_probe")]
     internal IntPtr MkProbe(IntPtr c, IntPtr name)
@@ -99,7 +99,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticAndThenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Return a tactic that applies
+    /// Return a tactic that applies t1 to a given goal and t2 to every subgoal produced by t1.
     /// </summary>
     [Z3Function("Z3_tactic_and_then")]
     internal IntPtr TacticAndThen(IntPtr c, IntPtr t1, IntPtr t2)
@@ -113,7 +113,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticOrElseDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Return a tactic that first applies
+    /// Return a tactic that first applies t1 to a given goal, if it fails then returns the result of t2 applied to the given goal.
     /// </summary>
     [Z3Function("Z3_tactic_or_else")]
     internal IntPtr TacticOrElse(IntPtr c, IntPtr t1, IntPtr t2)
@@ -141,7 +141,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticParAndThenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Return a tactic that applies
+    /// Return a tactic that applies t1 to a given goal and then t2 to every subgoal produced by t1. The subgoals are processed in parallel.
     /// </summary>
     [Z3Function("Z3_tactic_par_and_then")]
     internal IntPtr TacticParAndThen(IntPtr c, IntPtr t1, IntPtr t2)
@@ -155,7 +155,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticTryForDelegate(IntPtr c, IntPtr t, uint ms);
 
     /// <summary>
-    /// Return a tactic that applies
+    /// Return a tactic that applies t to a given goal for ms milliseconds. If t does not terminate in ms milliseconds, then it fails.
     /// </summary>
     [Z3Function("Z3_tactic_try_for")]
     internal IntPtr TacticTryFor(IntPtr c, IntPtr t, uint ms)
@@ -169,7 +169,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticWhenDelegate(IntPtr c, IntPtr p, IntPtr t);
 
     /// <summary>
-    /// Return a tactic that applies
+    /// Return a tactic that applies t to a given goal is the probe p evaluates to true. If p evaluates to false, then the new tactic behaves like the skip tactic.
     /// </summary>
     [Z3Function("Z3_tactic_when")]
     internal IntPtr TacticWhen(IntPtr c, IntPtr p, IntPtr t)
@@ -183,7 +183,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticCondDelegate(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Return a tactic that applies
+    /// Return a tactic that applies t1 to a given goal if the probe p evaluates to true, and t2 if p evaluates to false.
     /// </summary>
     [Z3Function("Z3_tactic_cond")]
     internal IntPtr TacticCond(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2)
@@ -197,7 +197,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticRepeatDelegate(IntPtr c, IntPtr t, uint max);
 
     /// <summary>
-    /// Return a tactic that keeps applying
+    /// Return a tactic that keeps applying t until the goal is not modified anymore or the maximum number of iterations max is reached.
     /// </summary>
     [Z3Function("Z3_tactic_repeat")]
     internal IntPtr TacticRepeat(IntPtr c, IntPtr t, uint max)
@@ -239,7 +239,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticFailIfDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Return a tactic that fails if the probe
+    /// Return a tactic that fails if the probe p evaluates to false.
     /// </summary>
     [Z3Function("Z3_tactic_fail_if")]
     internal IntPtr TacticFailIf(IntPtr c, IntPtr p)
@@ -267,7 +267,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticUsingParamsDelegate(IntPtr c, IntPtr t, IntPtr p);
 
     /// <summary>
-    /// Return a tactic that applies
+    /// Return a tactic that applies t using the given set of parameters.
     /// </summary>
     [Z3Function("Z3_tactic_using_params")]
     internal IntPtr TacticUsingParams(IntPtr c, IntPtr t, IntPtr p)
@@ -281,7 +281,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkSimplifierDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    /// Return a simplifier associated with the given name. The complete list of simplifiers may be obtained using the procedures #Z3_get_num_simplifiers and #Z3_get_simplifier_name. It may also be obtained using the command
+    /// Return a simplifier associated with the given name. The complete list of simplifiers may be obtained using the procedures Z3_get_num_simplifiers and Z3_get_simplifier_name. It may also be obtained using the command (help-simplifier) in the SMT 2.0 front-end. Simplifiers are the basic building block for creating custom solvers for specific problem domains.
     /// </summary>
     [Z3Function("Z3_mk_simplifier")]
     internal IntPtr MkSimplifier(IntPtr c, IntPtr name)
@@ -337,7 +337,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr SimplifierAndThenDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Return a simplifier that applies
+    /// Return a simplifier that applies t1 to a given goal and t2 to every subgoal produced by t1.
     /// </summary>
     [Z3Function("Z3_simplifier_and_then")]
     internal IntPtr SimplifierAndThen(IntPtr c, IntPtr t1, IntPtr t2)
@@ -351,7 +351,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr SimplifierUsingParamsDelegate(IntPtr c, IntPtr t, IntPtr p);
 
     /// <summary>
-    /// Return a simplifier that applies
+    /// Return a simplifier that applies t using the given set of parameters.
     /// </summary>
     [Z3Function("Z3_simplifier_using_params")]
     internal IntPtr SimplifierUsingParams(IntPtr c, IntPtr t, IntPtr p)
@@ -367,6 +367,7 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the number of builtin simplifiers available in Z3.
     /// </summary>
+    /// <seealso cref="GetSimplifierName"/>
     [Z3Function("Z3_get_num_simplifiers")]
     internal uint GetNumSimplifiers(IntPtr c)
     {
@@ -381,6 +382,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the name of the idx simplifier.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_get_num_simplifiers(c)
+    /// </remarks>
+    /// <seealso cref="GetNumSimplifiers"/>
     [Z3Function("Z3_get_simplifier_name")]
     internal IntPtr GetSimplifierName(IntPtr c, uint i)
     {
@@ -449,8 +454,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeLtDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by
+    /// Return a probe that evaluates to "true" when the value returned by p1 is less than the value returned by p2.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_lt")]
     internal IntPtr ProbeLt(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -463,8 +471,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeGtDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by
+    /// Return a probe that evaluates to "true" when the value returned by p1 is greater than the value returned by p2.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_gt")]
     internal IntPtr ProbeGt(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -477,8 +488,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeLeDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by
+    /// Return a probe that evaluates to "true" when the value returned by p1 is less than or equal to the value returned by p2.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_le")]
     internal IntPtr ProbeLe(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -491,8 +505,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeGeDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by
+    /// Return a probe that evaluates to "true" when the value returned by p1 is greater than or equal to the value returned by p2.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_ge")]
     internal IntPtr ProbeGe(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -505,8 +522,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeEqDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by
+    /// Return a probe that evaluates to "true" when the value returned by p1 is equal to the value returned by p2.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_eq")]
     internal IntPtr ProbeEq(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -519,8 +539,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeAndDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when
+    /// Return a probe that evaluates to "true" when p1 and p2 evaluates to true.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_and")]
     internal IntPtr ProbeAnd(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -533,8 +556,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeOrDelegate(IntPtr x, IntPtr p1, IntPtr p2);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when
+    /// Return a probe that evaluates to "true" when p1 or p2 evaluates to true.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_or")]
     internal IntPtr ProbeOr(IntPtr x, IntPtr p1, IntPtr p2)
     {
@@ -547,8 +573,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ProbeNotDelegate(IntPtr x, IntPtr p);
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when
+    /// Return a probe that evaluates to "true" when p does not evaluate to true.
     /// </summary>
+    /// <remarks>
+    /// For probes, "true" is any value different from 0.0.
+    /// </remarks>
     [Z3Function("Z3_probe_not")]
     internal IntPtr ProbeNot(IntPtr x, IntPtr p)
     {
@@ -563,6 +592,7 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the number of builtin tactics available in Z3.
     /// </summary>
+    /// <seealso cref="GetTacticName"/>
     [Z3Function("Z3_get_num_tactics")]
     internal uint GetNumTactics(IntPtr c)
     {
@@ -577,6 +607,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the name of the idx tactic.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_get_num_tactics(c)
+    /// </remarks>
+    /// <seealso cref="GetNumTactics"/>
     [Z3Function("Z3_get_tactic_name")]
     internal IntPtr GetTacticName(IntPtr c, uint i)
     {
@@ -591,6 +625,7 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the number of builtin probes available in Z3.
     /// </summary>
+    /// <seealso cref="GetProbeName"/>
     [Z3Function("Z3_get_num_probes")]
     internal uint GetNumProbes(IntPtr c)
     {
@@ -603,8 +638,12 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr GetProbeNameDelegate(IntPtr c, uint i);
 
     /// <summary>
-    /// Return the name of the
+    /// Return the name of the i probe.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_get_num_probes(c)
+    /// </remarks>
+    /// <seealso cref="GetNumProbes"/>
     [Z3Function("Z3_get_probe_name")]
     internal IntPtr GetProbeName(IntPtr c, uint i)
     {
@@ -687,8 +726,9 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticApplyDelegate(IntPtr c, IntPtr t, IntPtr g);
 
     /// <summary>
-    /// Apply tactic
+    /// Apply tactic t to the goal g.
     /// </summary>
+    /// <seealso cref="TacticApplyEx"/>
     [Z3Function("Z3_tactic_apply")]
     internal IntPtr TacticApply(IntPtr c, IntPtr t, IntPtr g)
     {
@@ -701,8 +741,9 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr TacticApplyExDelegate(IntPtr c, IntPtr t, IntPtr g, IntPtr p);
 
     /// <summary>
-    /// Apply tactic
+    /// Apply tactic t to the goal g using the parameter set p.
     /// </summary>
+    /// <seealso cref="TacticApply"/>
     [Z3Function("Z3_tactic_apply_ex")]
     internal IntPtr TacticApplyEx(IntPtr c, IntPtr t, IntPtr g, IntPtr p)
     {
@@ -715,7 +756,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ApplyResultIncRefDelegate(IntPtr c, IntPtr r);
 
     /// <summary>
-    /// Increment the reference counter of the given
+    /// Increment the reference counter of the given Z3_apply_result object.
     /// </summary>
     [Z3Function("Z3_apply_result_inc_ref")]
     internal void ApplyResultIncRef(IntPtr c, IntPtr r)
@@ -729,7 +770,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ApplyResultDecRefDelegate(IntPtr c, IntPtr r);
 
     /// <summary>
-    /// Decrement the reference counter of the given
+    /// Decrement the reference counter of the given Z3_apply_result object.
     /// </summary>
     [Z3Function("Z3_apply_result_dec_ref")]
     internal void ApplyResultDecRef(IntPtr c, IntPtr r)
@@ -743,7 +784,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ApplyResultToStringDelegate(IntPtr c, IntPtr r);
 
     /// <summary>
-    /// Convert the
+    /// Convert the Z3_apply_result object returned by Z3_tactic_apply into a string.
     /// </summary>
     [Z3Function("Z3_apply_result_to_string")]
     internal IntPtr ApplyResultToString(IntPtr c, IntPtr r)
@@ -757,8 +798,9 @@ internal sealed partial class NativeLibrary2
     private delegate uint ApplyResultGetNumSubgoalsDelegate(IntPtr c, IntPtr r);
 
     /// <summary>
-    /// Return the number of subgoals in the
+    /// Return the number of subgoals in the Z3_apply_result object returned by Z3_tactic_apply.
     /// </summary>
+    /// <seealso cref="ApplyResultGetSubgoal"/>
     [Z3Function("Z3_apply_result_get_num_subgoals")]
     internal uint ApplyResultGetNumSubgoals(IntPtr c, IntPtr r)
     {
@@ -771,8 +813,12 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ApplyResultGetSubgoalDelegate(IntPtr c, IntPtr r, uint i);
 
     /// <summary>
-    /// Return one of the subgoals in the
+    /// Return one of the subgoals in the Z3_apply_result object returned by Z3_tactic_apply.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_apply_result_get_num_subgoals(c, r)
+    /// </remarks>
+    /// <seealso cref="ApplyResultGetNumSubgoals"/>
     [Z3Function("Z3_apply_result_get_subgoal")]
     internal IntPtr ApplyResultGetSubgoal(IntPtr c, IntPtr r, uint i)
     {

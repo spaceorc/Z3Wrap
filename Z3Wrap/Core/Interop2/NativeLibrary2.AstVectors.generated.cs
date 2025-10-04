@@ -17,6 +17,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return an empty AST vector.
     /// </summary>
+    /// <remarks>
+    /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// </remarks>
     [Z3Function("Z3_mk_ast_vector")]
     internal IntPtr MkAstVector(IntPtr c)
     {
@@ -71,8 +74,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr AstVectorGetDelegate(IntPtr c, IntPtr v, uint i);
 
     /// <summary>
-    /// Return the AST at position
+    /// Return the AST at position i in the AST vector v.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_ast_vector_size(c, v)
+    /// </remarks>
     [Z3Function("Z3_ast_vector_get")]
     internal IntPtr AstVectorGet(IntPtr c, IntPtr v, uint i)
     {
@@ -85,8 +91,11 @@ internal sealed partial class NativeLibrary2
     private delegate void AstVectorSetDelegate(IntPtr c, IntPtr v, uint i, IntPtr a);
 
     /// <summary>
-    /// Update position
+    /// Update position i of the AST vector v with the AST a.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_ast_vector_size(c, v)
+    /// </remarks>
     [Z3Function("Z3_ast_vector_set")]
     internal void AstVectorSet(IntPtr c, IntPtr v, uint i, IntPtr a)
     {
@@ -99,7 +108,7 @@ internal sealed partial class NativeLibrary2
     private delegate void AstVectorResizeDelegate(IntPtr c, IntPtr v, uint n);
 
     /// <summary>
-    /// Resize the AST vector
+    /// Resize the AST vector v.
     /// </summary>
     [Z3Function("Z3_ast_vector_resize")]
     internal void AstVectorResize(IntPtr c, IntPtr v, uint n)
@@ -113,7 +122,7 @@ internal sealed partial class NativeLibrary2
     private delegate void AstVectorPushDelegate(IntPtr c, IntPtr v, IntPtr a);
 
     /// <summary>
-    /// Add the AST
+    /// Add the AST a in the end of the AST vector v. The size of v is increased by one.
     /// </summary>
     [Z3Function("Z3_ast_vector_push")]
     internal void AstVectorPush(IntPtr c, IntPtr v, IntPtr a)
@@ -127,7 +136,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr AstVectorTranslateDelegate(IntPtr s, IntPtr v, IntPtr t);
 
     /// <summary>
-    /// Translate the AST vector
+    /// Translate the AST vector v from context s into an AST vector in context t.
     /// </summary>
     [Z3Function("Z3_ast_vector_translate")]
     internal IntPtr AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)

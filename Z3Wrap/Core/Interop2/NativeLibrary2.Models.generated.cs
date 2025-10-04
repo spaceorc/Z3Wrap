@@ -57,7 +57,7 @@ internal sealed partial class NativeLibrary2
     private delegate bool ModelEvalDelegate(IntPtr c, IntPtr m, IntPtr t, bool model_completion, IntPtr v);
 
     /// <summary>
-    /// Evaluate the AST node
+    /// Evaluate the AST node t in the given model. Return true if succeeded, and store the result in v. If model_completion is true, then Z3 will assign an interpretation for any constant or function that does not have an interpretation in m. These constants and functions were essentially don't cares. If model_completion is false, then Z3 will not assign interpretations to constants for functions that do not have interpretations in m. Evaluation behaves as the identify function in this case. The evaluation may fail for the following reasons: - t contains a quantifier. - the model m is partial, that is, it doesn't have a complete interpretation for uninterpreted functions. That is, the option MODEL_PARTIAL=true was used. - t is type incorrect. - Z3_interrupt was invoked during evaluation.
     /// </summary>
     [Z3Function("Z3_model_eval")]
     internal bool ModelEval(IntPtr c, IntPtr m, IntPtr t, bool model_completion, IntPtr v)
@@ -71,8 +71,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ModelGetConstInterpDelegate(IntPtr c, IntPtr m, IntPtr a);
 
     /// <summary>
-    /// Return the interpretation (i.e., assignment) of constant
+    /// Return the interpretation (i.e., assignment) of constant a in the model m. Return NULL, if the model does not assign an interpretation for a. That should be interpreted as: the value of a does not matter.
     /// </summary>
+    /// <remarks>
+    /// Precondition: Z3_get_arity(c, a) == 0
+    /// </remarks>
     [Z3Function("Z3_model_get_const_interp")]
     internal IntPtr ModelGetConstInterp(IntPtr c, IntPtr m, IntPtr a)
     {
@@ -85,7 +88,7 @@ internal sealed partial class NativeLibrary2
     private delegate bool ModelHasInterpDelegate(IntPtr c, IntPtr m, IntPtr a);
 
     /// <summary>
-    /// Test if there exists an interpretation (i.e., assignment) for
+    /// Test if there exists an interpretation (i.e., assignment) for a in the model m.
     /// </summary>
     [Z3Function("Z3_model_has_interp")]
     internal bool ModelHasInterp(IntPtr c, IntPtr m, IntPtr a)
@@ -99,8 +102,12 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ModelGetFuncInterpDelegate(IntPtr c, IntPtr m, IntPtr f);
 
     /// <summary>
-    /// Return the interpretation of the function
+    /// Return the interpretation of the function f in the model m. Return NULL, if the model does not assign an interpretation for f. That should be interpreted as: the f does not matter.
     /// </summary>
+    /// <remarks>
+    /// Precondition: Z3_get_arity(c, f) &gt; 0
+    /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// </remarks>
     [Z3Function("Z3_model_get_func_interp")]
     internal IntPtr ModelGetFuncInterp(IntPtr c, IntPtr m, IntPtr f)
     {
@@ -115,6 +122,7 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the number of constants assigned by the given model.
     /// </summary>
+    /// <seealso cref="ModelGetConstDecl"/>
     [Z3Function("Z3_model_get_num_consts")]
     internal uint ModelGetNumConsts(IntPtr c, IntPtr m)
     {
@@ -129,6 +137,11 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the i-th constant in the given model.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_model_get_num_consts(c, m)
+    /// </remarks>
+    /// <seealso cref="ModelEval"/>
+    /// <seealso cref="ModelGetNumConsts"/>
     [Z3Function("Z3_model_get_const_decl")]
     internal IntPtr ModelGetConstDecl(IntPtr c, IntPtr m, uint i)
     {
@@ -141,8 +154,9 @@ internal sealed partial class NativeLibrary2
     private delegate uint ModelGetNumFuncsDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Return the number of function interpretations in the given model.
+    /// Return the number of function interpretations in the given model. A function interpretation is represented as a finite map and an 'else' value. Each entry in the finite map represents the value of a function given a set of arguments.
     /// </summary>
+    /// <seealso cref="ModelGetFuncDecl"/>
     [Z3Function("Z3_model_get_num_funcs")]
     internal uint ModelGetNumFuncs(IntPtr c, IntPtr m)
     {
@@ -157,6 +171,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the declaration of the i-th function in the given model.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_model_get_num_funcs(c, m)
+    /// </remarks>
+    /// <seealso cref="ModelGetNumFuncs"/>
     [Z3Function("Z3_model_get_func_decl")]
     internal IntPtr ModelGetFuncDecl(IntPtr c, IntPtr m, uint i)
     {
@@ -169,8 +187,10 @@ internal sealed partial class NativeLibrary2
     private delegate uint ModelGetNumSortsDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Return the number of uninterpreted sorts that
+    /// Return the number of uninterpreted sorts that m assigns an interpretation to. Z3 also provides an interpretation for uninterpreted sorts used in a formula. The interpretation for a sort s is a finite set of distinct values. We say this finite set is the "universe" of s.
     /// </summary>
+    /// <seealso cref="ModelGetSort"/>
+    /// <seealso cref="ModelGetSortUniverse"/>
     [Z3Function("Z3_model_get_num_sorts")]
     internal uint ModelGetNumSorts(IntPtr c, IntPtr m)
     {
@@ -183,8 +203,13 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ModelGetSortDelegate(IntPtr c, IntPtr m, uint i);
 
     /// <summary>
-    /// Return a uninterpreted sort that
+    /// Return a uninterpreted sort that m assigns an interpretation.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_model_get_num_sorts(c, m)
+    /// </remarks>
+    /// <seealso cref="ModelGetNumSorts"/>
+    /// <seealso cref="ModelGetSortUniverse"/>
     [Z3Function("Z3_model_get_sort")]
     internal IntPtr ModelGetSort(IntPtr c, IntPtr m, uint i)
     {
@@ -197,8 +222,10 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ModelGetSortUniverseDelegate(IntPtr c, IntPtr m, IntPtr s);
 
     /// <summary>
-    /// Return the finite set of distinct values that represent the interpretation for sort
+    /// Return the finite set of distinct values that represent the interpretation for sort s.
     /// </summary>
+    /// <seealso cref="ModelGetNumSorts"/>
+    /// <seealso cref="ModelGetSort"/>
     [Z3Function("Z3_model_get_sort_universe")]
     internal IntPtr ModelGetSortUniverse(IntPtr c, IntPtr m, IntPtr s)
     {
@@ -211,8 +238,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr ModelTranslateDelegate(IntPtr c, IntPtr m, IntPtr dst);
 
     /// <summary>
-    /// translate model from context
+    /// translate model from context c to context dst.
     /// </summary>
+    /// <remarks>
+    /// Use this method for cloning state between contexts. Note that operations on contexts are not thread safe and therefore all operations that related to a given context have to be synchronized (or run in the same thread).
+    /// </remarks>
     [Z3Function("Z3_model_translate")]
     internal IntPtr ModelTranslate(IntPtr c, IntPtr m, IntPtr dst)
     {
@@ -225,8 +255,9 @@ internal sealed partial class NativeLibrary2
     private delegate bool IsAsArrayDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// The
+    /// The (_ as-array f) AST node is a construct for assigning interpretations for arrays in Z3. It is the array such that forall indices i we have that (select (_ as-array f) i) is equal to (f i). This procedure returns true if the a is an as-array AST node. Z3 current solvers have minimal support for as_array nodes.
     /// </summary>
+    /// <seealso cref="GetAsArrayFuncDecl"/>
     [Z3Function("Z3_is_as_array")]
     internal bool IsAsArray(IntPtr c, IntPtr a)
     {
@@ -239,8 +270,9 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr GetAsArrayFuncDeclDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the function declaration
+    /// Return the function declaration f associated with a (_ as_array f) node.
     /// </summary>
+    /// <seealso cref="IsAsArray"/>
     [Z3Function("Z3_get_as_array_func_decl")]
     internal IntPtr GetAsArrayFuncDecl(IntPtr c, IntPtr a)
     {
@@ -255,6 +287,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Create a fresh func_interp object, add it to a model for a specified function. It has reference count 0.
     /// </summary>
+    /// <param name="c">context</param>
+    /// <param name="m">model</param>
+    /// <param name="f">function declaration</param>
+    /// <param name="default_value">default value for function interpretation</param>
     [Z3Function("Z3_add_func_interp")]
     internal IntPtr AddFuncInterp(IntPtr c, IntPtr m, IntPtr f, IntPtr default_value)
     {
@@ -281,7 +317,7 @@ internal sealed partial class NativeLibrary2
     private delegate void FuncInterpIncRefDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Increment the reference counter of the given
+    /// Increment the reference counter of the given Z3_func_interp object.
     /// </summary>
     [Z3Function("Z3_func_interp_inc_ref")]
     internal void FuncInterpIncRef(IntPtr c, IntPtr f)
@@ -295,7 +331,7 @@ internal sealed partial class NativeLibrary2
     private delegate void FuncInterpDecRefDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Decrement the reference counter of the given
+    /// Decrement the reference counter of the given Z3_func_interp object.
     /// </summary>
     [Z3Function("Z3_func_interp_dec_ref")]
     internal void FuncInterpDecRef(IntPtr c, IntPtr f)
@@ -309,8 +345,9 @@ internal sealed partial class NativeLibrary2
     private delegate uint FuncInterpGetNumEntriesDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Return the number of entries in the given function interpretation.
+    /// Return the number of entries in the given function interpretation. A function interpretation is represented as a finite map and an 'else' value. Each entry in the finite map represents the value of a function given a set of arguments. This procedure return the number of element in the finite map of f.
     /// </summary>
+    /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_interp_get_num_entries")]
     internal uint FuncInterpGetNumEntries(IntPtr c, IntPtr f)
     {
@@ -323,8 +360,12 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr FuncInterpGetEntryDelegate(IntPtr c, IntPtr f, uint i);
 
     /// <summary>
-    /// Return a "point" of the given function interpretation. It represents the value of
+    /// Return a "point" of the given function interpretation. It represents the value of f in a particular point.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_func_interp_get_num_entries(c, f)
+    /// </remarks>
+    /// <seealso cref="FuncInterpGetNumEntries"/>
     [Z3Function("Z3_func_interp_get_entry")]
     internal IntPtr FuncInterpGetEntry(IntPtr c, IntPtr f, uint i)
     {
@@ -337,7 +378,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr FuncInterpGetElseDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Return the 'else' value of the given function interpretation.
+    /// Return the 'else' value of the given function interpretation. A function interpretation is represented as a finite map and an 'else' value. This procedure returns the 'else' value.
     /// </summary>
     [Z3Function("Z3_func_interp_get_else")]
     internal IntPtr FuncInterpGetElse(IntPtr c, IntPtr f)
@@ -351,7 +392,7 @@ internal sealed partial class NativeLibrary2
     private delegate void FuncInterpSetElseDelegate(IntPtr c, IntPtr f, IntPtr else_value);
 
     /// <summary>
-    /// Return the 'else' value of the given function interpretation.
+    /// Return the 'else' value of the given function interpretation. A function interpretation is represented as a finite map and an 'else' value. This procedure can be used to update the 'else' value.
     /// </summary>
     [Z3Function("Z3_func_interp_set_else")]
     internal void FuncInterpSetElse(IntPtr c, IntPtr f, IntPtr else_value)
@@ -381,6 +422,10 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// add a function entry to a function interpretation.
     /// </summary>
+    /// <param name="c">logical context</param>
+    /// <param name="fi">a function interpretation to be updated.</param>
+    /// <param name="args">list of arguments. They should be constant values (such as integers) and be of the same types as the domain of the function.</param>
+    /// <param name="value">value of the function when the parameters match args. It is assumed that entries added to a function cover disjoint arguments. If an two entries are added with the same arguments, only the second insertion survives and the first inserted entry is removed.</param>
     [Z3Function("Z3_func_interp_add_entry")]
     internal void FuncInterpAddEntry(IntPtr c, IntPtr fi, IntPtr args, IntPtr value)
     {
@@ -393,7 +438,7 @@ internal sealed partial class NativeLibrary2
     private delegate void FuncEntryIncRefDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Increment the reference counter of the given
+    /// Increment the reference counter of the given Z3_func_entry object.
     /// </summary>
     [Z3Function("Z3_func_entry_inc_ref")]
     internal void FuncEntryIncRef(IntPtr c, IntPtr e)
@@ -407,7 +452,7 @@ internal sealed partial class NativeLibrary2
     private delegate void FuncEntryDecRefDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Decrement the reference counter of the given
+    /// Decrement the reference counter of the given Z3_func_entry object.
     /// </summary>
     [Z3Function("Z3_func_entry_dec_ref")]
     internal void FuncEntryDecRef(IntPtr c, IntPtr e)
@@ -421,8 +466,9 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr FuncEntryGetValueDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Return the value of this point.
+    /// Return the value of this point. A Z3_func_entry object represents an element in the finite map used to encode a function interpretation.
     /// </summary>
+    /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_entry_get_value")]
     internal IntPtr FuncEntryGetValue(IntPtr c, IntPtr e)
     {
@@ -435,8 +481,10 @@ internal sealed partial class NativeLibrary2
     private delegate uint FuncEntryGetNumArgsDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Return the number of arguments in a
+    /// Return the number of arguments in a Z3_func_entry object.
     /// </summary>
+    /// <seealso cref="FuncEntryGetArg"/>
+    /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_entry_get_num_args")]
     internal uint FuncEntryGetNumArgs(IntPtr c, IntPtr e)
     {
@@ -449,8 +497,13 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr FuncEntryGetArgDelegate(IntPtr c, IntPtr e, uint i);
 
     /// <summary>
-    /// Return an argument of a
+    /// Return an argument of a Z3_func_entry object.
     /// </summary>
+    /// <remarks>
+    /// Precondition: i &lt; Z3_func_entry_get_num_args(c, e)
+    /// </remarks>
+    /// <seealso cref="FuncEntryGetNumArgs"/>
+    /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_entry_get_arg")]
     internal IntPtr FuncEntryGetArg(IntPtr c, IntPtr e, uint i)
     {

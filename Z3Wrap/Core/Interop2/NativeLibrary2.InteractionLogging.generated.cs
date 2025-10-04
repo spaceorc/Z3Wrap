@@ -17,6 +17,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Log interaction to a file.
     /// </summary>
+    /// <seealso cref="AppendLog"/>
+    /// <seealso cref="CloseLog"/>
     [Z3Function("Z3_open_log")]
     internal bool OpenLog(IntPtr filename)
     {
@@ -29,8 +31,10 @@ internal sealed partial class NativeLibrary2
     private delegate void AppendLogDelegate(IntPtr @string);
 
     /// <summary>
-    /// Append user-defined string to interaction log.
+    /// Append user-defined string to interaction log. The interaction log is opened using Z3_open_log. It contains the formulas that are checked using Z3. You can use this command to append comments, for instance.
     /// </summary>
+    /// <seealso cref="OpenLog"/>
+    /// <seealso cref="CloseLog"/>
     [Z3Function("Z3_append_log")]
     internal void AppendLog(IntPtr @string)
     {
@@ -45,6 +49,8 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Close interaction log.
     /// </summary>
+    /// <seealso cref="OpenLog"/>
+    /// <seealso cref="AppendLog"/>
     [Z3Function("Z3_close_log")]
     internal void CloseLog()
     {
@@ -57,7 +63,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ToggleWarningMessagesDelegate(bool enabled);
 
     /// <summary>
-    /// Enable/disable printing warning messages to the console.
+    /// Enable/disable printing warning messages to the console. Warnings are printed after passing true, warning messages are suppressed after calling this method with false.
     /// </summary>
     [Z3Function("Z3_toggle_warning_messages")]
     internal void ToggleWarningMessages(bool enabled)

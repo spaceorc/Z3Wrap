@@ -15,8 +15,11 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsat_cores, bool proofs);
 
     /// <summary>
-    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers.
+    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers. If models is true, then model generation is enabled for the new goal. If unsat_cores is true, then unsat core generation is enabled for the new goal. If proofs is true, then proof generation is enabled for the new goal. Remark, the Z3 context c must have been created with proof generation support.
     /// </summary>
+    /// <remarks>
+    /// Reference counting must be used to manage goals, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// </remarks>
     [Z3Function("Z3_mk_goal")]
     internal IntPtr MkGoal(IntPtr c, bool models, bool unsat_cores, bool proofs)
     {
@@ -71,7 +74,7 @@ internal sealed partial class NativeLibrary2
     private delegate void GoalAssertDelegate(IntPtr c, IntPtr g, IntPtr a);
 
     /// <summary>
-    /// Add a new formula
+    /// Add a new formula a to the given goal. The formula is split according to the following procedure that is applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over disjunctions, resulting in separate formulas. If the goal is false, adding new formulas is a no-op. If the formula a is true, then nothing is added. If the formula a is false, then the entire goal is replaced by the formula false.
     /// </summary>
     [Z3Function("Z3_goal_assert")]
     internal void GoalAssert(IntPtr c, IntPtr g, IntPtr a)
@@ -85,7 +88,7 @@ internal sealed partial class NativeLibrary2
     private delegate bool GoalInconsistentDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return
+    /// Return true if the given goal contains the formula false.
     /// </summary>
     [Z3Function("Z3_goal_inconsistent")]
     internal bool GoalInconsistent(IntPtr c, IntPtr g)
@@ -143,6 +146,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return a formula from the given goal.
     /// </summary>
+    /// <remarks>
+    /// Precondition: idx &lt; Z3_goal_size(c, g)
+    /// </remarks>
     [Z3Function("Z3_goal_formula")]
     internal IntPtr GoalFormula(IntPtr c, IntPtr g, uint idx)
     {
@@ -169,7 +175,7 @@ internal sealed partial class NativeLibrary2
     private delegate bool GoalIsDecidedSatDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return
+    /// Return true if the goal is empty, and it is precise or the product of a under approximation.
     /// </summary>
     [Z3Function("Z3_goal_is_decided_sat")]
     internal bool GoalIsDecidedSat(IntPtr c, IntPtr g)
@@ -183,7 +189,7 @@ internal sealed partial class NativeLibrary2
     private delegate bool GoalIsDecidedUnsatDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return
+    /// Return true if the goal contains false, and it is precise or the product of an over approximation.
     /// </summary>
     [Z3Function("Z3_goal_is_decided_unsat")]
     internal bool GoalIsDecidedUnsat(IntPtr c, IntPtr g)
@@ -197,7 +203,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr GoalTranslateDelegate(IntPtr source, IntPtr g, IntPtr target);
 
     /// <summary>
-    /// Copy a goal
+    /// Copy a goal g from the context source to the context target.
     /// </summary>
     [Z3Function("Z3_goal_translate")]
     internal IntPtr GoalTranslate(IntPtr source, IntPtr g, IntPtr target)
@@ -211,7 +217,7 @@ internal sealed partial class NativeLibrary2
     private delegate IntPtr GoalConvertModelDelegate(IntPtr c, IntPtr g, IntPtr m);
 
     /// <summary>
-    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable.
+    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable. When using this feature it is advisable to set the parameter model.compact to false. It is by default true, which erases variables created by the solver from models. Without access to model values for intermediary variables, values of other variables may end up having the wrong values.
     /// </summary>
     [Z3Function("Z3_goal_convert_model")]
     internal IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)

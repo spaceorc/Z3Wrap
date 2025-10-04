@@ -57,7 +57,7 @@ internal sealed partial class NativeLibrary2
     private delegate uint StatsSizeDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return the number of statistical data in
+    /// Return the number of statistical data in s.
     /// </summary>
     [Z3Function("Z3_stats_size")]
     internal uint StatsSize(IntPtr c, IntPtr s)
@@ -73,6 +73,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the key (a string) for a particular statistical data.
     /// </summary>
+    /// <remarks>
+    /// Precondition: idx &lt; Z3_stats_size(c, s)
+    /// </remarks>
     [Z3Function("Z3_stats_get_key")]
     internal IntPtr StatsGetKey(IntPtr c, IntPtr s, uint idx)
     {
@@ -85,8 +88,11 @@ internal sealed partial class NativeLibrary2
     private delegate bool StatsIsUintDelegate(IntPtr c, IntPtr s, uint idx);
 
     /// <summary>
-    /// Return
+    /// Return true if the given statistical data is a unsigned integer.
     /// </summary>
+    /// <remarks>
+    /// Precondition: idx &lt; Z3_stats_size(c, s)
+    /// </remarks>
     [Z3Function("Z3_stats_is_uint")]
     internal bool StatsIsUint(IntPtr c, IntPtr s, uint idx)
     {
@@ -99,8 +105,11 @@ internal sealed partial class NativeLibrary2
     private delegate bool StatsIsDoubleDelegate(IntPtr c, IntPtr s, uint idx);
 
     /// <summary>
-    /// Return
+    /// Return true if the given statistical data is a double.
     /// </summary>
+    /// <remarks>
+    /// Precondition: idx &lt; Z3_stats_size(c, s)
+    /// </remarks>
     [Z3Function("Z3_stats_is_double")]
     internal bool StatsIsDouble(IntPtr c, IntPtr s, uint idx)
     {
@@ -115,6 +124,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the unsigned value of the given statistical data.
     /// </summary>
+    /// <remarks>
+    /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_uint(c, s)
+    /// </remarks>
     [Z3Function("Z3_stats_get_uint_value")]
     internal uint StatsGetUintValue(IntPtr c, IntPtr s, uint idx)
     {
@@ -129,6 +141,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Return the double value of the given statistical data.
     /// </summary>
+    /// <remarks>
+    /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_double(c, s)
+    /// </remarks>
     [Z3Function("Z3_stats_get_double_value")]
     internal double StatsGetDoubleValue(IntPtr c, IntPtr s, uint idx)
     {

@@ -4460,6 +4460,7 @@ extern "C" {
 
        def_API('Z3_sort_to_ast', AST, (_in(CONTEXT), _in(SORT)))
     */
+    */
     Z3_ast Z3_API Z3_sort_to_ast(Z3_context c, Z3_sort s);
 
     /**

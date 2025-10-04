@@ -17,6 +17,9 @@ internal sealed partial class NativeLibrary2
     /// <summary>
     /// Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc.
     /// </summary>
+    /// <remarks>
+    /// Reference counting must be used to manage parameter sets, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// </remarks>
     [Z3Function("Z3_mk_params")]
     internal IntPtr MkParams(IntPtr c)
     {
@@ -57,7 +60,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ParamsSetBoolDelegate(IntPtr c, IntPtr p, IntPtr k, bool v);
 
     /// <summary>
-    /// Add a Boolean parameter
+    /// Add a Boolean parameter k with value v to the parameter set p.
     /// </summary>
     [Z3Function("Z3_params_set_bool")]
     internal void ParamsSetBool(IntPtr c, IntPtr p, IntPtr k, bool v)
@@ -71,7 +74,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ParamsSetUintDelegate(IntPtr c, IntPtr p, IntPtr k, uint v);
 
     /// <summary>
-    /// Add a unsigned parameter
+    /// Add a unsigned parameter k with value v to the parameter set p.
     /// </summary>
     [Z3Function("Z3_params_set_uint")]
     internal void ParamsSetUint(IntPtr c, IntPtr p, IntPtr k, uint v)
@@ -85,7 +88,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ParamsSetDoubleDelegate(IntPtr c, IntPtr p, IntPtr k, double v);
 
     /// <summary>
-    /// Add a double parameter
+    /// Add a double parameter k with value v to the parameter set p.
     /// </summary>
     [Z3Function("Z3_params_set_double")]
     internal void ParamsSetDouble(IntPtr c, IntPtr p, IntPtr k, double v)
@@ -99,7 +102,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ParamsSetSymbolDelegate(IntPtr c, IntPtr p, IntPtr k, IntPtr v);
 
     /// <summary>
-    /// Add a symbol parameter
+    /// Add a symbol parameter k with value v to the parameter set p.
     /// </summary>
     [Z3Function("Z3_params_set_symbol")]
     internal void ParamsSetSymbol(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
@@ -127,7 +130,7 @@ internal sealed partial class NativeLibrary2
     private delegate void ParamsValidateDelegate(IntPtr c, IntPtr p, IntPtr d);
 
     /// <summary>
-    /// Validate the parameter set
+    /// Validate the parameter set p against the parameter description set d. The procedure invokes the error handler if p is invalid.
     /// </summary>
     [Z3Function("Z3_params_validate")]
     internal void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)

@@ -19,7 +19,26 @@ class FunctionSignature:
     name: str
     return_type: str
     parameters: List[Tuple[str, str]]  # List of (type, name) tuples
-    documentation: str = ""  # XML documentation comment
+    brief: str = ""  # Brief description
+    param_docs: dict = None  # Parameter name -> description mapping
+    returns_doc: str = ""  # Return value description
+    preconditions: List[str] = None  # List of preconditions
+    warnings: List[str] = None  # List of warnings
+    remarks: List[str] = None  # List of remarks
+    see_also: List[str] = None  # List of related function names
+
+    def __post_init__(self):
+        """Initialize mutable default values."""
+        if self.param_docs is None:
+            self.param_docs = {}
+        if self.preconditions is None:
+            self.preconditions = []
+        if self.warnings is None:
+            self.warnings = []
+        if self.remarks is None:
+            self.remarks = []
+        if self.see_also is None:
+            self.see_also = []
 
 
 @dataclass
@@ -168,10 +187,10 @@ def map_c_type_to_csharp(c_type: str) -> str:
     raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map.")
 
 
-def extract_function_documentation(header_path: Path, func_name: str) -> str:
+def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     """
-    Extract documentation comment for a function from the header file.
-    Returns XML documentation string or empty string if not found.
+    Extract all documentation tags for a function from the header file.
+    Returns dict with keys: brief, param_docs, returns_doc, preconditions, warnings, remarks, see_also.
     """
     with open(header_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -181,10 +200,9 @@ def extract_function_documentation(header_path: Path, func_name: str) -> str:
     match = re.search(pattern, content)
 
     if not match:
-        return ""
+        return {}
 
     # Find the comment block before the function (/** ... */)
-    # Look backwards from the function declaration
     before_func = content[:match.start()]
 
     # Find the last /** ... */ comment block before the function
@@ -192,28 +210,70 @@ def extract_function_documentation(header_path: Path, func_name: str) -> str:
     comments = list(re.finditer(comment_pattern, before_func, re.DOTALL))
 
     if not comments:
-        return ""
+        return {}
 
     last_comment = comments[-1]
     comment_text = last_comment.group(1)
 
+    def clean_text(text: str) -> str:
+        """Clean up documentation text."""
+        text = text.strip()
+        text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
+        text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
+        text = re.sub(r'\\ccode\{([^}]+)\}', r'\1', text)  # Remove \ccode{...}
+        text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
+        # Escape XML special characters
+        text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        return text
+
+    result = {
+        'brief': '',
+        'param_docs': {},
+        'returns_doc': '',
+        'preconditions': [],
+        'warnings': [],
+        'remarks': [],
+        'see_also': []
+    }
+
     # Extract \brief description
-    brief_match = re.search(r'\\brief\s+(.+?)(?=\\|\n\n|def_API|$)', comment_text, re.DOTALL)
-    brief = brief_match.group(1).strip() if brief_match else ""
+    brief_match = re.search(r'\\brief\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
+    if brief_match:
+        result['brief'] = clean_text(brief_match.group(1))
 
-    # Clean up the brief text
-    brief = re.sub(r'\s+', ' ', brief)  # Normalize whitespace
-    brief = re.sub(r'\\c\s+(\w+)', r'\1', brief)  # Remove \c markers
-    brief = re.sub(r'\\ccode\{([^}]+)\}', r'\1', brief)  # Remove \ccode{...}
+    # Extract \param tags (can have multiple)
+    param_matches = re.finditer(r'\\param\s+(\w+)\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
+    for param_match in param_matches:
+        param_name = param_match.group(1)
+        param_desc = clean_text(param_match.group(2))
+        result['param_docs'][param_name] = param_desc
 
-    if not brief:
-        return ""
+    # Extract \returns
+    returns_match = re.search(r'\\returns\s+(.+?)(?=\\param|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
+    if returns_match:
+        result['returns_doc'] = clean_text(returns_match.group(1))
 
-    # Convert to C# XML documentation format
-    # Escape XML special characters
-    brief = brief.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    # Extract \pre tags (can have multiple)
+    pre_matches = re.finditer(r'\\pre\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
+    for pre_match in pre_matches:
+        result['preconditions'].append(clean_text(pre_match.group(1)))
 
-    return brief
+    # Extract \warning tags (can have multiple)
+    warning_matches = re.finditer(r'\\warning\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
+    for warning_match in warning_matches:
+        result['warnings'].append(clean_text(warning_match.group(1)))
+
+    # Extract \remark tags (can have multiple)
+    remark_matches = re.finditer(r'\\remark\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
+    for remark_match in remark_matches:
+        result['remarks'].append(clean_text(remark_match.group(1)))
+
+    # Extract \sa tags (can have multiple, often one per line)
+    sa_matches = re.finditer(r'\\sa\s+(Z3_\w+)', comment_text)
+    for sa_match in sa_matches:
+        result['see_also'].append(sa_match.group(1))
+
+    return result
 
 
 def parse_function_signature(header_path: Path, func_name: str) -> FunctionSignature:
@@ -276,13 +336,19 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
             parameters.append((param_type, param_name))
 
     # Extract documentation
-    documentation = extract_function_documentation(header_path, func_name)
+    docs = extract_function_documentation(header_path, func_name)
 
     return FunctionSignature(
         name=func_name,
         return_type=return_type_c,
         parameters=parameters,
-        documentation=documentation
+        brief=docs.get('brief', ''),
+        param_docs=docs.get('param_docs', {}),
+        returns_doc=docs.get('returns_doc', ''),
+        preconditions=docs.get('preconditions', []),
+        warnings=docs.get('warnings', []),
+        remarks=docs.get('remarks', []),
+        see_also=docs.get('see_also', [])
     )
 
 
@@ -439,10 +505,51 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
             f.write(f"    private delegate {return_type_cs} {delegate_name}({params_str});\n\n")
 
             # XML documentation for method
-            if sig.documentation:
-                f.write("    /// <summary>\n")
-                f.write(f"    /// {sig.documentation}\n")
-                f.write("    /// </summary>\n")
+            has_docs = sig.brief or sig.param_docs or sig.returns_doc or sig.preconditions or sig.warnings or sig.remarks or sig.see_also
+
+            if has_docs:
+                # Summary (brief description)
+                if sig.brief:
+                    f.write("    /// <summary>\n")
+                    f.write(f"    /// {sig.brief}\n")
+                    f.write("    /// </summary>\n")
+
+                # Parameter documentation
+                for param_type_c, param_name in sig.parameters:
+                    safe_param_name = f"@{param_name}" if param_name in csharp_keywords else param_name
+                    if param_name in sig.param_docs:
+                        param_doc = sig.param_docs[param_name]
+                        f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')
+
+                # Returns documentation
+                if sig.returns_doc:
+                    f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
+
+                # Remarks (preconditions, warnings, remarks)
+                remarks_parts = []
+
+                if sig.preconditions:
+                    for pre in sig.preconditions:
+                        remarks_parts.append(f"Precondition: {pre}")
+
+                if sig.warnings:
+                    for warning in sig.warnings:
+                        remarks_parts.append(f"Warning: {warning}")
+
+                if sig.remarks:
+                    remarks_parts.extend(sig.remarks)
+
+                if remarks_parts:
+                    f.write("    /// <remarks>\n")
+                    for remark in remarks_parts:
+                        f.write(f"    /// {remark}\n")
+                    f.write("    /// </remarks>\n")
+
+                # See also references
+                for sa_func in sig.see_also:
+                    # Convert Z3_function_name to CSharp MethodName
+                    sa_csharp = generate_csharp_method_name(sa_func)
+                    f.write(f'    /// <seealso cref="{sa_csharp}"/>\n')
 
             # Z3Function attribute
             f.write(f"    [Z3Function(\"{sig.name}\")]\n")
