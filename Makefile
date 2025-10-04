@@ -151,6 +151,11 @@ generate-enums: ## Generate only NativeZ3Library enums (faster) (BRANCH=<name>, 
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
 
+generate-library: ## Generate Z3Library2 partial classes from NativeZ3Library
+	@echo "$(BLUE)Analyzing NativeZ3Library partial classes...$(NC)"
+	@python3 scripts/generate_library.py
+	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Library/$(NC)"
+
 # =============================================================================
 # Setup & Info Commands
 # =============================================================================
