@@ -8,6 +8,7 @@ NativeLibrary2 partial class files that match the header file groups 1-to-1.
 
 import os
 import re
+import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
@@ -49,6 +50,62 @@ class HeaderGroup:
     group_name_clean: str  # Cleaned for C# class name
     functions: List[str]  # List of Z3 function names in this group
     signatures: List[FunctionSignature]  # Parsed function signatures
+
+
+# Z3 GitHub repository configuration
+Z3_GITHUB_REPO = "Z3Prover/z3"
+Z3_DEFAULT_BRANCH = "master"
+Z3_HEADER_FILES = [
+    "src/api/z3_api.h",
+    "src/api/z3_algebraic.h",
+    "src/api/z3_ast_containers.h",
+    "src/api/z3_fpa.h",
+    "src/api/z3_optimization.h"
+]
+
+
+def download_header_from_github(file_path: str, branch: str = Z3_DEFAULT_BRANCH) -> str:
+    """
+    Download a header file from Z3 GitHub repository.
+    Returns the file content as a string.
+    """
+    url = f"https://raw.githubusercontent.com/{Z3_GITHUB_REPO}/{branch}/{file_path}"
+    try:
+        with urllib.request.urlopen(url) as response:
+            return response.read().decode('utf-8')
+    except Exception as e:
+        raise RuntimeError(f"Failed to download {file_path} from GitHub: {e}")
+
+
+def download_and_cache_headers(cache_dir: Path, branch: str = Z3_DEFAULT_BRANCH, force_download: bool = False) -> List[Path]:
+    """
+    Download Z3 header files from GitHub and cache them locally.
+    Returns list of cached header file paths.
+    """
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cached_files = []
+
+    print(f"Downloading Z3 headers from GitHub ({Z3_GITHUB_REPO} @ {branch})...")
+
+    for i, file_path in enumerate(Z3_HEADER_FILES, 1):
+        file_name = Path(file_path).name
+        local_path = cache_dir / file_name
+
+        if local_path.exists() and not force_download:
+            print(f"  [{i}/{len(Z3_HEADER_FILES)}] {file_name} (cached)")
+            cached_files.append(local_path)
+            continue
+
+        print(f"  [{i}/{len(Z3_HEADER_FILES)}] {file_name} (downloading...)")
+        content = download_header_from_github(file_path, branch)
+
+        with open(local_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+        cached_files.append(local_path)
+
+    print()
+    return cached_files
 
 
 def find_groups_in_header(header_path: Path) -> List[Tuple[int, str]]:
@@ -601,17 +658,35 @@ def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description='Generate NativeLibrary2 partial classes from Z3 headers')
     parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output with all function names')
+    parser.add_argument('--branch', '-b', default=Z3_DEFAULT_BRANCH, help=f'Z3 GitHub branch to use (default: {Z3_DEFAULT_BRANCH})')
+    parser.add_argument('--force-download', '-f', action='store_true', help='Force re-download headers even if cached')
+    parser.add_argument('--local', '-l', action='store_true', help='Use local c_headers directory instead of downloading')
     args = parser.parse_args()
 
     # Paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    headers_dir = project_root / "c_headers"
+    headers_cache_dir = project_root / ".cache" / "z3_headers"
     output_dir = project_root / "Z3Wrap" / "Core" / "Interop2"
 
     print("Z3 Native Library Generator")
     print("=" * 80)
-    print(f"Headers directory: {headers_dir}")
+
+    # Download or use local headers
+    if args.local:
+        headers_dir = project_root / "c_headers"
+        print(f"Using local headers: {headers_dir}")
+        if not headers_dir.exists():
+            print(f"ERROR: Local headers directory not found: {headers_dir}")
+            sys.exit(1)
+    else:
+        print(f"GitHub repository: {Z3_GITHUB_REPO} @ {args.branch}")
+        print(f"Cache directory: {headers_cache_dir}")
+        print()
+        # Download headers from GitHub
+        header_files = download_and_cache_headers(headers_cache_dir, args.branch, args.force_download)
+        headers_dir = headers_cache_dir
+
     print(f"Output directory: {output_dir}")
     print()
 

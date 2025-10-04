@@ -31,3 +31,4 @@ NuGet.config
 RELEASE_NOTES.md
 RELEASE_NOTES_ESCAPED.txt
 artifacts/
+.cache/
