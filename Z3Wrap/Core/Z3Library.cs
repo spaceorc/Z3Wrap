@@ -17,12 +17,17 @@ namespace Spaceorc.Z3Wrap.Core;
 /// </summary>
 public sealed partial class Z3Library : IDisposable
 {
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate void ErrorHandler(IntPtr ctx, int errorCode);
+
     private readonly NativeZ3Library nativeLibrary;
+    private readonly ErrorHandler errorHandlerDelegate;
     private bool disposed;
 
     private Z3Library(NativeZ3Library nativeLibrary)
     {
         this.nativeLibrary = nativeLibrary ?? throw new ArgumentNullException(nameof(nativeLibrary));
+        errorHandlerDelegate = OnZ3ErrorSafe;
     }
 
     /// <summary>

@@ -1,3 +1,5 @@
+using Spaceorc.Z3Wrap.Core.Interop;
+
 namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library

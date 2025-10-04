@@ -5,7 +5,7 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="Interop.NativeLibrary.MkParams" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.MkParams" />
     public IntPtr MkParams(IntPtr ctx)
     {
         var result = nativeLibrary.MkParams(ctx);
@@ -13,14 +13,14 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkParams));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.ParamsIncRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.ParamsIncRef" />
     public void ParamsIncRef(IntPtr ctx, IntPtr paramsHandle)
     {
         nativeLibrary.ParamsIncRef(ctx, paramsHandle);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.ParamsDecRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.ParamsDecRef" />
     public void ParamsDecRef(IntPtr ctx, IntPtr paramsHandle)
     {
         nativeLibrary.ParamsDecRef(ctx, paramsHandle);
@@ -40,7 +40,7 @@ public sealed partial class Z3Library
         var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        nativeLibrary.ParamsSetBool(ctx, paramsHandle, symbol, value ? 1 : 0);
+        nativeLibrary.ParamsSetBool(ctx, paramsHandle, symbol, value);
         CheckError(ctx);
     }
 
@@ -57,7 +57,7 @@ public sealed partial class Z3Library
         var symbol = nativeLibrary.MkStringSymbol(ctx, strPtr);
         CheckError(ctx);
 
-        nativeLibrary.ParamsSetUInt(ctx, paramsHandle, symbol, value);
+        nativeLibrary.ParamsSetUint(ctx, paramsHandle, symbol, value);
         CheckError(ctx);
     }
 
@@ -99,7 +99,7 @@ public sealed partial class Z3Library
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.ParamsToString" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.ParamsToString" />
     public string? ParamsToString(IntPtr ctx, IntPtr paramsHandle)
     {
         var result = nativeLibrary.ParamsToString(ctx, paramsHandle);

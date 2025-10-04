@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Spaceorc.Z3Wrap.Core.Interop;
 
 namespace Spaceorc.Z3Wrap.Core;
@@ -36,7 +37,8 @@ public sealed partial class Z3Library
 
         // No error check for context creation
         // Set up safe error handler (prevents crashes)
-        nativeLibrary.SetErrorHandler(result, OnZ3ErrorSafe);
+        var errorHandlerPtr = Marshal.GetFunctionPointerForDelegate(errorHandlerDelegate);
+        nativeLibrary.SetErrorHandler(result, errorHandlerPtr);
         return result;
     }
 

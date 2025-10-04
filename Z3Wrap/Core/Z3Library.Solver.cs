@@ -4,7 +4,7 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="Interop.NativeLibrary.MkSolver" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.MkSolver" />
     public IntPtr MkSolver(IntPtr ctx)
     {
         var result = nativeLibrary.MkSolver(ctx);
@@ -12,7 +12,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkSolver));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.MkSimpleSolver" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.MkSimpleSolver" />
     public IntPtr MkSimpleSolver(IntPtr ctx)
     {
         var result = nativeLibrary.MkSimpleSolver(ctx);
@@ -20,21 +20,21 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkSimpleSolver));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverIncRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverIncRef" />
     public void SolverIncRef(IntPtr ctx, IntPtr solver)
     {
         nativeLibrary.SolverIncRef(ctx, solver);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverDecRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverDecRef" />
     public void SolverDecRef(IntPtr ctx, IntPtr solver)
     {
         nativeLibrary.SolverDecRef(ctx, solver);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverAssert" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverAssert" />
     public void SolverAssert(IntPtr ctx, IntPtr solver, IntPtr expr)
     {
         nativeLibrary.SolverAssert(ctx, solver, expr);
@@ -60,21 +60,21 @@ public sealed partial class Z3Library
         };
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverPush" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverPush" />
     public void SolverPush(IntPtr ctx, IntPtr solver)
     {
         nativeLibrary.SolverPush(ctx, solver);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverPop" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverPop" />
     public void SolverPop(IntPtr ctx, IntPtr solver, uint numScopes)
     {
         nativeLibrary.SolverPop(ctx, solver, numScopes);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverGetModel" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverGetModel" />
     public IntPtr SolverGetModel(IntPtr ctx, IntPtr solver)
     {
         var result = nativeLibrary.SolverGetModel(ctx, solver);
@@ -95,14 +95,14 @@ public sealed partial class Z3Library
         return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(SolverGetReasonUnknown)));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverReset" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverReset" />
     public void SolverReset(IntPtr ctx, IntPtr solver)
     {
         nativeLibrary.SolverReset(ctx, solver);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.SolverSetParams" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.SolverSetParams" />
     public void SolverSetParams(IntPtr ctx, IntPtr solver, IntPtr paramsHandle)
     {
         nativeLibrary.SolverSetParams(ctx, solver, paramsHandle);

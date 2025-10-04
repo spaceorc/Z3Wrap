@@ -4,14 +4,14 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="Interop.NativeLibrary.ModelIncRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.ModelIncRef" />
     public void ModelIncRef(IntPtr ctx, IntPtr model)
     {
         nativeLibrary.ModelIncRef(ctx, model);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.ModelDecRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.ModelDecRef" />
     public void ModelDecRef(IntPtr ctx, IntPtr model)
     {
         nativeLibrary.ModelDecRef(ctx, model);
@@ -44,12 +44,23 @@ public sealed partial class Z3Library
         return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(AstToString)));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.ModelEval" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.ModelEval" />
     public bool ModelEval(IntPtr ctx, IntPtr model, IntPtr expr, bool modelCompletion, out IntPtr result)
     {
-        var returnValue = nativeLibrary.ModelEval(ctx, model, expr, modelCompletion, out result);
-        CheckError(ctx);
-        return returnValue;
+        IntPtr resultPtr = IntPtr.Zero;
+        var resultPtrAddr = Marshal.AllocHGlobal(IntPtr.Size);
+        try
+        {
+            Marshal.WriteIntPtr(resultPtrAddr, resultPtr);
+            var returnValue = nativeLibrary.ModelEval(ctx, model, expr, modelCompletion, resultPtrAddr);
+            result = Marshal.ReadIntPtr(resultPtrAddr);
+            CheckError(ctx);
+            return returnValue;
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(resultPtrAddr);
+        }
     }
 
     /// <summary>
@@ -78,7 +89,7 @@ public sealed partial class Z3Library
         return (Z3BoolValue)result;
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.IsNumeralAst" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.IsNumeralAst" />
     public bool IsNumeralAst(IntPtr ctx, IntPtr expr)
     {
         var result = nativeLibrary.IsNumeralAst(ctx, expr);
@@ -86,7 +97,7 @@ public sealed partial class Z3Library
         return result;
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.GetSort" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.GetSort" />
     public IntPtr GetSort(IntPtr ctx, IntPtr expr)
     {
         var result = nativeLibrary.GetSort(ctx, expr);
@@ -94,7 +105,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(GetSort));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.GetSortKind" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.GetSortKind" />
     public Z3SortKind GetSortKind(IntPtr ctx, IntPtr sort)
     {
         var result = nativeLibrary.GetSortKind(ctx, sort);

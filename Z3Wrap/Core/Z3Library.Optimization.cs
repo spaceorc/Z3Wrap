@@ -4,7 +4,7 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="Interop.NativeLibrary.MkOptimize" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.MkOptimize" />
     public IntPtr MkOptimize(IntPtr ctx)
     {
         var result = nativeLibrary.MkOptimize(ctx);
@@ -12,28 +12,28 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkOptimize));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeIncRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeIncRef" />
     public void OptimizeIncRef(IntPtr ctx, IntPtr optimize)
     {
         nativeLibrary.OptimizeIncRef(ctx, optimize);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeDecRef" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeDecRef" />
     public void OptimizeDecRef(IntPtr ctx, IntPtr optimize)
     {
         nativeLibrary.OptimizeDecRef(ctx, optimize);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeAssert" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeAssert" />
     public void OptimizeAssert(IntPtr ctx, IntPtr optimize, IntPtr constraint)
     {
         nativeLibrary.OptimizeAssert(ctx, optimize, constraint);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeMaximize" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeMaximize" />
     public uint OptimizeMaximize(IntPtr ctx, IntPtr optimize, IntPtr objective)
     {
         var result = nativeLibrary.OptimizeMaximize(ctx, optimize, objective);
@@ -41,7 +41,7 @@ public sealed partial class Z3Library
         return result;
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeMinimize" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeMinimize" />
     public uint OptimizeMinimize(IntPtr ctx, IntPtr optimize, IntPtr objective)
     {
         var result = nativeLibrary.OptimizeMinimize(ctx, optimize, objective);
@@ -70,7 +70,7 @@ public sealed partial class Z3Library
         };
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeGetModel" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeGetModel" />
     public IntPtr OptimizeGetModel(IntPtr ctx, IntPtr optimize)
     {
         var result = nativeLibrary.OptimizeGetModel(ctx, optimize);
@@ -78,7 +78,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(OptimizeGetModel));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeGetUpper" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeGetUpper" />
     public IntPtr OptimizeGetUpper(IntPtr ctx, IntPtr optimize, uint idx)
     {
         var result = nativeLibrary.OptimizeGetUpper(ctx, optimize, idx);
@@ -86,7 +86,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(OptimizeGetUpper));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeGetLower" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeGetLower" />
     public IntPtr OptimizeGetLower(IntPtr ctx, IntPtr optimize, uint idx)
     {
         var result = nativeLibrary.OptimizeGetLower(ctx, optimize, idx);
@@ -94,14 +94,14 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(OptimizeGetLower));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeSetParams" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeSetParams" />
     public void OptimizeSetParams(IntPtr ctx, IntPtr optimize, IntPtr paramsHandle)
     {
         nativeLibrary.OptimizeSetParams(ctx, optimize, paramsHandle);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizeToString" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizeToString" />
     public string? OptimizeToString(IntPtr ctx, IntPtr optimize)
     {
         var result = nativeLibrary.OptimizeToString(ctx, optimize);
@@ -122,14 +122,14 @@ public sealed partial class Z3Library
         return Marshal.PtrToStringAnsi(CheckHandle(result, nameof(OptimizeGetReasonUnknown)));
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizePush" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizePush" />
     public void OptimizePush(IntPtr ctx, IntPtr optimize)
     {
         nativeLibrary.OptimizePush(ctx, optimize);
         CheckError(ctx);
     }
 
-    /// <inheritdoc cref="Interop.NativeLibrary.OptimizePop" />
+    /// <inheritdoc cref="Interop.NativeZ3Library.OptimizePop" />
     public void OptimizePop(IntPtr ctx, IntPtr optimize)
     {
         nativeLibrary.OptimizePop(ctx, optimize);
