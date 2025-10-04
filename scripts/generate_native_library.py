@@ -805,12 +805,20 @@ def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
     Find all enum definitions in header files.
     Returns list of EnumDefinition objects.
     Also populates the global ALL_ENUM_VALUES set.
+
+    Uses a two-pass approach:
+    1. First pass: Extract all enum values to populate ALL_ENUM_VALUES
+    2. Second pass: Process documentation (which may reference enum values)
     """
     global ALL_ENUM_VALUES
     ALL_ENUM_VALUES.clear()
 
     header_files = sorted(headers_dir.glob('*.h'))
-    enums = []
+
+    # PASS 1: Extract all enum values without processing documentation
+    # This populates ALL_ENUM_VALUES so documentation processing can distinguish
+    # enum values from function names in #Z3_name references
+    enum_raw_data = []  # Store raw enum data for second pass
     seen_names = set()
 
     for header_path in header_files:
@@ -830,60 +838,75 @@ def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
                 continue
             seen_names.add(enum_name)
 
-            # Extract documentation
-            docs = extract_enum_documentation(content, match.start())
-
-            # Parse enum values
+            # Parse enum values (without documentation)
             # Pattern: VALUE_NAME or VALUE_NAME = number
-            values = []
             value_pattern = r'(Z3_\w+)\s*(?:=\s*([^,\n]+))?'
-            current_value = 0  # Track current enum value
 
             for value_match in re.finditer(value_pattern, values_block):
                 value_name = value_match.group(1).strip()
-                explicit_value = value_match.group(2)
-
                 if value_name:  # Skip empty matches
-                    if explicit_value:
-                        # Explicit value provided - parse it
-                        explicit_value = explicit_value.strip()
-                        # Try to evaluate simple expressions (like -1, 0x100, etc.)
-                        try:
-                            current_value = int(explicit_value, 0)  # 0 allows parsing hex, octal, etc.
-                        except ValueError:
-                            # If it's not a simple integer, keep the expression as-is
-                            pass
-                    else:
-                        # No explicit value - use current counter
-                        explicit_value = str(current_value)
-
-                    csharp_value = convert_enum_value_to_csharp(value_name, enum_name)
-
-                    # Get documentation for this value
-                    value_doc = docs['value_docs'].get(value_name, '')
-
-                    values.append((value_name, csharp_value, explicit_value, value_doc))
-
                     # Add to global set of all enum values
                     ALL_ENUM_VALUES.add(value_name)
 
-                    # Increment for next value (if this was a simple integer)
-                    try:
-                        current_value = int(explicit_value, 0) + 1
-                    except ValueError:
-                        # If it's an expression, we can't auto-increment reliably
-                        current_value += 1
+            # Store raw data for second pass
+            enum_raw_data.append((header_path, content, match, enum_name, values_block))
 
-            # Create enum definition
-            csharp_name = convert_enum_name_to_csharp(enum_name)
-            enum_def = EnumDefinition(
-                name=enum_name,
-                csharp_name=csharp_name,
-                values=values,
-                brief=docs['brief'],
-                see_also=docs['see_also']
-            )
-            enums.append(enum_def)
+    # PASS 2: Process documentation and create EnumDefinition objects
+    # Now ALL_ENUM_VALUES is fully populated, so documentation cleaning
+    # can correctly distinguish enum values from function names
+    enums = []
+
+    for header_path, content, match, enum_name, values_block in enum_raw_data:
+        # Extract documentation (now with ALL_ENUM_VALUES populated)
+        docs = extract_enum_documentation(content, match.start())
+
+        # Parse enum values with documentation
+        values = []
+        value_pattern = r'(Z3_\w+)\s*(?:=\s*([^,\n]+))?'
+        current_value = 0  # Track current enum value
+
+        for value_match in re.finditer(value_pattern, values_block):
+            value_name = value_match.group(1).strip()
+            explicit_value = value_match.group(2)
+
+            if value_name:  # Skip empty matches
+                if explicit_value:
+                    # Explicit value provided - parse it
+                    explicit_value = explicit_value.strip()
+                    # Try to evaluate simple expressions (like -1, 0x100, etc.)
+                    try:
+                        current_value = int(explicit_value, 0)  # 0 allows parsing hex, octal, etc.
+                    except ValueError:
+                        # If it's not a simple integer, keep the expression as-is
+                        pass
+                else:
+                    # No explicit value - use current counter
+                    explicit_value = str(current_value)
+
+                csharp_value = convert_enum_value_to_csharp(value_name, enum_name)
+
+                # Get documentation for this value
+                value_doc = docs['value_docs'].get(value_name, '')
+
+                values.append((value_name, csharp_value, explicit_value, value_doc))
+
+                # Increment for next value (if this was a simple integer)
+                try:
+                    current_value = int(explicit_value, 0) + 1
+                except ValueError:
+                    # If it's an expression, we can't auto-increment reliably
+                    current_value += 1
+
+        # Create enum definition
+        csharp_name = convert_enum_name_to_csharp(enum_name)
+        enum_def = EnumDefinition(
+            name=enum_name,
+            csharp_name=csharp_name,
+            values=values,
+            brief=docs['brief'],
+            see_also=docs['see_also']
+        )
+        enums.append(enum_def)
 
     return sorted(enums, key=lambda e: e.name)
 

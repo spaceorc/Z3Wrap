@@ -1637,7 +1637,7 @@ internal sealed partial class NativeZ3Library
         /// Create a fresh copy (clone) of a relation.
         /// The function is logically the identity, but
         /// in the context of a register machine allows
-        /// for <see cref="OpRaUnion"/> to perform destructive updates to the first argument.
+        /// for <see cref="Z3_OP_RA_UNION"/> to perform destructive updates to the first argument.
         /// </remarks>
         Z3_OP_RA_CLONE = 1548,
         /// <summary>Z3_OP_FD_CONSTANT</summary>
