@@ -15,7 +15,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkUninterpretedSortDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Create a free (uninterpreted) type using the given name (symbol). Two free types are considered the same iff the have the same name.
+    /// Create a free (uninterpreted) type using the given name (symbol). Two free types are considered the same iff
+    /// the have the same name.
     /// </summary>
     [Z3Function("Z3_mk_uninterpreted_sort")]
     internal IntPtr MkUninterpretedSort(IntPtr c, IntPtr s)
@@ -29,7 +30,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTypeVariableDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Create a type variable. Functions using type variables can be applied to instantiations that match the signature of the function. Assertions using type variables correspond to assertions over all possible instantiations.
+    /// Create a type variable. Functions using type variables can be applied to instantiations that match the
+    /// signature of the function. Assertions using type variables correspond to assertions over all possible
+    /// instantiations.
     /// </summary>
     [Z3Function("Z3_mk_type_variable")]
     internal IntPtr MkTypeVariable(IntPtr c, IntPtr s)
@@ -57,7 +60,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIntSortDelegate(IntPtr c);
 
     /// <summary>
-    /// Create the integer type. This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function Z3_mk_bv_sort creates a bit-vector type.
+    /// Create the integer type. This type is not the int type found in programming languages. A machine integer can
+    /// be represented using bit-vectors. The function Z3_mk_bv_sort creates a bit-vector type.
     /// </summary>
     /// <seealso cref="MkBvSort"/>
     [Z3Function("Z3_mk_int_sort")]
@@ -103,7 +107,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFiniteDomainSortDelegate(IntPtr c, IntPtr name, ulong size);
 
     /// <summary>
-    /// Create a named finite domain sort. To create constants that belong to the finite domain, use the APIs for creating numerals and pass a numeric constant together with the sort returned by this call. The numeric constant should be between 0 and the less than the size of the domain.
+    /// Create a named finite domain sort. To create constants that belong to the finite domain, use the APIs for
+    /// creating numerals and pass a numeric constant together with the sort returned by this call. The numeric
+    /// constant should be between 0 and the less than the size of the domain.
     /// </summary>
     /// <seealso cref="GetFiniteDomainSortSize"/>
     [Z3Function("Z3_mk_finite_domain_sort")]
@@ -118,7 +124,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkArraySortDelegate(IntPtr c, IntPtr domain, IntPtr range);
 
     /// <summary>
-    /// Create an array type. We usually represent the array type as: [domain -&gt; range]. Arrays are usually used to model the heap/memory in software verification.
+    /// Create an array type. We usually represent the array type as: [domain -&gt; range]. Arrays are usually used to
+    /// model the heap/memory in software verification.
     /// </summary>
     /// <seealso cref="MkSelect"/>
     /// <seealso cref="MkStore"/>
@@ -150,7 +157,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTupleSortDelegate(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl);
 
     /// <summary>
-    /// Create a tuple type. A tuple with n fields has a constructor and n projections. This function will also declare the constructor and projection functions.
+    /// Create a tuple type. A tuple with n fields has a constructor and n projections. This function will also
+    /// declare the constructor and projection functions.
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="mkTupleName">name of the constructor function associated with the tuple type.</param>
@@ -158,7 +166,10 @@ internal sealed partial class NativeZ3Library
     /// <param name="fieldNames">name of the projection functions.</param>
     /// <param name="fieldSorts">type of the tuple fields.</param>
     /// <param name="mkTupleDecl">output parameter that will contain the constructor declaration.</param>
-    /// <param name="projDecl">output parameter that will contain the projection function declarations. This field must be a buffer of size num_fields allocated by the user.</param>
+    /// <param name="projDecl">
+    /// output parameter that will contain the projection function declarations. This field must be a buffer of size
+    /// num_fields allocated by the user.
+    /// </param>
     [Z3Function("Z3_mk_tuple_sort")]
     internal IntPtr MkTupleSort(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
@@ -171,14 +182,21 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkEnumerationSortDelegate(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters);
 
     /// <summary>
-    /// Create a enumeration sort. An enumeration sort with n elements. This function will also declare the functions corresponding to the enumerations.
+    /// Create a enumeration sort. An enumeration sort with n elements. This function will also declare the functions
+    /// corresponding to the enumerations.
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="name">name of the enumeration sort.</param>
     /// <param name="n">number of elements in enumeration sort.</param>
     /// <param name="enumNames">names of the enumerated elements.</param>
     /// <param name="enumConsts">constants corresponding to the enumerated elements.</param>
-    /// <param name="enumTesters">predicates testing if terms of the enumeration sort correspond to an enumeration. For example, if this function is called with three symbols A, B, C and the name S, then s is a sort whose name is S, and the function returns three terms corresponding to A, B, C in enum_consts. The array enum_testers has three predicates of type (s -&gt; Bool). The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.</param>
+    /// <param name="enumTesters">
+    /// predicates testing if terms of the enumeration sort correspond to an enumeration. For example, if this
+    /// function is called with three symbols A, B, C and the name S, then s is a sort whose name is S, and the
+    /// function returns three terms corresponding to A, B, C in enum_consts. The array enum_testers has three
+    /// predicates of type (s -&gt; Bool). The first predicate (corresponding to A) is true when applied to A, and
+    /// false otherwise. Similarly for the other predicates.
+    /// </param>
     [Z3Function("Z3_mk_enumeration_sort")]
     internal IntPtr MkEnumerationSort(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
@@ -191,7 +209,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkListSortDelegate(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl);
 
     /// <summary>
-    /// Create a list sort A list sort over elem_sort This function declares the corresponding constructors and testers for lists.
+    /// Create a list sort A list sort over elem_sort This function declares the corresponding constructors and
+    /// testers for lists.
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="name">name of the list sort.</param>
@@ -222,7 +241,10 @@ internal sealed partial class NativeZ3Library
     /// <param name="numFields">number of fields in constructor.</param>
     /// <param name="fieldNames">names of the constructor fields.</param>
     /// <param name="sorts">field sorts, 0 if the field sort refers to a recursive sort.</param>
-    /// <param name="sortRefs">reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.</param>
+    /// <param name="sortRefs">
+    /// reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0,
+    /// then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.
+    /// </param>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="QueryConstructor"/>
@@ -271,7 +293,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDatatypeDelegate(IntPtr c, IntPtr name, uint numConstructors, IntPtr[] constructors);
 
     /// <summary>
-    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
+    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be
+    /// recursive. Return the datatype sort.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="name">name of datatype.</param>
@@ -292,7 +315,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDatatypeSortDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared. Forward references can replace the use sort references, that are unsigned integers in the Z3_mk_constructor call
+    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a
+    /// nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only
+    /// be used when used in an accessor for a recursive datatype that gets declared. Forward references can replace
+    /// the use sort references, that are unsigned integers in the Z3_mk_constructor call
     /// </summary>
     [Z3Function("Z3_mk_datatype_sort")]
     internal IntPtr MkDatatypeSort(IntPtr c, IntPtr name)
@@ -325,7 +351,8 @@ internal sealed partial class NativeZ3Library
     private delegate void DelConstructorListDelegate(IntPtr c, IntPtr clist);
 
     /// <summary>
-    /// Reclaim memory allocated for constructor list. Each constructor inside the constructor list must be independently reclaimed using Z3_del_constructor.
+    /// Reclaim memory allocated for constructor list. Each constructor inside the constructor list must be
+    /// independently reclaimed using Z3_del_constructor.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="clist">constructor list container.</param>
@@ -367,11 +394,15 @@ internal sealed partial class NativeZ3Library
     /// Query constructor for declared functions.
     /// </summary>
     /// <param name="c">logical context.</param>
-    /// <param name="constr">constructor container. The container must have been passed into a Z3_mk_datatype call.</param>
+    /// <param name="constr">
+    /// constructor container. The container must have been passed into a Z3_mk_datatype call.
+    /// </param>
     /// <param name="numFields">number of accessor fields in the constructor.</param>
     /// <param name="constructor">constructor function declaration, allocated by user.</param>
     /// <param name="tester">constructor test function declaration, allocated by user.</param>
-    /// <param name="accessors">array of accessor function declarations allocated by user. The array must contain num_fields elements.</param>
+    /// <param name="accessors">
+    /// array of accessor function declarations allocated by user. The array must contain num_fields elements.
+    /// </param>
     /// <seealso cref="MkConstructor"/>
     [Z3Function("Z3_query_constructor")]
     internal void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors)

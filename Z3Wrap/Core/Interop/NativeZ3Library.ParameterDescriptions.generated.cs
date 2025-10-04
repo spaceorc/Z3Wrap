@@ -102,7 +102,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParamDescrsToStringDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set.
+    /// Convert a parameter description set into a string. This function is mainly used for printing the contents of a
+    /// parameter description set.
     /// </summary>
     [Z3Function("Z3_param_descrs_to_string")]
     internal IntPtr ParamDescrsToString(IntPtr c, IntPtr p)

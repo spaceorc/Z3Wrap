@@ -31,7 +31,8 @@ internal sealed partial class NativeZ3Library
     private delegate void AppendLogDelegate(IntPtr @string);
 
     /// <summary>
-    /// Append user-defined string to interaction log. The interaction log is opened using Z3_open_log. It contains the formulas that are checked using Z3. You can use this command to append comments, for instance.
+    /// Append user-defined string to interaction log. The interaction log is opened using Z3_open_log. It contains
+    /// the formulas that are checked using Z3. You can use this command to append comments, for instance.
     /// </summary>
     /// <seealso cref="OpenLog"/>
     /// <seealso cref="CloseLog"/>
@@ -63,7 +64,8 @@ internal sealed partial class NativeZ3Library
     private delegate void ToggleWarningMessagesDelegate(bool enabled);
 
     /// <summary>
-    /// Enable/disable printing warning messages to the console. Warnings are printed after passing true, warning messages are suppressed after calling this method with false.
+    /// Enable/disable printing warning messages to the console. Warnings are printed after passing true, warning
+    /// messages are suppressed after calling this method with false.
     /// </summary>
     [Z3Function("Z3_toggle_warning_messages")]
     internal void ToggleWarningMessages(bool enabled)

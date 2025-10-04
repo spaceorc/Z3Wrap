@@ -74,7 +74,8 @@ internal sealed partial class NativeZ3Library
     /// create transitive closure of binary relation.
     /// </summary>
     /// <remarks>
-    /// Precondition: f is a binary relation, such that the two arguments have the same sorts. The resulting relation f+ represents the transitive closure of f.
+    /// Precondition: f is a binary relation, such that the two arguments have the same sorts. The resulting relation
+    /// f+ represents the transitive closure of f.
     /// </remarks>
     [Z3Function("Z3_mk_transitive_closure")]
     internal IntPtr MkTransitiveClosure(IntPtr c, IntPtr f)

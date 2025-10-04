@@ -18,7 +18,8 @@ internal sealed partial class NativeZ3Library
     /// Return an empty AST vector.
     /// </summary>
     /// <remarks>
-    /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using
+    /// Z3_mk_context instead of Z3_mk_context_rc.
     /// </remarks>
     [Z3Function("Z3_mk_ast_vector")]
     internal IntPtr MkAstVector(IntPtr c)

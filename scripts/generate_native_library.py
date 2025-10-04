@@ -562,6 +562,49 @@ def convert_param_name_to_camel_case(param_name: str) -> str:
     return parts[0] + ''.join(part.capitalize() for part in parts[1:])
 
 
+def wrap_xml_comment_text(text: str, max_line_length: int = 110) -> List[str]:
+    """
+    Wrap text for XML comments to not exceed max_line_length characters per line.
+    The actual line will be "    /// " + text, so total is max_line_length + 8.
+
+    Args:
+        text: The text to wrap
+        max_line_length: Maximum characters per line (excluding "    /// " prefix)
+
+    Returns:
+        List of wrapped lines
+    """
+    if len(text) <= max_line_length:
+        return [text]
+
+    lines = []
+    current_line = ""
+
+    # Split by words
+    words = text.split()
+
+    for word in words:
+        # Check if adding this word would exceed the limit
+        if current_line:
+            test_line = current_line + " " + word
+        else:
+            test_line = word
+
+        if len(test_line) <= max_line_length:
+            current_line = test_line
+        else:
+            # Current line is full, start a new line
+            if current_line:
+                lines.append(current_line)
+            current_line = word
+
+    # Add the last line
+    if current_line:
+        lines.append(current_line)
+
+    return lines
+
+
 def generate_partial_class(group: HeaderGroup, output_dir: Path):
     """
     Generate a partial class file with delegates and P/Invoke implementations.
@@ -625,7 +668,9 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                 # Summary (brief description)
                 if sig.brief:
                     f.write("    /// <summary>\n")
-                    f.write(f"    /// {sig.brief}\n")
+                    wrapped_brief = wrap_xml_comment_text(sig.brief)
+                    for line in wrapped_brief:
+                        f.write(f"    /// {line}\n")
                     f.write("    /// </summary>\n")
 
                 # Parameter documentation
@@ -635,11 +680,37 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                     safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
                     if param_name in sig.param_docs:
                         param_doc = sig.param_docs[param_name]
-                        f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')
+                        # For param tags, we need to handle opening/closing tags specially
+                        # Calculate available space: 110 - len('<param name="XXX"></param>')
+                        param_tag_overhead = len(f'<param name="{safe_param_name}"></param>')
+                        available_space = 110 - param_tag_overhead
+
+                        if len(param_doc) <= available_space:
+                            # Fits on one line
+                            f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')
+                        else:
+                            # Needs wrapping - put content on separate lines
+                            f.write(f'    /// <param name="{safe_param_name}">\n')
+                            wrapped_param = wrap_xml_comment_text(param_doc)
+                            for line in wrapped_param:
+                                f.write(f"    /// {line}\n")
+                            f.write(f'    /// </param>\n')
 
                 # Returns documentation
                 if sig.returns_doc:
-                    f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
+                    returns_tag_overhead = len('<returns></returns>')
+                    available_space = 110 - returns_tag_overhead
+
+                    if len(sig.returns_doc) <= available_space:
+                        # Fits on one line
+                        f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
+                    else:
+                        # Needs wrapping
+                        f.write(f"    /// <returns>\n")
+                        wrapped_returns = wrap_xml_comment_text(sig.returns_doc)
+                        for line in wrapped_returns:
+                            f.write(f"    /// {line}\n")
+                        f.write(f"    /// </returns>\n")
 
                 # Remarks (preconditions, warnings, remarks)
                 remarks_parts = []
@@ -658,7 +729,10 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                 if remarks_parts:
                     f.write("    /// <remarks>\n")
                     for remark in remarks_parts:
-                        f.write(f"    /// {remark}\n")
+                        # Wrap each remark if it's too long
+                        wrapped_remark = wrap_xml_comment_text(remark)
+                        for line in wrapped_remark:
+                            f.write(f"    /// {line}\n")
                     f.write("    /// </remarks>\n")
 
                 # See also references

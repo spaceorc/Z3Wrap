@@ -169,7 +169,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkArrayExtDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
+    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom:
+    /// (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
     /// </summary>
     [Z3Function("Z3_mk_array_ext")]
     internal IntPtr MkArrayExt(IntPtr c, IntPtr arg1, IntPtr arg2)

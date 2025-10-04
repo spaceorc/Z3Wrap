@@ -15,7 +15,14 @@ internal sealed partial class NativeZ3Library
     private delegate void GlobalParamSetDelegate(IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
-    /// Set a global (or module) parameter. This setting is shared by all Z3 contexts. When a Z3 module is initialized it will use the value of these parameters when Z3_params objects are not provided. The name of parameter can be composed of characters [a-z][A-Z], digits [0-9], '-' and '_'. The character '.' is a delimiter (more later). The parameter names are case-insensitive. The character '-' should be viewed as an "alias" for '_'. Thus, the following parameter names are considered equivalent: "pp.decimal-precision" and "PP.DECIMAL_PRECISION". This function can be used to set parameters for a specific Z3 module. This can be done by using &lt;module-name&gt;.&lt;parameter-name&gt;. For example: Z3_global_param_set('pp.decimal', 'true') will set the parameter "decimal" in the module "pp" to true.
+    /// Set a global (or module) parameter. This setting is shared by all Z3 contexts. When a Z3 module is initialized
+    /// it will use the value of these parameters when Z3_params objects are not provided. The name of parameter can
+    /// be composed of characters [a-z][A-Z], digits [0-9], '-' and '_'. The character '.' is a delimiter (more
+    /// later). The parameter names are case-insensitive. The character '-' should be viewed as an "alias" for '_'.
+    /// Thus, the following parameter names are considered equivalent: "pp.decimal-precision" and
+    /// "PP.DECIMAL_PRECISION". This function can be used to set parameters for a specific Z3 module. This can be done
+    /// by using &lt;module-name&gt;.&lt;parameter-name&gt;. For example: Z3_global_param_set('pp.decimal', 'true')
+    /// will set the parameter "decimal" in the module "pp" to true.
     /// </summary>
     /// <seealso cref="GlobalParamGet"/>
     /// <seealso cref="GlobalParamResetAll"/>
@@ -31,7 +38,8 @@ internal sealed partial class NativeZ3Library
     private delegate void GlobalParamResetAllDelegate();
 
     /// <summary>
-    /// Restore the value of all global (and module) parameters. This command will not affect already created objects (such as tactics and solvers).
+    /// Restore the value of all global (and module) parameters. This command will not affect already created objects
+    /// (such as tactics and solvers).
     /// </summary>
     /// <seealso cref="GlobalParamGet"/>
     /// <seealso cref="GlobalParamSet"/>
@@ -50,7 +58,8 @@ internal sealed partial class NativeZ3Library
     /// Get a global (or module) parameter. Returns false if the parameter value does not exist.
     /// </summary>
     /// <remarks>
-    /// This function cannot be invoked simultaneously from different threads without synchronization. The result string stored in param_value is stored in shared location.
+    /// This function cannot be invoked simultaneously from different threads without synchronization. The result
+    /// string stored in param_value is stored in shared location.
     /// </remarks>
     /// <seealso cref="GlobalParamResetAll"/>
     /// <seealso cref="GlobalParamSet"/>

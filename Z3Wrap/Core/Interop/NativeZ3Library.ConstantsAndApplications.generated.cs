@@ -20,8 +20,14 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context.</param>
     /// <param name="s">name of the constant or function.</param>
     /// <param name="domainSize">number of arguments. It is 0 when declaring a constant.</param>
-    /// <param name="domain">array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant.</param>
-    /// <param name="range">sort of the constant or the return sort of the function. After declaring a constant or function, the function Z3_mk_app can be used to create a constant or function application.</param>
+    /// <param name="domain">
+    /// array containing the sort of each argument. The array must contain domain_size elements. It is 0 when
+    /// declaring a constant.
+    /// </param>
+    /// <param name="range">
+    /// sort of the constant or the return sort of the function. After declaring a constant or function, the function
+    /// Z3_mk_app can be used to create a constant or function application.
+    /// </param>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
@@ -54,7 +60,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConstDelegate(IntPtr c, IntPtr s, IntPtr ty);
 
     /// <summary>
-    /// Declare and create a constant. This function is a shorthand for: \code Z3_func_decl d = Z3_mk_func_decl(c, s, 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0); \endcode
+    /// Declare and create a constant. This function is a shorthand for: \code Z3_func_decl d = Z3_mk_func_decl(c, s,
+    /// 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0); \endcode
     /// </summary>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshConst"/>
@@ -71,7 +78,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domainSize, IntPtr[] domain, IntPtr range);
 
     /// <summary>
-    /// Declare a fresh constant or function. Z3 will generate an unique name for this function declaration. If prefix is different from NULL, then the name generate by Z3 will start with prefix.
+    /// Declare a fresh constant or function. Z3 will generate an unique name for this function declaration. If prefix
+    /// is different from NULL, then the name generate by Z3 will start with prefix.
     /// </summary>
     /// <remarks>
     /// If prefix is NULL, then it is assumed to be the empty string.
@@ -89,7 +97,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFreshConstDelegate(IntPtr c, IntPtr prefix, IntPtr ty);
 
     /// <summary>
-    /// Declare and create a fresh constant. This function is a shorthand for: \code Z3_func_decl d = Z3_mk_fresh_func_decl(c, prefix, 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0); \endcode
+    /// Declare and create a fresh constant. This function is a shorthand for: \code Z3_func_decl d =
+    /// Z3_mk_fresh_func_decl(c, prefix, 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0); \endcode
     /// </summary>
     /// <remarks>
     /// If prefix is NULL, then it is assumed to be the empty string.
@@ -115,8 +124,14 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context.</param>
     /// <param name="s">name of the function.</param>
     /// <param name="domainSize">number of arguments. It should be greater than 0.</param>
-    /// <param name="domain">array containing the sort of each argument. The array must contain domain_size elements.</param>
-    /// <param name="range">sort of the constant or the return sort of the function. After declaring recursive function, it should be associated with a recursive definition Z3_add_rec_def. The function Z3_mk_app can be used to create a constant or function application.</param>
+    /// <param name="domain">
+    /// array containing the sort of each argument. The array must contain domain_size elements.
+    /// </param>
+    /// <param name="range">
+    /// sort of the constant or the return sort of the function. After declaring recursive function, it should be
+    /// associated with a recursive definition Z3_add_rec_def. The function Z3_mk_app can be used to create a constant
+    /// or function application.
+    /// </param>
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFuncDecl"/>
@@ -138,7 +153,10 @@ internal sealed partial class NativeZ3Library
     /// <param name="f">function declaration.</param>
     /// <param name="n">number of arguments to the function</param>
     /// <param name="args">constants that are used as arguments to the recursive function in the definition.</param>
-    /// <param name="body">body of the recursive function After declaring a recursive function or a collection of mutually recursive functions, use this function to provide the definition for the recursive function.</param>
+    /// <param name="body">
+    /// body of the recursive function After declaring a recursive function or a collection of mutually recursive
+    /// functions, use this function to provide the definition for the recursive function.
+    /// </param>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_add_rec_def")]
     internal void AddRecDef(IntPtr c, IntPtr f, uint n, IntPtr[] args, IntPtr body)

@@ -18,7 +18,8 @@ internal sealed partial class NativeZ3Library
     /// Return an empty mapping from AST to AST
     /// </summary>
     /// <remarks>
-    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using Z3_mk_context instead of Z3_mk_context_rc.
+    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using Z3_mk_context
+    /// instead of Z3_mk_context_rc.
     /// </remarks>
     [Z3Function("Z3_mk_ast_map")]
     internal IntPtr MkAstMap(IntPtr c)

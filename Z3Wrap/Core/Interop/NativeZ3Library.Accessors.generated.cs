@@ -15,7 +15,8 @@ internal sealed partial class NativeZ3Library
     private delegate int GetSymbolKindDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return Z3_INT_SYMBOL if the symbol was constructed using Z3_mk_int_symbol, and Z3_STRING_SYMBOL if the symbol was constructed using Z3_mk_string_symbol.
+    /// Return Z3_INT_SYMBOL if the symbol was constructed using Z3_mk_int_symbol, and Z3_STRING_SYMBOL if the symbol
+    /// was constructed using Z3_mk_string_symbol.
     /// </summary>
     [Z3Function("Z3_get_symbol_kind")]
     internal int GetSymbolKind(IntPtr c, IntPtr s)
@@ -51,7 +52,8 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_symbol_kind(s) == Z3_STRING_SYMBOL
-    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_get_symbol_string.
+    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when
+    /// Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_get_symbol_string.
     /// </remarks>
     /// <seealso cref="MkStringSymbol"/>
     [Z3Function("Z3_get_symbol_string")]
@@ -156,7 +158,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetFiniteDomainSortSizeDelegate(IntPtr c, IntPtr s, IntPtr r);
 
     /// <summary>
-    /// Store the size of the sort in r. Return false if the call failed. That is, Z3_get_sort_kind(s) == Z3_FINITE_DOMAIN_SORT
+    /// Store the size of the sort in r. Return false if the call failed. That is, Z3_get_sort_kind(s) ==
+    /// Z3_FINITE_DOMAIN_SORT
     /// </summary>
     [Z3Function("Z3_get_finite_domain_sort_size")]
     internal bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, IntPtr r)
@@ -188,7 +191,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetArraySortDomainDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the sort of the first dimension.
+    /// Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the
+    /// sort of the first dimension.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
@@ -403,7 +407,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr c, IntPtr fieldAccess, IntPtr t, IntPtr value);
 
     /// <summary>
-    /// Update record field with a value. This corresponds to the 'with' construct in OCaml. It has the effect of updating a record field with a given value. The remaining fields are left unchanged. It is the record equivalent of an array store (see
+    /// Update record field with a value. This corresponds to the 'with' construct in OCaml. It has the effect of
+    /// updating a record field with a given value. The remaining fields are left unchanged. It is the record
+    /// equivalent of an array store (see
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(Z3_get_sort(c, t)) == Z3_get_domain(c, field_access, 1) == Z3_DATATYPE_SORT
@@ -647,7 +653,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetRangeDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return the range of the given declaration. If d is a constant (i.e., has zero arguments), then this function returns the sort of the constant.
+    /// Return the range of the given declaration. If d is a constant (i.e., has zero arguments), then this function
+    /// returns the sort of the constant.
     /// </summary>
     [Z3Function("Z3_get_range")]
     internal IntPtr GetRange(IntPtr c, IntPtr d)
@@ -679,7 +686,9 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c">the context</param>
     /// <param name="d">the function declaration</param>
-    /// <param name="idx">is the index of the named parameter it should be between 0 and the number of parameters.</param>
+    /// <param name="idx">
+    /// is the index of the named parameter it should be between 0 and the number of parameters.
+    /// </param>
     [Z3Function("Z3_get_decl_parameter_kind")]
     internal int GetDeclParameterKind(IntPtr c, IntPtr d, uint idx)
     {
@@ -886,7 +895,10 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetAstIdDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return a unique identifier for t. The identifier is unique up to structural equality. Thus, two ast nodes created by the same context and having the same children and same function symbols have the same identifiers. Ast nodes created in the same context, but having different children or different functions have different identifiers. Variables and quantifiers are also assigned different identifiers according to their structure.
+    /// Return a unique identifier for t. The identifier is unique up to structural equality. Thus, two ast nodes
+    /// created by the same context and having the same children and same function symbols have the same identifiers.
+    /// Ast nodes created in the same context, but having different children or different functions have different
+    /// identifiers. Variables and quantifiers are also assigned different identifiers according to their structure.
     /// </summary>
     [Z3Function("Z3_get_ast_id")]
     internal uint GetAstId(IntPtr c, IntPtr t)
@@ -900,7 +912,8 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetAstHashDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the same hash. The result of Z3_get_ast_id returns an identifier that is unique over the set of live AST objects.
+    /// Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the
+    /// same hash. The result of Z3_get_ast_id returns an identifier that is unique over the set of live AST objects.
     /// </summary>
     [Z3Function("Z3_get_ast_hash")]
     internal uint GetAstHash(IntPtr c, IntPtr a)
@@ -914,7 +927,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetSortDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the sort of an AST node. The AST node must be a constant, application, numeral, bound variable, or quantifier.
+    /// Return the sort of an AST node. The AST node must be a constant, application, numeral, bound variable, or
+    /// quantifier.
     /// </summary>
     [Z3Function("Z3_get_sort")]
     internal IntPtr GetSort(IntPtr c, IntPtr a)
@@ -1170,7 +1184,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context.</param>
     /// <param name="a">term.</param>
     /// <param name="num">numerator.</param>
-    /// <param name="den">denominator. Return true if the numeral value fits in 64 bit numerals, false otherwise. Equivalent to Z3_get_numeral_rational_int64 except that for unsupported expression arguments Z3_get_numeral_small signals an error while Z3_get_numeral_rational_int64 returns false.</param>
+    /// <param name="den">
+    /// denominator. Return true if the numeral value fits in 64 bit numerals, false otherwise. Equivalent to
+    /// Z3_get_numeral_rational_int64 except that for unsupported expression arguments Z3_get_numeral_small signals an
+    /// error while Z3_get_numeral_rational_int64 returns false.
+    /// </param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1186,7 +1204,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralIntDelegate(IntPtr c, IntPtr v, IntPtr i);
 
     /// <summary>
-    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine int. Return true if the call succeeded.
+    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine int. Return true if the
+    /// call succeeded.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
@@ -1204,7 +1223,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralUintDelegate(IntPtr c, IntPtr v, IntPtr u);
 
     /// <summary>
-    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine unsigned int. Return true if the call succeeded.
+    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine unsigned int. Return
+    /// true if the call succeeded.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
@@ -1222,7 +1242,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralUint64Delegate(IntPtr c, IntPtr v, IntPtr u);
 
     /// <summary>
-    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine uint64_t int. Return true if the call succeeded.
+    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine uint64_t int. Return
+    /// true if the call succeeded.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
@@ -1240,7 +1261,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralInt64Delegate(IntPtr c, IntPtr v, IntPtr i);
 
     /// <summary>
-    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine int64_t int. Return true if the call succeeded.
+    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit in a machine int64_t int. Return true
+    /// if the call succeeded.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
@@ -1258,7 +1280,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralRationalInt64Delegate(IntPtr c, IntPtr v, IntPtr num, IntPtr den);
 
     /// <summary>
-    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit as a rational number as machine int64_t int. Return true if the call succeeded.
+    /// Similar to Z3_get_numeral_string, but only succeeds if the value can fit as a rational number as machine
+    /// int64_t int. Return true if the call succeeded.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
@@ -1276,7 +1299,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAlgebraicNumberLowerDelegate(IntPtr c, IntPtr a, uint precision);
 
     /// <summary>
-    /// Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    /// Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than
+    /// 1/10^precision. The result is a numeral AST of sort Real.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_is_algebraic_number(c, a)
@@ -1293,7 +1317,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAlgebraicNumberUpperDelegate(IntPtr c, IntPtr a, uint precision);
 
     /// <summary>
-    /// Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    /// Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than
+    /// 1/10^precision. The result is a numeral AST of sort Real.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_is_algebraic_number(c, a)
@@ -1601,7 +1626,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Interface to simplifier. Provides an interface to the AST simplifier used by Z3. It returns an AST object which is equal to the argument. The returned AST is simplified using algebraic simplification rules, such as constant propagation (propagating true/false over logical connectives).
+    /// Interface to simplifier. Provides an interface to the AST simplifier used by Z3. It returns an AST object
+    /// which is equal to the argument. The returned AST is simplified using algebraic simplification rules, such as
+    /// constant propagation (propagating true/false over logical connectives).
     /// </summary>
     /// <seealso cref="SimplifyEx"/>
     [Z3Function("Z3_simplify")]
@@ -1616,7 +1643,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyExDelegate(IntPtr c, IntPtr a, IntPtr p);
 
     /// <summary>
-    /// Interface to simplifier. Provides an interface to the AST simplifier used by Z3. This procedure is similar to Z3_simplify, but the behavior of the simplifier can be configured using the given parameter set.
+    /// Interface to simplifier. Provides an interface to the AST simplifier used by Z3. This procedure is similar to
+    /// Z3_simplify, but the behavior of the simplifier can be configured using the given parameter set.
     /// </summary>
     /// <seealso cref="Simplify"/>
     /// <seealso cref="SimplifyGetHelp"/>

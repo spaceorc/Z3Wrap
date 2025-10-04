@@ -313,7 +313,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial
+    /// p(a[0], ..., a[n-1], x_n).
     /// </summary>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
