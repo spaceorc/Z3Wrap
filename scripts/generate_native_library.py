@@ -367,46 +367,64 @@ def clean_group_name_for_class(group_name: str) -> str:
     return ''.join(word.capitalize() for word in words if word)
 
 
-def analyze_headers(headers_dir: Path) -> List[HeaderGroup]:
+def analyze_headers(headers_dir: Path, verbose: bool = False) -> List[HeaderGroup]:
     """
     Analyze all header files in the c_headers directory.
     Returns list of HeaderGroup objects with functions extracted.
     """
+    import sys
+
     header_files = sorted(headers_dir.glob('*.h'))
     all_groups = []
 
     for header_path in header_files:
-        print(f"  Processing {header_path.name}...")
         groups = find_groups_in_header(header_path)
 
         # Read file once to get total lines
         with open(header_path, 'r', encoding='utf-8') as f:
             total_lines = len(f.readlines())
 
+        # Filter out "Types" groups and count total functions
+        valid_groups = []
         for i, (line_num, group_name) in enumerate(groups):
-            # Skip "Types" group as it only contains type declarations
             if group_name.strip() == "Types":
                 continue
-
-            # Determine the range of lines for this group
-            # Group starts at line_num, ends at next group or end of file
             start_line = line_num
             end_line = groups[i + 1][0] if i + 1 < len(groups) else total_lines
-
-            # Extract functions in this group
             functions = extract_functions_from_group(header_path, start_line, end_line)
+            valid_groups.append((line_num, group_name, start_line, end_line, functions))
 
+        total_funcs = sum(len(funcs) for _, _, _, _, funcs in valid_groups)
+        processed_funcs = 0
+
+        for group_idx, (line_num, group_name, start_line, end_line, functions) in enumerate(valid_groups):
             # Parse signatures for each function
             signatures = []
-            print(f"    Parsing {len(functions)} functions from {group_name}...")
+
             for func_idx, func_name in enumerate(functions, 1):
+                processed_funcs += 1
+
+                # Progress display
+                if verbose:
+                    if func_idx == 1:
+                        print(f"  Processing {header_path.name} - {group_name}...")
+                    print(f"    [{func_idx}/{len(functions)}] {func_name}")
+                else:
+                    # Compact progress bar
+                    progress = processed_funcs / total_funcs
+                    bar_width = 30
+                    filled = int(bar_width * progress)
+                    bar = '█' * filled + '░' * (bar_width - filled)
+                    # Truncate group name if too long
+                    display_name = group_name if len(group_name) <= 40 else group_name[:37] + "..."
+                    sys.stdout.write(f"\r  Processing {header_path.name:20s} [{bar}] {display_name:43s}")
+                    sys.stdout.flush()
+
                 try:
-                    if func_idx % 10 == 0 or func_idx == len(functions):
-                        print(f"      [{func_idx}/{len(functions)}] {func_name}")
                     sig = parse_function_signature(header_path, func_name)
                     signatures.append(sig)
                 except Exception as e:
-                    print(f"ERROR parsing {func_name} in {header_path.name}: {e}")
+                    print(f"\nERROR parsing {func_name} in {header_path.name}: {e}")
                     raise
 
             clean_name = clean_group_name_for_class(group_name)
@@ -418,6 +436,11 @@ def analyze_headers(headers_dir: Path) -> List[HeaderGroup]:
                 signatures=signatures
             )
             all_groups.append(header_group)
+
+        if not verbose:
+            # Clear the progress line after finishing the file
+            sys.stdout.write("\r" + " " * 120 + "\r")
+            sys.stdout.flush()
 
     return all_groups
 
@@ -572,6 +595,14 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
 
 def main():
     """Main entry point."""
+    import sys
+    import argparse
+
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description='Generate NativeLibrary2 partial classes from Z3 headers')
+    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output with all function names')
+    args = parser.parse_args()
+
     # Paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
@@ -594,26 +625,39 @@ def main():
 
     # Analyze headers
     print("Analyzing header files...")
-    groups = analyze_headers(headers_dir)
-    print(f"Found {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
+    groups = analyze_headers(headers_dir, verbose=args.verbose)
+    if not args.verbose:
+        print(f"✓ Analyzed {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
+    else:
+        print(f"Found {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
     print()
 
     # Generate partial class files with delegates and P/Invoke
     print("Generating partial class files with P/Invoke implementations...")
     generated_files = []
-    for i, group in enumerate(groups, 1):
-        print(f"  [{i}/{len(groups)}] {group.group_name_clean} ({len(group.functions)} functions)...")
-        file_path = generate_partial_class(group, output_dir)
-        generated_files.append(file_path.name)
 
-    print()
+    if args.verbose:
+        for i, group in enumerate(groups, 1):
+            print(f"  [{i}/{len(groups)}] {group.group_name_clean} ({len(group.functions)} functions)...")
+            file_path = generate_partial_class(group, output_dir)
+            generated_files.append(file_path.name)
+    else:
+        # Compact progress for generation
+        for i, group in enumerate(groups, 1):
+            progress = i / len(groups)
+            bar_width = 30
+            filled = int(bar_width * progress)
+            bar = '█' * filled + '░' * (bar_width - filled)
+            sys.stdout.write(f"\r  Progress [{bar}] {i}/{len(groups)} groups")
+            sys.stdout.flush()
+            file_path = generate_partial_class(group, output_dir)
+            generated_files.append(file_path.name)
+        sys.stdout.write("\r" + " " * 80 + "\r")
+        sys.stdout.flush()
+
     print(f"✅ Generated {len(generated_files)} partial class files")
     print(f"   Total functions: {sum(len(g.functions) for g in groups)}")
     print(f"   Location: {output_dir}")
-    print()
-    print("Sample files:")
-    for i, file_name in enumerate(sorted(generated_files)[:5], 1):
-        print(f"  {i}. {file_name}")
     print()
     print("ℹ️  Functions loaded via reflection using [Z3Function] attributes")
 
