@@ -15,7 +15,8 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsValueDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return true if a can be used as value in the Z3 real algebraic number package.
+    /// Return true if a can be used as value in the Z3 real algebraic
+    /// number package.
     /// </summary>
     [Z3Function("Z3_algebraic_is_value")]
     internal bool AlgebraicIsValue(IntPtr c, IntPtr a)
@@ -313,8 +314,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial
-    /// p(a[0], ..., a[n-1], x_n).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the
+    /// roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
     /// </summary>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
@@ -332,7 +333,8 @@ internal sealed partial class NativeZ3Library
     private delegate int AlgebraicEvalDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the
+    /// sign of p(a[0], ..., a[n-1]).
     /// </summary>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.

@@ -57,7 +57,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetAddDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
-    /// Add an element to a set. The first argument must be a set, the second an element.
+    /// Add an element to a set.
+    /// The first argument must be a set, the second an element.
     /// </summary>
     [Z3Function("Z3_mk_set_add")]
     internal IntPtr MkSetAdd(IntPtr c, IntPtr set, IntPtr elem)
@@ -71,7 +72,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetDelDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
-    /// Remove an element to a set. The first argument must be a set, the second an element.
+    /// Remove an element to a set.
+    /// The first argument must be a set, the second an element.
     /// </summary>
     [Z3Function("Z3_mk_set_del")]
     internal IntPtr MkSetDel(IntPtr c, IntPtr set, IntPtr elem)
@@ -141,7 +143,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetMemberDelegate(IntPtr c, IntPtr elem, IntPtr set);
 
     /// <summary>
-    /// Check for set membership. The first argument should be an element type of the set.
+    /// Check for set membership.
+    /// The first argument should be an element type of the set.
     /// </summary>
     [Z3Function("Z3_mk_set_member")]
     internal IntPtr MkSetMember(IntPtr c, IntPtr elem, IntPtr set)
@@ -169,7 +172,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkArrayExtDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom:
+    /// Create array extensionality index given two arrays with the same sort.
+    /// The meaning is given by the axiom:
     /// (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
     /// </summary>
     [Z3Function("Z3_mk_array_ext")]

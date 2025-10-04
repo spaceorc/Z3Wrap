@@ -15,12 +15,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkParamsDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components
-    /// such as: simplifiers, tactics, solvers, etc.
+    /// Create a Z3 (empty) parameter set.
+    /// Starting at Z3 4.0, parameter sets are used to configure many components such as:
+    /// simplifiers, tactics, solvers, etc.
     /// </summary>
     /// <remarks>
-    /// Reference counting must be used to manage parameter sets, even when the Z3_context was created using
-    /// Z3_mk_context instead of Z3_mk_context_rc.
+    /// Reference counting must be used to manage parameter sets, even when the Z3_context was
+    /// created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
     /// </remarks>
     [Z3Function("Z3_mk_params")]
     internal IntPtr MkParams(IntPtr c)
@@ -118,8 +119,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParamsToStringDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter
-    /// set.
+    /// Convert a parameter set into a string. This function is mainly used for printing the
+    /// contents of a parameter set.
     /// </summary>
     [Z3Function("Z3_params_to_string")]
     internal IntPtr ParamsToString(IntPtr c, IntPtr p)
@@ -133,8 +134,8 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsValidateDelegate(IntPtr c, IntPtr p, IntPtr d);
 
     /// <summary>
-    /// Validate the parameter set p against the parameter description set d. The procedure invokes the error handler
-    /// if p is invalid.
+    /// Validate the parameter set p against the parameter description set d.
+    /// The procedure invokes the error handler if p is invalid.
     /// </summary>
     [Z3Function("Z3_params_validate")]
     internal void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)

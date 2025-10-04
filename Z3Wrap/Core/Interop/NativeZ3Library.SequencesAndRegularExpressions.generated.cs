@@ -99,8 +99,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkStringSortDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a sort for unicode strings. The sort for characters can be changed to ASCII by setting the global
-    /// parameter encoding to ascii, or alternative to 16 bit characters by setting encoding to bmp.
+    /// Create a sort for unicode strings.
+    /// The sort for characters can be changed to ASCII by setting
+    /// the global parameter encoding to ascii, or alternative
+    /// to 16 bit characters by setting encoding to bmp.
     /// </summary>
     [Z3Function("Z3_mk_string_sort")]
     internal IntPtr MkStringSort(IntPtr c)
@@ -114,8 +116,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkCharSortDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a sort for unicode characters. The sort for characters can be changed to ASCII by setting the global
-    /// parameter encoding to ascii, or alternative to 16 bit characters by setting encoding to bmp.
+    /// Create a sort for unicode characters.
+    /// The sort for characters can be changed to ASCII by setting
+    /// the global parameter encoding to ascii, or alternative
+    /// to 16 bit characters by setting encoding to bmp.
     /// </summary>
     [Z3Function("Z3_mk_char_sort")]
     internal IntPtr MkCharSort(IntPtr c)
@@ -157,9 +161,11 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkStringDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in The string may contain escape encoding for
-    /// non-printable characters or characters outside of the basic printable ASCII range. For example, the escape
-    /// encoding \\u{0} represents the character 0 and the encoding \\u{100} represents the character 256.
+    /// Create a string constant out of the string that is passed in
+    /// The string may contain escape encoding for non-printable characters
+    /// or characters outside of the basic printable ASCII range. For example,
+    /// the escape encoding \\u{0} represents the character 0 and the encoding
+    /// \\u{100} represents the character 256.
     /// </summary>
     [Z3Function("Z3_mk_string")]
     internal IntPtr MkString(IntPtr c, IntPtr s)
@@ -173,9 +179,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkLstringDelegate(IntPtr c, uint len, IntPtr s);
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take
-    /// into account 0 characters. The string is treated as if it is unescaped so a sequence of characters \\u{0} is
-    /// treated as 5 characters and not the character 0.
+    /// Create a string constant out of the string that is passed in
+    /// It takes the length of the string as well to take into account
+    /// 0 characters. The string is treated as if it is unescaped so a sequence
+    /// of characters \\u{0} is treated as 5 characters and not the character 0.
     /// </summary>
     [Z3Function("Z3_mk_lstring")]
     internal IntPtr MkLstring(IntPtr c, uint len, IntPtr s)
@@ -189,8 +196,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkU32stringDelegate(IntPtr c, uint len, uint[] chars);
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take
-    /// into account 0 characters. The string is unescaped.
+    /// Create a string constant out of the string that is passed in
+    /// It takes the length of the string as well to take into account
+    /// 0 characters. The string is unescaped.
     /// </summary>
     [Z3Function("Z3_mk_u32string")]
     internal IntPtr MkU32string(IntPtr c, uint len, uint[] chars)
@@ -218,7 +226,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetStringDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Retrieve the string constant stored in s. Characters outside the basic printable ASCII range are escaped.
+    /// Retrieve the string constant stored in s.
+    /// Characters outside the basic printable ASCII range are escaped.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
@@ -235,8 +244,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetLstringDelegate(IntPtr c, IntPtr s, IntPtr length);
 
     /// <summary>
-    /// Retrieve the string constant stored in s. The string can contain escape sequences. Characters in the range 1
-    /// to 255 are literal. Characters in the range 0, and 256 above are escaped.
+    /// Retrieve the string constant stored in s. The string can contain escape sequences.
+    /// Characters in the range 1 to 255 are literal.
+    /// Characters in the range 0, and 256 above are escaped.
     /// </summary>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
@@ -449,8 +459,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSeqAtDelegate(IntPtr c, IntPtr s, IntPtr index);
 
     /// <summary>
-    /// Retrieve from s the unit sequence positioned at position index. The sequence is empty if the index is out of
-    /// bounds.
+    /// Retrieve from s the unit sequence positioned at position index.
+    /// The sequence is empty if the index is out of bounds.
     /// </summary>
     [Z3Function("Z3_mk_seq_at")]
     internal IntPtr MkSeqAt(IntPtr c, IntPtr s, IntPtr index)
@@ -464,8 +474,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSeqNthDelegate(IntPtr c, IntPtr s, IntPtr index);
 
     /// <summary>
-    /// Retrieve from s the element positioned at position index. The function is under-specified if the index is out
-    /// of bounds.
+    /// Retrieve from s the element positioned at position index.
+    /// The function is under-specified if the index is out of bounds.
     /// </summary>
     [Z3Function("Z3_mk_seq_nth")]
     internal IntPtr MkSeqNth(IntPtr c, IntPtr s, IntPtr index)
@@ -493,9 +503,9 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSeqIndexDelegate(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset);
 
     /// <summary>
-    /// Return index of the first occurrence of substr in s starting from offset offset. If s does not contain substr,
-    /// then the value is -1, if offset is the length of s, then the value is -1 as well. The value is -1 if offset is
-    /// negative or larger than the length of s.
+    /// Return index of the first occurrence of substr in s starting from offset offset.
+    /// If s does not contain substr, then the value is -1, if offset is the length of s, then the value is -1 as well.
+    /// The value is -1 if offset is negative or larger than the length of s.
     /// </summary>
     [Z3Function("Z3_mk_seq_index")]
     internal IntPtr MkSeqIndex(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset)
@@ -509,7 +519,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSeqLastIndexDelegate(IntPtr c, IntPtr s, IntPtr substr);
 
     /// <summary>
-    /// Return index of the last occurrence of substr in s. If s does not contain substr, then the value is -1,
+    /// Return index of the last occurrence of substr in s.
+    /// If s does not contain substr, then the value is -1,
     /// </summary>
     [Z3Function("Z3_mk_seq_last_index")]
     internal IntPtr MkSeqLastIndex(IntPtr c, IntPtr s, IntPtr substr)
@@ -565,8 +576,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSeqFoldliDelegate(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s);
 
     /// <summary>
-    /// Create a fold with index tracking of the function f over the sequence s with accumulator a starting at index
-    /// i.
+    /// Create a fold with index tracking of the function f over the sequence s with accumulator a starting at index i.
     /// </summary>
     [Z3Function("Z3_mk_seq_foldli")]
     internal IntPtr MkSeqFoldli(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s)
@@ -796,9 +806,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkReLoopDelegate(IntPtr c, IntPtr r, uint lo, uint hi);
 
     /// <summary>
-    /// Create a regular expression loop. The supplied regular expression r is repeated between lo and hi times. The
-    /// lo should be below hi with one exception: when supplying the value hi as 0, the meaning is to repeat the
-    /// argument r at least lo number of times, and with an unbounded upper bound.
+    /// Create a regular expression loop. The supplied regular expression r is repeated
+    /// between lo and hi times. The lo should be below hi with one exception: when
+    /// supplying the value hi as 0, the meaning is to repeat the argument r at least
+    /// lo number of times, and with an unbounded upper bound.
     /// </summary>
     [Z3Function("Z3_mk_re_loop")]
     internal IntPtr MkReLoop(IntPtr c, IntPtr r, uint lo, uint hi)

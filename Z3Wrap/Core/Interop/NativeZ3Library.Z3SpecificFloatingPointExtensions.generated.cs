@@ -186,7 +186,10 @@ internal sealed partial class NativeZ3Library
     /// Retrieves the sign of a floating-point literal as a bit-vector expression.
     /// </summary>
     /// <param name="c">logical context</param>
-    /// <param name="t">a floating-point numeral Remarks: NaN is an invalid argument.</param>
+    /// <param name="t">
+    /// a floating-point numeral
+    /// Remarks: NaN is an invalid argument.
+    /// </param>
     [Z3Function("Z3_fpa_get_numeral_sign_bv")]
     internal IntPtr FpaGetNumeralSignBv(IntPtr c, IntPtr t)
     {
@@ -202,7 +205,10 @@ internal sealed partial class NativeZ3Library
     /// Retrieves the significand of a floating-point literal as a bit-vector expression.
     /// </summary>
     /// <param name="c">logical context</param>
-    /// <param name="t">a floating-point numeral Remarks: NaN is an invalid argument.</param>
+    /// <param name="t">
+    /// a floating-point numeral
+    /// Remarks: NaN is an invalid argument.
+    /// </param>
     [Z3Function("Z3_fpa_get_numeral_significand_bv")]
     internal IntPtr FpaGetNumeralSignificandBv(IntPtr c, IntPtr t)
     {
@@ -222,7 +228,8 @@ internal sealed partial class NativeZ3Library
     /// <param name="sgn">the retrieved sign</param>
     /// <returns>
     /// true if t corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// Remarks: sets sgn to 0 if `t' is positive and to 1 otherwise, except for NaN, which is an invalid argument.
+    /// Remarks: sets sgn to 0 if `t' is positive and to 1 otherwise, except for
+    /// NaN, which is an invalid argument.
     /// </returns>
     [Z3Function("Z3_fpa_get_numeral_sign")]
     internal bool FpaGetNumeralSign(IntPtr c, IntPtr t, IntPtr sgn)
@@ -242,8 +249,8 @@ internal sealed partial class NativeZ3Library
     /// <param name="t">a floating-point numeral</param>
     /// <returns>
     /// true if t corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// Remarks: The significand s is always 0.0 &lt;= s &lt; 2.0; the resulting string is long enough to represent
-    /// the real significand precisely.
+    /// Remarks: The significand s is always <code>0.0 &lt;= s &lt; 2.0</code>; the resulting string is long
+    /// enough to represent the real significand precisely.
     /// </returns>
     [Z3Function("Z3_fpa_get_numeral_significand_string")]
     internal IntPtr FpaGetNumeralSignificandString(IntPtr c, IntPtr t)
@@ -262,9 +269,10 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context</param>
     /// <param name="t">a floating-point numeral</param>
     /// <param name="n">
-    /// pointer to output uint64 Remarks: This function extracts the significand bits in `t`, without the hidden bit
-    /// or normalization. Sets the Z3_INVALID_ARG error code if the significand does not fit into a uint64. NaN is an
-    /// invalid argument.
+    /// pointer to output uint64
+    /// Remarks: This function extracts the significand bits in `t`, without the
+    /// hidden bit or normalization. Sets the Z3_INVALID_ARG error code if the
+    /// significand does not fit into a uint64. NaN is an invalid argument.
     /// </param>
     [Z3Function("Z3_fpa_get_numeral_significand_uint64")]
     internal bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, IntPtr n)
@@ -285,7 +293,8 @@ internal sealed partial class NativeZ3Library
     /// <param name="biased">flag to indicate whether the result is in biased representation</param>
     /// <returns>
     /// true if t corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// Remarks: This function extracts the exponent in `t`, without normalization. NaN is an invalid argument.
+    /// Remarks: This function extracts the exponent in `t`, without normalization.
+    /// NaN is an invalid argument.
     /// </returns>
     [Z3Function("Z3_fpa_get_numeral_exponent_string")]
     internal IntPtr FpaGetNumeralExponentString(IntPtr c, IntPtr t, bool biased)
@@ -307,7 +316,8 @@ internal sealed partial class NativeZ3Library
     /// <param name="biased">flag to indicate whether the result is in biased representation</param>
     /// <returns>
     /// true if t corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// Remarks: This function extracts the exponent in `t`, without normalization. NaN is an invalid argument.
+    /// Remarks: This function extracts the exponent in `t`, without normalization.
+    /// NaN is an invalid argument.
     /// </returns>
     [Z3Function("Z3_fpa_get_numeral_exponent_int64")]
     internal bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, IntPtr n, bool biased)
@@ -326,8 +336,9 @@ internal sealed partial class NativeZ3Library
     /// <param name="c">logical context</param>
     /// <param name="t">a floating-point numeral</param>
     /// <param name="biased">
-    /// flag to indicate whether the result is in biased representation Remarks: This function extracts the exponent
-    /// in `t`, without normalization. NaN is an invalid arguments.
+    /// flag to indicate whether the result is in biased representation
+    /// Remarks: This function extracts the exponent in `t`, without normalization.
+    /// NaN is an invalid arguments.
     /// </param>
     [Z3Function("Z3_fpa_get_numeral_exponent_bv")]
     internal IntPtr FpaGetNumeralExponentBv(IntPtr c, IntPtr t, bool biased)
@@ -345,9 +356,12 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="t">
-    /// term of FloatingPoint sort t must have FloatingPoint sort. The size of the resulting bit-vector is
-    /// automatically determined. Note that IEEE 754-2008 allows multiple different representations of NaN. This
-    /// conversion knows only one NaN and it will always produce the same bit-vector representation of that NaN.
+    /// term of FloatingPoint sort
+    /// t must have FloatingPoint sort. The size of the resulting bit-vector is automatically
+    /// determined.
+    /// Note that IEEE 754-2008 allows multiple different representations of NaN. This conversion
+    /// knows only one NaN and it will always produce the same bit-vector representation of
+    /// that NaN.
     /// </param>
     [Z3Function("Z3_mk_fpa_to_ieee_bv")]
     internal IntPtr MkFpaToIeeeBv(IntPtr c, IntPtr t)
@@ -362,16 +376,17 @@ internal sealed partial class NativeZ3Library
 
     /// <summary>
     /// Conversion of a real-sorted significand and an integer-sorted exponent into a term of FloatingPoint sort.
-    /// Produces a term that represents the conversion of sig * 2^exp into a floating-point term of sort s. If
-    /// necessary, the result will be rounded according to rounding mode rm.
+    /// Produces a term that represents the conversion of <code>sig * 2^exp</code> into a
+    /// floating-point term of sort s. If necessary, the result will be rounded
+    /// according to rounding mode rm.
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="rm">term of RoundingMode sort</param>
     /// <param name="exp">exponent term of Int sort</param>
     /// <param name="sig">significand term of Real sort</param>
     /// <param name="s">
-    /// FloatingPoint sort s must be a FloatingPoint sort, rm must be of RoundingMode sort, exp must be of int sort,
-    /// sig must be of real sort.
+    /// FloatingPoint sort
+    /// s must be a FloatingPoint sort, rm must be of RoundingMode sort, exp must be of int sort, sig must be of real sort.
     /// </param>
     [Z3Function("Z3_mk_fpa_to_fp_int_real")]
     internal IntPtr MkFpaToFpIntReal(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s)

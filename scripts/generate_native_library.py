@@ -43,6 +43,21 @@ class FunctionSignature:
 
 
 @dataclass
+class EnumDefinition:
+    """Represents a parsed C enum definition."""
+    name: str  # Original C name (e.g., Z3_param_kind)
+    csharp_name: str  # C# name (e.g., ParamKind)
+    values: List[Tuple[str, str, str, str]]  # List of (original_name, csharp_name, value, doc) tuples
+    brief: str = ""  # Brief description from header comments
+    see_also: List[str] = None  # List of related items
+
+    def __post_init__(self):
+        """Initialize mutable default values."""
+        if self.see_also is None:
+            self.see_also = []
+
+
+@dataclass
 class HeaderGroup:
     """Represents a group of functions in a Z3 header file."""
     header_file: str
@@ -280,16 +295,104 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     last_comment = comments[-1]
     comment_text = last_comment.group(1)
 
-    def clean_text(text: str) -> str:
+    def clean_text(text: str, preserve_formatting: bool = False) -> str:
         """Clean up documentation text."""
-        text = text.strip()
-        text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
-        text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
-        text = re.sub(r'\\ccode\{([^}]+)\}', r'\1', text)  # Remove \ccode{...}
-        text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
-        # Escape XML special characters
-        text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-        return text
+        if preserve_formatting:
+            # Preserve line breaks and formatting - only do minimal cleaning
+            lines = text.split('\n')
+            cleaned_lines = []
+            in_code_block = False
+            in_nicebox = False
+            nicebox_lines = []
+
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+
+                # Remove leading asterisks from continuation lines
+                line = re.sub(r'^\*\s*', '', line)
+
+                # Handle nicebox blocks - convert to code blocks with box drawing
+                if '\\nicebox{' in line:
+                    in_nicebox = True
+                    nicebox_lines = []
+                    continue
+                if in_nicebox and '}' in line:
+                    in_nicebox = False
+                    # Find the longest line for box width
+                    max_width = max(len(l) for l in nicebox_lines) if nicebox_lines else 0
+                    # Add code block with box drawing
+                    cleaned_lines.append('<code>')
+                    cleaned_lines.append('╔' + '═' * (max_width + 2) + '╗')
+                    for box_line in nicebox_lines:
+                        padded = box_line.ljust(max_width)
+                        cleaned_lines.append('║ ' + padded + ' ║')
+                    cleaned_lines.append('╚' + '═' * (max_width + 2) + '╝')
+                    cleaned_lines.append('</code>')
+                    continue
+                if in_nicebox:
+                    nicebox_lines.append(line)
+                    continue
+
+                # Handle code blocks
+                if '\\code' in line:
+                    in_code_block = True
+                    line = line.replace('\\code', '<code>')
+                if '\\endcode' in line:
+                    in_code_block = False
+                    line = line.replace('\\endcode', '</code>')
+
+                # Remove Doxygen markers (but not inside code blocks)
+                if not in_code_block:
+                    line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
+                    line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
+                    # Convert #Z3_function_name to <see cref="FunctionName"/>
+                    def replace_reference(match):
+                        z3_name = match.group(1)
+                        csharp_name = generate_csharp_method_name(z3_name)
+                        return f'<see cref="{csharp_name}"/>'
+                    line = re.sub(r'#(Z3_\w+)', replace_reference, line)
+
+                # Escape XML special characters (but not our own tags)
+                # First, protect our tags
+                line = line.replace('<code>', '\x00CODE_OPEN\x00')
+                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
+                # Protect see cref tags - use a unique placeholder
+                see_cref_placeholders = {}
+                def protect_see_cref(match):
+                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
+                    see_cref_placeholders[placeholder] = match.group(0)
+                    return placeholder
+                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
+                # Escape XML
+                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                # Restore our tags
+                line = line.replace('\x00CODE_OPEN\x00', '<code>')
+                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
+                # Restore see cref tags
+                for placeholder, original in see_cref_placeholders.items():
+                    line = line.replace(placeholder, original)
+
+                cleaned_lines.append(line)
+
+            return '\n'.join(cleaned_lines)
+        else:
+            # Old behavior: collapse to single line
+            text = text.strip()
+            text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
+            text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
+            text = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', text)  # Convert \ccode{...}
+            text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
+            # Handle code blocks
+            text = text.replace('\\code', '<code>').replace('\\endcode', '</code>')
+            # Escape XML special characters (but not our own tags)
+            text = text.replace('<code>', '\x00CODE_OPEN\x00')
+            text = text.replace('</code>', '\x00CODE_CLOSE\x00')
+            text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            text = text.replace('\x00CODE_OPEN\x00', '<code>')
+            text = text.replace('\x00CODE_CLOSE\x00', '</code>')
+            return text
 
     result = {
         'brief': '',
@@ -304,34 +407,34 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     # Extract \brief description
     brief_match = re.search(r'\\brief\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     if brief_match:
-        result['brief'] = clean_text(brief_match.group(1))
+        result['brief'] = clean_text(brief_match.group(1), preserve_formatting=True)
 
     # Extract \param tags (can have multiple)
     param_matches = re.finditer(r'\\param\s+(\w+)\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for param_match in param_matches:
         param_name = param_match.group(1)
-        param_desc = clean_text(param_match.group(2))
+        param_desc = clean_text(param_match.group(2), preserve_formatting=True)
         result['param_docs'][param_name] = param_desc
 
     # Extract \returns
     returns_match = re.search(r'\\returns\s+(.+?)(?=\\param|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     if returns_match:
-        result['returns_doc'] = clean_text(returns_match.group(1))
+        result['returns_doc'] = clean_text(returns_match.group(1), preserve_formatting=True)
 
     # Extract \pre tags (can have multiple)
     pre_matches = re.finditer(r'\\pre\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for pre_match in pre_matches:
-        result['preconditions'].append(clean_text(pre_match.group(1)))
+        result['preconditions'].append(clean_text(pre_match.group(1), preserve_formatting=True))
 
     # Extract \warning tags (can have multiple)
     warning_matches = re.finditer(r'\\warning\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for warning_match in warning_matches:
-        result['warnings'].append(clean_text(warning_match.group(1)))
+        result['warnings'].append(clean_text(warning_match.group(1), preserve_formatting=True))
 
     # Extract \remark tags (can have multiple)
     remark_matches = re.finditer(r'\\remark\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for remark_match in remark_matches:
-        result['remarks'].append(clean_text(remark_match.group(1)))
+        result['remarks'].append(clean_text(remark_match.group(1), preserve_formatting=True))
 
     # Extract \sa tags (can have multiple, often one per line)
     sa_matches = re.finditer(r'\\sa\s+(Z3_\w+)', comment_text)
@@ -422,6 +525,55 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
     )
 
 
+def convert_enum_name_to_csharp(enum_name: str) -> str:
+    """
+    Convert Z3 enum name to C# class name.
+    Examples:
+    - Z3_param_kind -> ParamKind
+    - Z3_lbool -> Lbool
+    - Z3_symbol_kind -> SymbolKind
+    - Z3_ast_kind -> AstKind
+    """
+    # Remove Z3_ prefix
+    name = enum_name[3:] if enum_name.startswith('Z3_') else enum_name
+
+    # Split on underscores and capitalize each part
+    parts = name.split('_')
+    return ''.join(part.capitalize() for part in parts)
+
+
+def convert_enum_value_to_csharp(value_name: str, enum_name: str) -> str:
+    """
+    Convert Z3 enum value name to C# enum value name.
+    Examples:
+    - Z3_PK_UINT -> Uint (for Z3_param_kind)
+    - Z3_L_TRUE -> True (for Z3_lbool)
+    - Z3_INT_SYMBOL -> IntSymbol (for Z3_symbol_kind)
+    """
+    # Try to remove common prefixes
+    # First, try the enum-specific prefix (e.g., Z3_PK_ for Z3_param_kind)
+    if enum_name.startswith('Z3_'):
+        enum_short = enum_name[3:]  # Remove Z3_
+        # Try to extract prefix from enum name
+        # E.g., param_kind -> PK_, symbol_kind -> SK_
+        parts = enum_short.split('_')
+        if parts:
+            # Try abbreviation (first letters of each word)
+            prefix_abbrev = 'Z3_' + ''.join(p[0].upper() for p in parts) + '_'
+            if value_name.startswith(prefix_abbrev):
+                value_name = value_name[len(prefix_abbrev):]
+
+    # If still starts with Z3_, remove it
+    if value_name.startswith('Z3_'):
+        value_name = value_name[3:]
+
+    # Split on underscores and capitalize
+    parts = value_name.split('_')
+    result = ''.join(part.capitalize() for part in parts)
+
+    return result
+
+
 def clean_group_name_for_class(group_name: str) -> str:
     """
     Convert a group name to a valid C# class name.
@@ -435,6 +587,232 @@ def clean_group_name_for_class(group_name: str) -> str:
     # Split on spaces and hyphens, capitalize each word, join
     words = re.split(r'[\s-]+', cleaned)
     return ''.join(word.capitalize() for word in words if word)
+
+
+def extract_enum_documentation(content: str, enum_position: int) -> dict:
+    """
+    Extract documentation comment before an enum definition.
+    Returns dict with: brief, see_also, value_docs (dict of value_name -> description)
+    """
+    # Look backwards from enum position to find the /** ... */ comment
+    before_enum = content[:enum_position]
+
+    # Find the last /** ... */ comment before the enum
+    comment_pattern = r'/\*\*\s*(.*?)\s*\*/'
+    comments = list(re.finditer(comment_pattern, before_enum, re.DOTALL))
+
+    if not comments:
+        return {'brief': '', 'see_also': [], 'value_docs': {}}
+
+    last_comment = comments[-1]
+    comment_text = last_comment.group(1)
+
+    def clean_text(text: str, preserve_formatting: bool = False) -> str:
+        """Clean up documentation text."""
+        if preserve_formatting:
+            # Preserve line breaks and formatting - only do minimal cleaning
+            lines = text.split('\n')
+            cleaned_lines = []
+            in_code_block = False
+            in_nicebox = False
+            nicebox_lines = []
+
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+
+                # Remove leading asterisks from continuation lines
+                line = re.sub(r'^\*\s*', '', line)
+
+                # Handle nicebox blocks - convert to code blocks with box drawing
+                if '\\nicebox{' in line:
+                    in_nicebox = True
+                    nicebox_lines = []
+                    continue
+                if in_nicebox and '}' in line:
+                    in_nicebox = False
+                    # Find the longest line for box width
+                    max_width = max(len(l) for l in nicebox_lines) if nicebox_lines else 0
+                    # Add code block with box drawing
+                    cleaned_lines.append('<code>')
+                    cleaned_lines.append('╔' + '═' * (max_width + 2) + '╗')
+                    for box_line in nicebox_lines:
+                        padded = box_line.ljust(max_width)
+                        cleaned_lines.append('║ ' + padded + ' ║')
+                    cleaned_lines.append('╚' + '═' * (max_width + 2) + '╝')
+                    cleaned_lines.append('</code>')
+                    continue
+                if in_nicebox:
+                    nicebox_lines.append(line)
+                    continue
+
+                # Handle code blocks
+                if '\\code' in line:
+                    in_code_block = True
+                    line = line.replace('\\code', '<code>')
+                if '\\endcode' in line:
+                    in_code_block = False
+                    line = line.replace('\\endcode', '</code>')
+
+                # Remove Doxygen markers (but not inside code blocks)
+                if not in_code_block:
+                    line = re.sub(r'\\c\s+(\w+)', r'\1', line)  # Remove \c markers
+                    line = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', line)  # Convert \ccode{...}
+                    # Convert #Z3_function_name to <see cref="FunctionName"/>
+                    def replace_reference(match):
+                        z3_name = match.group(1)
+                        csharp_name = generate_csharp_method_name(z3_name)
+                        return f'<see cref="{csharp_name}"/>'
+                    line = re.sub(r'#(Z3_\w+)', replace_reference, line)
+
+                # Escape XML special characters (but not our own tags)
+                # First, protect our tags
+                line = line.replace('<code>', '\x00CODE_OPEN\x00')
+                line = line.replace('</code>', '\x00CODE_CLOSE\x00')
+                # Protect see cref tags - use a unique placeholder
+                see_cref_placeholders = {}
+                def protect_see_cref(match):
+                    placeholder = f'\x00SEE_CREF_{len(see_cref_placeholders)}\x00'
+                    see_cref_placeholders[placeholder] = match.group(0)
+                    return placeholder
+                line = re.sub(r'<see cref="[^"]+"/>', protect_see_cref, line)
+                # Escape XML
+                line = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                # Restore our tags
+                line = line.replace('\x00CODE_OPEN\x00', '<code>')
+                line = line.replace('\x00CODE_CLOSE\x00', '</code>')
+                # Restore see cref tags
+                for placeholder, original in see_cref_placeholders.items():
+                    line = line.replace(placeholder, original)
+
+                cleaned_lines.append(line)
+
+            return '\n'.join(cleaned_lines)
+        else:
+            # Old behavior: collapse to single line
+            text = text.strip()
+            text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
+            text = re.sub(r'\\c\s+(\w+)', r'\1', text)  # Remove \c markers
+            text = re.sub(r'\\ccode\{([^}]+)\}', r'<code>\1</code>', text)  # Convert \ccode{...}
+            text = re.sub(r'#(\w+)', r'\1', text)  # Remove # references
+            # Handle code blocks
+            text = text.replace('\\code', '<code>').replace('\\endcode', '</code>')
+            # Escape XML special characters (but not our own tags)
+            text = text.replace('<code>', '\x00CODE_OPEN\x00')
+            text = text.replace('</code>', '\x00CODE_CLOSE\x00')
+            text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            text = text.replace('\x00CODE_OPEN\x00', '<code>')
+            text = text.replace('\x00CODE_CLOSE\x00', '</code>')
+            return text
+
+    result = {
+        'brief': '',
+        'see_also': [],
+        'value_docs': {}
+    }
+
+    # Extract \brief description
+    brief_match = re.search(r'\\brief\s+(.+?)(?=\\sa|-\s+Z3_|$)', comment_text, re.DOTALL)
+    if brief_match:
+        result['brief'] = clean_text(brief_match.group(1), preserve_formatting=True)
+
+    # Extract \sa tags
+    sa_matches = re.finditer(r'\\sa\s+(Z3_\w+)', comment_text)
+    for sa_match in sa_matches:
+        result['see_also'].append(sa_match.group(1))
+
+    # Extract value descriptions (bullet points like "- Z3_VALUE_NAME: description...")
+    # Note: descriptions can span multiple lines with indented content
+    value_pattern = r'-\s+(Z3_\w+):\s*(.+?)(?=\n\s*-\s+Z3_|\*/$)'
+    for value_match in re.finditer(value_pattern, comment_text, re.DOTALL):
+        value_name = value_match.group(1)
+        value_desc_raw = value_match.group(2).strip()
+        value_desc = clean_text(value_desc_raw, preserve_formatting=True)
+        result['value_docs'][value_name] = value_desc
+
+    return result
+
+
+def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
+    """
+    Find all enum definitions in header files.
+    Returns list of EnumDefinition objects.
+    """
+    header_files = sorted(headers_dir.glob('*.h'))
+    enums = []
+    seen_names = set()
+
+    for header_path in header_files:
+        with open(header_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Find enum typedefs: typedef enum { ... } Z3_enum_name;
+        # Pattern: typedef enum ... { values } Z3_xxx;
+        enum_pattern = r'typedef\s+enum\s+(?:\w+\s+)?\{([^}]+)\}\s+(Z3_\w+)\s*;'
+        matches = re.finditer(enum_pattern, content, re.DOTALL)
+
+        for match in matches:
+            values_block = match.group(1)
+            enum_name = match.group(2)
+
+            if enum_name in seen_names:
+                continue
+            seen_names.add(enum_name)
+
+            # Extract documentation
+            docs = extract_enum_documentation(content, match.start())
+
+            # Parse enum values
+            # Pattern: VALUE_NAME or VALUE_NAME = number
+            values = []
+            value_pattern = r'(Z3_\w+)\s*(?:=\s*([^,\n]+))?'
+            current_value = 0  # Track current enum value
+
+            for value_match in re.finditer(value_pattern, values_block):
+                value_name = value_match.group(1).strip()
+                explicit_value = value_match.group(2)
+
+                if value_name:  # Skip empty matches
+                    if explicit_value:
+                        # Explicit value provided - parse it
+                        explicit_value = explicit_value.strip()
+                        # Try to evaluate simple expressions (like -1, 0x100, etc.)
+                        try:
+                            current_value = int(explicit_value, 0)  # 0 allows parsing hex, octal, etc.
+                        except ValueError:
+                            # If it's not a simple integer, keep the expression as-is
+                            pass
+                    else:
+                        # No explicit value - use current counter
+                        explicit_value = str(current_value)
+
+                    csharp_value = convert_enum_value_to_csharp(value_name, enum_name)
+
+                    # Get documentation for this value
+                    value_doc = docs['value_docs'].get(value_name, '')
+
+                    values.append((value_name, csharp_value, explicit_value, value_doc))
+
+                    # Increment for next value (if this was a simple integer)
+                    try:
+                        current_value = int(explicit_value, 0) + 1
+                    except ValueError:
+                        # If it's an expression, we can't auto-increment reliably
+                        current_value += 1
+
+            # Create enum definition
+            csharp_name = convert_enum_name_to_csharp(enum_name)
+            enum_def = EnumDefinition(
+                name=enum_name,
+                csharp_name=csharp_name,
+                values=values,
+                brief=docs['brief'],
+                see_also=docs['see_also']
+            )
+            enums.append(enum_def)
+
+    return sorted(enums, key=lambda e: e.name)
 
 
 def analyze_headers(headers_dir: Path, verbose: bool = False) -> List[HeaderGroup]:
@@ -562,47 +940,94 @@ def convert_param_name_to_camel_case(param_name: str) -> str:
     return parts[0] + ''.join(part.capitalize() for part in parts[1:])
 
 
-def wrap_xml_comment_text(text: str, max_line_length: int = 110) -> List[str]:
+def format_xml_doc_lines(text: str, indent: str = "    ") -> List[str]:
     """
-    Wrap text for XML comments to not exceed max_line_length characters per line.
-    The actual line will be "    /// " + text, so total is max_line_length + 8.
+    Format text as XML documentation lines, preserving original line breaks.
 
     Args:
-        text: The text to wrap
-        max_line_length: Maximum characters per line (excluding "    /// " prefix)
+        text: The text to format (may contain newlines)
+        indent: The indentation prefix (default: "    ")
 
     Returns:
-        List of wrapped lines
+        List of lines with proper XML comment prefix
     """
-    if len(text) <= max_line_length:
-        return [text]
+    if not text:
+        return []
 
-    lines = []
-    current_line = ""
+    lines = text.split('\n')
+    return [f"{indent}/// {line}" if line else f"{indent}///" for line in lines]
 
-    # Split by words
-    words = text.split()
 
-    for word in words:
-        # Check if adding this word would exceed the limit
-        if current_line:
-            test_line = current_line + " " + word
-        else:
-            test_line = word
+def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
+    """
+    Generate NativeZ3Library.Enums.generated.cs with actual enum definitions.
+    """
+    file_path = output_dir / "NativeZ3Library.Enums.generated.cs"
 
-        if len(test_line) <= max_line_length:
-            current_line = test_line
-        else:
-            # Current line is full, start a new line
-            if current_line:
-                lines.append(current_line)
-            current_line = word
+    with open(file_path, 'w', encoding='utf-8') as f:
+        # Header comment
+        f.write("// <auto-generated>\n")
+        f.write("// This file was generated by scripts/generate_native_library.py\n")
+        f.write("// Source: All Z3 header files\n")
+        f.write("// DO NOT EDIT - Changes will be overwritten\n")
+        f.write("// </auto-generated>\n\n")
 
-    # Add the last line
-    if current_line:
-        lines.append(current_line)
+        # Using statements
+        f.write("using System;\n\n")
 
-    return lines
+        # Namespace
+        f.write("namespace Spaceorc.Z3Wrap.Core.Interop;\n\n")
+
+        # Class declaration
+        f.write("internal sealed partial class NativeZ3Library\n")
+        f.write("{\n")
+
+        # Generate nested enum classes
+        for enum_def in enums:
+            f.write(f"    /// <summary>\n")
+            if enum_def.brief:
+                # Preserve original line breaks
+                for line in format_xml_doc_lines(enum_def.brief, "    "):
+                    f.write(f"{line}\n")
+            else:
+                # Fallback to just the enum name
+                f.write(f"    /// {enum_def.name}\n")
+            f.write(f"    /// </summary>\n")
+
+            # Add see also references
+            if enum_def.see_also:
+                for sa_item in enum_def.see_also:
+                    # Try to convert to C# method name
+                    sa_csharp = generate_csharp_method_name(sa_item)
+                    f.write(f'    /// <seealso cref="{sa_csharp}"/>\n')
+
+            f.write(f"    internal enum {enum_def.csharp_name}\n")
+            f.write("    {\n")
+
+            # Generate enum values
+            for i, (original_name, csharp_name, explicit_value, value_doc) in enumerate(enum_def.values):
+                # Add documentation
+                if value_doc:
+                    # Multi-line documentation with description
+                    f.write(f"        /// <summary>\n")
+                    f.write(f"        /// {original_name}\n")
+                    f.write(f"        /// </summary>\n")
+                    f.write(f"        /// <remarks>\n")
+                    # Preserve original line breaks
+                    for line in format_xml_doc_lines(value_doc, "        "):
+                        f.write(f"{line}\n")
+                    f.write(f"        /// </remarks>\n")
+                else:
+                    # Simple one-line documentation
+                    f.write(f"        /// <summary>{original_name}</summary>\n")
+
+                f.write(f"        {csharp_name} = {explicit_value},\n")
+
+            f.write("    }\n\n")
+
+        f.write("}\n")
+
+    return file_path
 
 
 def generate_partial_class(group: HeaderGroup, output_dir: Path):
@@ -668,9 +1093,8 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                 # Summary (brief description)
                 if sig.brief:
                     f.write("    /// <summary>\n")
-                    wrapped_brief = wrap_xml_comment_text(sig.brief)
-                    for line in wrapped_brief:
-                        f.write(f"    /// {line}\n")
+                    for line in format_xml_doc_lines(sig.brief, "    "):
+                        f.write(f"{line}\n")
                     f.write("    /// </summary>\n")
 
                 # Parameter documentation
@@ -680,37 +1104,28 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                     safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
                     if param_name in sig.param_docs:
                         param_doc = sig.param_docs[param_name]
-                        # For param tags, we need to handle opening/closing tags specially
-                        # Calculate available space: 110 - len('<param name="XXX"></param>')
-                        param_tag_overhead = len(f'<param name="{safe_param_name}"></param>')
-                        available_space = 110 - param_tag_overhead
-
-                        if len(param_doc) <= available_space:
-                            # Fits on one line
-                            f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')
-                        else:
-                            # Needs wrapping - put content on separate lines
+                        # Check if multi-line
+                        if '\n' in param_doc:
+                            # Multi-line - put content on separate lines
                             f.write(f'    /// <param name="{safe_param_name}">\n')
-                            wrapped_param = wrap_xml_comment_text(param_doc)
-                            for line in wrapped_param:
-                                f.write(f"    /// {line}\n")
+                            for line in format_xml_doc_lines(param_doc, "    "):
+                                f.write(f"{line}\n")
                             f.write(f'    /// </param>\n')
+                        else:
+                            # Single line
+                            f.write(f'    /// <param name="{safe_param_name}">{param_doc}</param>\n')
 
                 # Returns documentation
                 if sig.returns_doc:
-                    returns_tag_overhead = len('<returns></returns>')
-                    available_space = 110 - returns_tag_overhead
-
-                    if len(sig.returns_doc) <= available_space:
-                        # Fits on one line
-                        f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
-                    else:
-                        # Needs wrapping
+                    if '\n' in sig.returns_doc:
+                        # Multi-line
                         f.write(f"    /// <returns>\n")
-                        wrapped_returns = wrap_xml_comment_text(sig.returns_doc)
-                        for line in wrapped_returns:
-                            f.write(f"    /// {line}\n")
+                        for line in format_xml_doc_lines(sig.returns_doc, "    "):
+                            f.write(f"{line}\n")
                         f.write(f"    /// </returns>\n")
+                    else:
+                        # Single line
+                        f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
 
                 # Remarks (preconditions, warnings, remarks)
                 remarks_parts = []
@@ -729,10 +1144,8 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                 if remarks_parts:
                     f.write("    /// <remarks>\n")
                     for remark in remarks_parts:
-                        # Wrap each remark if it's too long
-                        wrapped_remark = wrap_xml_comment_text(remark)
-                        for line in wrapped_remark:
-                            f.write(f"    /// {line}\n")
+                        for line in format_xml_doc_lines(remark, "    "):
+                            f.write(f"{line}\n")
                     f.write("    /// </remarks>\n")
 
                 # See also references
@@ -760,82 +1173,125 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
     return file_path
 
 
+def hide_cursor():
+    """Hide terminal cursor."""
+    import sys
+    sys.stdout.write('\033[?25l')
+    sys.stdout.flush()
+
+def show_cursor():
+    """Show terminal cursor."""
+    import sys
+    sys.stdout.write('\033[?25h')
+    sys.stdout.flush()
+
 def main():
     """Main entry point."""
     import sys
     import argparse
+    import atexit
 
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(description='Generate NativeZ3Library partial classes from Z3 headers')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output with all function names')
-    parser.add_argument('--branch', '-b', default=Z3_DEFAULT_BRANCH, help=f'Z3 GitHub branch to use (default: {Z3_DEFAULT_BRANCH})')
-    parser.add_argument('--force-download', '-f', action='store_true', help='Force re-download headers even if cached')
-    args = parser.parse_args()
+    # Ensure cursor is shown on exit
+    atexit.register(show_cursor)
 
-    # Paths
-    script_dir = Path(__file__).parent
-    project_root = script_dir.parent
-    headers_cache_dir = project_root / ".cache" / "z3_headers"
-    output_dir = project_root / "Z3Wrap" / "Core" / "Interop"
+    # Hide cursor during operation
+    hide_cursor()
 
-    print("Z3 Native Library Generator")
-    print("=" * 80)
-    print(f"GitHub repository: {Z3_GITHUB_REPO} @ {args.branch}")
-    print(f"Cache directory: {headers_cache_dir}")
-    print()
+    try:
+        # Parse command-line arguments
+        parser = argparse.ArgumentParser(description='Generate NativeZ3Library partial classes from Z3 headers')
+        parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output with all function names')
+        parser.add_argument('--branch', '-b', default=Z3_DEFAULT_BRANCH, help=f'Z3 GitHub branch to use (default: {Z3_DEFAULT_BRANCH})')
+        parser.add_argument('--force-download', '-f', action='store_true', help='Force re-download headers even if cached')
+        parser.add_argument('--enums-only', action='store_true', help='Generate only the enums file (faster)')
+        args = parser.parse_args()
 
-    # Download headers from GitHub
-    header_files = download_and_cache_headers(headers_cache_dir, args.branch, args.force_download)
-    headers_dir = headers_cache_dir
+        # Paths
+        script_dir = Path(__file__).parent
+        project_root = script_dir.parent
+        headers_cache_dir = project_root / ".cache" / "z3_headers"
+        output_dir = project_root / "Z3Wrap" / "Core" / "Interop"
 
-    print(f"Output directory: {output_dir}")
-    print()
+        print("Z3 Native Library Generator")
+        print("=" * 80)
+        print(f"GitHub repository: {Z3_GITHUB_REPO} @ {args.branch}")
+        print(f"Cache directory: {headers_cache_dir}")
+        print()
 
-    # Clean up old generated files
-    print("Cleaning up old generated files...")
-    old_files = list(output_dir.glob("*.generated.cs"))
-    for old_file in old_files:
-        old_file.unlink()
-    print(f"Removed {len(old_files)} old generated files")
-    print()
+        # Download headers from GitHub
+        header_files = download_and_cache_headers(headers_cache_dir, args.branch, args.force_download)
+        headers_dir = headers_cache_dir
 
-    # Analyze headers
-    print("Analyzing header files...")
-    groups = analyze_headers(headers_dir, verbose=args.verbose)
-    if not args.verbose:
-        print(f"✓ Analyzed {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
-    else:
-        print(f"Found {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
-    print()
+        print(f"Output directory: {output_dir}")
+        print()
 
-    # Generate partial class files with delegates and P/Invoke
-    print("Generating partial class files with P/Invoke implementations...")
-    generated_files = []
+        # Clean up old generated files (unless enums-only mode)
+        if not args.enums_only:
+            print("Cleaning up old generated files...")
+            old_files = list(output_dir.glob("*.generated.cs"))
+            for old_file in old_files:
+                old_file.unlink()
+            print(f"Removed {len(old_files)} old generated files")
+            print()
 
-    if args.verbose:
-        for i, group in enumerate(groups, 1):
-            print(f"  [{i}/{len(groups)}] {group.group_name_clean} ({len(group.functions)} functions)...")
-            file_path = generate_partial_class(group, output_dir)
-            generated_files.append(file_path.name)
-    else:
-        # Compact progress for generation
-        for i, group in enumerate(groups, 1):
-            progress = i / len(groups)
-            bar_width = 30
-            filled = int(bar_width * progress)
-            bar = '█' * filled + '░' * (bar_width - filled)
-            sys.stdout.write(f"\r  Progress [{bar}] {i}/{len(groups)} groups")
+        # Find enums
+        print("Finding enum definitions...")
+        enums = find_enums_in_headers(headers_dir)
+        total_enum_values = sum(len(e.values) for e in enums)
+        print(f"✓ Found {len(enums)} enum definitions with {total_enum_values} total values")
+        print()
+
+        # Generate enums file
+        print("Generating enums file...")
+        enums_file = generate_enums_file(enums, output_dir)
+        print(f"✓ Generated {enums_file.name} ({len(enums)} enums)")
+        print()
+
+        if args.enums_only:
+            print("✅ Enums-only mode: Skipping function generation")
+            print(f"ℹ️  Generated 1 file: {enums_file.name}")
+            return
+
+        # Analyze headers
+        print("Analyzing header files...")
+        groups = analyze_headers(headers_dir, verbose=args.verbose)
+        if not args.verbose:
+            print(f"✓ Analyzed {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
+        else:
+            print(f"Found {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
+        print()
+
+        # Generate partial class files with delegates and P/Invoke
+        print("Generating partial class files with P/Invoke implementations...")
+        generated_files = []
+
+        if args.verbose:
+            for i, group in enumerate(groups, 1):
+                print(f"  [{i}/{len(groups)}] {group.group_name_clean} ({len(group.functions)} functions)...")
+                file_path = generate_partial_class(group, output_dir)
+                generated_files.append(file_path.name)
+        else:
+            # Compact progress for generation
+            for i, group in enumerate(groups, 1):
+                progress = i / len(groups)
+                bar_width = 30
+                filled = int(bar_width * progress)
+                bar = '█' * filled + '░' * (bar_width - filled)
+                sys.stdout.write(f"\r  Progress [{bar}] {i}/{len(groups)} groups")
+                sys.stdout.flush()
+                file_path = generate_partial_class(group, output_dir)
+                generated_files.append(file_path.name)
+            sys.stdout.write("\r" + " " * 80 + "\r")
             sys.stdout.flush()
-            file_path = generate_partial_class(group, output_dir)
-            generated_files.append(file_path.name)
-        sys.stdout.write("\r" + " " * 80 + "\r")
-        sys.stdout.flush()
 
-    print(f"✅ Generated {len(generated_files)} partial class files")
-    print(f"   Total functions: {sum(len(g.functions) for g in groups)}")
-    print(f"   Location: {output_dir}")
-    print()
-    print("ℹ️  Functions loaded via reflection using [Z3Function] attributes")
+        print(f"✅ Generated {len(generated_files)} partial class files")
+        print(f"   Total functions: {sum(len(g.functions) for g in groups)}")
+        print(f"   Location: {output_dir}")
+        print()
+        print("ℹ️  Functions loaded via reflection using [Z3Function] attributes")
+    except Exception as e:
+        show_cursor()
+        raise
 
 
 if __name__ == "__main__":

@@ -15,15 +15,17 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsatCores, bool proofs);
 
     /// <summary>
-    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed
-    /// using tactics and solvers. If models is true, then model generation is enabled for the new goal. If
-    /// unsat_cores is true, then unsat core generation is enabled for the new goal. If proofs is true, then proof
-    /// generation is enabled for the new goal. Remark, the Z3 context c must have been created with proof generation
-    /// support.
+    /// Create a goal (aka problem). A goal is essentially a set
+    /// of formulas, that can be solved and/or transformed using
+    /// tactics and solvers.
+    /// If models is true, then model generation is enabled for the new goal.
+    /// If unsat_cores is true, then unsat core generation is enabled for the new goal.
+    /// If proofs is true, then proof generation is enabled for the new goal. Remark, the
+    /// Z3 context c must have been created with proof generation support.
     /// </summary>
     /// <remarks>
-    /// Reference counting must be used to manage goals, even when the Z3_context was created using Z3_mk_context
-    /// instead of Z3_mk_context_rc.
+    /// Reference counting must be used to manage goals, even when the Z3_context was
+    /// created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
     /// </remarks>
     [Z3Function("Z3_mk_goal")]
     internal IntPtr MkGoal(IntPtr c, bool models, bool unsatCores, bool proofs)
@@ -65,9 +67,9 @@ internal sealed partial class NativeZ3Library
     private delegate int GoalPrecisionDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A
-    /// under approximation is applied when the objective is to find a model for a given goal. An over approximation
-    /// is applied when the objective is to find a proof for a given goal.
+    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations.
+    /// A under approximation is applied when the objective is to find a model for a given goal.
+    /// An over approximation is applied when the objective is to find a proof for a given goal.
     /// </summary>
     [Z3Function("Z3_goal_precision")]
     internal int GoalPrecision(IntPtr c, IntPtr g)
@@ -81,11 +83,14 @@ internal sealed partial class NativeZ3Library
     private delegate void GoalAssertDelegate(IntPtr c, IntPtr g, IntPtr a);
 
     /// <summary>
-    /// Add a new formula a to the given goal. The formula is split according to the following procedure that is
-    /// applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over
-    /// disjunctions, resulting in separate formulas. If the goal is false, adding new formulas is a no-op. If the
-    /// formula a is true, then nothing is added. If the formula a is false, then the entire goal is replaced by the
-    /// formula false.
+    /// Add a new formula a to the given goal.
+    /// The formula is split according to the following procedure that is applied
+    /// until a fixed-point:
+    /// Conjunctions are split into separate formulas.
+    /// Negations are distributed over disjunctions, resulting in separate formulas.
+    /// If the goal is false, adding new formulas is a no-op.
+    /// If the formula a is true, then nothing is added.
+    /// If the formula a is false, then the entire goal is replaced by the formula false.
     /// </summary>
     [Z3Function("Z3_goal_assert")]
     internal void GoalAssert(IntPtr c, IntPtr g, IntPtr a)
@@ -228,11 +233,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalConvertModelDelegate(IntPtr c, IntPtr g, IntPtr m);
 
     /// <summary>
-    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case
-    /// the returned model is valid if the goal was established satisfiable. When using this feature it is advisable
-    /// to set the parameter model.compact to false. It is by default true, which erases variables created by the
-    /// solver from models. Without access to model values for intermediary variables, values of other variables may
-    /// end up having the wrong values.
+    /// Convert a model of the formulas of a goal to a model of an original goal.
+    /// The model may be null, in which case the returned model is valid if the goal was
+    /// established satisfiable.
+    /// When using this feature it is advisable to set the parameter model.compact to false.
+    /// It is by default true, which erases variables created by the solver from models.
+    /// Without access to model values for intermediary variables, values of other variables
+    /// may end up having the wrong values.
     /// </summary>
     [Z3Function("Z3_goal_convert_model")]
     internal IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)
@@ -260,10 +267,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalToDimacsStringDelegate(IntPtr c, IntPtr g, bool includeNames);
 
     /// <summary>
-    /// Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by
-    /// applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the
-    /// caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms
-    /// will not be encoded.
+    /// Convert a goal into a DIMACS formatted string.
+    /// The goal must be in CNF. You can convert a goal to CNF
+    /// by applying the tseitin-cnf tactic. Bit-vectors are not automatically
+    /// converted to Booleans either, so if the caller intends to
+    /// preserve satisfiability, it should apply bit-blasting tactics.
+    /// Quantifiers and theory atoms will not be encoded.
     /// </summary>
     [Z3Function("Z3_goal_to_dimacs_string")]
     internal IntPtr GoalToDimacsString(IntPtr c, IntPtr g, bool includeNames)

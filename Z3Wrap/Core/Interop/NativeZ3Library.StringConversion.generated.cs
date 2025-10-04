@@ -15,11 +15,14 @@ internal sealed partial class NativeZ3Library
     private delegate void SetAstPrintModeDelegate(IntPtr c, int mode);
 
     /// <summary>
-    /// Select mode for the format used for pretty-printing AST nodes. The default mode for pretty printing AST nodes
-    /// is to produce SMT-LIB style output where common subexpressions are printed at each occurrence. The mode is
-    /// called Z3_PRINT_SMTLIB_FULL. To print shared common subexpressions only once, use the Z3_PRINT_LOW_LEVEL mode.
-    /// To print in way that conforms to SMT-LIB standards and uses let expressions to share common sub-expressions
-    /// use Z3_PRINT_SMTLIB2_COMPLIANT.
+    /// Select mode for the format used for pretty-printing AST nodes.
+    /// The default mode for pretty printing AST nodes is to produce
+    /// SMT-LIB style output where common subexpressions are printed
+    /// at each occurrence. The mode is called Z3_PRINT_SMTLIB_FULL.
+    /// To print shared common subexpressions only once,
+    /// use the Z3_PRINT_LOW_LEVEL mode.
+    /// To print in way that conforms to SMT-LIB standards and uses let
+    /// expressions to share common sub-expressions use Z3_PRINT_SMTLIB2_COMPLIANT.
     /// </summary>
     /// <seealso cref="AstToString"/>
     /// <seealso cref="PatternToString"/>
@@ -39,8 +42,9 @@ internal sealed partial class NativeZ3Library
     /// Convert the given AST node into a string.
     /// </summary>
     /// <remarks>
-    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when
-    /// Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_ast_to_string.
+    /// Warning: The result buffer is statically allocated by Z3. It will
+    /// be automatically deallocated when <see cref="DelContext"/> is invoked.
+    /// So, the buffer is invalidated in the next call to Z3_ast_to_string.
     /// </remarks>
     /// <seealso cref="PatternToString"/>
     /// <seealso cref="SortToString"/>
@@ -92,8 +96,9 @@ internal sealed partial class NativeZ3Library
     /// Convert the given model into a string.
     /// </summary>
     /// <remarks>
-    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when
-    /// Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_model_to_string.
+    /// Warning: The result buffer is statically allocated by Z3. It will
+    /// be automatically deallocated when <see cref="DelContext"/> is invoked.
+    /// So, the buffer is invalidated in the next call to Z3_model_to_string.
     /// </remarks>
     [Z3Function("Z3_model_to_string")]
     internal IntPtr ModelToString(IntPtr c, IntPtr m)
@@ -118,8 +123,9 @@ internal sealed partial class NativeZ3Library
     /// <param name="assumptions">- auxiliary assumptions.</param>
     /// <param name="formula">- formula to be checked for consistency in conjunction with assumptions.</param>
     /// <remarks>
-    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when
-    /// Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_benchmark_to_smtlib_string.
+    /// Warning: The result buffer is statically allocated by Z3. It will
+    /// be automatically deallocated when <see cref="DelContext"/> is invoked.
+    /// So, the buffer is invalidated in the next call to Z3_benchmark_to_smtlib_string.
     /// </remarks>
     [Z3Function("Z3_benchmark_to_smtlib_string")]
     internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint numAssumptions, IntPtr[] assumptions, IntPtr formula)

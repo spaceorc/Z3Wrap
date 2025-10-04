@@ -141,6 +141,16 @@ generate-native: ## Generate NativeZ3Library partial classes from Z3 headers (VE
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
 
+generate-enums: ## Generate only NativeZ3Library enums (faster) (BRANCH=<name>, FORCE=1)
+	@echo "$(BLUE)Generating NativeZ3Library enums from Z3 headers...$(NC)"
+	@python3 scripts/generate_native_library.py \
+		--enums-only \
+		$(if $(BRANCH),--branch $(BRANCH),) \
+		$(if $(FORCE),--force-download,)
+	@echo "$(GREEN)✅ Generated enums in Z3Wrap/Core/Interop/$(NC)"
+	@echo "$(BLUE)Formatting generated code...$(NC)"
+	@$(MAKE) format
+
 # =============================================================================
 # Setup & Info Commands
 # =============================================================================

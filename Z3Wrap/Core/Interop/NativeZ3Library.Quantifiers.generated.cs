@@ -15,11 +15,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPatternDelegate(IntPtr c, uint numPatterns, IntPtr[] terms);
 
     /// <summary>
-    /// Create a pattern for quantifier instantiation. Z3 uses pattern matching to instantiate quantifiers. If a
-    /// pattern is not provided for a quantifier, then Z3 will automatically compute a set of patterns for it.
-    /// However, for optimal performance, the user should provide the patterns. Patterns comprise a list of terms. The
-    /// list should be non-empty. If the list comprises of more than one term, it is a called a multi-pattern. In
-    /// general, one can pass in a list of (multi-)patterns in the quantifier constructor.
+    /// Create a pattern for quantifier instantiation.
+    /// Z3 uses pattern matching to instantiate quantifiers. If a
+    /// pattern is not provided for a quantifier, then Z3 will
+    /// automatically compute a set of patterns for it. However, for
+    /// optimal performance, the user should provide the patterns.
+    /// Patterns comprise a list of terms. The list should be
+    /// non-empty.  If the list comprises of more than one term, it is
+    /// a called a multi-pattern.
+    /// In general, one can pass in a list of (multi-)patterns in the
+    /// quantifier constructor.
     /// </summary>
     /// <seealso cref="MkForall"/>
     /// <seealso cref="MkExists"/>
@@ -35,15 +40,23 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkBoundDelegate(IntPtr c, uint index, IntPtr ty);
 
     /// <summary>
-    /// Create a variable. Variables are intended to be bound by a scope created by a quantifier. So we call them
-    /// bound variables even if they appear as free variables in the expression produced by Z3_mk_bound. Bound
-    /// variables are indexed by de-Bruijn indices. It is perhaps easiest to explain the meaning of de-Bruijn indices
-    /// by indicating the compilation process from non-de-Bruijn formulas to de-Bruijn format. \verbatim abs(forall
-    /// (x1) phi) = forall (x1) abs1(phi, x1, 0) abs(forall (x1, x2) phi) = abs(forall (x1) abs(forall (x2) phi))
-    /// abs1(x, x, n) = b_n abs1(y, x, n) = y abs1(f(t1,...,tn), x, n) = f(abs1(t1,x,n), ..., abs1(tn,x,n))
-    /// abs1(forall (x1) phi, x, n) = forall (x1) (abs1(phi, x, n+1)) \endverbatim The last line is significant: the
-    /// index of a bound variable is different depending on the scope in which it appears. The deeper x appears, the
-    /// higher is its index.
+    /// Create a variable.
+    /// Variables are intended to be bound by a scope created by a quantifier. So we call them bound variables
+    /// even if they appear as free variables in the expression produced by Z3_mk_bound.
+    /// Bound variables are indexed by de-Bruijn indices. It is perhaps easiest to explain
+    /// the meaning of de-Bruijn indices by indicating the compilation process from
+    /// non-de-Bruijn formulas to de-Bruijn format.
+    /// \verbatim
+    /// abs(forall (x1) phi) = forall (x1) abs1(phi, x1, 0)
+    /// abs(forall (x1, x2) phi) = abs(forall (x1) abs(forall (x2) phi))
+    /// abs1(x, x, n) = b_n
+    /// abs1(y, x, n) = y
+    /// abs1(f(t1,...,tn), x, n) = f(abs1(t1,x,n), ..., abs1(tn,x,n))
+    /// abs1(forall (x1) phi, x, n) = forall (x1) (abs1(phi, x, n+1))
+    /// \endverbatim
+    /// The last line is significant: the index of a bound variable is different depending
+    /// on the scope in which it appears. The deeper x appears, the higher is its
+    /// index.
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="index">de-Bruijn index</param>
@@ -62,19 +75,17 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkForallDelegate(IntPtr c, uint weight, uint numPatterns, IntPtr[] patterns, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body);
 
     /// <summary>
-    /// Create a forall formula. It takes an expression body that contains bound variables of the same sorts as the
-    /// sorts listed in the array sorts. The bound variables are de-Bruijn indices created using Z3_mk_bound. The
-    /// array decl_names contains the names that the quantified formula uses for the bound variables. Z3 applies the
-    /// convention that the last element in the decl_names and sorts array refers to the variable with index 0, the
-    /// second to last element of decl_names and sorts refers to the variable with index 1, etc.
+    /// Create a forall formula. It takes an expression body that contains bound variables
+    /// of the same sorts as the sorts listed in the array sorts. The bound variables are de-Bruijn indices created
+    /// using <see cref="MkBound"/>. The array decl_names contains the names that the quantified formula uses for the
+    /// bound variables. Z3 applies the convention that the last element in the decl_names and sorts array
+    /// refers to the variable with index 0, the second to last element of decl_names and sorts refers
+    /// to the variable with index 1, etc.
     /// </summary>
     /// <param name="c">logical context.</param>
-    /// <param name="weight">
-    /// quantifiers are associated with weights indicating the importance of using the quantifier during
-    /// instantiation. By default, pass the weight 0.
-    /// </param>
+    /// <param name="weight">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
     /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using Z3_mk_pattern.</param>
+    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
     /// <param name="numDecls">number of variables to be bound.</param>
     /// <param name="sorts">the sorts of the bound variables.</param>
     /// <param name="declNames">names of the bound variables</param>
@@ -94,7 +105,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkExistsDelegate(IntPtr c, uint weight, uint numPatterns, IntPtr[] patterns, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body);
 
     /// <summary>
-    /// Create an exists formula. Similar to Z3_mk_forall.
+    /// Create an exists formula. Similar to <see cref="MkForall"/>.
     /// </summary>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkBound"/>
@@ -112,17 +123,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkQuantifierDelegate(IntPtr c, bool isForall, uint weight, uint numPatterns, IntPtr[] patterns, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body);
 
     /// <summary>
-    /// Create a quantifier - universal or existential, with pattern hints. See the documentation for Z3_mk_forall for
-    /// an explanation of the parameters.
+    /// Create a quantifier - universal or existential, with pattern hints.
+    /// See the documentation for <see cref="MkForall"/> for an explanation of the parameters.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="isForall">flag to indicate if this is a universal or existential quantifier.</param>
-    /// <param name="weight">
-    /// quantifiers are associated with weights indicating the importance of using the quantifier during
-    /// instantiation. By default, pass the weight 0.
-    /// </param>
+    /// <param name="weight">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
     /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using Z3_mk_pattern.</param>
+    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
     /// <param name="numDecls">number of variables to be bound.</param>
     /// <param name="sorts">array of sorts of the bound variables.</param>
     /// <param name="declNames">names of the bound variables.</param>
@@ -147,14 +155,11 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="isForall">flag to indicate if this is a universal or existential quantifier.</param>
-    /// <param name="weight">
-    /// quantifiers are associated with weights indicating the importance of using the quantifier during
-    /// instantiation. By default, pass the weight 0.
-    /// </param>
+    /// <param name="weight">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
     /// <param name="quantifierId">identifier to identify quantifier</param>
     /// <param name="skolemId">identifier to identify skolem constants introduced by quantifier.</param>
     /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using Z3_mk_pattern.</param>
+    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
     /// <param name="numNoPatterns">number of no_patterns.</param>
     /// <param name="noPatterns">array containing subexpressions to be excluded from inferred patterns.</param>
     /// <param name="numDecls">number of variables to be bound.</param>
@@ -177,17 +182,18 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkForallConstDelegate(IntPtr c, uint weight, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, IntPtr body);
 
     /// <summary>
-    /// Create a universal quantifier using a list of constants that will form the set of bound variables.
+    /// Create a universal quantifier using a list of constants that
+    /// will form the set of bound variables.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="weight">
-    /// quantifiers are associated with weights indicating the importance of using the quantifier during
-    /// instantiation. By default, pass the weight 0.
+    /// quantifiers are associated with weights indicating the importance of using
+    /// the quantifier during instantiation. By default, pass the weight 0.
     /// </param>
     /// <param name="numBound">number of constants to be abstracted into bound variables.</param>
     /// <param name="bound">array of constants to be abstracted into bound variables.</param>
     /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using Z3_mk_pattern.</param>
+    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
     /// <param name="body">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkExistsConst"/>
@@ -203,18 +209,19 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkExistsConstDelegate(IntPtr c, uint weight, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, IntPtr body);
 
     /// <summary>
-    /// Similar to Z3_mk_forall_const. \brief Create an existential quantifier using a list of constants that will
-    /// form the set of bound variables.
+    /// Similar to <see cref="MkForallConst"/>.
+    /// \brief Create an existential quantifier using a list of constants that
+    /// will form the set of bound variables.
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="weight">
-    /// quantifiers are associated with weights indicating the importance of using the quantifier during
-    /// instantiation. By default, pass the weight 0.
+    /// quantifiers are associated with weights indicating the importance of using
+    /// the quantifier during instantiation. By default, pass the weight 0.
     /// </param>
     /// <param name="numBound">number of constants to be abstracted into bound variables.</param>
     /// <param name="bound">array of constants to be abstracted into bound variables.</param>
     /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using Z3_mk_pattern.</param>
+    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
     /// <param name="body">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkForallConst"/>
@@ -230,8 +237,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkQuantifierConstDelegate(IntPtr c, bool isForall, uint weight, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, IntPtr body);
 
     /// <summary>
-    /// Create a universal or existential quantifier using a list of constants that will form the set of bound
-    /// variables.
+    /// Create a universal or existential quantifier using a list of
+    /// constants that will form the set of bound variables.
     /// </summary>
     [Z3Function("Z3_mk_quantifier_const")]
     internal IntPtr MkQuantifierConst(IntPtr c, bool isForall, uint weight, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, IntPtr body)
@@ -245,8 +252,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkQuantifierConstExDelegate(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, IntPtr body);
 
     /// <summary>
-    /// Create a universal or existential quantifier using a list of constants that will form the set of bound
-    /// variables.
+    /// Create a universal or existential quantifier using a list of
+    /// constants that will form the set of bound variables.
     /// </summary>
     [Z3Function("Z3_mk_quantifier_const_ex")]
     internal IntPtr MkQuantifierConstEx(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, IntPtr body)
@@ -260,14 +267,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkLambdaDelegate(IntPtr c, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body);
 
     /// <summary>
-    /// Create a lambda expression. It takes an expression body that contains bound variables of the same sorts as the
-    /// sorts listed in the array sorts. The bound variables are de-Bruijn indices created using Z3_mk_bound. The
-    /// array decl_names contains the names that the quantified formula uses for the bound variables. Z3 applies the
-    /// convention that the last element in the decl_names and sorts array refers to the variable with index 0, the
-    /// second to last element of decl_names and sorts refers to the variable with index 1, etc. The sort of the
-    /// resulting expression is \c (Array sorts range) where range is the sort of body. For example, if the lambda
-    /// binds two variables of sort Int and Bool, and the body has sort Real, the sort of the expression is \c (Array
-    /// Int Bool Real).
+    /// Create a lambda expression. It takes an expression body that contains bound variables
+    /// of the same sorts as the sorts listed in the array sorts. The bound variables are de-Bruijn indices created
+    /// using <see cref="MkBound"/>. The array decl_names contains the names that the quantified formula uses for the
+    /// bound variables. Z3 applies the convention that the last element in the decl_names and sorts array
+    /// refers to the variable with index 0, the second to last element of decl_names and sorts refers
+    /// to the variable with index 1, etc.
+    /// The sort of the resulting expression is \c (Array sorts range) where range is the sort of body.
+    /// For example, if the lambda binds two variables of sort Int and Bool, and the body has sort Real,
+    /// the sort of the expression is \c (Array Int Bool Real).
     /// </summary>
     /// <param name="c">logical context</param>
     /// <param name="numDecls">number of variables to be bound.</param>
@@ -289,7 +297,8 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkLambdaConstDelegate(IntPtr c, uint numBound, IntPtr[] bound, IntPtr body);
 
     /// <summary>
-    /// Create a lambda expression using a list of constants that form the set of bound variables
+    /// Create a lambda expression using a list of constants that form the set
+    /// of bound variables
     /// </summary>
     /// <param name="c">logical context.</param>
     /// <param name="numBound">number of constants to be abstracted into bound variables.</param>
