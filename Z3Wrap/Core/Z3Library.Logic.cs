@@ -2,7 +2,7 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="NativeLibrary.MkAnd" />
+    /// <inheritdoc cref="NativeZ3Library.MkAnd" />
     public IntPtr MkAnd(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = nativeLibrary.MkAnd(ctx, numArgs, args);
@@ -10,7 +10,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkAnd));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkOr" />
+    /// <inheritdoc cref="NativeZ3Library.MkOr" />
     public IntPtr MkOr(IntPtr ctx, uint numArgs, IntPtr[] args)
     {
         var result = nativeLibrary.MkOr(ctx, numArgs, args);
@@ -18,7 +18,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkOr));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkNot" />
+    /// <inheritdoc cref="NativeZ3Library.MkNot" />
     public IntPtr MkNot(IntPtr ctx, IntPtr expr)
     {
         var result = nativeLibrary.MkNot(ctx, expr);
@@ -26,7 +26,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkNot));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkImplies" />
+    /// <inheritdoc cref="NativeZ3Library.MkImplies" />
     public IntPtr MkImplies(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkImplies(ctx, t1, t2);
@@ -34,7 +34,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkImplies));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkIff" />
+    /// <inheritdoc cref="NativeZ3Library.MkIff" />
     public IntPtr MkIff(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkIff(ctx, t1, t2);
@@ -42,7 +42,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkIff));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkXor" />
+    /// <inheritdoc cref="NativeZ3Library.MkXor" />
     public IntPtr MkXor(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkXor(ctx, t1, t2);
@@ -50,7 +50,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkXor));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkIte" />
+    /// <inheritdoc cref="NativeZ3Library.MkIte" />
     public IntPtr MkIte(IntPtr ctx, IntPtr condition, IntPtr thenExpr, IntPtr elseExpr)
     {
         var result = nativeLibrary.MkIte(ctx, condition, thenExpr, elseExpr);

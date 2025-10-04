@@ -456,13 +456,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAtmostDelegate(IntPtr c, uint num_args, IntPtr args, uint k);
+    private delegate IntPtr MkAtmostDelegate(IntPtr c, uint num_args, IntPtr[] args, uint k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode p1 + p2 + ... + pn &lt;= k
     /// </summary>
     [Z3Function("Z3_mk_atmost")]
-    internal IntPtr MkAtmost(IntPtr c, uint num_args, IntPtr args, uint k)
+    internal IntPtr MkAtmost(IntPtr c, uint num_args, IntPtr[] args, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_atmost");
         var func = Marshal.GetDelegateForFunctionPointer<MkAtmostDelegate>(funcPtr);
@@ -470,13 +470,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAtleastDelegate(IntPtr c, uint num_args, IntPtr args, uint k);
+    private delegate IntPtr MkAtleastDelegate(IntPtr c, uint num_args, IntPtr[] args, uint k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode p1 + p2 + ... + pn &gt;= k
     /// </summary>
     [Z3Function("Z3_mk_atleast")]
-    internal IntPtr MkAtleast(IntPtr c, uint num_args, IntPtr args, uint k)
+    internal IntPtr MkAtleast(IntPtr c, uint num_args, IntPtr[] args, uint k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_atleast");
         var func = Marshal.GetDelegateForFunctionPointer<MkAtleastDelegate>(funcPtr);
@@ -484,13 +484,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkPbleDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
+    private delegate IntPtr MkPbleDelegate(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode k1*p1 + k2*p2 + ... + kn*pn &lt;= k
     /// </summary>
     [Z3Function("Z3_mk_pble")]
-    internal IntPtr MkPble(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
+    internal IntPtr MkPble(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pble");
         var func = Marshal.GetDelegateForFunctionPointer<MkPbleDelegate>(funcPtr);
@@ -498,13 +498,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkPbgeDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
+    private delegate IntPtr MkPbgeDelegate(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode k1*p1 + k2*p2 + ... + kn*pn &gt;= k
     /// </summary>
     [Z3Function("Z3_mk_pbge")]
-    internal IntPtr MkPbge(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
+    internal IntPtr MkPbge(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pbge");
         var func = Marshal.GetDelegateForFunctionPointer<MkPbgeDelegate>(funcPtr);
@@ -512,13 +512,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkPbeqDelegate(IntPtr c, uint num_args, IntPtr args, int coeffs, int k);
+    private delegate IntPtr MkPbeqDelegate(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
     /// Pseudo-Boolean relations. Encode k1*p1 + k2*p2 + ... + kn*pn = k
     /// </summary>
     [Z3Function("Z3_mk_pbeq")]
-    internal IntPtr MkPbeq(IntPtr c, uint num_args, IntPtr args, int coeffs, int k)
+    internal IntPtr MkPbeq(IntPtr c, uint num_args, IntPtr[] args, int[] coeffs, int k)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_pbeq");
         var func = Marshal.GetDelegateForFunctionPointer<MkPbeqDelegate>(funcPtr);

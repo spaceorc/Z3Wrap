@@ -124,13 +124,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr TacticParOrDelegate(IntPtr c, uint num, IntPtr ts);
+    private delegate IntPtr TacticParOrDelegate(IntPtr c, uint num, IntPtr[] ts);
 
     /// <summary>
     /// Return a tactic that applies the given tactics in parallel.
     /// </summary>
     [Z3Function("Z3_tactic_par_or")]
-    internal IntPtr TacticParOr(IntPtr c, uint num, IntPtr ts)
+    internal IntPtr TacticParOr(IntPtr c, uint num, IntPtr[] ts)
     {
         var funcPtr = GetFunctionPointer("Z3_tactic_par_or");
         var func = Marshal.GetDelegateForFunctionPointer<TacticParOrDelegate>(funcPtr);

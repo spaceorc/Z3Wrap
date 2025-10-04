@@ -401,13 +401,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverGetLevelsDelegate(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint levels);
+    private delegate void SolverGetLevelsDelegate(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint[] levels);
 
     /// <summary>
     /// retrieve the decision depth of Boolean literals (variables or their negations). Assumes a check-sat call and no other calls (to extract models) have been invoked.
     /// </summary>
     [Z3Function("Z3_solver_get_levels")]
-    internal void SolverGetLevels(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint levels)
+    internal void SolverGetLevels(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint[] levels)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_get_levels");
         var func = Marshal.GetDelegateForFunctionPointer<SolverGetLevelsDelegate>(funcPtr);
@@ -705,14 +705,14 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int SolverCheckAssumptionsDelegate(IntPtr c, IntPtr s, uint num_assumptions, IntPtr assumptions);
+    private delegate int SolverCheckAssumptionsDelegate(IntPtr c, IntPtr s, uint num_assumptions, IntPtr[] assumptions);
 
     /// <summary>
     /// Check whether the assertions in the given solver and optional assumptions are consistent or not. The function Z3_solver_get_unsat_core retrieves the subset of the assumptions used in the unsatisfiability proof produced by Z3.
     /// </summary>
     /// <seealso cref="SolverCheck"/>
     [Z3Function("Z3_solver_check_assumptions")]
-    internal int SolverCheckAssumptions(IntPtr c, IntPtr s, uint num_assumptions, IntPtr assumptions)
+    internal int SolverCheckAssumptions(IntPtr c, IntPtr s, uint num_assumptions, IntPtr[] assumptions)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_check_assumptions");
         var func = Marshal.GetDelegateForFunctionPointer<SolverCheckAssumptionsDelegate>(funcPtr);
@@ -720,13 +720,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int GetImpliedEqualitiesDelegate(IntPtr c, IntPtr s, uint num_terms, IntPtr terms, uint class_ids);
+    private delegate int GetImpliedEqualitiesDelegate(IntPtr c, IntPtr s, uint num_terms, IntPtr[] terms, uint[] class_ids);
 
     /// <summary>
     /// Retrieve congruence class representatives for terms. The function can be used for relying on Z3 to identify equal terms under the current set of assumptions. The array of terms and array of class identifiers should have the same length. The class identifiers are numerals that are assigned to the same value for their corresponding terms if the current context forces the terms to be equal. You cannot deduce that terms corresponding to different numerals must be all different, (especially when using non-convex theories). All implied equalities are returned by this call. This means that two terms map to the same class identifier if and only if the current context implies that they are equal. A side-effect of the function is a satisfiability check on the assertions on the solver that is passed in. The function return Z3_L_FALSE if the current assertions are not satisfiable.
     /// </summary>
     [Z3Function("Z3_get_implied_equalities")]
-    internal int GetImpliedEqualities(IntPtr c, IntPtr s, uint num_terms, IntPtr terms, uint class_ids)
+    internal int GetImpliedEqualities(IntPtr c, IntPtr s, uint num_terms, IntPtr[] terms, uint[] class_ids)
     {
         var funcPtr = GetFunctionPointer("Z3_get_implied_equalities");
         var func = Marshal.GetDelegateForFunctionPointer<GetImpliedEqualitiesDelegate>(funcPtr);

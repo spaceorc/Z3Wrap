@@ -180,13 +180,13 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkU32stringDelegate(IntPtr c, uint len, uint chars);
+    private delegate IntPtr MkU32stringDelegate(IntPtr c, uint len, uint[] chars);
 
     /// <summary>
     /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is unescaped.
     /// </summary>
     [Z3Function("Z3_mk_u32string")]
-    internal IntPtr MkU32string(IntPtr c, uint len, uint chars)
+    internal IntPtr MkU32string(IntPtr c, uint len, uint[] chars)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_u32string");
         var func = Marshal.GetDelegateForFunctionPointer<MkU32stringDelegate>(funcPtr);
@@ -259,7 +259,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void GetStringContentsDelegate(IntPtr c, IntPtr s, uint length, uint contents);
+    private delegate void GetStringContentsDelegate(IntPtr c, IntPtr s, uint length, uint[] contents);
 
     /// <summary>
     /// Retrieve the unescaped string constant stored in s.
@@ -269,7 +269,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: length contains the number of characters in s
     /// </remarks>
     [Z3Function("Z3_get_string_contents")]
-    internal void GetStringContents(IntPtr c, IntPtr s, uint length, uint contents)
+    internal void GetStringContents(IntPtr c, IntPtr s, uint length, uint[] contents)
     {
         var funcPtr = GetFunctionPointer("Z3_get_string_contents");
         var func = Marshal.GetDelegateForFunctionPointer<GetStringContentsDelegate>(funcPtr);
@@ -308,7 +308,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkSeqConcatDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkSeqConcatDelegate(IntPtr c, uint n, IntPtr[] args);
 
     /// <summary>
     /// Concatenate sequences.
@@ -317,7 +317,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: n &gt; 0
     /// </remarks>
     [Z3Function("Z3_mk_seq_concat")]
-    internal IntPtr MkSeqConcat(IntPtr c, uint n, IntPtr args)
+    internal IntPtr MkSeqConcat(IntPtr c, uint n, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_seq_concat");
         var func = Marshal.GetDelegateForFunctionPointer<MkSeqConcatDelegate>(funcPtr);
@@ -718,7 +718,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkReUnionDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkReUnionDelegate(IntPtr c, uint n, IntPtr[] args);
 
     /// <summary>
     /// Create the union of the regular languages.
@@ -727,7 +727,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: n &gt; 0
     /// </remarks>
     [Z3Function("Z3_mk_re_union")]
-    internal IntPtr MkReUnion(IntPtr c, uint n, IntPtr args)
+    internal IntPtr MkReUnion(IntPtr c, uint n, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_union");
         var func = Marshal.GetDelegateForFunctionPointer<MkReUnionDelegate>(funcPtr);
@@ -735,7 +735,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkReConcatDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkReConcatDelegate(IntPtr c, uint n, IntPtr[] args);
 
     /// <summary>
     /// Create the concatenation of the regular languages.
@@ -744,7 +744,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: n &gt; 0
     /// </remarks>
     [Z3Function("Z3_mk_re_concat")]
-    internal IntPtr MkReConcat(IntPtr c, uint n, IntPtr args)
+    internal IntPtr MkReConcat(IntPtr c, uint n, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_concat");
         var func = Marshal.GetDelegateForFunctionPointer<MkReConcatDelegate>(funcPtr);
@@ -808,7 +808,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkReIntersectDelegate(IntPtr c, uint n, IntPtr args);
+    private delegate IntPtr MkReIntersectDelegate(IntPtr c, uint n, IntPtr[] args);
 
     /// <summary>
     /// Create the intersection of the regular languages.
@@ -817,7 +817,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: n &gt; 0
     /// </remarks>
     [Z3Function("Z3_mk_re_intersect")]
-    internal IntPtr MkReIntersect(IntPtr c, uint n, IntPtr args)
+    internal IntPtr MkReIntersect(IntPtr c, uint n, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_re_intersect");
         var func = Marshal.GetDelegateForFunctionPointer<MkReIntersectDelegate>(funcPtr);

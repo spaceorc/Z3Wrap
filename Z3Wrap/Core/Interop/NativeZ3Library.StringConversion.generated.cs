@@ -98,7 +98,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr BenchmarkToSmtlibStringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula);
+    private delegate IntPtr BenchmarkToSmtlibStringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr[] assumptions, IntPtr formula);
 
     /// <summary>
     /// Convert the given benchmark into SMT-LIB formatted string.
@@ -115,7 +115,7 @@ internal sealed partial class NativeZ3Library
     /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when Z3_del_context is invoked. So, the buffer is invalidated in the next call to Z3_benchmark_to_smtlib_string.
     /// </remarks>
     [Z3Function("Z3_benchmark_to_smtlib_string")]
-    internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr assumptions, IntPtr formula)
+    internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint num_assumptions, IntPtr[] assumptions, IntPtr formula)
     {
         var funcPtr = GetFunctionPointer("Z3_benchmark_to_smtlib_string");
         var func = Marshal.GetDelegateForFunctionPointer<BenchmarkToSmtlibStringDelegate>(funcPtr);

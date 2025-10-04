@@ -25,7 +25,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkFuncDecl));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkApp" />
+    /// <inheritdoc cref="NativeZ3Library.MkApp" />
     public IntPtr MkApp(IntPtr ctx, IntPtr funcDecl, uint numArgs, IntPtr[] args)
     {
         var result = nativeLibrary.MkApp(ctx, funcDecl, numArgs, args);

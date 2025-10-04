@@ -310,7 +310,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr a);
+    private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
     /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
@@ -320,7 +320,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
     /// </remarks>
     [Z3Function("Z3_algebraic_roots")]
-    internal IntPtr AlgebraicRoots(IntPtr c, IntPtr p, uint n, IntPtr a)
+    internal IntPtr AlgebraicRoots(IntPtr c, IntPtr p, uint n, IntPtr[] a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_roots");
         var func = Marshal.GetDelegateForFunctionPointer<AlgebraicRootsDelegate>(funcPtr);
@@ -328,7 +328,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int AlgebraicEvalDelegate(IntPtr c, IntPtr p, uint n, IntPtr a);
+    private delegate int AlgebraicEvalDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
     /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
@@ -338,7 +338,7 @@ internal sealed partial class NativeZ3Library
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
     /// </remarks>
     [Z3Function("Z3_algebraic_eval")]
-    internal int AlgebraicEval(IntPtr c, IntPtr p, uint n, IntPtr a)
+    internal int AlgebraicEval(IntPtr c, IntPtr p, uint n, IntPtr[] a)
     {
         var funcPtr = GetFunctionPointer("Z3_algebraic_eval");
         var func = Marshal.GetDelegateForFunctionPointer<AlgebraicEvalDelegate>(funcPtr);

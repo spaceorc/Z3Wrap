@@ -193,7 +193,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int OptimizeCheckDelegate(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions);
+    private delegate int OptimizeCheckDelegate(IntPtr c, IntPtr o, uint num_assumptions, IntPtr[] assumptions);
 
     /// <summary>
     /// Check consistency and produce optimal values.
@@ -207,7 +207,7 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="OptimizeGetStatistics"/>
     /// <seealso cref="OptimizeGetUnsatCore"/>
     [Z3Function("Z3_optimize_check")]
-    internal int OptimizeCheck(IntPtr c, IntPtr o, uint num_assumptions, IntPtr assumptions)
+    internal int OptimizeCheck(IntPtr c, IntPtr o, uint num_assumptions, IntPtr[] assumptions)
     {
         var funcPtr = GetFunctionPointer("Z3_optimize_check");
         var func = Marshal.GetDelegateForFunctionPointer<OptimizeCheckDelegate>(funcPtr);

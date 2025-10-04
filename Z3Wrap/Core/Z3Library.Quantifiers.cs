@@ -2,7 +2,7 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="NativeLibrary.MkForallConst" />
+    /// <inheritdoc cref="NativeZ3Library.MkForallConst" />
     public IntPtr MkForallConst(
         IntPtr ctx,
         uint weight,
@@ -18,7 +18,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkForallConst));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkExistsConst" />
+    /// <inheritdoc cref="NativeZ3Library.MkExistsConst" />
     public IntPtr MkExistsConst(
         IntPtr ctx,
         uint weight,
@@ -34,7 +34,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkExistsConst));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkPattern" />
+    /// <inheritdoc cref="NativeZ3Library.MkPattern" />
     public IntPtr MkPattern(IntPtr ctx, uint numPatterns, IntPtr[] terms)
     {
         var result = nativeLibrary.MkPattern(ctx, numPatterns, terms);

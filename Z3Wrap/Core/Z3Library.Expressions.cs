@@ -23,7 +23,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkConst));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkTrue" />
+    /// <inheritdoc cref="NativeZ3Library.MkTrue" />
     public IntPtr MkTrue(IntPtr ctx)
     {
         var result = nativeLibrary.MkTrue(ctx);
@@ -31,7 +31,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkTrue));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkFalse" />
+    /// <inheritdoc cref="NativeZ3Library.MkFalse" />
     public IntPtr MkFalse(IntPtr ctx)
     {
         var result = nativeLibrary.MkFalse(ctx);

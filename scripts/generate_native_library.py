@@ -228,12 +228,20 @@ def map_c_type_to_csharp(c_type: str) -> str:
     # Remove 'const' qualifier
     cleaned = cleaned.replace('const ', '').replace(' const', '').strip()
 
+    # Handle array types (e.g., "Z3_ast[]")
+    if cleaned.endswith('[]'):
+        base_type = cleaned[:-2].strip()
+        # Map the base type
+        mapped_base = map_c_type_to_csharp(base_type)
+        # Return as array type
+        return f'{mapped_base}[]'
+
     # Handle pointer types
     if '*' in cleaned:
         # Check if it's a string type
         if 'char' in cleaned:
             return 'IntPtr'
-        # Array parameters - also IntPtr
+        # Other pointers - also IntPtr
         return 'IntPtr'
 
     # Look up in the type map
@@ -384,8 +392,13 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
             parts = param.strip().rsplit(None, 1)
             if len(parts) == 2:
                 param_type, param_name = parts
+                # Check if it's an array parameter
+                is_array = '[]' in param_name
                 # Clean parameter name (remove [], *, etc.)
                 param_name = param_name.rstrip('[]').lstrip('*')
+                # If it's an array, append [] to the type
+                if is_array:
+                    param_type = param_type + '[]'
             else:
                 param_type = parts[0]
                 param_name = 'param'

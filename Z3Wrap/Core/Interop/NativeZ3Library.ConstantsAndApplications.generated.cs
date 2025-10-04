@@ -12,7 +12,7 @@ namespace Spaceorc.Z3Wrap.Core.Interop;
 internal sealed partial class NativeZ3Library
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     /// Declare a constant or function.
@@ -26,7 +26,7 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkFreshFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_mk_func_decl")]
-    internal IntPtr MkFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range)
+    internal IntPtr MkFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<MkFuncDeclDelegate>(funcPtr);
@@ -34,7 +34,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkAppDelegate(IntPtr c, IntPtr d, uint num_args, IntPtr args);
+    private delegate IntPtr MkAppDelegate(IntPtr c, IntPtr d, uint num_args, IntPtr[] args);
 
     /// <summary>
     /// Create a constant or function application.
@@ -43,7 +43,7 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_mk_app")]
-    internal IntPtr MkApp(IntPtr c, IntPtr d, uint num_args, IntPtr args)
+    internal IntPtr MkApp(IntPtr c, IntPtr d, uint num_args, IntPtr[] args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_app");
         var func = Marshal.GetDelegateForFunctionPointer<MkAppDelegate>(funcPtr);
@@ -68,7 +68,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domain_size, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkFreshFuncDeclDelegate(IntPtr c, IntPtr prefix, uint domain_size, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     /// Declare a fresh constant or function. Z3 will generate an unique name for this function declaration. If prefix is different from NULL, then the name generate by Z3 will start with prefix.
@@ -78,7 +78,7 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="MkFuncDecl"/>
     [Z3Function("Z3_mk_fresh_func_decl")]
-    internal IntPtr MkFreshFuncDecl(IntPtr c, IntPtr prefix, uint domain_size, IntPtr domain, IntPtr range)
+    internal IntPtr MkFreshFuncDecl(IntPtr c, IntPtr prefix, uint domain_size, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_fresh_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<MkFreshFuncDeclDelegate>(funcPtr);
@@ -107,7 +107,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkRecFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkRecFuncDeclDelegate(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     /// Declare a recursive function
@@ -121,7 +121,7 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFuncDecl"/>
     [Z3Function("Z3_mk_rec_func_decl")]
-    internal IntPtr MkRecFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr domain, IntPtr range)
+    internal IntPtr MkRecFuncDecl(IntPtr c, IntPtr s, uint domain_size, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_rec_func_decl");
         var func = Marshal.GetDelegateForFunctionPointer<MkRecFuncDeclDelegate>(funcPtr);
@@ -129,7 +129,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void AddRecDefDelegate(IntPtr c, IntPtr f, uint n, IntPtr args, IntPtr body);
+    private delegate void AddRecDefDelegate(IntPtr c, IntPtr f, uint n, IntPtr[] args, IntPtr body);
 
     /// <summary>
     /// Define the body of a recursive function.
@@ -141,7 +141,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="body">body of the recursive function After declaring a recursive function or a collection of mutually recursive functions, use this function to provide the definition for the recursive function.</param>
     /// <seealso cref="MkRecFuncDecl"/>
     [Z3Function("Z3_add_rec_def")]
-    internal void AddRecDef(IntPtr c, IntPtr f, uint n, IntPtr args, IntPtr body)
+    internal void AddRecDef(IntPtr c, IntPtr f, uint n, IntPtr[] args, IntPtr body)
     {
         var funcPtr = GetFunctionPointer("Z3_add_rec_def");
         var func = Marshal.GetDelegateForFunctionPointer<AddRecDefDelegate>(funcPtr);

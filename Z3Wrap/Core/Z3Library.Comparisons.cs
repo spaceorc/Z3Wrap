@@ -2,7 +2,7 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="NativeLibrary.MkEq" />
+    /// <inheritdoc cref="NativeZ3Library.MkEq" />
     public IntPtr MkEq(IntPtr ctx, IntPtr left, IntPtr right)
     {
         var result = nativeLibrary.MkEq(ctx, left, right);
@@ -10,7 +10,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkEq));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkLt" />
+    /// <inheritdoc cref="NativeZ3Library.MkLt" />
     public IntPtr MkLt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkLt(ctx, t1, t2);
@@ -18,7 +18,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkLt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkLe" />
+    /// <inheritdoc cref="NativeZ3Library.MkLe" />
     public IntPtr MkLe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkLe(ctx, t1, t2);
@@ -26,7 +26,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkLe));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkGt" />
+    /// <inheritdoc cref="NativeZ3Library.MkGt" />
     public IntPtr MkGt(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkGt(ctx, t1, t2);
@@ -34,7 +34,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkGt));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkGe" />
+    /// <inheritdoc cref="NativeZ3Library.MkGe" />
     public IntPtr MkGe(IntPtr ctx, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkGe(ctx, t1, t2);

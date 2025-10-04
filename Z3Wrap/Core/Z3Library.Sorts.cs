@@ -2,21 +2,21 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="NativeLibrary.IncRef" />
+    /// <inheritdoc cref="NativeZ3Library.IncRef" />
     public void IncRef(IntPtr ctx, IntPtr ast)
     {
         nativeLibrary.IncRef(ctx, ast);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.DecRef" />
+    /// <inheritdoc cref="NativeZ3Library.DecRef" />
     public void DecRef(IntPtr ctx, IntPtr ast)
     {
         nativeLibrary.DecRef(ctx, ast);
         // No error check needed for ref counting
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkBoolSort" />
+    /// <inheritdoc cref="NativeZ3Library.MkBoolSort" />
     public IntPtr MkBoolSort(IntPtr ctx)
     {
         var result = nativeLibrary.MkBoolSort(ctx);
@@ -24,7 +24,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkBoolSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkIntSort" />
+    /// <inheritdoc cref="NativeZ3Library.MkIntSort" />
     public IntPtr MkIntSort(IntPtr ctx)
     {
         var result = nativeLibrary.MkIntSort(ctx);
@@ -32,7 +32,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkIntSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkRealSort" />
+    /// <inheritdoc cref="NativeZ3Library.MkRealSort" />
     public IntPtr MkRealSort(IntPtr ctx)
     {
         var result = nativeLibrary.MkRealSort(ctx);
@@ -40,7 +40,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkRealSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkBvSort" />
+    /// <inheritdoc cref="NativeZ3Library.MkBvSort" />
     public IntPtr MkBvSort(IntPtr ctx, uint size)
     {
         var result = nativeLibrary.MkBvSort(ctx, size);
@@ -48,7 +48,7 @@ public sealed partial class Z3Library
         return CheckHandle(result, nameof(MkBvSort));
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkArraySort" />
+    /// <inheritdoc cref="NativeZ3Library.MkArraySort" />
     public IntPtr MkArraySort(IntPtr ctx, IntPtr indexSort, IntPtr valueSort)
     {
         var result = nativeLibrary.MkArraySort(ctx, indexSort, valueSort);

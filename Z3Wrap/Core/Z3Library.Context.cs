@@ -4,13 +4,13 @@ namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library
 {
-    /// <inheritdoc cref="NativeLibrary.MkConfig" />
+    /// <inheritdoc cref="NativeZ3Library.MkConfig" />
     public IntPtr MkConfig()
     {
         return nativeLibrary.MkConfig();
     }
 
-    /// <inheritdoc cref="NativeLibrary.DelConfig" />
+    /// <inheritdoc cref="NativeZ3Library.DelConfig" />
     public void DelConfig(IntPtr cfg)
     {
         nativeLibrary.DelConfig(cfg);
@@ -29,7 +29,7 @@ public sealed partial class Z3Library
         nativeLibrary.SetParamValue(cfg, paramIdPtr, paramValuePtr);
     }
 
-    /// <inheritdoc cref="NativeLibrary.MkContextRc" />
+    /// <inheritdoc cref="NativeZ3Library.MkContextRc" />
     public IntPtr MkContextRc(IntPtr cfg)
     {
         var result = CheckHandle(nativeLibrary.MkContextRc(cfg), nameof(MkContextRc));
@@ -40,7 +40,7 @@ public sealed partial class Z3Library
         return result;
     }
 
-    /// <inheritdoc cref="NativeLibrary.DelContext" />
+    /// <inheritdoc cref="NativeZ3Library.DelContext" />
     public void DelContext(IntPtr ctx)
     {
         nativeLibrary.DelContext(ctx);
