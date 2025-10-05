@@ -181,7 +181,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetFiniteDomainSortSizeDelegate(IntPtr c, IntPtr s, IntPtr r);
+    private delegate bool GetFiniteDomainSortSizeDelegate(IntPtr c, IntPtr s, out ulong r);
 
     /// <summary>
     ///  Store the size of the sort in <c>r</c> . Return <c>false</c> if the call failed. That is, Z3_get_sort_kind(s) == Z3_FINITE_DOMAIN_SORT. 
@@ -191,11 +191,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="r" ctype="uint64_t*">uint64_t parameter</param>
     /// <returns ctype="bool">bool value</returns>
     [Z3Function("Z3_get_finite_domain_sort_size")]
-    internal bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, IntPtr r)
+    internal bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, out ulong r)
     {
         var funcPtr = GetFunctionPointer("Z3_get_finite_domain_sort_size");
         var func = Marshal.GetDelegateForFunctionPointer<GetFiniteDomainSortSizeDelegate>(funcPtr);
-        return func(c, s, r);
+        return func(c, s, out r);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -1437,7 +1437,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetNumeralSmallDelegate(IntPtr c, IntPtr a, IntPtr num, IntPtr den);
+    private delegate bool GetNumeralSmallDelegate(IntPtr c, IntPtr a, out long num, out long den);
 
     /// <summary>
     ///  Return numeral value, as a pair of 64 bit numbers if the representation fits. 
@@ -1452,15 +1452,15 @@ internal sealed partial class NativeZ3Library
     /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST 
     /// </remarks>
     [Z3Function("Z3_get_numeral_small")]
-    internal bool GetNumeralSmall(IntPtr c, IntPtr a, IntPtr num, IntPtr den)
+    internal bool GetNumeralSmall(IntPtr c, IntPtr a, out long num, out long den)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_small");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralSmallDelegate>(funcPtr);
-        return func(c, a, num, den);
+        return func(c, a, out num, out den);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetNumeralIntDelegate(IntPtr c, IntPtr v, IntPtr i);
+    private delegate bool GetNumeralIntDelegate(IntPtr c, IntPtr v, out int i);
 
     /// <summary>
     ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine int. Return <c>true</c> if the call succeeded. 
@@ -1474,15 +1474,15 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_int")]
-    internal bool GetNumeralInt(IntPtr c, IntPtr v, IntPtr i)
+    internal bool GetNumeralInt(IntPtr c, IntPtr v, out int i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_int");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralIntDelegate>(funcPtr);
-        return func(c, v, i);
+        return func(c, v, out i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetNumeralUintDelegate(IntPtr c, IntPtr v, IntPtr u);
+    private delegate bool GetNumeralUintDelegate(IntPtr c, IntPtr v, out uint u);
 
     /// <summary>
     ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine unsigned int. Return <c>true</c> if the call succeeded. 
@@ -1496,15 +1496,15 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_uint")]
-    internal bool GetNumeralUint(IntPtr c, IntPtr v, IntPtr u)
+    internal bool GetNumeralUint(IntPtr c, IntPtr v, out uint u)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_uint");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralUintDelegate>(funcPtr);
-        return func(c, v, u);
+        return func(c, v, out u);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetNumeralUint64Delegate(IntPtr c, IntPtr v, IntPtr u);
+    private delegate bool GetNumeralUint64Delegate(IntPtr c, IntPtr v, out ulong u);
 
     /// <summary>
     ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine <c>uint64_t</c> int. Return <c>true</c> if the call succeeded. 
@@ -1518,15 +1518,15 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_uint64")]
-    internal bool GetNumeralUint64(IntPtr c, IntPtr v, IntPtr u)
+    internal bool GetNumeralUint64(IntPtr c, IntPtr v, out ulong u)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_uint64");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralUint64Delegate>(funcPtr);
-        return func(c, v, u);
+        return func(c, v, out u);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetNumeralInt64Delegate(IntPtr c, IntPtr v, IntPtr i);
+    private delegate bool GetNumeralInt64Delegate(IntPtr c, IntPtr v, out long i);
 
     /// <summary>
     ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
@@ -1540,15 +1540,15 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_int64")]
-    internal bool GetNumeralInt64(IntPtr c, IntPtr v, IntPtr i)
+    internal bool GetNumeralInt64(IntPtr c, IntPtr v, out long i)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_int64");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralInt64Delegate>(funcPtr);
-        return func(c, v, i);
+        return func(c, v, out i);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool GetNumeralRationalInt64Delegate(IntPtr c, IntPtr v, IntPtr num, IntPtr den);
+    private delegate bool GetNumeralRationalInt64Delegate(IntPtr c, IntPtr v, out long num, out long den);
 
     /// <summary>
     ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit as a rational number as machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
@@ -1563,11 +1563,11 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_rational_int64")]
-    internal bool GetNumeralRationalInt64(IntPtr c, IntPtr v, IntPtr num, IntPtr den)
+    internal bool GetNumeralRationalInt64(IntPtr c, IntPtr v, out long num, out long den)
     {
         var funcPtr = GetFunctionPointer("Z3_get_numeral_rational_int64");
         var func = Marshal.GetDelegateForFunctionPointer<GetNumeralRationalInt64Delegate>(funcPtr);
-        return func(c, v, num, den);
+        return func(c, v, out num, out den);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

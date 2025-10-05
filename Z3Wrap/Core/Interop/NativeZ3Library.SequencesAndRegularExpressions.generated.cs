@@ -276,7 +276,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr GetLstringDelegate(IntPtr c, IntPtr s, IntPtr length);
+    private delegate IntPtr GetLstringDelegate(IntPtr c, IntPtr s, out uint length);
 
     /// <summary>
     ///  Retrieve the string constant stored in <c>s</c> . The string can contain escape sequences. Characters in the range 1 to 255 are literal. Characters in the range 0, and 256 above are escaped. 
@@ -289,11 +289,11 @@ internal sealed partial class NativeZ3Library
     /// Precondition: Z3_is_string(c, s) 
     /// </remarks>
     [Z3Function("Z3_get_lstring")]
-    internal IntPtr GetLstring(IntPtr c, IntPtr s, IntPtr length)
+    internal IntPtr GetLstring(IntPtr c, IntPtr s, out uint length)
     {
         var funcPtr = GetFunctionPointer("Z3_get_lstring");
         var func = Marshal.GetDelegateForFunctionPointer<GetLstringDelegate>(funcPtr);
-        return func(c, s, length);
+        return func(c, s, out length);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

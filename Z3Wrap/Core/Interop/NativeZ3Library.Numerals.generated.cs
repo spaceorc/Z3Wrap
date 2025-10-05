@@ -165,7 +165,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkBvNumeralDelegate(IntPtr c, uint sz, IntPtr bits);
+    private delegate IntPtr MkBvNumeralDelegate(IntPtr c, uint sz, out bool bits);
 
     /// <summary>
     ///  create a bit-vector numeral from a vector of Booleans. 
@@ -177,11 +177,11 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkNumeral"/>
     /// <seealso cref="MkBvNumeral"/>
     [Z3Function("Z3_mk_bv_numeral")]
-    internal IntPtr MkBvNumeral(IntPtr c, uint sz, IntPtr bits)
+    internal IntPtr MkBvNumeral(IntPtr c, uint sz, out bool bits)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_bv_numeral");
         var func = Marshal.GetDelegateForFunctionPointer<MkBvNumeralDelegate>(funcPtr);
-        return func(c, sz, bits);
+        return func(c, sz, out bits);
     }
 
 }

@@ -229,7 +229,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool FpaGetNumeralSignDelegate(IntPtr c, IntPtr t, IntPtr sgn);
+    private delegate bool FpaGetNumeralSignDelegate(IntPtr c, IntPtr t, out int sgn);
 
     /// <summary>
     ///  Retrieves the sign of a floating-point literal. 
@@ -239,11 +239,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="sgn" ctype="int *"> the retrieved sign </param>
     /// <returns ctype="bool">true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     [Z3Function("Z3_fpa_get_numeral_sign")]
-    internal bool FpaGetNumeralSign(IntPtr c, IntPtr t, IntPtr sgn)
+    internal bool FpaGetNumeralSign(IntPtr c, IntPtr t, out int sgn)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_sign");
         var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignDelegate>(funcPtr);
-        return func(c, t, sgn);
+        return func(c, t, out sgn);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -264,7 +264,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool FpaGetNumeralSignificandUint64Delegate(IntPtr c, IntPtr t, IntPtr n);
+    private delegate bool FpaGetNumeralSignificandUint64Delegate(IntPtr c, IntPtr t, out ulong n);
 
     /// <summary>
     ///  Return the significand value of a floating-point numeral as a uint64. 
@@ -277,11 +277,11 @@ internal sealed partial class NativeZ3Library
     /// Remarks: This function extracts the significand bits in <c>t</c> , without the hidden bit or normalization. Sets the <c>Z3_INVALID_ARG</c> error code if the significand does not fit into a <c>uint64</c> . NaN is an invalid argument.
     /// </remarks>
     [Z3Function("Z3_fpa_get_numeral_significand_uint64")]
-    internal bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, IntPtr n)
+    internal bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, out ulong n)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_significand_uint64");
         var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralSignificandUint64Delegate>(funcPtr);
-        return func(c, t, n);
+        return func(c, t, out n);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -314,7 +314,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool FpaGetNumeralExponentInt64Delegate(IntPtr c, IntPtr t, IntPtr n, bool biased);
+    private delegate bool FpaGetNumeralExponentInt64Delegate(IntPtr c, IntPtr t, out long n, bool biased);
 
     /// <summary>
     ///  Return the exponent value of a floating-point numeral as a signed 64-bit integer. 
@@ -325,11 +325,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="biased" ctype="bool"> flag to indicate whether the result is in biased representation </param>
     /// <returns ctype="bool">true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     [Z3Function("Z3_fpa_get_numeral_exponent_int64")]
-    internal bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, IntPtr n, bool biased)
+    internal bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, out long n, bool biased)
     {
         var funcPtr = GetFunctionPointer("Z3_fpa_get_numeral_exponent_int64");
         var func = Marshal.GetDelegateForFunctionPointer<FpaGetNumeralExponentInt64Delegate>(funcPtr);
-        return func(c, t, n, biased);
+        return func(c, t, out n, biased);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

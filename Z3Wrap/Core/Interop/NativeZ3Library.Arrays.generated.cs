@@ -35,7 +35,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkSelectNDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs);
+    private delegate IntPtr MkSelectNDelegate(IntPtr c, IntPtr a, uint n, out IntPtr idxs);
 
     /// <summary>
     ///  n-ary Array read. The argument <c>a</c> is the array and <c>idxs</c> are the indices of the array that gets read. 
@@ -46,11 +46,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
     /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_select_n")]
-    internal IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, IntPtr idxs)
+    internal IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, out IntPtr idxs)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_select_n");
         var func = Marshal.GetDelegateForFunctionPointer<MkSelectNDelegate>(funcPtr);
-        return func(c, a, n, idxs);
+        return func(c, a, n, out idxs);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -78,7 +78,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkStoreNDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v);
+    private delegate IntPtr MkStoreNDelegate(IntPtr c, IntPtr a, uint n, out IntPtr idxs, IntPtr v);
 
     /// <summary>
     ///  n-ary Array update. 
@@ -90,11 +90,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_store_n")]
-    internal IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v)
+    internal IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, out IntPtr idxs, IntPtr v)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_store_n");
         var func = Marshal.GetDelegateForFunctionPointer<MkStoreNDelegate>(funcPtr);
-        return func(c, a, n, idxs, v);
+        return func(c, a, n, out idxs, v);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -119,7 +119,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkMapDelegate(IntPtr c, IntPtr f, uint n, IntPtr args);
+    private delegate IntPtr MkMapDelegate(IntPtr c, IntPtr f, uint n, out IntPtr args);
 
     /// <summary>
     ///  Map f on the argument arrays. 
@@ -136,11 +136,11 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkStore"/>
     /// <seealso cref="MkSelect"/>
     [Z3Function("Z3_mk_map")]
-    internal IntPtr MkMap(IntPtr c, IntPtr f, uint n, IntPtr args)
+    internal IntPtr MkMap(IntPtr c, IntPtr f, uint n, out IntPtr args)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_map");
         var func = Marshal.GetDelegateForFunctionPointer<MkMapDelegate>(funcPtr);
-        return func(c, f, n, args);
+        return func(c, f, n, out args);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

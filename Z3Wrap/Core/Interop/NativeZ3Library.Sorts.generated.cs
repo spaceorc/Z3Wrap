@@ -176,7 +176,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkArraySortNDelegate(IntPtr c, uint n, IntPtr domain, IntPtr range);
+    private delegate IntPtr MkArraySortNDelegate(IntPtr c, uint n, out IntPtr domain, IntPtr range);
 
     /// <summary>
     ///  Create an array type with N arguments. 
@@ -189,15 +189,15 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkSelectN"/>
     /// <seealso cref="MkStoreN"/>
     [Z3Function("Z3_mk_array_sort_n")]
-    internal IntPtr MkArraySortN(IntPtr c, uint n, IntPtr domain, IntPtr range)
+    internal IntPtr MkArraySortN(IntPtr c, uint n, out IntPtr domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort_n");
         var func = Marshal.GetDelegateForFunctionPointer<MkArraySortNDelegate>(funcPtr);
-        return func(c, n, domain, range);
+        return func(c, n, out domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkTupleSortDelegate(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl);
+    private delegate IntPtr MkTupleSortDelegate(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, out IntPtr mkTupleDecl, IntPtr[] projDecl);
 
     /// <summary>
     ///  Create a tuple type. 
@@ -214,11 +214,11 @@ internal sealed partial class NativeZ3Library
     /// A tuple with <c>n</c> fields has a constructor and <c>n</c> projections. This function will also declare the constructor and projection functions.
     /// </remarks>
     [Z3Function("Z3_mk_tuple_sort")]
-    internal IntPtr MkTupleSort(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
+    internal IntPtr MkTupleSort(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, out IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_tuple_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkTupleSortDelegate>(funcPtr);
-        return func(c, mkTupleName, numFields, fieldNames, fieldSorts, mkTupleDecl, projDecl);
+        return func(c, mkTupleName, numFields, fieldNames, fieldSorts, out mkTupleDecl, projDecl);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -246,7 +246,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkListSortDelegate(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl);
+    private delegate IntPtr MkListSortDelegate(IntPtr c, IntPtr name, IntPtr elemSort, out IntPtr nilDecl, out IntPtr isNilDecl, out IntPtr consDecl, out IntPtr isConsDecl, out IntPtr headDecl, out IntPtr tailDecl);
 
     /// <summary>
     ///  Create a list sort. 
@@ -265,11 +265,11 @@ internal sealed partial class NativeZ3Library
     /// A list sort over <c>elem_sort</c> This function declares the corresponding constructors and testers for lists.
     /// </remarks>
     [Z3Function("Z3_mk_list_sort")]
-    internal IntPtr MkListSort(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
+    internal IntPtr MkListSort(IntPtr c, IntPtr name, IntPtr elemSort, out IntPtr nilDecl, out IntPtr isNilDecl, out IntPtr consDecl, out IntPtr isConsDecl, out IntPtr headDecl, out IntPtr tailDecl)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_list_sort");
         var func = Marshal.GetDelegateForFunctionPointer<MkListSortDelegate>(funcPtr);
-        return func(c, name, elemSort, nilDecl, isNilDecl, consDecl, isConsDecl, headDecl, tailDecl);
+        return func(c, name, elemSort, out nilDecl, out isNilDecl, out consDecl, out isConsDecl, out headDecl, out tailDecl);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -436,7 +436,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void QueryConstructorDelegate(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors);
+    private delegate void QueryConstructorDelegate(IntPtr c, IntPtr constr, uint numFields, out IntPtr constructor, out IntPtr tester, IntPtr[] accessors);
 
     /// <summary>
     ///  Query constructor for declared functions. 
@@ -449,11 +449,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="accessors" ctype="Z3_func_decl[]"> array of accessor function declarations allocated by user. The array must contain num_fields elements. </param>
     /// <seealso cref="MkConstructor"/>
     [Z3Function("Z3_query_constructor")]
-    internal void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors)
+    internal void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, out IntPtr constructor, out IntPtr tester, IntPtr[] accessors)
     {
         var funcPtr = GetFunctionPointer("Z3_query_constructor");
         var func = Marshal.GetDelegateForFunctionPointer<QueryConstructorDelegate>(funcPtr);
-        func(c, constr, numFields, constructor, tester, accessors);
+        func(c, constr, numFields, out constructor, out tester, accessors);
     }
 
 }

@@ -445,9 +445,38 @@ def clean_documentation_text(text: str, preserve_formatting: bool = False) -> st
         return text
 
 
-def map_c_type_to_csharp(c_type: str) -> str:
+def is_output_pointer_param(c_type: str) -> bool:
+    """
+    Determine if a C type represents an output pointer parameter.
+    Returns True for pointer types that should be marshaled as 'out' parameters.
+    """
+    cleaned = c_type.strip()
+    # Remove 'const' qualifier
+    cleaned = cleaned.replace('const ', '').replace(' const', '').strip()
+
+    # Check if it's a pointer (contains *)
+    if '*' not in cleaned:
+        return False
+
+    # String types are NOT output parameters (they're input strings)
+    if 'char' in cleaned:
+        return False
+
+    # void* is NOT an output parameter (it's for user context/data)
+    if 'void' in cleaned.lower():
+        return False
+
+    # All other pointer types are output parameters
+    return True
+
+
+def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
     """
     Map C type to C# type for P/Invoke.
+
+    Args:
+        c_type: The C type to map
+        is_output: Whether this is an output pointer parameter
     """
     type_map = {
         'void': 'void',
@@ -539,6 +568,17 @@ def map_c_type_to_csharp(c_type: str) -> str:
         # Check if it's a string type
         if 'char' in cleaned:
             return 'IntPtr'
+
+        # For output parameters, strip the pointer and map the base type
+        if is_output:
+            # Remove pointer
+            base_type = cleaned.rstrip('*').strip()
+            # Map the base type
+            if base_type in type_map:
+                return type_map[base_type]
+            # Default to IntPtr for unknown output pointer types
+            return 'IntPtr'
+
         # Other pointers - also IntPtr
         return 'IntPtr'
 
@@ -1209,18 +1249,38 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
             # Build parameter lists
             params_cs = []
             param_names = []
+            params_cs_with_out = []  # For method signature with 'out' modifiers
+            param_names_with_out = []  # For method call with 'out' keywords
 
             for param_type_c, param_name in sig.parameters:
-                param_type_cs = map_c_type_to_csharp(param_type_c)
+                # Check if this is an output pointer parameter
+                is_output = is_output_pointer_param(param_type_c)
+                param_type_cs = map_c_type_to_csharp(param_type_c, is_output=is_output)
+
                 # Convert snake_case to camelCase
                 camel_case_name = convert_param_name_to_camel_case(param_name)
                 # Escape C# keywords by prefixing with @
                 safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
-                params_cs.append(f"{param_type_cs} {safe_param_name}")
+
+                # Delegate signature (no 'out' keyword, but type is passed by reference)
+                if is_output:
+                    params_cs.append(f"out {param_type_cs} {safe_param_name}")
+                else:
+                    params_cs.append(f"{param_type_cs} {safe_param_name}")
+
+                # Method signature (with 'out' for output parameters)
+                if is_output:
+                    params_cs_with_out.append(f"out {param_type_cs} {safe_param_name}")
+                    param_names_with_out.append(f"out {safe_param_name}")
+                else:
+                    params_cs_with_out.append(f"{param_type_cs} {safe_param_name}")
+                    param_names_with_out.append(safe_param_name)
+
                 param_names.append(safe_param_name)
 
             params_str = ", ".join(params_cs) if params_cs else ""
-            param_names_str = ", ".join(param_names) if param_names else ""
+            params_str_with_out = ", ".join(params_cs_with_out) if params_cs_with_out else ""
+            param_names_str = ", ".join(param_names_with_out) if param_names_with_out else ""
 
             delegate_name = generate_delegate_name(sig.name)
             csharp_method_name = generate_csharp_method_name(sig.name)
@@ -1327,8 +1387,8 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
             # Z3Function attribute
             f.write(f"    [Z3Function(\"{sig.name}\")]\n")
 
-            # Method implementation
-            f.write(f"    internal {return_type_cs} {csharp_method_name}({params_str})\n")
+            # Method implementation (use params_str_with_out for the public signature)
+            f.write(f"    internal {return_type_cs} {csharp_method_name}({params_str_with_out})\n")
             f.write("    {\n")
             f.write(f"        var funcPtr = GetFunctionPointer(\"{sig.name}\");\n")
             f.write(f"        var func = Marshal.GetDelegateForFunctionPointer<{delegate_name}>(funcPtr);\n")
