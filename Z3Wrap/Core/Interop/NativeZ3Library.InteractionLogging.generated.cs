@@ -17,6 +17,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Log interaction to a file.
     /// </summary>
+    /// <param name="filename" ctype="Z3_string">string parameter</param>
     /// <seealso cref="AppendLog"/>
     /// <seealso cref="CloseLog"/>
     [Z3Function("Z3_open_log")]
@@ -40,6 +41,7 @@ internal sealed partial class NativeZ3Library
     /// You can use this command to append comments, for instance.
     /// </para>
     /// </summary>
+    /// <param name="string" ctype="Z3_string">string parameter</param>
     /// <seealso cref="OpenLog"/>
     /// <seealso cref="CloseLog"/>
     [Z3Function("Z3_append_log")]
@@ -78,6 +80,7 @@ internal sealed partial class NativeZ3Library
     /// suppressed after calling this method with false.
     /// </para>
     /// </summary>
+    /// <param name="enabled" ctype="bool">bool parameter</param>
     [Z3Function("Z3_toggle_warning_messages")]
     internal void ToggleWarningMessages(bool enabled)
     {

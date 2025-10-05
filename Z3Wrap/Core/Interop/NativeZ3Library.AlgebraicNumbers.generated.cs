@@ -18,6 +18,8 @@ internal sealed partial class NativeZ3Library
     /// Return true if a can be used as value in the Z3 real algebraic
     /// number package.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_algebraic_is_value")]
     internal bool AlgebraicIsValue(IntPtr c, IntPtr a)
     {
@@ -32,6 +34,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a is positive, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -49,6 +53,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a is negative, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -66,6 +72,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a is zero, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -83,6 +91,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return 1 if a is positive, 0 if a is zero, and -1 if a is negative.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -100,6 +110,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the value a + b.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -118,6 +131,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the value a - b.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -136,6 +152,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the value a * b.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -154,6 +173,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the value a / b.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -173,6 +195,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the a^(1/k)
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: k is even =&gt; !Z3_algebraic_is_neg(c, a)
@@ -191,6 +216,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the a^k
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -208,6 +236,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a &lt; b, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -226,6 +257,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a &gt; b, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -244,6 +278,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a &lt;= b, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -262,6 +299,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a &gt;= b, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -280,6 +320,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a == b, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -298,6 +341,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if a != b, and false otherwise.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -317,6 +363,10 @@ internal sealed partial class NativeZ3Library
     /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the
     /// roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="a" ctype="Z3_ast[]">ast parameter</param>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
@@ -336,6 +386,10 @@ internal sealed partial class NativeZ3Library
     /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the
     /// sign of p(a[0], ..., a[n-1]).
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="a" ctype="Z3_ast[]">ast parameter</param>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
@@ -354,6 +408,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the coefficients of the defining polynomial.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -371,6 +427,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return which root of the polynomial the algebraic number represents.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>

@@ -23,6 +23,7 @@ internal sealed partial class NativeZ3Library
     /// when it is not used correctly.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="SetErrorHandler"/>
     [Z3Function("Z3_get_error_code")]
     internal ErrorCode GetErrorCode(IntPtr c)
@@ -46,6 +47,8 @@ internal sealed partial class NativeZ3Library
     /// error handler, simply register with h=NULL.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="h" ctype="Z3_error_handler">error_handler parameter</param>
     /// <remarks>
     /// Warning: Log files, created using <see cref="OpenLog"/>, may be potentially incomplete/incorrect if error handlers are used.
     /// </remarks>
@@ -64,6 +67,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Set an error.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_error_code">error_code parameter</param>
     [Z3Function("Z3_set_error")]
     internal void SetError(IntPtr c, ErrorCode e)
     {
@@ -78,6 +83,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return a string describing the given error code.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="err" ctype="Z3_error_code">error_code parameter</param>
     [Z3Function("Z3_get_error_msg")]
     internal IntPtr GetErrorMsg(IntPtr c, ErrorCode err)
     {

@@ -17,6 +17,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a fresh model object. It has reference count 0.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_model")]
     internal IntPtr MkModel(IntPtr c)
     {
@@ -31,6 +32,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given model.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     [Z3Function("Z3_model_inc_ref")]
     internal void ModelIncRef(IntPtr c, IntPtr m)
     {
@@ -45,6 +48,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given model.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     [Z3Function("Z3_model_dec_ref")]
     internal void ModelDecRef(IntPtr c, IntPtr m)
     {
@@ -93,6 +98,11 @@ internal sealed partial class NativeZ3Library
     /// </list>
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
+    /// <param name="modelCompletion" ctype="bool">bool parameter</param>
+    /// <param name="v" ctype="Z3_ast *">ast parameter</param>
     [Z3Function("Z3_model_eval")]
     internal bool ModelEval(IntPtr c, IntPtr m, IntPtr t, bool modelCompletion, IntPtr v)
     {
@@ -109,6 +119,9 @@ internal sealed partial class NativeZ3Library
     /// Return NULL, if the model does not assign an interpretation for a.
     /// That should be interpreted as: the value of a does not matter.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="a" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_arity(c, a) == 0
     /// </remarks>
@@ -126,6 +139,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Test if there exists an interpretation (i.e., assignment) for a in the model m.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="a" ctype="Z3_func_decl">func_decl parameter</param>
     [Z3Function("Z3_model_has_interp")]
     internal bool ModelHasInterp(IntPtr c, IntPtr m, IntPtr a)
     {
@@ -142,6 +158,9 @@ internal sealed partial class NativeZ3Library
     /// Return NULL, if the model does not assign an interpretation for f.
     /// That should be interpreted as: the f does not matter.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_arity(c, f) &gt; 0
     /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was
@@ -161,6 +180,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the number of constants assigned by the given model.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <seealso cref="ModelGetConstDecl"/>
     [Z3Function("Z3_model_get_num_consts")]
     internal uint ModelGetNumConsts(IntPtr c, IntPtr m)
@@ -176,6 +197,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the i-th constant in the given model.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_model_get_num_consts(c, m)
     /// </remarks>
@@ -201,6 +225,8 @@ internal sealed partial class NativeZ3Library
     /// Each entry in the finite map represents the value of a function given a set of arguments.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <seealso cref="ModelGetFuncDecl"/>
     [Z3Function("Z3_model_get_num_funcs")]
     internal uint ModelGetNumFuncs(IntPtr c, IntPtr m)
@@ -216,6 +242,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the declaration of the i-th function in the given model.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_model_get_num_funcs(c, m)
     /// </remarks>
@@ -241,6 +270,8 @@ internal sealed partial class NativeZ3Library
     /// the "universe" of s.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <seealso cref="ModelGetSort"/>
     /// <seealso cref="ModelGetSortUniverse"/>
     [Z3Function("Z3_model_get_num_sorts")]
@@ -257,6 +288,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return a uninterpreted sort that m assigns an interpretation.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_model_get_num_sorts(c, m)
     /// </remarks>
@@ -276,6 +310,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the finite set of distinct values that represent the interpretation for sort s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="ModelGetNumSorts"/>
     /// <seealso cref="ModelGetSort"/>
     [Z3Function("Z3_model_get_sort_universe")]
@@ -292,6 +329,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// translate model from context c to context dst.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="dst" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// Use this method for cloning state between contexts. Note that
     /// operations on contexts are not thread safe and therefore all operations
@@ -318,6 +358,8 @@ internal sealed partial class NativeZ3Library
     /// Z3 current solvers have minimal support for as_array nodes.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="GetAsArrayFuncDecl"/>
     [Z3Function("Z3_is_as_array")]
     internal bool IsAsArray(IntPtr c, IntPtr a)
@@ -333,6 +375,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the function declaration f associated with a <code>(_ as_array f)</code> node.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="IsAsArray"/>
     [Z3Function("Z3_get_as_array_func_decl")]
     internal IntPtr GetAsArrayFuncDecl(IntPtr c, IntPtr a)
@@ -349,10 +393,10 @@ internal sealed partial class NativeZ3Library
     /// Create a fresh func_interp object, add it to a model for a specified function.
     /// It has reference count 0.
     /// </summary>
-    /// <param name="c">context</param>
-    /// <param name="m">model</param>
-    /// <param name="f">function declaration</param>
-    /// <param name="defaultValue">default value for function interpretation</param>
+    /// <param name="c" ctype="Z3_context">context</param>
+    /// <param name="m" ctype="Z3_model">model</param>
+    /// <param name="f" ctype="Z3_func_decl">function declaration</param>
+    /// <param name="defaultValue" ctype="Z3_ast">default value for function interpretation</param>
     [Z3Function("Z3_add_func_interp")]
     internal IntPtr AddFuncInterp(IntPtr c, IntPtr m, IntPtr f, IntPtr defaultValue)
     {
@@ -367,6 +411,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a constant interpretation.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_add_const_interp")]
     internal void AddConstInterp(IntPtr c, IntPtr m, IntPtr f, IntPtr a)
     {
@@ -381,6 +429,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given Z3_func_interp object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     [Z3Function("Z3_func_interp_inc_ref")]
     internal void FuncInterpIncRef(IntPtr c, IntPtr f)
     {
@@ -395,6 +445,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given Z3_func_interp object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     [Z3Function("Z3_func_interp_dec_ref")]
     internal void FuncInterpDecRef(IntPtr c, IntPtr f)
     {
@@ -416,6 +468,8 @@ internal sealed partial class NativeZ3Library
     /// This procedure return the number of element in the finite map of f.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_interp_get_num_entries")]
     internal uint FuncInterpGetNumEntries(IntPtr c, IntPtr f)
@@ -432,6 +486,9 @@ internal sealed partial class NativeZ3Library
     /// Return a "point" of the given function interpretation. It represents the
     /// value of f in a particular point.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_func_interp_get_num_entries(c, f)
     /// </remarks>
@@ -456,6 +513,8 @@ internal sealed partial class NativeZ3Library
     /// This procedure returns the 'else' value.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     [Z3Function("Z3_func_interp_get_else")]
     internal IntPtr FuncInterpGetElse(IntPtr c, IntPtr f)
     {
@@ -476,6 +535,9 @@ internal sealed partial class NativeZ3Library
     /// This procedure can be used to update the 'else' value.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
+    /// <param name="elseValue" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_func_interp_set_else")]
     internal void FuncInterpSetElse(IntPtr c, IntPtr f, IntPtr elseValue)
     {
@@ -490,6 +552,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the arity (number of arguments) of the given function interpretation.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     [Z3Function("Z3_func_interp_get_arity")]
     internal uint FuncInterpGetArity(IntPtr c, IntPtr f)
     {
@@ -504,10 +568,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// add a function entry to a function interpretation.
     /// </summary>
-    /// <param name="c">logical context</param>
-    /// <param name="fi">a function interpretation to be updated.</param>
-    /// <param name="args">list of arguments. They should be constant values (such as integers) and be of the same types as the domain of the function.</param>
-    /// <param name="value">
+    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="fi" ctype="Z3_func_interp">a function interpretation to be updated.</param>
+    /// <param name="args" ctype="Z3_ast_vector">list of arguments. They should be constant values (such as integers) and be of the same types as the domain of the function.</param>
+    /// <param name="value" ctype="Z3_ast">
     /// <para>
     /// value of the function when the parameters match args.
     /// </para>
@@ -531,6 +595,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given Z3_func_entry object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
     [Z3Function("Z3_func_entry_inc_ref")]
     internal void FuncEntryIncRef(IntPtr c, IntPtr e)
     {
@@ -545,6 +611,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given Z3_func_entry object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
     [Z3Function("Z3_func_entry_dec_ref")]
     internal void FuncEntryDecRef(IntPtr c, IntPtr e)
     {
@@ -565,6 +633,8 @@ internal sealed partial class NativeZ3Library
     /// a function interpretation.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
     /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_entry_get_value")]
     internal IntPtr FuncEntryGetValue(IntPtr c, IntPtr e)
@@ -580,6 +650,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the number of arguments in a Z3_func_entry object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
     /// <seealso cref="FuncEntryGetArg"/>
     /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_entry_get_num_args")]
@@ -596,6 +668,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return an argument of a Z3_func_entry object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_func_entry_get_num_args(c, e)
     /// </remarks>

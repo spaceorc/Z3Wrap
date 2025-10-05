@@ -17,12 +17,12 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a numeral of a given sort.
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="numeral">
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="numeral" ctype="Z3_string">
     /// A string representing the numeral value in decimal notation. The string may be of the form `[num]*[.[num]*][E[+|-][num]+]`.
     /// If the given sort is a real, then the numeral can be a rational, that is, a string of the form `[num]* / [num]*` .
     /// </param>
-    /// <param name="ty">The sort of the numeral. In the current implementation, the given sort can be an int, real, finite-domain, or bit-vectors of arbitrary size.</param>
+    /// <param name="ty" ctype="Z3_sort">The sort of the numeral. In the current implementation, the given sort can be an int, real, finite-domain, or bit-vectors of arbitrary size.</param>
     /// <seealso cref="MkInt"/>
     /// <seealso cref="MkUnsignedInt"/>
     [Z3Function("Z3_mk_numeral")]
@@ -39,9 +39,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a real from a fraction.
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="num">numerator of rational.</param>
-    /// <param name="den">denominator of rational.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="num" ctype="int">numerator of rational.</param>
+    /// <param name="den" ctype="int">denominator of rational.</param>
     /// <remarks>
     /// Precondition: den != 0
     /// </remarks>
@@ -63,6 +63,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a real from a fraction of int64.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="num" ctype="int64_t">int64_t parameter</param>
+    /// <param name="den" ctype="int64_t">int64_t parameter</param>
     /// <seealso cref="MkReal"/>
     [Z3Function("Z3_mk_real_int64")]
     internal IntPtr MkRealInt64(IntPtr c, long num, long den)
@@ -84,6 +87,9 @@ internal sealed partial class NativeZ3Library
     /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="int">int parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_int")]
     internal IntPtr MkInt(IntPtr c, int v, IntPtr ty)
@@ -105,6 +111,9 @@ internal sealed partial class NativeZ3Library
     /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="unsigned">unsigned parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_unsigned_int")]
     internal IntPtr MkUnsignedInt(IntPtr c, uint v, IntPtr ty)
@@ -126,6 +135,9 @@ internal sealed partial class NativeZ3Library
     /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="int64_t">int64_t parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_int64")]
     internal IntPtr MkInt64(IntPtr c, long v, IntPtr ty)
@@ -147,6 +159,9 @@ internal sealed partial class NativeZ3Library
     /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="uint64_t">uint64_t parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_unsigned_int64")]
     internal IntPtr MkUnsignedInt64(IntPtr c, ulong v, IntPtr ty)
@@ -162,6 +177,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// create a bit-vector numeral from a vector of Booleans.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="sz" ctype="unsigned">unsigned parameter</param>
+    /// <param name="bits" ctype="bool const*">bool parameter</param>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_bv_numeral")]
     internal IntPtr MkBvNumeral(IntPtr c, uint sz, IntPtr bits)

@@ -34,6 +34,9 @@ internal sealed partial class NativeZ3Library
     /// quantifier constructor.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numPatterns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="terms" ctype="Z3_ast const[]">ast parameter</param>
     /// <seealso cref="MkForall"/>
     /// <seealso cref="MkExists"/>
     [Z3Function("Z3_mk_pattern")]
@@ -76,9 +79,9 @@ internal sealed partial class NativeZ3Library
     /// index.
     /// </para>
     /// </summary>
-    /// <param name="c">logical context</param>
-    /// <param name="index">de-Bruijn index</param>
-    /// <param name="ty">sort of the bound variable</param>
+    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="index" ctype="unsigned">de-Bruijn index</param>
+    /// <param name="ty" ctype="Z3_sort">sort of the bound variable</param>
     /// <seealso cref="MkForall"/>
     /// <seealso cref="MkExists"/>
     [Z3Function("Z3_mk_bound")]
@@ -100,14 +103,14 @@ internal sealed partial class NativeZ3Library
     /// refers to the variable with index 0, the second to last element of decl_names and sorts refers
     /// to the variable with index 1, etc.
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="weight">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
-    /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
-    /// <param name="numDecls">number of variables to be bound.</param>
-    /// <param name="sorts">the sorts of the bound variables.</param>
-    /// <param name="declNames">names of the bound variables</param>
-    /// <param name="body">the body of the quantifier.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="weight" ctype="unsigned">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
+    /// <param name="numPatterns" ctype="unsigned">number of patterns.</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">array containing the patterns created using <see cref="MkPattern"/>.</param>
+    /// <param name="numDecls" ctype="unsigned">number of variables to be bound.</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">the sorts of the bound variables.</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">names of the bound variables</param>
+    /// <param name="body" ctype="Z3_ast">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkExists"/>
@@ -125,6 +128,14 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create an exists formula. Similar to <see cref="MkForall"/>.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="weight" ctype="unsigned">unsigned parameter</param>
+    /// <param name="numPatterns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">pattern parameter</param>
+    /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">sort parameter</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="body" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkForall"/>
@@ -144,15 +155,15 @@ internal sealed partial class NativeZ3Library
     /// Create a quantifier - universal or existential, with pattern hints.
     /// See the documentation for <see cref="MkForall"/> for an explanation of the parameters.
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="isForall">flag to indicate if this is a universal or existential quantifier.</param>
-    /// <param name="weight">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
-    /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
-    /// <param name="numDecls">number of variables to be bound.</param>
-    /// <param name="sorts">array of sorts of the bound variables.</param>
-    /// <param name="declNames">names of the bound variables.</param>
-    /// <param name="body">the body of the quantifier.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="isForall" ctype="bool">flag to indicate if this is a universal or existential quantifier.</param>
+    /// <param name="weight" ctype="unsigned">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
+    /// <param name="numPatterns" ctype="unsigned">number of patterns.</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">array containing the patterns created using <see cref="MkPattern"/>.</param>
+    /// <param name="numDecls" ctype="unsigned">number of variables to be bound.</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">array of sorts of the bound variables.</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">names of the bound variables.</param>
+    /// <param name="body" ctype="Z3_ast">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkForall"/>
@@ -171,19 +182,19 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a quantifier - universal or existential, with pattern hints, no patterns, and attributes
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="isForall">flag to indicate if this is a universal or existential quantifier.</param>
-    /// <param name="weight">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
-    /// <param name="quantifierId">identifier to identify quantifier</param>
-    /// <param name="skolemId">identifier to identify skolem constants introduced by quantifier.</param>
-    /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
-    /// <param name="numNoPatterns">number of no_patterns.</param>
-    /// <param name="noPatterns">array containing subexpressions to be excluded from inferred patterns.</param>
-    /// <param name="numDecls">number of variables to be bound.</param>
-    /// <param name="sorts">array of sorts of the bound variables.</param>
-    /// <param name="declNames">names of the bound variables.</param>
-    /// <param name="body">the body of the quantifier.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="isForall" ctype="bool">flag to indicate if this is a universal or existential quantifier.</param>
+    /// <param name="weight" ctype="unsigned">quantifiers are associated with weights indicating the importance of using the quantifier during instantiation. By default, pass the weight 0.</param>
+    /// <param name="quantifierId" ctype="Z3_symbol">identifier to identify quantifier</param>
+    /// <param name="skolemId" ctype="Z3_symbol">identifier to identify skolem constants introduced by quantifier.</param>
+    /// <param name="numPatterns" ctype="unsigned">number of patterns.</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">array containing the patterns created using <see cref="MkPattern"/>.</param>
+    /// <param name="numNoPatterns" ctype="unsigned">number of no_patterns.</param>
+    /// <param name="noPatterns" ctype="Z3_ast const[]">array containing subexpressions to be excluded from inferred patterns.</param>
+    /// <param name="numDecls" ctype="unsigned">number of variables to be bound.</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">array of sorts of the bound variables.</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">names of the bound variables.</param>
+    /// <param name="body" ctype="Z3_ast">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkForall"/>
@@ -203,16 +214,16 @@ internal sealed partial class NativeZ3Library
     /// Create a universal quantifier using a list of constants that
     /// will form the set of bound variables.
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="weight">
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="weight" ctype="unsigned">
     /// quantifiers are associated with weights indicating the importance of using
     /// the quantifier during instantiation. By default, pass the weight 0.
     /// </param>
-    /// <param name="numBound">number of constants to be abstracted into bound variables.</param>
-    /// <param name="bound">array of constants to be abstracted into bound variables.</param>
-    /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
-    /// <param name="body">the body of the quantifier.</param>
+    /// <param name="numBound" ctype="unsigned">number of constants to be abstracted into bound variables.</param>
+    /// <param name="bound" ctype="Z3_app const[]">array of constants to be abstracted into bound variables.</param>
+    /// <param name="numPatterns" ctype="unsigned">number of patterns.</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">array containing the patterns created using <see cref="MkPattern"/>.</param>
+    /// <param name="body" ctype="Z3_ast">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkExistsConst"/>
     [Z3Function("Z3_mk_forall_const")]
@@ -235,16 +246,16 @@ internal sealed partial class NativeZ3Library
     /// will form the set of bound variables.
     /// </para>
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="weight">
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="weight" ctype="unsigned">
     /// quantifiers are associated with weights indicating the importance of using
     /// the quantifier during instantiation. By default, pass the weight 0.
     /// </param>
-    /// <param name="numBound">number of constants to be abstracted into bound variables.</param>
-    /// <param name="bound">array of constants to be abstracted into bound variables.</param>
-    /// <param name="numPatterns">number of patterns.</param>
-    /// <param name="patterns">array containing the patterns created using <see cref="MkPattern"/>.</param>
-    /// <param name="body">the body of the quantifier.</param>
+    /// <param name="numBound" ctype="unsigned">number of constants to be abstracted into bound variables.</param>
+    /// <param name="bound" ctype="Z3_app const[]">array of constants to be abstracted into bound variables.</param>
+    /// <param name="numPatterns" ctype="unsigned">number of patterns.</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">array containing the patterns created using <see cref="MkPattern"/>.</param>
+    /// <param name="body" ctype="Z3_ast">the body of the quantifier.</param>
     /// <seealso cref="MkPattern"/>
     /// <seealso cref="MkForallConst"/>
     [Z3Function("Z3_mk_exists_const")]
@@ -262,6 +273,14 @@ internal sealed partial class NativeZ3Library
     /// Create a universal or existential quantifier using a list of
     /// constants that will form the set of bound variables.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="isForall" ctype="bool">bool parameter</param>
+    /// <param name="weight" ctype="unsigned">unsigned parameter</param>
+    /// <param name="numBound" ctype="unsigned">unsigned parameter</param>
+    /// <param name="bound" ctype="Z3_app const[]">app parameter</param>
+    /// <param name="numPatterns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">pattern parameter</param>
+    /// <param name="body" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_quantifier_const")]
     internal IntPtr MkQuantifierConst(IntPtr c, bool isForall, uint weight, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, IntPtr body)
     {
@@ -277,6 +296,18 @@ internal sealed partial class NativeZ3Library
     /// Create a universal or existential quantifier using a list of
     /// constants that will form the set of bound variables.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="isForall" ctype="bool">bool parameter</param>
+    /// <param name="weight" ctype="unsigned">unsigned parameter</param>
+    /// <param name="quantifierId" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="skolemId" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="numBound" ctype="unsigned">unsigned parameter</param>
+    /// <param name="bound" ctype="Z3_app const[]">app parameter</param>
+    /// <param name="numPatterns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="patterns" ctype="Z3_pattern const[]">pattern parameter</param>
+    /// <param name="numNoPatterns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="noPatterns" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="body" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_quantifier_const_ex")]
     internal IntPtr MkQuantifierConstEx(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, IntPtr body)
     {
@@ -299,11 +330,11 @@ internal sealed partial class NativeZ3Library
     /// For example, if the lambda binds two variables of sort Int and Bool, and the body has sort Real,
     /// the sort of the expression is \c (Array Int Bool Real).
     /// </summary>
-    /// <param name="c">logical context</param>
-    /// <param name="numDecls">number of variables to be bound.</param>
-    /// <param name="sorts">the sorts of the bound variables.</param>
-    /// <param name="declNames">names of the bound variables</param>
-    /// <param name="body">the body of the lambda expression.</param>
+    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="numDecls" ctype="unsigned">number of variables to be bound.</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">the sorts of the bound variables.</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">names of the bound variables</param>
+    /// <param name="body" ctype="Z3_ast">the body of the lambda expression.</param>
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkForall"/>
     /// <seealso cref="MkLambdaConst"/>
@@ -322,10 +353,10 @@ internal sealed partial class NativeZ3Library
     /// Create a lambda expression using a list of constants that form the set
     /// of bound variables
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="numBound">number of constants to be abstracted into bound variables.</param>
-    /// <param name="bound">array of constants to be abstracted into bound variables.</param>
-    /// <param name="body">the body of the lambda expression.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="numBound" ctype="unsigned">number of constants to be abstracted into bound variables.</param>
+    /// <param name="bound" ctype="Z3_app const[]">array of constants to be abstracted into bound variables.</param>
+    /// <param name="body" ctype="Z3_ast">the body of the lambda expression.</param>
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkForall"/>
     /// <seealso cref="MkLambda"/>

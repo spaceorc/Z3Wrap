@@ -28,6 +28,8 @@ internal sealed partial class NativeZ3Library
     /// expressions to share common sub-expressions use Z3_PRINT_SMTLIB2_COMPLIANT.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="mode" ctype="Z3_ast_print_mode">ast_print_mode parameter</param>
     /// <seealso cref="AstToString"/>
     /// <seealso cref="PatternToString"/>
     /// <seealso cref="FuncDeclToString"/>
@@ -45,6 +47,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert the given AST node into a string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will
     /// be automatically deallocated when <see cref="DelContext"/> is invoked.
@@ -63,6 +67,8 @@ internal sealed partial class NativeZ3Library
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr PatternToStringDelegate(IntPtr c, IntPtr p);
 
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
     [Z3Function("Z3_pattern_to_string")]
     internal IntPtr PatternToString(IntPtr c, IntPtr p)
     {
@@ -74,6 +80,8 @@ internal sealed partial class NativeZ3Library
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr SortToStringDelegate(IntPtr c, IntPtr s);
 
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_sort_to_string")]
     internal IntPtr SortToString(IntPtr c, IntPtr s)
     {
@@ -85,6 +93,8 @@ internal sealed partial class NativeZ3Library
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr FuncDeclToStringDelegate(IntPtr c, IntPtr d);
 
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     [Z3Function("Z3_func_decl_to_string")]
     internal IntPtr FuncDeclToString(IntPtr c, IntPtr d)
     {
@@ -99,6 +109,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert the given model into a string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will
     /// be automatically deallocated when <see cref="DelContext"/> is invoked.
@@ -118,46 +130,14 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert the given benchmark into SMT-LIB formatted string.
     /// </summary>
-    /// <param name="c">
-    /// <list type="bullet">
-    /// <item><description>context.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="name">
-    /// <list type="bullet">
-    /// <item><description>name of benchmark. The argument is optional.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="logic">
-    /// <list type="bullet">
-    /// <item><description>the benchmark logic.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="status">
-    /// <list type="bullet">
-    /// <item><description>the status string (sat, unsat, or unknown)</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="attributes">
-    /// <list type="bullet">
-    /// <item><description>other attributes, such as source, difficulty or category.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="numAssumptions">
-    /// <list type="bullet">
-    /// <item><description>number of assumptions.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="assumptions">
-    /// <list type="bullet">
-    /// <item><description>auxiliary assumptions.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="formula">
-    /// <list type="bullet">
-    /// <item><description>formula to be checked for consistency in conjunction with assumptions.</description></item>
-    /// </list>
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context.</param>
+    /// <param name="name" ctype="Z3_string">name of benchmark. The argument is optional.</param>
+    /// <param name="logic" ctype="Z3_string">the benchmark logic.</param>
+    /// <param name="status" ctype="Z3_string">the status string (sat, unsat, or unknown)</param>
+    /// <param name="attributes" ctype="Z3_string">other attributes, such as source, difficulty or category.</param>
+    /// <param name="numAssumptions" ctype="unsigned">number of assumptions.</param>
+    /// <param name="assumptions" ctype="Z3_ast const[]">auxiliary assumptions.</param>
+    /// <param name="formula" ctype="Z3_ast">formula to be checked for consistency in conjunction with assumptions.</param>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will
     /// be automatically deallocated when <see cref="DelContext"/> is invoked.

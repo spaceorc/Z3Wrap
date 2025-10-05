@@ -26,6 +26,8 @@ internal sealed partial class NativeZ3Library
     /// The legal range of unsigned integers is 0 to 2^30-1.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="int">int parameter</param>
     /// <seealso cref="GetSymbolInt"/>
     /// <seealso cref="MkStringSymbol"/>
     [Z3Function("Z3_mk_int_symbol")]
@@ -47,6 +49,8 @@ internal sealed partial class NativeZ3Library
     /// Symbols are used to name several term and type constructors.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     /// <seealso cref="GetSymbolString"/>
     /// <seealso cref="MkIntSymbol"/>
     [Z3Function("Z3_mk_string_symbol")]

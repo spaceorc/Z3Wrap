@@ -23,6 +23,14 @@ internal sealed partial class NativeZ3Library
     /// (up to push/pop) at the end of the string.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="str" ctype="Z3_string">string parameter</param>
+    /// <param name="numSorts" ctype="unsigned">unsigned parameter</param>
+    /// <param name="sortNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">sort parameter</param>
+    /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
     [Z3Function("Z3_parse_smtlib2_string")]
     internal IntPtr ParseSmtlib2String(IntPtr c, IntPtr str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
@@ -37,6 +45,14 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Similar to <see cref="ParseSmtlib2String"/>, but reads the benchmark from a file.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="fileName" ctype="Z3_string">string parameter</param>
+    /// <param name="numSorts" ctype="unsigned">unsigned parameter</param>
+    /// <param name="sortNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">sort parameter</param>
+    /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
     [Z3Function("Z3_parse_smtlib2_file")]
     internal IntPtr ParseSmtlib2File(IntPtr c, IntPtr fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
@@ -52,6 +68,8 @@ internal sealed partial class NativeZ3Library
     /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next
     /// evaluation builds on top of the previous call.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="str" ctype="Z3_string">string parameter</param>
     /// <returns>output generated from processing commands.</returns>
     [Z3Function("Z3_eval_smtlib2_string")]
     internal IntPtr EvalSmtlib2String(IntPtr c, IntPtr str)
@@ -75,6 +93,7 @@ internal sealed partial class NativeZ3Library
     /// of sorts and function declarations (including 0-ary) that are added directly to the context.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_parser_context")]
     internal IntPtr MkParserContext(IntPtr c)
     {
@@ -89,6 +108,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given Z3_parser_context object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
     [Z3Function("Z3_parser_context_inc_ref")]
     internal void ParserContextIncRef(IntPtr c, IntPtr pc)
     {
@@ -103,6 +124,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given Z3_parser_context object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
     [Z3Function("Z3_parser_context_dec_ref")]
     internal void ParserContextDecRef(IntPtr c, IntPtr pc)
     {
@@ -117,6 +140,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a sort declaration.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_parser_context_add_sort")]
     internal void ParserContextAddSort(IntPtr c, IntPtr pc, IntPtr s)
     {
@@ -131,6 +157,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a function declaration.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     [Z3Function("Z3_parser_context_add_decl")]
     internal void ParserContextAddDecl(IntPtr c, IntPtr pc, IntPtr f)
     {
@@ -145,6 +174,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Parse a string of SMTLIB2 commands. Return assertions.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     [Z3Function("Z3_parser_context_from_string")]
     internal IntPtr ParserContextFromString(IntPtr c, IntPtr pc, IntPtr s)
     {

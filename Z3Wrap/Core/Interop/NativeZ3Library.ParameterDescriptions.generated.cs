@@ -17,6 +17,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given parameter description set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     [Z3Function("Z3_param_descrs_inc_ref")]
     internal void ParamDescrsIncRef(IntPtr c, IntPtr p)
     {
@@ -31,6 +33,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given parameter description set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     [Z3Function("Z3_param_descrs_dec_ref")]
     internal void ParamDescrsDecRef(IntPtr c, IntPtr p)
     {
@@ -45,6 +49,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the kind associated with the given parameter name n.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="n" ctype="Z3_symbol">symbol parameter</param>
     [Z3Function("Z3_param_descrs_get_kind")]
     internal ParamKind ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
     {
@@ -59,6 +66,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the number of parameters in the given parameter description set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     [Z3Function("Z3_param_descrs_size")]
     internal uint ParamDescrsSize(IntPtr c, IntPtr p)
     {
@@ -73,6 +82,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the name of the parameter at given index i.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_param_descrs_size(c, p)
     /// </remarks>
@@ -90,6 +102,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve documentation string corresponding to parameter name s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     [Z3Function("Z3_param_descrs_get_documentation")]
     internal IntPtr ParamDescrsGetDocumentation(IntPtr c, IntPtr p, IntPtr s)
     {
@@ -105,6 +120,8 @@ internal sealed partial class NativeZ3Library
     /// Convert a parameter description set into a string. This function is mainly used for printing the
     /// contents of a parameter description set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     [Z3Function("Z3_param_descrs_to_string")]
     internal IntPtr ParamDescrsToString(IntPtr c, IntPtr p)
     {

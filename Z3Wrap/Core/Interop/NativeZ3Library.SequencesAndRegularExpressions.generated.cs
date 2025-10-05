@@ -17,6 +17,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a sequence sort out of the sort for the elements.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_mk_seq_sort")]
     internal IntPtr MkSeqSort(IntPtr c, IntPtr s)
     {
@@ -31,6 +33,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if s is a sequence sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_is_seq_sort")]
     internal bool IsSeqSort(IntPtr c, IntPtr s)
     {
@@ -45,6 +49,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve basis sort for sequence sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_get_seq_sort_basis")]
     internal IntPtr GetSeqSortBasis(IntPtr c, IntPtr s)
     {
@@ -59,6 +65,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a regular expression sort out of a sequence sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_mk_re_sort")]
     internal IntPtr MkReSort(IntPtr c, IntPtr seq)
     {
@@ -73,6 +81,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if s is a regular expression sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_is_re_sort")]
     internal bool IsReSort(IntPtr c, IntPtr s)
     {
@@ -87,6 +97,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve basis sort for regex sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_get_re_sort_basis")]
     internal IntPtr GetReSortBasis(IntPtr c, IntPtr s)
     {
@@ -108,6 +120,7 @@ internal sealed partial class NativeZ3Library
     /// to 16 bit characters by setting encoding to bmp.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_string_sort")]
     internal IntPtr MkStringSort(IntPtr c)
     {
@@ -129,6 +142,7 @@ internal sealed partial class NativeZ3Library
     /// to 16 bit characters by setting encoding to bmp.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_char_sort")]
     internal IntPtr MkCharSort(IntPtr c)
     {
@@ -143,6 +157,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if s is a string sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_is_string_sort")]
     internal bool IsStringSort(IntPtr c, IntPtr s)
     {
@@ -157,6 +173,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if s is a character sort.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_is_char_sort")]
     internal bool IsCharSort(IntPtr c, IntPtr s)
     {
@@ -175,6 +193,8 @@ internal sealed partial class NativeZ3Library
     /// the escape encoding \\u{0} represents the character 0 and the encoding
     /// \\u{100} represents the character 256.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     [Z3Function("Z3_mk_string")]
     internal IntPtr MkString(IntPtr c, IntPtr s)
     {
@@ -192,6 +212,9 @@ internal sealed partial class NativeZ3Library
     /// 0 characters. The string is treated as if it is unescaped so a sequence
     /// of characters \\u{0} is treated as 5 characters and not the character 0.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="len" ctype="unsigned">unsigned parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     [Z3Function("Z3_mk_lstring")]
     internal IntPtr MkLstring(IntPtr c, uint len, IntPtr s)
     {
@@ -208,6 +231,9 @@ internal sealed partial class NativeZ3Library
     /// It takes the length of the string as well to take into account
     /// 0 characters. The string is unescaped.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="len" ctype="unsigned">unsigned parameter</param>
+    /// <param name="chars" ctype="unsigned const[]">unsigned parameter</param>
     [Z3Function("Z3_mk_u32string")]
     internal IntPtr MkU32string(IntPtr c, uint len, uint[] chars)
     {
@@ -222,6 +248,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Determine if s is a string constant.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_is_string")]
     internal bool IsString(IntPtr c, IntPtr s)
     {
@@ -237,6 +265,8 @@ internal sealed partial class NativeZ3Library
     /// Retrieve the string constant stored in s.
     /// Characters outside the basic printable ASCII range are escaped.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
@@ -256,6 +286,9 @@ internal sealed partial class NativeZ3Library
     /// Characters in the range 1 to 255 are literal.
     /// Characters in the range 0, and 256 above are escaped.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="length" ctype="unsigned*">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
@@ -273,6 +306,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve the length of the unescaped string constant stored in s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
@@ -290,6 +325,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve the unescaped string constant stored in s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="length" ctype="unsigned">unsigned parameter</param>
+    /// <param name="contents" ctype="unsigned[]">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// Precondition: length contains the number of characters in s
@@ -308,6 +347,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create an empty sequence of the sequence sort seq.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: s is a sequence sort.
     /// </remarks>
@@ -325,6 +366,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a unit sequence of a.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_unit")]
     internal IntPtr MkSeqUnit(IntPtr c, IntPtr a)
     {
@@ -339,6 +382,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Concatenate sequences.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -356,6 +402,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if prefix is a prefix of s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: prefix and s are the same sequence sorts.
     /// </remarks>
@@ -373,6 +422,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if suffix is a suffix of s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="suffix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: suffix and s are the same sequence sorts.
     /// </remarks>
@@ -390,6 +442,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if container contains containee.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="container" ctype="Z3_ast">ast parameter</param>
+    /// <param name="containee" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: container and containee are the same sequence sorts.
     /// </remarks>
@@ -407,6 +462,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if s1 is lexicographically strictly less than s2.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: s1 and s2 are strings
     /// </remarks>
@@ -424,6 +482,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if s1 is equal or lexicographically strictly less than s2.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: s1 and s2 are strings
     /// </remarks>
@@ -441,6 +502,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Extract subsequence starting at offset of length.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="offset" ctype="Z3_ast">ast parameter</param>
+    /// <param name="length" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_extract")]
     internal IntPtr MkSeqExtract(IntPtr c, IntPtr s, IntPtr offset, IntPtr length)
     {
@@ -455,6 +520,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Replace the first occurrence of src with dst in s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="src" ctype="Z3_ast">ast parameter</param>
+    /// <param name="dst" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_replace")]
     internal IntPtr MkSeqReplace(IntPtr c, IntPtr s, IntPtr src, IntPtr dst)
     {
@@ -470,6 +539,9 @@ internal sealed partial class NativeZ3Library
     /// Retrieve from s the unit sequence positioned at position index.
     /// The sequence is empty if the index is out of bounds.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="index" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_at")]
     internal IntPtr MkSeqAt(IntPtr c, IntPtr s, IntPtr index)
     {
@@ -485,6 +557,9 @@ internal sealed partial class NativeZ3Library
     /// Retrieve from s the element positioned at position index.
     /// The function is under-specified if the index is out of bounds.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="index" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_nth")]
     internal IntPtr MkSeqNth(IntPtr c, IntPtr s, IntPtr index)
     {
@@ -499,6 +574,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the length of the sequence s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_length")]
     internal IntPtr MkSeqLength(IntPtr c, IntPtr s)
     {
@@ -515,6 +592,10 @@ internal sealed partial class NativeZ3Library
     /// If s does not contain substr, then the value is -1, if offset is the length of s, then the value is -1 as well.
     /// The value is -1 if offset is negative or larger than the length of s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="substr" ctype="Z3_ast">ast parameter</param>
+    /// <param name="offset" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_index")]
     internal IntPtr MkSeqIndex(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset)
     {
@@ -530,6 +611,9 @@ internal sealed partial class NativeZ3Library
     /// Return index of the last occurrence of substr in s.
     /// If s does not contain substr, then the value is -1,
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="substr" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_last_index")]
     internal IntPtr MkSeqLastIndex(IntPtr c, IntPtr s, IntPtr substr)
     {
@@ -544,6 +628,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a map of the function f over the sequence s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_map")]
     internal IntPtr MkSeqMap(IntPtr c, IntPtr f, IntPtr s)
     {
@@ -558,6 +645,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a map of the function f over the sequence s starting at index i.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_mapi")]
     internal IntPtr MkSeqMapi(IntPtr c, IntPtr f, IntPtr i, IntPtr s)
     {
@@ -572,6 +663,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a fold of the function f over the sequence s with accumulator a.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_foldl")]
     internal IntPtr MkSeqFoldl(IntPtr c, IntPtr f, IntPtr a, IntPtr s)
     {
@@ -586,6 +681,11 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a fold with index tracking of the function f over the sequence s with accumulator a starting at index i.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="Z3_ast">ast parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_foldli")]
     internal IntPtr MkSeqFoldli(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s)
     {
@@ -600,6 +700,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert string to integer.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_str_to_int")]
     internal IntPtr MkStrToInt(IntPtr c, IntPtr s)
     {
@@ -614,6 +716,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Integer to string conversion.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_int_to_str")]
     internal IntPtr MkIntToStr(IntPtr c, IntPtr s)
     {
@@ -628,6 +732,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// String to code conversion.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_string_to_code")]
     internal IntPtr MkStringToCode(IntPtr c, IntPtr a)
     {
@@ -642,6 +748,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Code to string conversion.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_string_from_code")]
     internal IntPtr MkStringFromCode(IntPtr c, IntPtr a)
     {
@@ -656,6 +764,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Unsigned bit-vector to string conversion.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_ubv_to_str")]
     internal IntPtr MkUbvToStr(IntPtr c, IntPtr s)
     {
@@ -670,6 +780,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Signed bit-vector to string conversion.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_sbv_to_str")]
     internal IntPtr MkSbvToStr(IntPtr c, IntPtr s)
     {
@@ -684,6 +796,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a regular expression that accepts the sequence seq.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_to_re")]
     internal IntPtr MkSeqToRe(IntPtr c, IntPtr seq)
     {
@@ -698,6 +812,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Check if seq is in the language generated by the regular expression re.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_ast">ast parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_seq_in_re")]
     internal IntPtr MkSeqInRe(IntPtr c, IntPtr seq, IntPtr re)
     {
@@ -712,6 +829,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the regular language re+.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_re_plus")]
     internal IntPtr MkRePlus(IntPtr c, IntPtr re)
     {
@@ -726,6 +845,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the regular language re*.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_re_star")]
     internal IntPtr MkReStar(IntPtr c, IntPtr re)
     {
@@ -740,6 +861,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the regular language \c [re].
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_re_option")]
     internal IntPtr MkReOption(IntPtr c, IntPtr re)
     {
@@ -754,6 +877,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the union of the regular languages.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -771,6 +897,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the concatenation of the regular languages.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -788,6 +917,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the range regular expression over two sequences of length 1.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="lo" ctype="Z3_ast">ast parameter</param>
+    /// <param name="hi" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_re_range")]
     internal IntPtr MkReRange(IntPtr c, IntPtr lo, IntPtr hi)
     {
@@ -802,6 +934,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a regular expression that accepts all singleton sequences of the regular expression sort
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="regexSort" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_mk_re_allchar")]
     internal IntPtr MkReAllchar(IntPtr c, IntPtr regexSort)
     {
@@ -819,6 +953,10 @@ internal sealed partial class NativeZ3Library
     /// supplying the value hi as 0, the meaning is to repeat the argument r at least
     /// lo number of times, and with an unbounded upper bound.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="r" ctype="Z3_ast">ast parameter</param>
+    /// <param name="lo" ctype="unsigned">unsigned parameter</param>
+    /// <param name="hi" ctype="unsigned">unsigned parameter</param>
     [Z3Function("Z3_mk_re_loop")]
     internal IntPtr MkReLoop(IntPtr c, IntPtr r, uint lo, uint hi)
     {
@@ -833,6 +971,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a power regular expression.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
     [Z3Function("Z3_mk_re_power")]
     internal IntPtr MkRePower(IntPtr c, IntPtr re, uint n)
     {
@@ -847,6 +988,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the intersection of the regular languages.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -864,6 +1008,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the complement of the regular language re.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_re_complement")]
     internal IntPtr MkReComplement(IntPtr c, IntPtr re)
     {
@@ -878,6 +1024,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create the difference of regular expressions.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="re2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_re_diff")]
     internal IntPtr MkReDiff(IntPtr c, IntPtr re1, IntPtr re2)
     {
@@ -892,6 +1041,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create an empty regular expression of sort re.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: re is a regular expression sort.
     /// </remarks>
@@ -909,6 +1060,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create an universal regular expression of sort re.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: re is a regular expression sort.
     /// </remarks>
@@ -926,6 +1079,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a character literal
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="unsigned">unsigned parameter</param>
     [Z3Function("Z3_mk_char")]
     internal IntPtr MkChar(IntPtr c, uint ch)
     {
@@ -940,6 +1095,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create less than or equal to between two characters.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="ch2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_char_le")]
     internal IntPtr MkCharLe(IntPtr c, IntPtr ch1, IntPtr ch2)
     {
@@ -954,6 +1112,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create an integer (code point) from character.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_char_to_int")]
     internal IntPtr MkCharToInt(IntPtr c, IntPtr ch)
     {
@@ -968,6 +1128,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a bit-vector (code point) from character.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_char_to_bv")]
     internal IntPtr MkCharToBv(IntPtr c, IntPtr ch)
     {
@@ -982,6 +1144,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a character from a bit-vector (code point).
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="bv" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_char_from_bv")]
     internal IntPtr MkCharFromBv(IntPtr c, IntPtr bv)
     {
@@ -996,6 +1160,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create a check if the character is a digit.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_char_is_digit")]
     internal IntPtr MkCharIsDigit(IntPtr c, IntPtr ch)
     {

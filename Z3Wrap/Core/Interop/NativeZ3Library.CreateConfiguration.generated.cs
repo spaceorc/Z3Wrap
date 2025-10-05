@@ -67,6 +67,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Delete the given configuration object.
     /// </summary>
+    /// <param name="c" ctype="Z3_config">config parameter</param>
     /// <seealso cref="MkConfig"/>
     [Z3Function("Z3_del_config")]
     internal void DelConfig(IntPtr c)
@@ -87,6 +88,9 @@ internal sealed partial class NativeZ3Library
     /// The following parameters can be set for
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_config">config parameter</param>
+    /// <param name="paramId" ctype="Z3_string">string parameter</param>
+    /// <param name="paramValue" ctype="Z3_string">string parameter</param>
     /// <seealso cref="MkConfig"/>
     [Z3Function("Z3_set_param_value")]
     internal void SetParamValue(IntPtr c, IntPtr paramId, IntPtr paramValue)

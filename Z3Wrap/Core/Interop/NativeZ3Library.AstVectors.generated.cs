@@ -17,6 +17,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return an empty AST vector.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// Reference counting must be used to manage AST vectors, even when the Z3_context was
     /// created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
@@ -35,6 +36,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given AST vector.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     [Z3Function("Z3_ast_vector_inc_ref")]
     internal void AstVectorIncRef(IntPtr c, IntPtr v)
     {
@@ -49,6 +52,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given AST vector.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     [Z3Function("Z3_ast_vector_dec_ref")]
     internal void AstVectorDecRef(IntPtr c, IntPtr v)
     {
@@ -63,6 +68,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the size of the given AST vector.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     [Z3Function("Z3_ast_vector_size")]
     internal uint AstVectorSize(IntPtr c, IntPtr v)
     {
@@ -77,6 +84,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the AST at position i in the AST vector v.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_ast_vector_size(c, v)
     /// </remarks>
@@ -94,6 +104,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Update position i of the AST vector v with the AST a.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_ast_vector_size(c, v)
     /// </remarks>
@@ -111,6 +125,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Resize the AST vector v.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
     [Z3Function("Z3_ast_vector_resize")]
     internal void AstVectorResize(IntPtr c, IntPtr v, uint n)
     {
@@ -125,6 +142,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add the AST a in the end of the AST vector v. The size of v is increased by one.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_ast_vector_push")]
     internal void AstVectorPush(IntPtr c, IntPtr v, IntPtr a)
     {
@@ -139,6 +159,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Translate the AST vector v from context s into an AST vector in context t.
     /// </summary>
+    /// <param name="s" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="t" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_ast_vector_translate")]
     internal IntPtr AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)
     {
@@ -153,6 +176,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert AST vector into a string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     [Z3Function("Z3_ast_vector_to_string")]
     internal IntPtr AstVectorToString(IntPtr c, IntPtr v)
     {

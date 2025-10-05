@@ -39,6 +39,8 @@ internal sealed partial class NativeZ3Library
     /// will set the parameter "decimal" in the module "pp" to true.
     /// </para>
     /// </summary>
+    /// <param name="paramId" ctype="Z3_string">string parameter</param>
+    /// <param name="paramValue" ctype="Z3_string">string parameter</param>
     /// <seealso cref="GlobalParamGet"/>
     /// <seealso cref="GlobalParamResetAll"/>
     [Z3Function("Z3_global_param_set")]
@@ -77,6 +79,8 @@ internal sealed partial class NativeZ3Library
     /// Returns false if the parameter value does not exist.
     /// </para>
     /// </summary>
+    /// <param name="paramId" ctype="Z3_string">string parameter</param>
+    /// <param name="paramValue" ctype="Z3_string_ptr">string_ptr parameter</param>
     /// <remarks>
     /// This function cannot be invoked simultaneously from different threads without synchronization.
     /// The result string stored in param_value is stored in shared location.

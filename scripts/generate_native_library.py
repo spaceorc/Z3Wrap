@@ -584,7 +584,10 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     param_matches = re.finditer(r'\\param\s+(\w+)\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
     for param_match in param_matches:
         param_name = param_match.group(1)
-        param_desc = clean_documentation_text(param_match.group(2), preserve_formatting=True)
+        param_desc_raw = param_match.group(2)
+        # Strip leading "- " separator that's used in Z3 docs (\param name - description)
+        param_desc_raw = re.sub(r'^\s*-\s*', '', param_desc_raw)
+        param_desc = clean_documentation_text(param_desc_raw, preserve_formatting=True)
         result['param_docs'][param_name] = param_desc
 
     # Extract \returns
@@ -1017,6 +1020,30 @@ def generate_delegate_name(func_name: str) -> str:
     return f"{csharp_name}Delegate"
 
 
+def generate_default_param_description(c_type: str) -> str:
+    """
+    Generate a default parameter description from C type.
+    Examples:
+    - Z3_context -> context parameter
+    - Z3_string -> string parameter
+    - Z3_ast -> ast parameter
+    - unsigned -> unsigned parameter
+    - int -> int parameter
+    """
+    # Remove Z3_ prefix if present
+    type_name = c_type
+    if type_name.startswith('Z3_'):
+        type_name = type_name[3:]
+
+    # Remove const, *, [], whitespace
+    type_name = type_name.replace('const', '').replace('*', '').replace('[]', '').strip()
+
+    # Convert to lowercase for description
+    type_name = type_name.lower()
+
+    return f"{type_name} parameter"
+
+
 def convert_param_name_to_camel_case(param_name: str) -> str:
     """
     Convert snake_case parameter name to camelCase.
@@ -1185,7 +1212,8 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
             f.write(f"    private delegate {return_type_cs} {delegate_name}({params_str});\n\n")
 
             # XML documentation for method
-            has_docs = sig.brief or sig.param_docs or sig.returns_doc or sig.preconditions or sig.warnings or sig.remarks or sig.see_also
+            # Always generate documentation if there are parameters (to include ctype attributes)
+            has_docs = sig.brief or sig.param_docs or sig.returns_doc or sig.preconditions or sig.warnings or sig.remarks or sig.see_also or sig.parameters
 
             if has_docs:
                 # Summary (brief description)
@@ -1195,25 +1223,29 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                         f.write(f"{line}\n")
                     f.write("    /// </summary>\n")
 
-                # Parameter documentation
+                # Parameter documentation - ALWAYS generate for all parameters with ctype attribute
                 for param_type_c, param_name in sig.parameters:
                     # Convert snake_case to camelCase
                     camel_case_name = convert_param_name_to_camel_case(param_name)
                     safe_param_name = f"@{camel_case_name}" if camel_case_name in csharp_keywords else camel_case_name
                     # XML documentation uses the logical name without @ prefix
                     xml_param_name = camel_case_name
-                    if param_name in sig.param_docs:
-                        param_doc = sig.param_docs[param_name]
-                        # Check if multi-line
-                        if '\n' in param_doc:
-                            # Multi-line - put content on separate lines
-                            f.write(f'    /// <param name="{xml_param_name}">\n')
-                            for line in format_xml_doc_lines(param_doc, "    "):
-                                f.write(f"{line}\n")
-                            f.write(f'    /// </param>\n')
-                        else:
-                            # Single line
-                            f.write(f'    /// <param name="{xml_param_name}">{param_doc}</param>\n')
+
+                    # Get documentation if available, or generate default from C type
+                    param_doc = sig.param_docs.get(param_name, '')
+                    if not param_doc:
+                        param_doc = generate_default_param_description(param_type_c)
+
+                    # Always include ctype attribute with original C type
+                    if '\n' in param_doc:
+                        # Multi-line - put content on separate lines
+                        f.write(f'    /// <param name="{xml_param_name}" ctype="{param_type_c}">\n')
+                        for line in format_xml_doc_lines(param_doc, "    "):
+                            f.write(f"{line}\n")
+                        f.write(f'    /// </param>\n')
+                    else:
+                        # Single line
+                        f.write(f'    /// <param name="{xml_param_name}" ctype="{param_type_c}">{param_doc}</param>\n')
 
                 # Returns documentation
                 if sig.returns_doc:

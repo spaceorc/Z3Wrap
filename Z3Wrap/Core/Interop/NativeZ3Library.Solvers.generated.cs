@@ -52,6 +52,7 @@ internal sealed partial class NativeZ3Library
     /// is not guaranteed to satisfy quantified assertions.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects.
     /// Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
@@ -97,6 +98,7 @@ internal sealed partial class NativeZ3Library
     /// is not guaranteed to satisfy quantified assertions.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects.
     /// Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
@@ -119,6 +121,8 @@ internal sealed partial class NativeZ3Library
     /// Create a new solver customized for the given logic.
     /// It behaves like <see cref="MkSolver"/> if the logic is unknown or unsupported.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="logic" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
     /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects.
     /// Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
@@ -142,6 +146,8 @@ internal sealed partial class NativeZ3Library
     /// The solver supports the commands <see cref="SolverPush"/> and <see cref="SolverPop"/>, but it
     /// will always solve each <see cref="SolverCheck"/> from scratch.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <remarks>
     /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects.
     /// Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
@@ -163,6 +169,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Copy a solver s from the context source to the context target.
     /// </summary>
+    /// <param name="source" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="target" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_solver_translate")]
     internal IntPtr SolverTranslate(IntPtr source, IntPtr s, IntPtr target)
     {
@@ -188,6 +197,9 @@ internal sealed partial class NativeZ3Library
     /// a model for dst.
     /// </para>
     /// </summary>
+    /// <param name="ctx" ctype="Z3_context">context parameter</param>
+    /// <param name="src" ctype="Z3_solver">solver parameter</param>
+    /// <param name="dst" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_import_model_converter")]
     internal void SolverImportModelConverter(IntPtr ctx, IntPtr src, IntPtr dst)
     {
@@ -202,6 +214,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return a string describing all solver available parameters.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverGetParamDescrs"/>
     /// <seealso cref="SolverSetParams"/>
     [Z3Function("Z3_solver_get_help")]
@@ -218,6 +232,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the parameter description set for the given solver object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverGetHelp"/>
     /// <seealso cref="SolverSetParams"/>
     [Z3Function("Z3_solver_get_param_descrs")]
@@ -234,6 +250,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Set the given solver using the given parameters.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     /// <seealso cref="SolverGetHelp"/>
     /// <seealso cref="SolverGetParamDescrs"/>
     [Z3Function("Z3_solver_set_params")]
@@ -250,6 +269,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given solver.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_inc_ref")]
     internal void SolverIncRef(IntPtr c, IntPtr s)
     {
@@ -264,6 +285,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given solver.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_dec_ref")]
     internal void SolverDecRef(IntPtr c, IntPtr s)
     {
@@ -283,6 +306,8 @@ internal sealed partial class NativeZ3Library
     /// it is more convenient to cancel a specific solver. Solvers
     /// that are not selected for interrupts are left alone.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_interrupt")]
     internal void SolverInterrupt(IntPtr c, IntPtr s)
     {
@@ -302,6 +327,8 @@ internal sealed partial class NativeZ3Library
     /// The solver contains a stack of assertions.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverGetNumScopes"/>
     /// <seealso cref="SolverPop"/>
     [Z3Function("Z3_solver_push")]
@@ -318,6 +345,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Backtrack n backtracking points.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: n &lt;= Z3_solver_get_num_scopes(c, s)
     /// </remarks>
@@ -337,6 +367,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Remove all assertions from the solver.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverAssert"/>
     /// <seealso cref="SolverAssertAndTrack"/>
     [Z3Function("Z3_solver_reset")]
@@ -353,6 +385,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the number of backtracking points.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverPush"/>
     /// <seealso cref="SolverPop"/>
     [Z3Function("Z3_solver_get_num_scopes")]
@@ -375,6 +409,9 @@ internal sealed partial class NativeZ3Library
     /// used to check whether the logical context is consistent or not.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="SolverAssertAndTrack"/>
     /// <seealso cref="SolverReset"/>
     [Z3Function("Z3_solver_assert")]
@@ -400,6 +437,10 @@ internal sealed partial class NativeZ3Library
     /// provided using <see cref="SolverCheckAssumptions"/>.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="p" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: a must be a Boolean expression
     /// Precondition: p must be a Boolean constant (aka variable).
@@ -420,6 +461,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// load solver assertions from a file.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="fileName" ctype="Z3_string">string parameter</param>
     /// <seealso cref="SolverFromString"/>
     /// <seealso cref="SolverToString"/>
     [Z3Function("Z3_solver_from_file")]
@@ -436,6 +480,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// load solver assertions from a string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="str" ctype="Z3_string">string parameter</param>
     /// <seealso cref="SolverFromFile"/>
     /// <seealso cref="SolverToString"/>
     [Z3Function("Z3_solver_from_string")]
@@ -452,6 +499,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the set of asserted formulas on the solver.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_assertions")]
     internal IntPtr SolverGetAssertions(IntPtr c, IntPtr s)
     {
@@ -466,6 +515,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the set of units modulo model conversion.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_units")]
     internal IntPtr SolverGetUnits(IntPtr c, IntPtr s)
     {
@@ -481,6 +532,8 @@ internal sealed partial class NativeZ3Library
     /// Return the trail modulo model conversion, in order of decision level
     /// The decision level can be retrieved using Z3_solver_get_level based on the trail.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_trail")]
     internal IntPtr SolverGetTrail(IntPtr c, IntPtr s)
     {
@@ -495,6 +548,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the set of non units in the solver state.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_non_units")]
     internal IntPtr SolverGetNonUnits(IntPtr c, IntPtr s)
     {
@@ -510,6 +565,11 @@ internal sealed partial class NativeZ3Library
     /// retrieve the decision depth of Boolean literals (variables or their negations).
     /// Assumes a check-sat call and no other calls (to extract models) have been invoked.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="literals" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="sz" ctype="unsigned">unsigned parameter</param>
+    /// <param name="levels" ctype="unsigned[]">unsigned parameter</param>
     [Z3Function("Z3_solver_get_levels")]
     internal void SolverGetLevels(IntPtr c, IntPtr s, IntPtr literals, uint sz, uint[] levels)
     {
@@ -527,6 +587,9 @@ internal sealed partial class NativeZ3Library
     /// If it completed during a set of case splits, the congruence roots are relative to these case splits.
     /// That is, the congruences are not consequences but they are true under the current state.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_solver_congruence_root")]
     internal IntPtr SolverCongruenceRoot(IntPtr c, IntPtr s, IntPtr a)
     {
@@ -542,6 +605,9 @@ internal sealed partial class NativeZ3Library
     /// retrieve the next expression in the congruence class. The set of congruent siblings form a cyclic list.
     /// Repeated calls on the siblings will result in returning to the original expression.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_solver_congruence_next")]
     internal IntPtr SolverCongruenceNext(IntPtr c, IntPtr s, IntPtr a)
     {
@@ -556,6 +622,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// retrieve explanation for congruence.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: root(a) = root(b)
     /// </remarks>
@@ -576,6 +646,11 @@ internal sealed partial class NativeZ3Library
     /// The solution to variables may be presented in triangular form, such that
     /// variables used in solutions themselves have solutions.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="variables" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="terms" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="guards" ctype="Z3_ast_vector">ast_vector parameter</param>
     [Z3Function("Z3_solver_solve_for")]
     internal void SolverSolveFor(IntPtr c, IntPtr s, IntPtr variables, IntPtr terms, IntPtr guards)
     {
@@ -590,24 +665,12 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a callback to that retrieves assumed, inferred and deleted clauses during search.
     /// </summary>
-    /// <param name="c">
+    /// <param name="c" ctype="Z3_context">context.</param>
+    /// <param name="s" ctype="Z3_solver">solver object.</param>
+    /// <param name="userContext" ctype="void*">a context used to maintain state for callbacks.</param>
+    /// <param name="onClauseEh" ctype="Z3_on_clause_eh">
+    /// a callback that is invoked by when a clause is
     /// <list type="bullet">
-    /// <item><description>context.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="s">
-    /// <list type="bullet">
-    /// <item><description>solver object.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="userContext">
-    /// <list type="bullet">
-    /// <item><description>a context used to maintain state for callbacks.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="onClauseEh">
-    /// <list type="bullet">
-    /// <item><description>a callback that is invoked by when a clause is</description></item>
     /// <item><description>asserted to the CDCL engine (corresponding to an input clause after pre-processing)</description></item>
     /// <item><description>inferred by CDCL(T) using either a SAT or theory conflict/propagation</description></item>
     /// <item><description>deleted by the CDCL(T) engine</description></item>
@@ -627,36 +690,12 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a user-propagator with the solver.
     /// </summary>
-    /// <param name="c">
-    /// <list type="bullet">
-    /// <item><description>context.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="s">
-    /// <list type="bullet">
-    /// <item><description>solver object.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="userContext">
-    /// <list type="bullet">
-    /// <item><description>a context used to maintain state for callbacks.</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="pushEh">
-    /// <list type="bullet">
-    /// <item><description>a callback invoked when scopes are pushed</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="popEh">
-    /// <list type="bullet">
-    /// <item><description>a callback invoked when scopes are popped</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="freshEh">
-    /// <list type="bullet">
-    /// <item><description>a solver may spawn new solvers internally. This callback is used to produce a fresh user_context to be associated with fresh solvers.</description></item>
-    /// </list>
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context.</param>
+    /// <param name="s" ctype="Z3_solver">solver object.</param>
+    /// <param name="userContext" ctype="void*">a context used to maintain state for callbacks.</param>
+    /// <param name="pushEh" ctype="Z3_push_eh">a callback invoked when scopes are pushed</param>
+    /// <param name="popEh" ctype="Z3_pop_eh">a callback invoked when scopes are popped</param>
+    /// <param name="freshEh" ctype="Z3_fresh_eh">a solver may spawn new solvers internally. This callback is used to produce a fresh user_context to be associated with fresh solvers.</param>
     [Z3Function("Z3_solver_propagate_init")]
     internal void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr userContext, IntPtr pushEh, IntPtr popEh, IntPtr freshEh)
     {
@@ -676,6 +715,9 @@ internal sealed partial class NativeZ3Library
     /// <item><description>Bit-vectors</description></item>
     /// </list>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="fixedEh" ctype="Z3_fixed_eh">fixed_eh parameter</param>
     [Z3Function("Z3_solver_propagate_fixed")]
     internal void SolverPropagateFixed(IntPtr c, IntPtr s, IntPtr fixedEh)
     {
@@ -703,6 +745,9 @@ internal sealed partial class NativeZ3Library
     /// may trigger new decision variables to be set.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="finalEh" ctype="Z3_final_eh">final_eh parameter</param>
     [Z3Function("Z3_solver_propagate_final")]
     internal void SolverPropagateFinal(IntPtr c, IntPtr s, IntPtr finalEh)
     {
@@ -717,6 +762,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a callback on expression equalities.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="eqEh" ctype="Z3_eq_eh">eq_eh parameter</param>
     [Z3Function("Z3_solver_propagate_eq")]
     internal void SolverPropagateEq(IntPtr c, IntPtr s, IntPtr eqEh)
     {
@@ -731,6 +779,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// register a callback on expression dis-equalities.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="eqEh" ctype="Z3_eq_eh">eq_eh parameter</param>
     [Z3Function("Z3_solver_propagate_diseq")]
     internal void SolverPropagateDiseq(IntPtr c, IntPtr s, IntPtr eqEh)
     {
@@ -746,6 +797,9 @@ internal sealed partial class NativeZ3Library
     /// register a callback when a new expression with a registered function is used by the solver
     /// The registered function appears at the top level and is created using \ref Z3_solver_propagate_declare.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="createdEh" ctype="Z3_created_eh">created_eh parameter</param>
     [Z3Function("Z3_solver_propagate_created")]
     internal void SolverPropagateCreated(IntPtr c, IntPtr s, IntPtr createdEh)
     {
@@ -761,6 +815,9 @@ internal sealed partial class NativeZ3Library
     /// register a callback when the solver decides to split on a registered expression.
     /// The callback may change the arguments by providing other values by calling \ref Z3_solver_next_split
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="decideEh" ctype="Z3_decide_eh">decide_eh parameter</param>
     [Z3Function("Z3_solver_propagate_decide")]
     internal void SolverPropagateDecide(IntPtr c, IntPtr s, IntPtr decideEh)
     {
@@ -778,6 +835,9 @@ internal sealed partial class NativeZ3Library
     /// This allows the user propagator selectively prioritize instantiations without relying on default
     /// or configured weights.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="onBindingEh" ctype="Z3_on_binding_eh">on_binding_eh parameter</param>
     [Z3Function("Z3_solver_propagate_on_binding")]
     internal void SolverPropagateOnBinding(IntPtr c, IntPtr s, IntPtr onBindingEh)
     {
@@ -789,6 +849,11 @@ internal sealed partial class NativeZ3Library
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate bool SolverNextSplitDelegate(IntPtr c, IntPtr cb, IntPtr t, uint idx, Lbool phase);
 
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="cb" ctype="Z3_solver_callback">solver_callback parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <param name="phase" ctype="Z3_lbool">lbool parameter</param>
     [Z3Function("Z3_solver_next_split")]
     internal bool SolverNextSplit(IntPtr c, IntPtr cb, IntPtr t, uint idx, Lbool phase)
     {
@@ -800,6 +865,11 @@ internal sealed partial class NativeZ3Library
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr SolverPropagateDeclareDelegate(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range);
 
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="name" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="domain" ctype="Z3_sort*">sort parameter</param>
+    /// <param name="range" ctype="Z3_sort">sort parameter</param>
     [Z3Function("Z3_solver_propagate_declare")]
     internal IntPtr SolverPropagateDeclare(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
     {
@@ -815,6 +885,9 @@ internal sealed partial class NativeZ3Library
     /// register an expression to propagate on with the solver.
     /// Only expressions of type Bool and type Bit-Vector can be registered for propagation.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="e" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_solver_propagate_register")]
     internal void SolverPropagateRegister(IntPtr c, IntPtr s, IntPtr e)
     {
@@ -832,6 +905,9 @@ internal sealed partial class NativeZ3Library
     /// Unlike \ref Z3_solver_propagate_register, this function takes a solver callback context
     /// as argument. It can be invoked during a callback to register new expressions.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="cb" ctype="Z3_solver_callback">solver_callback parameter</param>
+    /// <param name="e" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_solver_propagate_register_cb")]
     internal void SolverPropagateRegisterCb(IntPtr c, IntPtr cb, IntPtr e)
     {
@@ -859,46 +935,14 @@ internal sealed partial class NativeZ3Library
     /// Assume the callback has the signature: propagate_consequence_eh(context, solver_cb, num_ids, ids, num_eqs, lhs, rhs, consequence).
     /// </para>
     /// </summary>
-    /// <param name="c">
-    /// <list type="bullet">
-    /// <item><description>context</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="cb">
-    /// <list type="bullet">
-    /// <item><description>solver callback</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="numFixed">
-    /// <list type="bullet">
-    /// <item><description>number of fixed terms used as premise to propagation</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="fixed">
-    /// <list type="bullet">
-    /// <item><description>array of length num_ids containing terms that are fixed in the current scope</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="numEqs">
-    /// <list type="bullet">
-    /// <item><description>number of equalities used as premise to propagation</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="eqLhs">
-    /// <list type="bullet">
-    /// <item><description>left side of equalities</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="eqRhs">
-    /// <list type="bullet">
-    /// <item><description>right side of equalities</description></item>
-    /// </list>
-    /// </param>
-    /// <param name="conseq">
-    /// <list type="bullet">
-    /// <item><description>consequence to propagate. It is typically an atomic formula, but it can be an arbitrary formula.</description></item>
-    /// </list>
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context</param>
+    /// <param name="cb" ctype="Z3_solver_callback">solver callback</param>
+    /// <param name="numFixed" ctype="unsigned">number of fixed terms used as premise to propagation</param>
+    /// <param name="fixed" ctype="Z3_ast const*">array of length num_ids containing terms that are fixed in the current scope</param>
+    /// <param name="numEqs" ctype="unsigned">number of equalities used as premise to propagation</param>
+    /// <param name="eqLhs" ctype="Z3_ast const*">left side of equalities</param>
+    /// <param name="eqRhs" ctype="Z3_ast const*">right side of equalities</param>
+    /// <param name="conseq" ctype="Z3_ast">consequence to propagate. It is typically an atomic formula, but it can be an arbitrary formula.</param>
     [Z3Function("Z3_solver_propagate_consequence")]
     internal bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr @fixed, uint numEqs, IntPtr eqLhs, IntPtr eqRhs, IntPtr conseq)
     {
@@ -915,6 +959,10 @@ internal sealed partial class NativeZ3Library
     /// represents a variable. If the variable is Boolean, the initial phase is set according to value. If the variable is an integer or real,
     /// the initial Simplex tableau is recalibrated to attempt to follow the value assignment.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <param name="val" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_solver_set_initial_value")]
     internal void SolverSetInitialValue(IntPtr c, IntPtr s, IntPtr v, IntPtr val)
     {
@@ -944,6 +992,8 @@ internal sealed partial class NativeZ3Library
     /// assertions are unsatisfiable (i.e., the result is Z3_L_FALSE).
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverCheckAssumptions"/>
     [Z3Function("Z3_solver_check")]
     internal Lbool SolverCheck(IntPtr c, IntPtr s)
@@ -966,6 +1016,10 @@ internal sealed partial class NativeZ3Library
     /// assumptions used in the unsatisfiability proof produced by Z3.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="numAssumptions" ctype="unsigned">unsigned parameter</param>
+    /// <param name="assumptions" ctype="Z3_ast const[]">ast parameter</param>
     /// <seealso cref="SolverCheck"/>
     [Z3Function("Z3_solver_check_assumptions")]
     internal Lbool SolverCheckAssumptions(IntPtr c, IntPtr s, uint numAssumptions, IntPtr[] assumptions)
@@ -998,6 +1052,11 @@ internal sealed partial class NativeZ3Library
     /// The function return Z3_L_FALSE if the current assertions are not satisfiable.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="numTerms" ctype="unsigned">unsigned parameter</param>
+    /// <param name="terms" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="classIds" ctype="unsigned[]">unsigned parameter</param>
     [Z3Function("Z3_get_implied_equalities")]
     internal Lbool GetImpliedEqualities(IntPtr c, IntPtr s, uint numTerms, IntPtr[] terms, uint[] classIds)
     {
@@ -1012,6 +1071,11 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// retrieve consequences from solver that determine values of the supplied function symbols.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="assumptions" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="variables" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="consequences" ctype="Z3_ast_vector">ast_vector parameter</param>
     [Z3Function("Z3_solver_get_consequences")]
     internal Lbool SolverGetConsequences(IntPtr c, IntPtr s, IntPtr assumptions, IntPtr variables, IntPtr consequences)
     {
@@ -1042,6 +1106,10 @@ internal sealed partial class NativeZ3Library
     /// the indicated level for the next cube.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="vars" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="backtrackLevel" ctype="unsigned">unsigned parameter</param>
     [Z3Function("Z3_solver_cube")]
     internal IntPtr SolverCube(IntPtr c, IntPtr s, IntPtr vars, uint backtrackLevel)
     {
@@ -1062,6 +1130,8 @@ internal sealed partial class NativeZ3Library
     /// the commands above were not invoked for the given solver, or if the result was Z3_L_FALSE.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_model")]
     internal IntPtr SolverGetModel(IntPtr c, IntPtr s)
     {
@@ -1083,6 +1153,8 @@ internal sealed partial class NativeZ3Library
     /// or if the result was different from Z3_L_FALSE.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_proof")]
     internal IntPtr SolverGetProof(IntPtr c, IntPtr s)
     {
@@ -1106,6 +1178,8 @@ internal sealed partial class NativeZ3Library
     /// will be more expensive.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_unsat_core")]
     internal IntPtr SolverGetUnsatCore(IntPtr c, IntPtr s)
     {
@@ -1121,6 +1195,8 @@ internal sealed partial class NativeZ3Library
     /// Return a brief justification for an "unknown" result (i.e., Z3_L_UNDEF) for
     /// the commands <see cref="SolverCheck"/> and <see cref="SolverCheckAssumptions"/>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     [Z3Function("Z3_solver_get_reason_unknown")]
     internal IntPtr SolverGetReasonUnknown(IntPtr c, IntPtr s)
     {
@@ -1135,6 +1211,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return statistics for the given solver.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <remarks>
     /// User must use <see cref="StatsIncRef"/> and <see cref="StatsDecRef"/> to manage Z3_stats objects.
     /// </remarks>
@@ -1152,6 +1230,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert a solver into a string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <seealso cref="SolverFromFile"/>
     /// <seealso cref="SolverFromString"/>
     [Z3Function("Z3_solver_to_string")]
@@ -1168,6 +1248,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert a solver into a DIMACS formatted string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_solver">solver parameter</param>
+    /// <param name="includeNames" ctype="bool">bool parameter</param>
     /// <seealso cref="GoalToDimacsString"/>
     [Z3Function("Z3_solver_to_dimacs_string")]
     internal IntPtr SolverToDimacsString(IntPtr c, IntPtr s, bool includeNames)

@@ -25,6 +25,9 @@ internal sealed partial class NativeZ3Library
     /// The sort of the result is range.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
     [Z3Function("Z3_mk_select")]
@@ -42,6 +45,10 @@ internal sealed partial class NativeZ3Library
     /// n-ary Array read.
     /// The argument a is the array and idxs are the indices of the array that gets read.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
     [Z3Function("Z3_mk_select_n")]
     internal IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, IntPtr idxs)
     {
@@ -67,6 +74,10 @@ internal sealed partial class NativeZ3Library
     /// respect to i may be a different value).
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="Z3_ast">ast parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkSelect"/>
     [Z3Function("Z3_mk_store")]
@@ -83,6 +94,11 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// n-ary Array update.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_store_n")]
     internal IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v)
     {
@@ -103,9 +119,9 @@ internal sealed partial class NativeZ3Library
     /// produces the value v.
     /// </para>
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="domain">domain sort for the array.</param>
-    /// <param name="v">value that the array maps to.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="domain" ctype="Z3_sort">domain sort for the array.</param>
+    /// <param name="v" ctype="Z3_ast">value that the array maps to.</param>
     [Z3Function("Z3_mk_const_array")]
     internal IntPtr MkConstArray(IntPtr c, IntPtr domain, IntPtr v)
     {
@@ -127,6 +143,10 @@ internal sealed partial class NativeZ3Library
     /// v must have sort range. The sort of the result is <code>[domain_i -&gt; range]</code>.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const*">ast parameter</param>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
     /// <seealso cref="MkSelect"/>
@@ -146,8 +166,8 @@ internal sealed partial class NativeZ3Library
     /// Produces the default range value, for arrays that can be represented as
     /// finite maps with a default range value.
     /// </summary>
-    /// <param name="c">logical context.</param>
-    /// <param name="array">array value whose default range value is accessed.</param>
+    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="array" ctype="Z3_ast">array value whose default range value is accessed.</param>
     [Z3Function("Z3_mk_array_default")]
     internal IntPtr MkArrayDefault(IntPtr c, IntPtr array)
     {
@@ -164,6 +184,8 @@ internal sealed partial class NativeZ3Library
     /// The array satisfies the property (f x) = (select (_ as-array f) x)
     /// for every argument x.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     [Z3Function("Z3_mk_as_array")]
     internal IntPtr MkAsArray(IntPtr c, IntPtr f)
     {
@@ -178,6 +200,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Create predicate that holds if Boolean array set has k elements set to true.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="set" ctype="Z3_ast">ast parameter</param>
+    /// <param name="k" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_set_has_size")]
     internal IntPtr MkSetHasSize(IntPtr c, IntPtr set, IntPtr k)
     {

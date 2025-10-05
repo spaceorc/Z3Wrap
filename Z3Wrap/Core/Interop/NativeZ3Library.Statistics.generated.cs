@@ -17,6 +17,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Convert a statistics into a string.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     [Z3Function("Z3_stats_to_string")]
     internal IntPtr StatsToString(IntPtr c, IntPtr s)
     {
@@ -31,6 +33,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given statistics object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     [Z3Function("Z3_stats_inc_ref")]
     internal void StatsIncRef(IntPtr c, IntPtr s)
     {
@@ -45,6 +49,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given statistics object.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     [Z3Function("Z3_stats_dec_ref")]
     internal void StatsDecRef(IntPtr c, IntPtr s)
     {
@@ -59,6 +65,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the number of statistical data in s.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     [Z3Function("Z3_stats_size")]
     internal uint StatsSize(IntPtr c, IntPtr s)
     {
@@ -73,6 +81,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the key (a string) for a particular statistical data.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s)
     /// </remarks>
@@ -90,6 +101,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if the given statistical data is a unsigned integer.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s)
     /// </remarks>
@@ -107,6 +121,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return true if the given statistical data is a double.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s)
     /// </remarks>
@@ -124,6 +141,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the unsigned value of the given statistical data.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_uint(c, s)
     /// </remarks>
@@ -141,6 +161,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return the double value of the given statistical data.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_double(c, s)
     /// </remarks>

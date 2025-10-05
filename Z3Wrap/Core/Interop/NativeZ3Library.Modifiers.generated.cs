@@ -20,6 +20,10 @@ internal sealed partial class NativeZ3Library
     /// with the number of arguments to a.
     /// If a is a quantifier, then num_args has to be 1.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     [Z3Function("Z3_update_term")]
     internal IntPtr UpdateTerm(IntPtr c, IntPtr a, uint numArgs, IntPtr[] args)
     {
@@ -36,6 +40,11 @@ internal sealed partial class NativeZ3Library
     /// The result is the new AST. The arrays from and to must have size num_exprs.
     /// For every i smaller than num_exprs, we must have that sort of <code>from[i]</code> must be equal to sort of <code>to[i]</code>.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numExprs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="from" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
     [Z3Function("Z3_substitute")]
     internal IntPtr Substitute(IntPtr c, IntPtr a, uint numExprs, IntPtr[] from, IntPtr[] to)
     {
@@ -52,6 +61,10 @@ internal sealed partial class NativeZ3Library
     /// For every i smaller than num_exprs, the variable with de-Bruijn index i is replaced with term <code>to[i]</code>.
     /// Note that a variable is created using the function \ref Z3_mk_bound.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numExprs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
     [Z3Function("Z3_substitute_vars")]
     internal IntPtr SubstituteVars(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to)
     {
@@ -72,6 +85,11 @@ internal sealed partial class NativeZ3Library
     /// refers to the first argument of from, the free variable at index 1 corresponds to the second argument.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numFuns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="from" ctype="Z3_func_decl const[]">func_decl parameter</param>
+    /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
     [Z3Function("Z3_substitute_funs")]
     internal IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to)
     {
@@ -87,6 +105,9 @@ internal sealed partial class NativeZ3Library
     /// Translate/Copy the AST a from context source to context target.
     /// AST a must have been created using context source.
     /// </summary>
+    /// <param name="source" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="target" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// Precondition: source != target
     /// </remarks>

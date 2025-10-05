@@ -17,6 +17,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Return Z3 version number information.
     /// </summary>
+    /// <param name="major" ctype="unsigned *">unsigned parameter</param>
+    /// <param name="minor" ctype="unsigned *">unsigned parameter</param>
+    /// <param name="buildNumber" ctype="unsigned *">unsigned parameter</param>
+    /// <param name="revisionNumber" ctype="unsigned *">unsigned parameter</param>
     /// <seealso cref="GetFullVersion"/>
     [Z3Function("Z3_get_version")]
     internal void GetVersion(IntPtr major, IntPtr minor, IntPtr buildNumber, IntPtr revisionNumber)
@@ -48,6 +52,7 @@ internal sealed partial class NativeZ3Library
     /// Enable tracing messages tagged as tag when Z3 is compiled in debug mode.
     /// It is a NOOP otherwise
     /// </summary>
+    /// <param name="tag" ctype="Z3_string">string parameter</param>
     /// <seealso cref="DisableTrace"/>
     [Z3Function("Z3_enable_trace")]
     internal void EnableTrace(IntPtr tag)
@@ -64,6 +69,7 @@ internal sealed partial class NativeZ3Library
     /// Disable tracing messages tagged as tag when Z3 is compiled in debug mode.
     /// It is a NOOP otherwise
     /// </summary>
+    /// <param name="tag" ctype="Z3_string">string parameter</param>
     /// <seealso cref="EnableTrace"/>
     [Z3Function("Z3_disable_trace")]
     internal void DisableTrace(IntPtr tag)

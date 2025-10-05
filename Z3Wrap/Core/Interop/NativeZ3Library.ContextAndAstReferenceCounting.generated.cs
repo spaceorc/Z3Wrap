@@ -33,6 +33,7 @@ internal sealed partial class NativeZ3Library
     /// Their reference counts are not handled by the context.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_config">config parameter</param>
     /// <remarks>
     /// Thread safety: objects created using a given context should not be
     /// accessed from different threads without synchronization. In other words,
@@ -82,6 +83,7 @@ internal sealed partial class NativeZ3Library
     /// </list>
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_config">config parameter</param>
     [Z3Function("Z3_mk_context_rc")]
     internal IntPtr MkContextRc(IntPtr c)
     {
@@ -96,6 +98,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Delete the given logical context.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="MkContext"/>
     [Z3Function("Z3_del_context")]
     internal void DelContext(IntPtr c)
@@ -113,6 +116,8 @@ internal sealed partial class NativeZ3Library
     /// The context c should have been created using <see cref="MkContextRc"/>.
     /// This function is a NOOP if c was created using <see cref="MkContext"/>.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_inc_ref")]
     internal void IncRef(IntPtr c, IntPtr a)
     {
@@ -129,6 +134,8 @@ internal sealed partial class NativeZ3Library
     /// The context c should have been created using <see cref="MkContextRc"/>.
     /// This function is a NOOP if c was created using <see cref="MkContext"/>.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_dec_ref")]
     internal void DecRef(IntPtr c, IntPtr a)
     {
@@ -143,6 +150,9 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Set a value of a context parameter.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="paramId" ctype="Z3_string">string parameter</param>
+    /// <param name="paramValue" ctype="Z3_string">string parameter</param>
     /// <seealso cref="GlobalParamSet"/>
     [Z3Function("Z3_update_param_value")]
     internal void UpdateParamValue(IntPtr c, IntPtr paramId, IntPtr paramValue)
@@ -158,6 +168,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Retrieve description of global parameters.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_get_global_param_descrs")]
     internal IntPtr GetGlobalParamDescrs(IntPtr c)
     {
@@ -173,6 +184,7 @@ internal sealed partial class NativeZ3Library
     /// Interrupt the execution of a Z3 procedure.
     /// This procedure can be used to interrupt: solvers, simplifiers and tactics.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_interrupt")]
     internal void Interrupt(IntPtr c)
     {
@@ -189,6 +201,7 @@ internal sealed partial class NativeZ3Library
     /// Reference counting decrements are allowed in separate threads from the context.
     /// If this setting is not invoked, reference counting decrements are not going to be thread safe.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_enable_concurrent_dec_ref")]
     internal void EnableConcurrentDecRef(IntPtr c)
     {

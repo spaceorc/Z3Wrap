@@ -22,6 +22,8 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvnot")]
     internal IntPtr MkBvnot(IntPtr c, IntPtr t1)
     {
@@ -41,6 +43,8 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvredand")]
     internal IntPtr MkBvredand(IntPtr c, IntPtr t1)
     {
@@ -60,6 +64,8 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvredor")]
     internal IntPtr MkBvredor(IntPtr c, IntPtr t1)
     {
@@ -79,6 +85,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvand")]
     internal IntPtr MkBvand(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -98,6 +107,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvor")]
     internal IntPtr MkBvor(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -117,6 +129,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvxor")]
     internal IntPtr MkBvxor(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -136,6 +151,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvnand")]
     internal IntPtr MkBvnand(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -155,6 +173,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvnor")]
     internal IntPtr MkBvnor(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -174,6 +195,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvxnor")]
     internal IntPtr MkBvxnor(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -193,6 +217,8 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvneg")]
     internal IntPtr MkBvneg(IntPtr c, IntPtr t1)
     {
@@ -212,6 +238,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvadd")]
     internal IntPtr MkBvadd(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -231,6 +260,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsub")]
     internal IntPtr MkBvsub(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -250,6 +282,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvmul")]
     internal IntPtr MkBvmul(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -274,6 +309,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvudiv")]
     internal IntPtr MkBvudiv(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -309,6 +347,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsdiv")]
     internal IntPtr MkBvsdiv(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -334,6 +375,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvurem")]
     internal IntPtr MkBvurem(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -360,6 +404,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="MkBvsmod"/>
     [Z3Function("Z3_mk_bvsrem")]
     internal IntPtr MkBvsrem(IntPtr c, IntPtr t1, IntPtr t2)
@@ -383,6 +430,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="MkBvsrem"/>
     [Z3Function("Z3_mk_bvsmod")]
     internal IntPtr MkBvsmod(IntPtr c, IntPtr t1, IntPtr t2)
@@ -403,6 +453,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvult")]
     internal IntPtr MkBvult(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -431,6 +484,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvslt")]
     internal IntPtr MkBvslt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -450,6 +506,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvule")]
     internal IntPtr MkBvule(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -469,6 +528,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsle")]
     internal IntPtr MkBvsle(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -488,6 +550,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvuge")]
     internal IntPtr MkBvuge(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -507,6 +572,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsge")]
     internal IntPtr MkBvsge(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -526,6 +594,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvugt")]
     internal IntPtr MkBvugt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -545,6 +616,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsgt")]
     internal IntPtr MkBvsgt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -568,6 +642,9 @@ internal sealed partial class NativeZ3Library
     /// of t1 (t2).
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_concat")]
     internal IntPtr MkConcat(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -588,6 +665,10 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="high" ctype="unsigned">unsigned parameter</param>
+    /// <param name="low" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_extract")]
     internal IntPtr MkExtract(IntPtr c, uint high, uint low, IntPtr t1)
     {
@@ -609,6 +690,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_sign_ext")]
     internal IntPtr MkSignExt(IntPtr c, uint i, IntPtr t1)
     {
@@ -630,6 +714,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_zero_ext")]
     internal IntPtr MkZeroExt(IntPtr c, uint i, IntPtr t1)
     {
@@ -649,6 +736,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_repeat")]
     internal IntPtr MkRepeat(IntPtr c, uint i, IntPtr t1)
     {
@@ -669,6 +759,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bit2bool")]
     internal IntPtr MkBit2bool(IntPtr c, uint i, IntPtr t1)
     {
@@ -697,6 +790,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvshl")]
     internal IntPtr MkBvshl(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -725,6 +821,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvlshr")]
     internal IntPtr MkBvlshr(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -754,6 +853,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvashr")]
     internal IntPtr MkBvashr(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -773,6 +875,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_rotate_left")]
     internal IntPtr MkRotateLeft(IntPtr c, uint i, IntPtr t1)
     {
@@ -792,6 +897,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_rotate_right")]
     internal IntPtr MkRotateRight(IntPtr c, uint i, IntPtr t1)
     {
@@ -811,6 +919,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_ext_rotate_left")]
     internal IntPtr MkExtRotateLeft(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -830,6 +941,9 @@ internal sealed partial class NativeZ3Library
     /// The nodes t1 and t2 must have the same bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_ext_rotate_right")]
     internal IntPtr MkExtRotateRight(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -853,6 +967,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have integer sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_int2bv")]
     internal IntPtr MkInt2bv(IntPtr c, uint n, IntPtr t1)
     {
@@ -878,6 +995,9 @@ internal sealed partial class NativeZ3Library
     /// The node t1 must have a bit-vector sort.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="isSigned" ctype="bool">bool parameter</param>
     [Z3Function("Z3_mk_bv2int")]
     internal IntPtr MkBv2int(IntPtr c, IntPtr t1, bool isSigned)
     {
@@ -899,6 +1019,10 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <param name="isSigned" ctype="bool">bool parameter</param>
     [Z3Function("Z3_mk_bvadd_no_overflow")]
     internal IntPtr MkBvaddNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
@@ -920,6 +1044,9 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvadd_no_underflow")]
     internal IntPtr MkBvaddNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -941,6 +1068,9 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsub_no_overflow")]
     internal IntPtr MkBvsubNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -962,6 +1092,10 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <param name="isSigned" ctype="bool">bool parameter</param>
     [Z3Function("Z3_mk_bvsub_no_underflow")]
     internal IntPtr MkBvsubNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
@@ -983,6 +1117,9 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvsdiv_no_overflow")]
     internal IntPtr MkBvsdivNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -1004,6 +1141,8 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvneg_no_overflow")]
     internal IntPtr MkBvnegNoOverflow(IntPtr c, IntPtr t1)
     {
@@ -1025,6 +1164,10 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <param name="isSigned" ctype="bool">bool parameter</param>
     [Z3Function("Z3_mk_bvmul_no_overflow")]
     internal IntPtr MkBvmulNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
@@ -1046,6 +1189,9 @@ internal sealed partial class NativeZ3Library
     /// The returned node is of sort Bool.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     [Z3Function("Z3_mk_bvmul_no_underflow")]
     internal IntPtr MkBvmulNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
     {

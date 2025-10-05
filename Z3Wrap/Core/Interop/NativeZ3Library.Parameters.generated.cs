@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// Starting at Z3 4.0, parameter sets are used to configure many components such as:
     /// simplifiers, tactics, solvers, etc.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// Reference counting must be used to manage parameter sets, even when the Z3_context was
     /// created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
@@ -37,6 +38,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Increment the reference counter of the given parameter set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     [Z3Function("Z3_params_inc_ref")]
     internal void ParamsIncRef(IntPtr c, IntPtr p)
     {
@@ -51,6 +54,8 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Decrement the reference counter of the given parameter set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     [Z3Function("Z3_params_dec_ref")]
     internal void ParamsDecRef(IntPtr c, IntPtr p)
     {
@@ -65,6 +70,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a Boolean parameter k with value v to the parameter set p.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="bool">bool parameter</param>
     [Z3Function("Z3_params_set_bool")]
     internal void ParamsSetBool(IntPtr c, IntPtr p, IntPtr k, bool v)
     {
@@ -79,6 +88,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a unsigned parameter k with value v to the parameter set p.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="unsigned">unsigned parameter</param>
     [Z3Function("Z3_params_set_uint")]
     internal void ParamsSetUint(IntPtr c, IntPtr p, IntPtr k, uint v)
     {
@@ -93,6 +106,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a double parameter k with value v to the parameter set p.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="double">double parameter</param>
     [Z3Function("Z3_params_set_double")]
     internal void ParamsSetDouble(IntPtr c, IntPtr p, IntPtr k, double v)
     {
@@ -107,6 +124,10 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     /// Add a symbol parameter k with value v to the parameter set p.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="Z3_symbol">symbol parameter</param>
     [Z3Function("Z3_params_set_symbol")]
     internal void ParamsSetSymbol(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
     {
@@ -122,6 +143,8 @@ internal sealed partial class NativeZ3Library
     /// Convert a parameter set into a string. This function is mainly used for printing the
     /// contents of a parameter set.
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     [Z3Function("Z3_params_to_string")]
     internal IntPtr ParamsToString(IntPtr c, IntPtr p)
     {
@@ -141,6 +164,9 @@ internal sealed partial class NativeZ3Library
     /// The procedure invokes the error handler if p is invalid.
     /// </para>
     /// </summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="d" ctype="Z3_param_descrs">param_descrs parameter</param>
     [Z3Function("Z3_params_validate")]
     internal void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)
     {
