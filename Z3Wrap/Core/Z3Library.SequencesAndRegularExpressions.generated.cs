@@ -228,9 +228,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
-    public IntPtr GetLstring(IntPtr c, IntPtr s, IntPtr length)
+    public IntPtr GetLstring(IntPtr c, IntPtr s, out uint length)
     {
-        var result = nativeLibrary.GetLstring(c, s, length);
+        var result = nativeLibrary.GetLstring(c, s, out length);
         CheckError(c);
         return CheckHandle(result, nameof(GetLstring));
     }

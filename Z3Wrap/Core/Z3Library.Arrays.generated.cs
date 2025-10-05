@@ -38,9 +38,9 @@ public sealed partial class Z3Library
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
     /// <returns ctype="Z3_ast">ast value</returns>
-    public IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, IntPtr idxs)
+    public IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, out IntPtr idxs)
     {
-        var result = nativeLibrary.MkSelectN(c, a, n, idxs);
+        var result = nativeLibrary.MkSelectN(c, a, n, out idxs);
         CheckError(c);
         return CheckHandle(result, nameof(MkSelectN));
     }
@@ -74,9 +74,9 @@ public sealed partial class Z3Library
     /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <returns ctype="Z3_ast">ast value</returns>
-    public IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v)
+    public IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, out IntPtr idxs, IntPtr v)
     {
-        var result = nativeLibrary.MkStoreN(c, a, n, idxs, v);
+        var result = nativeLibrary.MkStoreN(c, a, n, out idxs, v);
         CheckError(c);
         return CheckHandle(result, nameof(MkStoreN));
     }
@@ -112,9 +112,9 @@ public sealed partial class Z3Library
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
     /// <seealso cref="MkSelect"/>
-    public IntPtr MkMap(IntPtr c, IntPtr f, uint n, IntPtr args)
+    public IntPtr MkMap(IntPtr c, IntPtr f, uint n, out IntPtr args)
     {
-        var result = nativeLibrary.MkMap(c, f, n, args);
+        var result = nativeLibrary.MkMap(c, f, n, out args);
         CheckError(c);
         return CheckHandle(result, nameof(MkMap));
     }

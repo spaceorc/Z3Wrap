@@ -212,9 +212,9 @@ public sealed partial class Z3Library
     /// <returns ctype="Z3_sort">sort value</returns>
     /// <seealso cref="MkSelectN"/>
     /// <seealso cref="MkStoreN"/>
-    public IntPtr MkArraySortN(IntPtr c, uint n, IntPtr domain, IntPtr range)
+    public IntPtr MkArraySortN(IntPtr c, uint n, out IntPtr domain, IntPtr range)
     {
-        var result = nativeLibrary.MkArraySortN(c, n, domain, range);
+        var result = nativeLibrary.MkArraySortN(c, n, out domain, range);
         CheckError(c);
         return CheckHandle(result, nameof(MkArraySortN));
     }
@@ -233,12 +233,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// A tuple with <c>n</c> fields has a constructor and <c>n</c> projections. This function will also declare the constructor and projection functions.
     /// </remarks>
-    public IntPtr MkTupleSort(IntPtr c, string mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
+    public IntPtr MkTupleSort(IntPtr c, string mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, out IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
         using var mkTupleNameAnsi = new AnsiStringPtr(mkTupleName);
         var mkTupleNameSymbol = nativeLibrary.MkStringSymbol(c, mkTupleNameAnsi);
         CheckError(c);
-        var result = nativeLibrary.MkTupleSort(c, mkTupleNameSymbol, numFields, fieldNames, fieldSorts, mkTupleDecl, projDecl);
+        var result = nativeLibrary.MkTupleSort(c, mkTupleNameSymbol, numFields, fieldNames, fieldSorts, out mkTupleDecl, projDecl);
         CheckError(c);
         return CheckHandle(result, nameof(MkTupleSort));
     }
@@ -257,9 +257,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// A tuple with <c>n</c> fields has a constructor and <c>n</c> projections. This function will also declare the constructor and projection functions.
     /// </remarks>
-    public IntPtr MkTupleSortOriginal(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
+    public IntPtr MkTupleSortOriginal(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, out IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
-        var result = nativeLibrary.MkTupleSort(c, mkTupleName, numFields, fieldNames, fieldSorts, mkTupleDecl, projDecl);
+        var result = nativeLibrary.MkTupleSort(c, mkTupleName, numFields, fieldNames, fieldSorts, out mkTupleDecl, projDecl);
         CheckError(c);
         return CheckHandle(result, nameof(MkTupleSort));
     }
@@ -323,12 +323,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// A list sort over <c>elem_sort</c> This function declares the corresponding constructors and testers for lists.
     /// </remarks>
-    public IntPtr MkListSort(IntPtr c, string name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
+    public IntPtr MkListSort(IntPtr c, string name, IntPtr elemSort, out IntPtr nilDecl, out IntPtr isNilDecl, out IntPtr consDecl, out IntPtr isConsDecl, out IntPtr headDecl, out IntPtr tailDecl)
     {
         using var nameAnsi = new AnsiStringPtr(name);
         var nameSymbol = nativeLibrary.MkStringSymbol(c, nameAnsi);
         CheckError(c);
-        var result = nativeLibrary.MkListSort(c, nameSymbol, elemSort, nilDecl, isNilDecl, consDecl, isConsDecl, headDecl, tailDecl);
+        var result = nativeLibrary.MkListSort(c, nameSymbol, elemSort, out nilDecl, out isNilDecl, out consDecl, out isConsDecl, out headDecl, out tailDecl);
         CheckError(c);
         return CheckHandle(result, nameof(MkListSort));
     }
@@ -349,9 +349,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// A list sort over <c>elem_sort</c> This function declares the corresponding constructors and testers for lists.
     /// </remarks>
-    public IntPtr MkListSortOriginal(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
+    public IntPtr MkListSortOriginal(IntPtr c, IntPtr name, IntPtr elemSort, out IntPtr nilDecl, out IntPtr isNilDecl, out IntPtr consDecl, out IntPtr isConsDecl, out IntPtr headDecl, out IntPtr tailDecl)
     {
-        var result = nativeLibrary.MkListSort(c, name, elemSort, nilDecl, isNilDecl, consDecl, isConsDecl, headDecl, tailDecl);
+        var result = nativeLibrary.MkListSort(c, name, elemSort, out nilDecl, out isNilDecl, out consDecl, out isConsDecl, out headDecl, out tailDecl);
         CheckError(c);
         return CheckHandle(result, nameof(MkListSort));
     }
@@ -561,9 +561,9 @@ public sealed partial class Z3Library
     /// <param name="tester" ctype="Z3_func_decl*"> constructor test function declaration, allocated by user. </param>
     /// <param name="accessors" ctype="Z3_func_decl[]"> array of accessor function declarations allocated by user. The array must contain num_fields elements. </param>
     /// <seealso cref="MkConstructor"/>
-    public void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors)
+    public void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, out IntPtr constructor, out IntPtr tester, IntPtr[] accessors)
     {
-        nativeLibrary.QueryConstructor(c, constr, numFields, constructor, tester, accessors);
+        nativeLibrary.QueryConstructor(c, constr, numFields, out constructor, out tester, accessors);
         CheckError(c);
     }
 

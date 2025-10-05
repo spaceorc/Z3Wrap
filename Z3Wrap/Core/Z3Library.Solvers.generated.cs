@@ -615,12 +615,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// Create uninterpreted function declaration for the user propagator. When expressions using the function are created by the solver invoke a callback to <see cref="SolverPropagateCreated"/> with arguments  context and callback solve  declared_expr: expression using function that was used as the top-level symbol  declared_id: a unique identifier (unique within the current scope) to track the expression.
     /// </remarks>
-    public IntPtr SolverPropagateDeclare(IntPtr c, string name, uint n, IntPtr domain, IntPtr range)
+    public IntPtr SolverPropagateDeclare(IntPtr c, string name, uint n, out IntPtr domain, IntPtr range)
     {
         using var nameAnsi = new AnsiStringPtr(name);
         var nameSymbol = nativeLibrary.MkStringSymbol(c, nameAnsi);
         CheckError(c);
-        var result = nativeLibrary.SolverPropagateDeclare(c, nameSymbol, n, domain, range);
+        var result = nativeLibrary.SolverPropagateDeclare(c, nameSymbol, n, out domain, range);
         CheckError(c);
         return CheckHandle(result, nameof(SolverPropagateDeclare));
     }
@@ -635,9 +635,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// Create uninterpreted function declaration for the user propagator. When expressions using the function are created by the solver invoke a callback to <see cref="SolverPropagateCreated"/> with arguments  context and callback solve  declared_expr: expression using function that was used as the top-level symbol  declared_id: a unique identifier (unique within the current scope) to track the expression.
     /// </remarks>
-    public IntPtr SolverPropagateDeclareOriginal(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
+    public IntPtr SolverPropagateDeclareOriginal(IntPtr c, IntPtr name, uint n, out IntPtr domain, IntPtr range)
     {
-        var result = nativeLibrary.SolverPropagateDeclare(c, name, n, domain, range);
+        var result = nativeLibrary.SolverPropagateDeclare(c, name, n, out domain, range);
         CheckError(c);
         return CheckHandle(result, nameof(SolverPropagateDeclare));
     }
@@ -681,9 +681,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// The solver might discard the propagation in case it is true in the current state. The function returns false in this case; otw. the function returns true. At least one propagation in the final callback has to return true in order to prevent the solver from finishing.
     /// </remarks>
-    public bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr @fixed, uint numEqs, IntPtr eqLhs, IntPtr eqRhs, IntPtr conseq)
+    public bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, out IntPtr @fixed, uint numEqs, out IntPtr eqLhs, out IntPtr eqRhs, IntPtr conseq)
     {
-        var result = nativeLibrary.SolverPropagateConsequence(c, cb, numFixed, @fixed, numEqs, eqLhs, eqRhs, conseq);
+        var result = nativeLibrary.SolverPropagateConsequence(c, cb, numFixed, out @fixed, numEqs, out eqLhs, out eqRhs, conseq);
         CheckError(c);
         return result;
     }

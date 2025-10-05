@@ -267,11 +267,22 @@ def parse_native_functions_file(file_path: Path) -> List[FunctionDefinition]:
             # Split by comma (simple split, assumes no complex nested types)
             param_parts = [p.strip() for p in params_str.split(',')]
             for param_part in param_parts:
-                # Parse: "Type name"
+                # Parse: "Type name" or "out Type name"
                 parts = param_part.split()
                 if len(parts) >= 2:
-                    param_type = parts[0]
-                    param_name = parts[1]
+                    # Check if first part is 'out' modifier
+                    if parts[0] == 'out':
+                        # Format: "out Type name"
+                        if len(parts) >= 3:
+                            param_type = f"out {parts[1]}"
+                            param_name = parts[2]
+                        else:
+                            # Invalid format - skip
+                            continue
+                    else:
+                        # Format: "Type name"
+                        param_type = parts[0]
+                        param_name = parts[1]
 
                     # Extract ctype from documentation (for now, still use regex)
                     ctype_pattern = rf'<param name="{re.escape(param_name)}" ctype="([^"]+)"'
@@ -586,15 +597,25 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                 # Call native method
                 native_args = []
                 for param in func.parameters:
+                    # Check if parameter has 'out' modifier
+                    has_out_modifier = param.csharp_type.startswith('out ')
+                    param_name_only = param.name
+
                     if param.c_type == 'Z3_string':
-                        native_args.append(f"{param.name}Ansi")
+                        arg = f"{param.name}Ansi"
                     elif param.c_type == 'Z3_symbol':
-                        native_args.append(f"{param.name}Symbol")
+                        arg = f"{param.name}Symbol"
                     elif param.csharp_type in enum_types:
                         # Enum parameter - cast to internal enum
-                        native_args.append(f"(NativeZ3Library.{param.csharp_type}){param.name}")
+                        arg = f"(NativeZ3Library.{param.csharp_type}){param.name}"
                     else:
-                        native_args.append(param.name)
+                        arg = param_name_only
+
+                    # Add 'out' keyword if needed
+                    if has_out_modifier:
+                        native_args.append(f"out {arg}")
+                    else:
+                        native_args.append(arg)
 
                 native_args_str = ", ".join(native_args)
 
@@ -660,13 +681,23 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
             # Call native method
             native_args = []
             for param in func.parameters:
+                # Check if parameter has 'out' modifier
+                has_out_modifier = param.csharp_type.startswith('out ')
+                param_name_only = param.name
+
                 if param.c_type == 'Z3_string':
-                    native_args.append(f"{param.name}Ansi")
+                    arg = f"{param.name}Ansi"
                 elif param.csharp_type in enum_types:
                     # Enum parameter - cast to internal enum
-                    native_args.append(f"(NativeZ3Library.{param.csharp_type}){param.name}")
+                    arg = f"(NativeZ3Library.{param.csharp_type}){param.name}"
                 else:
-                    native_args.append(param.name)
+                    arg = param_name_only
+
+                # Add 'out' keyword if needed
+                if has_out_modifier:
+                    native_args.append(f"out {arg}")
+                else:
+                    native_args.append(arg)
 
             native_args_str = ", ".join(native_args)
 

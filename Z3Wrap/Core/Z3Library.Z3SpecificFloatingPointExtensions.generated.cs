@@ -191,9 +191,9 @@ public sealed partial class Z3Library
     /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <param name="sgn" ctype="int *"> the retrieved sign </param>
     /// <returns ctype="bool">true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
-    public bool FpaGetNumeralSign(IntPtr c, IntPtr t, IntPtr sgn)
+    public bool FpaGetNumeralSign(IntPtr c, IntPtr t, out int sgn)
     {
-        var result = nativeLibrary.FpaGetNumeralSign(c, t, sgn);
+        var result = nativeLibrary.FpaGetNumeralSign(c, t, out sgn);
         CheckError(c);
         return result;
     }
@@ -222,9 +222,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// Remarks: This function extracts the significand bits in <c>t</c> , without the hidden bit or normalization. Sets the <c>Z3_INVALID_ARG</c> error code if the significand does not fit into a <c>uint64</c> . NaN is an invalid argument.
     /// </remarks>
-    public bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, IntPtr n)
+    public bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, out ulong n)
     {
-        var result = nativeLibrary.FpaGetNumeralSignificandUint64(c, t, n);
+        var result = nativeLibrary.FpaGetNumeralSignificandUint64(c, t, out n);
         CheckError(c);
         return result;
     }
@@ -264,9 +264,9 @@ public sealed partial class Z3Library
     /// <param name="n" ctype="int64_t *"> exponent </param>
     /// <param name="biased" ctype="bool"> flag to indicate whether the result is in biased representation </param>
     /// <returns ctype="bool">true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
-    public bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, IntPtr n, bool biased)
+    public bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, out long n, bool biased)
     {
-        var result = nativeLibrary.FpaGetNumeralExponentInt64(c, t, n, biased);
+        var result = nativeLibrary.FpaGetNumeralExponentInt64(c, t, out n, biased);
         CheckError(c);
         return result;
     }

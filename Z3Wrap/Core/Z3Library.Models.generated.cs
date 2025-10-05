@@ -57,9 +57,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// If <c>model_completion</c> is <c>true</c> , then Z3 will assign an interpretation for any constant or function that does not have an interpretation in <c>m</c> . These constants and functions were essentially don't cares. If <c>model_completion</c> is <c>false</c> , then Z3 will not assign interpretations to constants for functions that do not have interpretations in <c>m</c> . Evaluation behaves as the identify function in this case. The evaluation may fail for the following reasons:  <c>t</c> contains a quantifier.  the model <c>m</c> is partial, that is, it doesn't have a complete interpretation for uninterpreted functions. That is, the option <c>MODEL_PARTIAL=true</c> was used.  <c>t</c> is type incorrect.  <c>Z3_interrupt</c> was invoked during evaluation.
     /// </remarks>
-    public bool ModelEval(IntPtr c, IntPtr m, IntPtr t, bool modelCompletion, IntPtr v)
+    public bool ModelEval(IntPtr c, IntPtr m, IntPtr t, bool modelCompletion, out IntPtr v)
     {
-        var result = nativeLibrary.ModelEval(c, m, t, modelCompletion, v);
+        var result = nativeLibrary.ModelEval(c, m, t, modelCompletion, out v);
         CheckError(c);
         return result;
     }

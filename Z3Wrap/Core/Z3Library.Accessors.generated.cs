@@ -152,9 +152,9 @@ public sealed partial class Z3Library
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <param name="r" ctype="uint64_t*">uint64_t parameter</param>
     /// <returns ctype="bool">bool value</returns>
-    public bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, IntPtr r)
+    public bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, out ulong r)
     {
-        var result = nativeLibrary.GetFiniteDomainSortSize(c, s, r);
+        var result = nativeLibrary.GetFiniteDomainSortSize(c, s, out r);
         CheckError(c);
         return result;
     }
@@ -1169,9 +1169,9 @@ public sealed partial class Z3Library
     /// Return <c>true</c> if the numeral value fits in 64 bit numerals, <c>false</c> otherwise. Equivalent to <c>Z3_get_numeral_rational_int64</c> except that for unsupported expression arguments <c>Z3_get_numeral_small</c> signals an error while <c>Z3_get_numeral_rational_int64</c> returns <c>false</c> .
     /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST
     /// </remarks>
-    public bool GetNumeralSmall(IntPtr c, IntPtr a, IntPtr num, IntPtr den)
+    public bool GetNumeralSmall(IntPtr c, IntPtr a, out long num, out long den)
     {
-        var result = nativeLibrary.GetNumeralSmall(c, a, num, den);
+        var result = nativeLibrary.GetNumeralSmall(c, a, out num, out den);
         CheckError(c);
         return result;
     }
@@ -1187,9 +1187,9 @@ public sealed partial class Z3Library
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
-    public bool GetNumeralInt(IntPtr c, IntPtr v, IntPtr i)
+    public bool GetNumeralInt(IntPtr c, IntPtr v, out int i)
     {
-        var result = nativeLibrary.GetNumeralInt(c, v, i);
+        var result = nativeLibrary.GetNumeralInt(c, v, out i);
         CheckError(c);
         return result;
     }
@@ -1205,9 +1205,9 @@ public sealed partial class Z3Library
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
-    public bool GetNumeralUint(IntPtr c, IntPtr v, IntPtr u)
+    public bool GetNumeralUint(IntPtr c, IntPtr v, out uint u)
     {
-        var result = nativeLibrary.GetNumeralUint(c, v, u);
+        var result = nativeLibrary.GetNumeralUint(c, v, out u);
         CheckError(c);
         return result;
     }
@@ -1223,9 +1223,9 @@ public sealed partial class Z3Library
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
-    public bool GetNumeralUint64(IntPtr c, IntPtr v, IntPtr u)
+    public bool GetNumeralUint64(IntPtr c, IntPtr v, out ulong u)
     {
-        var result = nativeLibrary.GetNumeralUint64(c, v, u);
+        var result = nativeLibrary.GetNumeralUint64(c, v, out u);
         CheckError(c);
         return result;
     }
@@ -1241,9 +1241,9 @@ public sealed partial class Z3Library
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
-    public bool GetNumeralInt64(IntPtr c, IntPtr v, IntPtr i)
+    public bool GetNumeralInt64(IntPtr c, IntPtr v, out long i)
     {
-        var result = nativeLibrary.GetNumeralInt64(c, v, i);
+        var result = nativeLibrary.GetNumeralInt64(c, v, out i);
         CheckError(c);
         return result;
     }
@@ -1260,9 +1260,9 @@ public sealed partial class Z3Library
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
-    public bool GetNumeralRationalInt64(IntPtr c, IntPtr v, IntPtr num, IntPtr den)
+    public bool GetNumeralRationalInt64(IntPtr c, IntPtr v, out long num, out long den)
     {
-        var result = nativeLibrary.GetNumeralRationalInt64(c, v, num, den);
+        var result = nativeLibrary.GetNumeralRationalInt64(c, v, out num, out den);
         CheckError(c);
         return result;
     }

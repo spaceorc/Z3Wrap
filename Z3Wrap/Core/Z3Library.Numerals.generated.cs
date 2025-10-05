@@ -146,9 +146,9 @@ public sealed partial class Z3Library
     /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkNumeral"/>
     /// <seealso cref="MkBvNumeral"/>
-    public IntPtr MkBvNumeral(IntPtr c, uint sz, IntPtr bits)
+    public IntPtr MkBvNumeral(IntPtr c, uint sz, out bool bits)
     {
-        var result = nativeLibrary.MkBvNumeral(c, sz, bits);
+        var result = nativeLibrary.MkBvNumeral(c, sz, out bits);
         CheckError(c);
         return CheckHandle(result, nameof(MkBvNumeral));
     }
