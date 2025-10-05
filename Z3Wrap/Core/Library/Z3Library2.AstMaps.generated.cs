@@ -11,17 +11,11 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return an empty mapping from AST to AST.
+    ///  Return an empty mapping from AST to AST.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using
-    /// MkContext
-    /// instead of
-    /// <see cref="MkContextRc"/>
-    /// .
+    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using MkContext instead of <see cref="MkContextRc"/> .
     /// </remarks>
     public IntPtr MkAstMap(IntPtr c)
     {
@@ -31,14 +25,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given AST map.
+    ///  Increment the reference counter of the given AST map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     public void AstMapIncRef(IntPtr c, IntPtr m)
     {
         nativeLibrary.AstMapIncRef(c, m);
@@ -46,14 +36,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given AST map.
+    ///  Decrement the reference counter of the given AST map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     public void AstMapDecRef(IntPtr c, IntPtr m)
     {
         nativeLibrary.AstMapDecRef(c, m);
@@ -61,25 +47,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the map
-    /// <c>
-    /// m
-    /// </c>
-    /// contains the AST key
-    /// <c>
-    /// k
-    /// </c>
-    /// .
+    ///  Return true if the map <c>m</c> contains the AST key <c>k</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <param name="k" ctype="Z3_ast">ast parameter</param>
     public bool AstMapContains(IntPtr c, IntPtr m, IntPtr k)
     {
         var result = nativeLibrary.AstMapContains(c, m, k);
@@ -88,27 +60,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the value associated with the key
-    /// <c>
-    /// k
-    /// </c>
-    /// .
+    ///  Return the value associated with the key <c>k</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <param name="k" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The procedure invokes the error handler if
-    /// <c>
-    /// k
-    /// </c>
-    /// is not in the map.
+    /// The procedure invokes the error handler if <c>k</c> is not in the map.
     /// </remarks>
     public IntPtr AstMapFind(IntPtr c, IntPtr m, IntPtr k)
     {
@@ -118,20 +76,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Store/Replace a new key, value pair in the given map.
+    ///  Store/Replace a new key, value pair in the given map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <param name="k" ctype="Z3_ast">ast parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
     public void AstMapInsert(IntPtr c, IntPtr m, IntPtr k, IntPtr v)
     {
         nativeLibrary.AstMapInsert(c, m, k, v);
@@ -139,17 +89,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Erase a key from the map.
+    ///  Erase a key from the map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <param name="k" ctype="Z3_ast">ast parameter</param>
     public void AstMapErase(IntPtr c, IntPtr m, IntPtr k)
     {
         nativeLibrary.AstMapErase(c, m, k);
@@ -157,14 +101,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Remove all keys from the given map.
+    ///  Remove all keys from the given map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     public void AstMapReset(IntPtr c, IntPtr m)
     {
         nativeLibrary.AstMapReset(c, m);
@@ -172,14 +112,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the size of the given map.
+    ///  Return the size of the given map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     public uint AstMapSize(IntPtr c, IntPtr m)
     {
         var result = nativeLibrary.AstMapSize(c, m);
@@ -188,14 +124,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the keys stored in the given map.
+    ///  Return the keys stored in the given map.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     public IntPtr AstMapKeys(IntPtr c, IntPtr m)
     {
         var result = nativeLibrary.AstMapKeys(c, m);
@@ -204,14 +136,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert the given map into a string.
+    ///  Convert the given map into a string.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_ast_map">
-    /// ast_map parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     public IntPtr AstMapToString(IntPtr c, IntPtr m)
     {
         var result = nativeLibrary.AstMapToString(c, m);

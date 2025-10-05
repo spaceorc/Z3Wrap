@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Increment the reference counter of the given parameter description set.
+    ///  Increment the reference counter of the given parameter description set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     public void ParamDescrsIncRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ParamDescrsIncRef(c, p);
@@ -26,14 +22,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given parameter description set.
+    ///  Decrement the reference counter of the given parameter description set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     public void ParamDescrsDecRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ParamDescrsDecRef(c, p);
@@ -41,21 +33,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the kind associated with the given parameter name
-    /// <c>
-    /// n
-    /// </c>
-    /// .
+    ///  Return the kind associated with the given parameter name <c>n</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
-    /// <param name="n">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="n">symbol parameter</param>
     public ParamKind ParamDescrsGetKind(IntPtr c, IntPtr p, string n)
     {
         using var nAnsi = new AnsiStringPtr(n);
@@ -67,21 +49,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the kind associated with the given parameter name
-    /// <c>
-    /// n
-    /// </c>
-    /// .
+    ///  Return the kind associated with the given parameter name <c>n</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
-    /// <param name="n" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="n" ctype="Z3_symbol">symbol parameter</param>
     public ParamKind ParamDescrsGetKindOriginal(IntPtr c, IntPtr p, IntPtr n)
     {
         var result = nativeLibrary.ParamDescrsGetKind(c, p, n);
@@ -90,14 +62,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of parameters in the given parameter description set.
+    ///  Return the number of parameters in the given parameter description set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     public uint ParamDescrsSize(IntPtr c, IntPtr p)
     {
         var result = nativeLibrary.ParamDescrsSize(c, p);
@@ -106,21 +74,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the name of the parameter at given index
-    /// <c>
-    /// i
-    /// </c>
-    /// .
+    ///  Return the name of the parameter at given index <c>i</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_param_descrs_size(c, p)
     /// </remarks>
@@ -132,21 +90,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve documentation string corresponding to parameter name
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Retrieve documentation string corresponding to parameter name <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
-    /// <param name="s">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="s">symbol parameter</param>
     public IntPtr ParamDescrsGetDocumentation(IntPtr c, IntPtr p, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);
@@ -158,21 +106,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve documentation string corresponding to parameter name
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Retrieve documentation string corresponding to parameter name <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     public IntPtr ParamDescrsGetDocumentationOriginal(IntPtr c, IntPtr p, IntPtr s)
     {
         var result = nativeLibrary.ParamDescrsGetDocumentation(c, p, s);
@@ -181,14 +119,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set.
+    ///  Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     public IntPtr ParamDescrsToString(IntPtr c, IntPtr p)
     {
         var result = nativeLibrary.ParamDescrsToString(c, p);

@@ -11,27 +11,15 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Declare a constant or function.
+    ///  Declare a constant or function.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="s">
-    /// name of the constant or function.
-    /// </param>
-    /// <param name="domainSize" ctype="unsigned">
-    /// number of arguments. It is 0 when declaring a constant.
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort const[]">
-    /// array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant.
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort of the constant or the return sort of the function.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="s"> name of the constant or function. </param>
+    /// <param name="domainSize" ctype="unsigned"> number of arguments. It is 0 when declaring a constant. </param>
+    /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant. </param>
+    /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
     /// <remarks>
-    /// After declaring a constant or function, the function
-    /// <see cref="MkApp"/>
-    /// can be used to create a constant or function application.
+    /// After declaring a constant or function, the function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
@@ -47,27 +35,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare a constant or function.
+    ///  Declare a constant or function.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// name of the constant or function.
-    /// </param>
-    /// <param name="domainSize" ctype="unsigned">
-    /// number of arguments. It is 0 when declaring a constant.
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort const[]">
-    /// array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant.
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort of the constant or the return sort of the function.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="s" ctype="Z3_symbol"> name of the constant or function. </param>
+    /// <param name="domainSize" ctype="unsigned"> number of arguments. It is 0 when declaring a constant. </param>
+    /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant. </param>
+    /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
     /// <remarks>
-    /// After declaring a constant or function, the function
-    /// <see cref="MkApp"/>
-    /// can be used to create a constant or function application.
+    /// After declaring a constant or function, the function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
@@ -80,20 +56,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a constant or function application.
+    ///  Create a constant or function application.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <seealso cref="MkFreshFuncDecl"/>
     /// <seealso cref="MkFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
@@ -105,20 +73,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare and create a constant.
+    ///  Declare and create a constant.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s">
-    /// symbol parameter
-    /// </param>
-    /// <param name="ty" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s">symbol parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function is a shorthand for:
-    /// <code>
+    /// This function is a shorthand for: <code>
     /// Z3_func_decl d = Z3_mk_func_decl(c, s, 0, 0, ty);
     /// Z3_ast n            = Z3_mk_app(c, d, 0, 0);
     /// </code>
@@ -137,20 +98,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare and create a constant.
+    ///  Declare and create a constant.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
-    /// <param name="ty" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function is a shorthand for:
-    /// <code>
+    /// This function is a shorthand for: <code>
     /// Z3_func_decl d = Z3_mk_func_decl(c, s, 0, 0, ty);
     /// Z3_ast n            = Z3_mk_app(c, d, 0, 0);
     /// </code>
@@ -166,42 +120,16 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare a fresh constant or function.
+    ///  Declare a fresh constant or function.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="prefix" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// <param name="domainSize" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort const[]">
-    /// sort parameter
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_string">string parameter</param>
+    /// <param name="domainSize" ctype="unsigned">unsigned parameter</param>
+    /// <param name="domain" ctype="Z3_sort const[]">sort parameter</param>
+    /// <param name="range" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Z3 will generate an unique name for this function declaration. If prefix is different from
-    /// <c>
-    /// NULL
-    /// </c>
-    /// , then the name generate by Z3 will start with
-    /// <c>
-    /// prefix
-    /// </c>
-    /// .
-    /// If
-    /// <c>
-    /// prefix
-    /// </c>
-    /// is
-    /// <c>
-    /// NULL
-    /// </c>
-    /// , then it is assumed to be the empty string.
+    /// Z3 will generate an unique name for this function declaration. If prefix is different from <c>NULL</c> , then the name generate by Z3 will start with <c>prefix</c> .
+    /// If <c>prefix</c> is <c>NULL</c> , then it is assumed to be the empty string.
     /// </remarks>
     /// <seealso cref="MkFuncDecl"/>
     public IntPtr MkFreshFuncDecl(IntPtr c, string prefix, uint domainSize, IntPtr[] domain, IntPtr range)
@@ -213,31 +141,16 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare and create a fresh constant.
+    ///  Declare and create a fresh constant.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="prefix" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// <param name="ty" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_string">string parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function is a shorthand for:
-    /// <code>
+    /// This function is a shorthand for: <code>
     /// Z3_func_decl d = Z3_mk_fresh_func_decl(c, prefix, 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0);
     /// </code>
-    /// If
-    /// <c>
-    /// prefix
-    /// </c>
-    /// is
-    /// <c>
-    /// NULL
-    /// </c>
-    /// , then it is assumed to be the empty string.
+    /// If <c>prefix</c> is <c>NULL</c> , then it is assumed to be the empty string.
     /// </remarks>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkConst"/>
@@ -252,29 +165,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare a recursive function.
+    ///  Declare a recursive function.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="s">
-    /// name of the function.
-    /// </param>
-    /// <param name="domainSize" ctype="unsigned">
-    /// number of arguments. It should be greater than 0.
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort const[]">
-    /// array containing the sort of each argument. The array must contain domain_size elements.
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort of the constant or the return sort of the function.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="s"> name of the function. </param>
+    /// <param name="domainSize" ctype="unsigned"> number of arguments. It should be greater than 0. </param>
+    /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. </param>
+    /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
     /// <remarks>
-    /// After declaring recursive function, it should be associated with a recursive definition
-    /// <see cref="AddRecDef"/>
-    /// . The function
-    /// <see cref="MkApp"/>
-    /// can be used to create a constant or function application.
+    /// After declaring recursive function, it should be associated with a recursive definition <see cref="AddRecDef"/> . The function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>
@@ -290,29 +189,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Declare a recursive function.
+    ///  Declare a recursive function.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// name of the function.
-    /// </param>
-    /// <param name="domainSize" ctype="unsigned">
-    /// number of arguments. It should be greater than 0.
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort const[]">
-    /// array containing the sort of each argument. The array must contain domain_size elements.
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort of the constant or the return sort of the function.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="s" ctype="Z3_symbol"> name of the function. </param>
+    /// <param name="domainSize" ctype="unsigned"> number of arguments. It should be greater than 0. </param>
+    /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. </param>
+    /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
     /// <remarks>
-    /// After declaring recursive function, it should be associated with a recursive definition
-    /// <see cref="AddRecDef"/>
-    /// . The function
-    /// <see cref="MkApp"/>
-    /// can be used to create a constant or function application.
+    /// After declaring recursive function, it should be associated with a recursive definition <see cref="AddRecDef"/> . The function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>
@@ -325,23 +210,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Define the body of a recursive function.
+    ///  Define the body of a recursive function.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="f" ctype="Z3_func_decl">
-    /// function declaration.
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// number of arguments to the function
-    /// </param>
-    /// <param name="args" ctype="Z3_ast[]">
-    /// constants that are used as arguments to the recursive function in the definition.
-    /// </param>
-    /// <param name="body" ctype="Z3_ast">
-    /// body of the recursive function
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="f" ctype="Z3_func_decl"> function declaration. </param>
+    /// <param name="n" ctype="unsigned"> number of arguments to the function </param>
+    /// <param name="args" ctype="Z3_ast[]"> constants that are used as arguments to the recursive function in the definition. </param>
+    /// <param name="body" ctype="Z3_ast"> body of the recursive function </param>
     /// <remarks>
     /// After declaring a recursive function or a collection of mutually recursive functions, use this function to provide the definition for the recursive function.
     /// </remarks>

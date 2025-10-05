@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create a free (uninterpreted) type using the given name (symbol).
+    ///  Create a free (uninterpreted) type using the given name (symbol).
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s">symbol parameter</param>
     /// <remarks>
     /// Two free types are considered the same iff the have the same name.
     /// </remarks>
@@ -33,14 +29,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a free (uninterpreted) type using the given name (symbol).
+    ///  Create a free (uninterpreted) type using the given name (symbol).
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
     /// Two free types are considered the same iff the have the same name.
     /// </remarks>
@@ -52,14 +44,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a type variable.
+    ///  Create a type variable.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s">symbol parameter</param>
     /// <remarks>
     /// Functions using type variables can be applied to instantiations that match the signature of the function. Assertions using type variables correspond to assertions over all possible instantiations.
     /// </remarks>
@@ -74,14 +62,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a type variable.
+    ///  Create a type variable.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
     /// Functions using type variables can be applied to instantiations that match the signature of the function. Assertions using type variables correspond to assertions over all possible instantiations.
     /// </remarks>
@@ -93,11 +77,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the Boolean type.
+    ///  Create the Boolean type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// This type is used to create propositional variables and predicates.
     /// </remarks>
@@ -109,15 +91,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the integer type.
+    ///  Create the integer type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function
-    /// <see cref="MkBvSort"/>
-    /// creates a bit-vector type.
+    /// This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function <see cref="MkBvSort"/> creates a bit-vector type.
     /// </remarks>
     /// <seealso cref="MkBvSort"/>
     public IntPtr MkIntSort(IntPtr c)
@@ -128,11 +106,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the real type.
+    ///  Create the real type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// Note that this type is not a floating point number.
     /// </remarks>
@@ -144,14 +120,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a bit-vector type of the given size.
+    ///  Create a bit-vector type of the given size.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="sz" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="sz" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// This type can also be seen as a machine integer.
     /// The size of the bit-vector type must be greater than zero.
@@ -164,17 +136,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a named finite domain sort.
+    ///  Create a named finite domain sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="name">
-    /// symbol parameter
-    /// </param>
-    /// <param name="size" ctype="uint64_t">
-    /// uint64_t parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="name">symbol parameter</param>
+    /// <param name="size" ctype="uint64_t">uint64_t parameter</param>
     /// <remarks>
     /// To create constants that belong to the finite domain, use the APIs for creating numerals and pass a numeric constant together with the sort returned by this call. The numeric constant should be between 0 and the less than the size of the domain.
     /// </remarks>
@@ -190,17 +156,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a named finite domain sort.
+    ///  Create a named finite domain sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="name" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
-    /// <param name="size" ctype="uint64_t">
-    /// uint64_t parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="name" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="size" ctype="uint64_t">uint64_t parameter</param>
     /// <remarks>
     /// To create constants that belong to the finite domain, use the APIs for creating numerals and pass a numeric constant together with the sort returned by this call. The numeric constant should be between 0 and the less than the size of the domain.
     /// </remarks>
@@ -213,23 +173,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an array type.
+    ///  Create an array type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="domain" ctype="Z3_sort">sort parameter</param>
+    /// <param name="range" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// We usually represent the array type as:
-    /// <c>
-    /// [domain -&gt; range]
-    /// </c>
-    /// . Arrays are usually used to model the heap/memory in software verification.
+    /// We usually represent the array type as: <c>[domain -&gt; range]</c> . Arrays are usually used to model the heap/memory in software verification.
     /// </remarks>
     /// <seealso cref="MkSelect"/>
     /// <seealso cref="MkStore"/>
@@ -241,20 +191,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an array type with N arguments.
+    ///  Create an array type with N arguments.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort const *">
-    /// sort parameter
-    /// </param>
-    /// <param name="range" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="domain" ctype="Z3_sort const *">sort parameter</param>
+    /// <param name="range" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="MkSelectN"/>
     /// <seealso cref="MkStoreN"/>
     public IntPtr MkArraySortN(IntPtr c, uint n, IntPtr domain, IntPtr range)
@@ -265,43 +207,17 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a tuple type.
+    ///  Create a tuple type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="mkTupleName">
-    /// name of the constructor function associated with the tuple type.
-    /// </param>
-    /// <param name="numFields" ctype="unsigned">
-    /// number of fields in the tuple type.
-    /// </param>
-    /// <param name="fieldNames" ctype="Z3_symbol const[]">
-    /// name of the projection functions.
-    /// </param>
-    /// <param name="fieldSorts" ctype="Z3_sort const[]">
-    /// type of the tuple fields.
-    /// </param>
-    /// <param name="mkTupleDecl" ctype="Z3_func_decl *">
-    /// output parameter that will contain the constructor declaration.
-    /// </param>
-    /// <param name="projDecl" ctype="Z3_func_decl[]">
-    /// output parameter that will contain the projection function declarations. This field must be a buffer of size
-    /// <c>
-    /// num_fields
-    /// </c>
-    /// allocated by the user.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="mkTupleName"> name of the constructor function associated with the tuple type. </param>
+    /// <param name="numFields" ctype="unsigned"> number of fields in the tuple type. </param>
+    /// <param name="fieldNames" ctype="Z3_symbol const[]"> name of the projection functions. </param>
+    /// <param name="fieldSorts" ctype="Z3_sort const[]"> type of the tuple fields. </param>
+    /// <param name="mkTupleDecl" ctype="Z3_func_decl *"> output parameter that will contain the constructor declaration. </param>
+    /// <param name="projDecl" ctype="Z3_func_decl[]"> output parameter that will contain the projection function declarations. This field must be a buffer of size <c>num_fields</c> allocated by the user. </param>
     /// <remarks>
-    /// A tuple with
-    /// <c>
-    /// n
-    /// </c>
-    /// fields has a constructor and
-    /// <c>
-    /// n
-    /// </c>
-    /// projections. This function will also declare the constructor and projection functions.
+    /// A tuple with <c>n</c> fields has a constructor and <c>n</c> projections. This function will also declare the constructor and projection functions.
     /// </remarks>
     public IntPtr MkTupleSort(IntPtr c, string mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
@@ -314,43 +230,17 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a tuple type.
+    ///  Create a tuple type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="mkTupleName" ctype="Z3_symbol">
-    /// name of the constructor function associated with the tuple type.
-    /// </param>
-    /// <param name="numFields" ctype="unsigned">
-    /// number of fields in the tuple type.
-    /// </param>
-    /// <param name="fieldNames" ctype="Z3_symbol const[]">
-    /// name of the projection functions.
-    /// </param>
-    /// <param name="fieldSorts" ctype="Z3_sort const[]">
-    /// type of the tuple fields.
-    /// </param>
-    /// <param name="mkTupleDecl" ctype="Z3_func_decl *">
-    /// output parameter that will contain the constructor declaration.
-    /// </param>
-    /// <param name="projDecl" ctype="Z3_func_decl[]">
-    /// output parameter that will contain the projection function declarations. This field must be a buffer of size
-    /// <c>
-    /// num_fields
-    /// </c>
-    /// allocated by the user.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="mkTupleName" ctype="Z3_symbol"> name of the constructor function associated with the tuple type. </param>
+    /// <param name="numFields" ctype="unsigned"> number of fields in the tuple type. </param>
+    /// <param name="fieldNames" ctype="Z3_symbol const[]"> name of the projection functions. </param>
+    /// <param name="fieldSorts" ctype="Z3_sort const[]"> type of the tuple fields. </param>
+    /// <param name="mkTupleDecl" ctype="Z3_func_decl *"> output parameter that will contain the constructor declaration. </param>
+    /// <param name="projDecl" ctype="Z3_func_decl[]"> output parameter that will contain the projection function declarations. This field must be a buffer of size <c>num_fields</c> allocated by the user. </param>
     /// <remarks>
-    /// A tuple with
-    /// <c>
-    /// n
-    /// </c>
-    /// fields has a constructor and
-    /// <c>
-    /// n
-    /// </c>
-    /// projections. This function will also declare the constructor and projection functions.
+    /// A tuple with <c>n</c> fields has a constructor and <c>n</c> projections. This function will also declare the constructor and projection functions.
     /// </remarks>
     public IntPtr MkTupleSortOriginal(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
@@ -360,48 +250,16 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a enumeration sort.
+    ///  Create a enumeration sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="name">
-    /// name of the enumeration sort.
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// number of elements in enumeration sort.
-    /// </param>
-    /// <param name="enumNames" ctype="Z3_symbol  const[]">
-    /// names of the enumerated elements.
-    /// </param>
-    /// <param name="enumConsts" ctype="Z3_func_decl[]">
-    /// constants corresponding to the enumerated elements.
-    /// </param>
-    /// <param name="enumTesters" ctype="Z3_func_decl[]">
-    /// predicates testing if terms of the enumeration sort correspond to an enumeration.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="name"> name of the enumeration sort. </param>
+    /// <param name="n" ctype="unsigned"> number of elements in enumeration sort. </param>
+    /// <param name="enumNames" ctype="Z3_symbol  const[]"> names of the enumerated elements. </param>
+    /// <param name="enumConsts" ctype="Z3_func_decl[]"> constants corresponding to the enumerated elements. </param>
+    /// <param name="enumTesters" ctype="Z3_func_decl[]"> predicates testing if terms of the enumeration sort correspond to an enumeration. </param>
     /// <remarks>
-    /// An enumeration sort with
-    /// <c>
-    /// n
-    /// </c>
-    /// elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then
-    /// <c>
-    /// s
-    /// </c>
-    /// is a sort whose name is S, and the function returns three terms corresponding to A, B, C in
-    /// <c>
-    /// enum_consts
-    /// </c>
-    /// . The array
-    /// <c>
-    /// enum_testers
-    /// </c>
-    /// has three predicates of type
-    /// <c>
-    /// (s -&gt; Bool)
-    /// </c>
-    /// . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
+    /// An enumeration sort with <c>n</c> elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then <c>s</c> is a sort whose name is S, and the function returns three terms corresponding to A, B, C in <c>enum_consts</c> . The array <c>enum_testers</c> has three predicates of type <c>(s -&gt; Bool)</c> . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
     /// </remarks>
     public IntPtr MkEnumerationSort(IntPtr c, string name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
@@ -414,48 +272,16 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a enumeration sort.
+    ///  Create a enumeration sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="name" ctype="Z3_symbol">
-    /// name of the enumeration sort.
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// number of elements in enumeration sort.
-    /// </param>
-    /// <param name="enumNames" ctype="Z3_symbol  const[]">
-    /// names of the enumerated elements.
-    /// </param>
-    /// <param name="enumConsts" ctype="Z3_func_decl[]">
-    /// constants corresponding to the enumerated elements.
-    /// </param>
-    /// <param name="enumTesters" ctype="Z3_func_decl[]">
-    /// predicates testing if terms of the enumeration sort correspond to an enumeration.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="name" ctype="Z3_symbol"> name of the enumeration sort. </param>
+    /// <param name="n" ctype="unsigned"> number of elements in enumeration sort. </param>
+    /// <param name="enumNames" ctype="Z3_symbol  const[]"> names of the enumerated elements. </param>
+    /// <param name="enumConsts" ctype="Z3_func_decl[]"> constants corresponding to the enumerated elements. </param>
+    /// <param name="enumTesters" ctype="Z3_func_decl[]"> predicates testing if terms of the enumeration sort correspond to an enumeration. </param>
     /// <remarks>
-    /// An enumeration sort with
-    /// <c>
-    /// n
-    /// </c>
-    /// elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then
-    /// <c>
-    /// s
-    /// </c>
-    /// is a sort whose name is S, and the function returns three terms corresponding to A, B, C in
-    /// <c>
-    /// enum_consts
-    /// </c>
-    /// . The array
-    /// <c>
-    /// enum_testers
-    /// </c>
-    /// has three predicates of type
-    /// <c>
-    /// (s -&gt; Bool)
-    /// </c>
-    /// . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
+    /// An enumeration sort with <c>n</c> elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then <c>s</c> is a sort whose name is S, and the function returns three terms corresponding to A, B, C in <c>enum_consts</c> . The array <c>enum_testers</c> has three predicates of type <c>(s -&gt; Bool)</c> . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
     /// </remarks>
     public IntPtr MkEnumerationSortOriginal(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
@@ -465,41 +291,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a list sort.
+    ///  Create a list sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="name">
-    /// name of the list sort.
-    /// </param>
-    /// <param name="elemSort" ctype="Z3_sort">
-    /// sort of list elements.
-    /// </param>
-    /// <param name="nilDecl" ctype="Z3_func_decl*">
-    /// declaration for the empty list.
-    /// </param>
-    /// <param name="isNilDecl" ctype="Z3_func_decl*">
-    /// test for the empty list.
-    /// </param>
-    /// <param name="consDecl" ctype="Z3_func_decl*">
-    /// declaration for a cons cell.
-    /// </param>
-    /// <param name="isConsDecl" ctype="Z3_func_decl*">
-    /// cons cell test.
-    /// </param>
-    /// <param name="headDecl" ctype="Z3_func_decl*">
-    /// list head.
-    /// </param>
-    /// <param name="tailDecl" ctype="Z3_func_decl*">
-    /// list tail.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="name"> name of the list sort. </param>
+    /// <param name="elemSort" ctype="Z3_sort"> sort of list elements. </param>
+    /// <param name="nilDecl" ctype="Z3_func_decl*"> declaration for the empty list. </param>
+    /// <param name="isNilDecl" ctype="Z3_func_decl*"> test for the empty list. </param>
+    /// <param name="consDecl" ctype="Z3_func_decl*"> declaration for a cons cell. </param>
+    /// <param name="isConsDecl" ctype="Z3_func_decl*"> cons cell test. </param>
+    /// <param name="headDecl" ctype="Z3_func_decl*"> list head. </param>
+    /// <param name="tailDecl" ctype="Z3_func_decl*"> list tail. </param>
     /// <remarks>
-    /// A list sort over
-    /// <c>
-    /// elem_sort
-    /// </c>
-    /// This function declares the corresponding constructors and testers for lists.
+    /// A list sort over <c>elem_sort</c> This function declares the corresponding constructors and testers for lists.
     /// </remarks>
     public IntPtr MkListSort(IntPtr c, string name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
     {
@@ -512,41 +316,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a list sort.
+    ///  Create a list sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="name" ctype="Z3_symbol">
-    /// name of the list sort.
-    /// </param>
-    /// <param name="elemSort" ctype="Z3_sort">
-    /// sort of list elements.
-    /// </param>
-    /// <param name="nilDecl" ctype="Z3_func_decl*">
-    /// declaration for the empty list.
-    /// </param>
-    /// <param name="isNilDecl" ctype="Z3_func_decl*">
-    /// test for the empty list.
-    /// </param>
-    /// <param name="consDecl" ctype="Z3_func_decl*">
-    /// declaration for a cons cell.
-    /// </param>
-    /// <param name="isConsDecl" ctype="Z3_func_decl*">
-    /// cons cell test.
-    /// </param>
-    /// <param name="headDecl" ctype="Z3_func_decl*">
-    /// list head.
-    /// </param>
-    /// <param name="tailDecl" ctype="Z3_func_decl*">
-    /// list tail.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="name" ctype="Z3_symbol"> name of the list sort. </param>
+    /// <param name="elemSort" ctype="Z3_sort"> sort of list elements. </param>
+    /// <param name="nilDecl" ctype="Z3_func_decl*"> declaration for the empty list. </param>
+    /// <param name="isNilDecl" ctype="Z3_func_decl*"> test for the empty list. </param>
+    /// <param name="consDecl" ctype="Z3_func_decl*"> declaration for a cons cell. </param>
+    /// <param name="isConsDecl" ctype="Z3_func_decl*"> cons cell test. </param>
+    /// <param name="headDecl" ctype="Z3_func_decl*"> list head. </param>
+    /// <param name="tailDecl" ctype="Z3_func_decl*"> list tail. </param>
     /// <remarks>
-    /// A list sort over
-    /// <c>
-    /// elem_sort
-    /// </c>
-    /// This function declares the corresponding constructors and testers for lists.
+    /// A list sort over <c>elem_sort</c> This function declares the corresponding constructors and testers for lists.
     /// </remarks>
     public IntPtr MkListSortOriginal(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
     {
@@ -556,29 +338,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a constructor.
+    ///  Create a constructor.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="name">
-    /// constructor name.
-    /// </param>
-    /// <param name="recognizer">
-    /// name of recognizer function.
-    /// </param>
-    /// <param name="numFields" ctype="unsigned">
-    /// number of fields in constructor.
-    /// </param>
-    /// <param name="fieldNames" ctype="Z3_symbol const[]">
-    /// names of the constructor fields.
-    /// </param>
-    /// <param name="sorts" ctype="Z3_sort const[]">
-    /// field sorts, 0 if the field sort refers to a recursive sort.
-    /// </param>
-    /// <param name="sortRefs" ctype="unsigned[]">
-    /// reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="name"> constructor name. </param>
+    /// <param name="recognizer"> name of recognizer function. </param>
+    /// <param name="numFields" ctype="unsigned"> number of fields in constructor. </param>
+    /// <param name="fieldNames" ctype="Z3_symbol const[]"> names of the constructor fields. </param>
+    /// <param name="sorts" ctype="Z3_sort const[]"> field sorts, 0 if the field sort refers to a recursive sort. </param>
+    /// <param name="sortRefs" ctype="unsigned[]"> reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared. </param>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="QueryConstructor"/>
@@ -596,29 +364,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a constructor.
+    ///  Create a constructor.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="name" ctype="Z3_symbol">
-    /// constructor name.
-    /// </param>
-    /// <param name="recognizer" ctype="Z3_symbol">
-    /// name of recognizer function.
-    /// </param>
-    /// <param name="numFields" ctype="unsigned">
-    /// number of fields in constructor.
-    /// </param>
-    /// <param name="fieldNames" ctype="Z3_symbol const[]">
-    /// names of the constructor fields.
-    /// </param>
-    /// <param name="sorts" ctype="Z3_sort const[]">
-    /// field sorts, 0 if the field sort refers to a recursive sort.
-    /// </param>
-    /// <param name="sortRefs" ctype="unsigned[]">
-    /// reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="name" ctype="Z3_symbol"> constructor name. </param>
+    /// <param name="recognizer" ctype="Z3_symbol"> name of recognizer function. </param>
+    /// <param name="numFields" ctype="unsigned"> number of fields in constructor. </param>
+    /// <param name="fieldNames" ctype="Z3_symbol const[]"> names of the constructor fields. </param>
+    /// <param name="sorts" ctype="Z3_sort const[]"> field sorts, 0 if the field sort refers to a recursive sort. </param>
+    /// <param name="sortRefs" ctype="unsigned[]"> reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared. </param>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="QueryConstructor"/>
@@ -630,14 +384,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the number of fields of a constructor.
+    ///  Retrieve the number of fields of a constructor.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="constr" ctype="Z3_constructor">
-    /// constructor.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="constr" ctype="Z3_constructor"> constructor. </param>
     public uint ConstructorNumFields(IntPtr c, IntPtr constr)
     {
         var result = nativeLibrary.ConstructorNumFields(c, constr);
@@ -646,14 +396,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Reclaim memory allocated to constructor.
+    ///  Reclaim memory allocated to constructor.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="constr" ctype="Z3_constructor">
-    /// constructor.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="constr" ctype="Z3_constructor"> constructor. </param>
     /// <seealso cref="MkConstructor"/>
     public void DelConstructor(IntPtr c, IntPtr constr)
     {
@@ -662,20 +408,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
+    ///  Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="name">
-    /// name of datatype.
-    /// </param>
-    /// <param name="numConstructors" ctype="unsigned">
-    /// number of constructors passed in.
-    /// </param>
-    /// <param name="constructors" ctype="Z3_constructor[]">
-    /// array of constructor containers.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="name"> name of datatype. </param>
+    /// <param name="numConstructors" ctype="unsigned"> number of constructors passed in. </param>
+    /// <param name="constructors" ctype="Z3_constructor[]"> array of constructor containers. </param>
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatypes"/>
@@ -690,20 +428,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
+    ///  Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="name" ctype="Z3_symbol">
-    /// name of datatype.
-    /// </param>
-    /// <param name="numConstructors" ctype="unsigned">
-    /// number of constructors passed in.
-    /// </param>
-    /// <param name="constructors" ctype="Z3_constructor[]">
-    /// array of constructor containers.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="name" ctype="Z3_symbol"> name of datatype. </param>
+    /// <param name="numConstructors" ctype="unsigned"> number of constructors passed in. </param>
+    /// <param name="constructors" ctype="Z3_constructor[]"> array of constructor containers. </param>
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatypes"/>
@@ -715,20 +445,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
+    ///  create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="name">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="name">symbol parameter</param>
     /// <remarks>
-    /// Forward references can replace the use sort references, that are unsigned integers in the
-    /// <c>
-    /// Z3_mk_constructor
-    /// </c>
-    /// call
+    /// Forward references can replace the use sort references, that are unsigned integers in the <c>Z3_mk_constructor</c> call
     /// </remarks>
     public IntPtr MkDatatypeSort(IntPtr c, string name)
     {
@@ -741,20 +463,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
+    ///  create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="name" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="name" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
-    /// Forward references can replace the use sort references, that are unsigned integers in the
-    /// <c>
-    /// Z3_mk_constructor
-    /// </c>
-    /// call
+    /// Forward references can replace the use sort references, that are unsigned integers in the <c>Z3_mk_constructor</c> call
     /// </remarks>
     public IntPtr MkDatatypeSortOriginal(IntPtr c, IntPtr name)
     {
@@ -764,17 +478,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create list of constructors.
+    ///  Create list of constructors.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="numConstructors" ctype="unsigned">
-    /// number of constructors in list.
-    /// </param>
-    /// <param name="constructors" ctype="Z3_constructor const[]">
-    /// list of constructors.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="numConstructors" ctype="unsigned"> number of constructors in list. </param>
+    /// <param name="constructors" ctype="Z3_constructor const[]"> list of constructors. </param>
     /// <seealso cref="DelConstructorList"/>
     /// <seealso cref="MkConstructor"/>
     public IntPtr MkConstructorList(IntPtr c, uint numConstructors, IntPtr[] constructors)
@@ -785,18 +493,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Reclaim memory allocated for constructor list.
+    ///  Reclaim memory allocated for constructor list.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="clist" ctype="Z3_constructor_list">
-    /// constructor list container.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="clist" ctype="Z3_constructor_list"> constructor list container. </param>
     /// <remarks>
-    /// Each constructor inside the constructor list must be independently reclaimed using
-    /// <see cref="DelConstructor"/>
-    /// .
+    /// Each constructor inside the constructor list must be independently reclaimed using <see cref="DelConstructor"/> .
     /// </remarks>
     /// <seealso cref="MkConstructorList"/>
     public void DelConstructorList(IntPtr c, IntPtr clist)
@@ -806,23 +508,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create mutually recursive datatypes.
+    ///  Create mutually recursive datatypes.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="numSorts" ctype="unsigned">
-    /// number of datatype sorts.
-    /// </param>
-    /// <param name="sortNames" ctype="Z3_symbol const[]">
-    /// names of datatype sorts.
-    /// </param>
-    /// <param name="sorts" ctype="Z3_sort[]">
-    /// array of datatype sorts.
-    /// </param>
-    /// <param name="constructorLists" ctype="Z3_constructor_list[]">
-    /// list of constructors, one list per sort.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="numSorts" ctype="unsigned"> number of datatype sorts. </param>
+    /// <param name="sortNames" ctype="Z3_symbol const[]"> names of datatype sorts. </param>
+    /// <param name="sorts" ctype="Z3_sort[]"> array of datatype sorts. </param>
+    /// <param name="constructorLists" ctype="Z3_constructor_list[]"> list of constructors, one list per sort. </param>
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatype"/>
@@ -833,28 +525,14 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Query constructor for declared functions.
+    ///  Query constructor for declared functions.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="constr" ctype="Z3_constructor">
-    /// constructor container. The container must have been passed into a
-    /// <see cref="MkDatatype"/>
-    /// call.
-    /// </param>
-    /// <param name="numFields" ctype="unsigned">
-    /// number of accessor fields in the constructor.
-    /// </param>
-    /// <param name="constructor" ctype="Z3_func_decl*">
-    /// constructor function declaration, allocated by user.
-    /// </param>
-    /// <param name="tester" ctype="Z3_func_decl*">
-    /// constructor test function declaration, allocated by user.
-    /// </param>
-    /// <param name="accessors" ctype="Z3_func_decl[]">
-    /// array of accessor function declarations allocated by user. The array must contain num_fields elements.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="constr" ctype="Z3_constructor"> constructor container. The container must have been passed into a <see cref="MkDatatype"/> call. </param>
+    /// <param name="numFields" ctype="unsigned"> number of accessor fields in the constructor. </param>
+    /// <param name="constructor" ctype="Z3_func_decl*"> constructor function declaration, allocated by user. </param>
+    /// <param name="tester" ctype="Z3_func_decl*"> constructor test function declaration, allocated by user. </param>
+    /// <param name="accessors" ctype="Z3_func_decl[]"> array of accessor function declarations allocated by user. The array must contain num_fields elements. </param>
     /// <seealso cref="MkConstructor"/>
     public void QueryConstructor(IntPtr c, IntPtr constr, uint numFields, IntPtr constructor, IntPtr tester, IntPtr[] accessors)
     {

@@ -11,59 +11,15 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers.
+    ///  Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="models" ctype="bool">
-    /// bool parameter
-    /// </param>
-    /// <param name="unsatCores" ctype="bool">
-    /// bool parameter
-    /// </param>
-    /// <param name="proofs" ctype="bool">
-    /// bool parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="models" ctype="bool">bool parameter</param>
+    /// <param name="unsatCores" ctype="bool">bool parameter</param>
+    /// <param name="proofs" ctype="bool">bool parameter</param>
     /// <remarks>
-    /// If
-    /// <c>
-    /// models
-    /// </c>
-    /// is
-    /// <c>
-    /// true
-    /// </c>
-    /// , then model generation is enabled for the new goal. If
-    /// <c>
-    /// unsat_cores
-    /// </c>
-    /// is
-    /// <c>
-    /// true
-    /// </c>
-    /// , then unsat core generation is enabled for the new goal. If
-    /// <c>
-    /// proofs
-    /// </c>
-    /// is
-    /// <c>
-    /// true
-    /// </c>
-    /// , then proof generation is enabled for the new goal. Remark, the Z3 context
-    /// <c>
-    /// c
-    /// </c>
-    /// must have been created with proof generation support.
-    /// Reference counting must be used to manage goals, even when the
-    /// <c>
-    /// Z3_context
-    /// </c>
-    /// was created using
-    /// MkContext
-    /// instead of
-    /// <see cref="MkContextRc"/>
-    /// .
+    /// If <c>models</c> is <c>true</c> , then model generation is enabled for the new goal. If <c>unsat_cores</c> is <c>true</c> , then unsat core generation is enabled for the new goal. If <c>proofs</c> is <c>true</c> , then proof generation is enabled for the new goal. Remark, the Z3 context <c>c</c> must have been created with proof generation support.
+    /// Reference counting must be used to manage goals, even when the <c>Z3_context</c> was created using MkContext instead of <see cref="MkContextRc"/> .
     /// </remarks>
     public IntPtr MkGoal(IntPtr c, bool models, bool unsatCores, bool proofs)
     {
@@ -73,14 +29,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given goal.
+    ///  Increment the reference counter of the given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public void GoalIncRef(IntPtr c, IntPtr g)
     {
         nativeLibrary.GoalIncRef(c, g);
@@ -88,14 +40,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given goal.
+    ///  Decrement the reference counter of the given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public void GoalDecRef(IntPtr c, IntPtr g)
     {
         nativeLibrary.GoalDecRef(c, g);
@@ -103,14 +51,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A under approximation is applied when the objective is to find a model for a given goal. An over approximation is applied when the objective is to find a proof for a given goal.
+    ///  Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A under approximation is applied when the objective is to find a model for a given goal. An over approximation is applied when the objective is to find a proof for a given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public GoalPrec GoalPrecision(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalPrecision(c, g);
@@ -119,45 +63,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a new formula
-    /// <c>
-    /// a
-    /// </c>
-    /// to the given goal. The formula is split according to the following procedure that is applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over disjunctions, resulting in separate formulas. If the goal is
-    /// <c>
-    /// false
-    /// </c>
-    /// , adding new formulas is a no-op. If the formula
-    /// <c>
-    /// a
-    /// </c>
-    /// is
-    /// <c>
-    /// true
-    /// </c>
-    /// , then nothing is added. If the formula
-    /// <c>
-    /// a
-    /// </c>
-    /// is
-    /// <c>
-    /// false
-    /// </c>
-    /// , then the entire goal is replaced by the formula
-    /// <c>
-    /// false
-    /// </c>
-    /// .
+    ///  Add a new formula <c>a</c> to the given goal. The formula is split according to the following procedure that is applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over disjunctions, resulting in separate formulas. If the goal is <c>false</c> , adding new formulas is a no-op. If the formula <c>a</c> is <c>true</c> , then nothing is added. If the formula <c>a</c> is <c>false</c> , then the entire goal is replaced by the formula <c>false</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public void GoalAssert(IntPtr c, IntPtr g, IntPtr a)
     {
         nativeLibrary.GoalAssert(c, g, a);
@@ -165,22 +75,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the given goal contains the formula
-    /// <c>
-    /// false
-    /// </c>
-    /// .
+    ///  Return <c>true</c> if the given goal contains the formula <c>false</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public bool GoalInconsistent(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalInconsistent(c, g);
@@ -189,14 +87,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the depth of the given goal. It tracks how many transformations were applied to it.
+    ///  Return the depth of the given goal. It tracks how many transformations were applied to it.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public uint GoalDepth(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalDepth(c, g);
@@ -205,14 +99,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Erase all formulas from the given goal.
+    ///  Erase all formulas from the given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public void GoalReset(IntPtr c, IntPtr g)
     {
         nativeLibrary.GoalReset(c, g);
@@ -220,14 +110,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of formulas in the given goal.
+    ///  Return the number of formulas in the given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public uint GoalSize(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalSize(c, g);
@@ -236,17 +122,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a formula from the given goal.
+    ///  Return a formula from the given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_goal_size(c, g)
     /// </remarks>
@@ -258,14 +138,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of formulas, subformulas and terms in the given goal.
+    ///  Return the number of formulas, subformulas and terms in the given goal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public uint GoalNumExprs(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalNumExprs(c, g);
@@ -274,18 +150,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the goal is empty, and it is precise or the product of a under approximation.
+    ///  Return <c>true</c> if the goal is empty, and it is precise or the product of a under approximation.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public bool GoalIsDecidedSat(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalIsDecidedSat(c, g);
@@ -294,18 +162,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the goal contains false, and it is precise or the product of an over approximation.
+    ///  Return <c>true</c> if the goal contains false, and it is precise or the product of an over approximation.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public bool GoalIsDecidedUnsat(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalIsDecidedUnsat(c, g);
@@ -314,29 +174,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Copy a goal
-    /// <c>
-    /// g
-    /// </c>
-    /// from the context
-    /// <c>
-    /// source
-    /// </c>
-    /// to the context
-    /// <c>
-    /// target
-    /// </c>
-    /// .
+    ///  Copy a goal <c>g</c> from the context <c>source</c> to the context <c>target</c> .
     /// </summary>
-    /// <param name="source" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
-    /// <param name="target" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="source" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <param name="target" ctype="Z3_context">context parameter</param>
     public IntPtr GoalTranslate(IntPtr source, IntPtr g, IntPtr target)
     {
         var result = nativeLibrary.GoalTranslate(source, g, target);
@@ -345,27 +187,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable.
+    ///  Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
-    /// <param name="m" ctype="Z3_model">
-    /// model parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <remarks>
-    /// When using this feature it is advisable to set the parameter
-    /// <c>
-    /// model.compact
-    /// </c>
-    /// to
-    /// <c>
-    /// false
-    /// </c>
-    /// . It is by default true, which erases variables created by the solver from models. Without access to model values for intermediary variables, values of other variables may end up having the wrong values.
+    /// When using this feature it is advisable to set the parameter <c>model.compact</c> to <c>false</c> . It is by default true, which erases variables created by the solver from models. Without access to model values for intermediary variables, values of other variables may end up having the wrong values.
     /// </remarks>
     public IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)
     {
@@ -375,14 +203,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a goal into a string.
+    ///  Convert a goal into a string.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
     public IntPtr GoalToString(IntPtr c, IntPtr g)
     {
         var result = nativeLibrary.GoalToString(c, g);
@@ -391,17 +215,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded.
+    ///  Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="g" ctype="Z3_goal">
-    /// goal parameter
-    /// </param>
-    /// <param name="includeNames" ctype="bool">
-    /// bool parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <param name="includeNames" ctype="bool">bool parameter</param>
     public IntPtr GoalToDimacsString(IntPtr c, IntPtr g, bool includeNames)
     {
         var result = nativeLibrary.GoalToDimacsString(c, g, includeNames);

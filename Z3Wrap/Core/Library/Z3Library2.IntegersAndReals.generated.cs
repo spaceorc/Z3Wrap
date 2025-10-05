@@ -11,31 +11,13 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// args[0] + ... + args[num_args-1]
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>args[0] + ... + args[num_args-1]</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The array
-    /// <c>
-    /// args
-    /// </c>
-    /// must have
-    /// <c>
-    /// num_args
-    /// </c>
-    /// elements. All arguments must have int or real sort.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have int or real sort.
     /// The number of arguments must be greater than zero.
     /// </remarks>
     public IntPtr MkAdd(IntPtr c, uint numArgs, IntPtr[] args)
@@ -46,31 +28,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// args[0] * ... * args[num_args-1]
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>args[0] * ... * args[num_args-1]</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The array
-    /// <c>
-    /// args
-    /// </c>
-    /// must have
-    /// <c>
-    /// num_args
-    /// </c>
-    /// elements. All arguments must have int or real sort.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have int or real sort.
     /// Z3 has limited support for non-linear arithmetic.
     /// The number of arguments must be greater than zero.
     /// </remarks>
@@ -82,31 +46,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// args[0] - ... - args[num_args - 1]
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>args[0] - ... - args[num_args - 1]</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The array
-    /// <c>
-    /// args
-    /// </c>
-    /// must have
-    /// <c>
-    /// num_args
-    /// </c>
-    /// elements. All arguments must have int or real sort.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have int or real sort.
     /// The number of arguments must be greater than zero.
     /// </remarks>
     public IntPtr MkSub(IntPtr c, uint numArgs, IntPtr[] args)
@@ -117,18 +63,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// - arg
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>- arg</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The arguments must have int or real type.
     /// </remarks>
@@ -140,21 +78,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// arg1 div arg2
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>arg1 div arg2</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The arguments must either both have int type or both have real type. If the arguments have int type, then the result type is an int type, otherwise the the result type is real.
     /// </remarks>
@@ -166,21 +94,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// arg1 mod arg2
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>arg1 mod arg2</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The arguments must have int type.
     /// </remarks>
@@ -192,21 +110,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// arg1 rem arg2
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>arg1 rem arg2</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The arguments must have int type.
     /// </remarks>
@@ -218,21 +126,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing
-    /// <c>
-    /// arg1 ^ arg2
-    /// </c>
-    /// .
+    ///  Create an AST node representing <c>arg1 ^ arg2</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The arguments must have int or real type.
     /// </remarks>
@@ -244,14 +142,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Take the absolute value of an integer.
+    ///  Take the absolute value of an integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkAbs(IntPtr c, IntPtr arg)
     {
         var result = nativeLibrary.MkAbs(c, arg);
@@ -260,27 +154,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create less than.
+    ///  Create less than.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="t2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The nodes
-    /// <c>
-    /// t1
-    /// </c>
-    /// and
-    /// <c>
-    /// t2
-    /// </c>
-    /// must have the same sort, and must be int or real.
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
     /// </remarks>
     public IntPtr MkLt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -290,27 +170,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create less than or equal to.
+    ///  Create less than or equal to.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="t2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The nodes
-    /// <c>
-    /// t1
-    /// </c>
-    /// and
-    /// <c>
-    /// t2
-    /// </c>
-    /// must have the same sort, and must be int or real.
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
     /// </remarks>
     public IntPtr MkLe(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -320,27 +186,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create greater than.
+    ///  Create greater than.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="t2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The nodes
-    /// <c>
-    /// t1
-    /// </c>
-    /// and
-    /// <c>
-    /// t2
-    /// </c>
-    /// must have the same sort, and must be int or real.
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
     /// </remarks>
     public IntPtr MkGt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -350,27 +202,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create greater than or equal to.
+    ///  Create greater than or equal to.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="t2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The nodes
-    /// <c>
-    /// t1
-    /// </c>
-    /// and
-    /// <c>
-    /// t2
-    /// </c>
-    /// must have the same sort, and must be int or real.
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
     /// </remarks>
     public IntPtr MkGe(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -380,39 +218,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create division predicate.
+    ///  Create division predicate.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="t2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The nodes
-    /// <c>
-    /// t1
-    /// </c>
-    /// and
-    /// <c>
-    /// t2
-    /// </c>
-    /// must be of integer sort. The predicate is true when
-    /// <c>
-    /// t1
-    /// </c>
-    /// divides
-    /// <c>
-    /// t2
-    /// </c>
-    /// . For the predicate to be part of linear integer arithmetic, the first argument
-    /// <c>
-    /// t1
-    /// </c>
-    /// must be a non-zero integer.
+    /// The nodes <c>t1</c> and <c>t2</c> must be of integer sort. The predicate is true when <c>t1</c> divides <c>t2</c> . For the predicate to be part of linear integer arithmetic, the first argument <c>t1</c> must be a non-zero integer.
     /// </remarks>
     public IntPtr MkDivides(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -422,28 +234,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Coerce an integer to a real.
+    ///  Coerce an integer to a real.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// There is also a converse operation exposed. It follows the semantics prescribed by the SMT-LIB standard. You can take the floor of a real by creating an auxiliary integer constant
-    /// <c>
-    /// k
-    /// </c>
-    /// and and asserting
-    /// <c>
-    /// mk_int2real(k) &lt;= t1 &lt; mk_int2real(k)+1
-    /// </c>
-    /// . The node
-    /// <c>
-    /// t1
-    /// </c>
-    /// must have sort integer.
+    /// There is also a converse operation exposed. It follows the semantics prescribed by the SMT-LIB standard. You can take the floor of a real by creating an auxiliary integer constant <c>k</c> and and asserting <c>mk_int2real(k) &lt;= t1 &lt; mk_int2real(k)+1</c> . The node <c>t1</c> must have sort integer.
     /// </remarks>
     /// <seealso cref="MkReal2int"/>
     /// <seealso cref="MkIsInt"/>
@@ -455,14 +251,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Coerce a real to an integer.
+    ///  Coerce a real to an integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The semantics of this function follows the SMT-LIB standard for the function to_int
     /// </remarks>
@@ -476,14 +268,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if a real number is an integer.
+    ///  Check if a real number is an integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <seealso cref="MkInt2real"/>
     /// <seealso cref="MkReal2int"/>
     public IntPtr MkIsInt(IntPtr c, IntPtr t1)

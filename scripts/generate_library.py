@@ -96,14 +96,19 @@ def parse_xml_doc_comment(doc_block: str) -> XmlNode:
     """
     Parse XML documentation comment into a tree structure.
     Takes raw doc block with /// prefixes and returns root XmlNode.
+    Preserves original formatting including whitespace.
     """
-    # Remove /// prefixes and join into single text
+    # Remove /// prefixes but preserve spacing after it
     lines = []
     for line in doc_block.split('\n'):
         line = line.strip()
         if line.startswith('///'):
-            line = line[3:].strip()
-            lines.append(line)
+            # Remove /// but keep everything after (including leading space)
+            content = line[3:]
+            # Only strip the single leading space that's conventional after ///
+            if content.startswith(' '):
+                content = content[1:]
+            lines.append(content)
 
     xml_text = '\n'.join(lines)
 
@@ -119,14 +124,14 @@ def parse_xml_doc_comment(doc_block: str) -> XmlNode:
 
             if tag_start == -1:
                 # No more tags - rest is text
-                remaining = text[pos:].strip()
+                remaining = text[pos:]
                 if remaining:
                     parent.children.append(XmlNode(tag=None, text=remaining))
                 break
 
             # Text before tag
             if tag_start > pos:
-                text_content = text[pos:tag_start].strip()
+                text_content = text[pos:tag_start]
                 if text_content:
                     parent.children.append(XmlNode(tag=None, text=text_content))
 
@@ -191,49 +196,46 @@ def render_xml_node(node: XmlNode, indent: str = "    ") -> str:
     """
     Render XmlNode tree back to C# XML documentation format.
     Returns formatted string with /// prefixes.
+    Preserves original formatting exactly as it appears in source.
     """
     lines = []
 
-    def render_node(n: XmlNode, current_indent: str):
+    def serialize_node_content(n: XmlNode) -> str:
+        """Recursively serialize node and children preserving exact formatting."""
         if n.is_text_node():
-            # Text node - split by lines and add /// prefix
-            for line in n.text.split('\n'):
-                if line.strip():
-                    lines.append(f"{current_indent}/// {line}")
-                else:
-                    lines.append(f"{current_indent}///")
-        else:
-            # Element node
-            attrs_str = ""
-            if n.attributes:
-                attrs_parts = [f'{k}="{v}"' for k, v in n.attributes.items()]
-                attrs_str = " " + " ".join(attrs_parts)
+            return n.text
 
-            if not n.children and not n.text:
-                # Self-closing tag
-                lines.append(f"{current_indent}/// <{n.tag}{attrs_str}/>")
-            elif not n.children and n.text and '\n' not in n.text:
-                # Single-line tag with text
-                lines.append(f"{current_indent}/// <{n.tag}{attrs_str}>{n.text}</{n.tag}>")
-            else:
-                # Multi-line tag
-                lines.append(f"{current_indent}/// <{n.tag}{attrs_str}>")
+        # Build attributes string
+        attrs_str = ""
+        if n.attributes:
+            attrs_parts = [f'{k}="{v}"' for k, v in n.attributes.items()]
+            attrs_str = " " + " ".join(attrs_parts)
 
-                # Render text content if any
-                if n.text:
-                    for line in n.text.split('\n'):
-                        if line.strip():
-                            lines.append(f"{current_indent}/// {line}")
+        # Self-closing tag
+        if not n.children and not n.text:
+            return f"<{n.tag}{attrs_str}/>"
 
-                # Render children
-                for child in n.children:
-                    render_node(child, current_indent)
+        # Tag with content - preserve exact structure
+        result = f"<{n.tag}{attrs_str}>"
+        if n.text:
+            result += n.text
+        for child in n.children:
+            result += serialize_node_content(child)
+        result += f"</{n.tag}>"
 
-                lines.append(f"{current_indent}/// </{n.tag}>")
+        return result
 
-    # Render all children of root (skip root 'doc' tag itself)
+    # For each top-level child (summary, param, remarks, etc), render line by line
     for child in node.children:
-        render_node(child, indent)
+        if child.is_text_node():
+            continue  # Skip text nodes at root level
+
+        # Serialize the entire node (opening tag + content + closing tag)
+        full_content = serialize_node_content(child)
+
+        # Split by newlines and add /// prefix to each line
+        for line in full_content.split('\n'):
+            lines.append(f"{indent}/// {line}")
 
     return '\n'.join(lines)
 

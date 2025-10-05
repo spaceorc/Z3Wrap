@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create a sequence sort out of the sort for the elements.
+    ///  Create a sequence sort out of the sort for the elements.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public IntPtr MkSeqSort(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkSeqSort(c, s);
@@ -27,18 +23,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s
-    /// </c>
-    /// is a sequence sort.
+    ///  Check if <c>s</c> is a sequence sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public bool IsSeqSort(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.IsSeqSort(c, s);
@@ -47,14 +35,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve basis sort for sequence sort.
+    ///  Retrieve basis sort for sequence sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public IntPtr GetSeqSortBasis(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.GetSeqSortBasis(c, s);
@@ -63,14 +47,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression sort out of a sequence sort.
+    ///  Create a regular expression sort out of a sequence sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="seq" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_sort">sort parameter</param>
     public IntPtr MkReSort(IntPtr c, IntPtr seq)
     {
         var result = nativeLibrary.MkReSort(c, seq);
@@ -79,18 +59,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s
-    /// </c>
-    /// is a regular expression sort.
+    ///  Check if <c>s</c> is a regular expression sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public bool IsReSort(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.IsReSort(c, s);
@@ -99,14 +71,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve basis sort for regex sort.
+    ///  Retrieve basis sort for regex sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public IntPtr GetReSortBasis(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.GetReSortBasis(c, s);
@@ -115,29 +83,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a sort for unicode strings.
+    ///  Create a sort for unicode strings.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// The sort for characters can be changed to ASCII by setting the global parameter
-    /// <c>
-    /// encoding
-    /// </c>
-    /// to
-    /// <c>
-    /// ascii
-    /// </c>
-    /// , or alternative to 16 bit characters by setting
-    /// <c>
-    /// encoding
-    /// </c>
-    /// to
-    /// <c>
-    /// bmp
-    /// </c>
-    /// .
+    /// The sort for characters can be changed to ASCII by setting the global parameter <c>encoding</c> to <c>ascii</c> , or alternative to 16 bit characters by setting <c>encoding</c> to <c>bmp</c> .
     /// </remarks>
     public IntPtr MkStringSort(IntPtr c)
     {
@@ -147,29 +97,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a sort for unicode characters.
+    ///  Create a sort for unicode characters.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// The sort for characters can be changed to ASCII by setting the global parameter
-    /// <c>
-    /// encoding
-    /// </c>
-    /// to
-    /// <c>
-    /// ascii
-    /// </c>
-    /// , or alternative to 16 bit characters by setting
-    /// <c>
-    /// encoding
-    /// </c>
-    /// to
-    /// <c>
-    /// bmp
-    /// </c>
-    /// .
+    /// The sort for characters can be changed to ASCII by setting the global parameter <c>encoding</c> to <c>ascii</c> , or alternative to 16 bit characters by setting <c>encoding</c> to <c>bmp</c> .
     /// </remarks>
     public IntPtr MkCharSort(IntPtr c)
     {
@@ -179,18 +111,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s
-    /// </c>
-    /// is a string sort.
+    ///  Check if <c>s</c> is a string sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public bool IsStringSort(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.IsStringSort(c, s);
@@ -199,18 +123,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s
-    /// </c>
-    /// is a character sort.
+    ///  Check if <c>s</c> is a character sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public bool IsCharSort(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.IsCharSort(c, s);
@@ -219,14 +135,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in The string may contain escape encoding for non-printable characters or characters outside of the basic printable ASCII range. For example, the escape encoding \u{0} represents the character 0 and the encoding \u{100} represents the character 256.
+    ///  Create a string constant out of the string that is passed in The string may contain escape encoding for non-printable characters or characters outside of the basic printable ASCII range. For example, the escape encoding \u{0} represents the character 0 and the encoding \u{100} represents the character 256.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_string">
-    /// string parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     public IntPtr MkString(IntPtr c, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);
@@ -236,17 +148,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is treated as if it is unescaped so a sequence of characters \u{0} is treated as 5 characters and not the character 0.
+    ///  Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is treated as if it is unescaped so a sequence of characters \u{0} is treated as 5 characters and not the character 0.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="len" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_string">
-    /// string parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="len" ctype="unsigned">unsigned parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     public IntPtr MkLstring(IntPtr c, uint len, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);
@@ -256,17 +162,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is unescaped.
+    ///  Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is unescaped.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="len" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="chars" ctype="unsigned const[]">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="len" ctype="unsigned">unsigned parameter</param>
+    /// <param name="chars" ctype="unsigned const[]">unsigned parameter</param>
     public IntPtr MkU32string(IntPtr c, uint len, uint[] chars)
     {
         var result = nativeLibrary.MkU32string(c, len, chars);
@@ -275,18 +175,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Determine if
-    /// <c>
-    /// s
-    /// </c>
-    /// is a string constant.
+    ///  Determine if <c>s</c> is a string constant.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public bool IsString(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.IsString(c, s);
@@ -295,18 +187,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the string constant stored in
-    /// <c>
-    /// s
-    /// </c>
-    /// . Characters outside the basic printable ASCII range are escaped.
+    ///  Retrieve the string constant stored in <c>s</c> . Characters outside the basic printable ASCII range are escaped.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
@@ -318,21 +202,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the string constant stored in
-    /// <c>
-    /// s
-    /// </c>
-    /// . The string can contain escape sequences. Characters in the range 1 to 255 are literal. Characters in the range 0, and 256 above are escaped.
+    ///  Retrieve the string constant stored in <c>s</c> . The string can contain escape sequences. Characters in the range 1 to 255 are literal. Characters in the range 0, and 256 above are escaped.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="length" ctype="unsigned*">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="length" ctype="unsigned*">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
@@ -344,18 +218,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the length of the unescaped string constant stored in
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Retrieve the length of the unescaped string constant stored in <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// </remarks>
@@ -367,24 +233,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the unescaped string constant stored in
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Retrieve the unescaped string constant stored in <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="length" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="contents" ctype="unsigned[]">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="length" ctype="unsigned">unsigned parameter</param>
+    /// <param name="contents" ctype="unsigned[]">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_string(c, s)
     /// Precondition: length contains the number of characters in s
@@ -396,18 +250,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an empty sequence of the sequence sort
-    /// <c>
-    /// seq
-    /// </c>
-    /// .
+    ///  Create an empty sequence of the sequence sort <c>seq</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="seq" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: s is a sequence sort.
     /// </remarks>
@@ -419,18 +265,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a unit sequence of
-    /// <c>
-    /// a
-    /// </c>
-    /// .
+    ///  Create a unit sequence of <c>a</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqUnit(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.MkSeqUnit(c, a);
@@ -439,17 +277,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Concatenate sequences.
+    ///  Concatenate sequences.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -461,25 +293,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// prefix
-    /// </c>
-    /// is a prefix of
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Check if <c>prefix</c> is a prefix of <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="prefix" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: prefix and s are the same sequence sorts.
     /// </remarks>
@@ -491,35 +309,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// suffix
-    /// </c>
-    /// is a suffix of
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Check if <c>suffix</c> is a suffix of <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="suffix" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="suffix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition:
-    /// <c>
-    /// suffix
-    /// </c>
-    /// and
-    /// <c>
-    /// s
-    /// </c>
-    /// are the same sequence sorts.
+    /// Precondition: <c>suffix</c> and <c>s</c> are the same sequence sorts.
     /// </remarks>
     public IntPtr MkSeqSuffix(IntPtr c, IntPtr suffix, IntPtr s)
     {
@@ -529,35 +325,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// container
-    /// </c>
-    /// contains
-    /// <c>
-    /// containee
-    /// </c>
-    /// .
+    ///  Check if <c>container</c> contains <c>containee</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="container" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="containee" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="container" ctype="Z3_ast">ast parameter</param>
+    /// <param name="containee" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition:
-    /// <c>
-    /// container
-    /// </c>
-    /// and
-    /// <c>
-    /// containee
-    /// </c>
-    /// are the same sequence sorts.
+    /// Precondition: <c>container</c> and <c>containee</c> are the same sequence sorts.
     /// </remarks>
     public IntPtr MkSeqContains(IntPtr c, IntPtr container, IntPtr containee)
     {
@@ -567,35 +341,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s1
-    /// </c>
-    /// is lexicographically strictly less than
-    /// <c>
-    /// s2
-    /// </c>
-    /// .
+    ///  Check if <c>s1</c> is lexicographically strictly less than <c>s2</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="prefix" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition:
-    /// <c>
-    /// s1
-    /// </c>
-    /// and
-    /// <c>
-    /// s2
-    /// </c>
-    /// are strings
+    /// Precondition: <c>s1</c> and <c>s2</c> are strings
     /// </remarks>
     public IntPtr MkStrLt(IntPtr c, IntPtr prefix, IntPtr s)
     {
@@ -605,35 +357,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s1
-    /// </c>
-    /// is equal or lexicographically strictly less than
-    /// <c>
-    /// s2
-    /// </c>
-    /// .
+    ///  Check if <c>s1</c> is equal or lexicographically strictly less than <c>s2</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="prefix" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="prefix" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition:
-    /// <c>
-    /// s1
-    /// </c>
-    /// and
-    /// <c>
-    /// s2
-    /// </c>
-    /// are strings
+    /// Precondition: <c>s1</c> and <c>s2</c> are strings
     /// </remarks>
     public IntPtr MkStrLe(IntPtr c, IntPtr prefix, IntPtr s)
     {
@@ -643,28 +373,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Extract subsequence starting at
-    /// <c>
-    /// offset
-    /// </c>
-    /// of
-    /// <c>
-    /// length
-    /// </c>
-    /// .
+    ///  Extract subsequence starting at <c>offset</c> of <c>length</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="offset" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="length" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="offset" ctype="Z3_ast">ast parameter</param>
+    /// <param name="length" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqExtract(IntPtr c, IntPtr s, IntPtr offset, IntPtr length)
     {
         var result = nativeLibrary.MkSeqExtract(c, s, offset, length);
@@ -673,32 +387,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Replace the first occurrence of
-    /// <c>
-    /// src
-    /// </c>
-    /// with
-    /// <c>
-    /// dst
-    /// </c>
-    /// in
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Replace the first occurrence of <c>src</c> with <c>dst</c> in <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="src" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="dst" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="src" ctype="Z3_ast">ast parameter</param>
+    /// <param name="dst" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqReplace(IntPtr c, IntPtr s, IntPtr src, IntPtr dst)
     {
         var result = nativeLibrary.MkSeqReplace(c, s, src, dst);
@@ -707,25 +401,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve from
-    /// <c>
-    /// s
-    /// </c>
-    /// the unit sequence positioned at position
-    /// <c>
-    /// index
-    /// </c>
-    /// . The sequence is empty if the index is out of bounds.
+    ///  Retrieve from <c>s</c> the unit sequence positioned at position <c>index</c> . The sequence is empty if the index is out of bounds.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="index" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="index" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqAt(IntPtr c, IntPtr s, IntPtr index)
     {
         var result = nativeLibrary.MkSeqAt(c, s, index);
@@ -734,25 +414,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve from
-    /// <c>
-    /// s
-    /// </c>
-    /// the element positioned at position
-    /// <c>
-    /// index
-    /// </c>
-    /// . The function is under-specified if the index is out of bounds.
+    ///  Retrieve from <c>s</c> the element positioned at position <c>index</c> . The function is under-specified if the index is out of bounds.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="index" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="index" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqNth(IntPtr c, IntPtr s, IntPtr index)
     {
         var result = nativeLibrary.MkSeqNth(c, s, index);
@@ -761,18 +427,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the length of the sequence
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Return the length of the sequence <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqLength(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkSeqLength(c, s);
@@ -781,56 +439,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return index of the first occurrence of
-    /// <c>
-    /// substr
-    /// </c>
-    /// in
-    /// <c>
-    /// s
-    /// </c>
-    /// starting from offset
-    /// <c>
-    /// offset
-    /// </c>
-    /// . If
-    /// <c>
-    /// s
-    /// </c>
-    /// does not contain
-    /// <c>
-    /// substr
-    /// </c>
-    /// , then the value is -1, if
-    /// <c>
-    /// offset
-    /// </c>
-    /// is the length of
-    /// <c>
-    /// s
-    /// </c>
-    /// , then the value is -1 as well. The value is -1 if
-    /// <c>
-    /// offset
-    /// </c>
-    /// is negative or larger than the length of
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Return index of the first occurrence of <c>substr</c> in <c>s</c> starting from offset <c>offset</c> . If <c>s</c> does not contain <c>substr</c> , then the value is -1, if <c>offset</c> is the length of <c>s</c> , then the value is -1 as well. The value is -1 if <c>offset</c> is negative or larger than the length of <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="substr" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="offset" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="substr" ctype="Z3_ast">ast parameter</param>
+    /// <param name="offset" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqIndex(IntPtr c, IntPtr s, IntPtr substr, IntPtr offset)
     {
         var result = nativeLibrary.MkSeqIndex(c, s, substr, offset);
@@ -839,33 +453,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return index of the last occurrence of
-    /// <c>
-    /// substr
-    /// </c>
-    /// in
-    /// <c>
-    /// s
-    /// </c>
-    /// . If
-    /// <c>
-    /// s
-    /// </c>
-    /// does not contain
-    /// <c>
-    /// substr
-    /// </c>
-    /// , then the value is -1, def_API('Z3_mk_seq_last_index', AST, (_in(CONTEXT), _in(AST), _in(AST)))
+    ///  Return index of the last occurrence of <c>substr</c> in <c>s</c> . If <c>s</c> does not contain <c>substr</c> , then the value is -1, def_API('Z3_mk_seq_last_index', AST, (_in(CONTEXT), _in(AST), _in(AST)))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="substr" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
+    /// <param name="substr" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqLastIndex(IntPtr c, IntPtr s, IntPtr substr)
     {
         var result = nativeLibrary.MkSeqLastIndex(c, s, substr);
@@ -874,25 +466,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a map of the function
-    /// <c>
-    /// f
-    /// </c>
-    /// over the sequence
-    /// <c>
-    /// s
-    /// </c>
-    /// . def_API('Z3_mk_seq_map', AST ,(_in(CONTEXT), _in(AST), _in(AST)))
+    ///  Create a map of the function <c>f</c> over the sequence <c>s</c> . def_API('Z3_mk_seq_map', AST ,(_in(CONTEXT), _in(AST), _in(AST)))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqMap(IntPtr c, IntPtr f, IntPtr s)
     {
         var result = nativeLibrary.MkSeqMap(c, f, s);
@@ -901,32 +479,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a map of the function
-    /// <c>
-    /// f
-    /// </c>
-    /// over the sequence
-    /// <c>
-    /// s
-    /// </c>
-    /// starting at index
-    /// <c>
-    /// i
-    /// </c>
-    /// . def_API('Z3_mk_seq_mapi', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST)))
+    ///  Create a map of the function <c>f</c> over the sequence <c>s</c> starting at index <c>i</c> . def_API('Z3_mk_seq_mapi', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST)))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqMapi(IntPtr c, IntPtr f, IntPtr i, IntPtr s)
     {
         var result = nativeLibrary.MkSeqMapi(c, f, i, s);
@@ -935,28 +493,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a fold of the function
-    /// <c>
-    /// f
-    /// </c>
-    /// over the sequence
-    /// <c>
-    /// s
-    /// </c>
-    /// with accumulator a. def_API('Z3_mk_seq_foldl', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST)))
+    ///  Create a fold of the function <c>f</c> over the sequence <c>s</c> with accumulator a. def_API('Z3_mk_seq_foldl', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST)))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqFoldl(IntPtr c, IntPtr f, IntPtr a, IntPtr s)
     {
         var result = nativeLibrary.MkSeqFoldl(c, f, a, s);
@@ -965,39 +507,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a fold with index tracking of the function
-    /// <c>
-    /// f
-    /// </c>
-    /// over the sequence
-    /// <c>
-    /// s
-    /// </c>
-    /// with accumulator
-    /// <c>
-    /// a
-    /// </c>
-    /// starting at index
-    /// <c>
-    /// i
-    /// </c>
-    /// . def_API('Z3_mk_seq_foldli', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST), _in(AST)))
+    ///  Create a fold with index tracking of the function <c>f</c> over the sequence <c>s</c> with accumulator <c>a</c> starting at index <c>i</c> . def_API('Z3_mk_seq_foldli', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST), _in(AST)))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="Z3_ast">ast parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqFoldli(IntPtr c, IntPtr f, IntPtr i, IntPtr a, IntPtr s)
     {
         var result = nativeLibrary.MkSeqFoldli(c, f, i, a, s);
@@ -1006,14 +522,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert string to integer.
+    ///  Convert string to integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkStrToInt(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkStrToInt(c, s);
@@ -1022,14 +534,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Integer to string conversion.
+    ///  Integer to string conversion.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkIntToStr(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkIntToStr(c, s);
@@ -1038,14 +546,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// String to code conversion.
+    ///  String to code conversion.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkStringToCode(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.MkStringToCode(c, a);
@@ -1054,14 +558,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Code to string conversion.
+    ///  Code to string conversion.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkStringFromCode(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.MkStringFromCode(c, a);
@@ -1070,14 +570,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Unsigned bit-vector to string conversion.
+    ///  Unsigned bit-vector to string conversion.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkUbvToStr(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkUbvToStr(c, s);
@@ -1086,14 +582,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Signed bit-vector to string conversion.
+    ///  Signed bit-vector to string conversion.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSbvToStr(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkSbvToStr(c, s);
@@ -1102,18 +594,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression that accepts the sequence
-    /// <c>
-    /// seq
-    /// </c>
-    /// .
+    ///  Create a regular expression that accepts the sequence <c>seq</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="seq" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqToRe(IntPtr c, IntPtr seq)
     {
         var result = nativeLibrary.MkSeqToRe(c, seq);
@@ -1122,25 +606,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// seq
-    /// </c>
-    /// is in the language generated by the regular expression
-    /// <c>
-    /// re
-    /// </c>
-    /// .
+    ///  Check if <c>seq</c> is in the language generated by the regular expression <c>re</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="seq" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="seq" ctype="Z3_ast">ast parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSeqInRe(IntPtr c, IntPtr seq, IntPtr re)
     {
         var result = nativeLibrary.MkSeqInRe(c, seq, re);
@@ -1149,18 +619,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the regular language
-    /// <c>
-    /// re+
-    /// </c>
-    /// .
+    ///  Create the regular language <c>re+</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkRePlus(IntPtr c, IntPtr re)
     {
         var result = nativeLibrary.MkRePlus(c, re);
@@ -1169,18 +631,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the regular language
-    /// <c>
-    /// re*
-    /// </c>
-    /// .
+    ///  Create the regular language <c>re*</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkReStar(IntPtr c, IntPtr re)
     {
         var result = nativeLibrary.MkReStar(c, re);
@@ -1189,14 +643,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the regular language [re].
+    ///  Create the regular language [re].
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkReOption(IntPtr c, IntPtr re)
     {
         var result = nativeLibrary.MkReOption(c, re);
@@ -1205,17 +655,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the union of the regular languages.
+    ///  Create the union of the regular languages.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -1227,17 +671,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the concatenation of the regular languages.
+    ///  Create the concatenation of the regular languages.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -1249,17 +687,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the range regular expression over two sequences of length 1.
+    ///  Create the range regular expression over two sequences of length 1.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="lo" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="hi" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="lo" ctype="Z3_ast">ast parameter</param>
+    /// <param name="hi" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkReRange(IntPtr c, IntPtr lo, IntPtr hi)
     {
         var result = nativeLibrary.MkReRange(c, lo, hi);
@@ -1268,14 +700,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression that accepts all singleton sequences of the regular expression sort.
+    ///  Create a regular expression that accepts all singleton sequences of the regular expression sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="regexSort" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="regexSort" ctype="Z3_sort">sort parameter</param>
     public IntPtr MkReAllchar(IntPtr c, IntPtr regexSort)
     {
         var result = nativeLibrary.MkReAllchar(c, regexSort);
@@ -1284,52 +712,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression loop. The supplied regular expression
-    /// <c>
-    /// r
-    /// </c>
-    /// is repeated between
-    /// <c>
-    /// lo
-    /// </c>
-    /// and
-    /// <c>
-    /// hi
-    /// </c>
-    /// times. The
-    /// <c>
-    /// lo
-    /// </c>
-    /// should be below
-    /// <c>
-    /// hi
-    /// </c>
-    /// with one exception: when supplying the value
-    /// <c>
-    /// hi
-    /// </c>
-    /// as 0, the meaning is to repeat the argument
-    /// <c>
-    /// r
-    /// </c>
-    /// at least
-    /// <c>
-    /// lo
-    /// </c>
-    /// number of times, and with an unbounded upper bound.
+    ///  Create a regular expression loop. The supplied regular expression <c>r</c> is repeated between <c>lo</c> and <c>hi</c> times. The <c>lo</c> should be below <c>hi</c> with one exception: when supplying the value <c>hi</c> as 0, the meaning is to repeat the argument <c>r</c> at least <c>lo</c> number of times, and with an unbounded upper bound.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="r" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="lo" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="hi" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="r" ctype="Z3_ast">ast parameter</param>
+    /// <param name="lo" ctype="unsigned">unsigned parameter</param>
+    /// <param name="hi" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkReLoop(IntPtr c, IntPtr r, uint lo, uint hi)
     {
         var result = nativeLibrary.MkReLoop(c, r, lo, hi);
@@ -1338,17 +726,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a power regular expression.
+    ///  Create a power regular expression.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkRePower(IntPtr c, IntPtr re, uint n)
     {
         var result = nativeLibrary.MkRePower(c, re, n);
@@ -1357,17 +739,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the intersection of the regular languages.
+    ///  Create the intersection of the regular languages.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
     /// Precondition: n &gt; 0
     /// </remarks>
@@ -1379,18 +755,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the complement of the regular language
-    /// <c>
-    /// re
-    /// </c>
-    /// .
+    ///  Create the complement of the regular language <c>re</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkReComplement(IntPtr c, IntPtr re)
     {
         var result = nativeLibrary.MkReComplement(c, re);
@@ -1399,17 +767,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the difference of regular expressions.
+    ///  Create the difference of regular expressions.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="re2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="re2" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkReDiff(IntPtr c, IntPtr re1, IntPtr re2)
     {
         var result = nativeLibrary.MkReDiff(c, re1, re2);
@@ -1418,18 +780,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an empty regular expression of sort
-    /// <c>
-    /// re
-    /// </c>
-    /// .
+    ///  Create an empty regular expression of sort <c>re</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: re is a regular expression sort.
     /// </remarks>
@@ -1441,18 +795,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an universal regular expression of sort
-    /// <c>
-    /// re
-    /// </c>
-    /// .
+    ///  Create an universal regular expression of sort <c>re</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="re" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="re" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: re is a regular expression sort.
     /// </remarks>
@@ -1464,14 +810,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a character literal def_API('Z3_mk_char', AST, (_in(CONTEXT), _in(UINT)))
+    ///  Create a character literal def_API('Z3_mk_char', AST, (_in(CONTEXT), _in(UINT)))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="ch" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkChar(IntPtr c, uint ch)
     {
         var result = nativeLibrary.MkChar(c, ch);
@@ -1480,17 +822,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create less than or equal to between two characters.
+    ///  Create less than or equal to between two characters.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="ch1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="ch2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="ch2" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkCharLe(IntPtr c, IntPtr ch1, IntPtr ch2)
     {
         var result = nativeLibrary.MkCharLe(c, ch1, ch2);
@@ -1499,14 +835,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an integer (code point) from character.
+    ///  Create an integer (code point) from character.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="ch" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkCharToInt(IntPtr c, IntPtr ch)
     {
         var result = nativeLibrary.MkCharToInt(c, ch);
@@ -1515,14 +847,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a bit-vector (code point) from character.
+    ///  Create a bit-vector (code point) from character.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="ch" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkCharToBv(IntPtr c, IntPtr ch)
     {
         var result = nativeLibrary.MkCharToBv(c, ch);
@@ -1531,14 +859,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a character from a bit-vector (code point).
+    ///  Create a character from a bit-vector (code point).
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="bv" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="bv" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkCharFromBv(IntPtr c, IntPtr bv)
     {
         var result = nativeLibrary.MkCharFromBv(c, bv);
@@ -1547,14 +871,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a check if the character is a digit.
+    ///  Create a check if the character is a digit.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="ch" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ch" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkCharIsDigit(IntPtr c, IntPtr ch)
     {
         var result = nativeLibrary.MkCharIsDigit(c, ch);

@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create a Z3 symbol using an integer.
+    ///  Create a Z3 symbol using an integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="i" ctype="int">
-    /// int parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="i" ctype="int">int parameter</param>
     /// <remarks>
     /// Symbols are used to name several term and type constructors. NB. Not all integers can be passed to this function. The legal range of unsigned integers is 0 to 2^30-1.
     /// </remarks>
@@ -32,14 +28,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a Z3 symbol using a C string.
+    ///  Create a Z3 symbol using a C string.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_string">
-    /// string parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     /// <remarks>
     /// Symbols are used to name several term and type constructors.
     /// </remarks>

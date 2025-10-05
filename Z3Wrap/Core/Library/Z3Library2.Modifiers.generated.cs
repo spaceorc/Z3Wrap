@@ -11,40 +11,12 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Update the arguments of term
-    /// <c>
-    /// a
-    /// </c>
-    /// using the arguments
-    /// <c>
-    /// args
-    /// </c>
-    /// . The number of arguments
-    /// <c>
-    /// num_args
-    /// </c>
-    /// should coincide with the number of arguments to
-    /// <c>
-    /// a
-    /// </c>
-    /// . If
-    /// <c>
-    /// a
-    /// </c>
-    /// is a quantifier, then num_args has to be 1.
+    ///  Update the arguments of term <c>a</c> using the arguments <c>args</c> . The number of arguments <c>num_args</c> should coincide with the number of arguments to <c>a</c> . If <c>a</c> is a quantifier, then num_args has to be 1.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     public IntPtr UpdateTerm(IntPtr c, IntPtr a, uint numArgs, IntPtr[] args)
     {
         var result = nativeLibrary.UpdateTerm(c, a, numArgs, args);
@@ -53,71 +25,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Substitute every occurrence of
-    /// <c>
-    /// from[i]
-    /// </c>
-    /// in
-    /// <c>
-    /// a
-    /// </c>
-    /// with
-    /// <c>
-    /// to[i]
-    /// </c>
-    /// , for
-    /// <c>
-    /// i
-    /// </c>
-    /// smaller than
-    /// <c>
-    /// num_exprs
-    /// </c>
-    /// . The result is the new AST. The arrays
-    /// <c>
-    /// from
-    /// </c>
-    /// and
-    /// <c>
-    /// to
-    /// </c>
-    /// must have size
-    /// <c>
-    /// num_exprs
-    /// </c>
-    /// . For every
-    /// <c>
-    /// i
-    /// </c>
-    /// smaller than
-    /// <c>
-    /// num_exprs
-    /// </c>
-    /// , we must have that sort of
-    /// <c>
-    /// from[i]
-    /// </c>
-    /// must be equal to sort of
-    /// <c>
-    /// to[i]
-    /// </c>
-    /// .
+    ///  Substitute every occurrence of <c>from[i]</c> in <c>a</c> with <c>to[i]</c> , for <c>i</c> smaller than <c>num_exprs</c> . The result is the new AST. The arrays <c>from</c> and <c>to</c> must have size <c>num_exprs</c> . For every <c>i</c> smaller than <c>num_exprs</c> , we must have that sort of <c>from[i]</c> must be equal to sort of <c>to[i]</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="numExprs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="from" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
-    /// <param name="to" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numExprs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="from" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
     public IntPtr Substitute(IntPtr c, IntPtr a, uint numExprs, IntPtr[] from, IntPtr[] to)
     {
         var result = nativeLibrary.Substitute(c, a, numExprs, from, to);
@@ -126,46 +40,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Substitute the variables in
-    /// <c>
-    /// a
-    /// </c>
-    /// with the expressions in
-    /// <c>
-    /// to
-    /// </c>
-    /// . For every
-    /// <c>
-    /// i
-    /// </c>
-    /// smaller than
-    /// <c>
-    /// num_exprs
-    /// </c>
-    /// , the variable with de-Bruijn index
-    /// <c>
-    /// i
-    /// </c>
-    /// is replaced with term
-    /// <c>
-    /// to[i]
-    /// </c>
-    /// . Note that a variable is created using the function
-    /// <see cref="MkBound"/>
-    /// .
+    ///  Substitute the variables in <c>a</c> with the expressions in <c>to</c> . For every <c>i</c> smaller than <c>num_exprs</c> , the variable with de-Bruijn index <c>i</c> is replaced with term <c>to[i]</c> . Note that a variable is created using the function <see cref="MkBound"/> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="numExprs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="to" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numExprs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
     public IntPtr SubstituteVars(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to)
     {
         var result = nativeLibrary.SubstituteVars(c, a, numExprs, to);
@@ -174,45 +54,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Substitute functions in
-    /// <c>
-    /// from
-    /// </c>
-    /// with new expressions in
-    /// <c>
-    /// to
-    /// </c>
-    /// .
+    ///  Substitute functions in <c>from</c> with new expressions in <c>to</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="numFuns" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="from" ctype="Z3_func_decl const[]">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="to" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="numFuns" ctype="unsigned">unsigned parameter</param>
+    /// <param name="from" ctype="Z3_func_decl const[]">func_decl parameter</param>
+    /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The expressions in
-    /// <c>
-    /// to
-    /// </c>
-    /// can have free variables. The free variable in
-    /// <c>
-    /// to
-    /// </c>
-    /// at index 0 refers to the first argument of
-    /// <c>
-    /// from
-    /// </c>
-    /// , the free variable at index 1 corresponds to the second argument.
+    /// The expressions in <c>to</c> can have free variables. The free variable in <c>to</c> at index 0 refers to the first argument of <c>from</c> , the free variable at index 1 corresponds to the second argument.
     /// </remarks>
     public IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to)
     {
@@ -222,37 +72,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Translate/Copy the AST
-    /// <c>
-    /// a
-    /// </c>
-    /// from context
-    /// <c>
-    /// source
-    /// </c>
-    /// to context
-    /// <c>
-    /// target
-    /// </c>
-    /// . AST
-    /// <c>
-    /// a
-    /// </c>
-    /// must have been created using context
-    /// <c>
-    /// source
-    /// </c>
-    /// .
+    ///  Translate/Copy the AST <c>a</c> from context <c>source</c> to context <c>target</c> . AST <c>a</c> must have been created using context <c>source</c> .
     /// </summary>
-    /// <param name="source" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="target" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="source" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="target" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// Precondition: source != target
     /// </remarks>

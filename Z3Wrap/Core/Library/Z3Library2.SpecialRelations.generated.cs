@@ -11,25 +11,11 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// create a linear ordering relation over signature
-    /// <c>
-    /// a
-    /// </c>
-    /// . The relation is identified by the index
-    /// <c>
-    /// id
-    /// </c>
-    /// .
+    ///  create a linear ordering relation over signature <c>a</c> . The relation is identified by the index <c>id</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="id" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_sort">sort parameter</param>
+    /// <param name="id" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkLinearOrder(IntPtr c, IntPtr a, uint id)
     {
         var result = nativeLibrary.MkLinearOrder(c, a, id);
@@ -38,25 +24,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a partial ordering relation over signature
-    /// <c>
-    /// a
-    /// </c>
-    /// and index
-    /// <c>
-    /// id
-    /// </c>
-    /// .
+    ///  create a partial ordering relation over signature <c>a</c> and index <c>id</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="id" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_sort">sort parameter</param>
+    /// <param name="id" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkPartialOrder(IntPtr c, IntPtr a, uint id)
     {
         var result = nativeLibrary.MkPartialOrder(c, a, id);
@@ -65,25 +37,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a piecewise linear ordering relation over signature
-    /// <c>
-    /// a
-    /// </c>
-    /// and index
-    /// <c>
-    /// id
-    /// </c>
-    /// .
+    ///  create a piecewise linear ordering relation over signature <c>a</c> and index <c>id</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="id" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_sort">sort parameter</param>
+    /// <param name="id" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkPiecewiseLinearOrder(IntPtr c, IntPtr a, uint id)
     {
         var result = nativeLibrary.MkPiecewiseLinearOrder(c, a, id);
@@ -92,25 +50,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a tree ordering relation over signature
-    /// <c>
-    /// a
-    /// </c>
-    /// identified using index
-    /// <c>
-    /// id
-    /// </c>
-    /// .
+    ///  create a tree ordering relation over signature <c>a</c> identified using index <c>id</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="id" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_sort">sort parameter</param>
+    /// <param name="id" ctype="unsigned">unsigned parameter</param>
     public IntPtr MkTreeOrder(IntPtr c, IntPtr a, uint id)
     {
         var result = nativeLibrary.MkTreeOrder(c, a, id);
@@ -119,14 +63,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create transitive closure of binary relation.
+    ///  create transitive closure of binary relation.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
     /// Precondition: f is a binary relation, such that the two arguments have the same sorts.
     /// </remarks>

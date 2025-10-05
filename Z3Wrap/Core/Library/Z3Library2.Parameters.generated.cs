@@ -11,21 +11,11 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc.
+    ///  Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage parameter sets, even when the
-    /// <c>
-    /// Z3_context
-    /// </c>
-    /// was created using
-    /// MkContext
-    /// instead of
-    /// <see cref="MkContextRc"/>
-    /// .
+    /// Reference counting must be used to manage parameter sets, even when the <c>Z3_context</c> was created using MkContext instead of <see cref="MkContextRc"/> .
     /// </remarks>
     public IntPtr MkParams(IntPtr c)
     {
@@ -35,14 +25,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given parameter set.
+    ///  Increment the reference counter of the given parameter set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     public void ParamsIncRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ParamsIncRef(c, p);
@@ -50,14 +36,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given parameter set.
+    ///  Decrement the reference counter of the given parameter set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     public void ParamsDecRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ParamsDecRef(c, p);
@@ -65,32 +47,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a Boolean parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a Boolean parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="bool">
-    /// bool parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k">symbol parameter</param>
+    /// <param name="v" ctype="bool">bool parameter</param>
     public void ParamsSetBool(IntPtr c, IntPtr p, string k, bool v)
     {
         using var kAnsi = new AnsiStringPtr(k);
@@ -101,32 +63,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a Boolean parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a Boolean parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="bool">
-    /// bool parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="bool">bool parameter</param>
     public void ParamsSetBoolOriginal(IntPtr c, IntPtr p, IntPtr k, bool v)
     {
         nativeLibrary.ParamsSetBool(c, p, k, v);
@@ -134,32 +76,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a unsigned parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a unsigned parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k">symbol parameter</param>
+    /// <param name="v" ctype="unsigned">unsigned parameter</param>
     public void ParamsSetUint(IntPtr c, IntPtr p, string k, uint v)
     {
         using var kAnsi = new AnsiStringPtr(k);
@@ -170,32 +92,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a unsigned parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a unsigned parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="unsigned">unsigned parameter</param>
     public void ParamsSetUintOriginal(IntPtr c, IntPtr p, IntPtr k, uint v)
     {
         nativeLibrary.ParamsSetUint(c, p, k, v);
@@ -203,32 +105,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a double parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a double parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="double">
-    /// double parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k">symbol parameter</param>
+    /// <param name="v" ctype="double">double parameter</param>
     public void ParamsSetDouble(IntPtr c, IntPtr p, string k, double v)
     {
         using var kAnsi = new AnsiStringPtr(k);
@@ -239,32 +121,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a double parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a double parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="double">
-    /// double parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="double">double parameter</param>
     public void ParamsSetDoubleOriginal(IntPtr c, IntPtr p, IntPtr k, double v)
     {
         nativeLibrary.ParamsSetDouble(c, p, k, v);
@@ -272,32 +134,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a symbol parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a symbol parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k">symbol parameter</param>
+    /// <param name="v">symbol parameter</param>
     public void ParamsSetSymbol(IntPtr c, IntPtr p, string k, string v)
     {
         using var kAnsi = new AnsiStringPtr(k);
@@ -311,32 +153,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a symbol parameter
-    /// <c>
-    /// k
-    /// </c>
-    /// with value
-    /// <c>
-    /// v
-    /// </c>
-    /// to the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// .
+    ///  Add a symbol parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="k" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="k" ctype="Z3_symbol">symbol parameter</param>
+    /// <param name="v" ctype="Z3_symbol">symbol parameter</param>
     public void ParamsSetSymbolOriginal(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
     {
         nativeLibrary.ParamsSetSymbol(c, p, k, v);
@@ -344,14 +166,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter set.
+    ///  Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     public IntPtr ParamsToString(IntPtr c, IntPtr p)
     {
         var result = nativeLibrary.ParamsToString(c, p);
@@ -360,31 +178,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Validate the parameter set
-    /// <c>
-    /// p
-    /// </c>
-    /// against the parameter description set
-    /// <c>
-    /// d
-    /// </c>
-    /// .
+    ///  Validate the parameter set <c>p</c> against the parameter description set <c>d</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_param_descrs">
-    /// param_descrs parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <param name="d" ctype="Z3_param_descrs">param_descrs parameter</param>
     /// <remarks>
-    /// The procedure invokes the error handler if
-    /// <c>
-    /// p
-    /// </c>
-    /// is invalid.
+    /// The procedure invokes the error handler if <c>p</c> is invalid.
     /// </remarks>
     public void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)
     {

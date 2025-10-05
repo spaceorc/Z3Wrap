@@ -11,22 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if
-    /// <c>
-    /// a
-    /// </c>
-    /// can be used as value in the Z3 real algebraic number package.
+    ///  Return <c>true</c> if <c>a</c> can be used as value in the Z3 real algebraic number package.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool AlgebraicIsValue(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.AlgebraicIsValue(c, a);
@@ -35,26 +23,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if
-    /// <c>
-    /// a
-    /// </c>
-    /// is positive, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if <c>a</c> is positive, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -66,26 +38,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if
-    /// <c>
-    /// a
-    /// </c>
-    /// is negative, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if <c>a</c> is negative, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -97,26 +53,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if
-    /// <c>
-    /// a
-    /// </c>
-    /// is zero, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if <c>a</c> is zero, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -128,26 +68,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return 1 if
-    /// <c>
-    /// a
-    /// </c>
-    /// is positive, 0 if
-    /// <c>
-    /// a
-    /// </c>
-    /// is zero, and -1 if
-    /// <c>
-    /// a
-    /// </c>
-    /// is negative.
+    ///  Return 1 if <c>a</c> is positive, 0 if <c>a</c> is zero, and -1 if <c>a</c> is negative.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -159,17 +83,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the value a + b.
+    ///  Return the value a + b.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -182,17 +100,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the value a - b.
+    ///  Return the value a - b.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -205,17 +117,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the value a * b.
+    ///  Return the value a * b.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -228,17 +134,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the value a / b.
+    ///  Return the value a / b.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -252,17 +152,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the a^(1/k)
+    ///  Return the a^(1/k)
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="k" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: k is even =&gt; !Z3_algebraic_is_neg(c, a)
@@ -275,17 +169,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the a^k.
+    ///  Return the a^k.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="k" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -297,25 +185,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if a &lt; b, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if a &lt; b, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -328,25 +202,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if a &gt; b, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if a &gt; b, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -359,25 +219,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if a &lt;= b, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if a &lt;= b, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -390,25 +236,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if a &gt;= b, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if a &gt;= b, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -421,25 +253,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if a == b, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if a == b, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -452,25 +270,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if a != b, and
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise.
+    ///  Return <c>true</c> if a != b, and <c>false</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="b" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// Precondition: Z3_algebraic_is_value(c, b)
@@ -483,20 +287,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
+    ///  Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="a" ctype="Z3_ast[]">ast parameter</param>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
@@ -509,20 +305,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
+    ///  Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_ast">ast parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
+    /// <param name="a" ctype="Z3_ast[]">ast parameter</param>
     /// <remarks>
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
@@ -535,14 +323,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the coefficients of the defining polynomial.
+    ///  Return the coefficients of the defining polynomial.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
@@ -554,14 +338,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return which root of the polynomial the algebraic number represents.
+    ///  Return which root of the polynomial the algebraic number represents.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>

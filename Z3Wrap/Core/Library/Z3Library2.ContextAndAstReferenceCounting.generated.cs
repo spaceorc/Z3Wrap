@@ -11,26 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Increment the reference counter of the given AST. The context
-    /// <c>
-    /// c
-    /// </c>
-    /// should have been created using
-    /// <see cref="MkContextRc"/>
-    /// . This function is a NOOP if
-    /// <c>
-    /// c
-    /// </c>
-    /// was created using
-    /// MkContext
-    /// .
+    ///  Increment the reference counter of the given AST. The context <c>c</c> should have been created using <see cref="MkContextRc"/> . This function is a NOOP if <c>c</c> was created using MkContext .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public void IncRef(IntPtr c, IntPtr a)
     {
         nativeLibrary.IncRef(c, a);
@@ -38,26 +22,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given AST. The context
-    /// <c>
-    /// c
-    /// </c>
-    /// should have been created using
-    /// <see cref="MkContextRc"/>
-    /// . This function is a NOOP if
-    /// <c>
-    /// c
-    /// </c>
-    /// was created using
-    /// MkContext
-    /// .
+    ///  Decrement the reference counter of the given AST. The context <c>c</c> should have been created using <see cref="MkContextRc"/> . This function is a NOOP if <c>c</c> was created using MkContext .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public void DecRef(IntPtr c, IntPtr a)
     {
         nativeLibrary.DecRef(c, a);
@@ -65,18 +33,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Set a value of a context parameter.
+    ///  Set a value of a context parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="paramId" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// <param name="paramValue" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// GlobalParamSet
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="paramId" ctype="Z3_string">string parameter</param>
+    /// <param name="paramValue" ctype="Z3_string">string parameter</param>
     public void UpdateParamValue(IntPtr c, string paramId, string paramValue)
     {
         using var paramIdAnsi = new AnsiStringPtr(paramId);
@@ -86,11 +47,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve description of global parameters.
+    ///  Retrieve description of global parameters.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     public IntPtr GetGlobalParamDescrs(IntPtr c)
     {
         var result = nativeLibrary.GetGlobalParamDescrs(c);
@@ -99,11 +58,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Interrupt the execution of a Z3 procedure. This procedure can be used to interrupt: solvers, simplifiers and tactics.
+    ///  Interrupt the execution of a Z3 procedure. This procedure can be used to interrupt: solvers, simplifiers and tactics.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     public void Interrupt(IntPtr c)
     {
         nativeLibrary.Interrupt(c);
@@ -111,11 +68,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// use concurrency control for dec-ref. Reference counting decrements are allowed in separate threads from the context. If this setting is not invoked, reference counting decrements are not going to be thread safe.
+    ///  use concurrency control for dec-ref. Reference counting decrements are allowed in separate threads from the context. If this setting is not invoked, reference counting decrements are not going to be thread safe.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     public void EnableConcurrentDecRef(IntPtr c)
     {
         nativeLibrary.EnableConcurrentDecRef(c);

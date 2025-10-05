@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create Set type.
+    ///  Create Set type.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="ty" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     public IntPtr MkSetSort(IntPtr c, IntPtr ty)
     {
         var result = nativeLibrary.MkSetSort(c, ty);
@@ -27,14 +23,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the empty set.
+    ///  Create the empty set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="domain" ctype="Z3_sort">sort parameter</param>
     public IntPtr MkEmptySet(IntPtr c, IntPtr domain)
     {
         var result = nativeLibrary.MkEmptySet(c, domain);
@@ -43,14 +35,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the full set.
+    ///  Create the full set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="domain" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="domain" ctype="Z3_sort">sort parameter</param>
     public IntPtr MkFullSet(IntPtr c, IntPtr domain)
     {
         var result = nativeLibrary.MkFullSet(c, domain);
@@ -59,17 +47,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add an element to a set.
+    ///  Add an element to a set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="set" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="elem" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="set" ctype="Z3_ast">ast parameter</param>
+    /// <param name="elem" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The first argument must be a set, the second an element.
     /// </remarks>
@@ -81,17 +63,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Remove an element to a set.
+    ///  Remove an element to a set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="set" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="elem" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="set" ctype="Z3_ast">ast parameter</param>
+    /// <param name="elem" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The first argument must be a set, the second an element.
     /// </remarks>
@@ -103,17 +79,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Take the union of a list of sets.
+    ///  Take the union of a list of sets.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     public IntPtr MkSetUnion(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var result = nativeLibrary.MkSetUnion(c, numArgs, args);
@@ -122,17 +92,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Take the intersection of a list of sets.
+    ///  Take the intersection of a list of sets.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     public IntPtr MkSetIntersect(IntPtr c, uint numArgs, IntPtr[] args)
     {
         var result = nativeLibrary.MkSetIntersect(c, numArgs, args);
@@ -141,17 +105,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Take the set difference between two sets.
+    ///  Take the set difference between two sets.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSetDifference(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var result = nativeLibrary.MkSetDifference(c, arg1, arg2);
@@ -160,14 +118,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Take the complement of a set.
+    ///  Take the complement of a set.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSetComplement(IntPtr c, IntPtr arg)
     {
         var result = nativeLibrary.MkSetComplement(c, arg);
@@ -176,17 +130,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check for set membership.
+    ///  Check for set membership.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="elem" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="set" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="elem" ctype="Z3_ast">ast parameter</param>
+    /// <param name="set" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The first argument should be an element type of the set.
     /// </remarks>
@@ -198,17 +146,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check for subsetness of sets.
+    ///  Check for subsetness of sets.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkSetSubset(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var result = nativeLibrary.MkSetSubset(c, arg1, arg2);
@@ -217,17 +159,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
+    ///  Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="arg1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="arg2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
     public IntPtr MkArrayExt(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
         var result = nativeLibrary.MkArrayExt(c, arg1, arg2);

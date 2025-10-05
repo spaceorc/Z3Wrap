@@ -11,32 +11,16 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Parse the given string using the SMT-LIB2 parser.
+    ///  Parse the given string using the SMT-LIB2 parser.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="str" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// <param name="numSorts" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="sortNames" ctype="Z3_symbol const[]">
-    /// symbol parameter
-    /// </param>
-    /// <param name="sorts" ctype="Z3_sort const[]">
-    /// sort parameter
-    /// </param>
-    /// <param name="numDecls" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="declNames" ctype="Z3_symbol const[]">
-    /// symbol parameter
-    /// </param>
-    /// <param name="decls" ctype="Z3_func_decl const[]">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="str" ctype="Z3_string">string parameter</param>
+    /// <param name="numSorts" ctype="unsigned">unsigned parameter</param>
+    /// <param name="sortNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">sort parameter</param>
+    /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
     /// <remarks>
     /// It returns a formula comprising of the conjunction of assertions in the scope (up to push/pop) at the end of the string.
     /// </remarks>
@@ -49,34 +33,16 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Similar to
-    /// <see cref="ParseSmtlib2String"/>
-    /// , but reads the benchmark from a file.
+    ///  Similar to <see cref="ParseSmtlib2String"/> , but reads the benchmark from a file.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="fileName" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// <param name="numSorts" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="sortNames" ctype="Z3_symbol const[]">
-    /// symbol parameter
-    /// </param>
-    /// <param name="sorts" ctype="Z3_sort const[]">
-    /// sort parameter
-    /// </param>
-    /// <param name="numDecls" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="declNames" ctype="Z3_symbol const[]">
-    /// symbol parameter
-    /// </param>
-    /// <param name="decls" ctype="Z3_func_decl const[]">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="fileName" ctype="Z3_string">string parameter</param>
+    /// <param name="numSorts" ctype="unsigned">unsigned parameter</param>
+    /// <param name="sortNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="sorts" ctype="Z3_sort const[]">sort parameter</param>
+    /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
+    /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
+    /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
     public IntPtr ParseSmtlib2File(IntPtr c, string fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
         using var fileNameAnsi = new AnsiStringPtr(fileName);
@@ -86,17 +52,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next evaluation builds on top of the previous call.
+    ///  Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next evaluation builds on top of the previous call.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="str" ctype="Z3_string">
-    /// string parameter
-    /// </param>
-    /// <returns>
-    /// output generated from processing commands.
-    /// </returns>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="str" ctype="Z3_string">string parameter</param>
+    /// <returns>output generated from processing commands. </returns>
     public IntPtr EvalSmtlib2String(IntPtr c, string str)
     {
         using var strAnsi = new AnsiStringPtr(str);
@@ -106,17 +66,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a parser context.
+    ///  Create a parser context.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// A parser context maintains state between calls to
-    /// <c>
-    /// Z3_parser_context_parse_string
-    /// </c>
-    /// where the caller can pass in a set of SMTLIB2 commands. It maintains all the declarations from previous calls together with of sorts and function declarations (including 0-ary) that are added directly to the context.
+    /// A parser context maintains state between calls to <c>Z3_parser_context_parse_string</c> where the caller can pass in a set of SMTLIB2 commands. It maintains all the declarations from previous calls together with of sorts and function declarations (including 0-ary) that are added directly to the context.
     /// </remarks>
     public IntPtr MkParserContext(IntPtr c)
     {
@@ -126,18 +80,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given
-    /// <c>
-    /// Z3_parser_context
-    /// </c>
-    /// object.
+    ///  Increment the reference counter of the given <c>Z3_parser_context</c> object.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="pc" ctype="Z3_parser_context">
-    /// parser_context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
     public void ParserContextIncRef(IntPtr c, IntPtr pc)
     {
         nativeLibrary.ParserContextIncRef(c, pc);
@@ -145,18 +91,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given
-    /// <c>
-    /// Z3_parser_context
-    /// </c>
-    /// object.
+    ///  Decrement the reference counter of the given <c>Z3_parser_context</c> object.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="pc" ctype="Z3_parser_context">
-    /// parser_context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
     public void ParserContextDecRef(IntPtr c, IntPtr pc)
     {
         nativeLibrary.ParserContextDecRef(c, pc);
@@ -164,17 +102,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a sort declaration.
+    ///  Add a sort declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="pc" ctype="Z3_parser_context">
-    /// parser_context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public void ParserContextAddSort(IntPtr c, IntPtr pc, IntPtr s)
     {
         nativeLibrary.ParserContextAddSort(c, pc, s);
@@ -182,17 +114,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a function declaration.
+    ///  Add a function declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="pc" ctype="Z3_parser_context">
-    /// parser_context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     public void ParserContextAddDecl(IntPtr c, IntPtr pc, IntPtr f)
     {
         nativeLibrary.ParserContextAddDecl(c, pc, f);
@@ -200,17 +126,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Parse a string of SMTLIB2 commands. Return assertions.
+    ///  Parse a string of SMTLIB2 commands. Return assertions.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="pc" ctype="Z3_parser_context">
-    /// parser_context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_string">
-    /// string parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
+    /// <param name="s" ctype="Z3_string">string parameter</param>
     public IntPtr ParserContextFromString(IntPtr c, IntPtr pc, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);

@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Retrieves the number of bits reserved for the exponent in a FloatingPoint sort.
+    ///  Retrieves the number of bits reserved for the exponent in a FloatingPoint sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// FloatingPoint sort
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> FloatingPoint sort </param>
     /// <seealso cref="FpaGetSbits"/>
     public uint FpaGetEbits(IntPtr c, IntPtr s)
     {
@@ -28,14 +24,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieves the number of bits reserved for the significand in a FloatingPoint sort.
+    ///  Retrieves the number of bits reserved for the significand in a FloatingPoint sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// FloatingPoint sort
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> FloatingPoint sort </param>
     /// <seealso cref="FpaGetEbits"/>
     public uint FpaGetSbits(IntPtr c, IntPtr s)
     {
@@ -45,14 +37,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is a NaN.
+    ///  Checks whether a given floating-point numeral is a NaN.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
     /// <seealso cref="FpaIsNumeralSubnormal"/>
@@ -65,14 +53,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is a +oo or -oo.
+    ///  Checks whether a given floating-point numeral is a +oo or -oo.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
     /// <seealso cref="FpaIsNumeralSubnormal"/>
@@ -85,14 +69,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is +zero or -zero.
+    ///  Checks whether a given floating-point numeral is +zero or -zero.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
@@ -105,14 +85,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is normal.
+    ///  Checks whether a given floating-point numeral is normal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralSubnormal"/>
@@ -125,14 +101,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is subnormal.
+    ///  Checks whether a given floating-point numeral is subnormal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
@@ -145,14 +117,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is positive.
+    ///  Checks whether a given floating-point numeral is positive.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralNegative"/>
     public bool FpaIsNumeralPositive(IntPtr c, IntPtr t)
     {
@@ -162,14 +130,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is negative.
+    ///  Checks whether a given floating-point numeral is negative.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralPositive"/>
     public bool FpaIsNumeralNegative(IntPtr c, IntPtr t)
     {
@@ -179,14 +143,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieves the sign of a floating-point literal as a bit-vector expression.
+    ///  Retrieves the sign of a floating-point literal as a bit-vector expression.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <remarks>
     /// Remarks: NaN is an invalid argument.
     /// </remarks>
@@ -198,14 +158,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieves the significand of a floating-point literal as a bit-vector expression.
+    ///  Retrieves the significand of a floating-point literal as a bit-vector expression.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <remarks>
     /// Remarks: NaN is an invalid argument.
     /// </remarks>
@@ -217,24 +173,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieves the sign of a floating-point literal.
+    ///  Retrieves the sign of a floating-point literal.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
-    /// <param name="sgn" ctype="int *">
-    /// the retrieved sign
-    /// </param>
-    /// <returns>
-    /// true if
-    /// <c>
-    /// t
-    /// </c>
-    /// corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// </returns>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="sgn" ctype="int *"> the retrieved sign </param>
+    /// <returns>true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     public bool FpaGetNumeralSign(IntPtr c, IntPtr t, IntPtr sgn)
     {
         var result = nativeLibrary.FpaGetNumeralSign(c, t, sgn);
@@ -243,21 +187,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the significand value of a floating-point numeral as a string.
+    ///  Return the significand value of a floating-point numeral as a string.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
-    /// <returns>
-    /// true if
-    /// <c>
-    /// t
-    /// </c>
-    /// corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// </returns>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <returns>true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     public IntPtr FpaGetNumeralSignificandString(IntPtr c, IntPtr t)
     {
         var result = nativeLibrary.FpaGetNumeralSignificandString(c, t);
@@ -266,31 +200,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the significand value of a floating-point numeral as a uint64.
+    ///  Return the significand value of a floating-point numeral as a uint64.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
-    /// <param name="n" ctype="uint64_t *">
-    /// pointer to output uint64
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="n" ctype="uint64_t *"> pointer to output uint64 </param>
     /// <remarks>
-    /// Remarks: This function extracts the significand bits in
-    /// <c>
-    /// t
-    /// </c>
-    /// , without the hidden bit or normalization. Sets the
-    /// <c>
-    /// Z3_INVALID_ARG
-    /// </c>
-    /// error code if the significand does not fit into a
-    /// <c>
-    /// uint64
-    /// </c>
-    /// . NaN is an invalid argument.
+    /// Remarks: This function extracts the significand bits in <c>t</c> , without the hidden bit or normalization. Sets the <c>Z3_INVALID_ARG</c> error code if the significand does not fit into a <c>uint64</c> . NaN is an invalid argument.
     /// </remarks>
     public bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, IntPtr n)
     {
@@ -299,29 +215,22 @@ public sealed partial class Z3Library2
         return result;
     }
 
-    /// <summary>
-    /// FpaGetNumeralExponentString
-    /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="biased" ctype="bool">
-    /// bool parameter
-    /// </param>
+    /// <summary>FpaGetNumeralExponentString</summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
+    /// <param name="biased" ctype="bool">bool parameter</param>
     /// <remarks>
     /// <code>
     /// \brief Return the exponent value of a floating-point numeral as a string.
-    ///
+    /// 
     /// \param c logical context
     /// \param t a floating-point numeral
     /// \param biased flag to indicate whether the result is in biased representation
     /// \returns true if \c t corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    ///
+    /// 
     /// Remarks: This function extracts the exponent in `t`, without normalization.
     /// NaN is an invalid argument.
+    /// 
     /// </code>
     /// </remarks>
     public IntPtr FpaGetNumeralExponentString(IntPtr c, IntPtr t, bool biased)
@@ -332,27 +241,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the exponent value of a floating-point numeral as a signed 64-bit integer.
+    ///  Return the exponent value of a floating-point numeral as a signed 64-bit integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
-    /// <param name="n" ctype="int64_t *">
-    /// exponent
-    /// </param>
-    /// <param name="biased" ctype="bool">
-    /// flag to indicate whether the result is in biased representation
-    /// </param>
-    /// <returns>
-    /// true if
-    /// <c>
-    /// t
-    /// </c>
-    /// corresponds to a floating point numeral, otherwise invokes exception handler or returns false
-    /// </returns>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="n" ctype="int64_t *"> exponent </param>
+    /// <param name="biased" ctype="bool"> flag to indicate whether the result is in biased representation </param>
+    /// <returns>true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     public bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, IntPtr n, bool biased)
     {
         var result = nativeLibrary.FpaGetNumeralExponentInt64(c, t, n, biased);
@@ -361,23 +256,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieves the exponent of a floating-point literal as a bit-vector expression.
+    ///  Retrieves the exponent of a floating-point literal as a bit-vector expression.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// a floating-point numeral
-    /// </param>
-    /// <param name="biased" ctype="bool">
-    /// flag to indicate whether the result is in biased representation
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="biased" ctype="bool"> flag to indicate whether the result is in biased representation </param>
     /// <remarks>
-    /// Remarks: This function extracts the exponent in
-    /// <c>
-    /// t
-    /// </c>
-    /// , without normalization. NaN is an invalid arguments.
+    /// Remarks: This function extracts the exponent in <c>t</c> , without normalization. NaN is an invalid arguments.
     /// </remarks>
     public IntPtr FpaGetNumeralExponentBv(IntPtr c, IntPtr t, bool biased)
     {
@@ -387,19 +272,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Conversion of a floating-point term into a bit-vector term in IEEE 754-2008 format.
+    ///  Conversion of a floating-point term into a bit-vector term in IEEE 754-2008 format.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// term of FloatingPoint sort
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// <c>
-    /// t
-    /// </c>
-    /// must have FloatingPoint sort. The size of the resulting bit-vector is automatically determined. Note that IEEE 754-2008 allows multiple different representations of NaN. This conversion knows only one NaN and it will always produce the same bit-vector representation of that NaN.
+    /// <c>t</c> must have FloatingPoint sort. The size of the resulting bit-vector is automatically determined. Note that IEEE 754-2008 allows multiple different representations of NaN. This conversion knows only one NaN and it will always produce the same bit-vector representation of that NaN.
     /// </remarks>
     public IntPtr MkFpaToIeeeBv(IntPtr c, IntPtr t)
     {
@@ -409,53 +287,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Conversion of a real-sorted significand and an integer-sorted exponent into a term of FloatingPoint sort.
+    ///  Conversion of a real-sorted significand and an integer-sorted exponent into a term of FloatingPoint sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context
-    /// </param>
-    /// <param name="rm" ctype="Z3_ast">
-    /// term of RoundingMode sort
-    /// </param>
-    /// <param name="exp" ctype="Z3_ast">
-    /// exponent term of Int sort
-    /// </param>
-    /// <param name="sig" ctype="Z3_ast">
-    /// significand term of Real sort
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// FloatingPoint sort
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="exp" ctype="Z3_ast"> exponent term of Int sort </param>
+    /// <param name="sig" ctype="Z3_ast"> significand term of Real sort </param>
+    /// <param name="s" ctype="Z3_sort"> FloatingPoint sort </param>
     /// <remarks>
-    /// Produces a term that represents the conversion of
-    /// <c>
-    /// sig * 2^exp
-    /// </c>
-    /// into a floating-point term of sort
-    /// <c>
-    /// s
-    /// </c>
-    /// . If necessary, the result will be rounded according to rounding mode
-    /// <c>
-    /// rm
-    /// </c>
-    /// .
-    /// <c>
-    /// s
-    /// </c>
-    /// must be a FloatingPoint sort,
-    /// <c>
-    /// rm
-    /// </c>
-    /// must be of RoundingMode sort,
-    /// <c>
-    /// exp
-    /// </c>
-    /// must be of int sort,
-    /// <c>
-    /// sig
-    /// </c>
-    /// must be of real sort.
+    /// Produces a term that represents the conversion of <c>sig * 2^exp</c> into a floating-point term of sort <c>s</c> . If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>exp</c> must be of int sort, <c>sig</c> must be of real sort.
     /// </remarks>
     public IntPtr MkFpaToFpIntReal(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s)
     {

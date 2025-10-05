@@ -11,26 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return
-    /// <c>
-    /// Z3_INT_SYMBOL
-    /// </c>
-    /// if the symbol was constructed using
-    /// <see cref="MkIntSymbol"/>
-    /// , and
-    /// <c>
-    /// Z3_STRING_SYMBOL
-    /// </c>
-    /// if the symbol was constructed using
-    /// <see cref="MkStringSymbol"/>
-    /// .
+    ///  Return <c>Z3_INT_SYMBOL</c> if the symbol was constructed using <see cref="MkIntSymbol"/> , and <c>Z3_STRING_SYMBOL</c> if the symbol was constructed using <see cref="MkStringSymbol"/> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     public SymbolKind GetSymbolKind(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.GetSymbolKind(c, s);
@@ -39,14 +23,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the symbol int value.
+    ///  Return the symbol int value.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_symbol_kind(s) == Z3_INT_SYMBOL
     /// </remarks>
@@ -59,23 +39,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the symbol name.
+    ///  Return the symbol name.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_symbol">
-    /// symbol parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_symbol_kind(s) == Z3_STRING_SYMBOL
-    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when
-    /// <see cref="DelContext"/>
-    /// is invoked. So, the buffer is invalidated in the next call to
-    /// <c>
-    /// Z3_get_symbol_string
-    /// </c>
-    /// .
+    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="DelContext"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_get_symbol_string</c> .
     /// </remarks>
     /// <seealso cref="MkStringSymbol"/>
     public IntPtr GetSymbolString(IntPtr c, IntPtr s)
@@ -86,14 +56,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the sort name as a symbol.
+    ///  Return the sort name as a symbol.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_sort">sort parameter</param>
     public IntPtr GetSortName(IntPtr c, IntPtr d)
     {
         var result = nativeLibrary.GetSortName(c, d);
@@ -102,18 +68,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a unique identifier for
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Return a unique identifier for <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public uint GetSortId(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.GetSortId(c, s);
@@ -122,22 +80,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a
-    /// <c>
-    /// Z3_sort
-    /// </c>
-    /// into
-    /// <c>
-    /// Z3_ast
-    /// </c>
-    /// . This is just type casting.
+    ///  Convert a <c>Z3_sort</c> into <c>Z3_ast</c> . This is just type casting.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public IntPtr SortToAst(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.SortToAst(c, s);
@@ -146,17 +92,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// compare sorts.
+    ///  compare sorts.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s1" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="s2" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s1" ctype="Z3_sort">sort parameter</param>
+    /// <param name="s2" ctype="Z3_sort">sort parameter</param>
     public bool IsEqSort(IntPtr c, IntPtr s1, IntPtr s2)
     {
         var result = nativeLibrary.IsEqSort(c, s1, s2);
@@ -165,14 +105,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the sort kind (e.g., array, tuple, int, bool, etc).
+    ///  Return the sort kind (e.g., array, tuple, int, bool, etc).
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <seealso cref="SortKind"/>
     public SortKind GetSortKind(IntPtr c, IntPtr t)
     {
@@ -182,14 +118,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the size of the given bit-vector sort.
+    ///  Return the size of the given bit-vector sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_BV_SORT
     /// </remarks>
@@ -203,25 +135,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Store the size of the sort in
-    /// <c>
-    /// r
-    /// </c>
-    /// . Return
-    /// <c>
-    /// false
-    /// </c>
-    /// if the call failed. That is, Z3_get_sort_kind(s) == Z3_FINITE_DOMAIN_SORT.
+    ///  Store the size of the sort in <c>r</c> . Return <c>false</c> if the call failed. That is, Z3_get_sort_kind(s) == Z3_FINITE_DOMAIN_SORT.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="r" ctype="uint64_t*">
-    /// uint64_t parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
+    /// <param name="r" ctype="uint64_t*">uint64_t parameter</param>
     public bool GetFiniteDomainSortSize(IntPtr c, IntPtr s, IntPtr r)
     {
         var result = nativeLibrary.GetFiniteDomainSortSize(c, s, r);
@@ -230,14 +148,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the arity (number of dimensions) of the given array sort.
+    ///  Return the arity (number of dimensions) of the given array sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(s) == Z3_ARRAY_SORT
     /// </remarks>
@@ -250,14 +164,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the sort of the first dimension.
+    ///  Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the sort of the first dimension.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
     /// </remarks>
@@ -272,17 +182,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the i'th domain sort of an n-dimensional array.
+    ///  Return the i'th domain sort of an n-dimensional array.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
     /// </remarks>
@@ -297,14 +201,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the range of the given array sort.
+    ///  Return the range of the given array sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
     /// </remarks>
@@ -318,14 +218,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the constructor declaration of the given tuple sort.
+    ///  Return the constructor declaration of the given tuple sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_DATATYPE_SORT
     /// </remarks>
@@ -339,14 +235,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of fields of the given tuple sort.
+    ///  Return the number of fields of the given tuple sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, t) == Z3_DATATYPE_SORT
     /// </remarks>
@@ -360,17 +252,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the i-th field declaration (i.e., projection function declaration) of the given tuple sort.
+    ///  Return the i-th field declaration (i.e., projection function declaration) of the given tuple sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
     /// Precondition: i &lt; Z3_get_tuple_sort_num_fields(c, t)
@@ -385,18 +271,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if
-    /// <c>
-    /// s
-    /// </c>
-    /// is a recursive datatype sort.
+    ///  Check if <c>s</c> is a recursive datatype sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     public bool IsRecursiveDatatypeSort(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.IsRecursiveDatatypeSort(c, s);
@@ -405,14 +283,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return number of constructors for datatype.
+    ///  Return number of constructors for datatype.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
     /// </remarks>
@@ -427,17 +301,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return idx'th constructor.
+    ///  Return idx'th constructor.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
     /// Precondition: idx &lt; Z3_get_datatype_sort_num_constructors(c, t)
@@ -453,17 +321,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return idx'th recognizer.
+    ///  Return idx'th recognizer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
     /// Precondition: idx &lt; Z3_get_datatype_sort_num_constructors(c, t)
@@ -479,20 +341,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return idx_a'th accessor for the idx_c'th constructor.
+    ///  Return idx_a'th accessor for the idx_c'th constructor.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="idxC" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="idxA" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_sort">sort parameter</param>
+    /// <param name="idxC" ctype="unsigned">unsigned parameter</param>
+    /// <param name="idxA" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
     /// Precondition: idx_c &lt; Z3_get_datatype_sort_num_constructors(c, t)
@@ -509,20 +363,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Update record field with a value.
+    ///  Update record field with a value.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="fieldAccess" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="value" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="fieldAccess" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
+    /// <param name="value" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(Z3_get_sort(c, t)) == Z3_get_domain(c, field_access, 1) == Z3_DATATYPE_SORT
     /// Precondition: Z3_get_sort(c, value) == Z3_get_range(c, field_access)
@@ -536,14 +382,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return arity of relation.
+    ///  Return arity of relation.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(s) == Z3_RELATION_SORT
     /// </remarks>
@@ -556,17 +398,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return sort at i'th column of relation sort.
+    ///  Return sort at i'th column of relation sort.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_sort">
-    /// sort parameter
-    /// </param>
-    /// <param name="col" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_sort">sort parameter</param>
+    /// <param name="col" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_sort_kind(c, s) == Z3_RELATION_SORT
     /// Precondition: col &lt; Z3_get_relation_arity(c, s)
@@ -580,20 +416,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
-    /// <param name="k" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Encode p1 + p2 + ... + pn &lt;= k
     /// </remarks>
@@ -605,20 +433,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
-    /// <param name="k" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Encode p1 + p2 + ... + pn &gt;= k
     /// </remarks>
@@ -630,23 +450,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
-    /// <param name="coeffs" ctype="int const[]">
-    /// int parameter
-    /// </param>
-    /// <param name="k" ctype="int">
-    /// int parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="coeffs" ctype="int const[]">int parameter</param>
+    /// <param name="k" ctype="int">int parameter</param>
     /// <remarks>
     /// Encode k1*p1 + k2*p2 + ... + kn*pn &lt;= k
     /// </remarks>
@@ -658,23 +468,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
-    /// <param name="coeffs" ctype="int const[]">
-    /// int parameter
-    /// </param>
-    /// <param name="k" ctype="int">
-    /// int parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="coeffs" ctype="int const[]">int parameter</param>
+    /// <param name="k" ctype="int">int parameter</param>
     /// <remarks>
     /// Encode k1*p1 + k2*p2 + ... + kn*pn &gt;= k
     /// </remarks>
@@ -686,23 +486,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="numArgs" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="args" ctype="Z3_ast const[]">
-    /// ast parameter
-    /// </param>
-    /// <param name="coeffs" ctype="int const[]">
-    /// int parameter
-    /// </param>
-    /// <param name="k" ctype="int">
-    /// int parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
+    /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <param name="coeffs" ctype="int const[]">int parameter</param>
+    /// <param name="k" ctype="int">int parameter</param>
     /// <remarks>
     /// Encode k1*p1 + k2*p2 + ... + kn*pn = k
     /// </remarks>
@@ -714,22 +504,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a
-    /// <c>
-    /// Z3_func_decl
-    /// </c>
-    /// into
-    /// <c>
-    /// Z3_ast
-    /// </c>
-    /// . This is just type casting.
+    ///  Convert a <c>Z3_func_decl</c> into <c>Z3_ast</c> . This is just type casting.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     public IntPtr FuncDeclToAst(IntPtr c, IntPtr f)
     {
         var result = nativeLibrary.FuncDeclToAst(c, f);
@@ -738,17 +516,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Compare terms.
+    ///  Compare terms.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f1" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="f2" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f1" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="f2" ctype="Z3_func_decl">func_decl parameter</param>
     public bool IsEqFuncDecl(IntPtr c, IntPtr f1, IntPtr f2)
     {
         var result = nativeLibrary.IsEqFuncDecl(c, f1, f2);
@@ -757,18 +529,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a unique identifier for
-    /// <c>
-    /// f
-    /// </c>
-    /// .
+    ///  Return a unique identifier for <c>f</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="f" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     public uint GetFuncDeclId(IntPtr c, IntPtr f)
     {
         var result = nativeLibrary.GetFuncDeclId(c, f);
@@ -777,14 +541,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the constant declaration name as a symbol.
+    ///  Return the constant declaration name as a symbol.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     public IntPtr GetDeclName(IntPtr c, IntPtr d)
     {
         var result = nativeLibrary.GetDeclName(c, d);
@@ -793,14 +553,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return declaration kind corresponding to declaration.
+    ///  Return declaration kind corresponding to declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     public DeclKind GetDeclKind(IntPtr c, IntPtr d)
     {
         var result = nativeLibrary.GetDeclKind(c, d);
@@ -809,14 +565,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of parameters of the given declaration.
+    ///  Return the number of parameters of the given declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <seealso cref="GetArity"/>
     public uint GetDomainSize(IntPtr c, IntPtr d)
     {
@@ -826,18 +578,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Alias for
-    /// <c>
-    /// Z3_get_domain_size
-    /// </c>
-    /// .
+    ///  Alias for <c>Z3_get_domain_size</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <seealso cref="GetDomainSize"/>
     public uint GetArity(IntPtr c, IntPtr d)
     {
@@ -847,17 +591,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the sort of the i-th parameter of the given function declaration.
+    ///  Return the sort of the i-th parameter of the given function declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_get_domain_size(d)
     /// </remarks>
@@ -870,20 +608,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the range of the given declaration.
+    ///  Return the range of the given declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
-    /// If
-    /// <c>
-    /// d
-    /// </c>
-    /// is a constant (i.e., has zero arguments), then this function returns the sort of the constant.
+    /// If <c>d</c> is a constant (i.e., has zero arguments), then this function returns the sort of the constant.
     /// </remarks>
     public IntPtr GetRange(IntPtr c, IntPtr d)
     {
@@ -893,14 +623,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of parameters associated with a declaration.
+    ///  Return the number of parameters associated with a declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     public uint GetDeclNumParameters(IntPtr c, IntPtr d)
     {
         var result = nativeLibrary.GetDeclNumParameters(c, d);
@@ -909,17 +635,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the parameter type associated with a declaration.
+    ///  Return the parameter type associated with a declaration.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// the context
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// the function declaration
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// is the index of the named parameter it should be between 0 and the number of parameters.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> the context </param>
+    /// <param name="d" ctype="Z3_func_decl"> the function declaration </param>
+    /// <param name="idx" ctype="unsigned"> is the index of the named parameter it should be between 0 and the number of parameters. </param>
     public ParameterKind GetDeclParameterKind(IntPtr c, IntPtr d, uint idx)
     {
         var result = nativeLibrary.GetDeclParameterKind(c, d, idx);
@@ -928,17 +648,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the integer value associated with an integer parameter.
+    ///  Return the integer value associated with an integer parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_INT
     /// </remarks>
@@ -950,17 +664,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the double value associated with an double parameter.
+    ///  Return the double value associated with an double parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_DOUBLE
     /// </remarks>
@@ -972,17 +680,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the double value associated with an double parameter.
+    ///  Return the double value associated with an double parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_SYMBOL
     /// </remarks>
@@ -994,17 +696,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the sort value associated with a sort parameter.
+    ///  Return the sort value associated with a sort parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_SORT
     /// </remarks>
@@ -1016,17 +712,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the expression value associated with an expression parameter.
+    ///  Return the expression value associated with an expression parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_AST
     /// </remarks>
@@ -1038,17 +728,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the expression value associated with an expression parameter.
+    ///  Return the expression value associated with an expression parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_FUNC_DECL
     /// </remarks>
@@ -1060,17 +744,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the rational value, as a string, associated with a rational parameter.
+    ///  Return the rational value, as a string, associated with a rational parameter.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="d" ctype="Z3_func_decl">
-    /// func_decl parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_RATIONAL
     /// </remarks>
@@ -1082,22 +760,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a
-    /// <c>
-    /// Z3_app
-    /// </c>
-    /// into
-    /// <c>
-    /// Z3_ast
-    /// </c>
-    /// . This is just type casting.
+    ///  Convert a <c>Z3_app</c> into <c>Z3_ast</c> . This is just type casting.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_app">
-    /// app parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_app">app parameter</param>
     public IntPtr AppToAst(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.AppToAst(c, a);
@@ -1106,14 +772,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the declaration of a constant or function application.
+    ///  Return the declaration of a constant or function application.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_app">
-    /// app parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_app">app parameter</param>
     public IntPtr GetAppDecl(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.GetAppDecl(c, a);
@@ -1122,18 +784,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of argument of an application. If
-    /// <c>
-    /// t
-    /// </c>
-    /// is an constant, then the number of arguments is 0.
+    ///  Return the number of argument of an application. If <c>t</c> is an constant, then the number of arguments is 0.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_app">
-    /// app parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_app">app parameter</param>
     /// <seealso cref="GetAppArg"/>
     public uint GetAppNumArgs(IntPtr c, IntPtr a)
     {
@@ -1143,17 +797,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the i-th argument of the given application.
+    ///  Return the i-th argument of the given application.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_app">
-    /// app parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_app">app parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_get_app_num_args(c, a)
     /// </remarks>
@@ -1166,17 +814,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Compare terms.
+    ///  Compare terms.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t1" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="t2" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     public bool IsEqAst(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.IsEqAst(c, t1, t2);
@@ -1185,18 +827,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a unique identifier for
-    /// <c>
-    /// t
-    /// </c>
-    /// . The identifier is unique up to structural equality. Thus, two ast nodes created by the same context and having the same children and same function symbols have the same identifiers. Ast nodes created in the same context, but having different children or different functions have different identifiers. Variables and quantifiers are also assigned different identifiers according to their structure.
+    ///  Return a unique identifier for <c>t</c> . The identifier is unique up to structural equality. Thus, two ast nodes created by the same context and having the same children and same function symbols have the same identifiers. Ast nodes created in the same context, but having different children or different functions have different identifiers. Variables and quantifiers are also assigned different identifiers according to their structure.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
     public uint GetAstId(IntPtr c, IntPtr t)
     {
         var result = nativeLibrary.GetAstId(c, t);
@@ -1205,18 +839,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the same hash. The result of
-    /// <c>
-    /// Z3_get_ast_id
-    /// </c>
-    /// returns an identifier that is unique over the set of live AST objects.
+    ///  Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the same hash. The result of <c>Z3_get_ast_id</c> returns an identifier that is unique over the set of live AST objects.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public uint GetAstHash(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.GetAstHash(c, a);
@@ -1225,14 +851,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the sort of an AST node.
+    ///  Return the sort of an AST node.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// The AST node must be a constant, application, numeral, bound variable, or quantifier.
     /// </remarks>
@@ -1244,22 +866,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the given expression
-    /// <c>
-    /// t
-    /// </c>
-    /// is well sorted.
+    ///  Return <c>true</c> if the given expression <c>t</c> is well sorted.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
     public bool IsWellSorted(IntPtr c, IntPtr t)
     {
         var result = nativeLibrary.IsWellSorted(c, t);
@@ -1268,30 +878,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// Z3_L_TRUE
-    /// </c>
-    /// if
-    /// <c>
-    /// a
-    /// </c>
-    /// is true,
-    /// <c>
-    /// Z3_L_FALSE
-    /// </c>
-    /// if it is false, and
-    /// <c>
-    /// Z3_L_UNDEF
-    /// </c>
-    /// otherwise.
+    ///  Return <c>Z3_L_TRUE</c> if <c>a</c> is true, <c>Z3_L_FALSE</c> if it is false, and <c>Z3_L_UNDEF</c> otherwise.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public Lbool GetBoolValue(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.GetBoolValue(c, a);
@@ -1300,14 +890,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the kind of the given AST.
+    ///  Return the kind of the given AST.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public AstKind GetAstKind(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.GetAstKind(c, a);
@@ -1315,15 +901,9 @@ public sealed partial class Z3Library2
         return (AstKind)result;
     }
 
-    /// <summary>
-    /// IsApp
-    /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <summary>IsApp</summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool IsApp(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.IsApp(c, a);
@@ -1331,15 +911,9 @@ public sealed partial class Z3Library2
         return result;
     }
 
-    /// <summary>
-    /// IsGround
-    /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <summary>IsGround</summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool IsGround(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.IsGround(c, a);
@@ -1347,15 +921,9 @@ public sealed partial class Z3Library2
         return result;
     }
 
-    /// <summary>
-    /// GetDepth
-    /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <summary>GetDepth</summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public uint GetDepth(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.GetDepth(c, a);
@@ -1363,15 +931,9 @@ public sealed partial class Z3Library2
         return result;
     }
 
-    /// <summary>
-    /// IsNumeralAst
-    /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <summary>IsNumeralAst</summary>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool IsNumeralAst(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.IsNumeralAst(c, a);
@@ -1380,18 +942,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the given AST is a real algebraic number.
+    ///  Return <c>true</c> if the given AST is a real algebraic number.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool IsAlgebraicNumber(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.IsAlgebraicNumber(c, a);
@@ -1400,25 +954,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert an
-    /// <c>
-    /// ast
-    /// </c>
-    /// into an
-    /// <c>
-    /// APP_AST
-    /// </c>
-    /// . This is just type casting.
+    ///  Convert an <c>ast</c> into an <c>APP_AST</c> . This is just type casting.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition:
-    /// <code>
+    /// Precondition: <code>
     /// Z3_get_ast_kind(c, a) == \c Z3_APP_AST
     /// </code>
     /// </remarks>
@@ -1430,17 +971,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert an AST into a FUNC_DECL_AST. This is just type casting.
+    ///  Convert an AST into a FUNC_DECL_AST. This is just type casting.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition:
-    /// <code>
+    /// Precondition: <code>
     /// Z3_get_ast_kind(c, a) == Z3_FUNC_DECL_AST
     /// </code>
     /// </remarks>
@@ -1452,14 +988,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return numeral value, as a decimal string of a numeric constant term.
+    ///  Return numeral value, as a decimal string of a numeric constant term.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1471,14 +1003,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return numeral value, as a binary string of a numeric constant term.
+    ///  Return numeral value, as a binary string of a numeric constant term.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
     /// Precondition: a represents a non-negative integer
@@ -1491,21 +1019,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return numeral as a string in decimal notation. The result has at most
-    /// <c>
-    /// precision
-    /// </c>
-    /// decimal places.
+    ///  Return numeral as a string in decimal notation. The result has at most <c>precision</c> decimal places.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="precision" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="precision" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST || Z3_is_algebraic_number(c, a)
     /// </remarks>
@@ -1517,14 +1035,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return numeral as a double.
+    ///  Return numeral as a double.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST || Z3_is_algebraic_number(c, a)
     /// </remarks>
@@ -1536,14 +1050,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the numerator (as a numeral AST) of a numeral AST of sort Real.
+    ///  Return the numerator (as a numeral AST) of a numeral AST of sort Real.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1555,14 +1065,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the denominator (as a numeral AST) of a numeral AST of sort Real.
+    ///  Return the denominator (as a numeral AST) of a numeral AST of sort Real.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1574,46 +1080,14 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return numeral value, as a pair of 64 bit numbers if the representation fits.
+    ///  Return numeral value, as a pair of 64 bit numbers if the representation fits.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// logical context.
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// term.
-    /// </param>
-    /// <param name="num" ctype="int64_t*">
-    /// numerator.
-    /// </param>
-    /// <param name="den" ctype="int64_t*">
-    /// denominator.
-    /// </param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="a" ctype="Z3_ast"> term. </param>
+    /// <param name="num" ctype="int64_t*"> numerator. </param>
+    /// <param name="den" ctype="int64_t*"> denominator. </param>
     /// <remarks>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the numeral value fits in 64 bit numerals,
-    /// <c>
-    /// false
-    /// </c>
-    /// otherwise. Equivalent to
-    /// <c>
-    /// Z3_get_numeral_rational_int64
-    /// </c>
-    /// except that for unsupported expression arguments
-    /// <c>
-    /// Z3_get_numeral_small
-    /// </c>
-    /// signals an error while
-    /// <c>
-    /// Z3_get_numeral_rational_int64
-    /// </c>
-    /// returns
-    /// <c>
-    /// false
-    /// </c>
-    /// .
+    /// Return <c>true</c> if the numeral value fits in 64 bit numerals, <c>false</c> otherwise. Equivalent to <c>Z3_get_numeral_rational_int64</c> except that for unsupported expression arguments <c>Z3_get_numeral_small</c> signals an error while <c>Z3_get_numeral_rational_int64</c> returns <c>false</c> .
     /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST
     /// </remarks>
     public bool GetNumeralSmall(IntPtr c, IntPtr a, IntPtr num, IntPtr den)
@@ -1624,23 +1098,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Similar to
-    /// <see cref="GetNumeralString"/>
-    /// , but only succeeds if the value can fit in a machine int. Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the call succeeded.
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine int. Return <c>true</c> if the call succeeded.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="int*">
-    /// int parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="int*">int parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1653,23 +1115,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Similar to
-    /// <see cref="GetNumeralString"/>
-    /// , but only succeeds if the value can fit in a machine unsigned int. Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the call succeeded.
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine unsigned int. Return <c>true</c> if the call succeeded.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="u" ctype="unsigned*">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <param name="u" ctype="unsigned*">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1682,27 +1132,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Similar to
-    /// <see cref="GetNumeralString"/>
-    /// , but only succeeds if the value can fit in a machine
-    /// <c>
-    /// uint64_t
-    /// </c>
-    /// int. Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the call succeeded.
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine <c>uint64_t</c> int. Return <c>true</c> if the call succeeded.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="u" ctype="uint64_t*">
-    /// uint64_t parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <param name="u" ctype="uint64_t*">uint64_t parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1715,27 +1149,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Similar to
-    /// <see cref="GetNumeralString"/>
-    /// , but only succeeds if the value can fit in a machine
-    /// <c>
-    /// int64_t
-    /// </c>
-    /// int. Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the call succeeded.
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="int64_t*">
-    /// int64_t parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="int64_t*">int64_t parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1748,30 +1166,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Similar to
-    /// <see cref="GetNumeralString"/>
-    /// , but only succeeds if the value can fit as a rational number as machine
-    /// <c>
-    /// int64_t
-    /// </c>
-    /// int. Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the call succeeded.
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit as a rational number as machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="num" ctype="int64_t*">
-    /// int64_t parameter
-    /// </param>
-    /// <param name="den" ctype="int64_t*">
-    /// int64_t parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <param name="num" ctype="int64_t*">int64_t parameter</param>
+    /// <param name="den" ctype="int64_t*">int64_t parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
     /// </remarks>
@@ -1784,17 +1184,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    ///  Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="precision" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="precision" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_algebraic_number(c, a)
     /// </remarks>
@@ -1806,17 +1200,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    ///  Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="precision" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="precision" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_is_algebraic_number(c, a)
     /// </remarks>
@@ -1828,14 +1216,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a Z3_pattern into Z3_ast. This is just type casting.
+    ///  Convert a Z3_pattern into Z3_ast. This is just type casting.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_pattern">
-    /// pattern parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
     public IntPtr PatternToAst(IntPtr c, IntPtr p)
     {
         var result = nativeLibrary.PatternToAst(c, p);
@@ -1844,14 +1228,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return number of terms in pattern.
+    ///  Return number of terms in pattern.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_pattern">
-    /// pattern parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
     public uint GetPatternNumTerms(IntPtr c, IntPtr p)
     {
         var result = nativeLibrary.GetPatternNumTerms(c, p);
@@ -1860,17 +1240,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return i'th ast in pattern.
+    ///  Return i'th ast in pattern.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_pattern">
-    /// pattern parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     public IntPtr GetPattern(IntPtr c, IntPtr p, uint idx)
     {
         var result = nativeLibrary.GetPattern(c, p, idx);
@@ -1879,14 +1253,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return index of de-Bruijn bound variable.
+    ///  Return index of de-Bruijn bound variable.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_VAR_AST
     /// </remarks>
@@ -1898,14 +1268,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Determine if an ast is a universal quantifier.
+    ///  Determine if an ast is a universal quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool IsQuantifierForall(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.IsQuantifierForall(c, a);
@@ -1914,14 +1280,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Determine if ast is an existential quantifier.
+    ///  Determine if ast is an existential quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public bool IsQuantifierExists(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.IsQuantifierExists(c, a);
@@ -1930,14 +1292,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Determine if ast is a lambda expression.
+    ///  Determine if ast is a lambda expression.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -1949,14 +1307,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Obtain weight of quantifier.
+    ///  Obtain weight of quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -1968,14 +1322,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Obtain skolem id of quantifier.
+    ///  Obtain skolem id of quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -1987,14 +1337,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Obtain id of quantifier.
+    ///  Obtain id of quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2006,14 +1352,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return number of patterns used in quantifier.
+    ///  Return number of patterns used in quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2025,17 +1367,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return i'th pattern.
+    ///  Return i'th pattern.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2047,14 +1383,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return number of no_patterns used in quantifier.
+    ///  Return number of no_patterns used in quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2066,17 +1398,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return i'th no_pattern.
+    ///  Return i'th no_pattern.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2088,14 +1414,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return number of bound variables of quantifier.
+    ///  Return number of bound variables of quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2107,17 +1429,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return symbol of the i'th bound variable.
+    ///  Return symbol of the i'th bound variable.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2129,17 +1445,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return sort of the i'th bound variable.
+    ///  Return sort of the i'th bound variable.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2151,14 +1461,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return body of quantifier.
+    ///  Return body of quantifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
     /// </remarks>
@@ -2170,14 +1476,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Interface to simplifier.
+    ///  Interface to simplifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Provides an interface to the AST simplifier used by Z3. It returns an AST object which is equal to the argument. The returned AST is simplified using algebraic simplification rules, such as constant propagation (propagating true/false over logical connectives).
     /// </remarks>
@@ -2190,21 +1492,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Interface to simplifier.
+    ///  Interface to simplifier.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
-    /// <param name="p" ctype="Z3_params">
-    /// params parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <param name="p" ctype="Z3_params">params parameter</param>
     /// <remarks>
-    /// Provides an interface to the AST simplifier used by Z3. This procedure is similar to
-    /// <see cref="Simplify"/>
-    /// , but the behavior of the simplifier can be configured using the given parameter set.
+    /// Provides an interface to the AST simplifier used by Z3. This procedure is similar to <see cref="Simplify"/> , but the behavior of the simplifier can be configured using the given parameter set.
     /// </remarks>
     /// <seealso cref="Simplify"/>
     /// <seealso cref="SimplifyGetHelp"/>
@@ -2217,11 +1511,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a string describing all available parameters.
+    ///  Return a string describing all available parameters.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="SimplifyEx"/>
     /// <seealso cref="SimplifyGetParamDescrs"/>
     public IntPtr SimplifyGetHelp(IntPtr c)
@@ -2232,11 +1524,9 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the parameter description set for the simplify procedure.
+    ///  Return the parameter description set for the simplify procedure.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="SimplifyEx"/>
     /// <seealso cref="SimplifyGetHelp"/>
     public IntPtr SimplifyGetParamDescrs(IntPtr c)

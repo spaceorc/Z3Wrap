@@ -11,14 +11,10 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Convert a statistics into a string.
+    ///  Convert a statistics into a string.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     public IntPtr StatsToString(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.StatsToString(c, s);
@@ -27,14 +23,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given statistics object.
+    ///  Increment the reference counter of the given statistics object.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     public void StatsIncRef(IntPtr c, IntPtr s)
     {
         nativeLibrary.StatsIncRef(c, s);
@@ -42,14 +34,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given statistics object.
+    ///  Decrement the reference counter of the given statistics object.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     public void StatsDecRef(IntPtr c, IntPtr s)
     {
         nativeLibrary.StatsDecRef(c, s);
@@ -57,18 +45,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of statistical data in
-    /// <c>
-    /// s
-    /// </c>
-    /// .
+    ///  Return the number of statistical data in <c>s</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
     public uint StatsSize(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.StatsSize(c, s);
@@ -77,17 +57,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the key (a string) for a particular statistical data.
+    ///  Return the key (a string) for a particular statistical data.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s)
     /// </remarks>
@@ -99,21 +73,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the given statistical data is a unsigned integer.
+    ///  Return <c>true</c> if the given statistical data is a unsigned integer.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s)
     /// </remarks>
@@ -125,21 +89,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return
-    /// <c>
-    /// true
-    /// </c>
-    /// if the given statistical data is a double.
+    ///  Return <c>true</c> if the given statistical data is a double.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s)
     /// </remarks>
@@ -151,17 +105,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the unsigned value of the given statistical data.
+    ///  Return the unsigned value of the given statistical data.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_uint(c, s)
     /// </remarks>
@@ -173,17 +121,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the double value of the given statistical data.
+    ///  Return the double value of the given statistical data.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="s" ctype="Z3_stats">
-    /// stats parameter
-    /// </param>
-    /// <param name="idx" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_double(c, s)
     /// </remarks>

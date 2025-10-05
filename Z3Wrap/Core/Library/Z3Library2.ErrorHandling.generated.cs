@@ -11,11 +11,9 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return the error code for the last API call.
+    ///  Return the error code for the last API call.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
     /// A call to a Z3 function may return a non Z3_OK error code, when it is not used correctly.
     /// </remarks>
@@ -28,27 +26,13 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Register a Z3 error handler.
+    ///  Register a Z3 error handler.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="h" ctype="Z3_error_handler">
-    /// error_handler parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="h" ctype="Z3_error_handler">error_handler parameter</param>
     /// <remarks>
-    /// A call to a Z3 function may return a non
-    /// <c>
-    /// Z3_OK
-    /// </c>
-    /// error code, when it is not used correctly. An error handler can be registered and will be called in this case. To disable the use of the error handler, simply register with
-    /// <c>
-    /// h=NULL
-    /// </c>
-    /// .
-    /// Warning: Log files, created using
-    /// OpenLog
-    /// , may be potentially incomplete/incorrect if error handlers are used.
+    /// A call to a Z3 function may return a non <c>Z3_OK</c> error code, when it is not used correctly. An error handler can be registered and will be called in this case. To disable the use of the error handler, simply register with <c>h=NULL</c> .
+    /// Warning: Log files, created using OpenLog , may be potentially incomplete/incorrect if error handlers are used.
     /// </remarks>
     /// <seealso cref="GetErrorCode"/>
     public void SetErrorHandler(IntPtr c, IntPtr h)
@@ -58,14 +42,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Set an error.
+    ///  Set an error.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="e" ctype="Z3_error_code">
-    /// error_code parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="e" ctype="Z3_error_code">error_code parameter</param>
     public void SetError(IntPtr c, ErrorCode e)
     {
         nativeLibrary.SetError(c, (NativeZ3Library.ErrorCode)e);
@@ -73,14 +53,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a string describing the given error code.
+    ///  Return a string describing the given error code.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="err" ctype="Z3_error_code">
-    /// error_code parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="err" ctype="Z3_error_code">error_code parameter</param>
     public IntPtr GetErrorMsg(IntPtr c, ErrorCode err)
     {
         var result = nativeLibrary.GetErrorMsg(c, (NativeZ3Library.ErrorCode)err);

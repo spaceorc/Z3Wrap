@@ -11,17 +11,11 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return an empty AST vector.
+    ///  Return an empty AST vector.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using
-    /// MkContext
-    /// instead of
-    /// <see cref="MkContextRc"/>
-    /// .
+    /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using MkContext instead of <see cref="MkContextRc"/> .
     /// </remarks>
     public IntPtr MkAstVector(IntPtr c)
     {
@@ -31,14 +25,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given AST vector.
+    ///  Increment the reference counter of the given AST vector.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     public void AstVectorIncRef(IntPtr c, IntPtr v)
     {
         nativeLibrary.AstVectorIncRef(c, v);
@@ -46,14 +36,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given AST vector.
+    ///  Decrement the reference counter of the given AST vector.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     public void AstVectorDecRef(IntPtr c, IntPtr v)
     {
         nativeLibrary.AstVectorDecRef(c, v);
@@ -61,14 +47,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the size of the given AST vector.
+    ///  Return the size of the given AST vector.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     public uint AstVectorSize(IntPtr c, IntPtr v)
     {
         var result = nativeLibrary.AstVectorSize(c, v);
@@ -77,25 +59,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the AST at position
-    /// <c>
-    /// i
-    /// </c>
-    /// in the AST vector
-    /// <c>
-    /// v
-    /// </c>
-    /// .
+    ///  Return the AST at position <c>i</c> in the AST vector <c>v</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_ast_vector_size(c, v)
     /// </remarks>
@@ -107,32 +75,12 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Update position
-    /// <c>
-    /// i
-    /// </c>
-    /// of the AST vector
-    /// <c>
-    /// v
-    /// </c>
-    /// with the AST
-    /// <c>
-    /// a
-    /// </c>
-    /// .
+    ///  Update position <c>i</c> of the AST vector <c>v</c> with the AST <c>a</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
-    /// <param name="i" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
     /// Precondition: i &lt; Z3_ast_vector_size(c, v)
     /// </remarks>
@@ -143,21 +91,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Resize the AST vector
-    /// <c>
-    /// v
-    /// </c>
-    /// .
+    ///  Resize the AST vector <c>v</c> .
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
-    /// <param name="n" ctype="unsigned">
-    /// unsigned parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="n" ctype="unsigned">unsigned parameter</param>
     public void AstVectorResize(IntPtr c, IntPtr v, uint n)
     {
         nativeLibrary.AstVectorResize(c, v, n);
@@ -165,29 +103,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add the AST
-    /// <c>
-    /// a
-    /// </c>
-    /// in the end of the AST vector
-    /// <c>
-    /// v
-    /// </c>
-    /// . The size of
-    /// <c>
-    /// v
-    /// </c>
-    /// is increased by one.
+    ///  Add the AST <c>a</c> in the end of the AST vector <c>v</c> . The size of <c>v</c> is increased by one.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
-    /// <param name="a" ctype="Z3_ast">
-    /// ast parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="a" ctype="Z3_ast">ast parameter</param>
     public void AstVectorPush(IntPtr c, IntPtr v, IntPtr a)
     {
         nativeLibrary.AstVectorPush(c, v, a);
@@ -195,29 +115,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Translate the AST vector
-    /// <c>
-    /// v
-    /// </c>
-    /// from context
-    /// <c>
-    /// s
-    /// </c>
-    /// into an AST vector in context
-    /// <c>
-    /// t
-    /// </c>
-    /// .
+    ///  Translate the AST vector <c>v</c> from context <c>s</c> into an AST vector in context <c>t</c> .
     /// </summary>
-    /// <param name="s" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
-    /// <param name="t" ctype="Z3_context">
-    /// context parameter
-    /// </param>
+    /// <param name="s" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <param name="t" ctype="Z3_context">context parameter</param>
     public IntPtr AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)
     {
         var result = nativeLibrary.AstVectorTranslate(s, v, t);
@@ -226,14 +128,10 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert AST vector into a string.
+    ///  Convert AST vector into a string.
     /// </summary>
-    /// <param name="c" ctype="Z3_context">
-    /// context parameter
-    /// </param>
-    /// <param name="v" ctype="Z3_ast_vector">
-    /// ast_vector parameter
-    /// </param>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     public IntPtr AstVectorToString(IntPtr c, IntPtr v)
     {
         var result = nativeLibrary.AstVectorToString(c, v);
