@@ -6,9 +6,46 @@ This script generates Z3Library2 partial class files from NativeZ3Library.
 """
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Set, Optional
+
+
+# Configuration: Functions that should NOT have string overloads for Z3_symbol parameters
+# These are typically getter/query functions that inspect existing symbols rather than create new ones
+SKIP_SYMBOL_STRING_OVERLOAD = {
+    "GetSymbolKind",
+    "GetSymbolString",
+    "GetSymbolInt",
+}
+
+# Configuration: Functions that should be excluded from generation entirely
+# These are manually maintained in Z3Library2.cs with custom error handling logic
+EXCLUDE_FUNCTIONS = {
+    "DelContext",  # Cannot check error after context deletion
+}
+
+
+@dataclass
+class XmlNode:
+    """Represents a node in an XML documentation tree."""
+    tag: Optional[str]  # None for text nodes, tag name for element nodes
+    attributes: Dict[str, str] = field(default_factory=dict)
+    text: str = ""  # Direct text content
+    children: List['XmlNode'] = field(default_factory=list)
+
+    def is_text_node(self) -> bool:
+        """Check if this is a text node (no tag)."""
+        return self.tag is None
+
+    def find_children_by_tag(self, tag: str) -> List['XmlNode']:
+        """Find all direct children with the given tag."""
+        return [child for child in self.children if child.tag == tag]
+
+    def find_child_by_tag(self, tag: str) -> Optional['XmlNode']:
+        """Find first direct child with the given tag."""
+        children = self.find_children_by_tag(tag)
+        return children[0] if children else None
 
 
 @dataclass
@@ -27,6 +64,233 @@ class EnumDefinition:
     summary: str
     see_also: List[str]
     values: List[EnumValue]
+
+
+@dataclass
+class ParameterInfo:
+    """Represents a function parameter with C type information."""
+    name: str
+    csharp_type: str
+    c_type: str
+
+
+@dataclass
+class FunctionDefinition:
+    """Represents a parsed function definition."""
+    name: str
+    return_type: str
+    parameters: List[ParameterInfo]
+    doc_comment: XmlNode  # Full parsed XML documentation tree
+
+
+def parse_xml_doc_comment(doc_block: str) -> XmlNode:
+    """
+    Parse XML documentation comment into a tree structure.
+    Takes raw doc block with /// prefixes and returns root XmlNode.
+    """
+    # Remove /// prefixes and join into single text
+    lines = []
+    for line in doc_block.split('\n'):
+        line = line.strip()
+        if line.startswith('///'):
+            line = line[3:].strip()
+            lines.append(line)
+
+    xml_text = '\n'.join(lines)
+
+    # Simple XML parser - handles nested tags
+    root = XmlNode(tag='doc')
+
+    def parse_content(text: str, parent: XmlNode):
+        """Recursively parse XML content."""
+        pos = 0
+        while pos < len(text):
+            # Find next tag
+            tag_start = text.find('<', pos)
+
+            if tag_start == -1:
+                # No more tags - rest is text
+                remaining = text[pos:].strip()
+                if remaining:
+                    parent.children.append(XmlNode(tag=None, text=remaining))
+                break
+
+            # Text before tag
+            if tag_start > pos:
+                text_content = text[pos:tag_start].strip()
+                if text_content:
+                    parent.children.append(XmlNode(tag=None, text=text_content))
+
+            # Check if it's a closing tag
+            if text[tag_start:tag_start+2] == '</':
+                # Closing tag - end of current element
+                tag_end = text.find('>', tag_start)
+                return tag_end + 1
+
+            # Parse opening tag
+            tag_end = text.find('>', tag_start)
+            if tag_end == -1:
+                break
+
+            tag_full = text[tag_start+1:tag_end]
+
+            # Check for self-closing tag
+            is_self_closing = tag_full.endswith('/')
+            if is_self_closing:
+                tag_full = tag_full[:-1].strip()
+
+            # Parse tag name and attributes
+            parts = tag_full.split(None, 1)
+            tag_name = parts[0]
+            attrs = {}
+
+            if len(parts) > 1:
+                # Parse attributes
+                attr_text = parts[1]
+                # Simple attribute parsing: name="value"
+                attr_pattern = r'(\w+)="([^"]*)"'
+                for match in re.finditer(attr_pattern, attr_text):
+                    attrs[match.group(1)] = match.group(2)
+
+            # Create node
+            node = XmlNode(tag=tag_name, attributes=attrs)
+            parent.children.append(node)
+
+            if is_self_closing:
+                pos = tag_end + 1
+            else:
+                # Parse content until closing tag
+                content_start = tag_end + 1
+                content_end = parse_content(text[content_start:], node)
+                if content_end == -1:
+                    # No closing tag found - treat rest as content
+                    pos = len(text)
+                else:
+                    # Skip past closing tag
+                    closing_tag = f'</{tag_name}>'
+                    pos = content_start + content_end
+                    if text[pos:pos+len(closing_tag)] == closing_tag:
+                        pos += len(closing_tag)
+
+        return -1  # End of content
+
+    parse_content(xml_text, root)
+    return root
+
+
+def render_xml_node(node: XmlNode, indent: str = "    ") -> str:
+    """
+    Render XmlNode tree back to C# XML documentation format.
+    Returns formatted string with /// prefixes.
+    """
+    lines = []
+
+    def render_node(n: XmlNode, current_indent: str):
+        if n.is_text_node():
+            # Text node - split by lines and add /// prefix
+            for line in n.text.split('\n'):
+                if line.strip():
+                    lines.append(f"{current_indent}/// {line}")
+                else:
+                    lines.append(f"{current_indent}///")
+        else:
+            # Element node
+            attrs_str = ""
+            if n.attributes:
+                attrs_parts = [f'{k}="{v}"' for k, v in n.attributes.items()]
+                attrs_str = " " + " ".join(attrs_parts)
+
+            if not n.children and not n.text:
+                # Self-closing tag
+                lines.append(f"{current_indent}/// <{n.tag}{attrs_str}/>")
+            elif not n.children and n.text and '\n' not in n.text:
+                # Single-line tag with text
+                lines.append(f"{current_indent}/// <{n.tag}{attrs_str}>{n.text}</{n.tag}>")
+            else:
+                # Multi-line tag
+                lines.append(f"{current_indent}/// <{n.tag}{attrs_str}>")
+
+                # Render text content if any
+                if n.text:
+                    for line in n.text.split('\n'):
+                        if line.strip():
+                            lines.append(f"{current_indent}/// {line}")
+
+                # Render children
+                for child in n.children:
+                    render_node(child, current_indent)
+
+                lines.append(f"{current_indent}/// </{n.tag}>")
+
+    # Render all children of root (skip root 'doc' tag itself)
+    for child in node.children:
+        render_node(child, indent)
+
+    return '\n'.join(lines)
+
+
+def parse_native_functions_file(file_path: Path) -> List[FunctionDefinition]:
+    """
+    Parse a NativeZ3Library.*.generated.cs file and extract function definitions.
+    Only includes functions where first parameter has ctype="Z3_context".
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    functions = []
+
+    # Pattern to match function with documentation
+    # Looks for: XML docs + [Z3Function] + internal ReturnType MethodName(params) { ... }
+    function_pattern = r'((?:[ \t]*///.*?\n)+)[ \t]*\[Z3Function\([^\]]+\)\]\s*internal\s+(\w+)\s+(\w+)\s*\((.*?)\)'
+
+    for match in re.finditer(function_pattern, content, re.MULTILINE | re.DOTALL):
+        doc_block = match.group(1)
+        return_type = match.group(2)
+        method_name = match.group(3)
+        params_str = match.group(4)
+
+        # Parse parameters
+        parameters = []
+        if params_str.strip():
+            # Split by comma (simple split, assumes no complex nested types)
+            param_parts = [p.strip() for p in params_str.split(',')]
+            for param_part in param_parts:
+                # Parse: "Type name"
+                parts = param_part.split()
+                if len(parts) >= 2:
+                    param_type = parts[0]
+                    param_name = parts[1]
+
+                    # Extract ctype from documentation (for now, still use regex)
+                    ctype_pattern = rf'<param name="{re.escape(param_name)}" ctype="([^"]+)"'
+                    ctype_match = re.search(ctype_pattern, doc_block)
+                    c_type = ctype_match.group(1) if ctype_match else ''
+
+                    parameters.append(ParameterInfo(
+                        name=param_name,
+                        csharp_type=param_type,
+                        c_type=c_type
+                    ))
+
+        # Filter: only include if first parameter is Z3_context
+        if not parameters or parameters[0].c_type != 'Z3_context':
+            continue
+
+        # Filter: exclude functions in EXCLUDE_FUNCTIONS configuration
+        if method_name in EXCLUDE_FUNCTIONS:
+            continue
+
+        # Parse documentation into tree structure
+        doc_tree = parse_xml_doc_comment(doc_block)
+
+        functions.append(FunctionDefinition(
+            name=method_name,
+            return_type=return_type,
+            parameters=parameters,
+            doc_comment=doc_tree
+        ))
+
+    return functions
 
 
 def parse_native_enums_file(file_path: Path) -> List[EnumDefinition]:
@@ -138,6 +402,222 @@ def parse_native_enums_file(file_path: Path) -> List[EnumDefinition]:
     return enums
 
 
+def clone_and_modify_doc(doc_tree: XmlNode, func_name: str, parameters: List[ParameterInfo],
+                         param_type_overrides: Dict[str, str] = None) -> XmlNode:
+    """
+    Clone doc tree and optionally modify parameter names/types for overloads.
+    """
+    import copy
+    cloned = copy.deepcopy(doc_tree)
+
+    # Find all param nodes and update if needed
+    if param_type_overrides:
+        for param_node in cloned.find_children_by_tag('param'):
+            param_name = param_node.attributes.get('name', '')
+            if param_name in param_type_overrides:
+                # Remove ctype attribute for string overloads
+                if 'ctype' in param_node.attributes:
+                    del param_node.attributes['ctype']
+
+    # Ensure we have param docs for all parameters (add generic ones if missing)
+    existing_params = {node.attributes.get('name'): node
+                      for node in cloned.find_children_by_tag('param')}
+
+    for param in parameters:
+        if param.name not in existing_params:
+            # Add generic param doc
+            param_node = XmlNode(
+                tag='param',
+                attributes={'name': param.name},
+                children=[XmlNode(tag=None, text=f"{param.c_type or param.csharp_type} parameter")]
+            )
+            cloned.children.append(param_node)
+
+    # Ensure we have a summary (add generic one if missing)
+    if not cloned.find_child_by_tag('summary'):
+        summary_node = XmlNode(
+            tag='summary',
+            children=[XmlNode(tag=None, text=func_name)]
+        )
+        cloned.children.insert(0, summary_node)
+
+    return cloned
+
+
+def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition], group_name: str, enum_types: Set[str]):
+    """
+    Generate Z3Library2.{GroupName}.generated.cs with public method wrappers.
+    """
+    file_path = output_dir / f"Z3Library2.{group_name}.generated.cs"
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        # Header
+        f.write("// <auto-generated>\n")
+        f.write("// This file was generated by scripts/generate_library.py\n")
+        f.write(f"// Source: NativeZ3Library.{group_name}.generated.cs\n")
+        f.write("// DO NOT EDIT - Changes will be overwritten\n")
+        f.write("// </auto-generated>\n\n")
+
+        f.write("using Spaceorc.Z3Wrap.Core.Interop;\n\n")
+        f.write("namespace Spaceorc.Z3Wrap.Core.Library;\n\n")
+
+        f.write("public sealed partial class Z3Library2\n")
+        f.write("{\n")
+
+        # Generate each function
+        for func in functions:
+            # Check if function has Z3_symbol parameters (for overload generation)
+            symbol_params = [p for p in func.parameters if p.c_type == 'Z3_symbol']
+            has_symbols = len(symbol_params) > 0
+
+            # Check if this function should skip string overload (configured list)
+            skip_string_overload = func.name in SKIP_SYMBOL_STRING_OVERLOAD
+
+            # Generate string overload first (if symbols present and not in skip list)
+            if has_symbols and not skip_string_overload:
+                # Clone and prepare documentation for string overload
+                param_overrides = {}
+                for param in symbol_params:
+                    param_overrides[param.name] = 'string'
+
+                doc_clone = clone_and_modify_doc(func.doc_comment, func.name, func.parameters, param_overrides)
+
+                # Render documentation
+                doc_output = render_xml_node(doc_clone, "    ")
+                f.write(doc_output + "\n")
+
+                # Parameters - convert Z3_symbol to string, Z3_string to string
+                public_params = []
+                for param in func.parameters:
+                    if param.c_type == 'Z3_string':
+                        public_type = 'string'
+                    elif param.c_type == 'Z3_symbol':
+                        public_type = 'string'  # String overload for symbols
+                    else:
+                        public_type = param.csharp_type
+
+                    public_params.append(f"{public_type} {param.name}")
+
+                # Method signature
+                params_str = ", ".join(public_params)
+                f.write(f"    public {func.return_type} {func.name}({params_str})\n")
+                f.write("    {\n")
+
+                context_param = func.parameters[0].name
+
+                # Convert string parameters to AnsiStringPtr
+                string_params = [p for p in func.parameters if p.c_type == 'Z3_string']
+                for param in string_params:
+                    f.write(f"        using var {param.name}Ansi = new AnsiStringPtr({param.name});\n")
+
+                # Convert symbol string parameters to Z3_symbol
+                for param in symbol_params:
+                    f.write(f"        using var {param.name}Ansi = new AnsiStringPtr({param.name});\n")
+                    f.write(f"        var {param.name}Symbol = nativeLibrary.MkStringSymbol({context_param}, {param.name}Ansi);\n")
+                    f.write(f"        CheckError({context_param});\n")
+
+                # Call native method
+                native_args = []
+                for param in func.parameters:
+                    if param.c_type == 'Z3_string':
+                        native_args.append(f"{param.name}Ansi")
+                    elif param.c_type == 'Z3_symbol':
+                        native_args.append(f"{param.name}Symbol")
+                    elif param.csharp_type in enum_types:
+                        # Enum parameter - cast to internal enum
+                        native_args.append(f"(NativeZ3Library.{param.csharp_type}){param.name}")
+                    else:
+                        native_args.append(param.name)
+
+                native_args_str = ", ".join(native_args)
+
+                # Generate call based on return type
+                if func.return_type == 'IntPtr':
+                    f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                    f.write(f"        CheckError({context_param});\n")
+                    f.write(f"        return CheckHandle(result, nameof({func.name}));\n")
+                elif func.return_type == 'void':
+                    f.write(f"        nativeLibrary.{func.name}({native_args_str});\n")
+                    f.write(f"        CheckError({context_param});\n")
+                elif func.return_type in enum_types:
+                    # Enum return type - cast from internal enum to public enum
+                    f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                    f.write(f"        CheckError({context_param});\n")
+                    f.write(f"        return ({func.return_type})result;\n")
+                else:
+                    f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                    f.write(f"        CheckError({context_param});\n")
+                    f.write(f"        return result;\n")
+
+                f.write("    }\n\n")
+
+            # Generate original overload (always, or only if no symbols)
+            # Clone documentation (no overrides for IntPtr version)
+            doc_clone = clone_and_modify_doc(func.doc_comment, func.name, func.parameters)
+
+            # Render documentation
+            doc_output = render_xml_node(doc_clone, "    ")
+            f.write(doc_output + "\n")
+
+            # Parameters - convert only Z3_string to string, keep Z3_symbol as IntPtr
+            public_params = []
+            for param in func.parameters:
+                if param.c_type == 'Z3_string':
+                    public_type = 'string'
+                else:
+                    public_type = param.csharp_type
+
+                public_params.append(f"{public_type} {param.name}")
+
+            # Method signature
+            params_str = ", ".join(public_params)
+            f.write(f"    public {func.return_type} {func.name}({params_str})\n")
+            f.write("    {\n")
+
+            # Convert string parameters to AnsiStringPtr
+            string_params = [p for p in func.parameters if p.c_type == 'Z3_string']
+            for param in string_params:
+                f.write(f"        using var {param.name}Ansi = new AnsiStringPtr({param.name});\n")
+
+            # Call native method
+            native_args = []
+            for param in func.parameters:
+                if param.c_type == 'Z3_string':
+                    native_args.append(f"{param.name}Ansi")
+                elif param.csharp_type in enum_types:
+                    # Enum parameter - cast to internal enum
+                    native_args.append(f"(NativeZ3Library.{param.csharp_type}){param.name}")
+                else:
+                    native_args.append(param.name)
+
+            native_args_str = ", ".join(native_args)
+
+            # Generate call based on return type
+            context_param = func.parameters[0].name
+            if func.return_type == 'IntPtr':
+                f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                f.write(f"        CheckError({context_param});\n")
+                f.write(f"        return CheckHandle(result, nameof({func.name}));\n")
+            elif func.return_type == 'void':
+                f.write(f"        nativeLibrary.{func.name}({native_args_str});\n")
+                f.write(f"        CheckError({context_param});\n")
+            elif func.return_type in enum_types:
+                # Enum return type - cast from internal enum to public enum
+                f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                f.write(f"        CheckError({context_param});\n")
+                f.write(f"        return ({func.return_type})result;\n")
+            else:
+                f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                f.write(f"        CheckError({context_param});\n")
+                f.write(f"        return result;\n")
+
+            f.write("    }\n\n")
+
+        f.write("}\n")
+
+    return file_path
+
+
 def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
     """
     Generate Z3Library2.Enums.generated.cs with actual public enum definitions.
@@ -224,22 +704,42 @@ def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
 
 def main():
     """Main entry point."""
+    import argparse
+
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description='Generate Z3Library2 partial classes from NativeZ3Library')
+    parser.add_argument('--enums-only', action='store_true', help='Generate only the enums file (faster)')
+    args = parser.parse_args()
+
     # Paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    native_enums_file = project_root / "Z3Wrap" / "Core" / "Interop" / "NativeZ3Library.Enums.generated.cs"
+    interop_dir = project_root / "Z3Wrap" / "Core" / "Interop"
     output_dir = project_root / "Z3Wrap" / "Core" / "Library"
 
     print("Z3Library2 Generator")
     print("=" * 80)
-    print(f"Source: {native_enums_file}")
+    print(f"Source: {interop_dir}")
     print(f"Output: {output_dir}")
     print()
 
+    # Clean up old generated files (unless enums-only mode)
+    if not args.enums_only:
+        print("Cleaning up old generated files...")
+        old_files = list(output_dir.glob("*.generated.cs"))
+        for old_file in old_files:
+            old_file.unlink()
+        print(f"Removed {len(old_files)} old generated files")
+        print()
+
     # Parse native enums
+    native_enums_file = interop_dir / "NativeZ3Library.Enums.generated.cs"
     print("Parsing NativeZ3Library enums...")
     enums = parse_native_enums_file(native_enums_file)
     print(f"✓ Found {len(enums)} enum definitions")
+
+    # Extract enum type names for return type casting
+    enum_types = {enum.name for enum in enums}
 
     for enum_def in enums:
         print(f"  - {enum_def.name} ({len(enum_def.values)} values)")
@@ -247,11 +747,52 @@ def main():
 
     # Generate enums file
     print("Generating Z3Library2.Enums.generated.cs...")
-    generated_file = generate_enums_file(output_dir, enums)
-    print(f"✓ Generated {generated_file.name}")
+    generated_enums_file = generate_enums_file(output_dir, enums)
+    print(f"✓ Generated {generated_enums_file.name}")
     print()
 
-    print(f"✅ Done! Generated 1 file with {len(enums)} public enums")
+    if args.enums_only:
+        print("✅ Enums-only mode: Skipping function generation")
+        print(f"ℹ️  Generated 1 file: {generated_enums_file.name}")
+        return
+
+    # Parse and generate function files
+    print("Parsing NativeZ3Library function files...")
+    native_function_files = sorted(interop_dir.glob("NativeZ3Library.*.generated.cs"))
+    # Exclude the enums file
+    native_function_files = [f for f in native_function_files if f.name != "NativeZ3Library.Enums.generated.cs"]
+
+    print(f"✓ Found {len(native_function_files)} function files")
+    print()
+
+    generated_function_files = []
+    total_functions = 0
+
+    for native_file in native_function_files:
+        # Extract group name from filename: NativeZ3Library.{GroupName}.generated.cs
+        group_name = native_file.stem.replace("NativeZ3Library.", "").replace(".generated", "")
+
+        print(f"Processing {group_name}...")
+
+        # Parse functions
+        functions = parse_native_functions_file(native_file)
+
+        if functions:
+            print(f"  ✓ Found {len(functions)} functions with Z3_context parameter")
+
+            # Generate public wrapper file
+            generated_file = generate_functions_file(output_dir, functions, group_name, enum_types)
+            generated_function_files.append(generated_file.name)
+            total_functions += len(functions)
+        else:
+            print(f"  ⊘ No functions with Z3_context parameter (skipped)")
+        print()
+
+    print("=" * 80)
+    print(f"✅ Done! Generated {len(generated_function_files) + 1} files:")
+    print(f"   - 1 enums file with {len(enums)} enums")
+    print(f"   - {len(generated_function_files)} function files with {total_functions} methods")
+    print(f"   Location: {output_dir}")
 
 
 if __name__ == "__main__":

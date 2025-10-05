@@ -4,7 +4,7 @@
 Create a modular Z3Library2 with generated partial class files organized by Z3 API categories, while keeping the core functionality (library loading, error handling, configuration/context management) in a single main file.
 
 ## Current Status
-**Phase 2 Complete** - Core infrastructure and enum generation working. Ready for method generation.
+**Phase 3 Complete** - Full code generation pipeline working. Generator produces enums and methods with proper error handling, type conversion, and symbol overloads.
 
 ## Completed Work
 
@@ -36,7 +36,29 @@ Create a modular Z3Library2 with generated partial class files organized by Z3 A
   - SymbolKind (2 values) - Symbol types
 - [x] Generate `Z3Library2.Enums.generated.cs` with public enums (2875 lines)
 - [x] Preserve complete XML documentation (summary, remarks, seealso)
-- [x] Verify compilation (compiles with 14 expected warnings about unresolved method references)
+- [x] Remove seealso references (they point to internal NativeZ3Library methods)
+- [x] Verify compilation with zero enum-related warnings
+- [x] `make generate-library ENUMS_ONLY=1` command working
+
+### Phase 3: Method Generation ✅
+- [x] Parse NativeZ3Library function files for signatures
+- [x] Extract parameter information with C type metadata (ctype attributes)
+- [x] Filter functions: only include those with Z3_context as first parameter
+- [x] Generate proper method wrappers with error handling:
+  - [x] Call `CheckError(context)` after every native call
+  - [x] Use `CheckHandle(result, nameof(Method))` for IntPtr returns
+  - [x] Cast enum return types from internal to public enums
+- [x] String parameter conversion:
+  - [x] Detect `Z3_string` parameters via ctype attribute
+  - [x] Convert `Z3_string` → `string` in public signature
+  - [x] Use `AnsiStringPtr` for marshalling
+- [x] Symbol parameter handling:
+  - [x] Generate string overloads for `Z3_symbol` parameters
+  - [x] Call `MkStringSymbol` with `CheckError` for each symbol
+  - [x] Generate IntPtr overload for advanced use cases
+  - [x] Configuration to skip overloads for getters (GetSymbolKind, etc.)
+- [x] XML documentation preservation from NativeZ3Library
+- [x] Generate files for all 32 categories
 - [x] `make generate-library` command working
 
 ## Architecture Decisions
@@ -129,19 +151,7 @@ Z3Wrap/Core/
 
 ## Next Steps
 
-### Phase 3: Code Generation (TODO)
-- [ ] Enhance `scripts/generate_library.py` to generate actual C# files
-- [ ] For each method in generator_plan.txt:
-  - [ ] Read corresponding NativeZ3Library method for signature and XML docs
-  - [ ] Generate wrapper method with `CheckError(ctx)` call
-  - [ ] Handle special parameter marshalling (string -> AnsiStringPtr, arrays, etc.)
-  - [ ] Preserve XML documentation from NativeZ3Library
-- [ ] Generate file header with auto-generation warning
-- [ ] Use proper namespace: `Spaceorc.Z3Wrap.Core.Library`
-- [ ] Mark class as `public sealed partial class Z3Library2`
-- [ ] Run `make format` after generation
-
-### Phase 4: Integration (TODO)
+### Phase 4: Integration & Testing (IN PROGRESS)
 - [ ] Generate all 32 partial class files
 - [ ] Verify compilation with zero warnings
 - [ ] Run `make test` - verify all 904 tests pass
@@ -160,60 +170,97 @@ Z3Wrap/Core/
 
 **Tool**: `scripts/generate_library.py`
 
-**Current Capabilities** (Phase 2 - Enums):
-- Parses `NativeZ3Library.Enums.generated.cs` with regex patterns
-- Extracts enum definitions with full documentation (summary, remarks, seealso)
-- Extracts enum values with their numeric values and documentation
-- Generates `Z3Library2.Enums.generated.cs` with public enums
-- Preserves multi-line XML documentation
-- Handles single-line and multi-line summary formats
-- Properly formats XML special characters
+**Current Capabilities**:
+- **Enum Generation**:
+  - Parses `NativeZ3Library.Enums.generated.cs` with regex patterns
+  - Extracts enum definitions with full documentation (summary, remarks)
+  - Extracts enum values with their numeric values and documentation
+  - Generates `Z3Library2.Enums.generated.cs` with public enums
+  - Preserves multi-line XML documentation
+  - Removes seealso references (point to internal methods)
 
-**Command**: `make generate-library`
+- **Method Generation**:
+  - Parses all `NativeZ3Library.*.generated.cs` files
+  - Extracts function signatures with ctype attributes
+  - Filters functions: only includes those with `Z3_context` as first parameter
+  - Generates wrapper methods with proper error handling
+  - Converts `Z3_string` parameters to `string` with `AnsiStringPtr`
+  - Generates string overloads for `Z3_symbol` parameters (configurable skip list)
+  - Casts enum return types from internal to public enums
+  - Preserves XML documentation (summary, param, returns)
+  - Auto-generates default parameter descriptions from C types
 
-**Future Capabilities** (Phase 3 - Methods):
-- Parse NativeZ3Library method files for signatures and XML docs
-- Generate Z3Library2 partial class files from `generator_plan.txt`
-- Handle parameter marshalling (strings, arrays, pointers)
-- Add `CheckError(ctx)` after each native call
-- Generate proper file headers with warnings
-- Support selective regeneration of categories
+**Commands**:
+- `make generate-library` - Generate all files (enums + methods)
+- `make generate-library ENUMS_ONLY=1` - Generate only enums (faster)
 
-## Code Generation Template
+**Configuration**:
+- `SKIP_SYMBOL_STRING_OVERLOAD` - Set of function names to skip string overloads for symbols
+  - Currently: `GetSymbolKind`, `GetSymbolString`, `GetSymbolInt`
 
-Each generated method should follow this pattern:
+## Code Generation Examples
 
+### Basic Method with IntPtr Return
 ```csharp
-// <auto-generated>
-// This file was generated by scripts/generate_library.py
-// Source: NativeZ3Library.{Category}.generated.cs
-// DO NOT EDIT - Changes will be overwritten
-// </auto-generated>
-
-using System.Runtime.InteropServices;
-using Spaceorc.Z3Wrap.Core.Interop;
-
-namespace Spaceorc.Z3Wrap.Core.Library;
-
-public sealed partial class Z3Library2
+public IntPtr MkConst(IntPtr c, IntPtr symbol, IntPtr sort)
 {
-    /// <summary>
-    /// [Copied from NativeZ3Library XML docs]
-    /// </summary>
-    public {ReturnType} {MethodName}(IntPtr ctx, {params})
-    {
-        var result = nativeLibrary.{MethodName}(ctx, {args});
-        CheckError(ctx);
-        return result;
-    }
+    var result = nativeLibrary.MkConst(c, symbol, sort);
+    CheckError(c);
+    return CheckHandle(result, nameof(MkConst));
 }
 ```
 
-**Special Cases**:
-- String parameters: Use `AnsiStringPtr` for marshalling
-- Array parameters: Pass through directly
-- Return type IntPtr: May need `CheckHandle()` validation
-- Void return: Only `CheckError(ctx)`, no return
+### Method with String Parameters
+```csharp
+public IntPtr MkStringSymbol(IntPtr c, string s)
+{
+    using var sAnsi = new AnsiStringPtr(s);
+    var result = nativeLibrary.MkStringSymbol(c, sAnsi);
+    CheckError(c);
+    return CheckHandle(result, nameof(MkStringSymbol));
+}
+```
+
+### Method with Symbol Parameter (Two Overloads)
+```csharp
+// String overload (preferred)
+public IntPtr MkConst(IntPtr c, string symbol, IntPtr sort)
+{
+    using var symbolAnsi = new AnsiStringPtr(symbol);
+    var symbolSymbol = nativeLibrary.MkStringSymbol(c, symbolAnsi);
+    CheckError(c);
+    var result = nativeLibrary.MkConst(c, symbolSymbol, sort);
+    CheckError(c);
+    return CheckHandle(result, nameof(MkConst));
+}
+
+// IntPtr overload (advanced)
+public IntPtr MkConst(IntPtr c, IntPtr symbol, IntPtr sort)
+{
+    var result = nativeLibrary.MkConst(c, symbol, sort);
+    CheckError(c);
+    return CheckHandle(result, nameof(MkConst));
+}
+```
+
+### Method with Enum Return Type
+```csharp
+public SymbolKind GetSymbolKind(IntPtr c, IntPtr s)
+{
+    var result = nativeLibrary.GetSymbolKind(c, s);
+    CheckError(c);
+    return (SymbolKind)result;  // Cast from internal to public enum
+}
+```
+
+### Void Method
+```csharp
+public void IncRef(IntPtr c, IntPtr ast)
+{
+    nativeLibrary.IncRef(c, ast);
+    CheckError(c);
+}
+```
 
 ## Benefits
 - **Public API**: Enums are public (vs internal in NativeZ3Library)

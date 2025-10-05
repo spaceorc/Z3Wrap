@@ -171,20 +171,6 @@ public sealed partial class Z3Library2 : IDisposable
         // No error check needed for deletion
     }
 
-    /// <summary>
-    ///     Updates a parameter value for an existing context.
-    /// </summary>
-    /// <param name="ctx">Z3 context.</param>
-    /// <param name="paramId">Parameter name.</param>
-    /// <param name="paramValue">Parameter value.</param>
-    public void UpdateParamValue(IntPtr ctx, string paramId, string paramValue)
-    {
-        using var paramIdPtr = new AnsiStringPtr(paramId);
-        using var paramValuePtr = new AnsiStringPtr(paramValue);
-        nativeLibrary.UpdateParamValue(ctx, paramIdPtr, paramValuePtr);
-        CheckError(ctx);
-    }
-
     // Private Helper Methods
 
     private static IntPtr CheckHandle(IntPtr handle, string methodName)

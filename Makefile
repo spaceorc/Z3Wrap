@@ -1,7 +1,7 @@
 # Z3Wrap Library Makefile
 # Provides convenient commands for building, testing, and coverage
 
-.PHONY: help build test clean coverage coverage-open restore format lint release all ci test-release release-notes pack publish-build dev-setup quick watch info version generate-native
+.PHONY: help build test clean coverage coverage-open restore format lint release all ci test-release release-notes pack publish-build dev-setup quick watch info version generate-native generate-library
 .DEFAULT_GOAL := help
 
 # Colors for output
@@ -131,29 +131,21 @@ publish-build: restore release test-release ## Build for publishing (restore, re
 # Code Generation Commands
 # =============================================================================
 
-generate-native: ## Generate NativeZ3Library partial classes from Z3 headers (VERBOSE=1, BRANCH=<name>, FORCE=1)
+generate-native: ## Generate NativeZ3Library partial classes from Z3 headers (VERBOSE=1, BRANCH=<name>, FORCE=1, ENUMS_ONLY=1)
 	@echo "$(BLUE)Generating NativeZ3Library from Z3 headers...$(NC)"
 	@python3 scripts/generate_native_library.py \
 		$(if $(VERBOSE),--verbose,) \
 		$(if $(BRANCH),--branch $(BRANCH),) \
-		$(if $(FORCE),--force-download,)
+		$(if $(FORCE),--force-download,) \
+		$(if $(ENUMS_ONLY),--enums-only,)
 	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Interop/$(NC)"
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
 
-generate-enums: ## Generate only NativeZ3Library enums (faster) (BRANCH=<name>, FORCE=1)
-	@echo "$(BLUE)Generating NativeZ3Library enums from Z3 headers...$(NC)"
-	@python3 scripts/generate_native_library.py \
-		--enums-only \
-		$(if $(BRANCH),--branch $(BRANCH),) \
-		$(if $(FORCE),--force-download,)
-	@echo "$(GREEN)✅ Generated enums in Z3Wrap/Core/Interop/$(NC)"
-	@echo "$(BLUE)Formatting generated code...$(NC)"
-	@$(MAKE) format
-
-generate-library: ## Generate Z3Library2 partial classes from NativeZ3Library
+generate-library: ## Generate Z3Library2 partial classes from NativeZ3Library (ENUMS_ONLY=1)
 	@echo "$(BLUE)Generating Z3Library2 partial classes...$(NC)"
-	@python3 scripts/generate_library.py
+	@python3 scripts/generate_library.py \
+		$(if $(ENUMS_ONLY),--enums-only,)
 	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Library/$(NC)"
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
