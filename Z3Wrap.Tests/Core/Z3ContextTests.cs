@@ -364,7 +364,7 @@ public class Z3ContextTests
             var e = Assert.Throws<Z3Exception>(() => context.ForAll(context.Int(i), body));
             Assert.Multiple(() =>
             {
-                Assert.That(e.ErrorCode, Is.EqualTo(Z3ErrorCode.InvalidArgument));
+                Assert.That(e.ErrorCode, Is.EqualTo(Z3Library.ErrorCode.Z3_INVALID_ARG));
                 Assert.That(e.Message, Does.Contain("InvalidArgument"));
             });
         }

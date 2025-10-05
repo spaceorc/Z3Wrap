@@ -116,6 +116,6 @@ public class BoolExprFactoryTests
         var sortHandle = context.GetSortForType<BoolExpr>();
         var sortKind = context.Library.GetSortKind(context.Handle, sortHandle);
 
-        Assert.That(sortKind, Is.EqualTo(Z3SortKind.Bool));
+        Assert.That(sortKind, Is.EqualTo(Z3Library.SortKind.Z3_BOOL_SORT));
     }
 }

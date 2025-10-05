@@ -158,6 +158,6 @@ public class IntExprFactoryTests
         var sortHandle = context.GetSortForType<IntExpr>();
         var sortKind = context.Library.GetSortKind(context.Handle, sortHandle);
 
-        Assert.That(sortKind, Is.EqualTo(Z3SortKind.Int));
+        Assert.That(sortKind, Is.EqualTo(Z3Library.SortKind.Z3_INT_SORT));
     }
 }

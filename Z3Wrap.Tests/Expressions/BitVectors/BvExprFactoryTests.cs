@@ -256,7 +256,7 @@ public class BvExprFactoryTests
         var sortHandle = context.GetSortForType<BvExpr<TSize>>();
         var sortKind = context.Library.GetSortKind(context.Handle, sortHandle);
 
-        Assert.That(sortKind, Is.EqualTo(Z3SortKind.Bv));
+        Assert.That(sortKind, Is.EqualTo(Z3Library.SortKind.Z3_BV_SORT));
     }
 
     [TestCase(TypeArgs = [typeof(Size8)], ExpectedResult = 8u)]

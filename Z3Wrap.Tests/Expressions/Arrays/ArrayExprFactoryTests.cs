@@ -13,22 +13,74 @@ namespace Z3Wrap.Tests.Expressions.Arrays;
 [TestFixture]
 public class ArrayExprFactoryTests
 {
-    [TestCase(Z3SortKind.Int, Z3SortKind.Int, TypeArgs = [typeof(IntExpr), typeof(IntExpr)])]
-    [TestCase(Z3SortKind.Int, Z3SortKind.Real, TypeArgs = [typeof(IntExpr), typeof(RealExpr)])]
-    [TestCase(Z3SortKind.Int, Z3SortKind.Bool, TypeArgs = [typeof(IntExpr), typeof(BoolExpr)])]
-    [TestCase(Z3SortKind.Int, Z3SortKind.Bv, TypeArgs = [typeof(IntExpr), typeof(BvExpr<Size32>)])]
-    [TestCase(Z3SortKind.Bool, Z3SortKind.Int, TypeArgs = [typeof(BoolExpr), typeof(IntExpr)])]
-    [TestCase(Z3SortKind.Bool, Z3SortKind.Real, TypeArgs = [typeof(BoolExpr), typeof(RealExpr)])]
-    [TestCase(Z3SortKind.Bool, Z3SortKind.Bool, TypeArgs = [typeof(BoolExpr), typeof(BoolExpr)])]
-    [TestCase(Z3SortKind.Real, Z3SortKind.Int, TypeArgs = [typeof(RealExpr), typeof(IntExpr)])]
-    [TestCase(Z3SortKind.Real, Z3SortKind.Real, TypeArgs = [typeof(RealExpr), typeof(RealExpr)])]
-    [TestCase(Z3SortKind.Real, Z3SortKind.Bool, TypeArgs = [typeof(RealExpr), typeof(BoolExpr)])]
-    [TestCase(Z3SortKind.Bv, Z3SortKind.Bv, TypeArgs = [typeof(BvExpr<Size8>), typeof(BvExpr<Size32>)])]
-    [TestCase(Z3SortKind.Bv, Z3SortKind.Bv, TypeArgs = [typeof(BvExpr<Size32>), typeof(BvExpr<Size32>)])]
-    [TestCase(Z3SortKind.Bv, Z3SortKind.Int, TypeArgs = [typeof(BvExpr<Size32>), typeof(IntExpr)])]
+    [TestCase(
+        Z3Library.SortKind.Z3_INT_SORT,
+        Z3Library.SortKind.Z3_INT_SORT,
+        TypeArgs = [typeof(IntExpr), typeof(IntExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_INT_SORT,
+        Z3Library.SortKind.Z3_REAL_SORT,
+        TypeArgs = [typeof(IntExpr), typeof(RealExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_INT_SORT,
+        Z3Library.SortKind.Z3_BOOL_SORT,
+        TypeArgs = [typeof(IntExpr), typeof(BoolExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_INT_SORT,
+        Z3Library.SortKind.Z3_BV_SORT,
+        TypeArgs = [typeof(IntExpr), typeof(BvExpr<Size32>)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_BOOL_SORT,
+        Z3Library.SortKind.Z3_INT_SORT,
+        TypeArgs = [typeof(BoolExpr), typeof(IntExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_BOOL_SORT,
+        Z3Library.SortKind.Z3_REAL_SORT,
+        TypeArgs = [typeof(BoolExpr), typeof(RealExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_BOOL_SORT,
+        Z3Library.SortKind.Z3_BOOL_SORT,
+        TypeArgs = [typeof(BoolExpr), typeof(BoolExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_REAL_SORT,
+        Z3Library.SortKind.Z3_INT_SORT,
+        TypeArgs = [typeof(RealExpr), typeof(IntExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_REAL_SORT,
+        Z3Library.SortKind.Z3_REAL_SORT,
+        TypeArgs = [typeof(RealExpr), typeof(RealExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_REAL_SORT,
+        Z3Library.SortKind.Z3_BOOL_SORT,
+        TypeArgs = [typeof(RealExpr), typeof(BoolExpr)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_BV_SORT,
+        Z3Library.SortKind.Z3_BV_SORT,
+        TypeArgs = [typeof(BvExpr<Size8>), typeof(BvExpr<Size32>)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_BV_SORT,
+        Z3Library.SortKind.Z3_BV_SORT,
+        TypeArgs = [typeof(BvExpr<Size32>), typeof(BvExpr<Size32>)]
+    )]
+    [TestCase(
+        Z3Library.SortKind.Z3_BV_SORT,
+        Z3Library.SortKind.Z3_INT_SORT,
+        TypeArgs = [typeof(BvExpr<Size32>), typeof(IntExpr)]
+    )]
     public void ArrayConst_VariousTypes_CreatesVariable<TIndex, TValue>(
-        Z3SortKind expectedIndexSortKind,
-        Z3SortKind expectedValueSortKind
+        Z3Library.SortKind expectedIndexSortKind,
+        Z3Library.SortKind expectedValueSortKind
     )
         where TIndex : Z3Expr, IExprType<TIndex>
         where TValue : Z3Expr, IExprType<TValue>
@@ -54,12 +106,12 @@ public class ArrayExprFactoryTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
     }
 
-    [TestCase(Z3SortKind.Int, TypeArgs = [typeof(IntExpr)])]
-    [TestCase(Z3SortKind.Real, TypeArgs = [typeof(RealExpr)])]
-    [TestCase(Z3SortKind.Bool, TypeArgs = [typeof(BoolExpr)])]
-    [TestCase(Z3SortKind.Bv, TypeArgs = [typeof(BvExpr<Size32>)])]
-    [TestCase(Z3SortKind.Bv, TypeArgs = [typeof(BvExpr<Size64>)])]
-    public void ArrayConst_SingleGeneric_CreatesVariable<TValue>(Z3SortKind expectedValueSortKind)
+    [TestCase(Z3Library.SortKind.Z3_INT_SORT, TypeArgs = [typeof(IntExpr)])]
+    [TestCase(Z3Library.SortKind.Z3_REAL_SORT, TypeArgs = [typeof(RealExpr)])]
+    [TestCase(Z3Library.SortKind.Z3_BOOL_SORT, TypeArgs = [typeof(BoolExpr)])]
+    [TestCase(Z3Library.SortKind.Z3_BV_SORT, TypeArgs = [typeof(BvExpr<Size32>)])]
+    [TestCase(Z3Library.SortKind.Z3_BV_SORT, TypeArgs = [typeof(BvExpr<Size64>)])]
+    public void ArrayConst_SingleGeneric_CreatesVariable<TValue>(Z3Library.SortKind expectedValueSortKind)
         where TValue : Z3Expr, IExprType<TValue>
     {
         using var context = new Z3Context();
@@ -76,7 +128,7 @@ public class ArrayExprFactoryTests
         Assert.Multiple(() =>
         {
             Assert.That(array.ToString(), Is.EqualTo("arr"));
-            Assert.That(indexSortKind, Is.EqualTo(Z3SortKind.Int));
+            Assert.That(indexSortKind, Is.EqualTo(Z3Library.SortKind.Z3_INT_SORT));
             Assert.That(valueSortKind, Is.EqualTo(expectedValueSortKind));
         });
 

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Spaceorc.Z3Wrap.Core.Interop;
 
@@ -15,6 +16,7 @@ namespace Spaceorc.Z3Wrap.Core;
 ///         one is set or when the application exits.
 ///     </para>
 /// </summary>
+[ExcludeFromCodeCoverage]
 public sealed partial class Z3Library : IDisposable
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
