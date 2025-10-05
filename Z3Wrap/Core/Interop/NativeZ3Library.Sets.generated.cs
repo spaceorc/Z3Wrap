@@ -63,12 +63,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetAddDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
-    /// <para>
     /// Add an element to a set.
-    /// </para>
-    /// <para>
-    /// The first argument must be a set, the second an element.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
@@ -85,12 +80,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetDelDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
-    /// <para>
     /// Remove an element to a set.
-    /// </para>
-    /// <para>
-    /// The first argument must be a set, the second an element.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
@@ -174,12 +164,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetMemberDelegate(IntPtr c, IntPtr elem, IntPtr set);
 
     /// <summary>
-    /// <para>
     /// Check for set membership.
-    /// </para>
-    /// <para>
-    /// The first argument should be an element type of the set.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
@@ -213,9 +198,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkArrayExtDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create array extensionality index given two arrays with the same sort.
-    /// The meaning is given by the axiom:
-    /// (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
+    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=> (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>

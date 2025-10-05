@@ -18,11 +18,11 @@ internal sealed partial class NativeZ3Library
     /// Create a numeral of a given sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">logical context.</param>
-    /// <param name="numeral" ctype="Z3_string">
-    /// A string representing the numeral value in decimal notation. The string may be of the form `[num]*[.[num]*][E[+|-][num]+]`.
-    /// If the given sort is a real, then the numeral can be a rational, that is, a string of the form `[num]* / [num]*` .
-    /// </param>
+    /// <param name="numeral" ctype="Z3_string">A string representing the numeral value in decimal notation. The string may be of the form `[num]*[.[num]*][E[+|-][num]+]`.</param>
     /// <param name="ty" ctype="Z3_sort">The sort of the numeral. In the current implementation, the given sort can be an int, real, finite-domain, or bit-vectors of arbitrary size.</param>
+    /// <remarks>
+    /// If the given sort is a real, then the numeral can be a rational, that is, a string of the form `[num]* / [num]*` .
+    /// </remarks>
     /// <seealso cref="MkInt"/>
     /// <seealso cref="MkUnsignedInt"/>
     [Z3Function("Z3_mk_numeral")]
@@ -79,13 +79,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIntDelegate(IntPtr c, int v, IntPtr ty);
 
     /// <summary>
-    /// <para>
     /// Create a numeral of an int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine integer.
-    /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="int">int parameter</param>
@@ -103,13 +97,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkUnsignedIntDelegate(IntPtr c, uint v, IntPtr ty);
 
     /// <summary>
-    /// <para>
     /// Create a numeral of a int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine unsigned integer.
-    /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="unsigned">unsigned parameter</param>
@@ -127,13 +115,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkInt64Delegate(IntPtr c, long v, IntPtr ty);
 
     /// <summary>
-    /// <para>
     /// Create a numeral of a int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine int64_t integer.
-    /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="int64_t">int64_t parameter</param>
@@ -151,13 +133,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkUnsignedInt64Delegate(IntPtr c, ulong v, IntPtr ty);
 
     /// <summary>
-    /// <para>
     /// Create a numeral of a int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine uint64_t integer.
-    /// It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="uint64_t">uint64_t parameter</param>

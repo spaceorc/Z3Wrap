@@ -15,8 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsValueDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return true if a can be used as value in the Z3 real algebraic
-    /// number package.
+    /// Return \c true if \c a can be used as value in the Z3 real algebraic number package.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -32,7 +31,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsPosDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return true if a is positive, and false otherwise.
+    /// Return \c true if \c a is positive, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -51,7 +50,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsNegDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return true if a is negative, and false otherwise.
+    /// Return \c true if \c a is negative, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -70,7 +69,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsZeroDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return true if a is zero, and false otherwise.
+    /// Return \c true if \c a is zero, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -89,7 +88,7 @@ internal sealed partial class NativeZ3Library
     private delegate int AlgebraicSignDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return 1 if a is positive, 0 if a is zero, and -1 if a is negative.
+    /// Return 1 if \c a is positive, 0 if \c a is zero, and -1 if \c a is negative.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -200,7 +199,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: k is even =&gt; !Z3_algebraic_is_neg(c, a)
+    /// Precondition: k is even => !Z3_algebraic_is_neg(c, a)
     /// </remarks>
     [Z3Function("Z3_algebraic_root")]
     internal IntPtr AlgebraicRoot(IntPtr c, IntPtr a, uint k)
@@ -234,7 +233,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicLtDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return true if a &lt; b, and false otherwise.
+    /// Return \c true if a < b, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -255,7 +254,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicGtDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return true if a &gt; b, and false otherwise.
+    /// Return \c true if a > b, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -276,7 +275,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicLeDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return true if a &lt;= b, and false otherwise.
+    /// Return \c true if a <= b, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -297,7 +296,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicGeDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return true if a &gt;= b, and false otherwise.
+    /// Return \c true if a >= b, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -318,7 +317,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicEqDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return true if a == b, and false otherwise.
+    /// Return \c true if a == b, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -339,7 +338,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicNeqDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return true if a != b, and false otherwise.
+    /// Return \c true if a != b, and \c false otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -360,8 +359,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the
-    /// roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_ast">ast parameter</param>
@@ -383,8 +381,7 @@ internal sealed partial class NativeZ3Library
     private delegate int AlgebraicEvalDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the
-    /// sign of p(a[0], ..., a[n-1]).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_ast">ast parameter</param>

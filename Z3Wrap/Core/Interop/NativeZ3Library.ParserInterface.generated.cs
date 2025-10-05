@@ -15,13 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParseSmtlib2StringDelegate(IntPtr c, IntPtr str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls);
 
     /// <summary>
-    /// <para>
     /// Parse the given string using the SMT-LIB2 parser.
-    /// </para>
-    /// <para>
-    /// It returns a formula comprising of the conjunction of assertions in the scope
-    /// (up to push/pop) at the end of the string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="str" ctype="Z3_string">string parameter</param>
@@ -43,7 +37,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParseSmtlib2FileDelegate(IntPtr c, IntPtr fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls);
 
     /// <summary>
-    /// Similar to <see cref="ParseSmtlib2String"/>, but reads the benchmark from a file.
+    /// Similar to #Z3_parse_smtlib2_string, but reads the benchmark from a file.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="fileName" ctype="Z3_string">string parameter</param>
@@ -65,8 +59,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr EvalSmtlib2StringDelegate(IntPtr c, IntPtr str);
 
     /// <summary>
-    /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next
-    /// evaluation builds on top of the previous call.
+    /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next evaluation builds on top of the previous call.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="str" ctype="Z3_string">string parameter</param>
@@ -83,15 +76,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkParserContextDelegate(IntPtr c);
 
     /// <summary>
-    /// <para>
     /// Create a parser context.
-    /// </para>
-    /// <para>
-    /// A parser context maintains state between calls to Z3_parser_context_parse_string
-    /// where the caller can pass in a set of SMTLIB2 commands.
-    /// It maintains all the declarations from previous calls together with
-    /// of sorts and function declarations (including 0-ary) that are added directly to the context.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_parser_context")]
@@ -106,7 +91,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParserContextIncRefDelegate(IntPtr c, IntPtr pc);
 
     /// <summary>
-    /// Increment the reference counter of the given Z3_parser_context object.
+    /// Increment the reference counter of the given \c Z3_parser_context object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
@@ -122,7 +107,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParserContextDecRefDelegate(IntPtr c, IntPtr pc);
 
     /// <summary>
-    /// Decrement the reference counter of the given Z3_parser_context object.
+    /// Decrement the reference counter of the given \c Z3_parser_context object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>

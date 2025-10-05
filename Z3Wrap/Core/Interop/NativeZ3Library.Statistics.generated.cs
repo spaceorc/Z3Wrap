@@ -63,7 +63,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint StatsSizeDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return the number of statistical data in s.
+    /// Return the number of statistical data in \c s.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
@@ -85,7 +85,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: idx &lt; Z3_stats_size(c, s)
+    /// Precondition: idx < Z3_stats_size(c, s)
     /// </remarks>
     [Z3Function("Z3_stats_get_key")]
     internal IntPtr StatsGetKey(IntPtr c, IntPtr s, uint idx)
@@ -99,13 +99,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool StatsIsUintDelegate(IntPtr c, IntPtr s, uint idx);
 
     /// <summary>
-    /// Return true if the given statistical data is a unsigned integer.
+    /// Return \c true if the given statistical data is a unsigned integer.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: idx &lt; Z3_stats_size(c, s)
+    /// Precondition: idx < Z3_stats_size(c, s)
     /// </remarks>
     [Z3Function("Z3_stats_is_uint")]
     internal bool StatsIsUint(IntPtr c, IntPtr s, uint idx)
@@ -119,13 +119,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool StatsIsDoubleDelegate(IntPtr c, IntPtr s, uint idx);
 
     /// <summary>
-    /// Return true if the given statistical data is a double.
+    /// Return \c true if the given statistical data is a double.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: idx &lt; Z3_stats_size(c, s)
+    /// Precondition: idx < Z3_stats_size(c, s)
     /// </remarks>
     [Z3Function("Z3_stats_is_double")]
     internal bool StatsIsDouble(IntPtr c, IntPtr s, uint idx)
@@ -145,7 +145,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_uint(c, s)
+    /// Precondition: idx < Z3_stats_size(c, s) && Z3_stats_is_uint(c, s)
     /// </remarks>
     [Z3Function("Z3_stats_get_uint_value")]
     internal uint StatsGetUintValue(IntPtr c, IntPtr s, uint idx)
@@ -165,7 +165,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_double(c, s)
+    /// Precondition: idx < Z3_stats_size(c, s) && Z3_stats_is_double(c, s)
     /// </remarks>
     [Z3Function("Z3_stats_get_double_value")]
     internal double StatsGetDoubleValue(IntPtr c, IntPtr s, uint idx)

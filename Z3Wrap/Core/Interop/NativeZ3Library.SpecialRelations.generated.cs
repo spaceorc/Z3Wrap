@@ -15,8 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkLinearOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a linear ordering relation over signature a.
-    /// The relation is identified by the index id.
+    /// create a linear ordering relation over signature \c a. The relation is identified by the index \c id.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_sort">sort parameter</param>
@@ -33,7 +32,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPartialOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a partial ordering relation over signature a and index id.
+    /// create a partial ordering relation over signature \c a and index \c id.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_sort">sort parameter</param>
@@ -50,7 +49,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPiecewiseLinearOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a piecewise linear ordering relation over signature a and index id.
+    /// create a piecewise linear ordering relation over signature \c a and index \c id.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_sort">sort parameter</param>
@@ -67,7 +66,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTreeOrderDelegate(IntPtr c, IntPtr a, uint id);
 
     /// <summary>
-    /// create a tree ordering relation over signature a identified using index id.
+    /// create a tree ordering relation over signature \c a identified using index \c id.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_sort">sort parameter</param>
@@ -89,12 +88,9 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
-    /// Precondition: <para>
-    /// f is a binary relation, such that the two arguments have the same sorts.
-    /// </para>
-    /// <para>
     /// The resulting relation f+ represents the transitive closure of f.
-    /// </para>
+    /// def_API('Z3_mk_transitive_closure', FUNC_DECL ,(_in(CONTEXT), _in(FUNC_DECL)))
+    /// Precondition: f is a binary relation, such that the two arguments have the same sorts.
     /// </remarks>
     [Z3Function("Z3_mk_transitive_closure")]
     internal IntPtr MkTransitiveClosure(IntPtr c, IntPtr f)

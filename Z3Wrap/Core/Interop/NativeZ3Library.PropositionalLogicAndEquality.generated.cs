@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTrueDelegate(IntPtr c);
 
     /// <summary>
-    /// Create an AST node representing true.
+    /// Create an AST node representing \c true.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_true")]
@@ -30,7 +30,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFalseDelegate(IntPtr c);
 
     /// <summary>
-    /// Create an AST node representing false.
+    /// Create an AST node representing \c false.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_false")]
@@ -45,12 +45,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkEqDelegate(IntPtr c, IntPtr l, IntPtr r);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>l = r</code>.
-    /// </para>
-    /// <para>
-    /// The nodes l and r must have the same type.
-    /// </para>
+    /// Create an AST node representing \ccode{l = r}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="l" ctype="Z3_ast">ast parameter</param>
@@ -67,16 +62,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDistinctDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>distinct(args[0], ..., args[num_args-1])</code>.
-    /// </para>
-    /// <para>
-    /// The distinct construct is used for declaring the arguments pairwise distinct.
-    /// That is, <code>Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]</code>.
-    /// </para>
-    /// <para>
-    /// All arguments must have the same sort.
-    /// </para>
+    /// Create an AST node representing \ccode{distinct(args[0], ..., args[num_args-1])}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
@@ -96,12 +82,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkNotDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>not(a)</code>.
-    /// </para>
-    /// <para>
-    /// The node a must have Boolean sort.
-    /// </para>
+    /// Create an AST node representing \ccode{not(a)}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -117,13 +98,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIteDelegate(IntPtr c, IntPtr t1, IntPtr t2, IntPtr t3);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing an if-then-else: <code>ite(t1, t2, t3)</code>.
-    /// </para>
-    /// <para>
-    /// The node t1 must have Boolean sort, t2 and t3 must have the same sort.
-    /// The sort of the new node is equal to the sort of t2 and t3.
-    /// </para>
+    /// Create an AST node representing an if-then-else: \ccode{ite(t1, t2, t3)}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
@@ -141,12 +116,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIffDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>t1 iff t2</code>.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have Boolean sort.
-    /// </para>
+    /// Create an AST node representing \ccode{t1 iff t2}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
@@ -163,12 +133,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkImpliesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>t1 implies t2</code>.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have Boolean sort.
-    /// </para>
+    /// Create an AST node representing \ccode{t1 implies t2}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
@@ -185,12 +150,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkXorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>t1 xor t2</code>.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have Boolean sort.
-    /// </para>
+    /// Create an AST node representing \ccode{t1 xor t2}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
@@ -207,13 +167,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAndDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>args[0] and ... and args[num_args-1]</code>.
-    /// </para>
-    /// <para>
-    /// The array args must have num_args elements.
-    /// All arguments must have Boolean sort.
-    /// </para>
+    /// Create an AST node representing \ccode{args[0] and ... and args[num_args-1]}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
@@ -233,13 +187,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkOrDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// <para>
-    /// Create an AST node representing <code>args[0] or ... or args[num_args-1]</code>.
-    /// </para>
-    /// <para>
-    /// The array args must have num_args elements.
-    /// All arguments must have Boolean sort.
-    /// </para>
+    /// Create an AST node representing \ccode{args[0] or ... or args[num_args-1]}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>

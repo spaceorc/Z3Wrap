@@ -15,10 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr UpdateTermDelegate(IntPtr c, IntPtr a, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Update the arguments of term a using the arguments args.
-    /// The number of arguments num_args should coincide
-    /// with the number of arguments to a.
-    /// If a is a quantifier, then num_args has to be 1.
+    /// Update the arguments of term \c a using the arguments \c args. The number of arguments \c num_args should coincide with the number of arguments to \c a. If \c a is a quantifier, then num_args has to be 1.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -36,9 +33,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SubstituteDelegate(IntPtr c, IntPtr a, uint numExprs, IntPtr[] from, IntPtr[] to);
 
     /// <summary>
-    /// Substitute every occurrence of <code>from[i]</code> in a with <code>to[i]</code>, for i smaller than num_exprs.
-    /// The result is the new AST. The arrays from and to must have size num_exprs.
-    /// For every i smaller than num_exprs, we must have that sort of <code>from[i]</code> must be equal to sort of <code>to[i]</code>.
+    /// Substitute every occurrence of \ccode{from[i]} in \c a with \ccode{to[i]}, for \c i smaller than \c num_exprs. The result is the new AST. The arrays \c from and \c to must have size \c num_exprs. For every \c i smaller than \c num_exprs, we must have that sort of \ccode{from[i]} must be equal to sort of \ccode{to[i]}.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -57,9 +52,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SubstituteVarsDelegate(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to);
 
     /// <summary>
-    /// Substitute the variables in a with the expressions in to.
-    /// For every i smaller than num_exprs, the variable with de-Bruijn index i is replaced with term <code>to[i]</code>.
-    /// Note that a variable is created using the function \ref Z3_mk_bound.
+    /// Substitute the variables in \c a with the expressions in \c to. For every \c i smaller than \c num_exprs, the variable with de-Bruijn index \c i is replaced with term \ccode{to[i]}. Note that a variable is created using the function \ref Z3_mk_bound.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -77,13 +70,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SubstituteFunsDelegate(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to);
 
     /// <summary>
-    /// <para>
-    /// Substitute functions in from with new expressions in to.
-    /// </para>
-    /// <para>
-    /// The expressions in to can have free variables. The free variable in to at index 0
-    /// refers to the first argument of from, the free variable at index 1 corresponds to the second argument.
-    /// </para>
+    /// Substitute functions in \c from with new expressions in \c to.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -102,8 +89,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr TranslateDelegate(IntPtr source, IntPtr a, IntPtr target);
 
     /// <summary>
-    /// Translate/Copy the AST a from context source to context target.
-    /// AST a must have been created using context source.
+    /// Translate/Copy the AST \c a from context \c source to context \c target. AST \c a must have been created using context \c source.
     /// </summary>
     /// <param name="source" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>

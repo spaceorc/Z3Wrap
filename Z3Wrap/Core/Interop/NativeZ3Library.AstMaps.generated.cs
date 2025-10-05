@@ -19,8 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage AST maps, even when the Z3_context was
-    /// created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
+    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using #Z3_mk_context instead of #Z3_mk_context_rc.
     /// </remarks>
     [Z3Function("Z3_mk_ast_map")]
     internal IntPtr MkAstMap(IntPtr c)
@@ -66,7 +65,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AstMapContainsDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// Return true if the map m contains the AST key k.
+    /// Return true if the map \c m contains the AST key \c k.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -83,12 +82,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AstMapFindDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// <para>
-    /// Return the value associated with the key k.
-    /// </para>
-    /// <para>
-    /// The procedure invokes the error handler if k is not in the map.
-    /// </para>
+    /// Return the value associated with the key \c k.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>

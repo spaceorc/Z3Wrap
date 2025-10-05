@@ -62,41 +62,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool ModelEvalDelegate(IntPtr c, IntPtr m, IntPtr t, bool modelCompletion, IntPtr v);
 
     /// <summary>
-    /// <para>
-    /// Evaluate the AST node t in the given model.
-    /// Return true if succeeded, and store the result in v.
-    /// </para>
-    /// <para>
-    /// If model_completion is true, then Z3 will assign an interpretation for any constant or function that does
-    /// not have an interpretation in m. These constants and functions were essentially don't cares.
-    /// </para>
-    /// <para>
-    /// If model_completion is false, then Z3 will not assign interpretations to constants for functions that do
-    /// not have interpretations in m. Evaluation behaves as the identify function in this case.
-    /// </para>
-    /// <para>
-    /// The evaluation may fail for the following reasons:
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item><description>t contains a quantifier.</description></item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item><description>the model m is partial, that is, it doesn't have a complete interpretation for uninterpreted functions. That is, the option <code>MODEL_PARTIAL=true</code> was used.</description></item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item><description>t is type incorrect.</description></item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item><description>Z3_interrupt was invoked during evaluation.</description></item>
-    /// </list>
-    /// </para>
+    /// Evaluate the AST node \c t in the given model. Return \c true if succeeded, and store the result in \c v.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
@@ -115,9 +81,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ModelGetConstInterpDelegate(IntPtr c, IntPtr m, IntPtr a);
 
     /// <summary>
-    /// Return the interpretation (i.e., assignment) of constant a in the model m.
-    /// Return NULL, if the model does not assign an interpretation for a.
-    /// That should be interpreted as: the value of a does not matter.
+    /// Return the interpretation (i.e., assignment) of constant \c a in the model \c m. Return \c NULL, if the model does not assign an interpretation for \c a. That should be interpreted as: the value of \c a does not matter.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
@@ -137,7 +101,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool ModelHasInterpDelegate(IntPtr c, IntPtr m, IntPtr a);
 
     /// <summary>
-    /// Test if there exists an interpretation (i.e., assignment) for a in the model m.
+    /// Test if there exists an interpretation (i.e., assignment) for \c a in the model \c m.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
@@ -154,17 +118,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ModelGetFuncInterpDelegate(IntPtr c, IntPtr m, IntPtr f);
 
     /// <summary>
-    /// Return the interpretation of the function f in the model m.
-    /// Return NULL, if the model does not assign an interpretation for f.
-    /// That should be interpreted as: the f does not matter.
+    /// Return the interpretation of the function \c f in the model \c m. Return \c NULL, if the model does not assign an interpretation for \c f. That should be interpreted as: the \c f does not matter.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_arity(c, f) &gt; 0
-    /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was
-    /// created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/>.
+    /// Precondition: Z3_get_arity(c, f) > 0
+    /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was created using #Z3_mk_context instead of #Z3_mk_context_rc.
     /// </remarks>
     [Z3Function("Z3_model_get_func_interp")]
     internal IntPtr ModelGetFuncInterp(IntPtr c, IntPtr m, IntPtr f)
@@ -201,7 +162,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i &lt; Z3_model_get_num_consts(c, m)
+    /// Precondition: i < Z3_model_get_num_consts(c, m)
     /// </remarks>
     /// <seealso cref="ModelEval"/>
     /// <seealso cref="ModelGetNumConsts"/>
@@ -217,13 +178,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint ModelGetNumFuncsDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// <para>
     /// Return the number of function interpretations in the given model.
-    /// </para>
-    /// <para>
-    /// A function interpretation is represented as a finite map and an 'else' value.
-    /// Each entry in the finite map represents the value of a function given a set of arguments.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
@@ -246,7 +201,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i &lt; Z3_model_get_num_funcs(c, m)
+    /// Precondition: i < Z3_model_get_num_funcs(c, m)
     /// </remarks>
     /// <seealso cref="ModelGetNumFuncs"/>
     [Z3Function("Z3_model_get_func_decl")]
@@ -261,14 +216,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint ModelGetNumSortsDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// <para>
-    /// Return the number of uninterpreted sorts that m assigns an interpretation to.
-    /// </para>
-    /// <para>
-    /// Z3 also provides an interpretation for uninterpreted sorts used in a formula.
-    /// The interpretation for a sort s is a finite set of distinct values. We say this finite set is
-    /// the "universe" of s.
-    /// </para>
+    /// Return the number of uninterpreted sorts that \c m assigns an interpretation to.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
@@ -286,13 +234,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ModelGetSortDelegate(IntPtr c, IntPtr m, uint i);
 
     /// <summary>
-    /// Return a uninterpreted sort that m assigns an interpretation.
+    /// Return a uninterpreted sort that \c m assigns an interpretation.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i &lt; Z3_model_get_num_sorts(c, m)
+    /// Precondition: i < Z3_model_get_num_sorts(c, m)
     /// </remarks>
     /// <seealso cref="ModelGetNumSorts"/>
     /// <seealso cref="ModelGetSortUniverse"/>
@@ -308,7 +256,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ModelGetSortUniverseDelegate(IntPtr c, IntPtr m, IntPtr s);
 
     /// <summary>
-    /// Return the finite set of distinct values that represent the interpretation for sort s.
+    /// Return the finite set of distinct values that represent the interpretation for sort \c s.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
@@ -327,15 +275,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ModelTranslateDelegate(IntPtr c, IntPtr m, IntPtr dst);
 
     /// <summary>
-    /// translate model from context c to context dst.
+    /// translate model from context \c c to context \c dst.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="dst" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Use this method for cloning state between contexts. Note that
-    /// operations on contexts are not thread safe and therefore all operations
-    /// that related to a given context have to be synchronized (or run in the same thread).
+    /// Use this method for cloning state between contexts. Note that operations on contexts are not thread safe and therefore all operations that related to a given context have to be synchronized (or run in the same thread).
     /// </remarks>
     [Z3Function("Z3_model_translate")]
     internal IntPtr ModelTranslate(IntPtr c, IntPtr m, IntPtr dst)
@@ -349,14 +295,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsAsArrayDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// <para>
-    /// The <code>(_ as-array f)</code> AST node is a construct for assigning interpretations for arrays in Z3.
-    /// It is the array such that forall indices i we have that <code>(select (_ as-array f) i)</code> is equal to <code>(f i)</code>.
-    /// This procedure returns true if the a is an as-array AST node.
-    /// </para>
-    /// <para>
-    /// Z3 current solvers have minimal support for as_array nodes.
-    /// </para>
+    /// The \ccode{(_ as-array f)} AST node is a construct for assigning interpretations for arrays in Z3. It is the array such that forall indices \c i we have that \ccode{(select (_ as-array f) i)} is equal to \ccode{(f i)}. This procedure returns \c true if the \c a is an \c as-array AST node.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -373,7 +312,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAsArrayFuncDeclDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the function declaration f associated with a <code>(_ as_array f)</code> node.
+    /// Return the function declaration \c f associated with a \ccode{(_ as_array f)} node.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -390,8 +329,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AddFuncInterpDelegate(IntPtr c, IntPtr m, IntPtr f, IntPtr defaultValue);
 
     /// <summary>
-    /// Create a fresh func_interp object, add it to a model for a specified function.
-    /// It has reference count 0.
+    /// Create a fresh func_interp object, add it to a model for a specified function. It has reference count 0.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context</param>
     /// <param name="m" ctype="Z3_model">model</param>
@@ -427,7 +365,7 @@ internal sealed partial class NativeZ3Library
     private delegate void FuncInterpIncRefDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Increment the reference counter of the given Z3_func_interp object.
+    /// Increment the reference counter of the given \c Z3_func_interp object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
@@ -443,7 +381,7 @@ internal sealed partial class NativeZ3Library
     private delegate void FuncInterpDecRefDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Decrement the reference counter of the given Z3_func_interp object.
+    /// Decrement the reference counter of the given \c Z3_func_interp object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
@@ -459,14 +397,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint FuncInterpGetNumEntriesDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// <para>
     /// Return the number of entries in the given function interpretation.
-    /// </para>
-    /// <para>
-    /// A function interpretation is represented as a finite map and an 'else' value.
-    /// Each entry in the finite map represents the value of a function given a set of arguments.
-    /// This procedure return the number of element in the finite map of f.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
@@ -483,14 +414,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FuncInterpGetEntryDelegate(IntPtr c, IntPtr f, uint i);
 
     /// <summary>
-    /// Return a "point" of the given function interpretation. It represents the
-    /// value of f in a particular point.
+    /// Return a "point" of the given function interpretation. It represents the value of \c f in a particular point.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i &lt; Z3_func_interp_get_num_entries(c, f)
+    /// Precondition: i < Z3_func_interp_get_num_entries(c, f)
     /// </remarks>
     /// <seealso cref="FuncInterpGetNumEntries"/>
     [Z3Function("Z3_func_interp_get_entry")]
@@ -505,13 +435,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FuncInterpGetElseDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// <para>
     /// Return the 'else' value of the given function interpretation.
-    /// </para>
-    /// <para>
-    /// A function interpretation is represented as a finite map and an 'else' value.
-    /// This procedure returns the 'else' value.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
@@ -527,13 +451,7 @@ internal sealed partial class NativeZ3Library
     private delegate void FuncInterpSetElseDelegate(IntPtr c, IntPtr f, IntPtr elseValue);
 
     /// <summary>
-    /// <para>
     /// Return the 'else' value of the given function interpretation.
-    /// </para>
-    /// <para>
-    /// A function interpretation is represented as a finite map and an 'else' value.
-    /// This procedure can be used to update the 'else' value.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
@@ -571,16 +489,11 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">logical context</param>
     /// <param name="fi" ctype="Z3_func_interp">a function interpretation to be updated.</param>
     /// <param name="args" ctype="Z3_ast_vector">list of arguments. They should be constant values (such as integers) and be of the same types as the domain of the function.</param>
-    /// <param name="value" ctype="Z3_ast">
-    /// <para>
-    /// value of the function when the parameters match args.
-    /// </para>
-    /// <para>
-    /// It is assumed that entries added to a function cover disjoint arguments.
-    /// If an two entries are added with the same arguments, only the second insertion survives and the
-    /// first inserted entry is removed.
-    /// </para>
-    /// </param>
+    /// <param name="value" ctype="Z3_ast">value of the function when the parameters match args.</param>
+    /// <remarks>
+    /// It is assumed that entries added to a function cover disjoint arguments. If an two entries are added with the same arguments, only the second insertion survives and the first inserted entry is removed.
+    /// def_API('Z3_func_interp_add_entry', VOID, (_in(CONTEXT), _in(FUNC_INTERP), _in(AST_VECTOR), _in(AST)))
+    /// </remarks>
     [Z3Function("Z3_func_interp_add_entry")]
     internal void FuncInterpAddEntry(IntPtr c, IntPtr fi, IntPtr args, IntPtr value)
     {
@@ -593,7 +506,7 @@ internal sealed partial class NativeZ3Library
     private delegate void FuncEntryIncRefDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Increment the reference counter of the given Z3_func_entry object.
+    /// Increment the reference counter of the given \c Z3_func_entry object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
@@ -609,7 +522,7 @@ internal sealed partial class NativeZ3Library
     private delegate void FuncEntryDecRefDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Decrement the reference counter of the given Z3_func_entry object.
+    /// Decrement the reference counter of the given \c Z3_func_entry object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
@@ -625,13 +538,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FuncEntryGetValueDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// <para>
     /// Return the value of this point.
-    /// </para>
-    /// <para>
-    /// A Z3_func_entry object represents an element in the finite map used to encode
-    /// a function interpretation.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
@@ -648,7 +555,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint FuncEntryGetNumArgsDelegate(IntPtr c, IntPtr e);
 
     /// <summary>
-    /// Return the number of arguments in a Z3_func_entry object.
+    /// Return the number of arguments in a \c Z3_func_entry object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
@@ -666,13 +573,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FuncEntryGetArgDelegate(IntPtr c, IntPtr e, uint i);
 
     /// <summary>
-    /// Return an argument of a Z3_func_entry object.
+    /// Return an argument of a \c Z3_func_entry object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i &lt; Z3_func_entry_get_num_args(c, e)
+    /// Precondition: i < Z3_func_entry_get_num_args(c, e)
     /// </remarks>
     /// <seealso cref="FuncEntryGetNumArgs"/>
     /// <seealso cref="FuncInterpGetEntry"/>

@@ -13,6 +13,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
 
+# Import the Doxygen parser
+from doxygen_parser import DoxygenParser
+from doxygen_to_xml import XmlGenerator
+
 
 @dataclass
 class FunctionSignature:
@@ -23,6 +27,7 @@ class FunctionSignature:
     brief: str = ""  # Brief description
     param_docs: dict = None  # Parameter name -> description mapping
     returns_doc: str = ""  # Return value description
+    body: str = ""  # Body paragraphs (after params, before preconditions)
     preconditions: List[str] = None  # List of preconditions
     warnings: List[str] = None  # List of warnings
     remarks: List[str] = None  # List of remarks
@@ -539,8 +544,8 @@ def map_c_type_to_csharp(c_type: str) -> str:
 
 def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     """
-    Extract all documentation tags for a function from the header file.
-    Returns dict with keys: brief, param_docs, returns_doc, preconditions, warnings, remarks, see_also.
+    Extract all documentation tags for a function from the header file using Doxygen parser.
+    Returns dict with keys: brief, param_docs, returns_doc, preconditions, warnings, remarks, see_also, body.
     """
     with open(header_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -565,6 +570,14 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
     last_comment = comments[-1]
     comment_text = last_comment.group(1)
 
+    # Parse using the Doxygen parser
+    parser = DoxygenParser()
+    doc_tree = parser.parse(comment_text)
+
+    # Convert tree back to the format expected by the generator
+    # We need to convert nodes to text strings for now
+    xml_gen = XmlGenerator()
+
     result = {
         'brief': '',
         'param_docs': {},
@@ -572,50 +585,84 @@ def extract_function_documentation(header_path: Path, func_name: str) -> dict:
         'preconditions': [],
         'warnings': [],
         'remarks': [],
-        'see_also': []
+        'see_also': [],
+        'body': []  # Body paragraphs (after params)
     }
 
-    # Extract \brief description
-    brief_match = re.search(r'\\brief\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
-    if brief_match:
-        result['brief'] = clean_documentation_text(brief_match.group(1), preserve_formatting=True)
+    # Brief - convert nodes to simple text
+    if doc_tree.brief:
+        result['brief'] = _nodes_to_text(doc_tree.brief)
 
-    # Extract \param tags (can have multiple)
-    param_matches = re.finditer(r'\\param\s+(\w+)\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
-    for param_match in param_matches:
-        param_name = param_match.group(1)
-        param_desc_raw = param_match.group(2)
-        # Strip leading "- " separator that's used in Z3 docs (\param name - description)
-        param_desc_raw = re.sub(r'^\s*-\s*', '', param_desc_raw)
-        param_desc = clean_documentation_text(param_desc_raw, preserve_formatting=True)
-        result['param_docs'][param_name] = param_desc
+    # Parameters - convert each param's content to text
+    for param_name, param_doc in doc_tree.params.items():
+        result['param_docs'][param_name] = _nodes_to_text(param_doc.content)
 
-    # Extract \returns
-    returns_match = re.search(r'\\returns\s+(.+?)(?=\\param|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
-    if returns_match:
-        result['returns_doc'] = clean_documentation_text(returns_match.group(1), preserve_formatting=True)
+    # Returns
+    if doc_tree.returns:
+        result['returns_doc'] = _nodes_to_text(doc_tree.returns)
 
-    # Extract \pre tags (can have multiple)
-    pre_matches = re.finditer(r'\\pre\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
-    for pre_match in pre_matches:
-        result['preconditions'].append(clean_documentation_text(pre_match.group(1), preserve_formatting=True))
+    # Body (paragraphs after params)
+    if doc_tree.body:
+        result['body'] = _nodes_to_text(doc_tree.body)
 
-    # Extract \warning tags (can have multiple)
-    warning_matches = re.finditer(r'\\warning\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
-    for warning_match in warning_matches:
-        result['warnings'].append(clean_documentation_text(warning_match.group(1), preserve_formatting=True))
+    # Preconditions - each is a list of nodes
+    for pre_nodes in doc_tree.preconditions:
+        if pre_nodes:
+            result['preconditions'].append(_nodes_to_text(pre_nodes))
 
-    # Extract \remark tags (can have multiple)
-    remark_matches = re.finditer(r'\\remark\s+(.+?)(?=\\param|\\returns|\\pre|\\post|\\warning|\\remark|\\sa|def_API|$)', comment_text, re.DOTALL)
-    for remark_match in remark_matches:
-        result['remarks'].append(clean_documentation_text(remark_match.group(1), preserve_formatting=True))
+    # Warnings
+    for warn_nodes in doc_tree.warnings:
+        if warn_nodes:
+            result['warnings'].append(_nodes_to_text(warn_nodes))
 
-    # Extract \sa tags (can have multiple, often one per line)
-    sa_matches = re.finditer(r'\\sa\s+(Z3_\w+)', comment_text)
-    for sa_match in sa_matches:
-        result['see_also'].append(sa_match.group(1))
+    # Remarks
+    for remark_nodes in doc_tree.remarks:
+        if remark_nodes:
+            result['remarks'].append(_nodes_to_text(remark_nodes))
+
+    # See also
+    result['see_also'] = doc_tree.see_also.copy()
 
     return result
+
+
+def _nodes_to_text(nodes) -> str:
+    """
+    Convert parsed documentation nodes to plain text.
+    This is a temporary solution - eventually we'll generate XML directly from nodes.
+    """
+    from doxygen_parser import ParagraphNode, BulletListNode, TextNode
+
+    if not nodes:
+        return ''
+
+    parts = []
+    for node in nodes:
+        if isinstance(node, ParagraphNode):
+            # Extract text from paragraph
+            text_parts = []
+            for content_node in node.content:
+                if isinstance(content_node, TextNode):
+                    text_parts.append(content_node.text)
+                else:
+                    # TODO: Handle InlineCodeNode, ReferenceNode properly
+                    text_parts.append(str(content_node))
+            parts.append(' '.join(text_parts))
+        elif isinstance(node, BulletListNode):
+            # Convert bullet list to text (simplified)
+            for item in node.items:
+                item_text = []
+                for content_node in item.content:
+                    if isinstance(content_node, TextNode):
+                        item_text.append(content_node.text)
+                parts.append('- ' + ' '.join(item_text))
+        elif isinstance(node, TextNode):
+            parts.append(node.text)
+        else:
+            # Other node types - convert to string
+            parts.append(str(node))
+
+    return '\n'.join(parts) if parts else ''
 
 
 def parse_function_signature(header_path: Path, func_name: str) -> FunctionSignature:
@@ -706,6 +753,7 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
         brief=docs.get('brief', ''),
         param_docs=param_docs,
         returns_doc=docs.get('returns_doc', ''),
+        body=docs.get('body', ''),
         preconditions=docs.get('preconditions', []),
         warnings=docs.get('warnings', []),
         remarks=docs.get('remarks', []),
@@ -1259,8 +1307,12 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                         # Single line
                         f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
 
-                # Remarks (preconditions, warnings, remarks)
+                # Remarks (body, preconditions, warnings, remarks)
                 remarks_parts = []
+
+                # Body paragraphs (after params) go first
+                if sig.body:
+                    remarks_parts.append(sig.body)
 
                 if sig.preconditions:
                     for pre in sig.preconditions:

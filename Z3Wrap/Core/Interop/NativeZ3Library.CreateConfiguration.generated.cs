@@ -15,41 +15,22 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConfigDelegate();
 
     /// <summary>
-    /// <para>
     /// Create a configuration object for the Z3 context object.
-    /// </para>
-    /// <para>
-    /// Configurations are created in order to assign parameters prior to creating
-    /// contexts for Z3 interaction. For example, if the users wishes to use proof
-    /// generation, then call:
-    /// </para>
-    /// <para>
-    /// <code>Z3_set_param_value(cfg\, "proof"\, "true")</code>
-    /// </para>
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// In previous versions of Z3, the Z3_config was used to store
-    /// global and module configurations. Now, we should use Z3_global_param_set.
-    /// </para>
-    /// <para>
     /// The following parameters can be set:
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item><description>proof  (Boolean)           Enable proof generation</description></item>
-    /// <item><description>debug_ref_count (Boolean)  Enable debug support for Z3_ast reference counting</description></item>
-    /// <item><description>trace  (Boolean)           Tracing support for VCC</description></item>
-    /// <item><description>trace_file_name (String)   Trace out file for VCC traces</description></item>
-    /// <item><description>timeout (unsigned)         default timeout (in milliseconds) used for solvers</description></item>
-    /// <item><description>well_sorted_check          type checker</description></item>
-    /// <item><description>auto_config                use heuristics to automatically select solver and configure it</description></item>
-    /// <item><description>model                      model generation for solvers, this parameter can be overwritten when creating a solver</description></item>
-    /// <item><description>model_validate             validate models produced by solvers</description></item>
-    /// <item><description>unsat_core                 unsat-core generation for solvers, this parameter can be overwritten when creating a solver</description></item>
-    /// <item><description>encoding                   the string encoding used internally (must be either "unicode" - 18 bit, "bmp" - 16 bit or "ascii" - 8 bit)</description></item>
-    /// </list>
-    /// </para>
+    /// - proof  (Boolean)           Enable proof generation
+    /// - debug_ref_count (Boolean)  Enable debug support for Z3_ast reference counting
+    /// - trace  (Boolean)           Tracing support for VCC
+    /// - trace_file_name (String)   Trace out file for VCC traces
+    /// - timeout (unsigned)         default timeout (in milliseconds) used for solvers
+    /// - well_sorted_check          type checker
+    /// - auto_config                use heuristics to automatically select solver and configure it
+    /// - model                      model generation for solvers, this parameter can be overwritten when creating a solver
+    /// - model_validate             validate models produced by solvers
+    /// - unsat_core                 unsat-core generation for solvers, this parameter can be overwritten when creating a solver
+    /// - encoding                   the string encoding used internally (must be either "unicode" - 18 bit, "bmp" - 16 bit or "ascii" - 8 bit)
+    /// In previous versions of Z3, the \c Z3_config was used to store global and module configurations. Now, we should use \c Z3_global_param_set.
     /// </remarks>
     /// <seealso cref="SetParamValue"/>
     /// <seealso cref="DelConfig"/>
@@ -81,12 +62,7 @@ internal sealed partial class NativeZ3Library
     private delegate void SetParamValueDelegate(IntPtr c, IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
-    /// <para>
     /// Set a configuration parameter.
-    /// </para>
-    /// <para>
-    /// The following parameters can be set for
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
     /// <param name="paramId" ctype="Z3_string">string parameter</param>

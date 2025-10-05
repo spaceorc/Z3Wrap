@@ -15,15 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSelectDelegate(IntPtr c, IntPtr a, IntPtr i);
 
     /// <summary>
-    /// <para>
-    /// Array read.
-    /// The argument a is the array and i is the index of the array that gets read.
-    /// </para>
-    /// <para>
-    /// The node a must have an array sort <code>[domain -&gt; range]</code>,
-    /// and i must have the sort domain.
-    /// The sort of the result is range.
-    /// </para>
+    /// Array read. The argument \c a is the array and \c i is the index of the array that gets read.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -42,8 +34,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSelectNDelegate(IntPtr c, IntPtr a, uint n, IntPtr idxs);
 
     /// <summary>
-    /// n-ary Array read.
-    /// The argument a is the array and idxs are the indices of the array that gets read.
+    /// n-ary Array read. The argument \c a is the array and \c idxs are the indices of the array that gets read.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -61,18 +52,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkStoreDelegate(IntPtr c, IntPtr a, IntPtr i, IntPtr v);
 
     /// <summary>
-    /// <para>
     /// Array update.
-    /// </para>
-    /// <para>
-    /// The node a must have an array sort <code>[domain -&gt; range]</code>, i must have sort domain,
-    /// v must have sort range. The sort of the result is <code>[domain -&gt; range]</code>.
-    /// The semantics of this function is given by the theory of arrays described in the SMT-LIB
-    /// standard. See http://smtlib.org for more details.
-    /// The result of this function is an array that is equal to a (with respect to select)
-    /// on all indices except for i, where it maps to v (and the select of a with
-    /// respect to i may be a different value).
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -111,13 +91,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConstArrayDelegate(IntPtr c, IntPtr domain, IntPtr v);
 
     /// <summary>
-    /// <para>
     /// Create the constant array.
-    /// </para>
-    /// <para>
-    /// The resulting term is an array, such that a select on an arbitrary index
-    /// produces the value v.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">logical context.</param>
     /// <param name="domain" ctype="Z3_sort">domain sort for the array.</param>
@@ -134,14 +108,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkMapDelegate(IntPtr c, IntPtr f, uint n, IntPtr args);
 
     /// <summary>
-    /// <para>
     /// Map f on the argument arrays.
-    /// </para>
-    /// <para>
-    /// The n nodes args must be of array sorts <code>[domain_i -&gt; range_i]</code>.
-    /// The function declaration f must have type <code> range_1 .. range_n -&gt; range</code>.
-    /// v must have sort range. The sort of the result is <code>[domain_i -&gt; range]</code>.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
@@ -162,9 +129,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkArrayDefaultDelegate(IntPtr c, IntPtr array);
 
     /// <summary>
-    /// Access the array default value.
-    /// Produces the default range value, for arrays that can be represented as
-    /// finite maps with a default range value.
+    /// Access the array default value. Produces the default range value, for arrays that can be represented as finite maps with a default range value.
     /// </summary>
     /// <param name="c" ctype="Z3_context">logical context.</param>
     /// <param name="array" ctype="Z3_ast">array value whose default range value is accessed.</param>
@@ -180,9 +145,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAsArrayDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Create array with the same interpretation as a function.
-    /// The array satisfies the property (f x) = (select (_ as-array f) x)
-    /// for every argument x.
+    /// Create array with the same interpretation as a function. The array satisfies the property (f x) = (select (_ as-array f) x) for every argument x.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
@@ -198,7 +161,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetHasSizeDelegate(IntPtr c, IntPtr set, IntPtr k);
 
     /// <summary>
-    /// Create predicate that holds if Boolean array set has k elements set to true.
+    /// Create predicate that holds if Boolean array \c set has \c k elements set to true.
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
