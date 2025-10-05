@@ -15,10 +15,13 @@ internal sealed partial class NativeZ3Library
     private delegate void SetAstPrintModeDelegate(IntPtr c, AstPrintMode mode);
 
     /// <summary>
-    /// Select mode for the format used for pretty-printing AST nodes.
+    ///  Select mode for the format used for pretty-printing AST nodes. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="mode" ctype="Z3_ast_print_mode">ast_print_mode parameter</param>
+    /// <remarks>
+    /// The default mode for pretty printing AST nodes is to produce SMT-LIB style output where common subexpressions are printed at each occurrence. The mode is called <c>Z3_PRINT_SMTLIB_FULL</c> . To print shared common subexpressions only once, use the <c>Z3_PRINT_LOW_LEVEL</c> mode. To print in way that conforms to SMT-LIB standards and uses let expressions to share common sub-expressions use <c>Z3_PRINT_SMTLIB2_COMPLIANT</c> .
+    /// </remarks>
     /// <seealso cref="AstToString"/>
     /// <seealso cref="PatternToString"/>
     /// <seealso cref="FuncDeclToString"/>
@@ -34,12 +37,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AstToStringDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Convert the given AST node into a string.
+    ///  Convert the given AST node into a string. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when #Z3_del_context is invoked. So, the buffer is invalidated in the next call to \c Z3_ast_to_string.
+    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="Z3_del_context"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_ast_to_string</c> . 
     /// </remarks>
     /// <seealso cref="PatternToString"/>
     /// <seealso cref="SortToString"/>
@@ -94,12 +97,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ModelToStringDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Convert the given model into a string.
+    ///  Convert the given model into a string. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <remarks>
-    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when #Z3_del_context is invoked. So, the buffer is invalidated in the next call to \c Z3_model_to_string.
+    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="Z3_del_context"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_model_to_string</c> . 
     /// </remarks>
     [Z3Function("Z3_model_to_string")]
     internal IntPtr ModelToString(IntPtr c, IntPtr m)
@@ -113,18 +116,18 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr BenchmarkToSmtlibStringDelegate(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint numAssumptions, IntPtr[] assumptions, IntPtr formula);
 
     /// <summary>
-    /// Convert the given benchmark into SMT-LIB formatted string.
+    ///  Convert the given benchmark into SMT-LIB formatted string. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">- context.</param>
-    /// <param name="name" ctype="Z3_string">- name of benchmark. The argument is optional.</param>
-    /// <param name="logic" ctype="Z3_string">- the benchmark logic.</param>
-    /// <param name="status" ctype="Z3_string">- the status string (sat, unsat, or unknown)</param>
-    /// <param name="attributes" ctype="Z3_string">- other attributes, such as source, difficulty or category.</param>
-    /// <param name="numAssumptions" ctype="unsigned">- number of assumptions.</param>
-    /// <param name="assumptions" ctype="Z3_ast const[]">- auxiliary assumptions.</param>
-    /// <param name="formula" ctype="Z3_ast">- formula to be checked for consistency in conjunction with assumptions.</param>
+    /// <param name="c" ctype="Z3_context"> - context. </param>
+    /// <param name="name" ctype="Z3_string"> - name of benchmark. The argument is optional. </param>
+    /// <param name="logic" ctype="Z3_string"> - the benchmark logic. </param>
+    /// <param name="status" ctype="Z3_string"> - the status string (sat, unsat, or unknown) </param>
+    /// <param name="attributes" ctype="Z3_string"> - other attributes, such as source, difficulty or category. </param>
+    /// <param name="numAssumptions" ctype="unsigned"> - number of assumptions. </param>
+    /// <param name="assumptions" ctype="Z3_ast const[]"> - auxiliary assumptions. </param>
+    /// <param name="formula" ctype="Z3_ast"> - formula to be checked for consistency in conjunction with assumptions. </param>
     /// <remarks>
-    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when #Z3_del_context is invoked. So, the buffer is invalidated in the next call to \c Z3_benchmark_to_smtlib_string.
+    /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="Z3_del_context"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_benchmark_to_smtlib_string</c> . 
     /// </remarks>
     [Z3Function("Z3_benchmark_to_smtlib_string")]
     internal IntPtr BenchmarkToSmtlibString(IntPtr c, IntPtr name, IntPtr logic, IntPtr status, IntPtr attributes, uint numAssumptions, IntPtr[] assumptions, IntPtr formula)

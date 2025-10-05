@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsValueDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return \c true if \c a can be used as value in the Z3 real algebraic number package.
+    ///  Return <c>true</c> if <c>a</c> can be used as value in the Z3 real algebraic number package. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -31,12 +31,12 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsPosDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return \c true if \c a is positive, and \c false otherwise.
+    ///  Return <c>true</c> if <c>a</c> is positive, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_is_pos")]
     internal bool AlgebraicIsPos(IntPtr c, IntPtr a)
@@ -50,12 +50,12 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsNegDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return \c true if \c a is negative, and \c false otherwise.
+    ///  Return <c>true</c> if <c>a</c> is negative, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_is_neg")]
     internal bool AlgebraicIsNeg(IntPtr c, IntPtr a)
@@ -69,12 +69,12 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicIsZeroDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return \c true if \c a is zero, and \c false otherwise.
+    ///  Return <c>true</c> if <c>a</c> is zero, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_is_zero")]
     internal bool AlgebraicIsZero(IntPtr c, IntPtr a)
@@ -88,12 +88,12 @@ internal sealed partial class NativeZ3Library
     private delegate int AlgebraicSignDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return 1 if \c a is positive, 0 if \c a is zero, and -1 if \c a is negative.
+    ///  Return 1 if <c>a</c> is positive, 0 if <c>a</c> is zero, and -1 if <c>a</c> is negative. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_sign")]
     internal int AlgebraicSign(IntPtr c, IntPtr a)
@@ -107,14 +107,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicAddDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return the value a + b.
+    ///  Return the value a + b. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_add")]
     internal IntPtr AlgebraicAdd(IntPtr c, IntPtr a, IntPtr b)
@@ -128,14 +128,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicSubDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return the value a - b.
+    ///  Return the value a - b. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_sub")]
     internal IntPtr AlgebraicSub(IntPtr c, IntPtr a, IntPtr b)
@@ -149,14 +149,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicMulDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return the value a * b.
+    ///  Return the value a * b. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_mul")]
     internal IntPtr AlgebraicMul(IntPtr c, IntPtr a, IntPtr b)
@@ -170,15 +170,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicDivDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return the value a / b.
+    ///  Return the value a / b. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
-    /// Precondition: !Z3_algebraic_is_zero(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
+    /// Precondition: !Z3_algebraic_is_zero(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_div")]
     internal IntPtr AlgebraicDiv(IntPtr c, IntPtr a, IntPtr b)
@@ -192,14 +192,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicRootDelegate(IntPtr c, IntPtr a, uint k);
 
     /// <summary>
-    /// Return the a^(1/k)
+    ///  Return the a^(1/k) 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: k is even => !Z3_algebraic_is_neg(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: k is even =&gt; !Z3_algebraic_is_neg(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_root")]
     internal IntPtr AlgebraicRoot(IntPtr c, IntPtr a, uint k)
@@ -213,13 +213,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicPowerDelegate(IntPtr c, IntPtr a, uint k);
 
     /// <summary>
-    /// Return the a^k
+    ///  Return the a^k. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="k" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_power")]
     internal IntPtr AlgebraicPower(IntPtr c, IntPtr a, uint k)
@@ -233,14 +233,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicLtDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return \c true if a < b, and \c false otherwise.
+    ///  Return <c>true</c> if a &lt; b, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_lt")]
     internal bool AlgebraicLt(IntPtr c, IntPtr a, IntPtr b)
@@ -254,14 +254,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicGtDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return \c true if a > b, and \c false otherwise.
+    ///  Return <c>true</c> if a &gt; b, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_gt")]
     internal bool AlgebraicGt(IntPtr c, IntPtr a, IntPtr b)
@@ -275,14 +275,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicLeDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return \c true if a <= b, and \c false otherwise.
+    ///  Return <c>true</c> if a &lt;= b, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_le")]
     internal bool AlgebraicLe(IntPtr c, IntPtr a, IntPtr b)
@@ -296,14 +296,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicGeDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return \c true if a >= b, and \c false otherwise.
+    ///  Return <c>true</c> if a &gt;= b, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_ge")]
     internal bool AlgebraicGe(IntPtr c, IntPtr a, IntPtr b)
@@ -317,14 +317,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicEqDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return \c true if a == b, and \c false otherwise.
+    ///  Return <c>true</c> if a == b, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_eq")]
     internal bool AlgebraicEq(IntPtr c, IntPtr a, IntPtr b)
@@ -338,14 +338,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool AlgebraicNeqDelegate(IntPtr c, IntPtr a, IntPtr b);
 
     /// <summary>
-    /// Return \c true if a != b, and \c false otherwise.
+    ///  Return <c>true</c> if a != b, and <c>false</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="b" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
-    /// Precondition: Z3_algebraic_is_value(c, b)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
+    /// Precondition: Z3_algebraic_is_value(c, b) 
     /// </remarks>
     [Z3Function("Z3_algebraic_neq")]
     internal bool AlgebraicNeq(IntPtr c, IntPtr a, IntPtr b)
@@ -359,15 +359,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicRootsDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
+    ///  Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n). 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_ast">ast parameter</param>
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="a" ctype="Z3_ast[]">ast parameter</param>
     /// <remarks>
-    /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
-    /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
+    /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables. 
+    /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i]) 
     /// </remarks>
     [Z3Function("Z3_algebraic_roots")]
     internal IntPtr AlgebraicRoots(IntPtr c, IntPtr p, uint n, IntPtr[] a)
@@ -381,15 +381,15 @@ internal sealed partial class NativeZ3Library
     private delegate int AlgebraicEvalDelegate(IntPtr c, IntPtr p, uint n, IntPtr[] a);
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
+    ///  Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]). 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_ast">ast parameter</param>
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="a" ctype="Z3_ast[]">ast parameter</param>
     /// <remarks>
-    /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
-    /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
+    /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables. 
+    /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i]) 
     /// </remarks>
     [Z3Function("Z3_algebraic_eval")]
     internal int AlgebraicEval(IntPtr c, IntPtr p, uint n, IntPtr[] a)
@@ -403,12 +403,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AlgebraicGetPolyDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the coefficients of the defining polynomial.
+    ///  Return the coefficients of the defining polynomial. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_get_poly")]
     internal IntPtr AlgebraicGetPoly(IntPtr c, IntPtr a)
@@ -422,12 +422,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint AlgebraicGetIDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return which root of the polynomial the algebraic number represents.
+    ///  Return which root of the polynomial the algebraic number represents. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_algebraic_is_value(c, a)
+    /// Precondition: Z3_algebraic_is_value(c, a) 
     /// </remarks>
     [Z3Function("Z3_algebraic_get_i")]
     internal uint AlgebraicGetI(IntPtr c, IntPtr a)

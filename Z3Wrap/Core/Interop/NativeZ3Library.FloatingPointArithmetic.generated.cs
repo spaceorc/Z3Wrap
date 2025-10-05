@@ -15,14 +15,19 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundingModeSortDelegate(IntPtr c);
 
     /// <summary>
-    /// Create the RoundingMode sort.
+    ///  Create the RoundingMode sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <seealso cref="MkFpaRoundNearestTiesToAway or z3MkFpaRna"/>
-    /// <seealso cref="MkFpaRoundNearestTiesToEven or z3MkFpaRne"/>
-    /// <seealso cref="MkFpaRoundTowardNegative or z3MkFpaRtn"/>
-    /// <seealso cref="MkFpaRoundTowardPositive or z3MkFpaRtp"/>
-    /// <seealso cref="MkFpaRoundTowardZero or z3MkFpaRtz"/>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
+    /// <seealso cref="MkFpaRna"/>
+    /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
+    /// <seealso cref="MkFpaRne"/>
+    /// <seealso cref="MkFpaRoundTowardNegative"/>
+    /// <seealso cref="MkFpaRtn"/>
+    /// <seealso cref="MkFpaRoundTowardPositive"/>
+    /// <seealso cref="MkFpaRtp"/>
+    /// <seealso cref="MkFpaRoundTowardZero"/>
+    /// <seealso cref="MkFpaRtz"/>
     [Z3Function("Z3_mk_fpa_rounding_mode_sort")]
     internal IntPtr MkFpaRoundingModeSort(IntPtr c)
     {
@@ -35,9 +40,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundNearestTiesToEvenDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_rne"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
     /// <seealso cref="MkFpaRoundTowardNegative"/>
@@ -55,9 +63,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRneDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_round_nearest_ties_to_even"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
     /// <seealso cref="MkFpaRtn"/>
@@ -75,9 +86,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundNearestTiesToAwayDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_rna"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
     /// <seealso cref="MkFpaRoundTowardNegative"/>
@@ -95,9 +109,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRnaDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_round_nearest_ties_to_away"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRne"/>
     /// <seealso cref="MkFpaRtn"/>
@@ -115,9 +132,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundTowardPositiveDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_rtp"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
     /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
@@ -135,9 +155,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRtpDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_round_toward_positive"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
     /// <seealso cref="MkFpaRne"/>
@@ -155,9 +178,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundTowardNegativeDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_rtn"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
     /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
@@ -175,9 +201,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRtnDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_round_toward_negative"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
     /// <seealso cref="MkFpaRne"/>
@@ -195,9 +224,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundTowardZeroDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the TowardZero rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the TowardZero rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_rtz"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
     /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
@@ -215,9 +247,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRtzDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a numeral of RoundingMode sort which represents the TowardZero rounding mode.
+    ///  Create a numeral of RoundingMode sort which represents the TowardZero rounding mode. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_round_toward_zero"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
     /// <seealso cref="MkFpaRne"/>
@@ -235,18 +270,22 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSortDelegate(IntPtr c, uint ebits, uint sbits);
 
     /// <summary>
-    /// Create a FloatingPoint sort.
+    ///  Create a FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="ebits" ctype="unsigned">number of exponent bits</param>
-    /// <param name="sbits" ctype="unsigned">number of significand bits</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="ebits" ctype="unsigned"> number of exponent bits </param>
+    /// <param name="sbits" ctype="unsigned"> number of significand bits </param>
     /// <remarks>
-    /// \c ebits must be larger than 1 and \c sbits must be larger than 2.
+    /// <c>ebits</c> must be larger than 1 and <c>sbits</c> must be larger than 2. 
     /// </remarks>
-    /// <seealso cref="MkFpaSortHalf or z3MkFpaSort16"/>
-    /// <seealso cref="MkFpaSortSingle or z3MkFpaSort32"/>
-    /// <seealso cref="MkFpaSortDouble or z3MkFpaSort64"/>
-    /// <seealso cref="MkFpaSortQuadruple or z3MkFpaSort128"/>
+    /// <seealso cref="MkFpaSortHalf"/>
+    /// <seealso cref="MkFpaSort16"/>
+    /// <seealso cref="MkFpaSortSingle"/>
+    /// <seealso cref="MkFpaSort32"/>
+    /// <seealso cref="MkFpaSortDouble"/>
+    /// <seealso cref="MkFpaSort64"/>
+    /// <seealso cref="MkFpaSortQuadruple"/>
+    /// <seealso cref="MkFpaSort128"/>
     [Z3Function("Z3_mk_fpa_sort")]
     internal IntPtr MkFpaSort(IntPtr c, uint ebits, uint sbits)
     {
@@ -259,9 +298,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSortHalfDelegate(IntPtr c);
 
     /// <summary>
-    /// Create the half-precision (16-bit) FloatingPoint sort.
+    ///  Create the half-precision (16-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_16"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortSingle"/>
     /// <seealso cref="MkFpaSortDouble"/>
@@ -278,9 +320,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSort16Delegate(IntPtr c);
 
     /// <summary>
-    /// Create the half-precision (16-bit) FloatingPoint sort.
+    ///  Create the half-precision (16-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_half"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort32"/>
     /// <seealso cref="MkFpaSort64"/>
@@ -297,9 +342,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSortSingleDelegate(IntPtr c);
 
     /// <summary>
-    /// Create the single-precision (32-bit) FloatingPoint sort.
+    ///  Create the single-precision (32-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context.</param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_32"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortHalf"/>
     /// <seealso cref="MkFpaSortDouble"/>
@@ -316,9 +364,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSort32Delegate(IntPtr c);
 
     /// <summary>
-    /// Create the single-precision (32-bit) FloatingPoint sort.
+    ///  Create the single-precision (32-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_single"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort16"/>
     /// <seealso cref="MkFpaSort64"/>
@@ -335,9 +386,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSortDoubleDelegate(IntPtr c);
 
     /// <summary>
-    /// Create the double-precision (64-bit) FloatingPoint sort.
+    ///  Create the double-precision (64-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_64"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortHalf"/>
     /// <seealso cref="MkFpaSortSingle"/>
@@ -354,9 +408,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSort64Delegate(IntPtr c);
 
     /// <summary>
-    /// Create the double-precision (64-bit) FloatingPoint sort.
+    ///  Create the double-precision (64-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_double"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort16"/>
     /// <seealso cref="MkFpaSort32"/>
@@ -373,9 +430,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSortQuadrupleDelegate(IntPtr c);
 
     /// <summary>
-    /// Create the quadruple-precision (128-bit) FloatingPoint sort.
+    ///  Create the quadruple-precision (128-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_128"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortHalf"/>
     /// <seealso cref="MkFpaSortSingle"/>
@@ -392,9 +452,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSort128Delegate(IntPtr c);
 
     /// <summary>
-    /// Create the quadruple-precision (128-bit) FloatingPoint sort.
+    ///  Create the quadruple-precision (128-bit) FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <remarks>
+    /// This is the same as <see cref="Z3_mk_fpa_sort_quadruple"/> .
+    /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort16"/>
     /// <seealso cref="MkFpaSort32"/>
@@ -411,10 +474,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNanDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Create a floating-point NaN of sort \c s.
+    ///  Create a floating-point NaN of sort <c>s</c> . 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="s" ctype="Z3_sort">target sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> target sort </param>
     /// <seealso cref="MkFpaInf"/>
     /// <seealso cref="MkFpaIsNan"/>
     /// <seealso cref="MkFpaZero"/>
@@ -430,13 +493,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaInfDelegate(IntPtr c, IntPtr s, bool negative);
 
     /// <summary>
-    /// Create a floating-point infinity of sort \c s.
+    ///  Create a floating-point infinity of sort <c>s</c> . 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="s" ctype="Z3_sort">target sort</param>
-    /// <param name="negative" ctype="bool">indicates whether the result should be negative</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> target sort </param>
+    /// <param name="negative" ctype="bool"> indicates whether the result should be negative </param>
     /// <remarks>
-    /// When \c negative is \c true, -oo will be generated instead of +oo.
+    /// When <c>negative</c> is <c>true</c> , -oo will be generated instead of +oo.
     /// </remarks>
     /// <seealso cref="MkFpaIsInfinite"/>
     /// <seealso cref="MkFpaNan"/>
@@ -453,13 +516,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaZeroDelegate(IntPtr c, IntPtr s, bool negative);
 
     /// <summary>
-    /// Create a floating-point zero of sort \c s.
+    ///  Create a floating-point zero of sort <c>s</c> . 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="s" ctype="Z3_sort">target sort</param>
-    /// <param name="negative" ctype="bool">indicates whether the result should be negative</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> target sort </param>
+    /// <param name="negative" ctype="bool"> indicates whether the result should be negative </param>
     /// <remarks>
-    /// When \c negative is \c true, -zero will be generated instead of +zero.
+    /// When <c>negative</c> is <c>true</c> , -zero will be generated instead of +zero.
     /// </remarks>
     /// <seealso cref="MkFpaInf"/>
     /// <seealso cref="MkFpaIsZero"/>
@@ -476,12 +539,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaFpDelegate(IntPtr c, IntPtr sgn, IntPtr exp, IntPtr sig);
 
     /// <summary>
-    /// Create an expression of FloatingPoint sort from three bit-vector expressions.
+    ///  Create an expression of FloatingPoint sort from three bit-vector expressions. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="sgn" ctype="Z3_ast">sign</param>
-    /// <param name="exp" ctype="Z3_ast">exponent</param>
-    /// <param name="sig" ctype="Z3_ast">significand</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="sgn" ctype="Z3_ast"> sign </param>
+    /// <param name="exp" ctype="Z3_ast"> exponent </param>
+    /// <param name="sig" ctype="Z3_ast"> significand </param>
+    /// <remarks>
+    /// This is the operator named fp in the SMT FP theory definition. Note that <c>sgn</c> is required to be a bit-vector of size 1. Significand and exponent are required to be longer than 1 and 2 respectively. The FloatingPoint sort of the resulting expression is automatically determined from the bit-vector sizes of the arguments. The exponent is assumed to be in IEEE-754 biased representation.
+    /// </remarks>
     /// <seealso cref="MkFpaNumeralDouble"/>
     /// <seealso cref="MkFpaNumeralFloat"/>
     /// <seealso cref="MkFpaNumeralInt"/>
@@ -500,13 +566,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNumeralFloatDelegate(IntPtr c, float v, IntPtr ty);
 
     /// <summary>
-    /// Create a numeral of FloatingPoint sort from a float.
+    ///  Create a numeral of FloatingPoint sort from a float. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="v" ctype="float">value</param>
-    /// <param name="ty" ctype="Z3_sort">sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="v" ctype="float"> value </param>
+    /// <param name="ty" ctype="Z3_sort"> sort </param>
     /// <remarks>
-    /// \c ty must be a FloatingPoint sort
+    /// This function is used to create numerals that fit in a float value. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralDouble"/>
@@ -526,13 +592,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNumeralDoubleDelegate(IntPtr c, double v, IntPtr ty);
 
     /// <summary>
-    /// Create a numeral of FloatingPoint sort from a double.
+    ///  Create a numeral of FloatingPoint sort from a double. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="v" ctype="double">value</param>
-    /// <param name="ty" ctype="Z3_sort">sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="v" ctype="double"> value </param>
+    /// <param name="ty" ctype="Z3_sort"> sort </param>
     /// <remarks>
-    /// \c ty must be a FloatingPoint sort
+    /// This function is used to create numerals that fit in a double value. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralFloat"/>
@@ -552,13 +618,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNumeralIntDelegate(IntPtr c, int v, IntPtr ty);
 
     /// <summary>
-    /// Create a numeral of FloatingPoint sort from a signed integer.
+    ///  Create a numeral of FloatingPoint sort from a signed integer. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="v" ctype="signed">value</param>
-    /// <param name="ty" ctype="Z3_sort">result sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="v" ctype="signed"> value </param>
+    /// <param name="ty" ctype="Z3_sort"> result sort </param>
     /// <remarks>
-    /// \c ty must be a FloatingPoint sort
+    /// <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralDouble"/>
@@ -578,15 +644,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNumeralIntUintDelegate(IntPtr c, bool sgn, int exp, uint sig, IntPtr ty);
 
     /// <summary>
-    /// Create a numeral of FloatingPoint sort from a sign bit and two integers.
+    ///  Create a numeral of FloatingPoint sort from a sign bit and two integers. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="sgn" ctype="bool">sign bit (true == negative)</param>
-    /// <param name="exp" ctype="signed">exponent</param>
-    /// <param name="sig" ctype="unsigned">significand</param>
-    /// <param name="ty" ctype="Z3_sort">result sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="sgn" ctype="bool"> sign bit (true == negative) </param>
+    /// <param name="exp" ctype="signed"> exponent </param>
+    /// <param name="sig" ctype="unsigned"> significand </param>
+    /// <param name="ty" ctype="Z3_sort"> result sort </param>
     /// <remarks>
-    /// \c ty must be a FloatingPoint sort
+    /// <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralDouble"/>
@@ -606,15 +672,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNumeralInt64Uint64Delegate(IntPtr c, bool sgn, long exp, ulong sig, IntPtr ty);
 
     /// <summary>
-    /// Create a numeral of FloatingPoint sort from a sign bit and two 64-bit integers.
+    ///  Create a numeral of FloatingPoint sort from a sign bit and two 64-bit integers. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="sgn" ctype="bool">sign bit (true == negative)</param>
-    /// <param name="exp" ctype="int64_t">exponent</param>
-    /// <param name="sig" ctype="uint64_t">significand</param>
-    /// <param name="ty" ctype="Z3_sort">result sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="sgn" ctype="bool"> sign bit (true == negative) </param>
+    /// <param name="exp" ctype="int64_t"> exponent </param>
+    /// <param name="sig" ctype="uint64_t"> significand </param>
+    /// <param name="ty" ctype="Z3_sort"> result sort </param>
     /// <remarks>
-    /// \c ty must be a FloatingPoint sort
+    /// <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralDouble"/>
@@ -634,10 +700,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaAbsDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Floating-point absolute value
+    ///  Floating-point absolute value. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <seealso cref="MkFpaIsNegative"/>
     /// <seealso cref="MkFpaIsPositive"/>
     /// <seealso cref="MkFpaNeg"/>
@@ -653,10 +719,10 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaNegDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Floating-point negation
+    ///  Floating-point negation. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <seealso cref="MkFpaAbs"/>
     /// <seealso cref="MkFpaIsNegative"/>
     /// <seealso cref="MkFpaIsPositive"/>
@@ -672,15 +738,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaAddDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point addition
+    ///  Floating-point addition. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c rm must be of RoundingMode sort, \c t1 and \c t2 must have the same FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_add', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(AST)))
+    /// <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_add")]
     internal IntPtr MkFpaAdd(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
@@ -694,15 +759,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSubDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point subtraction
+    ///  Floating-point subtraction. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c rm must be of RoundingMode sort, \c t1 and \c t2 must have the same FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_sub', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(AST)))
+    /// <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_sub")]
     internal IntPtr MkFpaSub(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
@@ -716,15 +780,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaMulDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point multiplication
+    ///  Floating-point multiplication. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c rm must be of RoundingMode sort, \c t1 and \c t2 must have the same FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_mul', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(AST)))
+    /// <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_mul")]
     internal IntPtr MkFpaMul(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
@@ -738,15 +801,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaDivDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point division
+    ///  Floating-point division. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort.</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort. </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// The nodes \c rm must be of RoundingMode sort, \c t1 and \c t2 must have the same FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_div', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(AST)))
+    /// The nodes <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_div")]
     internal IntPtr MkFpaDiv(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2)
@@ -760,17 +822,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaFmaDelegate(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2, IntPtr t3);
 
     /// <summary>
-    /// Floating-point fused multiply-add.
+    ///  Floating-point fused multiply-add. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t3" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t3" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// The result is \ccode{round((t1 * t2) + t3)}.
-    /// \c rm must be of RoundingMode sort, \c t1, \c t2, and \c t3 must have the same FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_fma', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(AST),_in(AST)))
+    /// The result is <c>round((t1 * t2) + t3)</c> . <c>rm</c> must be of RoundingMode sort, <c>t1</c> , <c>t2</c> , and <c>t3</c> must have the same FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_fma")]
     internal IntPtr MkFpaFma(IntPtr c, IntPtr rm, IntPtr t1, IntPtr t2, IntPtr t3)
@@ -784,14 +844,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaSqrtDelegate(IntPtr c, IntPtr rm, IntPtr t);
 
     /// <summary>
-    /// Floating-point square root
+    ///  Floating-point square root. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c rm must be of RoundingMode sort, \c t must have FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_sqrt', AST, (_in(CONTEXT),_in(AST),_in(AST)))
+    /// <c>rm</c> must be of RoundingMode sort, <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_sqrt")]
     internal IntPtr MkFpaSqrt(IntPtr c, IntPtr rm, IntPtr t)
@@ -805,14 +864,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRemDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point remainder
+    ///  Floating-point remainder. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1 and \c t2 must have the same FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_rem', AST, (_in(CONTEXT),_in(AST),_in(AST)))
+    /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_rem")]
     internal IntPtr MkFpaRem(IntPtr c, IntPtr t1, IntPtr t2)
@@ -826,14 +884,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaRoundToIntegralDelegate(IntPtr c, IntPtr rm, IntPtr t);
 
     /// <summary>
-    /// Floating-point roundToIntegral. Rounds a floating-point number to the closest integer, again represented as a floating-point number.
+    ///  Floating-point roundToIntegral. Rounds a floating-point number to the closest integer, again represented as a floating-point number. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must be of FloatingPoint sort.
-    /// def_API('Z3_mk_fpa_round_to_integral', AST, (_in(CONTEXT),_in(AST),_in(AST)))
+    /// <c>t</c> must be of FloatingPoint sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_round_to_integral")]
     internal IntPtr MkFpaRoundToIntegral(IntPtr c, IntPtr rm, IntPtr t)
@@ -847,13 +904,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaMinDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Minimum of floating-point numbers.
+    ///  Minimum of floating-point numbers. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1, \c t2 must have the same FloatingPoint sort.
+    /// <c>t1</c> , <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaMax"/>
     [Z3Function("Z3_mk_fpa_min")]
@@ -868,13 +925,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaMaxDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Maximum of floating-point numbers.
+    ///  Maximum of floating-point numbers. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1, \c t2 must have the same FloatingPoint sort.
+    /// <c>t1</c> , <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaMin"/>
     [Z3Function("Z3_mk_fpa_max")]
@@ -889,13 +946,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaLeqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point less than or equal.
+    ///  Floating-point less than or equal. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1 and \c t2 must have the same FloatingPoint sort.
+    /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaEq"/>
     /// <seealso cref="MkFpaGeq"/>
@@ -913,13 +970,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaLtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point less than.
+    ///  Floating-point less than. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1 and \c t2 must have the same FloatingPoint sort.
+    /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaEq"/>
     /// <seealso cref="MkFpaGeq"/>
@@ -937,13 +994,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaGeqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point greater than or equal.
+    ///  Floating-point greater than or equal. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1 and \c t2 must have the same FloatingPoint sort.
+    /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaEq"/>
     /// <seealso cref="MkFpaGt"/>
@@ -961,13 +1018,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaGtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point greater than.
+    ///  Floating-point greater than. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t1 and \c t2 must have the same FloatingPoint sort.
+    /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaEq"/>
     /// <seealso cref="MkFpaGeq"/>
@@ -985,14 +1042,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaEqDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Floating-point equality.
+    ///  Floating-point equality. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t1" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="t2" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// Note that this is IEEE 754 equality (as opposed to SMT-LIB \ccode{=}).
-    /// \c t1 and \c t2 must have the same FloatingPoint sort.
+    /// Note that this is IEEE 754 equality (as opposed to SMT-LIB <c>=</c> ). <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaGeq"/>
     /// <seealso cref="MkFpaGt"/>
@@ -1010,12 +1066,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsNormalDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a normal floating-point number.
+    ///  Predicate indicating whether <c>t</c> is a normal floating-point number. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaIsInfinite"/>
     /// <seealso cref="MkFpaIsNan"/>
@@ -1033,12 +1089,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsSubnormalDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a subnormal floating-point number.
+    ///  Predicate indicating whether <c>t</c> is a subnormal floating-point number. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaIsInfinite"/>
     /// <seealso cref="MkFpaIsNan"/>
@@ -1056,12 +1112,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsZeroDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a floating-point number with zero value, i.e., +zero or -zero.
+    ///  Predicate indicating whether <c>t</c> is a floating-point number with zero value, i.e., +zero or -zero. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaIsInfinite"/>
     /// <seealso cref="MkFpaIsNan"/>
@@ -1080,12 +1136,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsInfiniteDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a floating-point number representing +oo or -oo.
+    ///  Predicate indicating whether <c>t</c> is a floating-point number representing +oo or -oo. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaInf"/>
     /// <seealso cref="MkFpaIsNan"/>
@@ -1104,12 +1160,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsNanDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a NaN.
+    ///  Predicate indicating whether <c>t</c> is a NaN. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaIsInfinite"/>
     /// <seealso cref="MkFpaIsNormal"/>
@@ -1128,12 +1184,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsNegativeDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a negative floating-point number.
+    ///  Predicate indicating whether <c>t</c> is a negative floating-point number. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaAbs"/>
     /// <seealso cref="MkFpaIsPositive"/>
@@ -1150,12 +1206,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaIsPositiveDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Predicate indicating whether \c t is a positive floating-point number.
+    ///  Predicate indicating whether <c>t</c> is a positive floating-point number. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort.
+    /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
     /// <seealso cref="MkFpaAbs"/>
     /// <seealso cref="MkFpaIsNegative"/>
@@ -1172,14 +1228,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToFpBvDelegate(IntPtr c, IntPtr bv, IntPtr s);
 
     /// <summary>
-    /// Conversion of a single IEEE 754-2008 bit-vector into a floating-point number.
+    ///  Conversion of a single IEEE 754-2008 bit-vector into a floating-point number. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="bv" ctype="Z3_ast">a bit-vector term</param>
-    /// <param name="s" ctype="Z3_sort">floating-point sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="bv" ctype="Z3_ast"> a bit-vector term </param>
+    /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
     /// <remarks>
-    /// \c s must be a FloatingPoint sort, \c t must be of bit-vector sort, and the bit-vector size of \c bv must be equal to \ccode{ebits+sbits} of \c s. The format of the bit-vector is as defined by the IEEE 754-2008 interchange format.
-    /// def_API('Z3_mk_fpa_to_fp_bv', AST, (_in(CONTEXT),_in(AST),_in(SORT)))
+    /// Produces a term that represents the conversion of a bit-vector term <c>bv</c> to a floating-point term of sort <c>s</c> . <c>s</c> must be a FloatingPoint sort, <c>t</c> must be of bit-vector sort, and the bit-vector size of <c>bv</c> must be equal to <c>ebits+sbits</c> of <c>s</c> . The format of the bit-vector is as defined by the IEEE 754-2008 interchange format.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_fp_bv")]
     internal IntPtr MkFpaToFpBv(IntPtr c, IntPtr bv, IntPtr s)
@@ -1193,15 +1248,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToFpFloatDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
     /// <summary>
-    /// Conversion of a FloatingPoint term into another term of different FloatingPoint sort.
+    ///  Conversion of a FloatingPoint term into another term of different FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="s" ctype="Z3_sort">floating-point sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
     /// <remarks>
-    /// \c s must be a FloatingPoint sort, \c rm must be of RoundingMode sort, \c t must be of floating-point sort.
-    /// def_API('Z3_mk_fpa_to_fp_float', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(SORT)))
+    /// Produces a term that represents the conversion of a floating-point term <c>t</c> to a floating-point term of sort <c>s</c> . If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of floating-point sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_fp_float")]
     internal IntPtr MkFpaToFpFloat(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
@@ -1215,15 +1269,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToFpRealDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
     /// <summary>
-    /// Conversion of a term of real sort into a term of FloatingPoint sort.
+    ///  Conversion of a term of real sort into a term of FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of Real sort</param>
-    /// <param name="s" ctype="Z3_sort">floating-point sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of Real sort </param>
+    /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
     /// <remarks>
-    /// \c s must be a FloatingPoint sort, \c rm must be of RoundingMode sort, \c t must be of real sort.
-    /// def_API('Z3_mk_fpa_to_fp_real', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(SORT)))
+    /// Produces a term that represents the conversion of term <c>t</c> of real sort into a floating-point term of sort <c>s</c> . If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of real sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_fp_real")]
     internal IntPtr MkFpaToFpReal(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
@@ -1237,15 +1290,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToFpSignedDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
     /// <summary>
-    /// Conversion of a 2's complement signed bit-vector term into a term of FloatingPoint sort.
+    ///  Conversion of a 2's complement signed bit-vector term into a term of FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of bit-vector sort</param>
-    /// <param name="s" ctype="Z3_sort">floating-point sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of bit-vector sort </param>
+    /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
     /// <remarks>
-    /// \c s must be a FloatingPoint sort, \c rm must be of RoundingMode sort, \c t must be of bit-vector sort.
-    /// def_API('Z3_mk_fpa_to_fp_signed', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(SORT)))
+    /// Produces a term that represents the conversion of the bit-vector term <c>t</c> into a floating-point term of sort <c>s</c> . The bit-vector <c>t</c> is taken to be in signed 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of bit-vector sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_fp_signed")]
     internal IntPtr MkFpaToFpSigned(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
@@ -1259,15 +1311,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToFpUnsignedDelegate(IntPtr c, IntPtr rm, IntPtr t, IntPtr s);
 
     /// <summary>
-    /// Conversion of a 2's complement unsigned bit-vector term into a term of FloatingPoint sort.
+    ///  Conversion of a 2's complement unsigned bit-vector term into a term of FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of bit-vector sort</param>
-    /// <param name="s" ctype="Z3_sort">floating-point sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of bit-vector sort </param>
+    /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
     /// <remarks>
-    /// \c s must be a FloatingPoint sort, \c rm must be of RoundingMode sort, \c t must be of bit-vector sort.
-    /// def_API('Z3_mk_fpa_to_fp_unsigned', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(SORT)))
+    /// Produces a term that represents the conversion of the bit-vector term <c>t</c> into a floating-point term of sort <c>s</c> . The bit-vector <c>t</c> is taken to be in unsigned 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of bit-vector sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_fp_unsigned")]
     internal IntPtr MkFpaToFpUnsigned(IntPtr c, IntPtr rm, IntPtr t, IntPtr s)
@@ -1281,12 +1332,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToUbvDelegate(IntPtr c, IntPtr rm, IntPtr t, uint sz);
 
     /// <summary>
-    /// Conversion of a floating-point term into an unsigned bit-vector.
+    ///  Conversion of a floating-point term into an unsigned bit-vector. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="sz" ctype="unsigned">size of the resulting bit-vector</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="sz" ctype="unsigned"> size of the resulting bit-vector </param>
+    /// <remarks>
+    /// Produces a term that represents the conversion of the floating-point term <c>t</c> into a bit-vector term of size <c>sz</c> in unsigned 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> .
+    /// </remarks>
     [Z3Function("Z3_mk_fpa_to_ubv")]
     internal IntPtr MkFpaToUbv(IntPtr c, IntPtr rm, IntPtr t, uint sz)
     {
@@ -1299,12 +1353,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToSbvDelegate(IntPtr c, IntPtr rm, IntPtr t, uint sz);
 
     /// <summary>
-    /// Conversion of a floating-point term into a signed bit-vector.
+    ///  Conversion of a floating-point term into a signed bit-vector. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
-    /// <param name="sz" ctype="unsigned">size of the resulting bit-vector</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <param name="sz" ctype="unsigned"> size of the resulting bit-vector </param>
+    /// <remarks>
+    /// Produces a term that represents the conversion of the floating-point term <c>t</c> into a bit-vector term of size <c>sz</c> in signed 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> .
+    /// </remarks>
     [Z3Function("Z3_mk_fpa_to_sbv")]
     internal IntPtr MkFpaToSbv(IntPtr c, IntPtr rm, IntPtr t, uint sz)
     {
@@ -1317,10 +1374,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToRealDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Conversion of a floating-point term into a real-numbered term.
+    ///  Conversion of a floating-point term into a real-numbered term. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <remarks>
+    /// Produces a term that represents the conversion of the floating-point term <c>t</c> into a real number. Note that this type of conversion will often result in non-linear constraints over real terms.
+    /// </remarks>
     [Z3Function("Z3_mk_fpa_to_real")]
     internal IntPtr MkFpaToReal(IntPtr c, IntPtr t)
     {

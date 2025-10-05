@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTrueDelegate(IntPtr c);
 
     /// <summary>
-    /// Create an AST node representing \c true.
+    ///  Create an AST node representing <c>true</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_true")]
@@ -30,7 +30,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFalseDelegate(IntPtr c);
 
     /// <summary>
-    /// Create an AST node representing \c false.
+    ///  Create an AST node representing <c>false</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_mk_false")]
@@ -45,11 +45,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkEqDelegate(IntPtr c, IntPtr l, IntPtr r);
 
     /// <summary>
-    /// Create an AST node representing \ccode{l = r}.
+    ///  Create an AST node representing <c>l = r</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="l" ctype="Z3_ast">ast parameter</param>
     /// <param name="r" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>l</c> and <c>r</c> must have the same type.
+    /// </remarks>
     [Z3Function("Z3_mk_eq")]
     internal IntPtr MkEq(IntPtr c, IntPtr l, IntPtr r)
     {
@@ -62,13 +65,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDistinctDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Create an AST node representing \ccode{distinct(args[0], ..., args[num_args-1])}.
+    ///  Create an AST node representing <c>distinct(args[0], ..., args[num_args-1])</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The number of arguments of a distinct construct must be greater than one.
+    /// The <c>distinct</c> construct is used for declaring the arguments pairwise distinct. That is, <c>Forall 0 <= i < j < num_args. not args[i] = args[j]</c> . All arguments must have the same sort.
+    /// The number of arguments of a distinct construct must be greater than one. 
     /// </remarks>
     [Z3Function("Z3_mk_distinct")]
     internal IntPtr MkDistinct(IntPtr c, uint numArgs, IntPtr[] args)
@@ -82,10 +86,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkNotDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Create an AST node representing \ccode{not(a)}.
+    ///  Create an AST node representing <c>not(a)</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The node <c>a</c> must have Boolean sort.
+    /// </remarks>
     [Z3Function("Z3_mk_not")]
     internal IntPtr MkNot(IntPtr c, IntPtr a)
     {
@@ -98,12 +105,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIteDelegate(IntPtr c, IntPtr t1, IntPtr t2, IntPtr t3);
 
     /// <summary>
-    /// Create an AST node representing an if-then-else: \ccode{ite(t1, t2, t3)}.
+    ///  Create an AST node representing an if-then-else: <c>ite(t1, t2, t3)</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <param name="t3" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The node <c>t1</c> must have Boolean sort, <c>t2</c> and <c>t3</c> must have the same sort. The sort of the new node is equal to the sort of <c>t2</c> and <c>t3</c> .
+    /// </remarks>
     [Z3Function("Z3_mk_ite")]
     internal IntPtr MkIte(IntPtr c, IntPtr t1, IntPtr t2, IntPtr t3)
     {
@@ -116,11 +126,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIffDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{t1 iff t2}.
+    ///  Create an AST node representing <c>t1 iff t2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have Boolean sort.
+    /// </remarks>
     [Z3Function("Z3_mk_iff")]
     internal IntPtr MkIff(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -133,11 +146,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkImpliesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{t1 implies t2}.
+    ///  Create an AST node representing <c>t1 implies t2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have Boolean sort.
+    /// </remarks>
     [Z3Function("Z3_mk_implies")]
     internal IntPtr MkImplies(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -150,11 +166,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkXorDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{t1 xor t2}.
+    ///  Create an AST node representing <c>t1 xor t2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have Boolean sort.
+    /// </remarks>
     [Z3Function("Z3_mk_xor")]
     internal IntPtr MkXor(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -167,13 +186,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAndDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Create an AST node representing \ccode{args[0] and ... and args[num_args-1]}.
+    ///  Create an AST node representing <c>args[0] and ... and args[num_args-1]</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The number of arguments must be greater than zero.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have Boolean sort.
+    /// The number of arguments must be greater than zero. 
     /// </remarks>
     [Z3Function("Z3_mk_and")]
     internal IntPtr MkAnd(IntPtr c, uint numArgs, IntPtr[] args)
@@ -187,13 +207,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkOrDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Create an AST node representing \ccode{args[0] or ... or args[num_args-1]}.
+    ///  Create an AST node representing <c>args[0] or ... or args[num_args-1]</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The number of arguments must be greater than zero.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have Boolean sort.
+    /// The number of arguments must be greater than zero. 
     /// </remarks>
     [Z3Function("Z3_mk_or")]
     internal IntPtr MkOr(IntPtr c, uint numArgs, IntPtr[] args)

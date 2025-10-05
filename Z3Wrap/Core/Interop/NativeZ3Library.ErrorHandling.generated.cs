@@ -15,9 +15,12 @@ internal sealed partial class NativeZ3Library
     private delegate ErrorCode GetErrorCodeDelegate(IntPtr c);
 
     /// <summary>
-    /// Return the error code for the last API call.
+    ///  Return the error code for the last API call. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <remarks>
+    /// A call to a Z3 function may return a non Z3_OK error code, when it is not used correctly.
+    /// </remarks>
     /// <seealso cref="SetErrorHandler"/>
     [Z3Function("Z3_get_error_code")]
     internal ErrorCode GetErrorCode(IntPtr c)
@@ -31,12 +34,13 @@ internal sealed partial class NativeZ3Library
     private delegate void SetErrorHandlerDelegate(IntPtr c, IntPtr h);
 
     /// <summary>
-    /// Register a Z3 error handler.
+    ///  Register a Z3 error handler. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="h" ctype="Z3_error_handler">error_handler parameter</param>
     /// <remarks>
-    /// Warning: Log files, created using #Z3_open_log, may be potentially incomplete/incorrect if error handlers are used.
+    /// A call to a Z3 function may return a non <c>Z3_OK</c> error code, when it is not used correctly. An error handler can be registered and will be called in this case. To disable the use of the error handler, simply register with <c>h=NULL</c> .
+    /// Warning: Log files, created using <see cref="Z3_open_log"/> , may be potentially incomplete/incorrect if error handlers are used. 
     /// </remarks>
     /// <seealso cref="GetErrorCode"/>
     [Z3Function("Z3_set_error_handler")]
@@ -51,7 +55,7 @@ internal sealed partial class NativeZ3Library
     private delegate void SetErrorDelegate(IntPtr c, ErrorCode e);
 
     /// <summary>
-    /// Set an error.
+    ///  Set an error. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_error_code">error_code parameter</param>
@@ -67,7 +71,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetErrorMsgDelegate(IntPtr c, ErrorCode err);
 
     /// <summary>
-    /// Return a string describing the given error code.
+    ///  Return a string describing the given error code. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="err" ctype="Z3_error_code">error_code parameter</param>

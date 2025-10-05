@@ -15,11 +15,11 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAstMapDelegate(IntPtr c);
 
     /// <summary>
-    /// Return an empty mapping from AST to AST
+    ///  Return an empty mapping from AST to AST. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using #Z3_mk_context instead of #Z3_mk_context_rc.
+    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
     /// </remarks>
     [Z3Function("Z3_mk_ast_map")]
     internal IntPtr MkAstMap(IntPtr c)
@@ -33,7 +33,7 @@ internal sealed partial class NativeZ3Library
     private delegate void AstMapIncRefDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Increment the reference counter of the given AST map.
+    ///  Increment the reference counter of the given AST map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -49,7 +49,7 @@ internal sealed partial class NativeZ3Library
     private delegate void AstMapDecRefDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Decrement the reference counter of the given AST map.
+    ///  Decrement the reference counter of the given AST map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -65,7 +65,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool AstMapContainsDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// Return true if the map \c m contains the AST key \c k.
+    ///  Return true if the map <c>m</c> contains the AST key <c>k</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -82,11 +82,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AstMapFindDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// Return the value associated with the key \c k.
+    ///  Return the value associated with the key <c>k</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     /// <param name="k" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The procedure invokes the error handler if <c>k</c> is not in the map.
+    /// </remarks>
     [Z3Function("Z3_ast_map_find")]
     internal IntPtr AstMapFind(IntPtr c, IntPtr m, IntPtr k)
     {
@@ -99,7 +102,7 @@ internal sealed partial class NativeZ3Library
     private delegate void AstMapInsertDelegate(IntPtr c, IntPtr m, IntPtr k, IntPtr v);
 
     /// <summary>
-    /// Store/Replace a new key, value pair in the given map.
+    ///  Store/Replace a new key, value pair in the given map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -117,7 +120,7 @@ internal sealed partial class NativeZ3Library
     private delegate void AstMapEraseDelegate(IntPtr c, IntPtr m, IntPtr k);
 
     /// <summary>
-    /// Erase a key from the map.
+    ///  Erase a key from the map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -134,7 +137,7 @@ internal sealed partial class NativeZ3Library
     private delegate void AstMapResetDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Remove all keys from the given map.
+    ///  Remove all keys from the given map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -150,7 +153,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint AstMapSizeDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Return the size of the given map.
+    ///  Return the size of the given map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -166,7 +169,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AstMapKeysDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Return the keys stored in the given map.
+    ///  Return the keys stored in the given map. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
@@ -182,7 +185,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AstMapToStringDelegate(IntPtr c, IntPtr m);
 
     /// <summary>
-    /// Convert the given map into a string.
+    ///  Convert the given map into a string. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>

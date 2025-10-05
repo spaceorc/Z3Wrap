@@ -15,11 +15,11 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkParamsDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc.
+    ///  Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage parameter sets, even when the \c Z3_context was created using #Z3_mk_context instead of #Z3_mk_context_rc.
+    /// Reference counting must be used to manage parameter sets, even when the <c>Z3_context</c> was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
     /// </remarks>
     [Z3Function("Z3_mk_params")]
     internal IntPtr MkParams(IntPtr c)
@@ -33,7 +33,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsIncRefDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Increment the reference counter of the given parameter set.
+    ///  Increment the reference counter of the given parameter set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -49,7 +49,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsDecRefDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Decrement the reference counter of the given parameter set.
+    ///  Decrement the reference counter of the given parameter set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -65,7 +65,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsSetBoolDelegate(IntPtr c, IntPtr p, IntPtr k, bool v);
 
     /// <summary>
-    /// Add a Boolean parameter \c k with value \c v to the parameter set \c p.
+    ///  Add a Boolean parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -83,7 +83,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsSetUintDelegate(IntPtr c, IntPtr p, IntPtr k, uint v);
 
     /// <summary>
-    /// Add a unsigned parameter \c k with value \c v to the parameter set \c p.
+    ///  Add a unsigned parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -101,7 +101,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsSetDoubleDelegate(IntPtr c, IntPtr p, IntPtr k, double v);
 
     /// <summary>
-    /// Add a double parameter \c k with value \c v to the parameter set \c p.
+    ///  Add a double parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -119,7 +119,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsSetSymbolDelegate(IntPtr c, IntPtr p, IntPtr k, IntPtr v);
 
     /// <summary>
-    /// Add a symbol parameter \c k with value \c v to the parameter set \c p.
+    ///  Add a symbol parameter <c>k</c> with value <c>v</c> to the parameter set <c>p</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -137,7 +137,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParamsToStringDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter set.
+    ///  Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
@@ -153,11 +153,14 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamsValidateDelegate(IntPtr c, IntPtr p, IntPtr d);
 
     /// <summary>
-    /// Validate the parameter set \c p against the parameter description set \c d.
+    ///  Validate the parameter set <c>p</c> against the parameter description set <c>d</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
     /// <param name="d" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <remarks>
+    /// The procedure invokes the error handler if <c>p</c> is invalid.
+    /// </remarks>
     [Z3Function("Z3_params_validate")]
     internal void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)
     {

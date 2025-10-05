@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetSortDelegate(IntPtr c, IntPtr ty);
 
     /// <summary>
-    /// Create Set type.
+    ///  Create Set type. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
@@ -31,7 +31,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkEmptySetDelegate(IntPtr c, IntPtr domain);
 
     /// <summary>
-    /// Create the empty set.
+    ///  Create the empty set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="domain" ctype="Z3_sort">sort parameter</param>
@@ -47,7 +47,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFullSetDelegate(IntPtr c, IntPtr domain);
 
     /// <summary>
-    /// Create the full set.
+    ///  Create the full set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="domain" ctype="Z3_sort">sort parameter</param>
@@ -63,11 +63,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetAddDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
-    /// Add an element to a set.
+    ///  Add an element to a set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The first argument must be a set, the second an element.
+    /// </remarks>
     [Z3Function("Z3_mk_set_add")]
     internal IntPtr MkSetAdd(IntPtr c, IntPtr set, IntPtr elem)
     {
@@ -80,11 +83,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetDelDelegate(IntPtr c, IntPtr set, IntPtr elem);
 
     /// <summary>
-    /// Remove an element to a set.
+    ///  Remove an element to a set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The first argument must be a set, the second an element.
+    /// </remarks>
     [Z3Function("Z3_mk_set_del")]
     internal IntPtr MkSetDel(IntPtr c, IntPtr set, IntPtr elem)
     {
@@ -97,7 +103,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetUnionDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Take the union of a list of sets.
+    ///  Take the union of a list of sets. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
@@ -114,7 +120,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetIntersectDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Take the intersection of a list of sets.
+    ///  Take the intersection of a list of sets. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
@@ -131,7 +137,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetDifferenceDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Take the set difference between two sets.
+    ///  Take the set difference between two sets. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
@@ -148,7 +154,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetComplementDelegate(IntPtr c, IntPtr arg);
 
     /// <summary>
-    /// Take the complement of a set.
+    ///  Take the complement of a set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg" ctype="Z3_ast">ast parameter</param>
@@ -164,11 +170,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetMemberDelegate(IntPtr c, IntPtr elem, IntPtr set);
 
     /// <summary>
-    /// Check for set membership.
+    ///  Check for set membership. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The first argument should be an element type of the set.
+    /// </remarks>
     [Z3Function("Z3_mk_set_member")]
     internal IntPtr MkSetMember(IntPtr c, IntPtr elem, IntPtr set)
     {
@@ -181,7 +190,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSetSubsetDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Check for subsetness of sets.
+    ///  Check for subsetness of sets. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
@@ -198,7 +207,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkArrayExtDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=> (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
+    ///  Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B)) 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>

@@ -15,22 +15,11 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkConfigDelegate();
 
     /// <summary>
-    /// Create a configuration object for the Z3 context object.
+    ///  Create a configuration object for the Z3 context object. 
     /// </summary>
     /// <remarks>
-    /// The following parameters can be set:
-    /// - proof  (Boolean)           Enable proof generation
-    /// - debug_ref_count (Boolean)  Enable debug support for Z3_ast reference counting
-    /// - trace  (Boolean)           Tracing support for VCC
-    /// - trace_file_name (String)   Trace out file for VCC traces
-    /// - timeout (unsigned)         default timeout (in milliseconds) used for solvers
-    /// - well_sorted_check          type checker
-    /// - auto_config                use heuristics to automatically select solver and configure it
-    /// - model                      model generation for solvers, this parameter can be overwritten when creating a solver
-    /// - model_validate             validate models produced by solvers
-    /// - unsat_core                 unsat-core generation for solvers, this parameter can be overwritten when creating a solver
-    /// - encoding                   the string encoding used internally (must be either "unicode" - 18 bit, "bmp" - 16 bit or "ascii" - 8 bit)
-    /// In previous versions of Z3, the \c Z3_config was used to store global and module configurations. Now, we should use \c Z3_global_param_set.
+    /// Configurations are created in order to assign parameters prior to creating contexts for Z3 interaction. For example, if the users wishes to use proof generation, then call: <c>Z3_set_param_value(cfg\, "proof"\, "true")</c>
+    /// In previous versions of Z3, the <c>Z3_config</c> was used to store global and module configurations. Now, we should use <c>Z3_global_param_set</c> . 
     /// </remarks>
     /// <seealso cref="SetParamValue"/>
     /// <seealso cref="DelConfig"/>
@@ -46,7 +35,7 @@ internal sealed partial class NativeZ3Library
     private delegate void DelConfigDelegate(IntPtr c);
 
     /// <summary>
-    /// Delete the given configuration object.
+    ///  Delete the given configuration object. 
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
     /// <seealso cref="MkConfig"/>
@@ -62,11 +51,14 @@ internal sealed partial class NativeZ3Library
     private delegate void SetParamValueDelegate(IntPtr c, IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
-    /// Set a configuration parameter.
+    ///  Set a configuration parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
     /// <param name="paramId" ctype="Z3_string">string parameter</param>
     /// <param name="paramValue" ctype="Z3_string">string parameter</param>
+    /// <remarks>
+    /// The following parameters can be set for
+    /// </remarks>
     /// <seealso cref="MkConfig"/>
     [Z3Function("Z3_set_param_value")]
     internal void SetParamValue(IntPtr c, IntPtr paramId, IntPtr paramValue)

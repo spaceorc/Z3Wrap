@@ -15,15 +15,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkContextDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a context using the given configuration.
+    ///  Create a context using the given configuration. 
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
     /// <remarks>
-    /// \c Z3_model_translate, \c Z3_goal_translate methods are exposed to allow copying state from one context to another.
-    /// Thread safety: objects created using a given context should not be accessed from different threads without synchronization. In other words, operations on a context are not thread safe. To use Z3 from different threads create separate context objects. The \c Z3_translate, \c Z3_solver_translate,
-    /// - \c Z3_sort, \c Z3_func_decl, \c Z3_app, \c Z3_pattern are \c Z3_ast's.
-    /// - Z3 uses hash-consing, i.e., when the same \c Z3_ast is created twice,
-    /// Z3 will return the same pointer twice.
+    /// After a context is created, the configuration cannot be changed, although some parameters can be changed using <see cref="Z3_update_param_value"/> . All main interaction with Z3 happens in the context of a <c>Z3_context</c> . In contrast to <c>Z3_mk_context_rc</c> the life time of <c>Z3_ast</c> objects persists with the life time of the context. Note that all other reference counted objects, including <c>Z3_model</c> , <c>Z3_solver</c> , <c>Z3_func_interp</c> have to be managed by the caller. Their reference counts are not handled by the context.
+    /// Thread safety: objects created using a given context should not be accessed from different threads without synchronization. In other words, operations on a context are not thread safe. To use Z3 from different threads create separate context objects. The <c>Z3_translate</c> , <c>Z3_solver_translate</c> , <c>Z3_model_translate</c> , <c>Z3_goal_translate</c> methods are exposed to allow copying state from one context to another. 
+    ///  <c>Z3_sort</c> , <c>Z3_func_decl</c> , <c>Z3_app</c> , <c>Z3_pattern</c> are <c>Z3_ast's</c> .  Z3 uses hash-consing, i.e., when the same <c>Z3_ast</c> is created twice, Z3 will return the same pointer twice.   
     /// </remarks>
     /// <seealso cref="DelContext"/>
     [Z3Function("Z3_mk_context")]
@@ -38,9 +36,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkContextRcDelegate(IntPtr c);
 
     /// <summary>
-    /// Create a context using the given configuration. This function is similar to #Z3_mk_context. However, in the context returned by this function, the user is responsible for managing \c Z3_ast reference counters. Managing reference counters is a burden and error-prone, but allows the user to use the memory more efficiently. The user must invoke #Z3_inc_ref for any \c Z3_ast returned by Z3, and #Z3_dec_ref whenever the \c Z3_ast is not needed anymore. This idiom is similar to the one used in BDD (binary decision diagrams) packages such as CUDD.
+    ///  Create a context using the given configuration. This function is similar to <see cref="Z3_mk_context"/> . However, in the context returned by this function, the user is responsible for managing <c>Z3_ast</c> reference counters. Managing reference counters is a burden and error-prone, but allows the user to use the memory more efficiently. The user must invoke <see cref="Z3_inc_ref"/> for any <c>Z3_ast</c> returned by Z3, and <see cref="Z3_dec_ref"/> whenever the <c>Z3_ast</c> is not needed anymore. This idiom is similar to the one used in BDD (binary decision diagrams) packages such as CUDD. 
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
+    /// <remarks>
+    /// Remarks:  <c>Z3_sort</c> , <c>Z3_func_decl</c> , <c>Z3_app</c> , <c>Z3_pattern</c> are <c>Z3_ast's</c> .  After a context is created, the configuration cannot be changed.  All main interaction with Z3 happens in the context of a <c>Z3_context</c> .  Z3 uses hash-consing, i.e., when the same <c>Z3_ast</c> is created twice, Z3 will return the same pointer twice.  
+    /// </remarks>
     [Z3Function("Z3_mk_context_rc")]
     internal IntPtr MkContextRc(IntPtr c)
     {
@@ -53,7 +54,7 @@ internal sealed partial class NativeZ3Library
     private delegate void DelContextDelegate(IntPtr c);
 
     /// <summary>
-    /// Delete the given logical context.
+    ///  Delete the given logical context. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="MkContext"/>
@@ -69,7 +70,7 @@ internal sealed partial class NativeZ3Library
     private delegate void IncRefDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Increment the reference counter of the given AST. The context \c c should have been created using #Z3_mk_context_rc. This function is a NOOP if \c c was created using #Z3_mk_context.
+    ///  Increment the reference counter of the given AST. The context <c>c</c> should have been created using <see cref="Z3_mk_context_rc"/> . This function is a NOOP if <c>c</c> was created using <see cref="Z3_mk_context"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -85,7 +86,7 @@ internal sealed partial class NativeZ3Library
     private delegate void DecRefDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Decrement the reference counter of the given AST. The context \c c should have been created using #Z3_mk_context_rc. This function is a NOOP if \c c was created using #Z3_mk_context.
+    ///  Decrement the reference counter of the given AST. The context <c>c</c> should have been created using <see cref="Z3_mk_context_rc"/> . This function is a NOOP if <c>c</c> was created using <see cref="Z3_mk_context"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -101,7 +102,7 @@ internal sealed partial class NativeZ3Library
     private delegate void UpdateParamValueDelegate(IntPtr c, IntPtr paramId, IntPtr paramValue);
 
     /// <summary>
-    /// Set a value of a context parameter.
+    ///  Set a value of a context parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="paramId" ctype="Z3_string">string parameter</param>
@@ -119,7 +120,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetGlobalParamDescrsDelegate(IntPtr c);
 
     /// <summary>
-    /// Retrieve description of global parameters.
+    ///  Retrieve description of global parameters. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_get_global_param_descrs")]
@@ -134,7 +135,7 @@ internal sealed partial class NativeZ3Library
     private delegate void InterruptDelegate(IntPtr c);
 
     /// <summary>
-    /// Interrupt the execution of a Z3 procedure. This procedure can be used to interrupt: solvers, simplifiers and tactics.
+    ///  Interrupt the execution of a Z3 procedure. This procedure can be used to interrupt: solvers, simplifiers and tactics. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_interrupt")]
@@ -149,7 +150,7 @@ internal sealed partial class NativeZ3Library
     private delegate void EnableConcurrentDecRefDelegate(IntPtr c);
 
     /// <summary>
-    /// use concurrency control for dec-ref. Reference counting decrements are allowed in separate threads from the context. If this setting is not invoked, reference counting decrements are not going to be thread safe.
+    ///  use concurrency control for dec-ref. Reference counting decrements are allowed in separate threads from the context. If this setting is not invoked, reference counting decrements are not going to be thread safe. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     [Z3Function("Z3_enable_concurrent_dec_ref")]

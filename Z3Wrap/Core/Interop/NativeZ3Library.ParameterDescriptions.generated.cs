@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamDescrsIncRefDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Increment the reference counter of the given parameter description set.
+    ///  Increment the reference counter of the given parameter description set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
@@ -31,7 +31,7 @@ internal sealed partial class NativeZ3Library
     private delegate void ParamDescrsDecRefDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Decrement the reference counter of the given parameter description set.
+    ///  Decrement the reference counter of the given parameter description set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
@@ -47,7 +47,7 @@ internal sealed partial class NativeZ3Library
     private delegate ParamKind ParamDescrsGetKindDelegate(IntPtr c, IntPtr p, IntPtr n);
 
     /// <summary>
-    /// Return the kind associated with the given parameter name \c n.
+    ///  Return the kind associated with the given parameter name <c>n</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
@@ -64,7 +64,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint ParamDescrsSizeDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Return the number of parameters in the given parameter description set.
+    ///  Return the number of parameters in the given parameter description set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
@@ -80,13 +80,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParamDescrsGetNameDelegate(IntPtr c, IntPtr p, uint i);
 
     /// <summary>
-    /// Return the name of the parameter at given index \c i.
+    ///  Return the name of the parameter at given index <c>i</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i < Z3_param_descrs_size(c, p)
+    /// Precondition: i &lt; Z3_param_descrs_size(c, p) 
     /// </remarks>
     [Z3Function("Z3_param_descrs_get_name")]
     internal IntPtr ParamDescrsGetName(IntPtr c, IntPtr p, uint i)
@@ -100,7 +100,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParamDescrsGetDocumentationDelegate(IntPtr c, IntPtr p, IntPtr s);
 
     /// <summary>
-    /// Retrieve documentation string corresponding to parameter name \c s.
+    ///  Retrieve documentation string corresponding to parameter name <c>s</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
@@ -117,7 +117,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParamDescrsToStringDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set.
+    ///  Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>

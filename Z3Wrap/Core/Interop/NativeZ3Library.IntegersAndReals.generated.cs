@@ -15,13 +15,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAddDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Create an AST node representing \ccode{args[0] + ... + args[num_args-1]}.
+    ///  Create an AST node representing <c>args[0] + ... + args[num_args-1]</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The number of arguments must be greater than zero.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have int or real sort.
+    /// The number of arguments must be greater than zero. 
     /// </remarks>
     [Z3Function("Z3_mk_add")]
     internal IntPtr MkAdd(IntPtr c, uint numArgs, IntPtr[] args)
@@ -35,14 +36,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkMulDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Create an AST node representing \ccode{args[0] * ... * args[num_args-1]}.
+    ///  Create an AST node representing <c>args[0] * ... * args[num_args-1]</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// Z3 has limited support for non-linear arithmetic.
-    /// The number of arguments must be greater than zero.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have int or real sort.
+    /// Z3 has limited support for non-linear arithmetic. 
+    /// The number of arguments must be greater than zero. 
     /// </remarks>
     [Z3Function("Z3_mk_mul")]
     internal IntPtr MkMul(IntPtr c, uint numArgs, IntPtr[] args)
@@ -56,13 +58,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSubDelegate(IntPtr c, uint numArgs, IntPtr[] args);
 
     /// <summary>
-    /// Create an AST node representing \ccode{args[0] - ... - args[num_args - 1]}.
+    ///  Create an AST node representing <c>args[0] - ... - args[num_args - 1]</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The number of arguments must be greater than zero.
+    /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have int or real sort.
+    /// The number of arguments must be greater than zero. 
     /// </remarks>
     [Z3Function("Z3_mk_sub")]
     internal IntPtr MkSub(IntPtr c, uint numArgs, IntPtr[] args)
@@ -76,10 +79,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkUnaryMinusDelegate(IntPtr c, IntPtr arg);
 
     /// <summary>
-    /// Create an AST node representing \ccode{- arg}.
+    ///  Create an AST node representing <c>- arg</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The arguments must have int or real type.
+    /// </remarks>
     [Z3Function("Z3_mk_unary_minus")]
     internal IntPtr MkUnaryMinus(IntPtr c, IntPtr arg)
     {
@@ -92,11 +98,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDivDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{arg1 div arg2}.
+    ///  Create an AST node representing <c>arg1 div arg2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The arguments must either both have int type or both have real type. If the arguments have int type, then the result type is an int type, otherwise the the result type is real.
+    /// </remarks>
     [Z3Function("Z3_mk_div")]
     internal IntPtr MkDiv(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
@@ -109,11 +118,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkModDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{arg1 mod arg2}.
+    ///  Create an AST node representing <c>arg1 mod arg2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The arguments must have int type.
+    /// </remarks>
     [Z3Function("Z3_mk_mod")]
     internal IntPtr MkMod(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
@@ -126,11 +138,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkRemDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{arg1 rem arg2}.
+    ///  Create an AST node representing <c>arg1 rem arg2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The arguments must have int type.
+    /// </remarks>
     [Z3Function("Z3_mk_rem")]
     internal IntPtr MkRem(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
@@ -143,11 +158,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPowerDelegate(IntPtr c, IntPtr arg1, IntPtr arg2);
 
     /// <summary>
-    /// Create an AST node representing \ccode{arg1 ^ arg2}.
+    ///  Create an AST node representing <c>arg1 ^ arg2</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The arguments must have int or real type.
+    /// </remarks>
     [Z3Function("Z3_mk_power")]
     internal IntPtr MkPower(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
@@ -160,7 +178,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAbsDelegate(IntPtr c, IntPtr arg);
 
     /// <summary>
-    /// Take the absolute value of an integer
+    ///  Take the absolute value of an integer. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg" ctype="Z3_ast">ast parameter</param>
@@ -176,11 +194,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkLtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create less than.
+    ///  Create less than. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
+    /// </remarks>
     [Z3Function("Z3_mk_lt")]
     internal IntPtr MkLt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -193,11 +214,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkLeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create less than or equal to.
+    ///  Create less than or equal to. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
+    /// </remarks>
     [Z3Function("Z3_mk_le")]
     internal IntPtr MkLe(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -210,11 +234,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkGtDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create greater than.
+    ///  Create greater than. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
+    /// </remarks>
     [Z3Function("Z3_mk_gt")]
     internal IntPtr MkGt(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -227,11 +254,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkGeDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create greater than or equal to.
+    ///  Create greater than or equal to. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must have the same sort, and must be int or real.
+    /// </remarks>
     [Z3Function("Z3_mk_ge")]
     internal IntPtr MkGe(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -244,11 +274,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkDividesDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Create division predicate.
+    ///  Create division predicate. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The nodes <c>t1</c> and <c>t2</c> must be of integer sort. The predicate is true when <c>t1</c> divides <c>t2</c> . For the predicate to be part of linear integer arithmetic, the first argument <c>t1</c> must be a non-zero integer.
+    /// </remarks>
     [Z3Function("Z3_mk_divides")]
     internal IntPtr MkDivides(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -261,10 +294,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkInt2realDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
-    /// Coerce an integer to a real.
+    ///  Coerce an integer to a real. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// There is also a converse operation exposed. It follows the semantics prescribed by the SMT-LIB standard. You can take the floor of a real by creating an auxiliary integer constant <c>k</c> and and asserting <c>mk_int2real(k) <= t1 < mk_int2real(k)+1</c> . The node <c>t1</c> must have sort integer.
+    /// </remarks>
     /// <seealso cref="MkReal2int"/>
     /// <seealso cref="MkIsInt"/>
     [Z3Function("Z3_mk_int2real")]
@@ -279,10 +315,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkReal2intDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
-    /// Coerce a real to an integer.
+    ///  Coerce a real to an integer. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The semantics of this function follows the SMT-LIB standard for the function to_int
+    /// </remarks>
     /// <seealso cref="MkInt2real"/>
     /// <seealso cref="MkIsInt"/>
     [Z3Function("Z3_mk_real2int")]
@@ -297,7 +336,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkIsIntDelegate(IntPtr c, IntPtr t1);
 
     /// <summary>
-    /// Check if a real number is an integer.
+    ///  Check if a real number is an integer. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>

@@ -15,10 +15,10 @@ internal sealed partial class NativeZ3Library
     private delegate uint FpaGetEbitsDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Retrieves the number of bits reserved for the exponent in a FloatingPoint sort.
+    ///  Retrieves the number of bits reserved for the exponent in a FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="s" ctype="Z3_sort">FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> FloatingPoint sort </param>
     /// <seealso cref="FpaGetSbits"/>
     [Z3Function("Z3_fpa_get_ebits")]
     internal uint FpaGetEbits(IntPtr c, IntPtr s)
@@ -32,10 +32,10 @@ internal sealed partial class NativeZ3Library
     private delegate uint FpaGetSbitsDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Retrieves the number of bits reserved for the significand in a FloatingPoint sort.
+    ///  Retrieves the number of bits reserved for the significand in a FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="s" ctype="Z3_sort">FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="s" ctype="Z3_sort"> FloatingPoint sort </param>
     /// <seealso cref="FpaGetEbits"/>
     [Z3Function("Z3_fpa_get_sbits")]
     internal uint FpaGetSbits(IntPtr c, IntPtr s)
@@ -49,10 +49,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralNanDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is a NaN.
+    ///  Checks whether a given floating-point numeral is a NaN. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
     /// <seealso cref="FpaIsNumeralSubnormal"/>
@@ -69,10 +69,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralInfDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is a +oo or -oo.
+    ///  Checks whether a given floating-point numeral is a +oo or -oo. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
     /// <seealso cref="FpaIsNumeralSubnormal"/>
@@ -89,10 +89,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralZeroDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is +zero or -zero.
+    ///  Checks whether a given floating-point numeral is +zero or -zero. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
@@ -109,10 +109,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralNormalDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is normal.
+    ///  Checks whether a given floating-point numeral is normal. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralSubnormal"/>
@@ -129,10 +129,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralSubnormalDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is subnormal.
+    ///  Checks whether a given floating-point numeral is subnormal. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralInf"/>
     /// <seealso cref="FpaIsNumeralNan"/>
     /// <seealso cref="FpaIsNumeralNormal"/>
@@ -149,10 +149,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralPositiveDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is positive.
+    ///  Checks whether a given floating-point numeral is positive. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralNegative"/>
     [Z3Function("Z3_fpa_is_numeral_positive")]
     internal bool FpaIsNumeralPositive(IntPtr c, IntPtr t)
@@ -166,10 +166,10 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaIsNumeralNegativeDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Checks whether a given floating-point numeral is negative.
+    ///  Checks whether a given floating-point numeral is negative. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <seealso cref="FpaIsNumeralPositive"/>
     [Z3Function("Z3_fpa_is_numeral_negative")]
     internal bool FpaIsNumeralNegative(IntPtr c, IntPtr t)
@@ -183,13 +183,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FpaGetNumeralSignBvDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Retrieves the sign of a floating-point literal as a bit-vector expression.
+    ///  Retrieves the sign of a floating-point literal as a bit-vector expression. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <remarks>
     /// Remarks: NaN is an invalid argument.
-    /// def_API('Z3_fpa_get_numeral_sign_bv', AST, (_in(CONTEXT), _in(AST)))
     /// </remarks>
     [Z3Function("Z3_fpa_get_numeral_sign_bv")]
     internal IntPtr FpaGetNumeralSignBv(IntPtr c, IntPtr t)
@@ -203,13 +202,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FpaGetNumeralSignificandBvDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Retrieves the significand of a floating-point literal as a bit-vector expression.
+    ///  Retrieves the significand of a floating-point literal as a bit-vector expression. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
     /// <remarks>
     /// Remarks: NaN is an invalid argument.
-    /// def_API('Z3_fpa_get_numeral_significand_bv', AST, (_in(CONTEXT), _in(AST)))
     /// </remarks>
     [Z3Function("Z3_fpa_get_numeral_significand_bv")]
     internal IntPtr FpaGetNumeralSignificandBv(IntPtr c, IntPtr t)
@@ -223,16 +221,12 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaGetNumeralSignDelegate(IntPtr c, IntPtr t, IntPtr sgn);
 
     /// <summary>
-    /// Retrieves the sign of a floating-point literal.
+    ///  Retrieves the sign of a floating-point literal. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
-    /// <param name="sgn" ctype="int *">the retrieved sign</param>
-    /// <returns>true if \c t corresponds to a floating point numeral, otherwise invokes exception handler or returns false</returns>
-    /// <remarks>
-    /// Remarks: sets \c sgn to 0 if `t' is positive and to 1 otherwise, except for NaN, which is an invalid argument.
-    /// def_API('Z3_fpa_get_numeral_sign', BOOL, (_in(CONTEXT), _in(AST), _out(INT)))
-    /// </remarks>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="sgn" ctype="int *"> the retrieved sign </param>
+    /// <returns>true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     [Z3Function("Z3_fpa_get_numeral_sign")]
     internal bool FpaGetNumeralSign(IntPtr c, IntPtr t, IntPtr sgn)
     {
@@ -245,15 +239,11 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FpaGetNumeralSignificandStringDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the significand value of a floating-point numeral as a string.
+    ///  Return the significand value of a floating-point numeral as a string. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
-    /// <returns>true if \c t corresponds to a floating point numeral, otherwise invokes exception handler or returns false</returns>
-    /// <remarks>
-    /// Remarks: The significand \c s is always \ccode{0.0 <= s < 2.0}; the resulting string is long enough to represent the real significand precisely.
-    /// def_API('Z3_fpa_get_numeral_significand_string', STRING, (_in(CONTEXT), _in(AST)))
-    /// </remarks>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <returns>true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     [Z3Function("Z3_fpa_get_numeral_significand_string")]
     internal IntPtr FpaGetNumeralSignificandString(IntPtr c, IntPtr t)
     {
@@ -266,14 +256,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaGetNumeralSignificandUint64Delegate(IntPtr c, IntPtr t, IntPtr n);
 
     /// <summary>
-    /// Return the significand value of a floating-point numeral as a uint64.
+    ///  Return the significand value of a floating-point numeral as a uint64. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
-    /// <param name="n" ctype="uint64_t *">pointer to output uint64</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="n" ctype="uint64_t *"> pointer to output uint64 </param>
     /// <remarks>
-    /// Remarks: This function extracts the significand bits in `t`, without the hidden bit or normalization. Sets the \c Z3_INVALID_ARG error code if the significand does not fit into a \c uint64. NaN is an invalid argument.
-    /// def_API('Z3_fpa_get_numeral_significand_uint64', BOOL, (_in(CONTEXT), _in(AST), _out(UINT64)))
+    /// Remarks: This function extracts the significand bits in <c>t</c> , without the hidden bit or normalization. Sets the <c>Z3_INVALID_ARG</c> error code if the significand does not fit into a <c>uint64</c> . NaN is an invalid argument.
     /// </remarks>
     [Z3Function("Z3_fpa_get_numeral_significand_uint64")]
     internal bool FpaGetNumeralSignificandUint64(IntPtr c, IntPtr t, IntPtr n)
@@ -286,16 +275,22 @@ internal sealed partial class NativeZ3Library
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr FpaGetNumeralExponentStringDelegate(IntPtr c, IntPtr t, bool biased);
 
-    /// <summary>
-    /// Return the exponent value of a floating-point numeral as a string.
-    /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
-    /// <param name="biased" ctype="bool">flag to indicate whether the result is in biased representation</param>
-    /// <returns>true if \c t corresponds to a floating point numeral, otherwise invokes exception handler or returns false</returns>
+    /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <param name="t" ctype="Z3_ast">ast parameter</param>
+    /// <param name="biased" ctype="bool">bool parameter</param>
     /// <remarks>
-    /// Remarks: This function extracts the exponent in `t`, without normalization. NaN is an invalid argument.
-    /// def_API('Z3_fpa_get_numeral_exponent_string', STRING, (_in(CONTEXT), _in(AST), _in(BOOL)))
+    /// <code>
+    /// \brief Return the exponent value of a floating-point numeral as a string.
+    ///
+    /// \param c logical context
+    /// \param t a floating-point numeral
+    /// \param biased flag to indicate whether the result is in biased representation
+    /// \returns true if \c t corresponds to a floating point numeral, otherwise invokes exception handler or returns false
+    ///
+    /// Remarks: This function extracts the exponent in `t`, without normalization.
+    /// NaN is an invalid argument.
+    ///
+    /// </code>
     /// </remarks>
     [Z3Function("Z3_fpa_get_numeral_exponent_string")]
     internal IntPtr FpaGetNumeralExponentString(IntPtr c, IntPtr t, bool biased)
@@ -309,17 +304,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool FpaGetNumeralExponentInt64Delegate(IntPtr c, IntPtr t, IntPtr n, bool biased);
 
     /// <summary>
-    /// Return the exponent value of a floating-point numeral as a signed 64-bit integer
+    ///  Return the exponent value of a floating-point numeral as a signed 64-bit integer. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
-    /// <param name="n" ctype="int64_t *">exponent</param>
-    /// <param name="biased" ctype="bool">flag to indicate whether the result is in biased representation</param>
-    /// <returns>true if \c t corresponds to a floating point numeral, otherwise invokes exception handler or returns false</returns>
-    /// <remarks>
-    /// Remarks: This function extracts the exponent in `t`, without normalization. NaN is an invalid argument.
-    /// def_API('Z3_fpa_get_numeral_exponent_int64', BOOL, (_in(CONTEXT), _in(AST), _out(INT64), _in(BOOL)))
-    /// </remarks>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="n" ctype="int64_t *"> exponent </param>
+    /// <param name="biased" ctype="bool"> flag to indicate whether the result is in biased representation </param>
+    /// <returns>true if <c>t</c> corresponds to a floating point numeral, otherwise invokes exception handler or returns false </returns>
     [Z3Function("Z3_fpa_get_numeral_exponent_int64")]
     internal bool FpaGetNumeralExponentInt64(IntPtr c, IntPtr t, IntPtr n, bool biased)
     {
@@ -332,14 +323,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FpaGetNumeralExponentBvDelegate(IntPtr c, IntPtr t, bool biased);
 
     /// <summary>
-    /// Retrieves the exponent of a floating-point literal as a bit-vector expression.
+    ///  Retrieves the exponent of a floating-point literal as a bit-vector expression. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">a floating-point numeral</param>
-    /// <param name="biased" ctype="bool">flag to indicate whether the result is in biased representation</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> a floating-point numeral </param>
+    /// <param name="biased" ctype="bool"> flag to indicate whether the result is in biased representation </param>
     /// <remarks>
-    /// Remarks: This function extracts the exponent in `t`, without normalization. NaN is an invalid arguments.
-    /// def_API('Z3_fpa_get_numeral_exponent_bv', AST, (_in(CONTEXT), _in(AST), _in(BOOL)))
+    /// Remarks: This function extracts the exponent in <c>t</c> , without normalization. NaN is an invalid arguments.
     /// </remarks>
     [Z3Function("Z3_fpa_get_numeral_exponent_bv")]
     internal IntPtr FpaGetNumeralExponentBv(IntPtr c, IntPtr t, bool biased)
@@ -353,14 +343,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToIeeeBvDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Conversion of a floating-point term into a bit-vector term in IEEE 754-2008 format.
+    ///  Conversion of a floating-point term into a bit-vector term in IEEE 754-2008 format. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="t" ctype="Z3_ast">term of FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <remarks>
-    /// \c t must have FloatingPoint sort. The size of the resulting bit-vector is automatically determined.
-    /// Note that IEEE 754-2008 allows multiple different representations of NaN. This conversion knows only one NaN and it will always produce the same bit-vector representation of that NaN.
-    /// def_API('Z3_mk_fpa_to_ieee_bv', AST, (_in(CONTEXT),_in(AST)))
+    /// <c>t</c> must have FloatingPoint sort. The size of the resulting bit-vector is automatically determined. Note that IEEE 754-2008 allows multiple different representations of NaN. This conversion knows only one NaN and it will always produce the same bit-vector representation of that NaN.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_ieee_bv")]
     internal IntPtr MkFpaToIeeeBv(IntPtr c, IntPtr t)
@@ -374,16 +362,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkFpaToFpIntRealDelegate(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s);
 
     /// <summary>
-    /// Conversion of a real-sorted significand and an integer-sorted exponent into a term of FloatingPoint sort.
+    ///  Conversion of a real-sorted significand and an integer-sorted exponent into a term of FloatingPoint sort. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context</param>
-    /// <param name="rm" ctype="Z3_ast">term of RoundingMode sort</param>
-    /// <param name="exp" ctype="Z3_ast">exponent term of Int sort</param>
-    /// <param name="sig" ctype="Z3_ast">significand term of Real sort</param>
-    /// <param name="s" ctype="Z3_sort">FloatingPoint sort</param>
+    /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
+    /// <param name="exp" ctype="Z3_ast"> exponent term of Int sort </param>
+    /// <param name="sig" ctype="Z3_ast"> significand term of Real sort </param>
+    /// <param name="s" ctype="Z3_sort"> FloatingPoint sort </param>
     /// <remarks>
-    /// \c s must be a FloatingPoint sort, \c rm must be of RoundingMode sort, \c exp must be of int sort, \c sig must be of real sort.
-    /// def_API('Z3_mk_fpa_to_fp_int_real', AST, (_in(CONTEXT),_in(AST),_in(AST),_in(AST),_in(SORT)))
+    /// Produces a term that represents the conversion of <c>sig * 2^exp</c> into a floating-point term of sort <c>s</c> . If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>exp</c> must be of int sort, <c>sig</c> must be of real sort.
     /// </remarks>
     [Z3Function("Z3_mk_fpa_to_fp_int_real")]
     internal IntPtr MkFpaToFpIntReal(IntPtr c, IntPtr rm, IntPtr exp, IntPtr sig, IntPtr s)

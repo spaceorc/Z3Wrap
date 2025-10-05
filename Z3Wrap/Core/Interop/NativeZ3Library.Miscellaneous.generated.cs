@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate void GetVersionDelegate(IntPtr major, IntPtr minor, IntPtr buildNumber, IntPtr revisionNumber);
 
     /// <summary>
-    /// Return Z3 version number information.
+    ///  Return Z3 version number information. 
     /// </summary>
     /// <param name="major" ctype="unsigned *">unsigned parameter</param>
     /// <param name="minor" ctype="unsigned *">unsigned parameter</param>
@@ -34,7 +34,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetFullVersionDelegate();
 
     /// <summary>
-    /// Return a string that fully describes the version of Z3 in use.
+    ///  Return a string that fully describes the version of Z3 in use. 
     /// </summary>
     /// <seealso cref="GetVersion"/>
     [Z3Function("Z3_get_full_version")]
@@ -49,7 +49,7 @@ internal sealed partial class NativeZ3Library
     private delegate void EnableTraceDelegate(IntPtr tag);
 
     /// <summary>
-    /// Enable tracing messages tagged as \c tag when Z3 is compiled in debug mode. It is a NOOP otherwise
+    ///  Enable tracing messages tagged as <c>tag</c> when Z3 is compiled in debug mode. It is a NOOP otherwise. 
     /// </summary>
     /// <param name="tag" ctype="Z3_string">string parameter</param>
     /// <seealso cref="DisableTrace"/>
@@ -65,7 +65,7 @@ internal sealed partial class NativeZ3Library
     private delegate void DisableTraceDelegate(IntPtr tag);
 
     /// <summary>
-    /// Disable tracing messages tagged as \c tag when Z3 is compiled in debug mode. It is a NOOP otherwise
+    ///  Disable tracing messages tagged as <c>tag</c> when Z3 is compiled in debug mode. It is a NOOP otherwise. 
     /// </summary>
     /// <param name="tag" ctype="Z3_string">string parameter</param>
     /// <seealso cref="EnableTrace"/>
@@ -81,8 +81,11 @@ internal sealed partial class NativeZ3Library
     private delegate void ResetMemoryDelegate();
 
     /// <summary>
-    /// Reset all allocated resources.
+    ///  Reset all allocated resources. 
     /// </summary>
+    /// <remarks>
+    /// Use this facility on out-of memory errors. It allows discharging the previous state and resuming afresh. Any pointers previously returned by the API become invalid.
+    /// </remarks>
     [Z3Function("Z3_reset_memory")]
     internal void ResetMemory()
     {
@@ -95,8 +98,11 @@ internal sealed partial class NativeZ3Library
     private delegate void FinalizeMemoryDelegate();
 
     /// <summary>
-    /// Destroy all allocated resources.
+    ///  Destroy all allocated resources. 
     /// </summary>
+    /// <remarks>
+    /// Any pointers previously returned by the API become invalid. Can be used for memory leak detection.
+    /// </remarks>
     [Z3Function("Z3_finalize_memory")]
     internal void FinalizeMemory()
     {

@@ -13,9 +13,17 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
 
-# Import the Doxygen parser
-from doxygen_parser import DoxygenParser
-from doxygen_to_xml import XmlGenerator
+# Import the Doxygen integration module
+from doxygen_integration import (
+    parse_function_doc,
+    parse_enum_doc,
+    generate_function_xml_doc,
+    generate_enum_xml_doc,
+    generate_enum_value_xml_doc,
+    run_doxygen,
+    validate_doxygen_xml,
+    ParamDoc
+)
 
 
 @dataclass
@@ -542,132 +550,34 @@ def map_c_type_to_csharp(c_type: str) -> str:
     raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map in map_c_type_to_csharp().")
 
 
-def extract_function_documentation(header_path: Path, func_name: str) -> dict:
+def extract_function_documentation(xml_path: Path, func_name: str) -> dict:
     """
-    Extract all documentation tags for a function from the header file using Doxygen parser.
+    Extract all documentation tags for a function from Doxygen XML.
     Returns dict with keys: brief, param_docs, returns_doc, preconditions, warnings, remarks, see_also, body.
     """
-    with open(header_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+    func_doc = parse_function_doc(xml_path, func_name)
 
-    # Find the function declaration
-    pattern = rf'Z3_API\s+{re.escape(func_name)}\s*\('
-    match = re.search(pattern, content)
-
-    if not match:
+    if not func_doc:
         return {}
 
-    # Find the comment block before the function (/** ... */)
-    before_func = content[:match.start()]
-
-    # Find the last /** ... */ comment block before the function
-    comment_pattern = r'/\*\*\s*(.*?)\s*\*/'
-    comments = list(re.finditer(comment_pattern, before_func, re.DOTALL))
-
-    if not comments:
-        return {}
-
-    last_comment = comments[-1]
-    comment_text = last_comment.group(1)
-
-    # Parse using the Doxygen parser
-    parser = DoxygenParser()
-    doc_tree = parser.parse(comment_text)
-
-    # Convert tree back to the format expected by the generator
-    # We need to convert nodes to text strings for now
-    xml_gen = XmlGenerator()
-
+    # Convert FunctionDoc to the dict format expected by the generator
     result = {
-        'brief': '',
-        'param_docs': {},
-        'returns_doc': '',
-        'preconditions': [],
-        'warnings': [],
-        'remarks': [],
-        'see_also': [],
-        'body': []  # Body paragraphs (after params)
+        'brief': func_doc.brief,
+        'param_docs': {p.name: p.description for p in func_doc.params},
+        'returns_doc': func_doc.returns,
+        'preconditions': func_doc.preconditions,
+        'warnings': func_doc.warnings,
+        'remarks': func_doc.remarks,
+        'see_also': func_doc.see_also,
+        'body': func_doc.body
     }
-
-    # Brief - convert nodes to simple text
-    if doc_tree.brief:
-        result['brief'] = _nodes_to_text(doc_tree.brief)
-
-    # Parameters - convert each param's content to text
-    for param_name, param_doc in doc_tree.params.items():
-        result['param_docs'][param_name] = _nodes_to_text(param_doc.content)
-
-    # Returns
-    if doc_tree.returns:
-        result['returns_doc'] = _nodes_to_text(doc_tree.returns)
-
-    # Body (paragraphs after params)
-    if doc_tree.body:
-        result['body'] = _nodes_to_text(doc_tree.body)
-
-    # Preconditions - each is a list of nodes
-    for pre_nodes in doc_tree.preconditions:
-        if pre_nodes:
-            result['preconditions'].append(_nodes_to_text(pre_nodes))
-
-    # Warnings
-    for warn_nodes in doc_tree.warnings:
-        if warn_nodes:
-            result['warnings'].append(_nodes_to_text(warn_nodes))
-
-    # Remarks
-    for remark_nodes in doc_tree.remarks:
-        if remark_nodes:
-            result['remarks'].append(_nodes_to_text(remark_nodes))
-
-    # See also
-    result['see_also'] = doc_tree.see_also.copy()
 
     return result
 
 
-def _nodes_to_text(nodes) -> str:
+def parse_function_signature(header_path: Path, func_name: str, xml_path: Path) -> FunctionSignature:
     """
-    Convert parsed documentation nodes to plain text.
-    This is a temporary solution - eventually we'll generate XML directly from nodes.
-    """
-    from doxygen_parser import ParagraphNode, BulletListNode, TextNode
-
-    if not nodes:
-        return ''
-
-    parts = []
-    for node in nodes:
-        if isinstance(node, ParagraphNode):
-            # Extract text from paragraph
-            text_parts = []
-            for content_node in node.content:
-                if isinstance(content_node, TextNode):
-                    text_parts.append(content_node.text)
-                else:
-                    # TODO: Handle InlineCodeNode, ReferenceNode properly
-                    text_parts.append(str(content_node))
-            parts.append(' '.join(text_parts))
-        elif isinstance(node, BulletListNode):
-            # Convert bullet list to text (simplified)
-            for item in node.items:
-                item_text = []
-                for content_node in item.content:
-                    if isinstance(content_node, TextNode):
-                        item_text.append(content_node.text)
-                parts.append('- ' + ' '.join(item_text))
-        elif isinstance(node, TextNode):
-            parts.append(node.text)
-        else:
-            # Other node types - convert to string
-            parts.append(str(node))
-
-    return '\n'.join(parts) if parts else ''
-
-
-def parse_function_signature(header_path: Path, func_name: str) -> FunctionSignature:
-    """
-    Parse a function signature from the header file.
+    Parse a function signature from the header file and extract documentation from Doxygen XML.
     Looks for patterns like: return_type Z3_API function_name(params)
     """
     with open(header_path, 'r', encoding='utf-8') as f:
@@ -729,8 +639,8 @@ def parse_function_signature(header_path: Path, func_name: str) -> FunctionSigna
 
             parameters.append((param_type, param_name))
 
-    # Extract documentation
-    docs = extract_function_documentation(header_path, func_name)
+    # Extract documentation from Doxygen XML
+    docs = extract_function_documentation(xml_path, func_name)
 
     # Apply parameter name fixes if configured
     param_docs = docs.get('param_docs', {})
@@ -962,10 +872,15 @@ def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
     return sorted(enums, key=lambda e: e.name)
 
 
-def analyze_headers(headers_dir: Path, verbose: bool = False) -> List[HeaderGroup]:
+def analyze_headers(headers_dir: Path, xml_path: Path, verbose: bool = False) -> List[HeaderGroup]:
     """
     Analyze all header files in the c_headers directory.
     Returns list of HeaderGroup objects with functions extracted.
+
+    Args:
+        headers_dir: Directory containing Z3 header files
+        xml_path: Path to Doxygen XML file (group__capi.xml)
+        verbose: Show detailed progress
     """
     import sys
 
@@ -1016,7 +931,7 @@ def analyze_headers(headers_dir: Path, verbose: bool = False) -> List[HeaderGrou
                     sys.stdout.flush()
 
                 try:
-                    sig = parse_function_signature(header_path, func_name)
+                    sig = parse_function_signature(header_path, func_name, xml_path)
                     signatures.append(sig)
                 except Exception as e:
                     print(f"\nERROR parsing {func_name} in {header_path.name}: {e}")
@@ -1411,6 +1326,20 @@ def main():
         print(f"Output directory: {output_dir}")
         print()
 
+        # Generate or validate Doxygen XML documentation
+        doxygen_output_dir = headers_cache_dir.parent / "doxygen"
+        doxygen_xml_dir = doxygen_output_dir / "xml"
+
+        # Check if Doxygen XML already exists
+        try:
+            xml_path = validate_doxygen_xml(doxygen_xml_dir)
+            print(f"✓ Using existing Doxygen XML: {xml_path}")
+        except FileNotFoundError:
+            # Need to run Doxygen
+            doxygen_xml_dir = run_doxygen(headers_dir, doxygen_output_dir)
+            xml_path = validate_doxygen_xml(doxygen_xml_dir)
+        print()
+
         # Clean up old generated files (unless enums-only mode)
         if not args.enums_only:
             print("Cleaning up old generated files...")
@@ -1440,7 +1369,7 @@ def main():
 
         # Analyze headers
         print("Analyzing header files...")
-        groups = analyze_headers(headers_dir, verbose=args.verbose)
+        groups = analyze_headers(headers_dir, xml_path, verbose=args.verbose)
         if not args.verbose:
             print(f"✓ Analyzed {len(groups)} groups across {len(set(g.header_file for g in groups))} header files")
         else:

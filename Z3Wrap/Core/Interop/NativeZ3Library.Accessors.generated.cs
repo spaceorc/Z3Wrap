@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate SymbolKind GetSymbolKindDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return \c Z3_INT_SYMBOL if the symbol was constructed using #Z3_mk_int_symbol, and \c Z3_STRING_SYMBOL if the symbol was constructed using #Z3_mk_string_symbol.
+    ///  Return <c>Z3_INT_SYMBOL</c> if the symbol was constructed using <see cref="Z3_mk_int_symbol"/> , and <c>Z3_STRING_SYMBOL</c> if the symbol was constructed using <see cref="Z3_mk_string_symbol"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
@@ -31,12 +31,12 @@ internal sealed partial class NativeZ3Library
     private delegate int GetSymbolIntDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return the symbol int value.
+    ///  Return the symbol int value. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_symbol_kind(s) == Z3_INT_SYMBOL
+    /// Precondition: Z3_get_symbol_kind(s) == Z3_INT_SYMBOL 
     /// </remarks>
     /// <seealso cref="MkIntSymbol"/>
     [Z3Function("Z3_get_symbol_int")]
@@ -51,13 +51,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetSymbolStringDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return the symbol name.
+    ///  Return the symbol name. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_symbol_kind(s) == Z3_STRING_SYMBOL
-    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when #Z3_del_context is invoked. So, the buffer is invalidated in the next call to \c Z3_get_symbol_string.
+    /// Precondition: Z3_get_symbol_kind(s) == Z3_STRING_SYMBOL 
+    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="Z3_del_context"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_get_symbol_string</c> . 
     /// </remarks>
     /// <seealso cref="MkStringSymbol"/>
     [Z3Function("Z3_get_symbol_string")]
@@ -72,7 +72,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetSortNameDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return the sort name as a symbol.
+    ///  Return the sort name as a symbol. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_sort">sort parameter</param>
@@ -88,7 +88,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetSortIdDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return a unique identifier for \c s.
+    ///  Return a unique identifier for <c>s</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
@@ -104,7 +104,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SortToAstDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Convert a \c Z3_sort into \c Z3_ast. This is just type casting.
+    ///  Convert a <c>Z3_sort</c> into <c>Z3_ast</c> . This is just type casting. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
@@ -120,7 +120,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsEqSortDelegate(IntPtr c, IntPtr s1, IntPtr s2);
 
     /// <summary>
-    /// compare sorts.
+    ///  compare sorts. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s1" ctype="Z3_sort">sort parameter</param>
@@ -137,7 +137,7 @@ internal sealed partial class NativeZ3Library
     private delegate SortKind GetSortKindDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the sort kind (e.g., array, tuple, int, bool, etc).
+    ///  Return the sort kind (e.g., array, tuple, int, bool, etc). 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
@@ -154,12 +154,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetBvSortSizeDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the size of the given bit-vector sort.
+    ///  Return the size of the given bit-vector sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, t) == Z3_BV_SORT
+    /// Precondition: Z3_get_sort_kind(c, t) == Z3_BV_SORT 
     /// </remarks>
     /// <seealso cref="MkBvSort"/>
     /// <seealso cref="GetSortKind"/>
@@ -175,7 +175,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetFiniteDomainSortSizeDelegate(IntPtr c, IntPtr s, IntPtr r);
 
     /// <summary>
-    /// Store the size of the sort in \c r. Return \c false if the call failed. That is, Z3_get_sort_kind(s) == Z3_FINITE_DOMAIN_SORT
+    ///  Store the size of the sort in <c>r</c> . Return <c>false</c> if the call failed. That is, Z3_get_sort_kind(s) == Z3_FINITE_DOMAIN_SORT. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
@@ -192,12 +192,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetArrayArityDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return the arity (number of dimensions) of the given array sort.
+    ///  Return the arity (number of dimensions) of the given array sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(s) == Z3_ARRAY_SORT
+    /// Precondition: Z3_get_sort_kind(s) == Z3_ARRAY_SORT 
     /// </remarks>
     /// <seealso cref="GetArraySortDomainN"/>
     [Z3Function("Z3_get_array_arity")]
@@ -212,12 +212,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetArraySortDomainDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the sort of the first dimension.
+    ///  Return the domain of the given array sort. In the case of a multi-dimensional array, this function returns the sort of the first dimension. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
+    /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT 
     /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="GetSortKind"/>
@@ -234,13 +234,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetArraySortDomainNDelegate(IntPtr c, IntPtr t, uint idx);
 
     /// <summary>
-    /// Return the i'th domain sort of an n-dimensional array.
+    ///  Return the i'th domain sort of an n-dimensional array. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
+    /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT 
     /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="GetSortKind"/>
@@ -257,12 +257,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetArraySortRangeDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the range of the given array sort.
+    ///  Return the range of the given array sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT
+    /// Precondition: Z3_get_sort_kind(c, t) == Z3_ARRAY_SORT 
     /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="GetSortKind"/>
@@ -278,12 +278,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetTupleSortMkDeclDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the constructor declaration of the given tuple sort.
+    ///  Return the constructor declaration of the given tuple sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, t) == Z3_DATATYPE_SORT
+    /// Precondition: Z3_get_sort_kind(c, t) == Z3_DATATYPE_SORT 
     /// </remarks>
     /// <seealso cref="MkTupleSort"/>
     /// <seealso cref="GetSortKind"/>
@@ -299,12 +299,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetTupleSortNumFieldsDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return the number of fields of the given tuple sort.
+    ///  Return the number of fields of the given tuple sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, t) == Z3_DATATYPE_SORT
+    /// Precondition: Z3_get_sort_kind(c, t) == Z3_DATATYPE_SORT 
     /// </remarks>
     /// <seealso cref="MkTupleSort"/>
     /// <seealso cref="GetSortKind"/>
@@ -320,14 +320,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetTupleSortFieldDeclDelegate(IntPtr c, IntPtr t, uint i);
 
     /// <summary>
-    /// Return the i-th field declaration (i.e., projection function declaration) of the given tuple sort.
+    ///  Return the i-th field declaration (i.e., projection function declaration) of the given tuple sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
-    /// Precondition: i < Z3_get_tuple_sort_num_fields(c, t)
+    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT 
+    /// Precondition: i &lt; Z3_get_tuple_sort_num_fields(c, t) 
     /// </remarks>
     /// <seealso cref="MkTupleSort"/>
     /// <seealso cref="GetSortKind"/>
@@ -343,7 +343,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsRecursiveDatatypeSortDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Check if \c s is a recursive datatype sort.
+    ///  Check if <c>s</c> is a recursive datatype sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
@@ -359,12 +359,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetDatatypeSortNumConstructorsDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return number of constructors for datatype.
+    ///  Return number of constructors for datatype. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
+    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT 
     /// </remarks>
     /// <seealso cref="GetDatatypeSortConstructor"/>
     /// <seealso cref="GetDatatypeSortRecognizer"/>
@@ -381,14 +381,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDatatypeSortConstructorDelegate(IntPtr c, IntPtr t, uint idx);
 
     /// <summary>
-    /// Return idx'th constructor.
+    ///  Return idx'th constructor. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
-    /// Precondition: idx < Z3_get_datatype_sort_num_constructors(c, t)
+    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT 
+    /// Precondition: idx &lt; Z3_get_datatype_sort_num_constructors(c, t) 
     /// </remarks>
     /// <seealso cref="GetDatatypeSortNumConstructors"/>
     /// <seealso cref="GetDatatypeSortRecognizer"/>
@@ -405,14 +405,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDatatypeSortRecognizerDelegate(IntPtr c, IntPtr t, uint idx);
 
     /// <summary>
-    /// Return idx'th recognizer.
+    ///  Return idx'th recognizer. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
-    /// Precondition: idx < Z3_get_datatype_sort_num_constructors(c, t)
+    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT 
+    /// Precondition: idx &lt; Z3_get_datatype_sort_num_constructors(c, t) 
     /// </remarks>
     /// <seealso cref="GetDatatypeSortNumConstructors"/>
     /// <seealso cref="GetDatatypeSortConstructor"/>
@@ -429,16 +429,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDatatypeSortConstructorAccessorDelegate(IntPtr c, IntPtr t, uint idxC, uint idxA);
 
     /// <summary>
-    /// Return idx_a'th accessor for the idx_c'th constructor.
+    ///  Return idx_a'th accessor for the idx_c'th constructor. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_sort">sort parameter</param>
     /// <param name="idxC" ctype="unsigned">unsigned parameter</param>
     /// <param name="idxA" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT
-    /// Precondition: idx_c < Z3_get_datatype_sort_num_constructors(c, t)
-    /// Precondition: idx_a < Z3_get_domain_size(c, Z3_get_datatype_sort_constructor(c, idx_c))
+    /// Precondition: Z3_get_sort_kind(t) == Z3_DATATYPE_SORT 
+    /// Precondition: idx_c &lt; Z3_get_datatype_sort_num_constructors(c, t) 
+    /// Precondition: idx_a &lt; Z3_get_domain_size(c, Z3_get_datatype_sort_constructor(c, idx_c)) 
     /// </remarks>
     /// <seealso cref="GetDatatypeSortNumConstructors"/>
     /// <seealso cref="GetDatatypeSortConstructor"/>
@@ -455,16 +455,17 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr DatatypeUpdateFieldDelegate(IntPtr c, IntPtr fieldAccess, IntPtr t, IntPtr value);
 
     /// <summary>
-    /// Update record field with a value.
+    ///  Update record field with a value. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="fieldAccess" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="t" ctype="Z3_ast">ast parameter</param>
     /// <param name="value" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(Z3_get_sort(c, t)) == Z3_get_domain(c, field_access, 1) == Z3_DATATYPE_SORT
-    /// Precondition: Z3_get_sort(c, value) == Z3_get_range(c, field_access)
+    /// Precondition: Z3_get_sort_kind(Z3_get_sort(c, t)) == Z3_get_domain(c, field_access, 1) == Z3_DATATYPE_SORT 
+    /// Precondition: Z3_get_sort(c, value) == Z3_get_range(c, field_access) 
     /// </remarks>
+    /// <seealso cref="MkStore"/>
     [Z3Function("Z3_datatype_update_field")]
     internal IntPtr DatatypeUpdateField(IntPtr c, IntPtr fieldAccess, IntPtr t, IntPtr value)
     {
@@ -477,12 +478,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetRelationArityDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    /// Return arity of relation.
+    ///  Return arity of relation. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(s) == Z3_RELATION_SORT
+    /// Precondition: Z3_get_sort_kind(s) == Z3_RELATION_SORT 
     /// </remarks>
     /// <seealso cref="GetRelationColumn"/>
     [Z3Function("Z3_get_relation_arity")]
@@ -497,14 +498,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetRelationColumnDelegate(IntPtr c, IntPtr s, uint col);
 
     /// <summary>
-    /// Return sort at i'th column of relation sort.
+    ///  Return sort at i'th column of relation sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
     /// <param name="col" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_sort_kind(c, s) == Z3_RELATION_SORT
-    /// Precondition: col < Z3_get_relation_arity(c, s)
+    /// Precondition: Z3_get_sort_kind(c, s) == Z3_RELATION_SORT 
+    /// Precondition: col &lt; Z3_get_relation_arity(c, s) 
     /// </remarks>
     /// <seealso cref="GetRelationArity"/>
     [Z3Function("Z3_get_relation_column")]
@@ -519,12 +520,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAtmostDelegate(IntPtr c, uint numArgs, IntPtr[] args, uint k);
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <param name="k" ctype="unsigned">unsigned parameter</param>
+    /// <remarks>
+    /// Encode p1 + p2 + ... + pn &lt;= k
+    /// </remarks>
     [Z3Function("Z3_mk_atmost")]
     internal IntPtr MkAtmost(IntPtr c, uint numArgs, IntPtr[] args, uint k)
     {
@@ -537,12 +541,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkAtleastDelegate(IntPtr c, uint numArgs, IntPtr[] args, uint k);
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <param name="k" ctype="unsigned">unsigned parameter</param>
+    /// <remarks>
+    /// Encode p1 + p2 + ... + pn &gt;= k
+    /// </remarks>
     [Z3Function("Z3_mk_atleast")]
     internal IntPtr MkAtleast(IntPtr c, uint numArgs, IntPtr[] args, uint k)
     {
@@ -555,13 +562,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPbleDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <param name="coeffs" ctype="int const[]">int parameter</param>
     /// <param name="k" ctype="int">int parameter</param>
+    /// <remarks>
+    /// Encode k1*p1 + k2*p2 + ... + kn*pn &lt;= k
+    /// </remarks>
     [Z3Function("Z3_mk_pble")]
     internal IntPtr MkPble(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
     {
@@ -574,13 +584,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPbgeDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <param name="coeffs" ctype="int const[]">int parameter</param>
     /// <param name="k" ctype="int">int parameter</param>
+    /// <remarks>
+    /// Encode k1*p1 + k2*p2 + ... + kn*pn &gt;= k
+    /// </remarks>
     [Z3Function("Z3_mk_pbge")]
     internal IntPtr MkPbge(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
     {
@@ -593,13 +606,16 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkPbeqDelegate(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k);
 
     /// <summary>
-    /// Pseudo-Boolean relations.
+    ///  Pseudo-Boolean relations. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <param name="coeffs" ctype="int const[]">int parameter</param>
     /// <param name="k" ctype="int">int parameter</param>
+    /// <remarks>
+    /// Encode k1*p1 + k2*p2 + ... + kn*pn = k
+    /// </remarks>
     [Z3Function("Z3_mk_pbeq")]
     internal IntPtr MkPbeq(IntPtr c, uint numArgs, IntPtr[] args, int[] coeffs, int k)
     {
@@ -612,7 +628,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr FuncDeclToAstDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Convert a \c Z3_func_decl into \c Z3_ast. This is just type casting.
+    ///  Convert a <c>Z3_func_decl</c> into <c>Z3_ast</c> . This is just type casting. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
@@ -628,7 +644,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsEqFuncDeclDelegate(IntPtr c, IntPtr f1, IntPtr f2);
 
     /// <summary>
-    /// Compare terms.
+    ///  Compare terms. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f1" ctype="Z3_func_decl">func_decl parameter</param>
@@ -645,7 +661,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetFuncDeclIdDelegate(IntPtr c, IntPtr f);
 
     /// <summary>
-    /// Return a unique identifier for \c f.
+    ///  Return a unique identifier for <c>f</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
@@ -661,7 +677,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDeclNameDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return the constant declaration name as a symbol.
+    ///  Return the constant declaration name as a symbol. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
@@ -677,7 +693,7 @@ internal sealed partial class NativeZ3Library
     private delegate DeclKind GetDeclKindDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return declaration kind corresponding to declaration.
+    ///  Return declaration kind corresponding to declaration. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
@@ -693,7 +709,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetDomainSizeDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return the number of parameters of the given declaration.
+    ///  Return the number of parameters of the given declaration. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
@@ -710,7 +726,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetArityDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Alias for \c Z3_get_domain_size.
+    ///  Alias for <c>Z3_get_domain_size</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
@@ -727,13 +743,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDomainDelegate(IntPtr c, IntPtr d, uint i);
 
     /// <summary>
-    /// Return the sort of the i-th parameter of the given function declaration.
+    ///  Return the sort of the i-th parameter of the given function declaration. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i < Z3_get_domain_size(d)
+    /// Precondition: i &lt; Z3_get_domain_size(d) 
     /// </remarks>
     /// <seealso cref="GetDomainSize"/>
     [Z3Function("Z3_get_domain")]
@@ -748,10 +764,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetRangeDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return the range of the given declaration.
+    ///  Return the range of the given declaration. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <remarks>
+    /// If <c>d</c> is a constant (i.e., has zero arguments), then this function returns the sort of the constant.
+    /// </remarks>
     [Z3Function("Z3_get_range")]
     internal IntPtr GetRange(IntPtr c, IntPtr d)
     {
@@ -764,7 +783,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetDeclNumParametersDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    /// Return the number of parameters associated with a declaration.
+    ///  Return the number of parameters associated with a declaration. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
@@ -780,11 +799,11 @@ internal sealed partial class NativeZ3Library
     private delegate ParameterKind GetDeclParameterKindDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the parameter type associated with a declaration.
+    ///  Return the parameter type associated with a declaration. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">the context</param>
-    /// <param name="d" ctype="Z3_func_decl">the function declaration</param>
-    /// <param name="idx" ctype="unsigned">is the index of the named parameter it should be between 0 and the number of parameters.</param>
+    /// <param name="c" ctype="Z3_context"> the context </param>
+    /// <param name="d" ctype="Z3_func_decl"> the function declaration </param>
+    /// <param name="idx" ctype="unsigned"> is the index of the named parameter it should be between 0 and the number of parameters. </param>
     [Z3Function("Z3_get_decl_parameter_kind")]
     internal ParameterKind GetDeclParameterKind(IntPtr c, IntPtr d, uint idx)
     {
@@ -797,13 +816,13 @@ internal sealed partial class NativeZ3Library
     private delegate int GetDeclIntParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the integer value associated with an integer parameter.
+    ///  Return the integer value associated with an integer parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_INT
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_INT 
     /// </remarks>
     [Z3Function("Z3_get_decl_int_parameter")]
     internal int GetDeclIntParameter(IntPtr c, IntPtr d, uint idx)
@@ -817,13 +836,13 @@ internal sealed partial class NativeZ3Library
     private delegate double GetDeclDoubleParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the double value associated with an double parameter.
+    ///  Return the double value associated with an double parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_DOUBLE
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_DOUBLE 
     /// </remarks>
     [Z3Function("Z3_get_decl_double_parameter")]
     internal double GetDeclDoubleParameter(IntPtr c, IntPtr d, uint idx)
@@ -837,13 +856,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDeclSymbolParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the double value associated with an double parameter.
+    ///  Return the double value associated with an double parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_SYMBOL
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_SYMBOL 
     /// </remarks>
     [Z3Function("Z3_get_decl_symbol_parameter")]
     internal IntPtr GetDeclSymbolParameter(IntPtr c, IntPtr d, uint idx)
@@ -857,13 +876,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDeclSortParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the sort value associated with a sort parameter.
+    ///  Return the sort value associated with a sort parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_SORT
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_SORT 
     /// </remarks>
     [Z3Function("Z3_get_decl_sort_parameter")]
     internal IntPtr GetDeclSortParameter(IntPtr c, IntPtr d, uint idx)
@@ -877,13 +896,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDeclAstParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the expression value associated with an expression parameter.
+    ///  Return the expression value associated with an expression parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_AST
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_AST 
     /// </remarks>
     [Z3Function("Z3_get_decl_ast_parameter")]
     internal IntPtr GetDeclAstParameter(IntPtr c, IntPtr d, uint idx)
@@ -897,13 +916,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDeclFuncDeclParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the expression value associated with an expression parameter.
+    ///  Return the expression value associated with an expression parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_FUNC_DECL
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_FUNC_DECL 
     /// </remarks>
     [Z3Function("Z3_get_decl_func_decl_parameter")]
     internal IntPtr GetDeclFuncDeclParameter(IntPtr c, IntPtr d, uint idx)
@@ -917,13 +936,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDeclRationalParameterDelegate(IntPtr c, IntPtr d, uint idx);
 
     /// <summary>
-    /// Return the rational value, as a string, associated with a rational parameter.
+    ///  Return the rational value, as a string, associated with a rational parameter. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_RATIONAL
+    /// Precondition: Z3_get_decl_parameter_kind(c, d, idx) == Z3_PARAMETER_RATIONAL 
     /// </remarks>
     [Z3Function("Z3_get_decl_rational_parameter")]
     internal IntPtr GetDeclRationalParameter(IntPtr c, IntPtr d, uint idx)
@@ -937,7 +956,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr AppToAstDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Convert a \c Z3_app into \c Z3_ast. This is just type casting.
+    ///  Convert a <c>Z3_app</c> into <c>Z3_ast</c> . This is just type casting. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_app">app parameter</param>
@@ -953,7 +972,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAppDeclDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the declaration of a constant or function application.
+    ///  Return the declaration of a constant or function application. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_app">app parameter</param>
@@ -969,7 +988,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetAppNumArgsDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the number of argument of an application. If \c t is an constant, then the number of arguments is 0.
+    ///  Return the number of argument of an application. If <c>t</c> is an constant, then the number of arguments is 0. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_app">app parameter</param>
@@ -986,13 +1005,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAppArgDelegate(IntPtr c, IntPtr a, uint i);
 
     /// <summary>
-    /// Return the i-th argument of the given application.
+    ///  Return the i-th argument of the given application. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_app">app parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: i < Z3_get_app_num_args(c, a)
+    /// Precondition: i &lt; Z3_get_app_num_args(c, a) 
     /// </remarks>
     /// <seealso cref="GetAppNumArgs"/>
     [Z3Function("Z3_get_app_arg")]
@@ -1007,7 +1026,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsEqAstDelegate(IntPtr c, IntPtr t1, IntPtr t2);
 
     /// <summary>
-    /// Compare terms.
+    ///  Compare terms. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
@@ -1024,7 +1043,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetAstIdDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return a unique identifier for \c t. The identifier is unique up to structural equality. Thus, two ast nodes created by the same context and having the same children and same function symbols have the same identifiers. Ast nodes created in the same context, but having different children or different functions have different identifiers. Variables and quantifiers are also assigned different identifiers according to their structure.
+    ///  Return a unique identifier for <c>t</c> . The identifier is unique up to structural equality. Thus, two ast nodes created by the same context and having the same children and same function symbols have the same identifiers. Ast nodes created in the same context, but having different children or different functions have different identifiers. Variables and quantifiers are also assigned different identifiers according to their structure. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_ast">ast parameter</param>
@@ -1040,7 +1059,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetAstHashDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the same hash. The result of \c Z3_get_ast_id returns an identifier that is unique over the set of live AST objects.
+    ///  Return a hash code for the given AST. The hash code is structural but two different AST objects can map to the same hash. The result of <c>Z3_get_ast_id</c> returns an identifier that is unique over the set of live AST objects. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -1056,10 +1075,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetSortDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the sort of an AST node.
+    ///  Return the sort of an AST node. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// The AST node must be a constant, application, numeral, bound variable, or quantifier.
+    /// </remarks>
     [Z3Function("Z3_get_sort")]
     internal IntPtr GetSort(IntPtr c, IntPtr a)
     {
@@ -1072,7 +1094,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsWellSortedDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    /// Return \c true if the given expression \c t is well sorted.
+    ///  Return <c>true</c> if the given expression <c>t</c> is well sorted. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_ast">ast parameter</param>
@@ -1088,7 +1110,7 @@ internal sealed partial class NativeZ3Library
     private delegate Lbool GetBoolValueDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return \c Z3_L_TRUE if \c a is true, \c Z3_L_FALSE if it is false, and \c Z3_L_UNDEF otherwise.
+    ///  Return <c>Z3_L_TRUE</c> if <c>a</c> is true, <c>Z3_L_FALSE</c> if it is false, and <c>Z3_L_UNDEF</c> otherwise. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -1104,7 +1126,7 @@ internal sealed partial class NativeZ3Library
     private delegate AstKind GetAstKindDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the kind of the given AST.
+    ///  Return the kind of the given AST. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -1172,7 +1194,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsAlgebraicNumberDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return \c true if the given AST is a real algebraic number.
+    ///  Return <c>true</c> if the given AST is a real algebraic number. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -1188,12 +1210,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ToAppDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Convert an \c ast into an \c APP_AST. This is just type casting.
+    ///  Convert an <c>ast</c> into an <c>APP_AST</c> . This is just type casting. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: CodeBlockNode(node_type=<NodeType.CODE_BLOCK: 'code_block'>, code=' Z3_get_ast_kind(c, a) == \\c Z3_APP_AST \\endcode')
+    /// Precondition: <code>
+    /// Z3_get_ast_kind(c, a) == \c Z3_APP_AST
+    /// </code> 
     /// </remarks>
     [Z3Function("Z3_to_app")]
     internal IntPtr ToApp(IntPtr c, IntPtr a)
@@ -1207,12 +1231,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ToFuncDeclDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Convert an AST into a FUNC_DECL_AST. This is just type casting.
+    ///  Convert an AST into a FUNC_DECL_AST. This is just type casting. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: CodeBlockNode(node_type=<NodeType.CODE_BLOCK: 'code_block'>, code=' Z3_get_ast_kind(c, a) == Z3_FUNC_DECL_AST \\endcode')
+    /// Precondition: <code>
+    /// Z3_get_ast_kind(c, a) == Z3_FUNC_DECL_AST
+    /// </code> 
     /// </remarks>
     [Z3Function("Z3_to_func_decl")]
     internal IntPtr ToFuncDecl(IntPtr c, IntPtr a)
@@ -1226,12 +1252,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetNumeralStringDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return numeral value, as a decimal string of a numeric constant term
+    ///  Return numeral value, as a decimal string of a numeric constant term. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST 
     /// </remarks>
     [Z3Function("Z3_get_numeral_string")]
     internal IntPtr GetNumeralString(IntPtr c, IntPtr a)
@@ -1245,13 +1271,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetNumeralBinaryStringDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return numeral value, as a binary string of a numeric constant term
+    ///  Return numeral value, as a binary string of a numeric constant term. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
-    /// Precondition: a represents a non-negative integer
+    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST 
+    /// Precondition: a represents a non-negative integer 
     /// </remarks>
     [Z3Function("Z3_get_numeral_binary_string")]
     internal IntPtr GetNumeralBinaryString(IntPtr c, IntPtr a)
@@ -1265,13 +1291,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetNumeralDecimalStringDelegate(IntPtr c, IntPtr a, uint precision);
 
     /// <summary>
-    /// Return numeral as a string in decimal notation. The result has at most \c precision decimal places.
+    ///  Return numeral as a string in decimal notation. The result has at most <c>precision</c> decimal places. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="precision" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST || Z3_is_algebraic_number(c, a)
+    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST || Z3_is_algebraic_number(c, a) 
     /// </remarks>
     [Z3Function("Z3_get_numeral_decimal_string")]
     internal IntPtr GetNumeralDecimalString(IntPtr c, IntPtr a, uint precision)
@@ -1285,12 +1311,12 @@ internal sealed partial class NativeZ3Library
     private delegate double GetNumeralDoubleDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return numeral as a double.
+    ///  Return numeral as a double. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST || Z3_is_algebraic_number(c, a)
+    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST || Z3_is_algebraic_number(c, a) 
     /// </remarks>
     [Z3Function("Z3_get_numeral_double")]
     internal double GetNumeralDouble(IntPtr c, IntPtr a)
@@ -1304,12 +1330,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetNumeratorDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the numerator (as a numeral AST) of a numeral AST of sort Real.
+    ///  Return the numerator (as a numeral AST) of a numeral AST of sort Real. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST 
     /// </remarks>
     [Z3Function("Z3_get_numerator")]
     internal IntPtr GetNumerator(IntPtr c, IntPtr a)
@@ -1323,12 +1349,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetDenominatorDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return the denominator (as a numeral AST) of a numeral AST of sort Real.
+    ///  Return the denominator (as a numeral AST) of a numeral AST of sort Real. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST 
     /// </remarks>
     [Z3Function("Z3_get_denominator")]
     internal IntPtr GetDenominator(IntPtr c, IntPtr a)
@@ -1342,16 +1368,15 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralSmallDelegate(IntPtr c, IntPtr a, IntPtr num, IntPtr den);
 
     /// <summary>
-    /// Return numeral value, as a pair of 64 bit numbers if the representation fits.
+    ///  Return numeral value, as a pair of 64 bit numbers if the representation fits. 
     /// </summary>
-    /// <param name="c" ctype="Z3_context">logical context.</param>
-    /// <param name="a" ctype="Z3_ast">term.</param>
-    /// <param name="num" ctype="int64_t*">numerator.</param>
-    /// <param name="den" ctype="int64_t*">denominator.</param>
+    /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <param name="a" ctype="Z3_ast"> term. </param>
+    /// <param name="num" ctype="int64_t*"> numerator. </param>
+    /// <param name="den" ctype="int64_t*"> denominator. </param>
     /// <remarks>
-    /// Return \c true if the numeral value fits in 64 bit numerals, \c false otherwise.
-    /// Equivalent to \c Z3_get_numeral_rational_int64 except that for unsupported expression arguments \c Z3_get_numeral_small signals an error while \c Z3_get_numeral_rational_int64 returns \c false.
-    /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST
+    /// Return <c>true</c> if the numeral value fits in 64 bit numerals, <c>false</c> otherwise. Equivalent to <c>Z3_get_numeral_rational_int64</c> except that for unsupported expression arguments <c>Z3_get_numeral_small</c> signals an error while <c>Z3_get_numeral_rational_int64</c> returns <c>false</c> .
+    /// Precondition: Z3_get_ast_kind(a) == Z3_NUMERAL_AST 
     /// </remarks>
     [Z3Function("Z3_get_numeral_small")]
     internal bool GetNumeralSmall(IntPtr c, IntPtr a, IntPtr num, IntPtr den)
@@ -1365,13 +1390,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralIntDelegate(IntPtr c, IntPtr v, IntPtr i);
 
     /// <summary>
-    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine int. Return \c true if the call succeeded.
+    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="int*">int parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST 
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_int")]
@@ -1386,13 +1411,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralUintDelegate(IntPtr c, IntPtr v, IntPtr u);
 
     /// <summary>
-    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine unsigned int. Return \c true if the call succeeded.
+    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine unsigned int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <param name="u" ctype="unsigned*">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST 
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_uint")]
@@ -1407,13 +1432,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralUint64Delegate(IntPtr c, IntPtr v, IntPtr u);
 
     /// <summary>
-    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine \c uint64_t int. Return \c true if the call succeeded.
+    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine <c>uint64_t</c> int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <param name="u" ctype="uint64_t*">uint64_t parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST 
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_uint64")]
@@ -1428,13 +1453,13 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralInt64Delegate(IntPtr c, IntPtr v, IntPtr i);
 
     /// <summary>
-    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit in a machine \c int64_t int. Return \c true if the call succeeded.
+    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="int64_t*">int64_t parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST 
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_int64")]
@@ -1449,14 +1474,14 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralRationalInt64Delegate(IntPtr c, IntPtr v, IntPtr num, IntPtr den);
 
     /// <summary>
-    /// Similar to #Z3_get_numeral_string, but only succeeds if the value can fit as a rational number as machine \c int64_t int. Return \c true if the call succeeded.
+    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit as a rational number as machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <param name="num" ctype="int64_t*">int64_t parameter</param>
     /// <param name="den" ctype="int64_t*">int64_t parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST
+    /// Precondition: Z3_get_ast_kind(c, v) == Z3_NUMERAL_AST 
     /// </remarks>
     /// <seealso cref="GetNumeralString"/>
     [Z3Function("Z3_get_numeral_rational_int64")]
@@ -1471,13 +1496,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAlgebraicNumberLowerDelegate(IntPtr c, IntPtr a, uint precision);
 
     /// <summary>
-    /// Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    ///  Return a lower bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="precision" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_is_algebraic_number(c, a)
+    /// Precondition: Z3_is_algebraic_number(c, a) 
     /// </remarks>
     [Z3Function("Z3_get_algebraic_number_lower")]
     internal IntPtr GetAlgebraicNumberLower(IntPtr c, IntPtr a, uint precision)
@@ -1491,13 +1516,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetAlgebraicNumberUpperDelegate(IntPtr c, IntPtr a, uint precision);
 
     /// <summary>
-    /// Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real.
+    ///  Return a upper bound for the given real algebraic number. The interval isolating the number is smaller than 1/10^precision. The result is a numeral AST of sort Real. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="precision" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_is_algebraic_number(c, a)
+    /// Precondition: Z3_is_algebraic_number(c, a) 
     /// </remarks>
     [Z3Function("Z3_get_algebraic_number_upper")]
     internal IntPtr GetAlgebraicNumberUpper(IntPtr c, IntPtr a, uint precision)
@@ -1511,7 +1536,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr PatternToAstDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Convert a Z3_pattern into Z3_ast. This is just type casting.
+    ///  Convert a Z3_pattern into Z3_ast. This is just type casting. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
@@ -1527,7 +1552,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetPatternNumTermsDelegate(IntPtr c, IntPtr p);
 
     /// <summary>
-    /// Return number of terms in pattern.
+    ///  Return number of terms in pattern. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
@@ -1543,7 +1568,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetPatternDelegate(IntPtr c, IntPtr p, uint idx);
 
     /// <summary>
-    /// Return i'th ast in pattern.
+    ///  Return i'th ast in pattern. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
@@ -1560,12 +1585,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetIndexValueDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return index of de-Bruijn bound variable.
+    ///  Return index of de-Bruijn bound variable. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_VAR_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_VAR_AST 
     /// </remarks>
     [Z3Function("Z3_get_index_value")]
     internal uint GetIndexValue(IntPtr c, IntPtr a)
@@ -1579,7 +1604,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsQuantifierForallDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Determine if an ast is a universal quantifier.
+    ///  Determine if an ast is a universal quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -1595,7 +1620,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsQuantifierExistsDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Determine if ast is an existential quantifier.
+    ///  Determine if ast is an existential quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
@@ -1611,12 +1636,12 @@ internal sealed partial class NativeZ3Library
     private delegate bool IsLambdaDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Determine if ast is a lambda expression.
+    ///  Determine if ast is a lambda expression. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_is_lambda")]
     internal bool IsLambda(IntPtr c, IntPtr a)
@@ -1630,12 +1655,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetQuantifierWeightDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Obtain weight of quantifier.
+    ///  Obtain weight of quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_weight")]
     internal uint GetQuantifierWeight(IntPtr c, IntPtr a)
@@ -1649,12 +1674,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierSkolemIdDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Obtain skolem id of quantifier.
+    ///  Obtain skolem id of quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_skolem_id")]
     internal IntPtr GetQuantifierSkolemId(IntPtr c, IntPtr a)
@@ -1668,12 +1693,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierIdDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Obtain id of quantifier.
+    ///  Obtain id of quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_id")]
     internal IntPtr GetQuantifierId(IntPtr c, IntPtr a)
@@ -1687,12 +1712,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetQuantifierNumPatternsDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return number of patterns used in quantifier.
+    ///  Return number of patterns used in quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_num_patterns")]
     internal uint GetQuantifierNumPatterns(IntPtr c, IntPtr a)
@@ -1706,13 +1731,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierPatternAstDelegate(IntPtr c, IntPtr a, uint i);
 
     /// <summary>
-    /// Return i'th pattern.
+    ///  Return i'th pattern. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_pattern_ast")]
     internal IntPtr GetQuantifierPatternAst(IntPtr c, IntPtr a, uint i)
@@ -1726,12 +1751,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetQuantifierNumNoPatternsDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return number of no_patterns used in quantifier.
+    ///  Return number of no_patterns used in quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_num_no_patterns")]
     internal uint GetQuantifierNumNoPatterns(IntPtr c, IntPtr a)
@@ -1745,13 +1770,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierNoPatternAstDelegate(IntPtr c, IntPtr a, uint i);
 
     /// <summary>
-    /// Return i'th no_pattern.
+    ///  Return i'th no_pattern. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_no_pattern_ast")]
     internal IntPtr GetQuantifierNoPatternAst(IntPtr c, IntPtr a, uint i)
@@ -1765,12 +1790,12 @@ internal sealed partial class NativeZ3Library
     private delegate uint GetQuantifierNumBoundDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return number of bound variables of quantifier.
+    ///  Return number of bound variables of quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_num_bound")]
     internal uint GetQuantifierNumBound(IntPtr c, IntPtr a)
@@ -1784,13 +1809,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierBoundNameDelegate(IntPtr c, IntPtr a, uint i);
 
     /// <summary>
-    /// Return symbol of the i'th bound variable.
+    ///  Return symbol of the i'th bound variable. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_bound_name")]
     internal IntPtr GetQuantifierBoundName(IntPtr c, IntPtr a, uint i)
@@ -1804,13 +1829,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierBoundSortDelegate(IntPtr c, IntPtr a, uint i);
 
     /// <summary>
-    /// Return sort of the i'th bound variable.
+    ///  Return sort of the i'th bound variable. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_bound_sort")]
     internal IntPtr GetQuantifierBoundSort(IntPtr c, IntPtr a, uint i)
@@ -1824,12 +1849,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GetQuantifierBodyDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Return body of quantifier.
+    ///  Return body of quantifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST
+    /// Precondition: Z3_get_ast_kind(a) == Z3_QUANTIFIER_AST 
     /// </remarks>
     [Z3Function("Z3_get_quantifier_body")]
     internal IntPtr GetQuantifierBody(IntPtr c, IntPtr a)
@@ -1843,10 +1868,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyDelegate(IntPtr c, IntPtr a);
 
     /// <summary>
-    /// Interface to simplifier.
+    ///  Interface to simplifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <remarks>
+    /// Provides an interface to the AST simplifier used by Z3. It returns an AST object which is equal to the argument. The returned AST is simplified using algebraic simplification rules, such as constant propagation (propagating true/false over logical connectives).
+    /// </remarks>
     /// <seealso cref="SimplifyEx"/>
     [Z3Function("Z3_simplify")]
     internal IntPtr Simplify(IntPtr c, IntPtr a)
@@ -1860,11 +1888,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyExDelegate(IntPtr c, IntPtr a, IntPtr p);
 
     /// <summary>
-    /// Interface to simplifier.
+    ///  Interface to simplifier. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <remarks>
+    /// Provides an interface to the AST simplifier used by Z3. This procedure is similar to <see cref="Z3_simplify"/> , but the behavior of the simplifier can be configured using the given parameter set.
+    /// </remarks>
     /// <seealso cref="Simplify"/>
     /// <seealso cref="SimplifyGetHelp"/>
     /// <seealso cref="SimplifyGetParamDescrs"/>
@@ -1880,7 +1911,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyGetHelpDelegate(IntPtr c);
 
     /// <summary>
-    /// Return a string describing all available parameters.
+    ///  Return a string describing all available parameters. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="SimplifyEx"/>
@@ -1897,7 +1928,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SimplifyGetParamDescrsDelegate(IntPtr c);
 
     /// <summary>
-    /// Return the parameter description set for the simplify procedure.
+    ///  Return the parameter description set for the simplify procedure. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <seealso cref="SimplifyEx"/>

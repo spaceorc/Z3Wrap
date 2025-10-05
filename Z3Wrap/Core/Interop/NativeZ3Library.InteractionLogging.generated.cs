@@ -15,12 +15,9 @@ internal sealed partial class NativeZ3Library
     private delegate bool OpenLogDelegate(IntPtr filename);
 
     /// <summary>
-    /// Log interaction to a file.
+    ///  Log interaction to a file. 
     /// </summary>
     /// <param name="filename" ctype="Z3_string">string parameter</param>
-    /// <remarks>
-    /// extra_API('Z3_open_log', INT, (_in(STRING),))
-    /// </remarks>
     /// <seealso cref="AppendLog"/>
     /// <seealso cref="CloseLog"/>
     [Z3Function("Z3_open_log")]
@@ -35,11 +32,11 @@ internal sealed partial class NativeZ3Library
     private delegate void AppendLogDelegate(IntPtr @string);
 
     /// <summary>
-    /// Append user-defined string to interaction log.
+    ///  Append user-defined string to interaction log. 
     /// </summary>
     /// <param name="string" ctype="Z3_string">string parameter</param>
     /// <remarks>
-    /// extra_API('Z3_append_log', VOID, (_in(STRING),))
+    /// The interaction log is opened using <see cref="Z3_open_log"/> . It contains the formulas that are checked using Z3. You can use this command to append comments, for instance.
     /// </remarks>
     /// <seealso cref="OpenLog"/>
     /// <seealso cref="CloseLog"/>
@@ -55,11 +52,8 @@ internal sealed partial class NativeZ3Library
     private delegate void CloseLogDelegate();
 
     /// <summary>
-    /// Close interaction log.
+    ///  Close interaction log. 
     /// </summary>
-    /// <remarks>
-    /// extra_API('Z3_close_log', VOID, ())
-    /// </remarks>
     /// <seealso cref="OpenLog"/>
     /// <seealso cref="AppendLog"/>
     [Z3Function("Z3_close_log")]
@@ -74,9 +68,12 @@ internal sealed partial class NativeZ3Library
     private delegate void ToggleWarningMessagesDelegate(bool enabled);
 
     /// <summary>
-    /// Enable/disable printing warning messages to the console.
+    ///  Enable/disable printing warning messages to the console. 
     /// </summary>
     /// <param name="enabled" ctype="bool">bool parameter</param>
+    /// <remarks>
+    /// Warnings are printed after passing <c>true</c> , warning messages are suppressed after calling this method with <c>false</c> .
+    /// </remarks>
     [Z3Function("Z3_toggle_warning_messages")]
     internal void ToggleWarningMessages(bool enabled)
     {

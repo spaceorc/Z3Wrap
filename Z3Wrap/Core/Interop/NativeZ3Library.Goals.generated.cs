@@ -15,14 +15,15 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkGoalDelegate(IntPtr c, bool models, bool unsatCores, bool proofs);
 
     /// <summary>
-    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers.
+    ///  Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="models" ctype="bool">bool parameter</param>
     /// <param name="unsatCores" ctype="bool">bool parameter</param>
     /// <param name="proofs" ctype="bool">bool parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage goals, even when the \c Z3_context was created using #Z3_mk_context instead of #Z3_mk_context_rc.
+    /// If <c>models</c> is <c>true</c> , then model generation is enabled for the new goal. If <c>unsat_cores</c> is <c>true</c> , then unsat core generation is enabled for the new goal. If <c>proofs</c> is <c>true</c> , then proof generation is enabled for the new goal. Remark, the Z3 context <c>c</c> must have been created with proof generation support.
+    /// Reference counting must be used to manage goals, even when the <c>Z3_context</c> was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
     /// </remarks>
     [Z3Function("Z3_mk_goal")]
     internal IntPtr MkGoal(IntPtr c, bool models, bool unsatCores, bool proofs)
@@ -36,7 +37,7 @@ internal sealed partial class NativeZ3Library
     private delegate void GoalIncRefDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Increment the reference counter of the given goal.
+    ///  Increment the reference counter of the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -52,7 +53,7 @@ internal sealed partial class NativeZ3Library
     private delegate void GoalDecRefDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Decrement the reference counter of the given goal.
+    ///  Decrement the reference counter of the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -68,7 +69,7 @@ internal sealed partial class NativeZ3Library
     private delegate GoalPrec GoalPrecisionDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A under approximation is applied when the objective is to find a model for a given goal. An over approximation is applied when the objective is to find a proof for a given goal.
+    ///  Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A under approximation is applied when the objective is to find a model for a given goal. An over approximation is applied when the objective is to find a proof for a given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -84,7 +85,7 @@ internal sealed partial class NativeZ3Library
     private delegate void GoalAssertDelegate(IntPtr c, IntPtr g, IntPtr a);
 
     /// <summary>
-    /// Add a new formula \c a to the given goal. The formula is split according to the following procedure that is applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over disjunctions, resulting in separate formulas. If the goal is \c false, adding new formulas is a no-op. If the formula \c a is \c true, then nothing is added. If the formula \c a is \c false, then the entire goal is replaced by the formula \c false.
+    ///  Add a new formula <c>a</c> to the given goal. The formula is split according to the following procedure that is applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over disjunctions, resulting in separate formulas. If the goal is <c>false</c> , adding new formulas is a no-op. If the formula <c>a</c> is <c>true</c> , then nothing is added. If the formula <c>a</c> is <c>false</c> , then the entire goal is replaced by the formula <c>false</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -101,7 +102,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GoalInconsistentDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return \c true if the given goal contains the formula \c false.
+    ///  Return <c>true</c> if the given goal contains the formula <c>false</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -117,7 +118,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GoalDepthDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return the depth of the given goal. It tracks how many transformations were applied to it.
+    ///  Return the depth of the given goal. It tracks how many transformations were applied to it. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -133,7 +134,7 @@ internal sealed partial class NativeZ3Library
     private delegate void GoalResetDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Erase all formulas from the given goal.
+    ///  Erase all formulas from the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -149,7 +150,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GoalSizeDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return the number of formulas in the given goal.
+    ///  Return the number of formulas in the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -165,13 +166,13 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalFormulaDelegate(IntPtr c, IntPtr g, uint idx);
 
     /// <summary>
-    /// Return a formula from the given goal.
+    ///  Return a formula from the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <remarks>
-    /// Precondition: idx < Z3_goal_size(c, g)
+    /// Precondition: idx &lt; Z3_goal_size(c, g) 
     /// </remarks>
     [Z3Function("Z3_goal_formula")]
     internal IntPtr GoalFormula(IntPtr c, IntPtr g, uint idx)
@@ -185,7 +186,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint GoalNumExprsDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return the number of formulas, subformulas and terms in the given goal.
+    ///  Return the number of formulas, subformulas and terms in the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -201,7 +202,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GoalIsDecidedSatDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return \c true if the goal is empty, and it is precise or the product of a under approximation.
+    ///  Return <c>true</c> if the goal is empty, and it is precise or the product of a under approximation. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -217,7 +218,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GoalIsDecidedUnsatDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Return \c true if the goal contains false, and it is precise or the product of an over approximation.
+    ///  Return <c>true</c> if the goal contains false, and it is precise or the product of an over approximation. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -233,7 +234,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalTranslateDelegate(IntPtr source, IntPtr g, IntPtr target);
 
     /// <summary>
-    /// Copy a goal \c g from the context \c source to the context \c target.
+    ///  Copy a goal <c>g</c> from the context <c>source</c> to the context <c>target</c> . 
     /// </summary>
     /// <param name="source" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -250,11 +251,14 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalConvertModelDelegate(IntPtr c, IntPtr g, IntPtr m);
 
     /// <summary>
-    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable.
+    ///  Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <remarks>
+    /// When using this feature it is advisable to set the parameter <c>model.compact</c> to <c>false</c> . It is by default true, which erases variables created by the solver from models. Without access to model values for intermediary variables, values of other variables may end up having the wrong values.
+    /// </remarks>
     [Z3Function("Z3_goal_convert_model")]
     internal IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)
     {
@@ -267,7 +271,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalToStringDelegate(IntPtr c, IntPtr g);
 
     /// <summary>
-    /// Convert a goal into a string.
+    ///  Convert a goal into a string. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
@@ -283,7 +287,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr GoalToDimacsStringDelegate(IntPtr c, IntPtr g, bool includeNames);
 
     /// <summary>
-    /// Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded.
+    ///  Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
