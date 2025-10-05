@@ -193,7 +193,7 @@ public sealed partial class Z3Library2
     /// Precondition: Z3_get_arity(c, f) &gt; 0
     /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was
     /// created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .

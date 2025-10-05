@@ -49,7 +49,7 @@ public sealed partial class Z3Library2
     /// </param>
     /// <remarks>
     /// Warning: Log files, created using
-    /// <see cref="OpenLog"/>
+    /// OpenLog
     /// , may be potentially incomplete/incorrect if error handlers are used.
     /// </remarks>
     /// <seealso cref="GetErrorCode"/>

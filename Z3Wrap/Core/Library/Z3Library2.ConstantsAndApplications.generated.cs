@@ -78,7 +78,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
-    public IntPtr MkFuncDecl(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range)
+    public IntPtr MkFuncDeclOriginal(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var result = nativeLibrary.MkFuncDecl(c, s, domainSize, domain, range);
         CheckError(c);
@@ -168,7 +168,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshConst"/>
     /// <seealso cref="MkFuncDecl"/>
-    public IntPtr MkConst(IntPtr c, IntPtr s, IntPtr ty)
+    public IntPtr MkConstOriginal(IntPtr c, IntPtr s, IntPtr ty)
     {
         var result = nativeLibrary.MkConst(c, s, ty);
         CheckError(c);
@@ -320,7 +320,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFuncDecl"/>
-    public IntPtr MkRecFuncDecl(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range)
+    public IntPtr MkRecFuncDeclOriginal(IntPtr c, IntPtr s, uint domainSize, IntPtr[] domain, IntPtr range)
     {
         var result = nativeLibrary.MkRecFuncDecl(c, s, domainSize, domain, range);
         CheckError(c);

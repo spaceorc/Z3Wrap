@@ -21,7 +21,7 @@ public sealed partial class Z3Library2
     /// <remarks>
     /// Reference counting must be used to manage parameter sets, even when the Z3_context was
     /// created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -102,7 +102,7 @@ public sealed partial class Z3Library2
     /// <param name="v" ctype="bool">
     /// bool parameter
     /// </param>
-    public void ParamsSetBool(IntPtr c, IntPtr p, IntPtr k, bool v)
+    public void ParamsSetBoolOriginal(IntPtr c, IntPtr p, IntPtr k, bool v)
     {
         nativeLibrary.ParamsSetBool(c, p, k, v);
         CheckError(c);
@@ -147,7 +147,7 @@ public sealed partial class Z3Library2
     /// <param name="v" ctype="unsigned">
     /// unsigned parameter
     /// </param>
-    public void ParamsSetUint(IntPtr c, IntPtr p, IntPtr k, uint v)
+    public void ParamsSetUintOriginal(IntPtr c, IntPtr p, IntPtr k, uint v)
     {
         nativeLibrary.ParamsSetUint(c, p, k, v);
         CheckError(c);
@@ -192,7 +192,7 @@ public sealed partial class Z3Library2
     /// <param name="v" ctype="double">
     /// double parameter
     /// </param>
-    public void ParamsSetDouble(IntPtr c, IntPtr p, IntPtr k, double v)
+    public void ParamsSetDoubleOriginal(IntPtr c, IntPtr p, IntPtr k, double v)
     {
         nativeLibrary.ParamsSetDouble(c, p, k, v);
         CheckError(c);
@@ -240,7 +240,7 @@ public sealed partial class Z3Library2
     /// <param name="v" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
-    public void ParamsSetSymbol(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
+    public void ParamsSetSymbolOriginal(IntPtr c, IntPtr p, IntPtr k, IntPtr v)
     {
         nativeLibrary.ParamsSetSymbol(c, p, k, v);
         CheckError(c);

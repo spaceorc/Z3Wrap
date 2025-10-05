@@ -19,7 +19,7 @@ public sealed partial class Z3Library2
     /// <remarks>
     /// Reference counting must be used to manage AST maps, even when the Z3_context was
     /// created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .

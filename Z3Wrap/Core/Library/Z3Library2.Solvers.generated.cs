@@ -70,7 +70,7 @@ public sealed partial class Z3Library2
     /// <see cref="SolverDecRef"/>
     /// to manage solver objects.
     /// Even if the context was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -138,7 +138,7 @@ public sealed partial class Z3Library2
     /// <see cref="SolverDecRef"/>
     /// to manage solver objects.
     /// Even if the context was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -172,7 +172,7 @@ public sealed partial class Z3Library2
     /// <see cref="SolverDecRef"/>
     /// to manage solver objects.
     /// Even if the context was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -209,7 +209,7 @@ public sealed partial class Z3Library2
     /// <see cref="SolverDecRef"/>
     /// to manage solver objects.
     /// Even if the context was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -217,7 +217,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="MkSolver"/>
     /// <seealso cref="MkSimpleSolver"/>
     /// <seealso cref="MkSolverFromTactic"/>
-    public IntPtr MkSolverForLogic(IntPtr c, IntPtr logic)
+    public IntPtr MkSolverForLogicOriginal(IntPtr c, IntPtr logic)
     {
         var result = nativeLibrary.MkSolverForLogic(c, logic);
         CheckError(c);
@@ -248,7 +248,7 @@ public sealed partial class Z3Library2
     /// <see cref="SolverDecRef"/>
     /// to manage solver objects.
     /// Even if the context was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -1086,7 +1086,7 @@ public sealed partial class Z3Library2
     /// <param name="range" ctype="Z3_sort">
     /// sort parameter
     /// </param>
-    public IntPtr SolverPropagateDeclare(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
+    public IntPtr SolverPropagateDeclareOriginal(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
     {
         var result = nativeLibrary.SolverPropagateDeclare(c, name, n, domain, range);
         CheckError(c);
@@ -1172,9 +1172,6 @@ public sealed partial class Z3Library2
     /// </param>
     /// <param name="conseq" ctype="Z3_ast">
     /// consequence to propagate. It is typically an atomic formula, but it can be an arbitrary formula.
-    /// </param>
-    /// <param name="@fixed">
-    /// IntPtr parameter
     /// </param>
     public bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr @fixed, uint numEqs, IntPtr eqLhs, IntPtr eqRhs, IntPtr conseq)
     {

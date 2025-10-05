@@ -74,7 +74,7 @@ public sealed partial class Z3Library2
     /// <param name="n" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
-    public ParamKind ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
+    public ParamKind ParamDescrsGetKindOriginal(IntPtr c, IntPtr p, IntPtr n)
     {
         var result = nativeLibrary.ParamDescrsGetKind(c, p, n);
         CheckError(c);
@@ -153,7 +153,7 @@ public sealed partial class Z3Library2
     /// <param name="s" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
-    public IntPtr ParamDescrsGetDocumentation(IntPtr c, IntPtr p, IntPtr s)
+    public IntPtr ParamDescrsGetDocumentationOriginal(IntPtr c, IntPtr p, IntPtr s)
     {
         var result = nativeLibrary.ParamDescrsGetDocumentation(c, p, s);
         CheckError(c);

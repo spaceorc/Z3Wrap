@@ -25,6 +25,15 @@ EXCLUDE_FUNCTIONS = {
     "DelContext",  # Cannot check error after context deletion
 }
 
+# Configuration: cref attributes to convert to plain text (unresolved or ambiguous references)
+# These methods either don't exist in Z3Library2 or have ambiguous overloads
+CONVERT_CREF_TO_TEXT = {
+    # Unresolved (CS1574) - Methods excluded from Z3Library2
+    "MkContext",       # Only MkContextRc is included
+    "GlobalParamSet",  # Global params excluded
+    "OpenLog",         # Not context-based
+}
+
 
 @dataclass
 class XmlNode:
@@ -419,19 +428,26 @@ def clone_and_modify_doc(doc_tree: XmlNode, func_name: str, parameters: List[Par
                 if 'ctype' in param_node.attributes:
                     del param_node.attributes['ctype']
 
-    # Ensure we have param docs for all parameters (add generic ones if missing)
-    existing_params = {node.attributes.get('name'): node
-                      for node in cloned.find_children_by_tag('param')}
+    # Fix @ prefix in parameter names (C# syntax for reserved keywords)
+    for param_node in cloned.find_children_by_tag('param'):
+        param_name = param_node.attributes.get('name', '')
+        if param_name.startswith('@'):
+            # Remove @ prefix from XML documentation (use bare name)
+            param_node.attributes['name'] = param_name[1:]
 
-    for param in parameters:
-        if param.name not in existing_params:
-            # Add generic param doc
-            param_node = XmlNode(
-                tag='param',
-                attributes={'name': param.name},
-                children=[XmlNode(tag=None, text=f"{param.c_type or param.csharp_type} parameter")]
-            )
-            cloned.children.append(param_node)
+    # Remove duplicate param nodes (can occur after @ prefix stripping)
+    seen_params = set()
+    params_to_remove = []
+    for param_node in cloned.find_children_by_tag('param'):
+        param_name = param_node.attributes.get('name', '')
+        if param_name in seen_params:
+            params_to_remove.append(param_node)
+        else:
+            seen_params.add(param_name)
+
+    # Remove duplicates from children list
+    for node_to_remove in params_to_remove:
+        cloned.children.remove(node_to_remove)
 
     # Ensure we have a summary (add generic one if missing)
     if not cloned.find_child_by_tag('summary'):
@@ -442,6 +458,43 @@ def clone_and_modify_doc(doc_tree: XmlNode, func_name: str, parameters: List[Par
         cloned.children.insert(0, summary_node)
 
     return cloned
+
+
+def filter_invalid_cref_references(doc_tree: XmlNode) -> XmlNode:
+    """
+    Convert cref/see/seealso tags with invalid references to plain text.
+    Walks the XML tree and replaces tags like <see cref="MkContext"/> with just "MkContext".
+    """
+    import copy
+    filtered = copy.deepcopy(doc_tree)
+
+    def process_node(node: XmlNode):
+        """Recursively process nodes, replacing invalid cref references."""
+        if node.is_text_node():
+            return
+
+        # Check if this is a cref-based tag (see, seealso, etc.)
+        if node.tag in ['see', 'seealso'] and 'cref' in node.attributes:
+            cref_value = node.attributes['cref']
+
+            # Extract just the method name (strip any namespace/class prefix)
+            method_name = cref_value.split('.')[-1].split('(')[0]
+
+            # Check if this reference should be converted to text
+            if method_name in CONVERT_CREF_TO_TEXT:
+                # Convert to text node with just the method name
+                node.tag = None  # Make it a text node
+                node.text = method_name
+                node.attributes.clear()
+                node.children.clear()
+                return  # Don't process children (there are none now)
+
+        # Process all children recursively
+        for child in node.children:
+            process_node(child)
+
+    process_node(filtered)
+    return filtered
 
 
 def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition], group_name: str, enum_types: Set[str]):
@@ -481,6 +534,7 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                     param_overrides[param.name] = 'string'
 
                 doc_clone = clone_and_modify_doc(func.doc_comment, func.name, func.parameters, param_overrides)
+                doc_clone = filter_invalid_cref_references(doc_clone)
 
                 # Render documentation
                 doc_output = render_xml_node(doc_clone, "    ")
@@ -551,9 +605,10 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                 f.write("    }\n\n")
 
-            # Generate original overload (always, or only if no symbols)
+            # Generate original overload with "Original" suffix (always, or only if no symbols)
             # Clone documentation (no overrides for IntPtr version)
             doc_clone = clone_and_modify_doc(func.doc_comment, func.name, func.parameters)
+            doc_clone = filter_invalid_cref_references(doc_clone)
 
             # Render documentation
             doc_output = render_xml_node(doc_clone, "    ")
@@ -569,9 +624,10 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                 public_params.append(f"{public_type} {param.name}")
 
-            # Method signature
+            # Method signature - add "Original" suffix if this function has symbols
+            method_name = f"{func.name}Original" if has_symbols and not skip_string_overload else func.name
             params_str = ", ".join(public_params)
-            f.write(f"    public {func.return_type} {func.name}({params_str})\n")
+            f.write(f"    public {func.return_type} {method_name}({params_str})\n")
             f.write("    {\n")
 
             # Convert string parameters to AnsiStringPtr

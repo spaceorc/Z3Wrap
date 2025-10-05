@@ -23,7 +23,7 @@ public sealed partial class Z3Library2
     /// <see cref="OptimizeDecRef"/>
     /// to manage optimize objects.
     /// Even if the context was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
     /// .
@@ -159,7 +159,7 @@ public sealed partial class Z3Library2
     /// </param>
     /// <seealso cref="OptimizeAssert"/>
     /// <seealso cref="OptimizeAssertAndTrack"/>
-    public uint OptimizeAssertSoft(IntPtr c, IntPtr o, IntPtr a, string weight, IntPtr id)
+    public uint OptimizeAssertSoftOriginal(IntPtr c, IntPtr o, IntPtr a, string weight, IntPtr id)
     {
         using var weightAnsi = new AnsiStringPtr(weight);
         var result = nativeLibrary.OptimizeAssertSoft(c, o, a, weightAnsi, id);

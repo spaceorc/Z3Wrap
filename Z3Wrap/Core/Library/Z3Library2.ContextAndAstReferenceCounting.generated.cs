@@ -16,7 +16,7 @@ public sealed partial class Z3Library2
     /// <see cref="MkContextRc"/>
     /// .
     /// This function is a NOOP if c was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
@@ -37,7 +37,7 @@ public sealed partial class Z3Library2
     /// <see cref="MkContextRc"/>
     /// .
     /// This function is a NOOP if c was created using
-    /// <see cref="MkContext"/>
+    /// MkContext
     /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
@@ -64,7 +64,7 @@ public sealed partial class Z3Library2
     /// <param name="paramValue" ctype="Z3_string">
     /// string parameter
     /// </param>
-    /// <seealso cref="GlobalParamSet"/>
+    /// GlobalParamSet
     public void UpdateParamValue(IntPtr c, string paramId, string paramValue)
     {
         using var paramIdAnsi = new AnsiStringPtr(paramId);

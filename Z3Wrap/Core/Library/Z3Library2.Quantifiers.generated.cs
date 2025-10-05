@@ -336,7 +336,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="MkBound"/>
     /// <seealso cref="MkForall"/>
     /// <seealso cref="MkExists"/>
-    public IntPtr MkQuantifierEx(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body)
+    public IntPtr MkQuantifierExOriginal(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, uint numDecls, IntPtr[] sorts, IntPtr[] declNames, IntPtr body)
     {
         var result = nativeLibrary.MkQuantifierEx(c, isForall, weight, quantifierId, skolemId, numPatterns, patterns, numNoPatterns, noPatterns, numDecls, sorts, declNames, body);
         CheckError(c);
@@ -552,7 +552,7 @@ public sealed partial class Z3Library2
     /// <param name="body" ctype="Z3_ast">
     /// ast parameter
     /// </param>
-    public IntPtr MkQuantifierConstEx(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, IntPtr body)
+    public IntPtr MkQuantifierConstExOriginal(IntPtr c, bool isForall, uint weight, IntPtr quantifierId, IntPtr skolemId, uint numBound, IntPtr[] bound, uint numPatterns, IntPtr[] patterns, uint numNoPatterns, IntPtr[] noPatterns, IntPtr body)
     {
         var result = nativeLibrary.MkQuantifierConstEx(c, isForall, weight, quantifierId, skolemId, numBound, bound, numPatterns, patterns, numNoPatterns, noPatterns, body);
         CheckError(c);

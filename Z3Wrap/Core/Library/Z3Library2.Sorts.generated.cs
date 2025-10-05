@@ -48,7 +48,7 @@ public sealed partial class Z3Library2
     /// <param name="s" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
-    public IntPtr MkUninterpretedSort(IntPtr c, IntPtr s)
+    public IntPtr MkUninterpretedSortOriginal(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkUninterpretedSort(c, s);
         CheckError(c);
@@ -97,7 +97,7 @@ public sealed partial class Z3Library2
     /// <param name="s" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
-    public IntPtr MkTypeVariable(IntPtr c, IntPtr s)
+    public IntPtr MkTypeVariableOriginal(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkTypeVariable(c, s);
         CheckError(c);
@@ -240,7 +240,7 @@ public sealed partial class Z3Library2
     /// uint64_t parameter
     /// </param>
     /// <seealso cref="GetFiniteDomainSortSize"/>
-    public IntPtr MkFiniteDomainSort(IntPtr c, IntPtr name, ulong size)
+    public IntPtr MkFiniteDomainSortOriginal(IntPtr c, IntPtr name, ulong size)
     {
         var result = nativeLibrary.MkFiniteDomainSort(c, name, size);
         CheckError(c);
@@ -372,7 +372,7 @@ public sealed partial class Z3Library2
     /// <param name="projDecl" ctype="Z3_func_decl[]">
     /// output parameter that will contain the projection function declarations. This field must be a buffer of size num_fields allocated by the user.
     /// </param>
-    public IntPtr MkTupleSort(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
+    public IntPtr MkTupleSortOriginal(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
         var result = nativeLibrary.MkTupleSort(c, mkTupleName, numFields, fieldNames, fieldSorts, mkTupleDecl, projDecl);
         CheckError(c);
@@ -469,7 +469,7 @@ public sealed partial class Z3Library2
     /// Similarly for the other predicates.
     /// </para>
     /// </param>
-    public IntPtr MkEnumerationSort(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
+    public IntPtr MkEnumerationSortOriginal(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
         var result = nativeLibrary.MkEnumerationSort(c, name, n, enumNames, enumConsts, enumTesters);
         CheckError(c);
@@ -558,7 +558,7 @@ public sealed partial class Z3Library2
     /// <param name="tailDecl" ctype="Z3_func_decl*">
     /// list tail.
     /// </param>
-    public IntPtr MkListSort(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
+    public IntPtr MkListSortOriginal(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
     {
         var result = nativeLibrary.MkListSort(c, name, elemSort, nilDecl, isNilDecl, consDecl, isConsDecl, headDecl, tailDecl);
         CheckError(c);
@@ -636,7 +636,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="QueryConstructor"/>
-    public IntPtr MkConstructor(IntPtr c, IntPtr name, IntPtr recognizer, uint numFields, IntPtr[] fieldNames, IntPtr[] sorts, uint[] sortRefs)
+    public IntPtr MkConstructorOriginal(IntPtr c, IntPtr name, IntPtr recognizer, uint numFields, IntPtr[] fieldNames, IntPtr[] sorts, uint[] sortRefs)
     {
         var result = nativeLibrary.MkConstructor(c, name, recognizer, numFields, fieldNames, sorts, sortRefs);
         CheckError(c);
@@ -723,7 +723,7 @@ public sealed partial class Z3Library2
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatypes"/>
-    public IntPtr MkDatatype(IntPtr c, IntPtr name, uint numConstructors, IntPtr[] constructors)
+    public IntPtr MkDatatypeOriginal(IntPtr c, IntPtr name, uint numConstructors, IntPtr[] constructors)
     {
         var result = nativeLibrary.MkDatatype(c, name, numConstructors, constructors);
         CheckError(c);
@@ -776,7 +776,7 @@ public sealed partial class Z3Library2
     /// <param name="name" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
-    public IntPtr MkDatatypeSort(IntPtr c, IntPtr name)
+    public IntPtr MkDatatypeSortOriginal(IntPtr c, IntPtr name)
     {
         var result = nativeLibrary.MkDatatypeSort(c, name);
         CheckError(c);
