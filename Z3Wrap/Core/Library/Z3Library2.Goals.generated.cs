@@ -11,21 +11,7 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
-    /// Create a goal (aka problem). A goal is essentially a set
-    /// of formulas, that can be solved and/or transformed using
-    /// tactics and solvers.
-    /// </para>
-    /// <para>
-    /// If models is true, then model generation is enabled for the new goal.
-    /// </para>
-    /// <para>
-    /// If unsat_cores is true, then unsat core generation is enabled for the new goal.
-    /// </para>
-    /// <para>
-    /// If proofs is true, then proof generation is enabled for the new goal. Remark, the
-    /// Z3 context c must have been created with proof generation support.
-    /// </para>
+    /// Create a goal (aka problem). A goal is essentially a set of formulas, that can be solved and/or transformed using tactics and solvers.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -40,8 +26,40 @@ public sealed partial class Z3Library2
     /// bool parameter
     /// </param>
     /// <remarks>
-    /// Reference counting must be used to manage goals, even when the Z3_context was
-    /// created using
+    /// If
+    /// <c>
+    /// models
+    /// </c>
+    /// is
+    /// <c>
+    /// true
+    /// </c>
+    /// , then model generation is enabled for the new goal. If
+    /// <c>
+    /// unsat_cores
+    /// </c>
+    /// is
+    /// <c>
+    /// true
+    /// </c>
+    /// , then unsat core generation is enabled for the new goal. If
+    /// <c>
+    /// proofs
+    /// </c>
+    /// is
+    /// <c>
+    /// true
+    /// </c>
+    /// , then proof generation is enabled for the new goal. Remark, the Z3 context
+    /// <c>
+    /// c
+    /// </c>
+    /// must have been created with proof generation support.
+    /// Reference counting must be used to manage goals, even when the
+    /// <c>
+    /// Z3_context
+    /// </c>
+    /// was created using
     /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
@@ -85,9 +103,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations.
-    /// A under approximation is applied when the objective is to find a model for a given goal.
-    /// An over approximation is applied when the objective is to find a proof for a given goal.
+    /// Return the "precision" of the given goal. Goals can be transformed using over and under approximations. A under approximation is applied when the objective is to find a model for a given goal. An over approximation is applied when the objective is to find a proof for a given goal.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -103,14 +119,35 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a new formula a to the given goal.
-    /// The formula is split according to the following procedure that is applied
-    /// until a fixed-point:
-    /// Conjunctions are split into separate formulas.
-    /// Negations are distributed over disjunctions, resulting in separate formulas.
-    /// If the goal is false, adding new formulas is a no-op.
-    /// If the formula a is true, then nothing is added.
-    /// If the formula a is false, then the entire goal is replaced by the formula false.
+    /// Add a new formula
+    /// <c>
+    /// a
+    /// </c>
+    /// to the given goal. The formula is split according to the following procedure that is applied until a fixed-point: Conjunctions are split into separate formulas. Negations are distributed over disjunctions, resulting in separate formulas. If the goal is
+    /// <c>
+    /// false
+    /// </c>
+    /// , adding new formulas is a no-op. If the formula
+    /// <c>
+    /// a
+    /// </c>
+    /// is
+    /// <c>
+    /// true
+    /// </c>
+    /// , then nothing is added. If the formula
+    /// <c>
+    /// a
+    /// </c>
+    /// is
+    /// <c>
+    /// false
+    /// </c>
+    /// , then the entire goal is replaced by the formula
+    /// <c>
+    /// false
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -128,7 +165,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the given goal contains the formula false.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if the given goal contains the formula
+    /// <c>
+    /// false
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -229,7 +274,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the goal is empty, and it is precise or the product of a under approximation.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if the goal is empty, and it is precise or the product of a under approximation.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -245,7 +294,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the goal contains false, and it is precise or the product of an over approximation.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if the goal contains false, and it is precise or the product of an over approximation.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -261,7 +314,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Copy a goal g from the context source to the context target.
+    /// Copy a goal
+    /// <c>
+    /// g
+    /// </c>
+    /// from the context
+    /// <c>
+    /// source
+    /// </c>
+    /// to the context
+    /// <c>
+    /// target
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="source" ctype="Z3_context">
     /// context parameter
@@ -280,17 +345,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Convert a model of the formulas of a goal to a model of an original goal.
-    /// The model may be null, in which case the returned model is valid if the goal was
-    /// established satisfiable.
-    /// </para>
-    /// <para>
-    /// When using this feature it is advisable to set the parameter model.compact to false.
-    /// It is by default true, which erases variables created by the solver from models.
-    /// Without access to model values for intermediary variables, values of other variables
-    /// may end up having the wrong values.
-    /// </para>
+    /// Convert a model of the formulas of a goal to a model of an original goal. The model may be null, in which case the returned model is valid if the goal was established satisfiable.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -301,6 +356,17 @@ public sealed partial class Z3Library2
     /// <param name="m" ctype="Z3_model">
     /// model parameter
     /// </param>
+    /// <remarks>
+    /// When using this feature it is advisable to set the parameter
+    /// <c>
+    /// model.compact
+    /// </c>
+    /// to
+    /// <c>
+    /// false
+    /// </c>
+    /// . It is by default true, which erases variables created by the solver from models. Without access to model values for intermediary variables, values of other variables may end up having the wrong values.
+    /// </remarks>
     public IntPtr GoalConvertModel(IntPtr c, IntPtr g, IntPtr m)
     {
         var result = nativeLibrary.GoalConvertModel(c, g, m);
@@ -325,12 +391,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a goal into a DIMACS formatted string.
-    /// The goal must be in CNF. You can convert a goal to CNF
-    /// by applying the tseitin-cnf tactic. Bit-vectors are not automatically
-    /// converted to Booleans either, so if the caller intends to
-    /// preserve satisfiability, it should apply bit-blasting tactics.
-    /// Quantifiers and theory atoms will not be encoded.
+    /// Convert a goal into a DIMACS formatted string. The goal must be in CNF. You can convert a goal to CNF by applying the tseitin-cnf tactic. Bit-vectors are not automatically converted to Booleans either, so if the caller intends to preserve satisfiability, it should apply bit-blasting tactics. Quantifiers and theory atoms will not be encoded.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

@@ -11,22 +11,15 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
-    /// Return a tactic associated with the given name.
-    /// The complete list of tactics may be obtained using the procedures
+    /// Return a tactic associated with the given name. The complete list of tactics may be obtained using the procedures
     /// <see cref="GetNumTactics"/>
     /// and
     /// <see cref="GetTacticName"/>
-    /// .
-    /// It may also be obtained using the command
-    /// <code>
+    /// . It may also be obtained using the command
+    /// <c>
     /// (help-tactic)
-    /// </code>
+    /// </c>
     /// in the SMT 2.0 front-end.
-    /// </para>
-    /// <para>
-    /// Tactics are the basic building block for creating custom solvers for specific problem domains.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -34,6 +27,9 @@ public sealed partial class Z3Library2
     /// <param name="name" ctype="Z3_string">
     /// string parameter
     /// </param>
+    /// <remarks>
+    /// Tactics are the basic building block for creating custom solvers for specific problem domains.
+    /// </remarks>
     public IntPtr MkTactic(IntPtr c, string name)
     {
         using var nameAnsi = new AnsiStringPtr(name);
@@ -73,23 +69,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Return a probe associated with the given name.
-    /// The complete list of probes may be obtained using the procedures
+    /// Return a probe associated with the given name. The complete list of probes may be obtained using the procedures
     /// <see cref="GetNumProbes"/>
     /// and
     /// <see cref="GetProbeName"/>
-    /// .
-    /// It may also be obtained using the command
-    /// <code>
+    /// . It may also be obtained using the command
+    /// <c>
     /// (help-tactic)
-    /// </code>
+    /// </c>
     /// in the SMT 2.0 front-end.
-    /// </para>
-    /// <para>
-    /// Probes are used to inspect a goal (aka problem) and collect information that may be used to decide
-    /// which solver and/or preprocessing step will be used.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -97,6 +85,9 @@ public sealed partial class Z3Library2
     /// <param name="name" ctype="Z3_string">
     /// string parameter
     /// </param>
+    /// <remarks>
+    /// Probes are used to inspect a goal (aka problem) and collect information that may be used to decide which solver and/or preprocessing step will be used.
+    /// </remarks>
     public IntPtr MkProbe(IntPtr c, string name)
     {
         using var nameAnsi = new AnsiStringPtr(name);
@@ -136,8 +127,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that applies t1 to a given goal and t2
-    /// to every subgoal produced by t1.
+    /// Return a tactic that applies
+    /// <c>
+    /// t1
+    /// </c>
+    /// to a given goal and
+    /// <c>
+    /// t2
+    /// </c>
+    /// to every subgoal produced by
+    /// <c>
+    /// t1
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -156,8 +158,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that first applies t1 to a given goal,
-    /// if it fails then returns the result of t2 applied to the given goal.
+    /// Return a tactic that first applies
+    /// <c>
+    /// t1
+    /// </c>
+    /// to a given goal, if it fails then returns the result of
+    /// <c>
+    /// t2
+    /// </c>
+    /// applied to the given goal.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -195,8 +204,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that applies t1 to a given goal and then t2
-    /// to every subgoal produced by t1. The subgoals are processed in parallel.
+    /// Return a tactic that applies
+    /// <c>
+    /// t1
+    /// </c>
+    /// to a given goal and then
+    /// <c>
+    /// t2
+    /// </c>
+    /// to every subgoal produced by
+    /// <c>
+    /// t1
+    /// </c>
+    /// . The subgoals are processed in parallel.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -215,8 +235,23 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that applies t to a given goal for ms milliseconds.
-    /// If t does not terminate in ms milliseconds, then it fails.
+    /// Return a tactic that applies
+    /// <c>
+    /// t
+    /// </c>
+    /// to a given goal for
+    /// <c>
+    /// ms
+    /// </c>
+    /// milliseconds. If
+    /// <c>
+    /// t
+    /// </c>
+    /// does not terminate in
+    /// <c>
+    /// ms
+    /// </c>
+    /// milliseconds, then it fails.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -235,8 +270,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that applies t to a given goal is the probe p evaluates to true.
-    /// If p evaluates to false, then the new tactic behaves like the skip tactic.
+    /// Return a tactic that applies
+    /// <c>
+    /// t
+    /// </c>
+    /// to a given goal is the probe
+    /// <c>
+    /// p
+    /// </c>
+    /// evaluates to true. If
+    /// <c>
+    /// p
+    /// </c>
+    /// evaluates to false, then the new tactic behaves like the skip tactic.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -255,8 +301,23 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that applies t1 to a given goal if the probe p evaluates to true,
-    /// and t2 if p evaluates to false.
+    /// Return a tactic that applies
+    /// <c>
+    /// t1
+    /// </c>
+    /// to a given goal if the probe
+    /// <c>
+    /// p
+    /// </c>
+    /// evaluates to true, and
+    /// <c>
+    /// t2
+    /// </c>
+    /// if
+    /// <c>
+    /// p
+    /// </c>
+    /// evaluates to false.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -278,8 +339,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that keeps applying t until the goal is not modified anymore or the maximum
-    /// number of iterations max is reached.
+    /// Return a tactic that keeps applying
+    /// <c>
+    /// t
+    /// </c>
+    /// until the goal is not modified anymore or the maximum number of iterations
+    /// <c>
+    /// max
+    /// </c>
+    /// is reached.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -324,7 +392,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that fails if the probe p evaluates to false.
+    /// Return a tactic that fails if the probe
+    /// <c>
+    /// p
+    /// </c>
+    /// evaluates to false.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -340,8 +412,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that fails if the goal is not trivially satisfiable (i.e., empty) or
-    /// trivially unsatisfiable (i.e., contains false).
+    /// Return a tactic that fails if the goal is not trivially satisfiable (i.e., empty) or trivially unsatisfiable (i.e., contains false).
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -354,7 +425,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a tactic that applies t using the given set of parameters.
+    /// Return a tactic that applies
+    /// <c>
+    /// t
+    /// </c>
+    /// using the given set of parameters.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -373,22 +448,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Return a simplifier associated with the given name.
-    /// The complete list of simplifiers may be obtained using the procedures
+    /// Return a simplifier associated with the given name. The complete list of simplifiers may be obtained using the procedures
     /// <see cref="GetNumSimplifiers"/>
     /// and
     /// <see cref="GetSimplifierName"/>
-    /// .
-    /// It may also be obtained using the command
-    /// <code>
+    /// . It may also be obtained using the command
+    /// <c>
     /// (help-simplifier)
-    /// </code>
+    /// </c>
     /// in the SMT 2.0 front-end.
-    /// </para>
-    /// <para>
-    /// Simplifiers are the basic building block for creating custom solvers for specific problem domains.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -396,6 +464,9 @@ public sealed partial class Z3Library2
     /// <param name="name" ctype="Z3_string">
     /// string parameter
     /// </param>
+    /// <remarks>
+    /// Simplifiers are the basic building block for creating custom solvers for specific problem domains.
+    /// </remarks>
     public IntPtr MkSimplifier(IntPtr c, string name)
     {
         using var nameAnsi = new AnsiStringPtr(name);
@@ -454,8 +525,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a simplifier that applies t1 to a given goal and t2
-    /// to every subgoal produced by t1.
+    /// Return a simplifier that applies
+    /// <c>
+    /// t1
+    /// </c>
+    /// to a given goal and
+    /// <c>
+    /// t2
+    /// </c>
+    /// to every subgoal produced by
+    /// <c>
+    /// t1
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -474,7 +556,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a simplifier that applies t using the given set of parameters.
+    /// Return a simplifier that applies
+    /// <c>
+    /// t
+    /// </c>
+    /// using the given set of parameters.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -592,7 +678,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by p1 is less than the value returned by p2.
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// <c>
+    /// p1
+    /// </c>
+    /// is less than the value returned by
+    /// <c>
+    /// p2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -614,7 +708,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by p1 is greater than the value returned by p2.
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// <c>
+    /// p1
+    /// </c>
+    /// is greater than the value returned by
+    /// <c>
+    /// p2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -636,7 +738,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by p1 is less than or equal to the value returned by p2.
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// <c>
+    /// p1
+    /// </c>
+    /// is less than or equal to the value returned by
+    /// <c>
+    /// p2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -658,7 +768,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by p1 is greater than or equal to the value returned by p2.
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// <c>
+    /// p1
+    /// </c>
+    /// is greater than or equal to the value returned by
+    /// <c>
+    /// p2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -680,7 +798,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when the value returned by p1 is equal to the value returned by p2.
+    /// Return a probe that evaluates to "true" when the value returned by
+    /// <c>
+    /// p1
+    /// </c>
+    /// is equal to the value returned by
+    /// <c>
+    /// p2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -702,7 +828,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when p1 and p2 evaluates to true.
+    /// Return a probe that evaluates to "true" when
+    /// <c>
+    /// p1
+    /// </c>
+    /// and
+    /// <c>
+    /// p2
+    /// </c>
+    /// evaluates to true.
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -724,7 +858,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when p1 or p2 evaluates to true.
+    /// Return a probe that evaluates to "true" when
+    /// <c>
+    /// p1
+    /// </c>
+    /// or
+    /// <c>
+    /// p2
+    /// </c>
+    /// evaluates to true.
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -746,7 +888,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return a probe that evaluates to "true" when p does not evaluate to true.
+    /// Return a probe that evaluates to "true" when
+    /// <c>
+    /// p
+    /// </c>
+    /// does not evaluate to true.
     /// </summary>
     /// <param name="x" ctype="Z3_context">
     /// context parameter
@@ -813,7 +959,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the name of the i probe.
+    /// Return the name of the
+    /// <c>
+    /// i
+    /// </c>
+    /// probe.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -899,8 +1049,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Execute the probe over the goal. The probe always produce a double value.
-    /// "Boolean" probes return 0.0 for false, and a value different from 0.0 for true.
+    /// Execute the probe over the goal. The probe always produce a double value. "Boolean" probes return 0.0 for false, and a value different from 0.0 for true.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -919,7 +1068,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Apply tactic t to the goal g.
+    /// Apply tactic
+    /// <c>
+    /// t
+    /// </c>
+    /// to the goal
+    /// <c>
+    /// g
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -939,7 +1096,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Apply tactic t to the goal g using the parameter set p.
+    /// Apply tactic
+    /// <c>
+    /// t
+    /// </c>
+    /// to the goal
+    /// <c>
+    /// g
+    /// </c>
+    /// using the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -962,7 +1131,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given Z3_apply_result object.
+    /// Increment the reference counter of the given
+    /// <c>
+    /// Z3_apply_result
+    /// </c>
+    /// object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -977,7 +1150,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given Z3_apply_result object.
+    /// Decrement the reference counter of the given
+    /// <c>
+    /// Z3_apply_result
+    /// </c>
+    /// object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -992,7 +1169,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert the Z3_apply_result object returned by
+    /// Convert the
+    /// <c>
+    /// Z3_apply_result
+    /// </c>
+    /// object returned by
     /// <see cref="TacticApply"/>
     /// into a string.
     /// </summary>
@@ -1010,7 +1191,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of subgoals in the Z3_apply_result object returned by
+    /// Return the number of subgoals in the
+    /// <c>
+    /// Z3_apply_result
+    /// </c>
+    /// object returned by
     /// <see cref="TacticApply"/>
     /// .
     /// </summary>
@@ -1029,7 +1214,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return one of the subgoals in the Z3_apply_result object returned by
+    /// Return one of the subgoals in the
+    /// <c>
+    /// Z3_apply_result
+    /// </c>
+    /// object returned by
     /// <see cref="TacticApply"/>
     /// .
     /// </summary>

@@ -11,12 +11,7 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
     /// Bitwise negation.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -24,6 +19,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvnot(IntPtr c, IntPtr t1)
     {
         var result = nativeLibrary.MkBvnot(c, t1);
@@ -32,12 +34,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Take conjunction of bits in vector, return vector of length 1.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -45,6 +42,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvredand(IntPtr c, IntPtr t1)
     {
         var result = nativeLibrary.MkBvredand(c, t1);
@@ -53,12 +57,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Take disjunction of bits in vector, return vector of length 1.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -66,6 +65,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvredor(IntPtr c, IntPtr t1)
     {
         var result = nativeLibrary.MkBvredor(c, t1);
@@ -74,12 +80,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Bitwise and.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -90,6 +91,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvand(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvand(c, t1, t2);
@@ -98,12 +110,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Bitwise or.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -114,6 +121,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvor(c, t1, t2);
@@ -122,12 +140,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Bitwise exclusive-or.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -138,6 +151,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvxor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvxor(c, t1, t2);
@@ -146,12 +170,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Bitwise nand.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -162,6 +181,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvnand(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvnand(c, t1, t2);
@@ -170,12 +200,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Bitwise nor.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -186,6 +211,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvnor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvnor(c, t1, t2);
@@ -194,12 +230,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Bitwise xnor.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -210,6 +241,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvxnor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvxnor(c, t1, t2);
@@ -218,12 +260,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Standard two's complement unary minus.
-    /// </para>
-    /// <para>
-    /// The node t1 must have bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -231,6 +268,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvneg(IntPtr c, IntPtr t1)
     {
         var result = nativeLibrary.MkBvneg(c, t1);
@@ -239,12 +283,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Standard two's complement addition.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -255,6 +294,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvadd(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvadd(c, t1, t2);
@@ -263,12 +313,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Standard two's complement subtraction.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -279,6 +324,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvsub(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsub(c, t1, t2);
@@ -287,12 +343,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Standard two's complement multiplication.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -303,6 +354,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvmul(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvmul(c, t1, t2);
@@ -311,25 +373,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Unsigned division.
-    /// </para>
-    /// <para>
-    /// It is defined as the floor of
-    /// <code>
-    /// t1/t2
-    /// </code>
-    /// if t2 is
-    /// different from zero. If
-    /// <code>
-    /// t2
-    /// </code>
-    /// is zero, then the result
-    /// is undefined.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -340,6 +384,33 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is defined as the
+    /// <c>
+    /// floor
+    /// </c>
+    /// of
+    /// <c>
+    /// t1/t2
+    /// </c>
+    /// if
+    /// <c>
+    /// t2
+    /// </c>
+    /// is different from zero. If
+    /// <c>
+    /// t2
+    /// </c>
+    /// is zero, then the result is undefined. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvudiv(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvudiv(c, t1, t2);
@@ -348,56 +419,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed division.
-    /// </para>
-    /// <para>
-    /// It is defined in the following way:
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item>
-    /// <description>
-    /// The floor of
-    /// <code>
-    /// t1/t2
-    /// </code>
-    /// if t2 is different from zero, and
-    /// <code>
-    /// t1*t2 &gt;= 0
-    /// </code>
-    /// .
-    /// </description>
-    /// </item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item>
-    /// <description>
-    /// The ceiling of
-    /// <code>
-    /// t1/t2
-    /// </code>
-    /// if t2 is different from zero, and
-    /// <code>
-    /// t1*t2 &lt; 0
-    /// </code>
-    /// .
-    /// </description>
-    /// </item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// If
-    /// <code>
-    /// t2
-    /// </code>
-    /// is zero, then the result is undefined.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -408,6 +430,53 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is defined in the following way:  The
+    /// <c>
+    /// floor
+    /// </c>
+    /// of
+    /// <c>
+    /// t1/t2
+    /// </c>
+    /// if
+    /// <c>
+    /// t2
+    /// </c>
+    /// is different from zero, and
+    /// <c>
+    /// t1*t2 &gt;= 0
+    /// </c>
+    /// .  The
+    /// <c>
+    /// ceiling
+    /// </c>
+    /// of
+    /// <c>
+    /// t1/t2
+    /// </c>
+    /// if
+    /// <c>
+    /// t2
+    /// </c>
+    /// is different from zero, and
+    /// <c>
+    /// t1*t2 &lt; 0
+    /// </c>
+    /// .   If
+    /// <c>
+    /// t2
+    /// </c>
+    /// is zero, then the result is undefined. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvsdiv(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsdiv(c, t1, t2);
@@ -416,30 +485,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Unsigned remainder.
-    /// </para>
-    /// <para>
-    /// It is defined as
-    /// <code>
-    /// t1 - (t1 /u t2) * t2
-    /// </code>
-    /// , where
-    /// <code>
-    /// /u
-    /// </code>
-    /// represents unsigned division.
-    /// </para>
-    /// <para>
-    /// If
-    /// <code>
-    /// t2
-    /// </code>
-    /// is zero, then the result is undefined.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -450,6 +496,29 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is defined as
+    /// <c>
+    /// t1 - (t1 /u t2) * t2
+    /// </c>
+    /// , where
+    /// <c>
+    /// /u
+    /// </c>
+    /// represents unsigned division. If
+    /// <c>
+    /// t2
+    /// </c>
+    /// is zero, then the result is undefined. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvurem(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvurem(c, t1, t2);
@@ -458,31 +527,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed remainder (sign follows dividend).
-    /// </para>
-    /// <para>
-    /// It is defined as
-    /// <code>
-    /// t1 - (t1 /s t2) * t2
-    /// </code>
-    /// , where
-    /// <code>
-    /// /s
-    /// </code>
-    /// represents signed division.
-    /// The most significant bit (sign) of the result is equal to the most significant bit of t1.
-    /// </para>
-    /// <para>
-    /// If
-    /// <code>
-    /// t2
-    /// </code>
-    /// is zero, then the result is undefined.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -493,6 +538,33 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is defined as
+    /// <c>
+    /// t1 - (t1 /s t2) * t2
+    /// </c>
+    /// , where
+    /// <c>
+    /// /s
+    /// </c>
+    /// represents signed division. The most significant bit (sign) of the result is equal to the most significant bit of
+    /// <c>
+    /// t1
+    /// </c>
+    /// . If
+    /// <c>
+    /// t2
+    /// </c>
+    /// is zero, then the result is undefined. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     /// <seealso cref="MkBvsmod"/>
     public IntPtr MkBvsrem(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -502,19 +574,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed remainder (sign follows divisor).
-    /// </para>
-    /// <para>
-    /// If
-    /// <code>
-    /// t2
-    /// </code>
-    /// is zero, then the result is undefined.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -525,6 +585,21 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// If
+    /// <c>
+    /// t2
+    /// </c>
+    /// is zero, then the result is undefined. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     /// <seealso cref="MkBvsrem"/>
     public IntPtr MkBvsmod(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -534,12 +609,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Unsigned less than.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -550,6 +620,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvult(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvult(c, t1, t2);
@@ -558,21 +639,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed less than.
-    /// </para>
-    /// <para>
-    /// It abbreviates:
-    /// <code>
-    /// (or (and (= (extract[|m-1|:|m-1|] t1) bit1)
-    /// (= (extract[|m-1|:|m-1|] t2) bit0))
-    /// (and (= (extract[|m-1|:|m-1|] t1) (extract[|m-1|:|m-1|] t2))
-    /// (bvult t1 t2)))
-    /// </code>
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -583,6 +650,24 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It abbreviates:
+    /// <code>
+    /// (or (and (= (extract[|m-1|:|m-1|] t1) bit1)
+    /// (= (extract[|m-1|:|m-1|] t2) bit0))
+    /// (and (= (extract[|m-1|:|m-1|] t1) (extract[|m-1|:|m-1|] t2))
+    /// (bvult t1 t2)))
+    /// </code>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvslt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvslt(c, t1, t2);
@@ -591,12 +676,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Unsigned less than or equal to.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -607,6 +687,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvule(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvule(c, t1, t2);
@@ -615,12 +706,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed less than or equal to.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -631,6 +717,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvsle(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsle(c, t1, t2);
@@ -639,12 +736,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Unsigned greater than or equal to.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -655,6 +747,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvuge(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvuge(c, t1, t2);
@@ -663,12 +766,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed greater than or equal to.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -679,6 +777,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvsge(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsge(c, t1, t2);
@@ -687,12 +796,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Unsigned greater than.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -703,6 +807,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvugt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvugt(c, t1, t2);
@@ -711,12 +826,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Two's complement signed greater than.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -727,6 +837,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvsgt(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsgt(c, t1, t2);
@@ -735,20 +856,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Concatenate the given bit-vectors.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have (possibly different) bit-vector sorts
-    /// </para>
-    /// <para>
-    /// The result is a bit-vector of size
-    /// <code>
-    /// n1+n2
-    /// </code>
-    /// , where n1 (n2) is the size
-    /// of t1 (t2).
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -759,6 +867,37 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have (possibly different) bit-vector sorts The result is a bit-vector of size
+    /// <c>
+    /// n1+n2
+    /// </c>
+    /// , where
+    /// <c>
+    /// n1
+    /// </c>
+    /// (
+    /// <c>
+    /// n2
+    /// </c>
+    /// ) is the size of
+    /// <c>
+    /// t1
+    /// </c>
+    /// (
+    /// <c>
+    /// t2
+    /// </c>
+    /// ).
+    /// </remarks>
     public IntPtr MkConcat(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkConcat(c, t1, t2);
@@ -767,17 +906,27 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Extract the bits high down to low from a bit-vector of
-    /// size m to yield a new bit-vector of size n, where
-    /// <code>
+    /// Extract the bits
+    /// <c>
+    /// high
+    /// </c>
+    /// down to
+    /// <c>
+    /// low
+    /// </c>
+    /// from a bit-vector of size
+    /// <c>
+    /// m
+    /// </c>
+    /// to yield a new bit-vector of size
+    /// <c>
+    /// n
+    /// </c>
+    /// , where
+    /// <c>
     /// n = high - low + 1
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -791,6 +940,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkExtract(IntPtr c, uint high, uint low, IntPtr t1)
     {
         var result = nativeLibrary.MkExtract(c, high, low, t1);
@@ -799,18 +955,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Sign-extend of the given bit-vector to the (signed) equivalent bit-vector of
-    /// size
-    /// <code>
+    /// Sign-extend of the given bit-vector to the (signed) equivalent bit-vector of size
+    /// <c>
     /// m+i
-    /// </code>
-    /// , where m is the size of the given
-    /// bit-vector.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
+    /// </c>
+    /// , where
+    /// <c>
+    /// m
+    /// </c>
+    /// is the size of the given bit-vector.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -821,6 +974,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkSignExt(IntPtr c, uint i, IntPtr t1)
     {
         var result = nativeLibrary.MkSignExt(c, i, t1);
@@ -829,18 +989,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Extend the given bit-vector with zeros to the (unsigned) equivalent
-    /// bit-vector of size
-    /// <code>
+    /// Extend the given bit-vector with zeros to the (unsigned) equivalent bit-vector of size
+    /// <c>
     /// m+i
-    /// </code>
-    /// , where m is the size of the
-    /// given bit-vector.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
+    /// </c>
+    /// , where
+    /// <c>
+    /// m
+    /// </c>
+    /// is the size of the given bit-vector.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -851,6 +1008,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkZeroExt(IntPtr c, uint i, IntPtr t1)
     {
         var result = nativeLibrary.MkZeroExt(c, i, t1);
@@ -859,16 +1023,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Repeat the given bit-vector up length
-    /// <code>
+    /// <c>
     /// i
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -879,6 +1038,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkRepeat(IntPtr c, uint i, IntPtr t1)
     {
         var result = nativeLibrary.MkRepeat(c, i, t1);
@@ -887,17 +1053,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Extracts the bit at position
-    /// <code>
+    /// <c>
     /// i
-    /// </code>
-    /// of a bit-vector and
-    /// yields a boolean.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
+    /// </c>
+    /// of a bit-vector and yields a boolean.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -908,6 +1068,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkBit2bool(IntPtr c, uint i, IntPtr t1)
     {
         var result = nativeLibrary.MkBit2bool(c, i, t1);
@@ -916,25 +1083,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Shift left.
-    /// </para>
-    /// <para>
-    /// It is equivalent to multiplication by
-    /// <code>
-    /// 2^x
-    /// </code>
-    /// where x is the value of the
-    /// third argument.
-    /// </para>
-    /// <para>
-    /// NB. The semantics of shift operations varies between environments. This
-    /// definition does not necessarily capture directly the semantics of the
-    /// programming language or assembly architecture you are modeling.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -945,6 +1094,25 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is equivalent to multiplication by
+    /// <c>
+    /// 2^x
+    /// </c>
+    /// where
+    /// <c>
+    /// x
+    /// </c>
+    /// is the value of the third argument. NB. The semantics of shift operations varies between environments. This definition does not necessarily capture directly the semantics of the programming language or assembly architecture you are modeling. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvshl(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvshl(c, t1, t2);
@@ -953,25 +1121,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Logical shift right.
-    /// </para>
-    /// <para>
-    /// It is equivalent to unsigned division by
-    /// <code>
-    /// 2^x
-    /// </code>
-    /// where x is the
-    /// value of the third argument.
-    /// </para>
-    /// <para>
-    /// NB. The semantics of shift operations varies between environments. This
-    /// definition does not necessarily capture directly the semantics of the
-    /// programming language or assembly architecture you are modeling.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -982,6 +1132,25 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is equivalent to unsigned division by
+    /// <c>
+    /// 2^x
+    /// </c>
+    /// where
+    /// <c>
+    /// x
+    /// </c>
+    /// is the value of the third argument. NB. The semantics of shift operations varies between environments. This definition does not necessarily capture directly the semantics of the programming language or assembly architecture you are modeling. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvlshr(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvlshr(c, t1, t2);
@@ -990,22 +1159,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Arithmetic shift right.
-    /// </para>
-    /// <para>
-    /// It is like logical shift right except that the most significant
-    /// bits of the result always copy the most significant bit of the
-    /// second argument.
-    /// </para>
-    /// <para>
-    /// The semantics of shift operations varies between environments. This
-    /// definition does not necessarily capture directly the semantics of the
-    /// programming language or assembly architecture you are modeling.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1016,6 +1170,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// It is like logical shift right except that the most significant bits of the result always copy the most significant bit of the second argument. The semantics of shift operations varies between environments. This definition does not necessarily capture directly the semantics of the programming language or assembly architecture you are modeling. The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkBvashr(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvashr(c, t1, t2);
@@ -1024,12 +1189,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Rotate bits of t1 to the left i times.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
+    /// Rotate bits of
+    /// <c>
+    /// t1
+    /// </c>
+    /// to the left
+    /// <c>
+    /// i
+    /// </c>
+    /// times.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1040,6 +1208,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkRotateLeft(IntPtr c, uint i, IntPtr t1)
     {
         var result = nativeLibrary.MkRotateLeft(c, i, t1);
@@ -1048,12 +1223,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Rotate bits of t1 to the right i times.
-    /// </para>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
+    /// Rotate bits of
+    /// <c>
+    /// t1
+    /// </c>
+    /// to the right
+    /// <c>
+    /// i
+    /// </c>
+    /// times.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1064,6 +1242,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkRotateRight(IntPtr c, uint i, IntPtr t1)
     {
         var result = nativeLibrary.MkRotateRight(c, i, t1);
@@ -1072,12 +1257,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Rotate bits of t1 to the left t2 times.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
+    /// Rotate bits of
+    /// <c>
+    /// t1
+    /// </c>
+    /// to the left
+    /// <c>
+    /// t2
+    /// </c>
+    /// times.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1088,6 +1276,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkExtRotateLeft(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkExtRotateLeft(c, t1, t2);
@@ -1096,12 +1295,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Rotate bits of t1 to the right t2 times.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// </para>
+    /// Rotate bits of
+    /// <c>
+    /// t1
+    /// </c>
+    /// to the right
+    /// <c>
+    /// t2
+    /// </c>
+    /// times.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1112,6 +1314,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort.
+    /// </remarks>
     public IntPtr MkExtRotateRight(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkExtRotateRight(c, t1, t2);
@@ -1120,16 +1333,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create an n bit bit-vector from the integer argument t1.
-    /// </para>
-    /// <para>
-    /// The resulting bit-vector has n bits, where the i'th bit (counting
-    /// from 0 to n-1) is 1 if \c (t1 div 2^i) mod 2 is 1.
-    /// </para>
-    /// <para>
-    /// The node t1 must have integer sort.
-    /// </para>
+    /// Create an
+    /// <c>
+    /// n
+    /// </c>
+    /// bit bit-vector from the integer argument
+    /// <c>
+    /// t1
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1140,6 +1352,21 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The resulting bit-vector has
+    /// <c>
+    /// n
+    /// </c>
+    /// bits, where the i'th bit (counting from 0 to
+    /// <c>
+    /// n-1
+    /// </c>
+    /// ) is 1 if (t1 div 2^i) mod 2 is 1.  The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have integer sort.
+    /// </remarks>
     public IntPtr MkInt2bv(IntPtr c, uint n, IntPtr t1)
     {
         var result = nativeLibrary.MkInt2bv(c, n, t1);
@@ -1148,21 +1375,35 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create an integer from the bit-vector argument t1.
-    /// If is_signed is false, then the bit-vector t1 is treated as unsigned.
-    /// So the result is non-negative
-    /// and in the range
-    /// <code>
+    /// Create an integer from the bit-vector argument
+    /// <c>
+    /// t1
+    /// </c>
+    /// . If
+    /// <c>
+    /// is_signed
+    /// </c>
+    /// is false, then the bit-vector
+    /// <c>
+    /// t1
+    /// </c>
+    /// is treated as unsigned. So the result is non-negative and in the range
+    /// <c>
     /// [0..2^N-1]
-    /// </code>
-    /// , where N are the number of bits in t1.
-    /// If is_signed is true, t1 is treated as a signed bit-vector.
-    /// </para>
-    /// <para/>
-    /// <para>
-    /// The node t1 must have a bit-vector sort.
-    /// </para>
+    /// </c>
+    /// , where N are the number of bits in
+    /// <c>
+    /// t1
+    /// </c>
+    /// . If
+    /// <c>
+    /// is_signed
+    /// </c>
+    /// is true,
+    /// <c>
+    /// t1
+    /// </c>
+    /// is treated as a signed bit-vector.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1173,6 +1414,13 @@ public sealed partial class Z3Library2
     /// <param name="isSigned" ctype="bool">
     /// bool parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have a bit-vector sort.
+    /// </remarks>
     public IntPtr MkBv2int(IntPtr c, IntPtr t1, bool isSigned)
     {
         var result = nativeLibrary.MkBv2int(c, t1, isSigned);
@@ -1181,14 +1429,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise addition
-    /// of t1 and t2 does not overflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise addition of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not overflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1202,6 +1451,17 @@ public sealed partial class Z3Library2
     /// <param name="isSigned" ctype="bool">
     /// bool parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvaddNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
         var result = nativeLibrary.MkBvaddNoOverflow(c, t1, t2, isSigned);
@@ -1210,14 +1470,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise signed addition
-    /// of t1 and t2 does not underflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise signed addition of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not underflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1228,6 +1489,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvaddNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvaddNoUnderflow(c, t1, t2);
@@ -1236,14 +1508,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise signed subtraction
-    /// of t1 and t2 does not overflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise signed subtraction of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not overflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1254,6 +1527,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvsubNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsubNoOverflow(c, t1, t2);
@@ -1262,14 +1546,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise subtraction
-    /// of t1 and t2 does not underflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise subtraction of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not underflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1283,6 +1568,17 @@ public sealed partial class Z3Library2
     /// <param name="isSigned" ctype="bool">
     /// bool parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvsubNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
         var result = nativeLibrary.MkBvsubNoUnderflow(c, t1, t2, isSigned);
@@ -1291,14 +1587,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise signed division
-    /// of t1 and t2 does not overflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise signed division of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not overflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1309,6 +1606,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvsdivNoOverflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvsdivNoOverflow(c, t1, t2);
@@ -1317,14 +1625,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Check that bit-wise negation does not overflow when
-    /// t1 is interpreted as a signed bit-vector.
-    /// </para>
-    /// <para>
-    /// The node t1 must have bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// <c>
+    /// t1
+    /// </c>
+    /// is interpreted as a signed bit-vector.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1332,6 +1637,13 @@ public sealed partial class Z3Library2
     /// <param name="t1" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvnegNoOverflow(IntPtr c, IntPtr t1)
     {
         var result = nativeLibrary.MkBvnegNoOverflow(c, t1);
@@ -1340,14 +1652,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise multiplication
-    /// of t1 and t2 does not overflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise multiplication of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not overflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1361,6 +1674,17 @@ public sealed partial class Z3Library2
     /// <param name="isSigned" ctype="bool">
     /// bool parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvmulNoOverflow(IntPtr c, IntPtr t1, IntPtr t2, bool isSigned)
     {
         var result = nativeLibrary.MkBvmulNoOverflow(c, t1, t2, isSigned);
@@ -1369,14 +1693,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a predicate that checks that the bit-wise signed multiplication
-    /// of t1 and t2 does not underflow.
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have the same bit-vector sort.
-    /// The returned node is of sort Bool.
-    /// </para>
+    /// Create a predicate that checks that the bit-wise signed multiplication of
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// does not underflow.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1387,6 +1712,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have the same bit-vector sort. The returned node is of sort Bool.
+    /// </remarks>
     public IntPtr MkBvmulNoUnderflow(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkBvmulNoUnderflow(c, t1, t2);

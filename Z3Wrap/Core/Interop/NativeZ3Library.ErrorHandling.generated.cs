@@ -40,7 +40,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="h" ctype="Z3_error_handler">error_handler parameter</param>
     /// <remarks>
     /// A call to a Z3 function may return a non <c>Z3_OK</c> error code, when it is not used correctly. An error handler can be registered and will be called in this case. To disable the use of the error handler, simply register with <c>h=NULL</c> .
-    /// Warning: Log files, created using <see cref="Z3_open_log"/> , may be potentially incomplete/incorrect if error handlers are used. 
+    /// Warning: Log files, created using <see cref="OpenLog"/> , may be potentially incomplete/incorrect if error handlers are used. 
     /// </remarks>
     /// <seealso cref="GetErrorCode"/>
     [Z3Function("Z3_set_error_handler")]

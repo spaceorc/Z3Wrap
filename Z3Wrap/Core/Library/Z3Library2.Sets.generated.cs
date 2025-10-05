@@ -59,12 +59,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Add an element to a set.
-    /// </para>
-    /// <para>
-    /// The first argument must be a set, the second an element.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -75,6 +70,9 @@ public sealed partial class Z3Library2
     /// <param name="elem" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The first argument must be a set, the second an element.
+    /// </remarks>
     public IntPtr MkSetAdd(IntPtr c, IntPtr set, IntPtr elem)
     {
         var result = nativeLibrary.MkSetAdd(c, set, elem);
@@ -83,12 +81,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Remove an element to a set.
-    /// </para>
-    /// <para>
-    /// The first argument must be a set, the second an element.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -99,6 +92,9 @@ public sealed partial class Z3Library2
     /// <param name="elem" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The first argument must be a set, the second an element.
+    /// </remarks>
     public IntPtr MkSetDel(IntPtr c, IntPtr set, IntPtr elem)
     {
         var result = nativeLibrary.MkSetDel(c, set, elem);
@@ -180,12 +176,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Check for set membership.
-    /// </para>
-    /// <para>
-    /// The first argument should be an element type of the set.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -196,6 +187,9 @@ public sealed partial class Z3Library2
     /// <param name="set" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The first argument should be an element type of the set.
+    /// </remarks>
     public IntPtr MkSetMember(IntPtr c, IntPtr elem, IntPtr set)
     {
         var result = nativeLibrary.MkSetMember(c, elem, set);
@@ -223,9 +217,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create array extensionality index given two arrays with the same sort.
-    /// The meaning is given by the axiom:
-    /// (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
+    /// Create array extensionality index given two arrays with the same sort. The meaning is given by the axiom: (=&gt; (= (select A (array-ext A B)) (select B (array-ext A B))) (= A B))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

@@ -71,7 +71,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The <c>distinct</c> construct is used for declaring the arguments pairwise distinct. That is, <c>Forall 0 <= i < j < num_args. not args[i] = args[j]</c> . All arguments must have the same sort.
+    /// The <c>distinct</c> construct is used for declaring the arguments pairwise distinct. That is, <c>Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]</c> . All arguments must have the same sort.
     /// The number of arguments of a distinct construct must be greater than one. 
     /// </remarks>
     [Z3Function("Z3_mk_distinct")]

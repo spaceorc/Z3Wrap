@@ -23,7 +23,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant. </param>
     /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
     /// <remarks>
-    /// After declaring a constant or function, the function <see cref="Z3_mk_app"/> can be used to create a constant or function application.
+    /// After declaring a constant or function, the function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
     /// <seealso cref="MkApp"/>
     /// <seealso cref="MkFreshFuncDecl"/>
@@ -146,7 +146,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. </param>
     /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
     /// <remarks>
-    /// After declaring recursive function, it should be associated with a recursive definition <see cref="Z3_add_rec_def"/> . The function <see cref="Z3_mk_app"/> can be used to create a constant or function application.
+    /// After declaring recursive function, it should be associated with a recursive definition <see cref="AddRecDef"/> . The function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
     /// <seealso cref="AddRecDef"/>
     /// <seealso cref="MkApp"/>

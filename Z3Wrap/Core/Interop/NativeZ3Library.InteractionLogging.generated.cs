@@ -36,7 +36,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="string" ctype="Z3_string">string parameter</param>
     /// <remarks>
-    /// The interaction log is opened using <see cref="Z3_open_log"/> . It contains the formulas that are checked using Z3. You can use this command to append comments, for instance.
+    /// The interaction log is opened using <see cref="OpenLog"/> . It contains the formulas that are checked using Z3. You can use this command to append comments, for instance.
     /// </remarks>
     /// <seealso cref="OpenLog"/>
     /// <seealso cref="CloseLog"/>

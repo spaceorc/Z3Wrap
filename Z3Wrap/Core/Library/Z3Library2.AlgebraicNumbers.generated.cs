@@ -11,8 +11,15 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return true if a can be used as value in the Z3 real algebraic
-    /// number package.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if
+    /// <c>
+    /// a
+    /// </c>
+    /// can be used as value in the Z3 real algebraic number package.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -28,7 +35,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a is positive, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if
+    /// <c>
+    /// a
+    /// </c>
+    /// is positive, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -47,7 +66,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a is negative, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if
+    /// <c>
+    /// a
+    /// </c>
+    /// is negative, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -66,7 +97,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a is zero, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if
+    /// <c>
+    /// a
+    /// </c>
+    /// is zero, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -85,7 +128,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return 1 if a is positive, 0 if a is zero, and -1 if a is negative.
+    /// Return 1 if
+    /// <c>
+    /// a
+    /// </c>
+    /// is positive, 0 if
+    /// <c>
+    /// a
+    /// </c>
+    /// is zero, and -1 if
+    /// <c>
+    /// a
+    /// </c>
+    /// is negative.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -220,7 +275,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the a^k
+    /// Return the a^k.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -242,7 +297,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a &lt; b, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if a &lt; b, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -265,7 +328,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a &gt; b, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if a &gt; b, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -288,7 +359,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a &lt;= b, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if a &lt;= b, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -311,7 +390,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a &gt;= b, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if a &gt;= b, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -334,7 +421,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a == b, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if a == b, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -357,7 +452,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if a != b, and false otherwise.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if a != b, and
+    /// <c>
+    /// false
+    /// </c>
+    /// otherwise.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -380,8 +483,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the
-    /// roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}, x_n), returns the roots of the univariate polynomial p(a[0], ..., a[n-1], x_n).
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -407,8 +509,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the
-    /// sign of p(a[0], ..., a[n-1]).
+    /// Given a multivariate polynomial p(x_0, ..., x_{n-1}), return the sign of p(a[0], ..., a[n-1]).
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

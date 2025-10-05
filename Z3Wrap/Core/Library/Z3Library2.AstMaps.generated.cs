@@ -11,14 +11,13 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Return an empty mapping from AST to AST
+    /// Return an empty mapping from AST to AST.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
     /// <remarks>
-    /// Reference counting must be used to manage AST maps, even when the Z3_context was
-    /// created using
+    /// Reference counting must be used to manage AST maps, even when the Z3_context was created using
     /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
@@ -62,7 +61,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the map m contains the AST key k.
+    /// Return true if the map
+    /// <c>
+    /// m
+    /// </c>
+    /// contains the AST key
+    /// <c>
+    /// k
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -81,12 +88,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Return the value associated with the key k.
-    /// </para>
-    /// <para>
-    /// The procedure invokes the error handler if k is not in the map.
-    /// </para>
+    /// Return the value associated with the key
+    /// <c>
+    /// k
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -97,6 +103,13 @@ public sealed partial class Z3Library2
     /// <param name="k" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The procedure invokes the error handler if
+    /// <c>
+    /// k
+    /// </c>
+    /// is not in the map.
+    /// </remarks>
     public IntPtr AstMapFind(IntPtr c, IntPtr m, IntPtr k)
     {
         var result = nativeLibrary.AstMapFind(c, m, k);

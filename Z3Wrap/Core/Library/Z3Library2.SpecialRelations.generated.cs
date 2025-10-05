@@ -11,8 +11,15 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// create a linear ordering relation over signature a.
-    /// The relation is identified by the index id.
+    /// create a linear ordering relation over signature
+    /// <c>
+    /// a
+    /// </c>
+    /// . The relation is identified by the index
+    /// <c>
+    /// id
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -31,7 +38,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a partial ordering relation over signature a and index id.
+    /// create a partial ordering relation over signature
+    /// <c>
+    /// a
+    /// </c>
+    /// and index
+    /// <c>
+    /// id
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -50,7 +65,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a piecewise linear ordering relation over signature a and index id.
+    /// create a piecewise linear ordering relation over signature
+    /// <c>
+    /// a
+    /// </c>
+    /// and index
+    /// <c>
+    /// id
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -69,7 +92,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// create a tree ordering relation over signature a identified using index id.
+    /// create a tree ordering relation over signature
+    /// <c>
+    /// a
+    /// </c>
+    /// identified using index
+    /// <c>
+    /// id
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -97,13 +128,7 @@ public sealed partial class Z3Library2
     /// func_decl parameter
     /// </param>
     /// <remarks>
-    /// Precondition:
-    /// <para>
-    /// f is a binary relation, such that the two arguments have the same sorts.
-    /// </para>
-    /// <para>
-    /// The resulting relation f+ represents the transitive closure of f.
-    /// </para>
+    /// Precondition: f is a binary relation, such that the two arguments have the same sorts.
     /// </remarks>
     public IntPtr MkTransitiveClosure(IntPtr c, IntPtr f)
     {

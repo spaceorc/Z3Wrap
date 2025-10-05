@@ -11,16 +11,17 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create a Z3 (empty) parameter set.
-    /// Starting at Z3 4.0, parameter sets are used to configure many components such as:
-    /// simplifiers, tactics, solvers, etc.
+    /// Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
     /// <remarks>
-    /// Reference counting must be used to manage parameter sets, even when the Z3_context was
-    /// created using
+    /// Reference counting must be used to manage parameter sets, even when the
+    /// <c>
+    /// Z3_context
+    /// </c>
+    /// was created using
     /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
@@ -64,7 +65,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a Boolean parameter k with value v to the parameter set p.
+    /// Add a Boolean parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -88,7 +101,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a Boolean parameter k with value v to the parameter set p.
+    /// Add a Boolean parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -109,7 +134,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a unsigned parameter k with value v to the parameter set p.
+    /// Add a unsigned parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -133,7 +170,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a unsigned parameter k with value v to the parameter set p.
+    /// Add a unsigned parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -154,7 +203,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a double parameter k with value v to the parameter set p.
+    /// Add a double parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -178,7 +239,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a double parameter k with value v to the parameter set p.
+    /// Add a double parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -199,7 +272,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a symbol parameter k with value v to the parameter set p.
+    /// Add a symbol parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -226,7 +311,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add a symbol parameter k with value v to the parameter set p.
+    /// Add a symbol parameter
+    /// <c>
+    /// k
+    /// </c>
+    /// with value
+    /// <c>
+    /// v
+    /// </c>
+    /// to the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -247,8 +344,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a parameter set into a string. This function is mainly used for printing the
-    /// contents of a parameter set.
+    /// Convert a parameter set into a string. This function is mainly used for printing the contents of a parameter set.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -264,12 +360,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Validate the parameter set p against the parameter description set d.
-    /// </para>
-    /// <para>
-    /// The procedure invokes the error handler if p is invalid.
-    /// </para>
+    /// Validate the parameter set
+    /// <c>
+    /// p
+    /// </c>
+    /// against the parameter description set
+    /// <c>
+    /// d
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -280,6 +379,13 @@ public sealed partial class Z3Library2
     /// <param name="d" ctype="Z3_param_descrs">
     /// param_descrs parameter
     /// </param>
+    /// <remarks>
+    /// The procedure invokes the error handler if
+    /// <c>
+    /// p
+    /// </c>
+    /// is invalid.
+    /// </remarks>
     public void ParamsValidate(IntPtr c, IntPtr p, IntPtr d)
     {
         nativeLibrary.ParamsValidate(c, p, d);

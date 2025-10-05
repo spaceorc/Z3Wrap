@@ -41,7 +41,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the kind associated with the given parameter name n.
+    /// Return the kind associated with the given parameter name
+    /// <c>
+    /// n
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -63,7 +67,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the kind associated with the given parameter name n.
+    /// Return the kind associated with the given parameter name
+    /// <c>
+    /// n
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -98,7 +106,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the name of the parameter at given index i.
+    /// Return the name of the parameter at given index
+    /// <c>
+    /// i
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -120,7 +132,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve documentation string corresponding to parameter name s.
+    /// Retrieve documentation string corresponding to parameter name
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -142,7 +158,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve documentation string corresponding to parameter name s.
+    /// Retrieve documentation string corresponding to parameter name
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -161,8 +181,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Convert a parameter description set into a string. This function is mainly used for printing the
-    /// contents of a parameter description set.
+    /// Convert a parameter description set into a string. This function is mainly used for printing the contents of a parameter description set.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

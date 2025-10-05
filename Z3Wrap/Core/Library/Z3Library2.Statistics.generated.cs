@@ -57,7 +57,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the number of statistical data in s.
+    /// Return the number of statistical data in
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -95,7 +99,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the given statistical data is a unsigned integer.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if the given statistical data is a unsigned integer.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -117,7 +125,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return true if the given statistical data is a double.
+    /// Return
+    /// <c>
+    /// true
+    /// </c>
+    /// if the given statistical data is a double.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

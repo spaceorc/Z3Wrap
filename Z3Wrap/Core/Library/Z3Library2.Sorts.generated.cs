@@ -11,12 +11,7 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
     /// Create a free (uninterpreted) type using the given name (symbol).
-    /// </para>
-    /// <para>
-    /// Two free types are considered the same iff the have the same name.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -24,6 +19,9 @@ public sealed partial class Z3Library2
     /// <param name="s">
     /// symbol parameter
     /// </param>
+    /// <remarks>
+    /// Two free types are considered the same iff the have the same name.
+    /// </remarks>
     public IntPtr MkUninterpretedSort(IntPtr c, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);
@@ -35,12 +33,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a free (uninterpreted) type using the given name (symbol).
-    /// </para>
-    /// <para>
-    /// Two free types are considered the same iff the have the same name.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -48,6 +41,9 @@ public sealed partial class Z3Library2
     /// <param name="s" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
+    /// <remarks>
+    /// Two free types are considered the same iff the have the same name.
+    /// </remarks>
     public IntPtr MkUninterpretedSortOriginal(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkUninterpretedSort(c, s);
@@ -56,14 +52,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a type variable.
-    /// </para>
-    /// <para>
-    /// Functions using type variables can be applied to instantiations that match the signature
-    /// of the function. Assertions using type variables correspond to assertions over all possible
-    /// instantiations.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -71,6 +60,9 @@ public sealed partial class Z3Library2
     /// <param name="s">
     /// symbol parameter
     /// </param>
+    /// <remarks>
+    /// Functions using type variables can be applied to instantiations that match the signature of the function. Assertions using type variables correspond to assertions over all possible instantiations.
+    /// </remarks>
     public IntPtr MkTypeVariable(IntPtr c, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);
@@ -82,14 +74,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a type variable.
-    /// </para>
-    /// <para>
-    /// Functions using type variables can be applied to instantiations that match the signature
-    /// of the function. Assertions using type variables correspond to assertions over all possible
-    /// instantiations.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -97,6 +82,9 @@ public sealed partial class Z3Library2
     /// <param name="s" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
+    /// <remarks>
+    /// Functions using type variables can be applied to instantiations that match the signature of the function. Assertions using type variables correspond to assertions over all possible instantiations.
+    /// </remarks>
     public IntPtr MkTypeVariableOriginal(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.MkTypeVariable(c, s);
@@ -105,16 +93,14 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create the Boolean type.
-    /// </para>
-    /// <para>
-    /// This type is used to create propositional variables and predicates.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// This type is used to create propositional variables and predicates.
+    /// </remarks>
     public IntPtr MkBoolSort(IntPtr c)
     {
         var result = nativeLibrary.MkBoolSort(c);
@@ -123,19 +109,16 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create the integer type.
-    /// </para>
-    /// <para>
-    /// This type is not the int type found in programming languages.
-    /// A machine integer can be represented using bit-vectors. The function
-    /// <see cref="MkBvSort"/>
-    /// creates a bit-vector type.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function
+    /// <see cref="MkBvSort"/>
+    /// creates a bit-vector type.
+    /// </remarks>
     /// <seealso cref="MkBvSort"/>
     public IntPtr MkIntSort(IntPtr c)
     {
@@ -145,16 +128,14 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create the real type.
-    /// </para>
-    /// <para>
-    /// Note that this type is not a floating point number.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// Note that this type is not a floating point number.
+    /// </remarks>
     public IntPtr MkRealSort(IntPtr c)
     {
         var result = nativeLibrary.MkRealSort(c);
@@ -163,12 +144,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a bit-vector type of the given size.
-    /// </para>
-    /// <para>
-    /// This type can also be seen as a machine integer.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -177,6 +153,7 @@ public sealed partial class Z3Library2
     /// unsigned parameter
     /// </param>
     /// <remarks>
+    /// This type can also be seen as a machine integer.
     /// The size of the bit-vector type must be greater than zero.
     /// </remarks>
     public IntPtr MkBvSort(IntPtr c, uint sz)
@@ -187,16 +164,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a named finite domain sort.
-    /// </para>
-    /// <para>
-    /// To create constants that belong to the finite domain,
-    /// use the APIs for creating numerals and pass a numeric
-    /// constant together with the sort returned by this call.
-    /// The numeric constant should be between 0 and the less
-    /// than the size of the domain.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -207,6 +175,9 @@ public sealed partial class Z3Library2
     /// <param name="size" ctype="uint64_t">
     /// uint64_t parameter
     /// </param>
+    /// <remarks>
+    /// To create constants that belong to the finite domain, use the APIs for creating numerals and pass a numeric constant together with the sort returned by this call. The numeric constant should be between 0 and the less than the size of the domain.
+    /// </remarks>
     /// <seealso cref="GetFiniteDomainSortSize"/>
     public IntPtr MkFiniteDomainSort(IntPtr c, string name, ulong size)
     {
@@ -219,16 +190,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a named finite domain sort.
-    /// </para>
-    /// <para>
-    /// To create constants that belong to the finite domain,
-    /// use the APIs for creating numerals and pass a numeric
-    /// constant together with the sort returned by this call.
-    /// The numeric constant should be between 0 and the less
-    /// than the size of the domain.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -239,6 +201,9 @@ public sealed partial class Z3Library2
     /// <param name="size" ctype="uint64_t">
     /// uint64_t parameter
     /// </param>
+    /// <remarks>
+    /// To create constants that belong to the finite domain, use the APIs for creating numerals and pass a numeric constant together with the sort returned by this call. The numeric constant should be between 0 and the less than the size of the domain.
+    /// </remarks>
     /// <seealso cref="GetFiniteDomainSortSize"/>
     public IntPtr MkFiniteDomainSortOriginal(IntPtr c, IntPtr name, ulong size)
     {
@@ -248,17 +213,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an array type.
-    /// </para>
-    /// <para>
-    /// We usually represent the array type as:
-    /// <code>
-    /// [domain -&gt; range]
-    /// </code>
-    /// .
-    /// Arrays are usually used to model the heap/memory in software verification.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -269,6 +224,13 @@ public sealed partial class Z3Library2
     /// <param name="range" ctype="Z3_sort">
     /// sort parameter
     /// </param>
+    /// <remarks>
+    /// We usually represent the array type as:
+    /// <c>
+    /// [domain -&gt; range]
+    /// </c>
+    /// . Arrays are usually used to model the heap/memory in software verification.
+    /// </remarks>
     /// <seealso cref="MkSelect"/>
     /// <seealso cref="MkStore"/>
     public IntPtr MkArraySort(IntPtr c, IntPtr domain, IntPtr range)
@@ -279,7 +241,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an array type with N arguments
+    /// Create an array type with N arguments.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -303,13 +265,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a tuple type.
-    /// </para>
-    /// <para>
-    /// A tuple with n fields has a constructor and n projections.
-    /// This function will also declare the constructor and projection functions.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context
@@ -330,8 +286,23 @@ public sealed partial class Z3Library2
     /// output parameter that will contain the constructor declaration.
     /// </param>
     /// <param name="projDecl" ctype="Z3_func_decl[]">
-    /// output parameter that will contain the projection function declarations. This field must be a buffer of size num_fields allocated by the user.
+    /// output parameter that will contain the projection function declarations. This field must be a buffer of size
+    /// <c>
+    /// num_fields
+    /// </c>
+    /// allocated by the user.
     /// </param>
+    /// <remarks>
+    /// A tuple with
+    /// <c>
+    /// n
+    /// </c>
+    /// fields has a constructor and
+    /// <c>
+    /// n
+    /// </c>
+    /// projections. This function will also declare the constructor and projection functions.
+    /// </remarks>
     public IntPtr MkTupleSort(IntPtr c, string mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
         using var mkTupleNameAnsi = new AnsiStringPtr(mkTupleName);
@@ -343,13 +314,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a tuple type.
-    /// </para>
-    /// <para>
-    /// A tuple with n fields has a constructor and n projections.
-    /// This function will also declare the constructor and projection functions.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context
@@ -370,8 +335,23 @@ public sealed partial class Z3Library2
     /// output parameter that will contain the constructor declaration.
     /// </param>
     /// <param name="projDecl" ctype="Z3_func_decl[]">
-    /// output parameter that will contain the projection function declarations. This field must be a buffer of size num_fields allocated by the user.
+    /// output parameter that will contain the projection function declarations. This field must be a buffer of size
+    /// <c>
+    /// num_fields
+    /// </c>
+    /// allocated by the user.
     /// </param>
+    /// <remarks>
+    /// A tuple with
+    /// <c>
+    /// n
+    /// </c>
+    /// fields has a constructor and
+    /// <c>
+    /// n
+    /// </c>
+    /// projections. This function will also declare the constructor and projection functions.
+    /// </remarks>
     public IntPtr MkTupleSortOriginal(IntPtr c, IntPtr mkTupleName, uint numFields, IntPtr[] fieldNames, IntPtr[] fieldSorts, IntPtr mkTupleDecl, IntPtr[] projDecl)
     {
         var result = nativeLibrary.MkTupleSort(c, mkTupleName, numFields, fieldNames, fieldSorts, mkTupleDecl, projDecl);
@@ -380,13 +360,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a enumeration sort.
-    /// </para>
-    /// <para>
-    /// An enumeration sort with n elements.
-    /// This function will also declare the functions corresponding to the enumerations.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context
@@ -404,21 +378,31 @@ public sealed partial class Z3Library2
     /// constants corresponding to the enumerated elements.
     /// </param>
     /// <param name="enumTesters" ctype="Z3_func_decl[]">
-    /// <para>
     /// predicates testing if terms of the enumeration sort correspond to an enumeration.
-    /// </para>
-    /// <para>
-    /// For example, if this function is called with three symbols A, B, C and the name S, then
-    /// s is a sort whose name is S, and the function returns three terms corresponding to A, B, C in
-    /// enum_consts. The array enum_testers has three predicates of type
-    /// <code>
-    /// (s -&gt; Bool)
-    /// </code>
-    /// .
-    /// The first predicate (corresponding to A) is true when applied to A, and false otherwise.
-    /// Similarly for the other predicates.
-    /// </para>
     /// </param>
+    /// <remarks>
+    /// An enumeration sort with
+    /// <c>
+    /// n
+    /// </c>
+    /// elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then
+    /// <c>
+    /// s
+    /// </c>
+    /// is a sort whose name is S, and the function returns three terms corresponding to A, B, C in
+    /// <c>
+    /// enum_consts
+    /// </c>
+    /// . The array
+    /// <c>
+    /// enum_testers
+    /// </c>
+    /// has three predicates of type
+    /// <c>
+    /// (s -&gt; Bool)
+    /// </c>
+    /// . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
+    /// </remarks>
     public IntPtr MkEnumerationSort(IntPtr c, string name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
         using var nameAnsi = new AnsiStringPtr(name);
@@ -430,13 +414,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a enumeration sort.
-    /// </para>
-    /// <para>
-    /// An enumeration sort with n elements.
-    /// This function will also declare the functions corresponding to the enumerations.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context
@@ -454,21 +432,31 @@ public sealed partial class Z3Library2
     /// constants corresponding to the enumerated elements.
     /// </param>
     /// <param name="enumTesters" ctype="Z3_func_decl[]">
-    /// <para>
     /// predicates testing if terms of the enumeration sort correspond to an enumeration.
-    /// </para>
-    /// <para>
-    /// For example, if this function is called with three symbols A, B, C and the name S, then
-    /// s is a sort whose name is S, and the function returns three terms corresponding to A, B, C in
-    /// enum_consts. The array enum_testers has three predicates of type
-    /// <code>
-    /// (s -&gt; Bool)
-    /// </code>
-    /// .
-    /// The first predicate (corresponding to A) is true when applied to A, and false otherwise.
-    /// Similarly for the other predicates.
-    /// </para>
     /// </param>
+    /// <remarks>
+    /// An enumeration sort with
+    /// <c>
+    /// n
+    /// </c>
+    /// elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then
+    /// <c>
+    /// s
+    /// </c>
+    /// is a sort whose name is S, and the function returns three terms corresponding to A, B, C in
+    /// <c>
+    /// enum_consts
+    /// </c>
+    /// . The array
+    /// <c>
+    /// enum_testers
+    /// </c>
+    /// has three predicates of type
+    /// <c>
+    /// (s -&gt; Bool)
+    /// </c>
+    /// . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
+    /// </remarks>
     public IntPtr MkEnumerationSortOriginal(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
     {
         var result = nativeLibrary.MkEnumerationSort(c, name, n, enumNames, enumConsts, enumTesters);
@@ -477,13 +465,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a list sort
-    /// </para>
-    /// <para>
-    /// A list sort over elem_sort
-    /// This function declares the corresponding constructors and testers for lists.
-    /// </para>
+    /// Create a list sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context
@@ -512,6 +494,13 @@ public sealed partial class Z3Library2
     /// <param name="tailDecl" ctype="Z3_func_decl*">
     /// list tail.
     /// </param>
+    /// <remarks>
+    /// A list sort over
+    /// <c>
+    /// elem_sort
+    /// </c>
+    /// This function declares the corresponding constructors and testers for lists.
+    /// </remarks>
     public IntPtr MkListSort(IntPtr c, string name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
     {
         using var nameAnsi = new AnsiStringPtr(name);
@@ -523,13 +512,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Create a list sort
-    /// </para>
-    /// <para>
-    /// A list sort over elem_sort
-    /// This function declares the corresponding constructors and testers for lists.
-    /// </para>
+    /// Create a list sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context
@@ -558,6 +541,13 @@ public sealed partial class Z3Library2
     /// <param name="tailDecl" ctype="Z3_func_decl*">
     /// list tail.
     /// </param>
+    /// <remarks>
+    /// A list sort over
+    /// <c>
+    /// elem_sort
+    /// </c>
+    /// This function declares the corresponding constructors and testers for lists.
+    /// </remarks>
     public IntPtr MkListSortOriginal(IntPtr c, IntPtr name, IntPtr elemSort, IntPtr nilDecl, IntPtr isNilDecl, IntPtr consDecl, IntPtr isConsDecl, IntPtr headDecl, IntPtr tailDecl)
     {
         var result = nativeLibrary.MkListSort(c, name, elemSort, nilDecl, isNilDecl, consDecl, isConsDecl, headDecl, tailDecl);
@@ -587,9 +577,7 @@ public sealed partial class Z3Library2
     /// field sorts, 0 if the field sort refers to a recursive sort.
     /// </param>
     /// <param name="sortRefs" ctype="unsigned[]">
-    /// reference to datatype sort that is an argument to the constructor; if the corresponding
-    /// sort reference is 0, then the value in sort_refs should be an index referring to
-    /// one of the recursive datatypes that is declared.
+    /// reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.
     /// </param>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
@@ -629,9 +617,7 @@ public sealed partial class Z3Library2
     /// field sorts, 0 if the field sort refers to a recursive sort.
     /// </param>
     /// <param name="sortRefs" ctype="unsigned[]">
-    /// reference to datatype sort that is an argument to the constructor; if the corresponding
-    /// sort reference is 0, then the value in sort_refs should be an index referring to
-    /// one of the recursive datatypes that is declared.
+    /// reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared.
     /// </param>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
@@ -644,7 +630,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the number of fields of a constructor
+    /// Retrieve the number of fields of a constructor.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context.
@@ -676,8 +662,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create datatype, such as lists, trees, records, enumerations or unions of records.
-    /// The datatype may be recursive. Return the datatype sort.
+    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context.
@@ -705,8 +690,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create datatype, such as lists, trees, records, enumerations or unions of records.
-    /// The datatype may be recursive. Return the datatype sort.
+    /// Create datatype, such as lists, trees, records, enumerations or unions of records. The datatype may be recursive. Return the datatype sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context.
@@ -731,16 +715,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// create a forward reference to a recursive datatype being declared.
-    /// The forward reference can be used in a nested occurrence: the range of an array
-    /// or as element sort of a sequence. The forward reference should only be used when
-    /// used in an accessor for a recursive datatype that gets declared.
-    /// </para>
-    /// <para>
-    /// Forward references can replace the use sort references, that are unsigned integers
-    /// in the Z3_mk_constructor call
-    /// </para>
+    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -748,6 +723,13 @@ public sealed partial class Z3Library2
     /// <param name="name">
     /// symbol parameter
     /// </param>
+    /// <remarks>
+    /// Forward references can replace the use sort references, that are unsigned integers in the
+    /// <c>
+    /// Z3_mk_constructor
+    /// </c>
+    /// call
+    /// </remarks>
     public IntPtr MkDatatypeSort(IntPtr c, string name)
     {
         using var nameAnsi = new AnsiStringPtr(name);
@@ -759,16 +741,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// create a forward reference to a recursive datatype being declared.
-    /// The forward reference can be used in a nested occurrence: the range of an array
-    /// or as element sort of a sequence. The forward reference should only be used when
-    /// used in an accessor for a recursive datatype that gets declared.
-    /// </para>
-    /// <para>
-    /// Forward references can replace the use sort references, that are unsigned integers
-    /// in the Z3_mk_constructor call
-    /// </para>
+    /// create a forward reference to a recursive datatype being declared. The forward reference can be used in a nested occurrence: the range of an array or as element sort of a sequence. The forward reference should only be used when used in an accessor for a recursive datatype that gets declared.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -776,6 +749,13 @@ public sealed partial class Z3Library2
     /// <param name="name" ctype="Z3_symbol">
     /// symbol parameter
     /// </param>
+    /// <remarks>
+    /// Forward references can replace the use sort references, that are unsigned integers in the
+    /// <c>
+    /// Z3_mk_constructor
+    /// </c>
+    /// call
+    /// </remarks>
     public IntPtr MkDatatypeSortOriginal(IntPtr c, IntPtr name)
     {
         var result = nativeLibrary.MkDatatypeSort(c, name);
@@ -805,14 +785,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Reclaim memory allocated for constructor list.
-    /// </para>
-    /// <para>
-    /// Each constructor inside the constructor list must be independently reclaimed using
-    /// <see cref="DelConstructor"/>
-    /// .
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context.
@@ -820,6 +793,11 @@ public sealed partial class Z3Library2
     /// <param name="clist" ctype="Z3_constructor_list">
     /// constructor list container.
     /// </param>
+    /// <remarks>
+    /// Each constructor inside the constructor list must be independently reclaimed using
+    /// <see cref="DelConstructor"/>
+    /// .
+    /// </remarks>
     /// <seealso cref="MkConstructorList"/>
     public void DelConstructorList(IntPtr c, IntPtr clist)
     {

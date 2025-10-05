@@ -299,7 +299,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// There is also a converse operation exposed. It follows the semantics prescribed by the SMT-LIB standard. You can take the floor of a real by creating an auxiliary integer constant <c>k</c> and and asserting <c>mk_int2real(k) <= t1 < mk_int2real(k)+1</c> . The node <c>t1</c> must have sort integer.
+    /// There is also a converse operation exposed. It follows the semantics prescribed by the SMT-LIB standard. You can take the floor of a real by creating an auxiliary integer constant <c>k</c> and and asserting <c>mk_int2real(k) &lt;= t1 &lt; mk_int2real(k)+1</c> . The node <c>t1</c> must have sort integer.
     /// </remarks>
     /// <seealso cref="MkReal2int"/>
     /// <seealso cref="MkIsInt"/>

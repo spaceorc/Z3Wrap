@@ -17,8 +17,7 @@ public sealed partial class Z3Library2
     /// context parameter
     /// </param>
     /// <remarks>
-    /// Reference counting must be used to manage AST vectors, even when the Z3_context was
-    /// created using
+    /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using
     /// MkContext
     /// instead of
     /// <see cref="MkContextRc"/>
@@ -78,7 +77,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the AST at position i in the AST vector v.
+    /// Return the AST at position
+    /// <c>
+    /// i
+    /// </c>
+    /// in the AST vector
+    /// <c>
+    /// v
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -100,7 +107,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Update position i of the AST vector v with the AST a.
+    /// Update position
+    /// <c>
+    /// i
+    /// </c>
+    /// of the AST vector
+    /// <c>
+    /// v
+    /// </c>
+    /// with the AST
+    /// <c>
+    /// a
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -124,7 +143,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Resize the AST vector v.
+    /// Resize the AST vector
+    /// <c>
+    /// v
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -142,7 +165,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Add the AST a in the end of the AST vector v. The size of v is increased by one.
+    /// Add the AST
+    /// <c>
+    /// a
+    /// </c>
+    /// in the end of the AST vector
+    /// <c>
+    /// v
+    /// </c>
+    /// . The size of
+    /// <c>
+    /// v
+    /// </c>
+    /// is increased by one.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -160,7 +195,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Translate the AST vector v from context s into an AST vector in context t.
+    /// Translate the AST vector
+    /// <c>
+    /// v
+    /// </c>
+    /// from context
+    /// <c>
+    /// s
+    /// </c>
+    /// into an AST vector in context
+    /// <c>
+    /// t
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="s" ctype="Z3_context">
     /// context parameter

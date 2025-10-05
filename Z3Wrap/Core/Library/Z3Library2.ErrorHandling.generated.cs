@@ -11,17 +11,14 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
     /// Return the error code for the last API call.
-    /// </para>
-    /// <para>
-    /// A call to a Z3 function may return a non Z3_OK error code,
-    /// when it is not used correctly.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// A call to a Z3 function may return a non Z3_OK error code, when it is not used correctly.
+    /// </remarks>
     /// <seealso cref="SetErrorHandler"/>
     public ErrorCode GetErrorCode(IntPtr c)
     {
@@ -31,15 +28,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Register a Z3 error handler.
-    /// </para>
-    /// <para>
-    /// A call to a Z3 function may return a non Z3_OK error code, when
-    /// it is not used correctly.  An error handler can be registered
-    /// and will be called in this case.  To disable the use of the
-    /// error handler, simply register with h=NULL.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -48,6 +37,15 @@ public sealed partial class Z3Library2
     /// error_handler parameter
     /// </param>
     /// <remarks>
+    /// A call to a Z3 function may return a non
+    /// <c>
+    /// Z3_OK
+    /// </c>
+    /// error code, when it is not used correctly. An error handler can be registered and will be called in this case. To disable the use of the error handler, simply register with
+    /// <c>
+    /// h=NULL
+    /// </c>
+    /// .
     /// Warning: Log files, created using
     /// OpenLog
     /// , may be potentially incomplete/incorrect if error handlers are used.

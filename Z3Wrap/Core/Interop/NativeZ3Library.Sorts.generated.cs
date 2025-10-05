@@ -75,7 +75,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function <see cref="Z3_mk_bv_sort"/> creates a bit-vector type.
+    /// This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function <see cref="MkBvSort"/> creates a bit-vector type.
     /// </remarks>
     /// <seealso cref="MkBvSort"/>
     [Z3Function("Z3_mk_int_sort")]
@@ -155,7 +155,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domain" ctype="Z3_sort">sort parameter</param>
     /// <param name="range" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// We usually represent the array type as: <c>[domain -> range]</c> . Arrays are usually used to model the heap/memory in software verification.
+    /// We usually represent the array type as: <c>[domain -&gt; range]</c> . Arrays are usually used to model the heap/memory in software verification.
     /// </remarks>
     /// <seealso cref="MkSelect"/>
     /// <seealso cref="MkStore"/>
@@ -224,7 +224,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="enumConsts" ctype="Z3_func_decl[]"> constants corresponding to the enumerated elements. </param>
     /// <param name="enumTesters" ctype="Z3_func_decl[]"> predicates testing if terms of the enumeration sort correspond to an enumeration. </param>
     /// <remarks>
-    /// An enumeration sort with <c>n</c> elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then <c>s</c> is a sort whose name is S, and the function returns three terms corresponding to A, B, C in <c>enum_consts</c> . The array <c>enum_testers</c> has three predicates of type <c>(s -> Bool)</c> . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
+    /// An enumeration sort with <c>n</c> elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then <c>s</c> is a sort whose name is S, and the function returns three terms corresponding to A, B, C in <c>enum_consts</c> . The array <c>enum_testers</c> has three predicates of type <c>(s -&gt; Bool)</c> . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
     /// </remarks>
     [Z3Function("Z3_mk_enumeration_sort")]
     internal IntPtr MkEnumerationSort(IntPtr c, IntPtr name, uint n, IntPtr[] enumNames, IntPtr[] enumConsts, IntPtr[] enumTesters)
@@ -385,7 +385,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="clist" ctype="Z3_constructor_list"> constructor list container. </param>
     /// <remarks>
-    /// Each constructor inside the constructor list must be independently reclaimed using <see cref="Z3_del_constructor"/> .
+    /// Each constructor inside the constructor list must be independently reclaimed using <see cref="DelConstructor"/> .
     /// </remarks>
     /// <seealso cref="MkConstructorList"/>
     [Z3Function("Z3_del_constructor_list")]
@@ -425,7 +425,7 @@ internal sealed partial class NativeZ3Library
     ///  Query constructor for declared functions. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context. </param>
-    /// <param name="constr" ctype="Z3_constructor"> constructor container. The container must have been passed into a <see cref="Z3_mk_datatype"/> call. </param>
+    /// <param name="constr" ctype="Z3_constructor"> constructor container. The container must have been passed into a <see cref="MkDatatype"/> call. </param>
     /// <param name="numFields" ctype="unsigned"> number of accessor fields in the constructor. </param>
     /// <param name="constructor" ctype="Z3_func_decl*"> constructor function declaration, allocated by user. </param>
     /// <param name="tester" ctype="Z3_func_decl*"> constructor test function declaration, allocated by user. </param>

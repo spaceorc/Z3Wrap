@@ -11,19 +11,15 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
-    /// Array read.
-    /// The argument a is the array and i is the index of the array that gets read.
-    /// </para>
-    /// <para>
-    /// The node a must have an array sort
-    /// <code>
-    /// [domain -&gt; range]
-    /// </code>
-    /// ,
-    /// and i must have the sort domain.
-    /// The sort of the result is range.
-    /// </para>
+    /// Array read. The argument
+    /// <c>
+    /// a
+    /// </c>
+    /// is the array and
+    /// <c>
+    /// i
+    /// </c>
+    /// is the index of the array that gets read.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -34,6 +30,29 @@ public sealed partial class Z3Library2
     /// <param name="i" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// a
+    /// </c>
+    /// must have an array sort
+    /// <c>
+    /// [domain -&gt; range]
+    /// </c>
+    /// , and
+    /// <c>
+    /// i
+    /// </c>
+    /// must have the sort
+    /// <c>
+    /// domain
+    /// </c>
+    /// . The sort of the result is
+    /// <c>
+    /// range
+    /// </c>
+    /// .
+    /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
     public IntPtr MkSelect(IntPtr c, IntPtr a, IntPtr i)
@@ -44,8 +63,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// n-ary Array read.
-    /// The argument a is the array and idxs are the indices of the array that gets read.
+    /// n-ary Array read. The argument
+    /// <c>
+    /// a
+    /// </c>
+    /// is the array and
+    /// <c>
+    /// idxs
+    /// </c>
+    /// are the indices of the array that gets read.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -67,26 +93,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Array update.
-    /// </para>
-    /// <para>
-    /// The node a must have an array sort
-    /// <code>
-    /// [domain -&gt; range]
-    /// </code>
-    /// , i must have sort domain,
-    /// v must have sort range. The sort of the result is
-    /// <code>
-    /// [domain -&gt; range]
-    /// </code>
-    /// .
-    /// The semantics of this function is given by the theory of arrays described in the SMT-LIB
-    /// standard. See http://smtlib.org for more details.
-    /// The result of this function is an array that is equal to a (with respect to select)
-    /// on all indices except for i, where it maps to v (and the select of a with
-    /// respect to i may be a different value).
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -100,6 +107,61 @@ public sealed partial class Z3Library2
     /// <param name="v" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// a
+    /// </c>
+    /// must have an array sort
+    /// <c>
+    /// [domain -&gt; range]
+    /// </c>
+    /// ,
+    /// <c>
+    /// i
+    /// </c>
+    /// must have sort
+    /// <c>
+    /// domain
+    /// </c>
+    /// ,
+    /// <c>
+    /// v
+    /// </c>
+    /// must have sort range. The sort of the result is
+    /// <c>
+    /// [domain -&gt; range]
+    /// </c>
+    /// . The semantics of this function is given by the theory of arrays described in the SMT-LIB standard. See http://smtlib.org for more details. The result of this function is an array that is equal to
+    /// <c>
+    /// a
+    /// </c>
+    /// (with respect to
+    /// <c>
+    /// select
+    /// </c>
+    /// ) on all indices except for
+    /// <c>
+    /// i
+    /// </c>
+    /// , where it maps to
+    /// <c>
+    /// v
+    /// </c>
+    /// (and the
+    /// <c>
+    /// select
+    /// </c>
+    /// of
+    /// <c>
+    /// a
+    /// </c>
+    /// with respect to
+    /// <c>
+    /// i
+    /// </c>
+    /// may be a different value).
+    /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkSelect"/>
     public IntPtr MkStore(IntPtr c, IntPtr a, IntPtr i, IntPtr v)
@@ -135,13 +197,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create the constant array.
-    /// </para>
-    /// <para>
-    /// The resulting term is an array, such that a select on an arbitrary index
-    /// produces the value v.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context.
@@ -152,6 +208,17 @@ public sealed partial class Z3Library2
     /// <param name="v" ctype="Z3_ast">
     /// value that the array maps to.
     /// </param>
+    /// <remarks>
+    /// The resulting term is an array, such that a
+    /// <c>
+    /// select
+    /// </c>
+    /// on an arbitrary index produces the value
+    /// <c>
+    /// v
+    /// </c>
+    /// .
+    /// </remarks>
     public IntPtr MkConstArray(IntPtr c, IntPtr domain, IntPtr v)
     {
         var result = nativeLibrary.MkConstArray(c, domain, v);
@@ -160,26 +227,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Map f on the argument arrays.
-    /// </para>
-    /// <para>
-    /// The n nodes args must be of array sorts
-    /// <code>
-    /// [domain_i -&gt; range_i]
-    /// </code>
-    /// .
-    /// The function declaration f must have type
-    /// <code>
-    /// range_1 .. range_n -&gt; range
-    /// </code>
-    /// .
-    /// v must have sort range. The sort of the result is
-    /// <code>
-    /// [domain_i -&gt; range]
-    /// </code>
-    /// .
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -193,6 +241,37 @@ public sealed partial class Z3Library2
     /// <param name="args" ctype="Z3_ast const*">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The
+    /// <c>
+    /// n
+    /// </c>
+    /// nodes
+    /// <c>
+    /// args
+    /// </c>
+    /// must be of array sorts
+    /// <c>
+    /// [domain_i -&gt; range_i]
+    /// </c>
+    /// . The function declaration
+    /// <c>
+    /// f
+    /// </c>
+    /// must have type
+    /// <c>
+    /// range_1 .. range_n -&gt; range
+    /// </c>
+    /// .
+    /// <c>
+    /// v
+    /// </c>
+    /// must have sort range. The sort of the result is
+    /// <c>
+    /// [domain_i -&gt; range]
+    /// </c>
+    /// .
+    /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
     /// <seealso cref="MkSelect"/>
@@ -204,9 +283,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Access the array default value.
-    /// Produces the default range value, for arrays that can be represented as
-    /// finite maps with a default range value.
+    /// Access the array default value. Produces the default range value, for arrays that can be represented as finite maps with a default range value.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// logical context.
@@ -222,9 +299,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create array with the same interpretation as a function.
-    /// The array satisfies the property (f x) = (select (_ as-array f) x)
-    /// for every argument x.
+    /// Create array with the same interpretation as a function. The array satisfies the property (f x) = (select (_ as-array f) x) for every argument x.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -240,7 +315,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create predicate that holds if Boolean array set has k elements set to true.
+    /// Create predicate that holds if Boolean array
+    /// <c>
+    /// set
+    /// </c>
+    /// has
+    /// <c>
+    /// k
+    /// </c>
+    /// elements set to true.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

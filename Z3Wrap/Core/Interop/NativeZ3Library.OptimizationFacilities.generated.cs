@@ -19,7 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// User must use <see cref="Z3_optimize_inc_ref"/> and <see cref="Z3_optimize_dec_ref"/> to manage optimize objects. Even if the context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// User must use <see cref="OptimizeIncRef"/> and <see cref="OptimizeDecRef"/> to manage optimize objects. Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     [Z3Function("Z3_mk_optimize")]
     internal IntPtr MkOptimize(IntPtr c)
@@ -166,7 +166,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_optimize">optimize parameter</param>
     /// <remarks>
-    /// The optimize solver contains a set of rules, added facts and assertions. The set of rules, facts and assertions are restored upon calling <see cref="Z3_optimize_pop"/> .
+    /// The optimize solver contains a set of rules, added facts and assertions. The set of rules, facts and assertions are restored upon calling <see cref="OptimizePop"/> .
     /// </remarks>
     /// <seealso cref="OptimizePop"/>
     [Z3Function("Z3_optimize_push")]
@@ -241,12 +241,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetReasonUnknownDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    ///  Retrieve a string that describes the last status returned by <see cref="Z3_optimize_check"/> . 
+    ///  Retrieve a string that describes the last status returned by <see cref="OptimizeCheck"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_optimize">optimize parameter</param>
     /// <remarks>
-    /// Use this method when <see cref="Z3_optimize_check"/> returns <c>Z3_L_UNDEF</c> .
+    /// Use this method when <see cref="OptimizeCheck"/> returns <c>Z3_L_UNDEF</c> .
     /// </remarks>
     [Z3Function("Z3_optimize_get_reason_unknown")]
     internal IntPtr OptimizeGetReasonUnknown(IntPtr c, IntPtr d)
@@ -260,7 +260,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetModelDelegate(IntPtr c, IntPtr o);
 
     /// <summary>
-    ///  Retrieve the model for the last <see cref="Z3_optimize_check"/> . 
+    ///  Retrieve the model for the last <see cref="OptimizeCheck"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="o" ctype="Z3_optimize">optimize parameter</param>
@@ -279,7 +279,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetUnsatCoreDelegate(IntPtr c, IntPtr o);
 
     /// <summary>
-    ///  Retrieve the unsat core for the last <see cref="Z3_optimize_check"/> The unsat core is a subset of the assumptions <c>a</c> . 
+    ///  Retrieve the unsat core for the last <see cref="OptimizeCheck"/> The unsat core is a subset of the assumptions <c>a</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="o" ctype="Z3_optimize">optimize parameter</param>
@@ -372,7 +372,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetLowerAsVectorDelegate(IntPtr c, IntPtr o, uint idx);
 
     /// <summary>
-    ///  Retrieve lower bound value or approximation for the i'th optimization objective. The returned vector is of length 3. It always contains numerals. The three numerals are coefficients <c>a</c> , <c>b</c> , <c>c</c> and encode the result of <see cref="Z3_optimize_get_lower"/>  <c>a * infinity + b + c * epsilon</c> . 
+    ///  Retrieve lower bound value or approximation for the i'th optimization objective. The returned vector is of length 3. It always contains numerals. The three numerals are coefficients <c>a</c> , <c>b</c> , <c>c</c> and encode the result of <see cref="OptimizeGetLower"/>  <c>a * infinity + b + c * epsilon</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> - context </param>
     /// <param name="o" ctype="Z3_optimize"> - optimization context </param>
@@ -486,7 +486,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr OptimizeGetStatisticsDelegate(IntPtr c, IntPtr d);
 
     /// <summary>
-    ///  Retrieve statistics information from the last call to <see cref="Z3_optimize_check"/> . 
+    ///  Retrieve statistics information from the last call to <see cref="OptimizeCheck"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_optimize">optimize parameter</param>

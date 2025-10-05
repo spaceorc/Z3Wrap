@@ -11,11 +11,17 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Increment the reference counter of the given AST.
-    /// The context c should have been created using
+    /// Increment the reference counter of the given AST. The context
+    /// <c>
+    /// c
+    /// </c>
+    /// should have been created using
     /// <see cref="MkContextRc"/>
-    /// .
-    /// This function is a NOOP if c was created using
+    /// . This function is a NOOP if
+    /// <c>
+    /// c
+    /// </c>
+    /// was created using
     /// MkContext
     /// .
     /// </summary>
@@ -32,11 +38,17 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given AST.
-    /// The context c should have been created using
+    /// Decrement the reference counter of the given AST. The context
+    /// <c>
+    /// c
+    /// </c>
+    /// should have been created using
     /// <see cref="MkContextRc"/>
-    /// .
-    /// This function is a NOOP if c was created using
+    /// . This function is a NOOP if
+    /// <c>
+    /// c
+    /// </c>
+    /// was created using
     /// MkContext
     /// .
     /// </summary>
@@ -87,8 +99,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Interrupt the execution of a Z3 procedure.
-    /// This procedure can be used to interrupt: solvers, simplifiers and tactics.
+    /// Interrupt the execution of a Z3 procedure. This procedure can be used to interrupt: solvers, simplifiers and tactics.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -100,9 +111,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// use concurrency control for dec-ref.
-    /// Reference counting decrements are allowed in separate threads from the context.
-    /// If this setting is not invoked, reference counting decrements are not going to be thread safe.
+    /// use concurrency control for dec-ref. Reference counting decrements are allowed in separate threads from the context. If this setting is not invoked, reference counting decrements are not going to be thread safe.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

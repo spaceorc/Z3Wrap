@@ -11,10 +11,27 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Update the arguments of term a using the arguments args.
-    /// The number of arguments num_args should coincide
-    /// with the number of arguments to a.
-    /// If a is a quantifier, then num_args has to be 1.
+    /// Update the arguments of term
+    /// <c>
+    /// a
+    /// </c>
+    /// using the arguments
+    /// <c>
+    /// args
+    /// </c>
+    /// . The number of arguments
+    /// <c>
+    /// num_args
+    /// </c>
+    /// should coincide with the number of arguments to
+    /// <c>
+    /// a
+    /// </c>
+    /// . If
+    /// <c>
+    /// a
+    /// </c>
+    /// is a quantifier, then num_args has to be 1.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -37,23 +54,53 @@ public sealed partial class Z3Library2
 
     /// <summary>
     /// Substitute every occurrence of
-    /// <code>
+    /// <c>
     /// from[i]
-    /// </code>
-    /// in a with
-    /// <code>
+    /// </c>
+    /// in
+    /// <c>
+    /// a
+    /// </c>
+    /// with
+    /// <c>
     /// to[i]
-    /// </code>
-    /// , for i smaller than num_exprs.
-    /// The result is the new AST. The arrays from and to must have size num_exprs.
-    /// For every i smaller than num_exprs, we must have that sort of
-    /// <code>
+    /// </c>
+    /// , for
+    /// <c>
+    /// i
+    /// </c>
+    /// smaller than
+    /// <c>
+    /// num_exprs
+    /// </c>
+    /// . The result is the new AST. The arrays
+    /// <c>
+    /// from
+    /// </c>
+    /// and
+    /// <c>
+    /// to
+    /// </c>
+    /// must have size
+    /// <c>
+    /// num_exprs
+    /// </c>
+    /// . For every
+    /// <c>
+    /// i
+    /// </c>
+    /// smaller than
+    /// <c>
+    /// num_exprs
+    /// </c>
+    /// , we must have that sort of
+    /// <c>
     /// from[i]
-    /// </code>
+    /// </c>
     /// must be equal to sort of
-    /// <code>
+    /// <c>
     /// to[i]
-    /// </code>
+    /// </c>
     /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
@@ -79,13 +126,33 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Substitute the variables in a with the expressions in to.
-    /// For every i smaller than num_exprs, the variable with de-Bruijn index i is replaced with term
-    /// <code>
+    /// Substitute the variables in
+    /// <c>
+    /// a
+    /// </c>
+    /// with the expressions in
+    /// <c>
+    /// to
+    /// </c>
+    /// . For every
+    /// <c>
+    /// i
+    /// </c>
+    /// smaller than
+    /// <c>
+    /// num_exprs
+    /// </c>
+    /// , the variable with de-Bruijn index
+    /// <c>
+    /// i
+    /// </c>
+    /// is replaced with term
+    /// <c>
     /// to[i]
-    /// </code>
+    /// </c>
+    /// . Note that a variable is created using the function
+    /// <see cref="MkBound"/>
     /// .
-    /// Note that a variable is created using the function \ref Z3_mk_bound.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -107,13 +174,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
-    /// Substitute functions in from with new expressions in to.
-    /// </para>
-    /// <para>
-    /// The expressions in to can have free variables. The free variable in to at index 0
-    /// refers to the first argument of from, the free variable at index 1 corresponds to the second argument.
-    /// </para>
+    /// Substitute functions in
+    /// <c>
+    /// from
+    /// </c>
+    /// with new expressions in
+    /// <c>
+    /// to
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -130,6 +199,21 @@ public sealed partial class Z3Library2
     /// <param name="to" ctype="Z3_ast const[]">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The expressions in
+    /// <c>
+    /// to
+    /// </c>
+    /// can have free variables. The free variable in
+    /// <c>
+    /// to
+    /// </c>
+    /// at index 0 refers to the first argument of
+    /// <c>
+    /// from
+    /// </c>
+    /// , the free variable at index 1 corresponds to the second argument.
+    /// </remarks>
     public IntPtr SubstituteFuns(IntPtr c, IntPtr a, uint numFuns, IntPtr[] from, IntPtr[] to)
     {
         var result = nativeLibrary.SubstituteFuns(c, a, numFuns, from, to);
@@ -138,8 +222,27 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Translate/Copy the AST a from context source to context target.
-    /// AST a must have been created using context source.
+    /// Translate/Copy the AST
+    /// <c>
+    /// a
+    /// </c>
+    /// from context
+    /// <c>
+    /// source
+    /// </c>
+    /// to context
+    /// <c>
+    /// target
+    /// </c>
+    /// . AST
+    /// <c>
+    /// a
+    /// </c>
+    /// must have been created using context
+    /// <c>
+    /// source
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="source" ctype="Z3_context">
     /// context parameter

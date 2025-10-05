@@ -21,7 +21,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The node <c>a</c> must have an array sort <c>[domain -> range]</c> , and <c>i</c> must have the sort <c>domain</c> . The sort of the result is <c>range</c> .
+    /// The node <c>a</c> must have an array sort <c>[domain -&gt; range]</c> , and <c>i</c> must have the sort <c>domain</c> . The sort of the result is <c>range</c> .
     /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>
@@ -62,7 +62,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="i" ctype="Z3_ast">ast parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The node <c>a</c> must have an array sort <c>[domain -> range]</c> , <c>i</c> must have sort <c>domain</c> , <c>v</c> must have sort range. The sort of the result is <c>[domain -> range]</c> . The semantics of this function is given by the theory of arrays described in the SMT-LIB standard. See http://smtlib.org for more details. The result of this function is an array that is equal to <c>a</c> (with respect to <c>select</c> ) on all indices except for <c>i</c> , where it maps to <c>v</c> (and the <c>select</c> of <c>a</c> with respect to <c>i</c> may be a different value).
+    /// The node <c>a</c> must have an array sort <c>[domain -&gt; range]</c> , <c>i</c> must have sort <c>domain</c> , <c>v</c> must have sort range. The sort of the result is <c>[domain -&gt; range]</c> . The semantics of this function is given by the theory of arrays described in the SMT-LIB standard. See http://smtlib.org for more details. The result of this function is an array that is equal to <c>a</c> (with respect to <c>select</c> ) on all indices except for <c>i</c> , where it maps to <c>v</c> (and the <c>select</c> of <c>a</c> with respect to <c>i</c> may be a different value).
     /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkSelect"/>
@@ -124,7 +124,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const*">ast parameter</param>
     /// <remarks>
-    /// The <c>n</c> nodes <c>args</c> must be of array sorts <c>[domain_i -> range_i]</c> . The function declaration <c>f</c> must have type <c> range_1 .. range_n -> range</c> . <c>v</c> must have sort range. The sort of the result is <c>[domain_i -> range]</c> .
+    /// The <c>n</c> nodes <c>args</c> must be of array sorts <c>[domain_i -&gt; range_i]</c> . The function declaration <c>f</c> must have type <c> range_1 .. range_n -&gt; range</c> . <c>v</c> must have sort range. The sort of the result is <c>[domain_i -&gt; range]</c> .
     /// </remarks>
     /// <seealso cref="MkArraySort"/>
     /// <seealso cref="MkStore"/>

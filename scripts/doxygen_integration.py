@@ -84,6 +84,8 @@ def extract_text_from_element(element, convert_refs_to_see_cref=False) -> str:
             # Inline code
             code_text = element.text if element.text else ""
             code_text = code_text.replace('‹ccode›', '')
+            # Escape XML special characters inside <c> tags
+            code_text = code_text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             return f'<c>{code_text}</c>'
         elif element.tag == 'verbatim':
             # Code block (may contain nicebox marker)
@@ -150,6 +152,8 @@ def extract_text_from_element(element, convert_refs_to_see_cref=False) -> str:
             code_text = child.text if child.text else ""
             if code_text:
                 code_text = code_text.replace('‹ccode›', '')
+                # Escape XML special characters inside <c> tags
+                code_text = code_text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
                 text_parts.append(f'<c>{code_text}</c>')
             # Add tail text if present (escaped)
             if child.tail:

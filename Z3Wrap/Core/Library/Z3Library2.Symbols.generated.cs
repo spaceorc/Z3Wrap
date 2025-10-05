@@ -11,16 +11,7 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
     /// Create a Z3 symbol using an integer.
-    /// </para>
-    /// <para>
-    /// Symbols are used to name several term and type constructors.
-    /// </para>
-    /// <para>
-    /// NB. Not all integers can be passed to this function.
-    /// The legal range of unsigned integers is 0 to 2^30-1.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -28,6 +19,9 @@ public sealed partial class Z3Library2
     /// <param name="i" ctype="int">
     /// int parameter
     /// </param>
+    /// <remarks>
+    /// Symbols are used to name several term and type constructors. NB. Not all integers can be passed to this function. The legal range of unsigned integers is 0 to 2^30-1.
+    /// </remarks>
     /// <seealso cref="GetSymbolInt"/>
     /// <seealso cref="MkStringSymbol"/>
     public IntPtr MkIntSymbol(IntPtr c, int i)
@@ -38,12 +32,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a Z3 symbol using a C string.
-    /// </para>
-    /// <para>
-    /// Symbols are used to name several term and type constructors.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -51,6 +40,9 @@ public sealed partial class Z3Library2
     /// <param name="s" ctype="Z3_string">
     /// string parameter
     /// </param>
+    /// <remarks>
+    /// Symbols are used to name several term and type constructors.
+    /// </remarks>
     /// <seealso cref="GetSymbolString"/>
     /// <seealso cref="MkIntSymbol"/>
     public IntPtr MkStringSymbol(IntPtr c, string s)

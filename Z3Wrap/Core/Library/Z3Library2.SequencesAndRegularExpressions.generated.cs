@@ -27,7 +27,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if s is a sequence sort.
+    /// Check if
+    /// <c>
+    /// s
+    /// </c>
+    /// is a sequence sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -75,7 +79,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if s is a regular expression sort.
+    /// Check if
+    /// <c>
+    /// s
+    /// </c>
+    /// is a regular expression sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -107,18 +115,30 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a sort for unicode strings.
-    /// </para>
-    /// <para>
-    /// The sort for characters can be changed to ASCII by setting
-    /// the global parameter encoding to ascii, or alternative
-    /// to 16 bit characters by setting encoding to bmp.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// The sort for characters can be changed to ASCII by setting the global parameter
+    /// <c>
+    /// encoding
+    /// </c>
+    /// to
+    /// <c>
+    /// ascii
+    /// </c>
+    /// , or alternative to 16 bit characters by setting
+    /// <c>
+    /// encoding
+    /// </c>
+    /// to
+    /// <c>
+    /// bmp
+    /// </c>
+    /// .
+    /// </remarks>
     public IntPtr MkStringSort(IntPtr c)
     {
         var result = nativeLibrary.MkStringSort(c);
@@ -127,18 +147,30 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a sort for unicode characters.
-    /// </para>
-    /// <para>
-    /// The sort for characters can be changed to ASCII by setting
-    /// the global parameter encoding to ascii, or alternative
-    /// to 16 bit characters by setting encoding to bmp.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// The sort for characters can be changed to ASCII by setting the global parameter
+    /// <c>
+    /// encoding
+    /// </c>
+    /// to
+    /// <c>
+    /// ascii
+    /// </c>
+    /// , or alternative to 16 bit characters by setting
+    /// <c>
+    /// encoding
+    /// </c>
+    /// to
+    /// <c>
+    /// bmp
+    /// </c>
+    /// .
+    /// </remarks>
     public IntPtr MkCharSort(IntPtr c)
     {
         var result = nativeLibrary.MkCharSort(c);
@@ -147,7 +179,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if s is a string sort.
+    /// Check if
+    /// <c>
+    /// s
+    /// </c>
+    /// is a string sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -163,7 +199,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if s is a character sort.
+    /// Check if
+    /// <c>
+    /// s
+    /// </c>
+    /// is a character sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -179,11 +219,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in
-    /// The string may contain escape encoding for non-printable characters
-    /// or characters outside of the basic printable ASCII range. For example,
-    /// the escape encoding \\u{0} represents the character 0 and the encoding
-    /// \\u{100} represents the character 256.
+    /// Create a string constant out of the string that is passed in The string may contain escape encoding for non-printable characters or characters outside of the basic printable ASCII range. For example, the escape encoding \u{0} represents the character 0 and the encoding \u{100} represents the character 256.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -200,10 +236,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in
-    /// It takes the length of the string as well to take into account
-    /// 0 characters. The string is treated as if it is unescaped so a sequence
-    /// of characters \\u{0} is treated as 5 characters and not the character 0.
+    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is treated as if it is unescaped so a sequence of characters \u{0} is treated as 5 characters and not the character 0.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -223,9 +256,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a string constant out of the string that is passed in
-    /// It takes the length of the string as well to take into account
-    /// 0 characters. The string is unescaped.
+    /// Create a string constant out of the string that is passed in It takes the length of the string as well to take into account 0 characters. The string is unescaped.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -244,7 +275,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Determine if s is a string constant.
+    /// Determine if
+    /// <c>
+    /// s
+    /// </c>
+    /// is a string constant.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -260,8 +295,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the string constant stored in s.
-    /// Characters outside the basic printable ASCII range are escaped.
+    /// Retrieve the string constant stored in
+    /// <c>
+    /// s
+    /// </c>
+    /// . Characters outside the basic printable ASCII range are escaped.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -280,9 +318,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the string constant stored in s. The string can contain escape sequences.
-    /// Characters in the range 1 to 255 are literal.
-    /// Characters in the range 0, and 256 above are escaped.
+    /// Retrieve the string constant stored in
+    /// <c>
+    /// s
+    /// </c>
+    /// . The string can contain escape sequences. Characters in the range 1 to 255 are literal. Characters in the range 0, and 256 above are escaped.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -304,7 +344,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the length of the unescaped string constant stored in s.
+    /// Retrieve the length of the unescaped string constant stored in
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -323,7 +367,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve the unescaped string constant stored in s.
+    /// Retrieve the unescaped string constant stored in
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -348,7 +396,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an empty sequence of the sequence sort seq.
+    /// Create an empty sequence of the sequence sort
+    /// <c>
+    /// seq
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -367,7 +419,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a unit sequence of a.
+    /// Create a unit sequence of
+    /// <c>
+    /// a
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -405,7 +461,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if prefix is a prefix of s.
+    /// Check if
+    /// <c>
+    /// prefix
+    /// </c>
+    /// is a prefix of
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -427,7 +491,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if suffix is a suffix of s.
+    /// Check if
+    /// <c>
+    /// suffix
+    /// </c>
+    /// is a suffix of
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -439,7 +511,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
-    /// Precondition: suffix and s are the same sequence sorts.
+    /// Precondition:
+    /// <c>
+    /// suffix
+    /// </c>
+    /// and
+    /// <c>
+    /// s
+    /// </c>
+    /// are the same sequence sorts.
     /// </remarks>
     public IntPtr MkSeqSuffix(IntPtr c, IntPtr suffix, IntPtr s)
     {
@@ -449,7 +529,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if container contains containee.
+    /// Check if
+    /// <c>
+    /// container
+    /// </c>
+    /// contains
+    /// <c>
+    /// containee
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -461,7 +549,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
-    /// Precondition: container and containee are the same sequence sorts.
+    /// Precondition:
+    /// <c>
+    /// container
+    /// </c>
+    /// and
+    /// <c>
+    /// containee
+    /// </c>
+    /// are the same sequence sorts.
     /// </remarks>
     public IntPtr MkSeqContains(IntPtr c, IntPtr container, IntPtr containee)
     {
@@ -471,7 +567,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if s1 is lexicographically strictly less than s2.
+    /// Check if
+    /// <c>
+    /// s1
+    /// </c>
+    /// is lexicographically strictly less than
+    /// <c>
+    /// s2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -483,7 +587,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
-    /// Precondition: s1 and s2 are strings
+    /// Precondition:
+    /// <c>
+    /// s1
+    /// </c>
+    /// and
+    /// <c>
+    /// s2
+    /// </c>
+    /// are strings
     /// </remarks>
     public IntPtr MkStrLt(IntPtr c, IntPtr prefix, IntPtr s)
     {
@@ -493,7 +605,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if s1 is equal or lexicographically strictly less than s2.
+    /// Check if
+    /// <c>
+    /// s1
+    /// </c>
+    /// is equal or lexicographically strictly less than
+    /// <c>
+    /// s2
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -505,7 +625,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
-    /// Precondition: s1 and s2 are strings
+    /// Precondition:
+    /// <c>
+    /// s1
+    /// </c>
+    /// and
+    /// <c>
+    /// s2
+    /// </c>
+    /// are strings
     /// </remarks>
     public IntPtr MkStrLe(IntPtr c, IntPtr prefix, IntPtr s)
     {
@@ -515,7 +643,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Extract subsequence starting at offset of length.
+    /// Extract subsequence starting at
+    /// <c>
+    /// offset
+    /// </c>
+    /// of
+    /// <c>
+    /// length
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -537,7 +673,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Replace the first occurrence of src with dst in s.
+    /// Replace the first occurrence of
+    /// <c>
+    /// src
+    /// </c>
+    /// with
+    /// <c>
+    /// dst
+    /// </c>
+    /// in
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -559,8 +707,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve from s the unit sequence positioned at position index.
-    /// The sequence is empty if the index is out of bounds.
+    /// Retrieve from
+    /// <c>
+    /// s
+    /// </c>
+    /// the unit sequence positioned at position
+    /// <c>
+    /// index
+    /// </c>
+    /// . The sequence is empty if the index is out of bounds.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -579,8 +734,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Retrieve from s the element positioned at position index.
-    /// The function is under-specified if the index is out of bounds.
+    /// Retrieve from
+    /// <c>
+    /// s
+    /// </c>
+    /// the element positioned at position
+    /// <c>
+    /// index
+    /// </c>
+    /// . The function is under-specified if the index is out of bounds.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -599,7 +761,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return the length of the sequence s.
+    /// Return the length of the sequence
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -615,9 +781,43 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return index of the first occurrence of substr in s starting from offset offset.
-    /// If s does not contain substr, then the value is -1, if offset is the length of s, then the value is -1 as well.
-    /// The value is -1 if offset is negative or larger than the length of s.
+    /// Return index of the first occurrence of
+    /// <c>
+    /// substr
+    /// </c>
+    /// in
+    /// <c>
+    /// s
+    /// </c>
+    /// starting from offset
+    /// <c>
+    /// offset
+    /// </c>
+    /// . If
+    /// <c>
+    /// s
+    /// </c>
+    /// does not contain
+    /// <c>
+    /// substr
+    /// </c>
+    /// , then the value is -1, if
+    /// <c>
+    /// offset
+    /// </c>
+    /// is the length of
+    /// <c>
+    /// s
+    /// </c>
+    /// , then the value is -1 as well. The value is -1 if
+    /// <c>
+    /// offset
+    /// </c>
+    /// is negative or larger than the length of
+    /// <c>
+    /// s
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -639,8 +839,23 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Return index of the last occurrence of substr in s.
-    /// If s does not contain substr, then the value is -1,
+    /// Return index of the last occurrence of
+    /// <c>
+    /// substr
+    /// </c>
+    /// in
+    /// <c>
+    /// s
+    /// </c>
+    /// . If
+    /// <c>
+    /// s
+    /// </c>
+    /// does not contain
+    /// <c>
+    /// substr
+    /// </c>
+    /// , then the value is -1, def_API('Z3_mk_seq_last_index', AST, (_in(CONTEXT), _in(AST), _in(AST)))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -659,7 +874,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a map of the function f over the sequence s.
+    /// Create a map of the function
+    /// <c>
+    /// f
+    /// </c>
+    /// over the sequence
+    /// <c>
+    /// s
+    /// </c>
+    /// . def_API('Z3_mk_seq_map', AST ,(_in(CONTEXT), _in(AST), _in(AST)))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -678,7 +901,19 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a map of the function f over the sequence s starting at index i.
+    /// Create a map of the function
+    /// <c>
+    /// f
+    /// </c>
+    /// over the sequence
+    /// <c>
+    /// s
+    /// </c>
+    /// starting at index
+    /// <c>
+    /// i
+    /// </c>
+    /// . def_API('Z3_mk_seq_mapi', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST)))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -700,7 +935,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a fold of the function f over the sequence s with accumulator a.
+    /// Create a fold of the function
+    /// <c>
+    /// f
+    /// </c>
+    /// over the sequence
+    /// <c>
+    /// s
+    /// </c>
+    /// with accumulator a. def_API('Z3_mk_seq_foldl', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST)))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -722,7 +965,23 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a fold with index tracking of the function f over the sequence s with accumulator a starting at index i.
+    /// Create a fold with index tracking of the function
+    /// <c>
+    /// f
+    /// </c>
+    /// over the sequence
+    /// <c>
+    /// s
+    /// </c>
+    /// with accumulator
+    /// <c>
+    /// a
+    /// </c>
+    /// starting at index
+    /// <c>
+    /// i
+    /// </c>
+    /// . def_API('Z3_mk_seq_foldli', AST ,(_in(CONTEXT), _in(AST), _in(AST), _in(AST), _in(AST)))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -843,7 +1102,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression that accepts the sequence seq.
+    /// Create a regular expression that accepts the sequence
+    /// <c>
+    /// seq
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -859,7 +1122,15 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Check if seq is in the language generated by the regular expression re.
+    /// Check if
+    /// <c>
+    /// seq
+    /// </c>
+    /// is in the language generated by the regular expression
+    /// <c>
+    /// re
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -878,7 +1149,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the regular language re+.
+    /// Create the regular language
+    /// <c>
+    /// re+
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -894,7 +1169,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the regular language re*.
+    /// Create the regular language
+    /// <c>
+    /// re*
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -910,7 +1189,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the regular language \c [re].
+    /// Create the regular language [re].
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -989,7 +1268,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression that accepts all singleton sequences of the regular expression sort
+    /// Create a regular expression that accepts all singleton sequences of the regular expression sort.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1005,10 +1284,39 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a regular expression loop. The supplied regular expression r is repeated
-    /// between lo and hi times. The lo should be below hi with one exception: when
-    /// supplying the value hi as 0, the meaning is to repeat the argument r at least
-    /// lo number of times, and with an unbounded upper bound.
+    /// Create a regular expression loop. The supplied regular expression
+    /// <c>
+    /// r
+    /// </c>
+    /// is repeated between
+    /// <c>
+    /// lo
+    /// </c>
+    /// and
+    /// <c>
+    /// hi
+    /// </c>
+    /// times. The
+    /// <c>
+    /// lo
+    /// </c>
+    /// should be below
+    /// <c>
+    /// hi
+    /// </c>
+    /// with one exception: when supplying the value
+    /// <c>
+    /// hi
+    /// </c>
+    /// as 0, the meaning is to repeat the argument
+    /// <c>
+    /// r
+    /// </c>
+    /// at least
+    /// <c>
+    /// lo
+    /// </c>
+    /// number of times, and with an unbounded upper bound.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1071,7 +1379,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create the complement of the regular language re.
+    /// Create the complement of the regular language
+    /// <c>
+    /// re
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1106,7 +1418,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an empty regular expression of sort re.
+    /// Create an empty regular expression of sort
+    /// <c>
+    /// re
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1125,7 +1441,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an universal regular expression of sort re.
+    /// Create an universal regular expression of sort
+    /// <c>
+    /// re
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -1144,7 +1464,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create a character literal
+    /// Create a character literal def_API('Z3_mk_char', AST, (_in(CONTEXT), _in(UINT)))
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

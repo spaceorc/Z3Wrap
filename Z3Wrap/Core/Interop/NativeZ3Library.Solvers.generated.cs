@@ -19,8 +19,8 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// If the solver is used in a non incremental way (i.e. no calls to <see cref="Z3_solver_push()"/> or <see cref="Z3_solver_pop()"/> , and no calls to <see cref="Z3_solver_assert()"/> or <see cref="Z3_solver_assert_and_track()"/> after checking satisfiability without an intervening <see cref="Z3_solver_reset()"/> ) then solver1 will be used. This solver will apply Z3's "default" tactic. The "default" tactic will attempt to probe the logic used by the assertions and will apply a specialized tactic if one is supported. Otherwise the general <c>(and-then simplify smt)</c> tactic will be used. If the solver is used in an incremental way then the combined solver will switch to using solver2 (which behaves similarly to the general "smt" tactic). Note however it is possible to set the <c>solver2_timeout</c> , <c>solver2_unknown</c> , and <c>ignore_solver1</c> parameters of the combined solver to change its behaviour. The function <see cref="Z3_solver_get_model"/> retrieves a model if the assertions is satisfiable (i.e., the result is <c>Z3_L_TRUE</c> ) and model construction is enabled. The function <see cref="Z3_solver_get_model"/> can also be used even if the result is <c>Z3_L_UNDEF</c> , but the returned model is not guaranteed to satisfy quantified assertions.
-    /// User must use <see cref="Z3_solver_inc_ref"/> and <see cref="Z3_solver_dec_ref"/> to manage solver objects. Even if the context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// If the solver is used in a non incremental way (i.e. no calls to <see cref="SolverPush"/> or <see cref="SolverPop"/> , and no calls to <see cref="SolverAssert"/> or <see cref="SolverAssertAndTrack"/> after checking satisfiability without an intervening <see cref="SolverReset"/> ) then solver1 will be used. This solver will apply Z3's "default" tactic. The "default" tactic will attempt to probe the logic used by the assertions and will apply a specialized tactic if one is supported. Otherwise the general <c>(and-then simplify smt)</c> tactic will be used. If the solver is used in an incremental way then the combined solver will switch to using solver2 (which behaves similarly to the general "smt" tactic). Note however it is possible to set the <c>solver2_timeout</c> , <c>solver2_unknown</c> , and <c>ignore_solver1</c> parameters of the combined solver to change its behaviour. The function <see cref="SolverGetModel"/> retrieves a model if the assertions is satisfiable (i.e., the result is <c>Z3_L_TRUE</c> ) and model construction is enabled. The function <see cref="SolverGetModel"/> can also be used even if the result is <c>Z3_L_UNDEF</c> , but the returned model is not guaranteed to satisfy quantified assertions.
+    /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects. Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     /// <seealso cref="MkSimpleSolver"/>
     /// <seealso cref="MkSolverForLogic"/>
@@ -41,8 +41,8 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// This is equivalent to applying the "smt" tactic. Unlike <see cref="Z3_mk_solver()"/> this solver  Does not attempt to apply any logic specific tactics.  Does not change its behaviour based on whether it used incrementally/non-incrementally.   Note that these differences can result in very different performance compared to <see cref="Z3_mk_solver()"/> . The function <see cref="Z3_solver_get_model"/> retrieves a model if the assertions is satisfiable (i.e., the result is <c>Z3_L_TRUE</c> ) and model construction is enabled. The function <see cref="Z3_solver_get_model"/> can also be used even if the result is <c>Z3_L_UNDEF</c> , but the returned model is not guaranteed to satisfy quantified assertions.
-    /// User must use <see cref="Z3_solver_inc_ref"/> and <see cref="Z3_solver_dec_ref"/> to manage solver objects. Even if the context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// This is equivalent to applying the "smt" tactic. Unlike <see cref="MkSolver"/> this solver  Does not attempt to apply any logic specific tactics.  Does not change its behaviour based on whether it used incrementally/non-incrementally.   Note that these differences can result in very different performance compared to <see cref="MkSolver"/> . The function <see cref="SolverGetModel"/> retrieves a model if the assertions is satisfiable (i.e., the result is <c>Z3_L_TRUE</c> ) and model construction is enabled. The function <see cref="SolverGetModel"/> can also be used even if the result is <c>Z3_L_UNDEF</c> , but the returned model is not guaranteed to satisfy quantified assertions.
+    /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects. Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     /// <seealso cref="MkSolver"/>
     /// <seealso cref="MkSolverForLogic"/>
@@ -59,12 +59,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSolverForLogicDelegate(IntPtr c, IntPtr logic);
 
     /// <summary>
-    ///  Create a new solver customized for the given logic. It behaves like <see cref="Z3_mk_solver"/> if the logic is unknown or unsupported. 
+    ///  Create a new solver customized for the given logic. It behaves like <see cref="MkSolver"/> if the logic is unknown or unsupported. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="logic" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
-    /// User must use <see cref="Z3_solver_inc_ref"/> and <see cref="Z3_solver_dec_ref"/> to manage solver objects. Even if the context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects. Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     /// <seealso cref="MkSolver"/>
     /// <seealso cref="MkSimpleSolver"/>
@@ -81,12 +81,12 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSolverFromTacticDelegate(IntPtr c, IntPtr t);
 
     /// <summary>
-    ///  Create a new solver that is implemented using the given tactic. The solver supports the commands <see cref="Z3_solver_push"/> and <see cref="Z3_solver_pop"/> , but it will always solve each <see cref="Z3_solver_check"/> from scratch. 
+    ///  Create a new solver that is implemented using the given tactic. The solver supports the commands <see cref="SolverPush"/> and <see cref="SolverPop"/> , but it will always solve each <see cref="SolverCheck"/> from scratch. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <remarks>
-    /// User must use <see cref="Z3_solver_inc_ref"/> and <see cref="Z3_solver_dec_ref"/> to manage solver objects. Even if the context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// User must use <see cref="SolverIncRef"/> and <see cref="SolverDecRef"/> to manage solver objects. Even if the context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     /// <seealso cref="MkSolver"/>
     /// <seealso cref="MkSimpleSolver"/>
@@ -328,7 +328,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// The functions <see cref="Z3_solver_check"/> and <see cref="Z3_solver_check_assumptions"/> should be used to check whether the logical context is consistent or not.
+    /// The functions <see cref="SolverCheck"/> and <see cref="SolverCheckAssumptions"/> should be used to check whether the logical context is consistent or not.
     /// </remarks>
     /// <seealso cref="SolverAssertAndTrack"/>
     /// <seealso cref="SolverReset"/>
@@ -351,7 +351,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="p" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// This API is an alternative to <see cref="Z3_solver_check_assumptions"/> for extracting unsat cores. Both APIs can be used in the same solver. The unsat core will contain a combination of the Boolean variables provided using Z3_solver_assert_and_track and the Boolean literals provided using <see cref="Z3_solver_check_assumptions"/> .
+    /// This API is an alternative to <see cref="SolverCheckAssumptions"/> for extracting unsat cores. Both APIs can be used in the same solver. The unsat core will contain a combination of the Boolean variables provided using Z3_solver_assert_and_track and the Boolean literals provided using <see cref="SolverCheckAssumptions"/> .
     /// Precondition: <c>a</c> must be a Boolean expression 
     /// Precondition: <c>p</c> must be a Boolean constant (aka variable). 
     /// </remarks>
@@ -676,7 +676,7 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverPropagateCreatedDelegate(IntPtr c, IntPtr s, IntPtr createdEh);
 
     /// <summary>
-    ///  register a callback when a new expression with a registered function is used by the solver The registered function appears at the top level and is created using <see cref="Z3_solver_propagate_declare"/> . 
+    ///  register a callback when a new expression with a registered function is used by the solver The registered function appears at the top level and is created using <see cref="SolverPropagateDeclare"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
@@ -693,7 +693,7 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverPropagateDecideDelegate(IntPtr c, IntPtr s, IntPtr decideEh);
 
     /// <summary>
-    ///  register a callback when the solver decides to split on a registered expression. The callback may change the arguments by providing other values by calling <see cref="Z3_solver_next_split"/>  
+    ///  register a callback when the solver decides to split on a registered expression. The callback may change the arguments by providing other values by calling <see cref="SolverNextSplit"/>  
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
@@ -751,7 +751,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domain" ctype="Z3_sort*">sort parameter</param>
     /// <param name="range" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// Create uninterpreted function declaration for the user propagator. When expressions using the function are created by the solver invoke a callback to <see cref="Z3_solver_propagate_created"/> with arguments  context and callback solve  declared_expr: expression using function that was used as the top-level symbol  declared_id: a unique identifier (unique within the current scope) to track the expression.  
+    /// Create uninterpreted function declaration for the user propagator. When expressions using the function are created by the solver invoke a callback to <see cref="SolverPropagateCreated"/> with arguments  context and callback solve  declared_expr: expression using function that was used as the top-level symbol  declared_id: a unique identifier (unique within the current scope) to track the expression.  
     /// </remarks>
     [Z3Function("Z3_solver_propagate_declare")]
     internal IntPtr SolverPropagateDeclare(IntPtr c, IntPtr name, uint n, IntPtr domain, IntPtr range)
@@ -782,7 +782,7 @@ internal sealed partial class NativeZ3Library
     private delegate void SolverPropagateRegisterCbDelegate(IntPtr c, IntPtr cb, IntPtr e);
 
     /// <summary>
-    ///  register an expression to propagate on with the solver. Only expressions of type Bool and type Bit-Vector can be registered for propagation. Unlike <see cref="Z3_solver_propagate_register"/> , this function takes a solver callback context as argument. It can be invoked during a callback to register new expressions. 
+    ///  register an expression to propagate on with the solver. Only expressions of type Bool and type Bit-Vector can be registered for propagation. Unlike <see cref="SolverPropagateRegister"/> , this function takes a solver callback context as argument. It can be invoked during a callback to register new expressions. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="cb" ctype="Z3_solver_callback">solver_callback parameter</param>
@@ -847,7 +847,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <remarks>
-    /// The function <see cref="Z3_solver_get_model"/> retrieves a model if the assertions is satisfiable (i.e., the result is <c>Z3_L_TRUE</c> ) and model construction is enabled. Note that if the call returns <c>Z3_L_UNDEF</c> , Z3 does not ensure that calls to <see cref="Z3_solver_get_model"/> succeed and any models produced in this case are not guaranteed to satisfy the assertions. The function <see cref="Z3_solver_get_proof"/> retrieves a proof if proof generation was enabled when the context was created, and the assertions are unsatisfiable (i.e., the result is <c>Z3_L_FALSE</c> ).
+    /// The function <see cref="SolverGetModel"/> retrieves a model if the assertions is satisfiable (i.e., the result is <c>Z3_L_TRUE</c> ) and model construction is enabled. Note that if the call returns <c>Z3_L_UNDEF</c> , Z3 does not ensure that calls to <see cref="SolverGetModel"/> succeed and any models produced in this case are not guaranteed to satisfy the assertions. The function <see cref="SolverGetProof"/> retrieves a proof if proof generation was enabled when the context was created, and the assertions are unsatisfiable (i.e., the result is <c>Z3_L_FALSE</c> ).
     /// </remarks>
     /// <seealso cref="SolverCheckAssumptions"/>
     [Z3Function("Z3_solver_check")]
@@ -869,7 +869,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numAssumptions" ctype="unsigned">unsigned parameter</param>
     /// <param name="assumptions" ctype="Z3_ast const[]">ast parameter</param>
     /// <remarks>
-    /// The function <see cref="Z3_solver_get_unsat_core"/> retrieves the subset of the assumptions used in the unsatisfiability proof produced by Z3.
+    /// The function <see cref="SolverGetUnsatCore"/> retrieves the subset of the assumptions used in the unsatisfiability proof produced by Z3.
     /// </remarks>
     /// <seealso cref="SolverCheck"/>
     [Z3Function("Z3_solver_check_assumptions")]
@@ -946,7 +946,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetModelDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    ///  Retrieve the model for the last <see cref="Z3_solver_check"/> or <see cref="Z3_solver_check_assumptions"/> . 
+    ///  Retrieve the model for the last <see cref="SolverCheck"/> or <see cref="SolverCheckAssumptions"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
@@ -965,7 +965,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetProofDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    ///  Retrieve the proof for the last <see cref="Z3_solver_check"/> or <see cref="Z3_solver_check_assumptions"/> . 
+    ///  Retrieve the proof for the last <see cref="SolverCheck"/> or <see cref="SolverCheckAssumptions"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
@@ -984,7 +984,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetUnsatCoreDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    ///  Retrieve the unsat core for the last <see cref="Z3_solver_check_assumptions"/> The unsat core is a subset of the assumptions <c>a</c> . 
+    ///  Retrieve the unsat core for the last <see cref="SolverCheckAssumptions"/> The unsat core is a subset of the assumptions <c>a</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
@@ -1003,7 +1003,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SolverGetReasonUnknownDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    ///  Return a brief justification for an "unknown" result (i.e., <c>Z3_L_UNDEF</c> ) for the commands <see cref="Z3_solver_check"/> and <see cref="Z3_solver_check_assumptions"/> . 
+    ///  Return a brief justification for an "unknown" result (i.e., <c>Z3_L_UNDEF</c> ) for the commands <see cref="SolverCheck"/> and <see cref="SolverCheckAssumptions"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
@@ -1024,7 +1024,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <remarks>
-    /// User must use <see cref="Z3_stats_inc_ref"/> and <see cref="Z3_stats_dec_ref"/> to manage Z3_stats objects. 
+    /// User must use <see cref="StatsIncRef"/> and <see cref="StatsDecRef"/> to manage Z3_stats objects. 
     /// </remarks>
     [Z3Function("Z3_solver_get_statistics")]
     internal IntPtr SolverGetStatistics(IntPtr c, IntPtr s)

@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkTacticDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    ///  Return a tactic associated with the given name. The complete list of tactics may be obtained using the procedures <see cref="Z3_get_num_tactics"/> and <see cref="Z3_get_tactic_name"/> . It may also be obtained using the command <c>(help-tactic)</c> in the SMT 2.0 front-end. 
+    ///  Return a tactic associated with the given name. The complete list of tactics may be obtained using the procedures <see cref="GetNumTactics"/> and <see cref="GetTacticName"/> . It may also be obtained using the command <c>(help-tactic)</c> in the SMT 2.0 front-end. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
@@ -66,7 +66,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkProbeDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    ///  Return a probe associated with the given name. The complete list of probes may be obtained using the procedures <see cref="Z3_get_num_probes"/> and <see cref="Z3_get_probe_name"/> . It may also be obtained using the command <c>(help-tactic)</c> in the SMT 2.0 front-end. 
+    ///  Return a probe associated with the given name. The complete list of probes may be obtained using the procedures <see cref="GetNumProbes"/> and <see cref="GetProbeName"/> . It may also be obtained using the command <c>(help-tactic)</c> in the SMT 2.0 front-end. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
@@ -332,7 +332,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr MkSimplifierDelegate(IntPtr c, IntPtr name);
 
     /// <summary>
-    ///  Return a simplifier associated with the given name. The complete list of simplifiers may be obtained using the procedures <see cref="Z3_get_num_simplifiers"/> and <see cref="Z3_get_simplifier_name"/> . It may also be obtained using the command <c>(help-simplifier)</c> in the SMT 2.0 front-end. 
+    ///  Return a simplifier associated with the given name. The complete list of simplifiers may be obtained using the procedures <see cref="GetNumSimplifiers"/> and <see cref="GetSimplifierName"/> . It may also be obtained using the command <c>(help-simplifier)</c> in the SMT 2.0 front-end. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
@@ -915,7 +915,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ApplyResultToStringDelegate(IntPtr c, IntPtr r);
 
     /// <summary>
-    ///  Convert the <c>Z3_apply_result</c> object returned by <see cref="Z3_tactic_apply"/> into a string. 
+    ///  Convert the <c>Z3_apply_result</c> object returned by <see cref="TacticApply"/> into a string. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="r" ctype="Z3_apply_result">apply_result parameter</param>
@@ -931,7 +931,7 @@ internal sealed partial class NativeZ3Library
     private delegate uint ApplyResultGetNumSubgoalsDelegate(IntPtr c, IntPtr r);
 
     /// <summary>
-    ///  Return the number of subgoals in the <c>Z3_apply_result</c> object returned by <see cref="Z3_tactic_apply"/> . 
+    ///  Return the number of subgoals in the <c>Z3_apply_result</c> object returned by <see cref="TacticApply"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="r" ctype="Z3_apply_result">apply_result parameter</param>
@@ -948,7 +948,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ApplyResultGetSubgoalDelegate(IntPtr c, IntPtr r, uint i);
 
     /// <summary>
-    ///  Return one of the subgoals in the <c>Z3_apply_result</c> object returned by <see cref="Z3_tactic_apply"/> . 
+    ///  Return one of the subgoals in the <c>Z3_apply_result</c> object returned by <see cref="TacticApply"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="r" ctype="Z3_apply_result">apply_result parameter</param>

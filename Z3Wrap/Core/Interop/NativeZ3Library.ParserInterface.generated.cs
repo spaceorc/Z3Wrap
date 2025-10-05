@@ -40,7 +40,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr ParseSmtlib2FileDelegate(IntPtr c, IntPtr fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls);
 
     /// <summary>
-    ///  Similar to <see cref="Z3_parse_smtlib2_string"/> , but reads the benchmark from a file. 
+    ///  Similar to <see cref="ParseSmtlib2String"/> , but reads the benchmark from a file. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="fileName" ctype="Z3_string">string parameter</param>

@@ -23,7 +23,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="proofs" ctype="bool">bool parameter</param>
     /// <remarks>
     /// If <c>models</c> is <c>true</c> , then model generation is enabled for the new goal. If <c>unsat_cores</c> is <c>true</c> , then unsat core generation is enabled for the new goal. If <c>proofs</c> is <c>true</c> , then proof generation is enabled for the new goal. Remark, the Z3 context <c>c</c> must have been created with proof generation support.
-    /// Reference counting must be used to manage goals, even when the <c>Z3_context</c> was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// Reference counting must be used to manage goals, even when the <c>Z3_context</c> was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     [Z3Function("Z3_mk_goal")]
     internal IntPtr MkGoal(IntPtr c, bool models, bool unsatCores, bool proofs)

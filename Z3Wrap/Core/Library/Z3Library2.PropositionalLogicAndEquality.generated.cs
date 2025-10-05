@@ -11,7 +11,11 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// Create an AST node representing true.
+    /// Create an AST node representing
+    /// <c>
+    /// true
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -24,7 +28,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Create an AST node representing false.
+    /// Create an AST node representing
+    /// <c>
+    /// false
+    /// </c>
+    /// .
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -37,16 +45,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// l = r
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The nodes l and r must have the same type.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -57,6 +60,17 @@ public sealed partial class Z3Library2
     /// <param name="r" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// l
+    /// </c>
+    /// and
+    /// <c>
+    /// r
+    /// </c>
+    /// must have the same type.
+    /// </remarks>
     public IntPtr MkEq(IntPtr c, IntPtr l, IntPtr r)
     {
         var result = nativeLibrary.MkEq(c, l, r);
@@ -65,24 +79,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// distinct(args[0], ..., args[num_args-1])
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The distinct construct is used for declaring the arguments pairwise distinct.
-    /// That is,
-    /// <code>
-    /// Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]
-    /// </code>
-    /// .
-    /// </para>
-    /// <para>
-    /// All arguments must have the same sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -94,6 +95,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
+    /// The
+    /// <c>
+    /// distinct
+    /// </c>
+    /// construct is used for declaring the arguments pairwise distinct. That is,
+    /// <c>
+    /// Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]
+    /// </c>
+    /// . All arguments must have the same sort.
     /// The number of arguments of a distinct construct must be greater than one.
     /// </remarks>
     public IntPtr MkDistinct(IntPtr c, uint numArgs, IntPtr[] args)
@@ -104,16 +114,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// not(a)
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The node a must have Boolean sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -121,6 +126,13 @@ public sealed partial class Z3Library2
     /// <param name="a" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// a
+    /// </c>
+    /// must have Boolean sort.
+    /// </remarks>
     public IntPtr MkNot(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.MkNot(c, a);
@@ -129,17 +141,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing an if-then-else:
-    /// <code>
+    /// <c>
     /// ite(t1, t2, t3)
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The node t1 must have Boolean sort, t2 and t3 must have the same sort.
-    /// The sort of the new node is equal to the sort of t2 and t3.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -153,6 +159,29 @@ public sealed partial class Z3Library2
     /// <param name="t3" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The node
+    /// <c>
+    /// t1
+    /// </c>
+    /// must have Boolean sort,
+    /// <c>
+    /// t2
+    /// </c>
+    /// and
+    /// <c>
+    /// t3
+    /// </c>
+    /// must have the same sort. The sort of the new node is equal to the sort of
+    /// <c>
+    /// t2
+    /// </c>
+    /// and
+    /// <c>
+    /// t3
+    /// </c>
+    /// .
+    /// </remarks>
     public IntPtr MkIte(IntPtr c, IntPtr t1, IntPtr t2, IntPtr t3)
     {
         var result = nativeLibrary.MkIte(c, t1, t2, t3);
@@ -161,16 +190,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// t1 iff t2
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have Boolean sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -181,6 +205,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have Boolean sort.
+    /// </remarks>
     public IntPtr MkIff(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkIff(c, t1, t2);
@@ -189,16 +224,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// t1 implies t2
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have Boolean sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -209,6 +239,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have Boolean sort.
+    /// </remarks>
     public IntPtr MkImplies(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkImplies(c, t1, t2);
@@ -217,16 +258,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// t1 xor t2
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The nodes t1 and t2 must have Boolean sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -237,6 +273,17 @@ public sealed partial class Z3Library2
     /// <param name="t2" ctype="Z3_ast">
     /// ast parameter
     /// </param>
+    /// <remarks>
+    /// The nodes
+    /// <c>
+    /// t1
+    /// </c>
+    /// and
+    /// <c>
+    /// t2
+    /// </c>
+    /// must have Boolean sort.
+    /// </remarks>
     public IntPtr MkXor(IntPtr c, IntPtr t1, IntPtr t2)
     {
         var result = nativeLibrary.MkXor(c, t1, t2);
@@ -245,17 +292,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// args[0] and ... and args[num_args-1]
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The array args must have num_args elements.
-    /// All arguments must have Boolean sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -267,6 +308,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
+    /// The array
+    /// <c>
+    /// args
+    /// </c>
+    /// must have
+    /// <c>
+    /// num_args
+    /// </c>
+    /// elements. All arguments must have Boolean sort.
     /// The number of arguments must be greater than zero.
     /// </remarks>
     public IntPtr MkAnd(IntPtr c, uint numArgs, IntPtr[] args)
@@ -277,17 +327,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create an AST node representing
-    /// <code>
+    /// <c>
     /// args[0] or ... or args[num_args-1]
-    /// </code>
+    /// </c>
     /// .
-    /// </para>
-    /// <para>
-    /// The array args must have num_args elements.
-    /// All arguments must have Boolean sort.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -299,6 +343,15 @@ public sealed partial class Z3Library2
     /// ast parameter
     /// </param>
     /// <remarks>
+    /// The array
+    /// <c>
+    /// args
+    /// </c>
+    /// must have
+    /// <c>
+    /// num_args
+    /// </c>
+    /// elements. All arguments must have Boolean sort.
     /// The number of arguments must be greater than zero.
     /// </remarks>
     public IntPtr MkOr(IntPtr c, uint numArgs, IntPtr[] args)

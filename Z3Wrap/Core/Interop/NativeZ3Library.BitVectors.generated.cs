@@ -297,7 +297,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <remarks>
-    /// It is defined in the following way:  The <c>floor</c> of <c>t1/t2</c> if <c>t2</c> is different from zero, and <c>t1*t2 >= 0</c> .  The <c>ceiling</c> of <c>t1/t2</c> if <c>t2</c> is different from zero, and <c>t1*t2 < 0</c> .   If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
+    /// It is defined in the following way:  The <c>floor</c> of <c>t1/t2</c> if <c>t2</c> is different from zero, and <c>t1*t2 &gt;= 0</c> .  The <c>ceiling</c> of <c>t1/t2</c> if <c>t2</c> is different from zero, and <c>t1*t2 &lt; 0</c> .   If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
     [Z3Function("Z3_mk_bvsdiv")]
     internal IntPtr MkBvsdiv(IntPtr c, IntPtr t1, IntPtr t2)

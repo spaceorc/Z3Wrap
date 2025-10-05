@@ -19,7 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <remarks>
-    /// Reference counting must be used to manage parameter sets, even when the <c>Z3_context</c> was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// Reference counting must be used to manage parameter sets, even when the <c>Z3_context</c> was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     [Z3Function("Z3_mk_params")]
     internal IntPtr MkParams(IntPtr c)

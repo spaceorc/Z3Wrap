@@ -15,7 +15,7 @@ internal sealed partial class NativeZ3Library
     private delegate SymbolKind GetSymbolKindDelegate(IntPtr c, IntPtr s);
 
     /// <summary>
-    ///  Return <c>Z3_INT_SYMBOL</c> if the symbol was constructed using <see cref="Z3_mk_int_symbol"/> , and <c>Z3_STRING_SYMBOL</c> if the symbol was constructed using <see cref="Z3_mk_string_symbol"/> . 
+    ///  Return <c>Z3_INT_SYMBOL</c> if the symbol was constructed using <see cref="MkIntSymbol"/> , and <c>Z3_STRING_SYMBOL</c> if the symbol was constructed using <see cref="MkStringSymbol"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
@@ -57,7 +57,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_symbol_kind(s) == Z3_STRING_SYMBOL 
-    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="Z3_del_context"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_get_symbol_string</c> . 
+    /// Warning: The returned buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="DelContext"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_get_symbol_string</c> . 
     /// </remarks>
     /// <seealso cref="MkStringSymbol"/>
     [Z3Function("Z3_get_symbol_string")]
@@ -1390,7 +1390,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralIntDelegate(IntPtr c, IntPtr v, IntPtr i);
 
     /// <summary>
-    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine int. Return <c>true</c> if the call succeeded. 
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
@@ -1411,7 +1411,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralUintDelegate(IntPtr c, IntPtr v, IntPtr u);
 
     /// <summary>
-    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine unsigned int. Return <c>true</c> if the call succeeded. 
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine unsigned int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
@@ -1432,7 +1432,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralUint64Delegate(IntPtr c, IntPtr v, IntPtr u);
 
     /// <summary>
-    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine <c>uint64_t</c> int. Return <c>true</c> if the call succeeded. 
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine <c>uint64_t</c> int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
@@ -1453,7 +1453,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralInt64Delegate(IntPtr c, IntPtr v, IntPtr i);
 
     /// <summary>
-    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit in a machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit in a machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
@@ -1474,7 +1474,7 @@ internal sealed partial class NativeZ3Library
     private delegate bool GetNumeralRationalInt64Delegate(IntPtr c, IntPtr v, IntPtr num, IntPtr den);
 
     /// <summary>
-    ///  Similar to <see cref="Z3_get_numeral_string"/> , but only succeeds if the value can fit as a rational number as machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
+    ///  Similar to <see cref="GetNumeralString"/> , but only succeeds if the value can fit as a rational number as machine <c>int64_t</c> int. Return <c>true</c> if the call succeeded. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
@@ -1894,7 +1894,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
     /// <remarks>
-    /// Provides an interface to the AST simplifier used by Z3. This procedure is similar to <see cref="Z3_simplify"/> , but the behavior of the simplifier can be configured using the given parameter set.
+    /// Provides an interface to the AST simplifier used by Z3. This procedure is similar to <see cref="Simplify"/> , but the behavior of the simplifier can be configured using the given parameter set.
     /// </remarks>
     /// <seealso cref="Simplify"/>
     /// <seealso cref="SimplifyGetHelp"/>

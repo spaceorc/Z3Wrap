@@ -1072,8 +1072,10 @@ def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
         for enum_def in enums:
             f.write(f"    /// <summary>\n")
             if enum_def.brief:
+                # Convert Z3 function references to C# names
+                brief_converted = convert_z3_refs_to_csharp(enum_def.brief)
                 # Preserve original line breaks
-                for line in format_xml_doc_lines(enum_def.brief, "    "):
+                for line in format_xml_doc_lines(brief_converted, "    "):
                     f.write(f"{line}\n")
             else:
                 # Fallback to just the enum name
@@ -1096,13 +1098,15 @@ def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
             for i, (original_name, csharp_name, explicit_value, value_doc) in enumerate(enum_def.values):
                 # Add documentation
                 if value_doc:
+                    # Convert Z3 function references to C# names
+                    value_doc_converted = convert_z3_refs_to_csharp(value_doc)
                     # Multi-line documentation with description
                     f.write(f"        /// <summary>\n")
                     f.write(f"        /// {original_name}\n")
                     f.write(f"        /// </summary>\n")
                     f.write(f"        /// <remarks>\n")
                     # Preserve original line breaks
-                    for line in format_xml_doc_lines(value_doc, "        "):
+                    for line in format_xml_doc_lines(value_doc_converted, "        "):
                         f.write(f"{line}\n")
                     f.write(f"        /// </remarks>\n")
                 else:
@@ -1116,6 +1120,33 @@ def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
         f.write("}\n")
 
     return file_path
+
+
+def convert_z3_refs_to_csharp(text: str) -> str:
+    """
+    Convert <see cref="Z3_xxx"/> references to C# method names.
+    Also handles special cases like Z3_xxx() with parentheses.
+    Enum values are kept unchanged using the global ALL_ENUM_VALUES set.
+    """
+    import re
+
+    def replace_ref(match):
+        z3_name = match.group(1)
+        # Remove trailing () if present
+        z3_name_clean = z3_name.rstrip('()')
+
+        # Check if this is a known enum value - if so, keep original name
+        if z3_name_clean in ALL_ENUM_VALUES:
+            return f'<see cref="{z3_name_clean}"/>'
+
+        # Apply typo fixes
+        z3_name_fixed = FUNCTION_NAME_TYPO_FIXES.get(z3_name_clean, z3_name_clean)
+        # Convert to C# name
+        csharp_name = generate_csharp_method_name(z3_name_fixed)
+        return f'<see cref="{csharp_name}"/>'
+
+    # Match <see cref="Z3_xxx"/> or <see cref="Z3_xxx()"/>
+    return re.sub(r'<see cref="(Z3_\w+(?:\(\))?)"\/>', replace_ref, text)
 
 
 def generate_partial_class(group: HeaderGroup, output_dir: Path):
@@ -1182,7 +1213,9 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                 # Summary (brief description)
                 if sig.brief:
                     f.write("    /// <summary>\n")
-                    for line in format_xml_doc_lines(sig.brief, "    "):
+                    # Convert Z3 function references to C# names
+                    brief_converted = convert_z3_refs_to_csharp(sig.brief)
+                    for line in format_xml_doc_lines(brief_converted, "    "):
                         f.write(f"{line}\n")
                     f.write("    /// </summary>\n")
 
@@ -1199,46 +1232,51 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                     if not param_doc:
                         param_doc = generate_default_param_description(param_type_c)
 
+                    # Convert Z3 function references to C# names
+                    param_doc_converted = convert_z3_refs_to_csharp(param_doc)
+
                     # Always include ctype attribute with original C type
-                    if '\n' in param_doc:
+                    if '\n' in param_doc_converted:
                         # Multi-line - put content on separate lines
                         f.write(f'    /// <param name="{xml_param_name}" ctype="{param_type_c}">\n')
-                        for line in format_xml_doc_lines(param_doc, "    "):
+                        for line in format_xml_doc_lines(param_doc_converted, "    "):
                             f.write(f"{line}\n")
                         f.write(f'    /// </param>\n')
                     else:
                         # Single line
-                        f.write(f'    /// <param name="{xml_param_name}" ctype="{param_type_c}">{param_doc}</param>\n')
+                        f.write(f'    /// <param name="{xml_param_name}" ctype="{param_type_c}">{param_doc_converted}</param>\n')
 
                 # Returns documentation
                 if sig.returns_doc:
-                    if '\n' in sig.returns_doc:
+                    # Convert Z3 function references to C# names
+                    returns_doc_converted = convert_z3_refs_to_csharp(sig.returns_doc)
+                    if '\n' in returns_doc_converted:
                         # Multi-line
                         f.write(f"    /// <returns>\n")
-                        for line in format_xml_doc_lines(sig.returns_doc, "    "):
+                        for line in format_xml_doc_lines(returns_doc_converted, "    "):
                             f.write(f"{line}\n")
                         f.write(f"    /// </returns>\n")
                     else:
                         # Single line
-                        f.write(f"    /// <returns>{sig.returns_doc}</returns>\n")
+                        f.write(f"    /// <returns>{returns_doc_converted}</returns>\n")
 
                 # Remarks (body, preconditions, warnings, remarks)
                 remarks_parts = []
 
                 # Body paragraphs (after params) go first
                 if sig.body:
-                    remarks_parts.append(sig.body)
+                    remarks_parts.append(convert_z3_refs_to_csharp(sig.body))
 
                 if sig.preconditions:
                     for pre in sig.preconditions:
-                        remarks_parts.append(f"Precondition: {pre}")
+                        remarks_parts.append(f"Precondition: {convert_z3_refs_to_csharp(pre)}")
 
                 if sig.warnings:
                     for warning in sig.warnings:
-                        remarks_parts.append(f"Warning: {warning}")
+                        remarks_parts.append(f"Warning: {convert_z3_refs_to_csharp(warning)}")
 
                 if sig.remarks:
-                    remarks_parts.extend(sig.remarks)
+                    remarks_parts.extend([convert_z3_refs_to_csharp(r) for r in sig.remarks])
 
                 if remarks_parts:
                     f.write("    /// <remarks>\n")

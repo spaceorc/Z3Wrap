@@ -128,7 +128,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     /// <remarks>
     /// Precondition: Z3_get_arity(c, f) &gt; 0 
-    /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was created using <see cref="Z3_mk_context"/> instead of <see cref="Z3_mk_context_rc"/> . 
+    /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
     [Z3Function("Z3_model_get_func_interp")]
     internal IntPtr ModelGetFuncInterp(IntPtr c, IntPtr m, IntPtr f)

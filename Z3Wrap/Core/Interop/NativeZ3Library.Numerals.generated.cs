@@ -83,7 +83,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="int">int parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function can be used to create numerals that fit in a machine integer. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string.
+    /// This function can be used to create numerals that fit in a machine integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_int")]
@@ -104,7 +104,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="unsigned">unsigned parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function can be used to create numerals that fit in a machine unsigned integer. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string.
+    /// This function can be used to create numerals that fit in a machine unsigned integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_unsigned_int")]
@@ -125,7 +125,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="int64_t">int64_t parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function can be used to create numerals that fit in a machine <c>int64_t</c> integer. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string.
+    /// This function can be used to create numerals that fit in a machine <c>int64_t</c> integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_int64")]
@@ -146,7 +146,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="uint64_t">uint64_t parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
     /// <remarks>
-    /// This function can be used to create numerals that fit in a machine <c>uint64_t</c> integer. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string.
+    /// This function can be used to create numerals that fit in a machine <c>uint64_t</c> integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
     /// <seealso cref="MkNumeral"/>
     [Z3Function("Z3_mk_unsigned_int64")]

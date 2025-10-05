@@ -11,13 +11,7 @@ namespace Spaceorc.Z3Wrap.Core.Library;
 public sealed partial class Z3Library2
 {
     /// <summary>
-    /// <para>
     /// Parse the given string using the SMT-LIB2 parser.
-    /// </para>
-    /// <para>
-    /// It returns a formula comprising of the conjunction of assertions in the scope
-    /// (up to push/pop) at the end of the string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -43,6 +37,9 @@ public sealed partial class Z3Library2
     /// <param name="decls" ctype="Z3_func_decl const[]">
     /// func_decl parameter
     /// </param>
+    /// <remarks>
+    /// It returns a formula comprising of the conjunction of assertions in the scope (up to push/pop) at the end of the string.
+    /// </remarks>
     public IntPtr ParseSmtlib2String(IntPtr c, string str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
         using var strAnsi = new AnsiStringPtr(str);
@@ -89,8 +86,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next
-    /// evaluation builds on top of the previous call.
+    /// Parse and evaluate and SMT-LIB2 command sequence. The state from a previous call is saved so the next evaluation builds on top of the previous call.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -110,19 +106,18 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a parser context.
-    /// </para>
-    /// <para>
-    /// A parser context maintains state between calls to Z3_parser_context_parse_string
-    /// where the caller can pass in a set of SMTLIB2 commands.
-    /// It maintains all the declarations from previous calls together with
-    /// of sorts and function declarations (including 0-ary) that are added directly to the context.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
     /// </param>
+    /// <remarks>
+    /// A parser context maintains state between calls to
+    /// <c>
+    /// Z3_parser_context_parse_string
+    /// </c>
+    /// where the caller can pass in a set of SMTLIB2 commands. It maintains all the declarations from previous calls together with of sorts and function declarations (including 0-ary) that are added directly to the context.
+    /// </remarks>
     public IntPtr MkParserContext(IntPtr c)
     {
         var result = nativeLibrary.MkParserContext(c);
@@ -131,7 +126,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Increment the reference counter of the given Z3_parser_context object.
+    /// Increment the reference counter of the given
+    /// <c>
+    /// Z3_parser_context
+    /// </c>
+    /// object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -146,7 +145,11 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// Decrement the reference counter of the given Z3_parser_context object.
+    /// Decrement the reference counter of the given
+    /// <c>
+    /// Z3_parser_context
+    /// </c>
+    /// object.
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter

@@ -17,8 +17,15 @@ public sealed partial class Z3Library2
     /// logical context.
     /// </param>
     /// <param name="numeral" ctype="Z3_string">
-    /// A string representing the numeral value in decimal notation. The string may be of the form `[num]*[.[num]*][E[+|-][num]+]`.
-    /// If the given sort is a real, then the numeral can be a rational, that is, a string of the form `[num]* / [num]*` .
+    /// A string representing the numeral value in decimal notation. The string may be of the form
+    /// <c>
+    /// [num]*[.[num]*][E[+|-][num]+]
+    /// </c>
+    /// . If the given sort is a real, then the numeral can be a rational, that is, a string of the form
+    /// <c>
+    /// [num]* / [num]*
+    /// </c>
+    /// .
     /// </param>
     /// <param name="ty" ctype="Z3_sort">
     /// The sort of the numeral. In the current implementation, the given sort can be an int, real, finite-domain, or bit-vectors of arbitrary size.
@@ -72,6 +79,7 @@ public sealed partial class Z3Library2
     /// int64_t parameter
     /// </param>
     /// <seealso cref="MkReal"/>
+    /// <seealso cref="MkRealInt64"/>
     public IntPtr MkRealInt64(IntPtr c, long num, long den)
     {
         var result = nativeLibrary.MkRealInt64(c, num, den);
@@ -80,15 +88,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a numeral of an int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine integer.
-    /// It is slightly faster than
-    /// <see cref="MkNumeral"/>
-    /// since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -99,6 +99,11 @@ public sealed partial class Z3Library2
     /// <param name="ty" ctype="Z3_sort">
     /// sort parameter
     /// </param>
+    /// <remarks>
+    /// This function can be used to create numerals that fit in a machine integer. It is slightly faster than
+    /// <see cref="MkNumeral"/>
+    /// since it is not necessary to parse a string.
+    /// </remarks>
     /// <seealso cref="MkNumeral"/>
     public IntPtr MkInt(IntPtr c, int v, IntPtr ty)
     {
@@ -108,15 +113,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a numeral of a int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine unsigned integer.
-    /// It is slightly faster than
-    /// <see cref="MkNumeral"/>
-    /// since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -127,6 +124,11 @@ public sealed partial class Z3Library2
     /// <param name="ty" ctype="Z3_sort">
     /// sort parameter
     /// </param>
+    /// <remarks>
+    /// This function can be used to create numerals that fit in a machine unsigned integer. It is slightly faster than
+    /// <see cref="MkNumeral"/>
+    /// since it is not necessary to parse a string.
+    /// </remarks>
     /// <seealso cref="MkNumeral"/>
     public IntPtr MkUnsignedInt(IntPtr c, uint v, IntPtr ty)
     {
@@ -136,15 +138,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a numeral of a int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine int64_t integer.
-    /// It is slightly faster than
-    /// <see cref="MkNumeral"/>
-    /// since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -155,6 +149,15 @@ public sealed partial class Z3Library2
     /// <param name="ty" ctype="Z3_sort">
     /// sort parameter
     /// </param>
+    /// <remarks>
+    /// This function can be used to create numerals that fit in a machine
+    /// <c>
+    /// int64_t
+    /// </c>
+    /// integer. It is slightly faster than
+    /// <see cref="MkNumeral"/>
+    /// since it is not necessary to parse a string.
+    /// </remarks>
     /// <seealso cref="MkNumeral"/>
     public IntPtr MkInt64(IntPtr c, long v, IntPtr ty)
     {
@@ -164,15 +167,7 @@ public sealed partial class Z3Library2
     }
 
     /// <summary>
-    /// <para>
     /// Create a numeral of a int, bit-vector, or finite-domain sort.
-    /// </para>
-    /// <para>
-    /// This function can be used to create numerals that fit in a machine uint64_t integer.
-    /// It is slightly faster than
-    /// <see cref="MkNumeral"/>
-    /// since it is not necessary to parse a string.
-    /// </para>
     /// </summary>
     /// <param name="c" ctype="Z3_context">
     /// context parameter
@@ -183,6 +178,15 @@ public sealed partial class Z3Library2
     /// <param name="ty" ctype="Z3_sort">
     /// sort parameter
     /// </param>
+    /// <remarks>
+    /// This function can be used to create numerals that fit in a machine
+    /// <c>
+    /// uint64_t
+    /// </c>
+    /// integer. It is slightly faster than
+    /// <see cref="MkNumeral"/>
+    /// since it is not necessary to parse a string.
+    /// </remarks>
     /// <seealso cref="MkNumeral"/>
     public IntPtr MkUnsignedInt64(IntPtr c, ulong v, IntPtr ty)
     {
@@ -204,6 +208,7 @@ public sealed partial class Z3Library2
     /// bool parameter
     /// </param>
     /// <seealso cref="MkNumeral"/>
+    /// <seealso cref="MkBvNumeral"/>
     public IntPtr MkBvNumeral(IntPtr c, uint sz, IntPtr bits)
     {
         var result = nativeLibrary.MkBvNumeral(c, sz, bits);

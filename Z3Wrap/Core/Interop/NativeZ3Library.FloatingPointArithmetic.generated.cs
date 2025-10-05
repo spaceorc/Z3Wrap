@@ -44,7 +44,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_rne"/> .
+    /// This is the same as <see cref="MkFpaRne"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
@@ -67,7 +67,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_round_nearest_ties_to_even"/> .
+    /// This is the same as <see cref="MkFpaRoundNearestTiesToEven"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
@@ -90,7 +90,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_rna"/> .
+    /// This is the same as <see cref="MkFpaRna"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
@@ -113,7 +113,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_round_nearest_ties_to_away"/> .
+    /// This is the same as <see cref="MkFpaRoundNearestTiesToAway"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRne"/>
@@ -136,7 +136,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_rtp"/> .
+    /// This is the same as <see cref="MkFpaRtp"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
@@ -159,7 +159,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_round_toward_positive"/> .
+    /// This is the same as <see cref="MkFpaRoundTowardPositive"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
@@ -182,7 +182,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_rtn"/> .
+    /// This is the same as <see cref="MkFpaRtn"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
@@ -205,7 +205,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_round_toward_negative"/> .
+    /// This is the same as <see cref="MkFpaRoundTowardNegative"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
@@ -228,7 +228,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_rtz"/> .
+    /// This is the same as <see cref="MkFpaRtz"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
@@ -251,7 +251,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_round_toward_zero"/> .
+    /// This is the same as <see cref="MkFpaRoundTowardZero"/> .
     /// </remarks>
     /// <seealso cref="MkFpaRoundingModeSort"/>
     /// <seealso cref="MkFpaRna"/>
@@ -302,7 +302,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_16"/> .
+    /// This is the same as <see cref="MkFpaSort16"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortSingle"/>
@@ -324,7 +324,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_half"/> .
+    /// This is the same as <see cref="MkFpaSortHalf"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort32"/>
@@ -346,7 +346,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_32"/> .
+    /// This is the same as <see cref="MkFpaSort32"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortHalf"/>
@@ -368,7 +368,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_single"/> .
+    /// This is the same as <see cref="MkFpaSortSingle"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort16"/>
@@ -390,7 +390,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_64"/> .
+    /// This is the same as <see cref="MkFpaSort64"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortHalf"/>
@@ -412,7 +412,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_double"/> .
+    /// This is the same as <see cref="MkFpaSortDouble"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort16"/>
@@ -434,7 +434,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_128"/> .
+    /// This is the same as <see cref="MkFpaSort128"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSortHalf"/>
@@ -456,7 +456,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <remarks>
-    /// This is the same as <see cref="Z3_mk_fpa_sort_quadruple"/> .
+    /// This is the same as <see cref="MkFpaSortQuadruple"/> .
     /// </remarks>
     /// <seealso cref="MkFpaSort"/>
     /// <seealso cref="MkFpaSort16"/>
@@ -572,7 +572,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="float"> value </param>
     /// <param name="ty" ctype="Z3_sort"> sort </param>
     /// <remarks>
-    /// This function is used to create numerals that fit in a float value. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
+    /// This function is used to create numerals that fit in a float value. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralDouble"/>
@@ -598,7 +598,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="v" ctype="double"> value </param>
     /// <param name="ty" ctype="Z3_sort"> sort </param>
     /// <remarks>
-    /// This function is used to create numerals that fit in a double value. It is slightly faster than <see cref="Z3_mk_numeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
+    /// This function is used to create numerals that fit in a double value. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
     /// <seealso cref="MkFpaFp"/>
     /// <seealso cref="MkFpaNumeralFloat"/>

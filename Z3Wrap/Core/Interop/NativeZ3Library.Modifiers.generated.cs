@@ -52,7 +52,7 @@ internal sealed partial class NativeZ3Library
     private delegate IntPtr SubstituteVarsDelegate(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to);
 
     /// <summary>
-    ///  Substitute the variables in <c>a</c> with the expressions in <c>to</c> . For every <c>i</c> smaller than <c>num_exprs</c> , the variable with de-Bruijn index <c>i</c> is replaced with term <c>to[i]</c> . Note that a variable is created using the function <see cref="Z3_mk_bound"/> . 
+    ///  Substitute the variables in <c>a</c> with the expressions in <c>to</c> . For every <c>i</c> smaller than <c>num_exprs</c> , the variable with de-Bruijn index <c>i</c> is replaced with term <c>to[i]</c> . Note that a variable is created using the function <see cref="MkBound"/> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
