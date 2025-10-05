@@ -72,7 +72,7 @@ public static class BvOperationsContextExtensions
     {
         var handle = signed
             ? context.Library.MkBvsdiv(context.Handle, left.Handle, right.Handle)
-            : context.Library.MkBvUDiv(context.Handle, left.Handle, right.Handle);
+            : context.Library.MkBvudiv(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -94,8 +94,8 @@ public static class BvOperationsContextExtensions
         where TSize : ISize
     {
         var handle = signed
-            ? context.Library.MkBvSRem(context.Handle, left.Handle, right.Handle)
-            : context.Library.MkBvURem(context.Handle, left.Handle, right.Handle);
+            ? context.Library.MkBvsrem(context.Handle, left.Handle, right.Handle)
+            : context.Library.MkBvurem(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -110,7 +110,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> SignedMod<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvSMod(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvsmod(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -124,7 +124,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> Neg<TSize>(this Z3Context context, BvExpr<TSize> expr)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvNeg(context.Handle, expr.Handle);
+        var handle = context.Library.MkBvneg(context.Handle, expr.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -139,7 +139,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> And<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvAnd(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvand(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -154,7 +154,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> Or<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvOr(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvor(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -169,7 +169,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> Xor<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvXor(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvxor(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -183,7 +183,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> Not<TSize>(this Z3Context context, BvExpr<TSize> expr)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvNot(context.Handle, expr.Handle);
+        var handle = context.Library.MkBvnot(context.Handle, expr.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -198,7 +198,7 @@ public static class BvOperationsContextExtensions
     public static BvExpr<TSize> Shl<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvShl(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvshl(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 
@@ -220,8 +220,8 @@ public static class BvOperationsContextExtensions
         where TSize : ISize
     {
         var handle = signed
-            ? context.Library.MkBvAShr(context.Handle, left.Handle, right.Handle)
-            : context.Library.MkBvLShr(context.Handle, left.Handle, right.Handle);
+            ? context.Library.MkBvashr(context.Handle, left.Handle, right.Handle)
+            : context.Library.MkBvlshr(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 }

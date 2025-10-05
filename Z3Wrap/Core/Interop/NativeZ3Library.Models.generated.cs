@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a fresh model object. It has reference count 0. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_model">model value</returns>
     [Z3Function("Z3_mk_model")]
     internal IntPtr MkModel(IntPtr c)
     {
@@ -69,6 +70,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t" ctype="Z3_ast">ast parameter</param>
     /// <param name="modelCompletion" ctype="bool">bool parameter</param>
     /// <param name="v" ctype="Z3_ast *">ast parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     /// <remarks>
     /// If <c>model_completion</c> is <c>true</c> , then Z3 will assign an interpretation for any constant or function that does not have an interpretation in <c>m</c> . These constants and functions were essentially don't cares. If <c>model_completion</c> is <c>false</c> , then Z3 will not assign interpretations to constants for functions that do not have interpretations in <c>m</c> . Evaluation behaves as the identify function in this case. The evaluation may fail for the following reasons:  <c>t</c> contains a quantifier.  the model <c>m</c> is partial, that is, it doesn't have a complete interpretation for uninterpreted functions. That is, the option <c>MODEL_PARTIAL=true</c> was used.  <c>t</c> is type incorrect.  <c>Z3_interrupt</c> was invoked during evaluation.  
     /// </remarks>
@@ -89,6 +91,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="a" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Precondition: Z3_get_arity(c, a) == 0 
     /// </remarks>
@@ -109,6 +112,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="a" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     [Z3Function("Z3_model_has_interp")]
     internal bool ModelHasInterp(IntPtr c, IntPtr m, IntPtr a)
     {
@@ -126,6 +130,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <returns ctype="Z3_func_interp">func_interp value</returns>
     /// <remarks>
     /// Precondition: Z3_get_arity(c, f) &gt; 0 
     /// Reference counting must be used to manage Z3_func_interp objects, even when the Z3_context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
@@ -146,6 +151,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <seealso cref="ModelGetConstDecl"/>
     [Z3Function("Z3_model_get_num_consts")]
     internal uint ModelGetNumConsts(IntPtr c, IntPtr m)
@@ -164,6 +170,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_func_decl">func_decl value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_model_get_num_consts(c, m) 
     /// </remarks>
@@ -185,6 +192,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <remarks>
     /// A function interpretation is represented as a finite map and an 'else' value. Each entry in the finite map represents the value of a function given a set of arguments.
     /// </remarks>
@@ -206,6 +214,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_func_decl">func_decl value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_model_get_num_funcs(c, m) 
     /// </remarks>
@@ -226,6 +235,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <remarks>
     /// Z3 also provides an interpretation for uninterpreted sorts used in a formula. The interpretation for a sort <c>s</c> is a finite set of distinct values. We say this finite set is the "universe" of <c>s</c> .
     /// </remarks>
@@ -248,6 +258,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_model_get_num_sorts(c, m) 
     /// </remarks>
@@ -270,6 +281,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     /// <seealso cref="ModelGetNumSorts"/>
     /// <seealso cref="ModelGetSort"/>
     [Z3Function("Z3_model_get_sort_universe")]
@@ -289,6 +301,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
     /// <param name="dst" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_model">model value</returns>
     /// <remarks>
     /// Use this method for cloning state between contexts. Note that operations on contexts are not thread safe and therefore all operations that related to a given context have to be synchronized (or run in the same thread). 
     /// </remarks>
@@ -308,6 +321,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     /// <remarks>
     /// Z3 current solvers have minimal support for <c>as_array</c> nodes.
     /// </remarks>
@@ -328,6 +342,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_func_decl">func_decl value</returns>
     /// <seealso cref="IsAsArray"/>
     [Z3Function("Z3_get_as_array_func_decl")]
     internal IntPtr GetAsArrayFuncDecl(IntPtr c, IntPtr a)
@@ -347,6 +362,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="m" ctype="Z3_model"> model </param>
     /// <param name="f" ctype="Z3_func_decl"> function declaration </param>
     /// <param name="defaultValue" ctype="Z3_ast"> default value for function interpretation </param>
+    /// <returns ctype="Z3_func_interp">func_interp value</returns>
     [Z3Function("Z3_add_func_interp")]
     internal IntPtr AddFuncInterp(IntPtr c, IntPtr m, IntPtr f, IntPtr defaultValue)
     {
@@ -413,6 +429,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <remarks>
     /// A function interpretation is represented as a finite map and an 'else' value. Each entry in the finite map represents the value of a function given a set of arguments. This procedure return the number of element in the finite map of <c>f</c> .
     /// </remarks>
@@ -434,6 +451,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_func_entry">func_entry value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_func_interp_get_num_entries(c, f) 
     /// </remarks>
@@ -454,6 +472,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// A function interpretation is represented as a finite map and an 'else' value. This procedure returns the 'else' value.
     /// </remarks>
@@ -493,6 +512,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_interp">func_interp parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_func_interp_get_arity")]
     internal uint FuncInterpGetArity(IntPtr c, IntPtr f)
     {
@@ -562,6 +582,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// A <c>Z3_func_entry</c> object represents an element in the finite map used to encode a function interpretation.
     /// </remarks>
@@ -582,6 +603,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <seealso cref="FuncEntryGetArg"/>
     /// <seealso cref="FuncInterpGetEntry"/>
     [Z3Function("Z3_func_entry_get_num_args")]
@@ -601,6 +623,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="e" ctype="Z3_func_entry">func_entry parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_func_entry_get_num_args(c, e) 
     /// </remarks>

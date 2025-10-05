@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     /// <remarks>
     /// Tactics are the basic building block for creating custom solvers for specific problem domains.
     /// </remarks>
@@ -70,6 +71,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// Probes are used to inspect a goal (aka problem) and collect information that may be used to decide which solver and/or preprocessing step will be used.
     /// </remarks>
@@ -122,6 +124,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="t2" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_and_then")]
     internal IntPtr TacticAndThen(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -139,6 +142,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="t2" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_or_else")]
     internal IntPtr TacticOrElse(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -156,6 +160,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="num" ctype="unsigned">unsigned parameter</param>
     /// <param name="ts" ctype="Z3_tactic const[]">tactic parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_par_or")]
     internal IntPtr TacticParOr(IntPtr c, uint num, IntPtr[] ts)
     {
@@ -173,6 +178,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="t2" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_par_and_then")]
     internal IntPtr TacticParAndThen(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -190,6 +196,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="ms" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_try_for")]
     internal IntPtr TacticTryFor(IntPtr c, IntPtr t, uint ms)
     {
@@ -207,6 +214,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_probe">probe parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_when")]
     internal IntPtr TacticWhen(IntPtr c, IntPtr p, IntPtr t)
     {
@@ -225,6 +233,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="p" ctype="Z3_probe">probe parameter</param>
     /// <param name="t1" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="t2" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_cond")]
     internal IntPtr TacticCond(IntPtr c, IntPtr p, IntPtr t1, IntPtr t2)
     {
@@ -242,6 +251,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="max" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_repeat")]
     internal IntPtr TacticRepeat(IntPtr c, IntPtr t, uint max)
     {
@@ -257,6 +267,7 @@ internal sealed partial class NativeZ3Library
     ///  Return a tactic that just return the given goal. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_skip")]
     internal IntPtr TacticSkip(IntPtr c)
     {
@@ -272,6 +283,7 @@ internal sealed partial class NativeZ3Library
     ///  Return a tactic that always fails. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_fail")]
     internal IntPtr TacticFail(IntPtr c)
     {
@@ -288,6 +300,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_fail_if")]
     internal IntPtr TacticFailIf(IntPtr c, IntPtr p)
     {
@@ -303,6 +316,7 @@ internal sealed partial class NativeZ3Library
     ///  Return a tactic that fails if the goal is not trivially satisfiable (i.e., empty) or trivially unsatisfiable (i.e., contains false). 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_fail_if_not_decided")]
     internal IntPtr TacticFailIfNotDecided(IntPtr c)
     {
@@ -320,6 +334,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <returns ctype="Z3_tactic">tactic value</returns>
     [Z3Function("Z3_tactic_using_params")]
     internal IntPtr TacticUsingParams(IntPtr c, IntPtr t, IntPtr p)
     {
@@ -336,6 +351,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_simplifier">simplifier value</returns>
     /// <remarks>
     /// Simplifiers are the basic building block for creating custom solvers for specific problem domains.
     /// </remarks>
@@ -388,6 +404,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="solver" ctype="Z3_solver">solver parameter</param>
     /// <param name="simplifier" ctype="Z3_simplifier">simplifier parameter</param>
+    /// <returns ctype="Z3_solver">solver value</returns>
     [Z3Function("Z3_solver_add_simplifier")]
     internal IntPtr SolverAddSimplifier(IntPtr c, IntPtr solver, IntPtr simplifier)
     {
@@ -405,6 +422,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_simplifier">simplifier parameter</param>
     /// <param name="t2" ctype="Z3_simplifier">simplifier parameter</param>
+    /// <returns ctype="Z3_simplifier">simplifier value</returns>
     [Z3Function("Z3_simplifier_and_then")]
     internal IntPtr SimplifierAndThen(IntPtr c, IntPtr t1, IntPtr t2)
     {
@@ -422,6 +440,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_simplifier">simplifier parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <returns ctype="Z3_simplifier">simplifier value</returns>
     [Z3Function("Z3_simplifier_using_params")]
     internal IntPtr SimplifierUsingParams(IntPtr c, IntPtr t, IntPtr p)
     {
@@ -437,6 +456,7 @@ internal sealed partial class NativeZ3Library
     ///  Return the number of builtin simplifiers available in Z3. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <seealso cref="GetSimplifierName"/>
     [Z3Function("Z3_get_num_simplifiers")]
     internal uint GetNumSimplifiers(IntPtr c)
@@ -454,6 +474,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_get_num_simplifiers(c) 
     /// </remarks>
@@ -474,6 +495,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_simplifier">simplifier parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_simplifier_get_help")]
     internal IntPtr SimplifierGetHelp(IntPtr c, IntPtr t)
     {
@@ -490,6 +512,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_simplifier">simplifier parameter</param>
+    /// <returns ctype="Z3_param_descrs">param_descrs value</returns>
     [Z3Function("Z3_simplifier_get_param_descrs")]
     internal IntPtr SimplifierGetParamDescrs(IntPtr c, IntPtr t)
     {
@@ -506,6 +529,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_simplifier_get_descr")]
     internal IntPtr SimplifierGetDescr(IntPtr c, IntPtr name)
     {
@@ -522,6 +546,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="val" ctype="double">double parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     [Z3Function("Z3_probe_const")]
     internal IntPtr ProbeConst(IntPtr x, double val)
     {
@@ -539,6 +564,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -559,6 +585,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -579,6 +606,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -599,6 +627,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -619,6 +648,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -639,6 +669,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -659,6 +690,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p1" ctype="Z3_probe">probe parameter</param>
     /// <param name="p2" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -678,6 +710,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="x" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_probe">probe parameter</param>
+    /// <returns ctype="Z3_probe">probe value</returns>
     /// <remarks>
     /// For probes, "true" is any value different from 0.0. 
     /// </remarks>
@@ -696,6 +729,7 @@ internal sealed partial class NativeZ3Library
     ///  Return the number of builtin tactics available in Z3. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <seealso cref="GetTacticName"/>
     [Z3Function("Z3_get_num_tactics")]
     internal uint GetNumTactics(IntPtr c)
@@ -713,6 +747,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_get_num_tactics(c) 
     /// </remarks>
@@ -732,6 +767,7 @@ internal sealed partial class NativeZ3Library
     ///  Return the number of builtin probes available in Z3. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <seealso cref="GetProbeName"/>
     [Z3Function("Z3_get_num_probes")]
     internal uint GetNumProbes(IntPtr c)
@@ -749,6 +785,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_get_num_probes(c) 
     /// </remarks>
@@ -769,6 +806,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_tactic_get_help")]
     internal IntPtr TacticGetHelp(IntPtr c, IntPtr t)
     {
@@ -785,6 +823,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
+    /// <returns ctype="Z3_param_descrs">param_descrs value</returns>
     [Z3Function("Z3_tactic_get_param_descrs")]
     internal IntPtr TacticGetParamDescrs(IntPtr c, IntPtr t)
     {
@@ -801,6 +840,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_tactic_get_descr")]
     internal IntPtr TacticGetDescr(IntPtr c, IntPtr name)
     {
@@ -817,6 +857,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_probe_get_descr")]
     internal IntPtr ProbeGetDescr(IntPtr c, IntPtr name)
     {
@@ -834,6 +875,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_probe">probe parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="double">double value</returns>
     [Z3Function("Z3_probe_apply")]
     internal double ProbeApply(IntPtr c, IntPtr p, IntPtr g)
     {
@@ -851,6 +893,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="Z3_apply_result">apply_result value</returns>
     /// <seealso cref="TacticApplyEx"/>
     [Z3Function("Z3_tactic_apply")]
     internal IntPtr TacticApply(IntPtr c, IntPtr t, IntPtr g)
@@ -870,6 +913,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t" ctype="Z3_tactic">tactic parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <returns ctype="Z3_apply_result">apply_result value</returns>
     /// <seealso cref="TacticApply"/>
     [Z3Function("Z3_tactic_apply_ex")]
     internal IntPtr TacticApplyEx(IntPtr c, IntPtr t, IntPtr g, IntPtr p)
@@ -919,6 +963,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="r" ctype="Z3_apply_result">apply_result parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_apply_result_to_string")]
     internal IntPtr ApplyResultToString(IntPtr c, IntPtr r)
     {
@@ -935,6 +980,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="r" ctype="Z3_apply_result">apply_result parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <seealso cref="ApplyResultGetSubgoal"/>
     [Z3Function("Z3_apply_result_get_num_subgoals")]
     internal uint ApplyResultGetNumSubgoals(IntPtr c, IntPtr r)
@@ -953,6 +999,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="r" ctype="Z3_apply_result">apply_result parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_goal">goal value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_apply_result_get_num_subgoals(c, r) 
     /// </remarks>

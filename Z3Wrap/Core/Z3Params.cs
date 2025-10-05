@@ -138,7 +138,7 @@ public sealed class Z3Params : IEnumerable<KeyValuePair<string, object>>
                         context.Library.ParamsSetBool(context.Handle, paramsHandle, param.Key, boolValue);
                         break;
                     case uint uintValue:
-                        context.Library.ParamsSetUInt(context.Handle, paramsHandle, param.Key, uintValue);
+                        context.Library.ParamsSetUint(context.Handle, paramsHandle, param.Key, uintValue);
                         break;
                     case double doubleValue:
                         context.Library.ParamsSetDouble(context.Handle, paramsHandle, param.Key, doubleValue);

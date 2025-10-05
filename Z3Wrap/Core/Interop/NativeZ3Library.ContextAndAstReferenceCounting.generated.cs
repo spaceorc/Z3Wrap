@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a context using the given configuration. 
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
+    /// <returns ctype="Z3_context">context value</returns>
     /// <remarks>
     /// After a context is created, the configuration cannot be changed, although some parameters can be changed using <see cref="UpdateParamValue"/> . All main interaction with Z3 happens in the context of a <c>Z3_context</c> . In contrast to <c>Z3_mk_context_rc</c> the life time of <c>Z3_ast</c> objects persists with the life time of the context. Note that all other reference counted objects, including <c>Z3_model</c> , <c>Z3_solver</c> , <c>Z3_func_interp</c> have to be managed by the caller. Their reference counts are not handled by the context.
     /// Thread safety: objects created using a given context should not be accessed from different threads without synchronization. In other words, operations on a context are not thread safe. To use Z3 from different threads create separate context objects. The <c>Z3_translate</c> , <c>Z3_solver_translate</c> , <c>Z3_model_translate</c> , <c>Z3_goal_translate</c> methods are exposed to allow copying state from one context to another. 
@@ -39,6 +40,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a context using the given configuration. This function is similar to <see cref="MkContext"/> . However, in the context returned by this function, the user is responsible for managing <c>Z3_ast</c> reference counters. Managing reference counters is a burden and error-prone, but allows the user to use the memory more efficiently. The user must invoke <see cref="IncRef"/> for any <c>Z3_ast</c> returned by Z3, and <see cref="DecRef"/> whenever the <c>Z3_ast</c> is not needed anymore. This idiom is similar to the one used in BDD (binary decision diagrams) packages such as CUDD. 
     /// </summary>
     /// <param name="c" ctype="Z3_config">config parameter</param>
+    /// <returns ctype="Z3_context">context value</returns>
     /// <remarks>
     /// Remarks:  <c>Z3_sort</c> , <c>Z3_func_decl</c> , <c>Z3_app</c> , <c>Z3_pattern</c> are <c>Z3_ast's</c> .  After a context is created, the configuration cannot be changed.  All main interaction with Z3 happens in the context of a <c>Z3_context</c> .  Z3 uses hash-consing, i.e., when the same <c>Z3_ast</c> is created twice, Z3 will return the same pointer twice.  
     /// </remarks>
@@ -123,6 +125,7 @@ internal sealed partial class NativeZ3Library
     ///  Retrieve description of global parameters. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_param_descrs">param_descrs value</returns>
     [Z3Function("Z3_get_global_param_descrs")]
     internal IntPtr GetGlobalParamDescrs(IntPtr c)
     {

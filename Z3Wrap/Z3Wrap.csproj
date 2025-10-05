@@ -149,51 +149,6 @@
     <Compile Update="Expressions\Numerics\RealExprContextExtensions.Functions.cs">
       <DependentUpon>RealExprContextExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Update="Core\Z3Library.Arithmetic.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Arrays.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.BitVectors.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Comparisons.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Context.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Conversions.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Expressions.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Functions.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Logic.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Model.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Optimization.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Parameters.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Quantifiers.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Solver.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Core\Z3Library.Sorts.cs">
-      <DependentUpon>Z3Library.cs</DependentUpon>
-    </Compile>
     <Compile Update="Core\Interop\NativeZ3Library.*.generated.cs">
       <DependentUpon>NativeZ3Library.cs</DependentUpon>
     </Compile>

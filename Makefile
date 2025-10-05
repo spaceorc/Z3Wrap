@@ -142,11 +142,11 @@ generate-native: ## Generate NativeZ3Library partial classes from Z3 headers (VE
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
 
-generate-library: ## Generate Z3Library2 partial classes from NativeZ3Library (ENUMS_ONLY=1)
-	@echo "$(BLUE)Generating Z3Library2 partial classes...$(NC)"
+generate-library: ## Generate Z3Library partial classes from NativeZ3Library (ENUMS_ONLY=1)
+	@echo "$(BLUE)Generating Z3Library partial classes...$(NC)"
 	@python3 scripts/generate_library.py \
 		$(if $(ENUMS_ONLY),--enums-only,)
-	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/Library/$(NC)"
+	@echo "$(GREEN)✅ Generated in Z3Wrap/Core/$(NC)"
 	@echo "$(BLUE)Formatting generated code...$(NC)"
 	@$(MAKE) format
 

@@ -42,7 +42,7 @@ public static class RealContextExtensions
     /// <returns>Integer expression representing the real (truncated).</returns>
     public static IntExpr ToInt(this Z3Context context, RealExpr expr)
     {
-        var handle = context.Library.MkReal2Int(context.Handle, expr.Handle);
+        var handle = context.Library.MkReal2int(context.Handle, expr.Handle);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 }

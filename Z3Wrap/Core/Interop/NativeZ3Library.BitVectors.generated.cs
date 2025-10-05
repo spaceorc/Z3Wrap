@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -38,6 +39,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -57,6 +59,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -77,6 +80,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -97,6 +101,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -117,6 +122,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -137,6 +143,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -157,6 +164,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -177,6 +185,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -196,6 +205,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have bit-vector sort.
     /// </remarks>
@@ -216,6 +226,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -236,6 +247,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -256,6 +268,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -276,6 +289,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is defined as the <c>floor</c> of <c>t1/t2</c> if <c>t2</c> is different from zero. If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -296,6 +310,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is defined in the following way:  The <c>floor</c> of <c>t1/t2</c> if <c>t2</c> is different from zero, and <c>t1*t2 &gt;= 0</c> .  The <c>ceiling</c> of <c>t1/t2</c> if <c>t2</c> is different from zero, and <c>t1*t2 &lt; 0</c> .   If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -316,6 +331,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is defined as <c>t1 - (t1 /u t2) * t2</c> , where <c>/u</c> represents unsigned division. If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -336,6 +352,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is defined as <c>t1 - (t1 /s t2) * t2</c> , where <c>/s</c> represents signed division. The most significant bit (sign) of the result is equal to the most significant bit of <c>t1</c> . If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -357,6 +374,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// If <c>t2</c> is zero, then the result is undefined. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -378,6 +396,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -398,6 +417,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It abbreviates: <code>
     /// (or (and (= (extract[|m-1|:|m-1|] t1) bit1)
@@ -423,6 +443,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -443,6 +464,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -463,6 +485,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -483,6 +506,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -503,6 +527,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -523,6 +548,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -543,6 +569,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have (possibly different) bit-vector sorts The result is a bit-vector of size <c>n1+n2</c> , where <c>n1</c> ( <c>n2</c> ) is the size of <c>t1</c> ( <c>t2</c> ).
     /// </remarks>
@@ -564,6 +591,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="high" ctype="unsigned">unsigned parameter</param>
     /// <param name="low" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -584,6 +612,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -604,6 +633,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -624,6 +654,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -644,6 +675,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -664,6 +696,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is equivalent to multiplication by <c>2^x</c> where <c>x</c> is the value of the third argument. NB. The semantics of shift operations varies between environments. This definition does not necessarily capture directly the semantics of the programming language or assembly architecture you are modeling. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -684,6 +717,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is equivalent to unsigned division by <c>2^x</c> where <c>x</c> is the value of the third argument. NB. The semantics of shift operations varies between environments. This definition does not necessarily capture directly the semantics of the programming language or assembly architecture you are modeling. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -704,6 +738,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// It is like logical shift right except that the most significant bits of the result always copy the most significant bit of the second argument. The semantics of shift operations varies between environments. This definition does not necessarily capture directly the semantics of the programming language or assembly architecture you are modeling. The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -724,6 +759,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -744,6 +780,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -764,6 +801,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -784,6 +822,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort.
     /// </remarks>
@@ -804,6 +843,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The resulting bit-vector has <c>n</c> bits, where the i'th bit (counting from 0 to <c>n-1</c> ) is 1 if (t1 div 2^i) mod 2 is 1.  The node <c>t1</c> must have integer sort.
     /// </remarks>
@@ -824,6 +864,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="isSigned" ctype="bool">bool parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have a bit-vector sort.
     /// </remarks>
@@ -845,6 +886,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <param name="isSigned" ctype="bool">bool parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -865,6 +907,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -885,6 +928,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -906,6 +950,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <param name="isSigned" ctype="bool">bool parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -926,6 +971,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -945,6 +991,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -966,6 +1013,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <param name="isSigned" ctype="bool">bool parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>
@@ -986,6 +1034,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have the same bit-vector sort. The returned node is of sort Bool.
     /// </remarks>

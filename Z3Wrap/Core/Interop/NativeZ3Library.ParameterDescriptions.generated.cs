@@ -52,6 +52,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     /// <param name="n" ctype="Z3_symbol">symbol parameter</param>
+    /// <returns ctype="Z3_param_kind">param_kind value</returns>
     [Z3Function("Z3_param_descrs_get_kind")]
     internal ParamKind ParamDescrsGetKind(IntPtr c, IntPtr p, IntPtr n)
     {
@@ -68,6 +69,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_param_descrs_size")]
     internal uint ParamDescrsSize(IntPtr c, IntPtr p)
     {
@@ -85,6 +87,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_symbol">symbol value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_param_descrs_size(c, p) 
     /// </remarks>
@@ -105,6 +108,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_param_descrs_get_documentation")]
     internal IntPtr ParamDescrsGetDocumentation(IntPtr c, IntPtr p, IntPtr s)
     {
@@ -121,6 +125,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_param_descrs">param_descrs parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_param_descrs_to_string")]
     internal IntPtr ParamDescrsToString(IntPtr c, IntPtr p)
     {

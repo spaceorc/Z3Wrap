@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Return an empty AST vector. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     /// <remarks>
     /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
@@ -69,6 +70,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_ast_vector_size")]
     internal uint AstVectorSize(IntPtr c, IntPtr v)
     {
@@ -86,6 +88,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     /// <param name="i" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Precondition: i &lt; Z3_ast_vector_size(c, v) 
     /// </remarks>
@@ -161,6 +164,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     /// <param name="t" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     [Z3Function("Z3_ast_vector_translate")]
     internal IntPtr AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)
     {
@@ -177,6 +181,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_ast_vector_to_string")]
     internal IntPtr AstVectorToString(IntPtr c, IntPtr v)
     {

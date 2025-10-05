@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Z3Library2 Generator
+Z3Library Generator
 
-This script generates Z3Library2 partial class files from NativeZ3Library.
+This script generates Z3Library partial class files from NativeZ3Library.
 """
 
 import re
@@ -26,9 +26,9 @@ EXCLUDE_FUNCTIONS = {
 }
 
 # Configuration: cref attributes to convert to plain text (unresolved or ambiguous references)
-# These methods either don't exist in Z3Library2 or have ambiguous overloads
+# These methods either don't exist in Z3Library or have ambiguous overloads
 CONVERT_CREF_TO_TEXT = {
-    # Unresolved (CS1574) - Methods excluded from Z3Library2
+    # Unresolved (CS1574) - Methods excluded from Z3Library
     "MkContext",       # Only MkContextRc is included
     "GlobalParamSet",  # Global params excluded
     "OpenLog",         # Not context-based
@@ -88,6 +88,7 @@ class FunctionDefinition:
     """Represents a parsed function definition."""
     name: str
     return_type: str
+    return_c_type: str  # C type of return value (from ctype attribute)
     parameters: List[ParameterInfo]
     doc_comment: XmlNode  # Full parsed XML documentation tree
 
@@ -294,9 +295,15 @@ def parse_native_functions_file(file_path: Path) -> List[FunctionDefinition]:
         # Parse documentation into tree structure
         doc_tree = parse_xml_doc_comment(doc_block)
 
+        # Extract return C type from documentation
+        return_ctype_pattern = r'<returns ctype="([^"]+)"'
+        return_ctype_match = re.search(return_ctype_pattern, doc_block)
+        return_c_type = return_ctype_match.group(1) if return_ctype_match else ''
+
         functions.append(FunctionDefinition(
             name=method_name,
             return_type=return_type,
+            return_c_type=return_c_type,
             parameters=parameters,
             doc_comment=doc_tree
         ))
@@ -501,9 +508,9 @@ def filter_invalid_cref_references(doc_tree: XmlNode) -> XmlNode:
 
 def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition], group_name: str, enum_types: Set[str]):
     """
-    Generate Z3Library2.{GroupName}.generated.cs with public method wrappers.
+    Generate Z3Library.{GroupName}.generated.cs with public method wrappers.
     """
-    file_path = output_dir / f"Z3Library2.{group_name}.generated.cs"
+    file_path = output_dir / f"Z3Library.{group_name}.generated.cs"
 
     with open(file_path, 'w', encoding='utf-8') as f:
         # Header
@@ -513,10 +520,11 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
         f.write("// DO NOT EDIT - Changes will be overwritten\n")
         f.write("// </auto-generated>\n\n")
 
+        f.write("using System.Runtime.InteropServices;\n")
         f.write("using Spaceorc.Z3Wrap.Core.Interop;\n\n")
-        f.write("namespace Spaceorc.Z3Wrap.Core.Library;\n\n")
+        f.write("namespace Spaceorc.Z3Wrap.Core;\n\n")
 
-        f.write("public sealed partial class Z3Library2\n")
+        f.write("public sealed partial class Z3Library\n")
         f.write("{\n")
 
         # Generate each function
@@ -554,9 +562,12 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                     public_params.append(f"{public_type} {param.name}")
 
+                # Determine public return type (convert Z3_string to string)
+                public_return_type = 'string' if func.return_c_type == 'Z3_string' else func.return_type
+
                 # Method signature
                 params_str = ", ".join(public_params)
-                f.write(f"    public {func.return_type} {func.name}({params_str})\n")
+                f.write(f"    public {public_return_type} {func.name}({params_str})\n")
                 f.write("    {\n")
 
                 context_param = func.parameters[0].name
@@ -588,7 +599,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                 native_args_str = ", ".join(native_args)
 
                 # Generate call based on return type
-                if func.return_type == 'IntPtr':
+                if func.return_c_type == 'Z3_string':
+                    # Z3_string return type - marshal to C# string
+                    f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                    f.write(f"        CheckError({context_param});\n")
+                    f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
+                    f.write(f"        return Marshal.PtrToStringAnsi(result) ?? throw new InvalidOperationException(\"Failed to marshal string from native code.\");\n")
+                elif func.return_type == 'IntPtr':
                     f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
                     f.write(f"        CheckError({context_param});\n")
                     f.write(f"        return CheckHandle(result, nameof({func.name}));\n")
@@ -626,10 +643,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                 public_params.append(f"{public_type} {param.name}")
 
+            # Determine public return type (convert Z3_string to string)
+            public_return_type = 'string' if func.return_c_type == 'Z3_string' else func.return_type
+
             # Method signature - add "Original" suffix if this function has symbols
             method_name = f"{func.name}Original" if has_symbols and not skip_string_overload else func.name
             params_str = ", ".join(public_params)
-            f.write(f"    public {func.return_type} {method_name}({params_str})\n")
+            f.write(f"    public {public_return_type} {method_name}({params_str})\n")
             f.write("    {\n")
 
             # Convert string parameters to AnsiStringPtr
@@ -652,7 +672,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
             # Generate call based on return type
             context_param = func.parameters[0].name
-            if func.return_type == 'IntPtr':
+            if func.return_c_type == 'Z3_string':
+                # Z3_string return type - marshal to C# string
+                f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                f.write(f"        CheckError({context_param});\n")
+                f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
+                f.write(f"        return Marshal.PtrToStringAnsi(result) ?? throw new InvalidOperationException(\"Failed to marshal string from native code.\");\n")
+            elif func.return_type == 'IntPtr':
                 f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
                 f.write(f"        CheckError({context_param});\n")
                 f.write(f"        return CheckHandle(result, nameof({func.name}));\n")
@@ -678,9 +704,9 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
 def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
     """
-    Generate Z3Library2.Enums.generated.cs with actual public enum definitions.
+    Generate Z3Library.Enums.generated.cs with actual public enum definitions.
     """
-    file_path = output_dir / "Z3Library2.Enums.generated.cs"
+    file_path = output_dir / "Z3Library.Enums.generated.cs"
 
     with open(file_path, 'w', encoding='utf-8') as f:
         # Header
@@ -690,9 +716,9 @@ def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
         f.write("// DO NOT EDIT - Changes will be overwritten\n")
         f.write("// </auto-generated>\n\n")
 
-        f.write("namespace Spaceorc.Z3Wrap.Core.Library;\n\n")
+        f.write("namespace Spaceorc.Z3Wrap.Core;\n\n")
 
-        f.write("public sealed partial class Z3Library2\n")
+        f.write("public sealed partial class Z3Library\n")
         f.write("{\n")
 
         # Generate each enum
@@ -765,7 +791,7 @@ def main():
     import argparse
 
     # Parse command-line arguments
-    parser = argparse.ArgumentParser(description='Generate Z3Library2 partial classes from NativeZ3Library')
+    parser = argparse.ArgumentParser(description='Generate Z3Library partial classes from NativeZ3Library')
     parser.add_argument('--enums-only', action='store_true', help='Generate only the enums file (faster)')
     args = parser.parse_args()
 
@@ -773,9 +799,9 @@ def main():
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
     interop_dir = project_root / "Z3Wrap" / "Core" / "Interop"
-    output_dir = project_root / "Z3Wrap" / "Core" / "Library"
+    output_dir = project_root / "Z3Wrap" / "Core"
 
-    print("Z3Library2 Generator")
+    print("Z3Library Generator")
     print("=" * 80)
     print(f"Source: {interop_dir}")
     print(f"Output: {output_dir}")
@@ -804,7 +830,7 @@ def main():
     print()
 
     # Generate enums file
-    print("Generating Z3Library2.Enums.generated.cs...")
+    print("Generating Z3Library.Enums.generated.cs...")
     generated_enums_file = generate_enums_file(output_dir, enums)
     print(f"✓ Generated {generated_enums_file.name}")
     print()

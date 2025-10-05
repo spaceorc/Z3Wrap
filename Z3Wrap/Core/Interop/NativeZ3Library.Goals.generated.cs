@@ -21,6 +21,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="models" ctype="bool">bool parameter</param>
     /// <param name="unsatCores" ctype="bool">bool parameter</param>
     /// <param name="proofs" ctype="bool">bool parameter</param>
+    /// <returns ctype="Z3_goal">goal value</returns>
     /// <remarks>
     /// If <c>models</c> is <c>true</c> , then model generation is enabled for the new goal. If <c>unsat_cores</c> is <c>true</c> , then unsat core generation is enabled for the new goal. If <c>proofs</c> is <c>true</c> , then proof generation is enabled for the new goal. Remark, the Z3 context <c>c</c> must have been created with proof generation support.
     /// Reference counting must be used to manage goals, even when the <c>Z3_context</c> was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
@@ -73,6 +74,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="Z3_goal_prec">goal_prec value</returns>
     [Z3Function("Z3_goal_precision")]
     internal GoalPrec GoalPrecision(IntPtr c, IntPtr g)
     {
@@ -106,6 +108,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     [Z3Function("Z3_goal_inconsistent")]
     internal bool GoalInconsistent(IntPtr c, IntPtr g)
     {
@@ -122,6 +125,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_goal_depth")]
     internal uint GoalDepth(IntPtr c, IntPtr g)
     {
@@ -154,6 +158,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_goal_size")]
     internal uint GoalSize(IntPtr c, IntPtr g)
     {
@@ -171,6 +176,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Precondition: idx &lt; Z3_goal_size(c, g) 
     /// </remarks>
@@ -190,6 +196,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_goal_num_exprs")]
     internal uint GoalNumExprs(IntPtr c, IntPtr g)
     {
@@ -206,6 +213,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     [Z3Function("Z3_goal_is_decided_sat")]
     internal bool GoalIsDecidedSat(IntPtr c, IntPtr g)
     {
@@ -222,6 +230,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     [Z3Function("Z3_goal_is_decided_unsat")]
     internal bool GoalIsDecidedUnsat(IntPtr c, IntPtr g)
     {
@@ -239,6 +248,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="source" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="target" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_goal">goal value</returns>
     [Z3Function("Z3_goal_translate")]
     internal IntPtr GoalTranslate(IntPtr source, IntPtr g, IntPtr target)
     {
@@ -256,6 +266,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <returns ctype="Z3_model">model value</returns>
     /// <remarks>
     /// When using this feature it is advisable to set the parameter <c>model.compact</c> to <c>false</c> . It is by default true, which erases variables created by the solver from models. Without access to model values for intermediary variables, values of other variables may end up having the wrong values.
     /// </remarks>
@@ -275,6 +286,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_goal_to_string")]
     internal IntPtr GoalToString(IntPtr c, IntPtr g)
     {
@@ -292,6 +304,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="g" ctype="Z3_goal">goal parameter</param>
     /// <param name="includeNames" ctype="bool">bool parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_goal_to_dimacs_string")]
     internal IntPtr GoalToDimacsString(IntPtr c, IntPtr g, bool includeNames)
     {

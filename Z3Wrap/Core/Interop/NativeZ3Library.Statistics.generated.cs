@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_stats_to_string")]
     internal IntPtr StatsToString(IntPtr c, IntPtr s)
     {
@@ -67,6 +68,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_stats_size")]
     internal uint StatsSize(IntPtr c, IntPtr s)
     {
@@ -84,6 +86,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) 
     /// </remarks>
@@ -104,6 +107,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) 
     /// </remarks>
@@ -124,6 +128,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) 
     /// </remarks>
@@ -144,6 +149,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_uint(c, s) 
     /// </remarks>
@@ -164,6 +170,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_stats">stats parameter</param>
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="double">double value</returns>
     /// <remarks>
     /// Precondition: idx &lt; Z3_stats_size(c, s) &amp;&amp; Z3_stats_is_double(c, s) 
     /// </remarks>
@@ -181,6 +188,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     ///  Return the estimated allocated memory in bytes. 
     /// </summary>
+    /// <returns ctype="uint64_t">uint64_t value</returns>
     [Z3Function("Z3_get_estimated_alloc_size")]
     internal ulong GetEstimatedAllocSize()
     {

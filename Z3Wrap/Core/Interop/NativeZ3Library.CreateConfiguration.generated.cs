@@ -17,6 +17,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     ///  Create a configuration object for the Z3 context object. 
     /// </summary>
+    /// <returns ctype="Z3_config">config value</returns>
     /// <remarks>
     /// Configurations are created in order to assign parameters prior to creating contexts for Z3 interaction. For example, if the users wishes to use proof generation, then call: <c>Z3_set_param_value(cfg\, "proof"\, "true")</c>
     /// In previous versions of Z3, the <c>Z3_config</c> was used to store global and module configurations. Now, we should use <c>Z3_global_param_set</c> . 

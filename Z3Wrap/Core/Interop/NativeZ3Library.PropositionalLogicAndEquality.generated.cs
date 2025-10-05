@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Create an AST node representing <c>true</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_true")]
     internal IntPtr MkTrue(IntPtr c)
     {
@@ -33,6 +34,7 @@ internal sealed partial class NativeZ3Library
     ///  Create an AST node representing <c>false</c> . 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_false")]
     internal IntPtr MkFalse(IntPtr c)
     {
@@ -50,6 +52,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="l" ctype="Z3_ast">ast parameter</param>
     /// <param name="r" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>l</c> and <c>r</c> must have the same type.
     /// </remarks>
@@ -70,6 +73,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The <c>distinct</c> construct is used for declaring the arguments pairwise distinct. That is, <c>Forall 0 &lt;= i &lt; j &lt; num_args. not args[i] = args[j]</c> . All arguments must have the same sort.
     /// The number of arguments of a distinct construct must be greater than one. 
@@ -90,6 +94,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>a</c> must have Boolean sort.
     /// </remarks>
@@ -111,6 +116,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
     /// <param name="t3" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>t1</c> must have Boolean sort, <c>t2</c> and <c>t3</c> must have the same sort. The sort of the new node is equal to the sort of <c>t2</c> and <c>t3</c> .
     /// </remarks>
@@ -131,6 +137,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have Boolean sort.
     /// </remarks>
@@ -151,6 +158,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have Boolean sort.
     /// </remarks>
@@ -171,6 +179,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="t1" ctype="Z3_ast">ast parameter</param>
     /// <param name="t2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>t1</c> and <c>t2</c> must have Boolean sort.
     /// </remarks>
@@ -191,6 +200,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have Boolean sort.
     /// The number of arguments must be greater than zero. 
@@ -212,6 +222,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The array <c>args</c> must have <c>num_args</c> elements. All arguments must have Boolean sort.
     /// The number of arguments must be greater than zero. 

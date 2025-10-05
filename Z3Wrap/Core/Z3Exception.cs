@@ -8,14 +8,14 @@ public sealed class Z3Exception : Exception
     /// <summary>
     /// Gets the Z3 error code that caused this exception.
     /// </summary>
-    public Z3ErrorCode ErrorCode { get; }
+    public Z3Library.ErrorCode ErrorCode { get; }
 
     /// <summary>
     /// Initializes a new Z3Exception with error code and message.
     /// </summary>
     /// <param name="errorCode">The Z3 error code.</param>
     /// <param name="message">The error message.</param>
-    public Z3Exception(Z3ErrorCode errorCode, string message)
+    public Z3Exception(Z3Library.ErrorCode errorCode, string message)
         : base($"Z3 Error ({errorCode}): {message}")
     {
         ErrorCode = errorCode;

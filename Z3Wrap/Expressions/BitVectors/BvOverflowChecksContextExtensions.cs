@@ -26,7 +26,7 @@ public static class BvOverflowChecksContextExtensions
     )
         where TSize : ISize
     {
-        var handle = context.Library.MkBvAddNoOverflow(context.Handle, left.Handle, right.Handle, signed);
+        var handle = context.Library.MkBvaddNoOverflow(context.Handle, left.Handle, right.Handle, signed);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -41,7 +41,7 @@ public static class BvOverflowChecksContextExtensions
     public static BoolExpr SignedSubNoOverflow<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvSubNoOverflow(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvsubNoOverflow(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -62,7 +62,7 @@ public static class BvOverflowChecksContextExtensions
     )
         where TSize : ISize
     {
-        var handle = context.Library.MkBvSubNoUnderflow(context.Handle, left.Handle, right.Handle, signed);
+        var handle = context.Library.MkBvsubNoUnderflow(context.Handle, left.Handle, right.Handle, signed);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -83,7 +83,7 @@ public static class BvOverflowChecksContextExtensions
     )
         where TSize : ISize
     {
-        var handle = context.Library.MkBvMulNoOverflow(context.Handle, left.Handle, right.Handle, signed);
+        var handle = context.Library.MkBvmulNoOverflow(context.Handle, left.Handle, right.Handle, signed);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -98,7 +98,7 @@ public static class BvOverflowChecksContextExtensions
     public static BoolExpr SignedMulNoUnderflow<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvMulNoUnderflow(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvmulNoUnderflow(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -113,7 +113,7 @@ public static class BvOverflowChecksContextExtensions
     public static BoolExpr SignedAddNoUnderflow<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvAddNoUnderflow(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvaddNoUnderflow(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -128,7 +128,7 @@ public static class BvOverflowChecksContextExtensions
     public static BoolExpr SignedDivNoOverflow<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvSDivNoOverflow(context.Handle, left.Handle, right.Handle);
+        var handle = context.Library.MkBvsdivNoOverflow(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 
@@ -142,7 +142,7 @@ public static class BvOverflowChecksContextExtensions
     public static BoolExpr SignedNegNoOverflow<TSize>(this Z3Context context, BvExpr<TSize> operand)
         where TSize : ISize
     {
-        var handle = context.Library.MkBvNegNoOverflow(context.Handle, operand.Handle);
+        var handle = context.Library.MkBvnegNoOverflow(context.Handle, operand.Handle);
         return Z3Expr.Create<BoolExpr>(context, handle);
     }
 }

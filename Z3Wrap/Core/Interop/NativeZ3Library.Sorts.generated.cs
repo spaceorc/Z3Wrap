@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// Two free types are considered the same iff the have the same name.
     /// </remarks>
@@ -38,6 +39,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// Functions using type variables can be applied to instantiations that match the signature of the function. Assertions using type variables correspond to assertions over all possible instantiations.
     /// </remarks>
@@ -56,6 +58,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the Boolean type. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This type is used to create propositional variables and predicates.
     /// </remarks>
@@ -74,6 +77,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the integer type. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This type is not the int type found in programming languages. A machine integer can be represented using bit-vectors. The function <see cref="MkBvSort"/> creates a bit-vector type.
     /// </remarks>
@@ -93,6 +97,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the real type. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// Note that this type is not a floating point number.
     /// </remarks>
@@ -112,6 +117,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="sz" ctype="unsigned">unsigned parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This type can also be seen as a machine integer.
     /// The size of the bit-vector type must be greater than zero. 
@@ -133,6 +139,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_symbol">symbol parameter</param>
     /// <param name="size" ctype="uint64_t">uint64_t parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// To create constants that belong to the finite domain, use the APIs for creating numerals and pass a numeric constant together with the sort returned by this call. The numeric constant should be between 0 and the less than the size of the domain.
     /// </remarks>
@@ -154,6 +161,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="domain" ctype="Z3_sort">sort parameter</param>
     /// <param name="range" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// We usually represent the array type as: <c>[domain -&gt; range]</c> . Arrays are usually used to model the heap/memory in software verification.
     /// </remarks>
@@ -177,6 +185,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="domain" ctype="Z3_sort const *">sort parameter</param>
     /// <param name="range" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <seealso cref="MkSelectN"/>
     /// <seealso cref="MkStoreN"/>
     [Z3Function("Z3_mk_array_sort_n")]
@@ -200,6 +209,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="fieldSorts" ctype="Z3_sort const[]"> type of the tuple fields. </param>
     /// <param name="mkTupleDecl" ctype="Z3_func_decl *"> output parameter that will contain the constructor declaration. </param>
     /// <param name="projDecl" ctype="Z3_func_decl[]"> output parameter that will contain the projection function declarations. This field must be a buffer of size <c>num_fields</c> allocated by the user. </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// A tuple with <c>n</c> fields has a constructor and <c>n</c> projections. This function will also declare the constructor and projection functions.
     /// </remarks>
@@ -223,6 +233,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="enumNames" ctype="Z3_symbol  const[]"> names of the enumerated elements. </param>
     /// <param name="enumConsts" ctype="Z3_func_decl[]"> constants corresponding to the enumerated elements. </param>
     /// <param name="enumTesters" ctype="Z3_func_decl[]"> predicates testing if terms of the enumeration sort correspond to an enumeration. </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// An enumeration sort with <c>n</c> elements. This function will also declare the functions corresponding to the enumerations. For example, if this function is called with three symbols A, B, C and the name S, then <c>s</c> is a sort whose name is S, and the function returns three terms corresponding to A, B, C in <c>enum_consts</c> . The array <c>enum_testers</c> has three predicates of type <c>(s -&gt; Bool)</c> . The first predicate (corresponding to A) is true when applied to A, and false otherwise. Similarly for the other predicates.
     /// </remarks>
@@ -249,6 +260,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="isConsDecl" ctype="Z3_func_decl*"> cons cell test. </param>
     /// <param name="headDecl" ctype="Z3_func_decl*"> list head. </param>
     /// <param name="tailDecl" ctype="Z3_func_decl*"> list tail. </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// A list sort over <c>elem_sort</c> This function declares the corresponding constructors and testers for lists.
     /// </remarks>
@@ -273,6 +285,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="fieldNames" ctype="Z3_symbol const[]"> names of the constructor fields. </param>
     /// <param name="sorts" ctype="Z3_sort const[]"> field sorts, 0 if the field sort refers to a recursive sort. </param>
     /// <param name="sortRefs" ctype="unsigned[]"> reference to datatype sort that is an argument to the constructor; if the corresponding sort reference is 0, then the value in sort_refs should be an index referring to one of the recursive datatypes that is declared. </param>
+    /// <returns ctype="Z3_constructor">ructor value</returns>
     /// <seealso cref="DelConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="QueryConstructor"/>
@@ -292,6 +305,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="constr" ctype="Z3_constructor"> constructor. </param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_constructor_num_fields")]
     internal uint ConstructorNumFields(IntPtr c, IntPtr constr)
     {
@@ -327,6 +341,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="name" ctype="Z3_symbol"> name of datatype. </param>
     /// <param name="numConstructors" ctype="unsigned"> number of constructors passed in. </param>
     /// <param name="constructors" ctype="Z3_constructor[]"> array of constructor containers. </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <seealso cref="MkConstructor"/>
     /// <seealso cref="MkConstructorList"/>
     /// <seealso cref="MkDatatypes"/>
@@ -346,6 +361,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="name" ctype="Z3_symbol">symbol parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// Forward references can replace the use sort references, that are unsigned integers in the <c>Z3_mk_constructor</c> call
     /// </remarks>
@@ -366,6 +382,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="numConstructors" ctype="unsigned"> number of constructors in list. </param>
     /// <param name="constructors" ctype="Z3_constructor const[]"> list of constructors. </param>
+    /// <returns ctype="Z3_constructor_list">ructor_list value</returns>
     /// <seealso cref="DelConstructorList"/>
     /// <seealso cref="MkConstructor"/>
     [Z3Function("Z3_mk_constructor_list")]

@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Return an empty mapping from AST to AST. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_ast_map">ast_map value</returns>
     /// <remarks>
     /// Reference counting must be used to manage AST maps, even when the Z3_context was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
@@ -70,6 +71,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     /// <param name="k" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     [Z3Function("Z3_ast_map_contains")]
     internal bool AstMapContains(IntPtr c, IntPtr m, IntPtr k)
     {
@@ -87,6 +89,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     /// <param name="k" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The procedure invokes the error handler if <c>k</c> is not in the map.
     /// </remarks>
@@ -157,6 +160,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <returns ctype="unsigned">unsigned value</returns>
     [Z3Function("Z3_ast_map_size")]
     internal uint AstMapSize(IntPtr c, IntPtr m)
     {
@@ -173,6 +177,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     [Z3Function("Z3_ast_map_keys")]
     internal IntPtr AstMapKeys(IntPtr c, IntPtr m)
     {
@@ -189,6 +194,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_ast_map_to_string")]
     internal IntPtr AstMapToString(IntPtr c, IntPtr m)
     {

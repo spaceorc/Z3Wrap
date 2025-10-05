@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a Z3 (empty) parameter set. Starting at Z3 4.0, parameter sets are used to configure many components such as: simplifiers, tactics, solvers, etc. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_params">params value</returns>
     /// <remarks>
     /// Reference counting must be used to manage parameter sets, even when the <c>Z3_context</c> was created using <see cref="MkContext"/> instead of <see cref="MkContextRc"/> . 
     /// </remarks>
@@ -141,6 +142,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_params">params parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_params_to_string")]
     internal IntPtr ParamsToString(IntPtr c, IntPtr p)
     {

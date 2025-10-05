@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     [Z3Function("Z3_mk_set_sort")]
     internal IntPtr MkSetSort(IntPtr c, IntPtr ty)
     {
@@ -35,6 +36,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="domain" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_empty_set")]
     internal IntPtr MkEmptySet(IntPtr c, IntPtr domain)
     {
@@ -51,6 +53,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="domain" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_full_set")]
     internal IntPtr MkFullSet(IntPtr c, IntPtr domain)
     {
@@ -68,6 +71,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The first argument must be a set, the second an element.
     /// </remarks>
@@ -88,6 +92,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The first argument must be a set, the second an element.
     /// </remarks>
@@ -108,6 +113,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_set_union")]
     internal IntPtr MkSetUnion(IntPtr c, uint numArgs, IntPtr[] args)
     {
@@ -125,6 +131,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_set_intersect")]
     internal IntPtr MkSetIntersect(IntPtr c, uint numArgs, IntPtr[] args)
     {
@@ -142,6 +149,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_set_difference")]
     internal IntPtr MkSetDifference(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
@@ -158,6 +166,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_set_complement")]
     internal IntPtr MkSetComplement(IntPtr c, IntPtr arg)
     {
@@ -175,6 +184,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="elem" ctype="Z3_ast">ast parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The first argument should be an element type of the set.
     /// </remarks>
@@ -195,6 +205,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_set_subset")]
     internal IntPtr MkSetSubset(IntPtr c, IntPtr arg1, IntPtr arg2)
     {
@@ -212,6 +223,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="arg1" ctype="Z3_ast">ast parameter</param>
     /// <param name="arg2" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_array_ext")]
     internal IntPtr MkArrayExt(IntPtr c, IntPtr arg1, IntPtr arg2)
     {

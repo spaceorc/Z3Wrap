@@ -19,6 +19,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="i" ctype="int">int parameter</param>
+    /// <returns ctype="Z3_symbol">symbol value</returns>
     /// <remarks>
     /// Symbols are used to name several term and type constructors. NB. Not all integers can be passed to this function. The legal range of unsigned integers is 0 to 2^30-1.
     /// </remarks>
@@ -40,6 +41,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_symbol">symbol value</returns>
     /// <remarks>
     /// Symbols are used to name several term and type constructors.
     /// </remarks>

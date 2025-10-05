@@ -36,6 +36,7 @@ internal sealed partial class NativeZ3Library
     /// <summary>
     ///  Return a string that fully describes the version of Z3 in use. 
     /// </summary>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <seealso cref="GetVersion"/>
     [Z3Function("Z3_get_full_version")]
     internal IntPtr GetFullVersion()

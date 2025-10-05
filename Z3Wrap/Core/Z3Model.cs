@@ -83,9 +83,9 @@ public sealed class Z3Model
         var boolValue = context.Library.GetBoolValue(context.Handle, evaluated.Handle);
         return boolValue switch
         {
-            Z3BoolValue.False => false,
-            Z3BoolValue.True => true,
-            Z3BoolValue.Undefined => throw new InvalidOperationException(
+            Z3Library.Lbool.Z3_L_FALSE => false,
+            Z3Library.Lbool.Z3_L_TRUE => true,
+            Z3Library.Lbool.Z3_L_UNDEF => throw new InvalidOperationException(
                 $"Expression {expr} does not evaluate to a boolean in this model"
             ),
             _ => throw new InvalidOperationException(
@@ -140,7 +140,7 @@ public sealed class Z3Model
         if (invalidated)
             return "<invalidated>";
 
-        return context.Library.ModelToString(context.Handle, modelHandle) ?? "<invalid>";
+        return context.Library.ModelToString(context.Handle, modelHandle);
     }
 
     internal void Invalidate()
@@ -166,7 +166,6 @@ public sealed class Z3Model
                 $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
             );
 
-        return context.Library.GetNumeralString(context.Handle, evaluatedExpr.Handle)
-            ?? throw new InvalidOperationException($"Failed to extract numeric value from expression {originalExpr}");
+        return context.Library.GetNumeralString(context.Handle, evaluatedExpr.Handle);
     }
 }

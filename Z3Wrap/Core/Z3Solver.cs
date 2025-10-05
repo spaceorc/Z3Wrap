@@ -96,7 +96,13 @@ public sealed class Z3Solver : IDisposable
         ThrowIfDisposed();
         InvalidateModel(); // Clear any previous model
 
-        lastCheckResult = context.Library.SolverCheck(context.Handle, InternalHandle);
+        lastCheckResult = context.Library.SolverCheck(context.Handle, InternalHandle) switch
+        {
+            Z3Library.Lbool.Z3_L_FALSE => Z3Status.Unsatisfiable,
+            Z3Library.Lbool.Z3_L_TRUE => Z3Status.Satisfiable,
+            Z3Library.Lbool.Z3_L_UNDEF => Z3Status.Unknown,
+            _ => throw new InvalidOperationException($"Unexpected solver result: {lastCheckResult}"),
+        };
         return lastCheckResult.Value;
     }
 
@@ -108,7 +114,7 @@ public sealed class Z3Solver : IDisposable
     {
         ThrowIfDisposed();
 
-        return context.Library.SolverGetReasonUnknown(context.Handle, InternalHandle) ?? "Unknown reason";
+        return context.Library.SolverGetReasonUnknown(context.Handle, InternalHandle);
     }
 
     /// <summary>

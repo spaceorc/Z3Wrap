@@ -25,6 +25,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
     /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
     /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     /// <remarks>
     /// It returns a formula comprising of the conjunction of assertions in the scope (up to push/pop) at the end of the string.
     /// </remarks>
@@ -50,6 +51,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numDecls" ctype="unsigned">unsigned parameter</param>
     /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
     /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     [Z3Function("Z3_parse_smtlib2_file")]
     internal IntPtr ParseSmtlib2File(IntPtr c, IntPtr fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
@@ -66,7 +68,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="str" ctype="Z3_string">string parameter</param>
-    /// <returns>output generated from processing commands. </returns>
+    /// <returns ctype="Z3_string">output generated from processing commands. </returns>
     [Z3Function("Z3_eval_smtlib2_string")]
     internal IntPtr EvalSmtlib2String(IntPtr c, IntPtr str)
     {
@@ -82,6 +84,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a parser context. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_parser_context">parser_context value</returns>
     /// <remarks>
     /// A parser context maintains state between calls to <c>Z3_parser_context_parse_string</c> where the caller can pass in a set of SMTLIB2 commands. It maintains all the declarations from previous calls together with of sorts and function declarations (including 0-ary) that are added directly to the context.
     /// </remarks>
@@ -168,6 +171,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
     /// <param name="s" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     [Z3Function("Z3_parser_context_from_string")]
     internal IntPtr ParserContextFromString(IntPtr c, IntPtr pc, IntPtr s)
     {

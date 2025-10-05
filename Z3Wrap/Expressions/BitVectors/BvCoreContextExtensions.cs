@@ -52,7 +52,7 @@ public static class BvCoreContextExtensions
     public static IntExpr ToInt<TSize>(this Z3Context context, BvExpr<TSize> expr, bool signed = false)
         where TSize : ISize
     {
-        var handle = context.Library.MkBv2Int(context.Handle, expr.Handle, signed);
+        var handle = context.Library.MkBv2int(context.Handle, expr.Handle, signed);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
 

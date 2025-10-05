@@ -20,6 +20,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="numeral" ctype="Z3_string"> A string representing the numeral value in decimal notation. The string may be of the form <c>[num]*[.[num]*][E[+|-][num]+]</c> . If the given sort is a real, then the numeral can be a rational, that is, a string of the form <c>[num]* / [num]*</c> . </param>
     /// <param name="ty" ctype="Z3_sort"> The sort of the numeral. In the current implementation, the given sort can be an int, real, finite-domain, or bit-vectors of arbitrary size. </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkInt"/>
     /// <seealso cref="MkUnsignedInt"/>
     [Z3Function("Z3_mk_numeral")]
@@ -39,6 +40,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="num" ctype="int"> numerator of rational. </param>
     /// <param name="den" ctype="int"> denominator of rational. </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Precondition: den != 0 
     /// </remarks>
@@ -63,6 +65,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="num" ctype="int64_t">int64_t parameter</param>
     /// <param name="den" ctype="int64_t">int64_t parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkReal"/>
     /// <seealso cref="MkRealInt64"/>
     [Z3Function("Z3_mk_real_int64")]
@@ -82,6 +85,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="int">int parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function can be used to create numerals that fit in a machine integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
@@ -103,6 +107,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="unsigned">unsigned parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function can be used to create numerals that fit in a machine unsigned integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
@@ -124,6 +129,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="int64_t">int64_t parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function can be used to create numerals that fit in a machine <c>int64_t</c> integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
@@ -145,6 +151,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="v" ctype="uint64_t">uint64_t parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function can be used to create numerals that fit in a machine <c>uint64_t</c> integer. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string.
     /// </remarks>
@@ -166,6 +173,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="sz" ctype="unsigned">unsigned parameter</param>
     /// <param name="bits" ctype="bool const*">bool parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkNumeral"/>
     /// <seealso cref="MkBvNumeral"/>
     [Z3Function("Z3_mk_bv_numeral")]

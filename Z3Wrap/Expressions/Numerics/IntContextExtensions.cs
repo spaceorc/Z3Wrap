@@ -60,7 +60,7 @@ public static class IntContextExtensions
     /// <returns>Real expression representing the integer.</returns>
     public static RealExpr ToReal(this Z3Context context, IntExpr expr)
     {
-        var handle = context.Library.MkInt2Real(context.Handle, expr.Handle);
+        var handle = context.Library.MkInt2real(context.Handle, expr.Handle);
         return Z3Expr.Create<RealExpr>(context, handle);
     }
 
@@ -74,7 +74,7 @@ public static class IntContextExtensions
     public static BvExpr<TSize> ToBv<TSize>(this Z3Context context, IntExpr expr)
         where TSize : ISize
     {
-        var handle = context.Library.MkInt2Bv(context.Handle, TSize.Size, expr.Handle);
+        var handle = context.Library.MkInt2bv(context.Handle, TSize.Size, expr.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
 

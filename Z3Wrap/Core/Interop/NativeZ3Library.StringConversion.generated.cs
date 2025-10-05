@@ -41,6 +41,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="DelContext"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_ast_to_string</c> . 
     /// </remarks>
@@ -59,6 +60,7 @@ internal sealed partial class NativeZ3Library
 
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="p" ctype="Z3_pattern">pattern parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_pattern_to_string")]
     internal IntPtr PatternToString(IntPtr c, IntPtr p)
     {
@@ -72,6 +74,7 @@ internal sealed partial class NativeZ3Library
 
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_sort_to_string")]
     internal IntPtr SortToString(IntPtr c, IntPtr s)
     {
@@ -85,6 +88,7 @@ internal sealed partial class NativeZ3Library
 
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_func_decl_to_string")]
     internal IntPtr FuncDeclToString(IntPtr c, IntPtr d)
     {
@@ -101,6 +105,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_model">model parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="DelContext"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_model_to_string</c> . 
     /// </remarks>
@@ -126,6 +131,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numAssumptions" ctype="unsigned"> - number of assumptions. </param>
     /// <param name="assumptions" ctype="Z3_ast const[]"> - auxiliary assumptions. </param>
     /// <param name="formula" ctype="Z3_ast"> - formula to be checked for consistency in conjunction with assumptions. </param>
+    /// <returns ctype="Z3_string">string value</returns>
     /// <remarks>
     /// Warning: The result buffer is statically allocated by Z3. It will be automatically deallocated when <see cref="DelContext"/> is invoked. So, the buffer is invalidated in the next call to <c>Z3_benchmark_to_smtlib_string</c> . 
     /// </remarks>

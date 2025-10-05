@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the RoundingMode sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <seealso cref="MkFpaRoundNearestTiesToAway"/>
     /// <seealso cref="MkFpaRna"/>
     /// <seealso cref="MkFpaRoundNearestTiesToEven"/>
@@ -43,6 +44,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRne"/> .
     /// </remarks>
@@ -66,6 +68,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the NearestTiesToEven rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRoundNearestTiesToEven"/> .
     /// </remarks>
@@ -89,6 +92,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRna"/> .
     /// </remarks>
@@ -112,6 +116,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the NearestTiesToAway rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRoundNearestTiesToAway"/> .
     /// </remarks>
@@ -135,6 +140,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRtp"/> .
     /// </remarks>
@@ -158,6 +164,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the TowardPositive rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRoundTowardPositive"/> .
     /// </remarks>
@@ -181,6 +188,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRtn"/> .
     /// </remarks>
@@ -204,6 +212,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the TowardNegative rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRoundTowardNegative"/> .
     /// </remarks>
@@ -227,6 +236,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the TowardZero rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRtz"/> .
     /// </remarks>
@@ -250,6 +260,7 @@ internal sealed partial class NativeZ3Library
     ///  Create a numeral of RoundingMode sort which represents the TowardZero rounding mode. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaRoundTowardZero"/> .
     /// </remarks>
@@ -275,6 +286,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="ebits" ctype="unsigned"> number of exponent bits </param>
     /// <param name="sbits" ctype="unsigned"> number of significand bits </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// <c>ebits</c> must be larger than 1 and <c>sbits</c> must be larger than 2. 
     /// </remarks>
@@ -301,6 +313,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the half-precision (16-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSort16"/> .
     /// </remarks>
@@ -323,6 +336,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the half-precision (16-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSortHalf"/> .
     /// </remarks>
@@ -345,6 +359,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the single-precision (32-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context. </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSort32"/> .
     /// </remarks>
@@ -367,6 +382,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the single-precision (32-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSortSingle"/> .
     /// </remarks>
@@ -389,6 +405,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the double-precision (64-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSort64"/> .
     /// </remarks>
@@ -411,6 +428,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the double-precision (64-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSortDouble"/> .
     /// </remarks>
@@ -433,6 +451,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the quadruple-precision (128-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSort128"/> .
     /// </remarks>
@@ -455,6 +474,7 @@ internal sealed partial class NativeZ3Library
     ///  Create the quadruple-precision (128-bit) FloatingPoint sort. 
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
+    /// <returns ctype="Z3_sort">sort value</returns>
     /// <remarks>
     /// This is the same as <see cref="MkFpaSortQuadruple"/> .
     /// </remarks>
@@ -478,6 +498,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="s" ctype="Z3_sort"> target sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkFpaInf"/>
     /// <seealso cref="MkFpaIsNan"/>
     /// <seealso cref="MkFpaZero"/>
@@ -498,6 +519,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="s" ctype="Z3_sort"> target sort </param>
     /// <param name="negative" ctype="bool"> indicates whether the result should be negative </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// When <c>negative</c> is <c>true</c> , -oo will be generated instead of +oo.
     /// </remarks>
@@ -521,6 +543,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="s" ctype="Z3_sort"> target sort </param>
     /// <param name="negative" ctype="bool"> indicates whether the result should be negative </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// When <c>negative</c> is <c>true</c> , -zero will be generated instead of +zero.
     /// </remarks>
@@ -545,6 +568,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="sgn" ctype="Z3_ast"> sign </param>
     /// <param name="exp" ctype="Z3_ast"> exponent </param>
     /// <param name="sig" ctype="Z3_ast"> significand </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This is the operator named fp in the SMT FP theory definition. Note that <c>sgn</c> is required to be a bit-vector of size 1. Significand and exponent are required to be longer than 1 and 2 respectively. The FloatingPoint sort of the resulting expression is automatically determined from the bit-vector sizes of the arguments. The exponent is assumed to be in IEEE-754 biased representation.
     /// </remarks>
@@ -571,6 +595,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="v" ctype="float"> value </param>
     /// <param name="ty" ctype="Z3_sort"> sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function is used to create numerals that fit in a float value. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
@@ -597,6 +622,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="v" ctype="double"> value </param>
     /// <param name="ty" ctype="Z3_sort"> sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function is used to create numerals that fit in a double value. It is slightly faster than <see cref="MkNumeral"/> since it is not necessary to parse a string. <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
@@ -623,6 +649,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="v" ctype="signed"> value </param>
     /// <param name="ty" ctype="Z3_sort"> result sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
@@ -651,6 +678,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="exp" ctype="signed"> exponent </param>
     /// <param name="sig" ctype="unsigned"> significand </param>
     /// <param name="ty" ctype="Z3_sort"> result sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
@@ -679,6 +707,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="exp" ctype="int64_t"> exponent </param>
     /// <param name="sig" ctype="uint64_t"> significand </param>
     /// <param name="ty" ctype="Z3_sort"> result sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>ty</c> must be a FloatingPoint sort
     /// </remarks>
@@ -704,6 +733,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkFpaIsNegative"/>
     /// <seealso cref="MkFpaIsPositive"/>
     /// <seealso cref="MkFpaNeg"/>
@@ -723,6 +753,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkFpaAbs"/>
     /// <seealso cref="MkFpaIsNegative"/>
     /// <seealso cref="MkFpaIsPositive"/>
@@ -744,6 +775,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -765,6 +797,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -786,6 +819,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -807,6 +841,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort. </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The nodes <c>rm</c> must be of RoundingMode sort, <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -829,6 +864,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t3" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The result is <c>round((t1 * t2) + t3)</c> . <c>rm</c> must be of RoundingMode sort, <c>t1</c> , <c>t2</c> , and <c>t3</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -849,6 +885,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>rm</c> must be of RoundingMode sort, <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -869,6 +906,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -889,6 +927,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must be of FloatingPoint sort.
     /// </remarks>
@@ -909,6 +948,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> , <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -930,6 +970,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> , <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -951,6 +992,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -975,6 +1017,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -999,6 +1042,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -1023,6 +1067,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -1047,6 +1092,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t1" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="t2" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Note that this is IEEE 754 equality (as opposed to SMT-LIB <c>=</c> ). <c>t1</c> and <c>t2</c> must have the same FloatingPoint sort.
     /// </remarks>
@@ -1070,6 +1116,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1093,6 +1140,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1116,6 +1164,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1140,6 +1189,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1164,6 +1214,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1188,6 +1239,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1210,6 +1262,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// <c>t</c> must have FloatingPoint sort.
     /// </remarks>
@@ -1233,6 +1286,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="bv" ctype="Z3_ast"> a bit-vector term </param>
     /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of a bit-vector term <c>bv</c> to a floating-point term of sort <c>s</c> . <c>s</c> must be a FloatingPoint sort, <c>t</c> must be of bit-vector sort, and the bit-vector size of <c>bv</c> must be equal to <c>ebits+sbits</c> of <c>s</c> . The format of the bit-vector is as defined by the IEEE 754-2008 interchange format.
     /// </remarks>
@@ -1254,6 +1308,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of a floating-point term <c>t</c> to a floating-point term of sort <c>s</c> . If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of floating-point sort.
     /// </remarks>
@@ -1275,6 +1330,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of Real sort </param>
     /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of term <c>t</c> of real sort into a floating-point term of sort <c>s</c> . If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of real sort.
     /// </remarks>
@@ -1296,6 +1352,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of bit-vector sort </param>
     /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of the bit-vector term <c>t</c> into a floating-point term of sort <c>s</c> . The bit-vector <c>t</c> is taken to be in signed 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of bit-vector sort.
     /// </remarks>
@@ -1317,6 +1374,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of bit-vector sort </param>
     /// <param name="s" ctype="Z3_sort"> floating-point sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of the bit-vector term <c>t</c> into a floating-point term of sort <c>s</c> . The bit-vector <c>t</c> is taken to be in unsigned 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> . <c>s</c> must be a FloatingPoint sort, <c>rm</c> must be of RoundingMode sort, <c>t</c> must be of bit-vector sort.
     /// </remarks>
@@ -1338,6 +1396,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="sz" ctype="unsigned"> size of the resulting bit-vector </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of the floating-point term <c>t</c> into a bit-vector term of size <c>sz</c> in unsigned 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> .
     /// </remarks>
@@ -1359,6 +1418,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="rm" ctype="Z3_ast"> term of RoundingMode sort </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
     /// <param name="sz" ctype="unsigned"> size of the resulting bit-vector </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of the floating-point term <c>t</c> into a bit-vector term of size <c>sz</c> in signed 2's complement format. If necessary, the result will be rounded according to rounding mode <c>rm</c> .
     /// </remarks>
@@ -1378,6 +1438,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context </param>
     /// <param name="t" ctype="Z3_ast"> term of FloatingPoint sort </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Produces a term that represents the conversion of the floating-point term <c>t</c> into a real number. Note that this type of conversion will often result in non-linear constraints over real terms.
     /// </remarks>

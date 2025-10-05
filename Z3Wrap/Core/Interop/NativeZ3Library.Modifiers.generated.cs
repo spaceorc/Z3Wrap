@@ -21,6 +21,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_update_term")]
     internal IntPtr UpdateTerm(IntPtr c, IntPtr a, uint numArgs, IntPtr[] args)
     {
@@ -40,6 +41,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numExprs" ctype="unsigned">unsigned parameter</param>
     /// <param name="from" ctype="Z3_ast const[]">ast parameter</param>
     /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_substitute")]
     internal IntPtr Substitute(IntPtr c, IntPtr a, uint numExprs, IntPtr[] from, IntPtr[] to)
     {
@@ -58,6 +60,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="numExprs" ctype="unsigned">unsigned parameter</param>
     /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_substitute_vars")]
     internal IntPtr SubstituteVars(IntPtr c, IntPtr a, uint numExprs, IntPtr[] to)
     {
@@ -77,6 +80,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="numFuns" ctype="unsigned">unsigned parameter</param>
     /// <param name="from" ctype="Z3_func_decl const[]">func_decl parameter</param>
     /// <param name="to" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The expressions in <c>to</c> can have free variables. The free variable in <c>to</c> at index 0 refers to the first argument of <c>from</c> , the free variable at index 1 corresponds to the second argument.
     /// </remarks>
@@ -97,6 +101,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="source" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="target" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// Precondition: source != target 
     /// </remarks>

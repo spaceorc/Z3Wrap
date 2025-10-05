@@ -22,6 +22,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domainSize" ctype="unsigned"> number of arguments. It is 0 when declaring a constant. </param>
     /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. It is 0 when declaring a constant. </param>
     /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
+    /// <returns ctype="Z3_func_decl">func_decl value</returns>
     /// <remarks>
     /// After declaring a constant or function, the function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>
@@ -46,6 +47,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="d" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="numArgs" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const[]">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <seealso cref="MkFreshFuncDecl"/>
     /// <seealso cref="MkFuncDecl"/>
     /// <seealso cref="MkRecFuncDecl"/>
@@ -66,6 +68,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_symbol">symbol parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function is a shorthand for: <code>
     /// Z3_func_decl d = Z3_mk_func_decl(c, s, 0, 0, ty);
@@ -94,6 +97,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domainSize" ctype="unsigned">unsigned parameter</param>
     /// <param name="domain" ctype="Z3_sort const[]">sort parameter</param>
     /// <param name="range" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_func_decl">func_decl value</returns>
     /// <remarks>
     /// Z3 will generate an unique name for this function declaration. If prefix is different from <c>NULL</c> , then the name generate by Z3 will start with <c>prefix</c> .
     /// If <c>prefix</c> is <c>NULL</c> , then it is assumed to be the empty string. 
@@ -116,6 +120,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="prefix" ctype="Z3_string">string parameter</param>
     /// <param name="ty" ctype="Z3_sort">sort parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// This function is a shorthand for: <code>
     /// Z3_func_decl d = Z3_mk_fresh_func_decl(c, prefix, 0, 0, ty); Z3_ast n = Z3_mk_app(c, d, 0, 0);
@@ -145,6 +150,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="domainSize" ctype="unsigned"> number of arguments. It should be greater than 0. </param>
     /// <param name="domain" ctype="Z3_sort const[]"> array containing the sort of each argument. The array must contain domain_size elements. </param>
     /// <param name="range" ctype="Z3_sort"> sort of the constant or the return sort of the function. </param>
+    /// <returns ctype="Z3_func_decl">func_decl value</returns>
     /// <remarks>
     /// After declaring recursive function, it should be associated with a recursive definition <see cref="AddRecDef"/> . The function <see cref="MkApp"/> can be used to create a constant or function application.
     /// </remarks>

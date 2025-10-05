@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Return the error code for the last API call. 
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
+    /// <returns ctype="Z3_error_code">error_code value</returns>
     /// <remarks>
     /// A call to a Z3 function may return a non Z3_OK error code, when it is not used correctly.
     /// </remarks>
@@ -75,6 +76,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="err" ctype="Z3_error_code">error_code parameter</param>
+    /// <returns ctype="Z3_string">string value</returns>
     [Z3Function("Z3_get_error_msg")]
     internal IntPtr GetErrorMsg(IntPtr c, ErrorCode err)
     {

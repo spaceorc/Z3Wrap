@@ -18,6 +18,7 @@ internal sealed partial class NativeZ3Library
     ///  Log interaction to a file. 
     /// </summary>
     /// <param name="filename" ctype="Z3_string">string parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     /// <seealso cref="AppendLog"/>
     /// <seealso cref="CloseLog"/>
     [Z3Function("Z3_open_log")]

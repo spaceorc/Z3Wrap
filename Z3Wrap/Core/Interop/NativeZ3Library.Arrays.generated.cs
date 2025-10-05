@@ -20,6 +20,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>a</c> must have an array sort <c>[domain -&gt; range]</c> , and <c>i</c> must have the sort <c>domain</c> . The sort of the result is <c>range</c> .
     /// </remarks>
@@ -43,6 +44,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_select_n")]
     internal IntPtr MkSelectN(IntPtr c, IntPtr a, uint n, IntPtr idxs)
     {
@@ -61,6 +63,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="a" ctype="Z3_ast">ast parameter</param>
     /// <param name="i" ctype="Z3_ast">ast parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The node <c>a</c> must have an array sort <c>[domain -&gt; range]</c> , <c>i</c> must have sort <c>domain</c> , <c>v</c> must have sort range. The sort of the result is <c>[domain -&gt; range]</c> . The semantics of this function is given by the theory of arrays described in the SMT-LIB standard. See http://smtlib.org for more details. The result of this function is an array that is equal to <c>a</c> (with respect to <c>select</c> ) on all indices except for <c>i</c> , where it maps to <c>v</c> (and the <c>select</c> of <c>a</c> with respect to <c>i</c> may be a different value).
     /// </remarks>
@@ -85,6 +88,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="idxs" ctype="Z3_ast const*">ast parameter</param>
     /// <param name="v" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_store_n")]
     internal IntPtr MkStoreN(IntPtr c, IntPtr a, uint n, IntPtr idxs, IntPtr v)
     {
@@ -102,6 +106,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="domain" ctype="Z3_sort"> domain sort for the array. </param>
     /// <param name="v" ctype="Z3_ast"> value that the array maps to. </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The resulting term is an array, such that a <c>select</c> on an arbitrary index produces the value <c>v</c> .
     /// </remarks>
@@ -123,6 +128,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
     /// <param name="n" ctype="unsigned">unsigned parameter</param>
     /// <param name="args" ctype="Z3_ast const*">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     /// <remarks>
     /// The <c>n</c> nodes <c>args</c> must be of array sorts <c>[domain_i -&gt; range_i]</c> . The function declaration <c>f</c> must have type <c> range_1 .. range_n -&gt; range</c> . <c>v</c> must have sort range. The sort of the result is <c>[domain_i -&gt; range]</c> .
     /// </remarks>
@@ -145,6 +151,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context"> logical context. </param>
     /// <param name="array" ctype="Z3_ast"> array value whose default range value is accessed. </param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_array_default")]
     internal IntPtr MkArrayDefault(IntPtr c, IntPtr array)
     {
@@ -161,6 +168,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="f" ctype="Z3_func_decl">func_decl parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_as_array")]
     internal IntPtr MkAsArray(IntPtr c, IntPtr f)
     {
@@ -178,6 +186,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="set" ctype="Z3_ast">ast parameter</param>
     /// <param name="k" ctype="Z3_ast">ast parameter</param>
+    /// <returns ctype="Z3_ast">ast value</returns>
     [Z3Function("Z3_mk_set_has_size")]
     internal IntPtr MkSetHasSize(IntPtr c, IntPtr set, IntPtr k)
     {

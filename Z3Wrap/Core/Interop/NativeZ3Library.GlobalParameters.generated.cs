@@ -56,6 +56,7 @@ internal sealed partial class NativeZ3Library
     /// </summary>
     /// <param name="paramId" ctype="Z3_string">string parameter</param>
     /// <param name="paramValue" ctype="Z3_string_ptr">string_ptr parameter</param>
+    /// <returns ctype="bool">bool value</returns>
     /// <remarks>
     /// Returns <c>false</c> if the parameter value does not exist.
     /// This function cannot be invoked simultaneously from different threads without synchronization. The result string stored in param_value is stored in shared location. 

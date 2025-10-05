@@ -1007,6 +1007,30 @@ def generate_default_param_description(c_type: str) -> str:
     return f"{type_name} parameter"
 
 
+def generate_default_return_description(c_type: str) -> str:
+    """
+    Generate a default return value description from C type.
+    Examples:
+    - Z3_context -> context value
+    - Z3_string -> string value
+    - Z3_ast -> ast value
+    - unsigned -> unsigned value
+    - int -> int value
+    """
+    # Remove Z3_ prefix if present
+    type_name = c_type
+    if type_name.startswith('Z3_'):
+        type_name = type_name[3:]
+
+    # Remove const, *, [], whitespace
+    type_name = type_name.replace('const', '').replace('*', '').replace('[]', '').strip()
+
+    # Convert to lowercase for description
+    type_name = type_name.lower()
+
+    return f"{type_name} value"
+
+
 def convert_param_name_to_camel_case(param_name: str) -> str:
     """
     Convert snake_case parameter name to camelCase.
@@ -1246,19 +1270,26 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
                         # Single line
                         f.write(f'    /// <param name="{xml_param_name}" ctype="{param_type_c}">{param_doc_converted}</param>\n')
 
-                # Returns documentation
-                if sig.returns_doc:
+                # Returns documentation - ALWAYS generate for non-void return types with ctype attribute
+                if sig.return_type and sig.return_type != 'void':
+                    # Get documentation if available, or generate default from C type
+                    returns_doc = sig.returns_doc
+                    if not returns_doc:
+                        returns_doc = generate_default_return_description(sig.return_type)
+
                     # Convert Z3 function references to C# names
-                    returns_doc_converted = convert_z3_refs_to_csharp(sig.returns_doc)
+                    returns_doc_converted = convert_z3_refs_to_csharp(returns_doc)
+
+                    # Always include ctype attribute with original C return type
                     if '\n' in returns_doc_converted:
-                        # Multi-line
-                        f.write(f"    /// <returns>\n")
+                        # Multi-line - put content on separate lines
+                        f.write(f'    /// <returns ctype="{sig.return_type}">\n')
                         for line in format_xml_doc_lines(returns_doc_converted, "    "):
                             f.write(f"{line}\n")
-                        f.write(f"    /// </returns>\n")
+                        f.write(f'    /// </returns>\n')
                     else:
                         # Single line
-                        f.write(f"    /// <returns>{returns_doc_converted}</returns>\n")
+                        f.write(f'    /// <returns ctype="{sig.return_type}">{returns_doc_converted}</returns>\n')
 
                 # Remarks (body, preconditions, warnings, remarks)
                 remarks_parts = []
