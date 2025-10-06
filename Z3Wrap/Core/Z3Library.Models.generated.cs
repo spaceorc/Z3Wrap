@@ -31,7 +31,6 @@ public sealed partial class Z3Library
     public void ModelIncRef(IntPtr c, IntPtr m)
     {
         nativeLibrary.ModelIncRef(c, m);
-        CheckError(c);
     }
 
     /// <summary>
@@ -42,7 +41,6 @@ public sealed partial class Z3Library
     public void ModelDecRef(IntPtr c, IntPtr m)
     {
         nativeLibrary.ModelDecRef(c, m);
-        CheckError(c);
     }
 
     /// <summary>
@@ -318,7 +316,6 @@ public sealed partial class Z3Library
     public void FuncInterpIncRef(IntPtr c, IntPtr f)
     {
         nativeLibrary.FuncInterpIncRef(c, f);
-        CheckError(c);
     }
 
     /// <summary>
@@ -329,7 +326,6 @@ public sealed partial class Z3Library
     public void FuncInterpDecRef(IntPtr c, IntPtr f)
     {
         nativeLibrary.FuncInterpDecRef(c, f);
-        CheckError(c);
     }
 
     /// <summary>
@@ -435,7 +431,6 @@ public sealed partial class Z3Library
     public void FuncEntryIncRef(IntPtr c, IntPtr e)
     {
         nativeLibrary.FuncEntryIncRef(c, e);
-        CheckError(c);
     }
 
     /// <summary>
@@ -446,7 +441,6 @@ public sealed partial class Z3Library
     public void FuncEntryDecRef(IntPtr c, IntPtr e)
     {
         nativeLibrary.FuncEntryDecRef(c, e);
-        CheckError(c);
     }
 
     /// <summary>

@@ -34,7 +34,6 @@ public sealed partial class Z3Library
     public void AstMapIncRef(IntPtr c, IntPtr m)
     {
         nativeLibrary.AstMapIncRef(c, m);
-        CheckError(c);
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public sealed partial class Z3Library
     public void AstMapDecRef(IntPtr c, IntPtr m)
     {
         nativeLibrary.AstMapDecRef(c, m);
-        CheckError(c);
     }
 
     /// <summary>

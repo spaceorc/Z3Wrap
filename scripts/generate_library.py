@@ -23,6 +23,10 @@ SKIP_SYMBOL_STRING_OVERLOAD = {
 # These are manually maintained in Z3Library2.cs with custom error handling logic
 EXCLUDE_FUNCTIONS = {
     "DelContext",  # Cannot check error after context deletion
+    "GetErrorCode",  # Error handling methods - manually maintained
+    "SetErrorHandler",
+    "SetError",
+    "GetErrorMsg",
 }
 
 # Configuration: cref attributes to convert to plain text (unresolved or ambiguous references)
@@ -32,6 +36,8 @@ CONVERT_CREF_TO_TEXT = {
     "MkContext",       # Only MkContextRc is included
     "GlobalParamSet",  # Global params excluded
     "OpenLog",         # Not context-based
+    "GetErrorCode",    # Error handling - manually maintained
+    "SetErrorHandler",
 }
 
 
@@ -619,28 +625,37 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                 native_args_str = ", ".join(native_args)
 
+                # Check if this function should skip error checking
+                # Skip for: IncRef/DecRef (reference counting)
+                skip_error_check = func.name.endswith('IncRef') or func.name.endswith('DecRef')
+
                 # Generate call based on return type
                 if func.return_c_type == 'Z3_string':
                     # Z3_string return type - marshal to C# string
                     f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                    f.write(f"        CheckError({context_param});\n")
+                    if not skip_error_check:
+                        f.write(f"        CheckError({context_param});\n")
                     f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
                     f.write(f"        return Marshal.PtrToStringAnsi(result) ?? throw new InvalidOperationException(\"Failed to marshal string from native code.\");\n")
                 elif func.return_type == 'IntPtr':
                     f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                    f.write(f"        CheckError({context_param});\n")
+                    if not skip_error_check:
+                        f.write(f"        CheckError({context_param});\n")
                     f.write(f"        return CheckHandle(result, nameof({func.name}));\n")
                 elif func.return_type == 'void':
                     f.write(f"        nativeLibrary.{func.name}({native_args_str});\n")
-                    f.write(f"        CheckError({context_param});\n")
+                    if not skip_error_check:
+                        f.write(f"        CheckError({context_param});\n")
                 elif func.return_type in enum_types:
                     # Enum return type - cast from internal enum to public enum
                     f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                    f.write(f"        CheckError({context_param});\n")
+                    if not skip_error_check:
+                        f.write(f"        CheckError({context_param});\n")
                     f.write(f"        return ({func.return_type})result;\n")
                 else:
                     f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                    f.write(f"        CheckError({context_param});\n")
+                    if not skip_error_check:
+                        f.write(f"        CheckError({context_param});\n")
                     f.write(f"        return result;\n")
 
                 f.write("    }\n\n")
@@ -701,29 +716,38 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
             native_args_str = ", ".join(native_args)
 
+            # Check if this function should skip error checking
+            # Skip for: IncRef/DecRef (reference counting)
+            skip_error_check = func.name.endswith('IncRef') or func.name.endswith('DecRef')
+
             # Generate call based on return type
             context_param = func.parameters[0].name
             if func.return_c_type == 'Z3_string':
                 # Z3_string return type - marshal to C# string
                 f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                f.write(f"        CheckError({context_param});\n")
+                if not skip_error_check:
+                    f.write(f"        CheckError({context_param});\n")
                 f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
                 f.write(f"        return Marshal.PtrToStringAnsi(result) ?? throw new InvalidOperationException(\"Failed to marshal string from native code.\");\n")
             elif func.return_type == 'IntPtr':
                 f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                f.write(f"        CheckError({context_param});\n")
+                if not skip_error_check:
+                    f.write(f"        CheckError({context_param});\n")
                 f.write(f"        return CheckHandle(result, nameof({func.name}));\n")
             elif func.return_type == 'void':
                 f.write(f"        nativeLibrary.{func.name}({native_args_str});\n")
-                f.write(f"        CheckError({context_param});\n")
+                if not skip_error_check:
+                    f.write(f"        CheckError({context_param});\n")
             elif func.return_type in enum_types:
                 # Enum return type - cast from internal enum to public enum
                 f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                f.write(f"        CheckError({context_param});\n")
+                if not skip_error_check:
+                    f.write(f"        CheckError({context_param});\n")
                 f.write(f"        return ({func.return_type})result;\n")
             else:
                 f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
-                f.write(f"        CheckError({context_param});\n")
+                if not skip_error_check:
+                    f.write(f"        CheckError({context_param});\n")
                 f.write(f"        return result;\n")
 
             f.write("    }\n\n")
@@ -758,16 +782,28 @@ def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
             if i > 0:
                 f.write("\n")
 
-            # Enum summary
+            # Enum summary - filter invalid cref references
             if enum_def.summary:
                 f.write("    /// <summary>\n")
                 for line in enum_def.summary.split('\n'):
+                    # Convert <see cref="ExcludedMethod"/> to plain text
+                    import re
+                    def replace_see_cref(match):
+                        cref_value = match.group(1)
+                        method_name = cref_value.split('.')[-1].split('(')[0]
+                        if method_name in CONVERT_CREF_TO_TEXT:
+                            return method_name  # Plain text
+                        return match.group(0)  # Keep original
+
+                    line = re.sub(r'<see cref="([^"]+)"\s*/>', replace_see_cref, line)
                     f.write(f"    /// {line}\n" if line else "    ///\n")
                 f.write("    /// </summary>\n")
 
-            # See also references
+            # See also references - filter out excluded functions
             for see_ref in enum_def.see_also:
-                f.write(f'    /// <seealso cref="{see_ref}"/>\n')
+                method_name = see_ref.split('.')[-1].split('(')[0]
+                if method_name not in CONVERT_CREF_TO_TEXT:
+                    f.write(f'    /// <seealso cref="{see_ref}"/>\n')
 
             # Enum declaration
             f.write(f"    public enum {enum_def.name}\n")

@@ -92,7 +92,6 @@ public sealed partial class Z3Library
     public void ParserContextIncRef(IntPtr c, IntPtr pc)
     {
         nativeLibrary.ParserContextIncRef(c, pc);
-        CheckError(c);
     }
 
     /// <summary>
@@ -103,7 +102,6 @@ public sealed partial class Z3Library
     public void ParserContextDecRef(IntPtr c, IntPtr pc)
     {
         nativeLibrary.ParserContextDecRef(c, pc);
-        CheckError(c);
     }
 
     /// <summary>

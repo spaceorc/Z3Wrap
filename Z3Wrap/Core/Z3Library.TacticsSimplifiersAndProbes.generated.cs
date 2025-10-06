@@ -36,7 +36,6 @@ public sealed partial class Z3Library
     public void TacticIncRef(IntPtr c, IntPtr t)
     {
         nativeLibrary.TacticIncRef(c, t);
-        CheckError(c);
     }
 
     /// <summary>
@@ -47,7 +46,6 @@ public sealed partial class Z3Library
     public void TacticDecRef(IntPtr c, IntPtr g)
     {
         nativeLibrary.TacticDecRef(c, g);
-        CheckError(c);
     }
 
     /// <summary>
@@ -75,7 +73,6 @@ public sealed partial class Z3Library
     public void ProbeIncRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ProbeIncRef(c, p);
-        CheckError(c);
     }
 
     /// <summary>
@@ -86,7 +83,6 @@ public sealed partial class Z3Library
     public void ProbeDecRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ProbeDecRef(c, p);
-        CheckError(c);
     }
 
     /// <summary>
@@ -290,7 +286,6 @@ public sealed partial class Z3Library
     public void SimplifierIncRef(IntPtr c, IntPtr t)
     {
         nativeLibrary.SimplifierIncRef(c, t);
-        CheckError(c);
     }
 
     /// <summary>
@@ -301,7 +296,6 @@ public sealed partial class Z3Library
     public void SimplifierDecRef(IntPtr c, IntPtr g)
     {
         nativeLibrary.SimplifierDecRef(c, g);
-        CheckError(c);
     }
 
     /// <summary>
@@ -739,7 +733,6 @@ public sealed partial class Z3Library
     public void ApplyResultIncRef(IntPtr c, IntPtr r)
     {
         nativeLibrary.ApplyResultIncRef(c, r);
-        CheckError(c);
     }
 
     /// <summary>
@@ -750,7 +743,6 @@ public sealed partial class Z3Library
     public void ApplyResultDecRef(IntPtr c, IntPtr r)
     {
         nativeLibrary.ApplyResultDecRef(c, r);
-        CheckError(c);
     }
 
     /// <summary>

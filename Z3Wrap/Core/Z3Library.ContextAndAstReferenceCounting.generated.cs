@@ -19,7 +19,6 @@ public sealed partial class Z3Library
     public void IncRef(IntPtr c, IntPtr a)
     {
         nativeLibrary.IncRef(c, a);
-        CheckError(c);
     }
 
     /// <summary>
@@ -30,7 +29,6 @@ public sealed partial class Z3Library
     public void DecRef(IntPtr c, IntPtr a)
     {
         nativeLibrary.DecRef(c, a);
-        CheckError(c);
     }
 
     /// <summary>
@@ -76,7 +74,6 @@ public sealed partial class Z3Library
     public void EnableConcurrentDecRef(IntPtr c)
     {
         nativeLibrary.EnableConcurrentDecRef(c);
-        CheckError(c);
     }
 
 }

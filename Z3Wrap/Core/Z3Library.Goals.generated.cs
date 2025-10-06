@@ -38,7 +38,6 @@ public sealed partial class Z3Library
     public void GoalIncRef(IntPtr c, IntPtr g)
     {
         nativeLibrary.GoalIncRef(c, g);
-        CheckError(c);
     }
 
     /// <summary>
@@ -49,7 +48,6 @@ public sealed partial class Z3Library
     public void GoalDecRef(IntPtr c, IntPtr g)
     {
         nativeLibrary.GoalDecRef(c, g);
-        CheckError(c);
     }
 
     /// <summary>

@@ -34,7 +34,6 @@ public sealed partial class Z3Library
     public void OptimizeIncRef(IntPtr c, IntPtr d)
     {
         nativeLibrary.OptimizeIncRef(c, d);
-        CheckError(c);
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public sealed partial class Z3Library
     public void OptimizeDecRef(IntPtr c, IntPtr d)
     {
         nativeLibrary.OptimizeDecRef(c, d);
-        CheckError(c);
     }
 
     /// <summary>

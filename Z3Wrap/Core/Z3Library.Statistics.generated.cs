@@ -33,7 +33,6 @@ public sealed partial class Z3Library
     public void StatsIncRef(IntPtr c, IntPtr s)
     {
         nativeLibrary.StatsIncRef(c, s);
-        CheckError(c);
     }
 
     /// <summary>
@@ -44,7 +43,6 @@ public sealed partial class Z3Library
     public void StatsDecRef(IntPtr c, IntPtr s)
     {
         nativeLibrary.StatsDecRef(c, s);
-        CheckError(c);
     }
 
     /// <summary>

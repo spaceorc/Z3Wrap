@@ -34,7 +34,6 @@ public sealed partial class Z3Library
     public void ParamsIncRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ParamsIncRef(c, p);
-        CheckError(c);
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public sealed partial class Z3Library
     public void ParamsDecRef(IntPtr c, IntPtr p)
     {
         nativeLibrary.ParamsDecRef(c, p);
-        CheckError(c);
     }
 
     /// <summary>

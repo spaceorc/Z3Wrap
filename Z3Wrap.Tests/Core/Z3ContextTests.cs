@@ -365,7 +365,7 @@ public class Z3ContextTests
             Assert.Multiple(() =>
             {
                 Assert.That(e.ErrorCode, Is.EqualTo(Z3Library.ErrorCode.Z3_INVALID_ARG));
-                Assert.That(e.Message, Does.Contain("InvalidArgument"));
+                Assert.That(e.Message, Does.Contain("Z3_INVALID_ARG"));
             });
         }
 

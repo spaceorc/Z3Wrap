@@ -2517,7 +2517,7 @@ public sealed partial class Z3Library
     }
 
     /// <summary>
-    /// Z3 error codes (See <see cref="GetErrorCode"/>).
+    /// Z3 error codes (See GetErrorCode).
     /// </summary>
     public enum ErrorCode
     {

@@ -34,7 +34,6 @@ public sealed partial class Z3Library
     public void AstVectorIncRef(IntPtr c, IntPtr v)
     {
         nativeLibrary.AstVectorIncRef(c, v);
-        CheckError(c);
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public sealed partial class Z3Library
     public void AstVectorDecRef(IntPtr c, IntPtr v)
     {
         nativeLibrary.AstVectorDecRef(c, v);
-        CheckError(c);
     }
 
     /// <summary>

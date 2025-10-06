@@ -191,7 +191,6 @@ public sealed partial class Z3Library
     public void SolverIncRef(IntPtr c, IntPtr s)
     {
         nativeLibrary.SolverIncRef(c, s);
-        CheckError(c);
     }
 
     /// <summary>
@@ -202,7 +201,6 @@ public sealed partial class Z3Library
     public void SolverDecRef(IntPtr c, IntPtr s)
     {
         nativeLibrary.SolverDecRef(c, s);
-        CheckError(c);
     }
 
     /// <summary>
