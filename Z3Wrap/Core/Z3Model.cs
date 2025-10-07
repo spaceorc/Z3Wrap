@@ -11,10 +11,10 @@ namespace Spaceorc.Z3Wrap.Core;
 /// <summary>
 /// Represents a Z3 model containing satisfying assignments for variables in constraints.
 /// </summary>
-public sealed class Z3Model
+public sealed partial class Z3Model
 {
     private readonly Z3Context context;
-    private IntPtr modelHandle;
+    private readonly IntPtr modelHandle;
     private bool invalidated;
 
     internal Z3Model(Z3Context context, IntPtr handle)
@@ -128,7 +128,13 @@ public sealed class Z3Model
         where T : Z3Expr, INumericExpr, IExprType<T>
     {
         var evaluated = Evaluate(expr);
-        return ExtractNumeralString(context, evaluated, expr);
+
+        if (!context.Library.IsNumeralAst(context.Handle, evaluated.Handle))
+            throw new InvalidOperationException(
+                $"Expression {expr} does not evaluate to a numeric constant in this model"
+            );
+
+        return context.Library.GetNumeralString(context.Handle, evaluated.Handle);
     }
 
     /// <summary>
@@ -156,16 +162,5 @@ public sealed class Z3Model
     {
         if (invalidated)
             throw new ObjectDisposedException(nameof(Z3Model), "Model has been invalidated due to solver state change");
-    }
-
-    private static string ExtractNumeralString<TExpr>(Z3Context context, TExpr evaluatedExpr, TExpr originalExpr)
-        where TExpr : Z3Expr, INumericExpr, IExprType<TExpr>
-    {
-        if (!context.Library.IsNumeralAst(context.Handle, evaluatedExpr.Handle))
-            throw new InvalidOperationException(
-                $"Expression {originalExpr} does not evaluate to a numeric constant in this model"
-            );
-
-        return context.Library.GetNumeralString(context.Handle, evaluatedExpr.Handle);
     }
 }

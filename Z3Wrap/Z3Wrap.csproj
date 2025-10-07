@@ -155,6 +155,9 @@
     <Compile Update="Core\Z3Library.*.generated.cs">
       <DependentUpon>Z3Library.cs</DependentUpon>
     </Compile>
+    <Compile Update="Core\Z3Model.Strings.cs">
+      <DependentUpon>Z3Model.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Target Name="PrintMinVer" DependsOnTargets="MinVer">
     <Warning Text="MinVer_PackageVersion=$(PackageVersion)" />
