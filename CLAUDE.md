@@ -412,4 +412,31 @@ make help         # See all available commands
 make ci           # Verify full CI pipeline works locally
 ```
 
+## Solution File Management
+
+**CRITICAL**: When creating or removing markdown artifacts (PLAN_*.md, ANALYSIS_*.md, etc.), always update Z3Wrap.sln.
+
+**Process for Creating Markdown Artifacts**:
+1. Create the markdown file (e.g., PLAN_FEATURE.md)
+2. Add it to the "misc" solution folder in Z3Wrap.sln:
+   ```
+   Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5722-43CA-BCBB-D1B9E28011A5}"
+       ProjectSection(SolutionItems) = preProject
+           ...existing files...
+           PLAN_FEATURE.md = PLAN_FEATURE.md
+       EndProjectSection
+   ```
+
+**Process for Removing Markdown Artifacts**:
+1. Delete the markdown file
+2. Remove the corresponding line from Z3Wrap.sln's "misc" section
+
+**Examples of Managed Files**:
+- PLAN.md, PLAN_OPT.md (implementation plans)
+- ANALYSIS.md (code analysis documents)
+- CLAUDE.md, README.md, CHANGELOG.md (core docs)
+- Makefile, LICENSE (project metadata)
+
+This ensures all documentation is visible and navigable in Visual Studio/Rider.
+
 This project emphasizes consistent tooling, comprehensive testing, and maintainable code architecture for reliable theorem proving capabilities.
