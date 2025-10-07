@@ -18,7 +18,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="cb" ctype="Z3_solver_callback">Z3_solver_callback parameter</param>
     /// <param name="t" ctype="Z3_ast">Z3_ast parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_created_eh(IntPtr ctx, IntPtr cb, IntPtr t);
+    internal delegate void CreatedEhCallback(IntPtr ctx, IntPtr cb, IntPtr t);
 
     /// <summary>Z3_decide_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
@@ -27,7 +27,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="idx" ctype="unsigned">unsigned parameter</param>
     /// <param name="phase" ctype="bool">bool parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_decide_eh(IntPtr ctx, IntPtr cb, IntPtr t, uint idx, bool phase);
+    internal delegate void DecideEhCallback(IntPtr ctx, IntPtr cb, IntPtr t, uint idx, bool phase);
 
     /// <summary>Z3_eq_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
@@ -35,7 +35,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_ast">Z3_ast parameter</param>
     /// <param name="t" ctype="Z3_ast">Z3_ast parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_eq_eh(IntPtr ctx, IntPtr cb, IntPtr s, IntPtr t);
+    internal delegate void EqEhCallback(IntPtr ctx, IntPtr cb, IntPtr s, IntPtr t);
 
     /// <summary>
     ///  Z3 custom error handler (See <see cref="SetErrorHandler"/> ). 
@@ -43,13 +43,13 @@ internal sealed partial class NativeZ3Library
     /// <param name="c" ctype="Z3_context">Z3_context parameter</param>
     /// <param name="e" ctype="Z3_error_code">Z3_error_code parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_error_handler(IntPtr c, ErrorCode e);
+    internal delegate void ErrorHandlerCallback(IntPtr c, ErrorCode e);
 
     /// <summary>Z3_final_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
     /// <param name="cb" ctype="Z3_solver_callback">Z3_solver_callback parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_final_eh(IntPtr ctx, IntPtr cb);
+    internal delegate void FinalEhCallback(IntPtr ctx, IntPtr cb);
 
     /// <summary>Z3_fixed_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
@@ -57,14 +57,14 @@ internal sealed partial class NativeZ3Library
     /// <param name="t" ctype="Z3_ast">Z3_ast parameter</param>
     /// <param name="value" ctype="Z3_ast">Z3_ast parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_fixed_eh(IntPtr ctx, IntPtr cb, IntPtr t, IntPtr value);
+    internal delegate void FixedEhCallback(IntPtr ctx, IntPtr cb, IntPtr t, IntPtr value);
 
     /// <summary>Z3_fresh_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
     /// <param name="newContext" ctype="Z3_context">Z3_context parameter</param>
     /// <returns ctype="void*">void* value</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate IntPtr Z3_fresh_eh(IntPtr ctx, IntPtr newContext);
+    internal delegate IntPtr FreshEhCallback(IntPtr ctx, IntPtr newContext);
 
     /// <summary>Z3_on_binding_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
@@ -73,7 +73,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="inst" ctype="Z3_ast">Z3_ast parameter</param>
     /// <returns ctype="bool">bool value</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate bool Z3_on_binding_eh(IntPtr ctx, IntPtr cb, IntPtr q, IntPtr inst);
+    internal delegate bool OnBindingEhCallback(IntPtr ctx, IntPtr cb, IntPtr q, IntPtr inst);
 
     /// <summary>Z3_on_clause_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
@@ -82,14 +82,14 @@ internal sealed partial class NativeZ3Library
     /// <param name="deps" ctype="unsigned const*">unsigned const* parameter</param>
     /// <param name="literals" ctype="Z3_ast_vector">Z3_ast_vector parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_on_clause_eh(IntPtr ctx, IntPtr proofHint, uint n, IntPtr deps, IntPtr literals);
+    internal delegate void OnClauseEhCallback(IntPtr ctx, IntPtr proofHint, uint n, IntPtr deps, IntPtr literals);
 
     /// <summary>Z3_pop_eh</summary>
     /// <param name="ctx" ctype="void*">void* parameter</param>
     /// <param name="cb" ctype="Z3_solver_callback">Z3_solver_callback parameter</param>
     /// <param name="numScopes" ctype="unsigned">unsigned parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_pop_eh(IntPtr ctx, IntPtr cb, uint numScopes);
+    internal delegate void PopEhCallback(IntPtr ctx, IntPtr cb, uint numScopes);
 
     /// <summary>
     ///  callback functions for user propagator. 
@@ -97,6 +97,6 @@ internal sealed partial class NativeZ3Library
     /// <param name="ctx" ctype="void*">void* parameter</param>
     /// <param name="cb" ctype="Z3_solver_callback">Z3_solver_callback parameter</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Z3_push_eh(IntPtr ctx, IntPtr cb);
+    internal delegate void PushEhCallback(IntPtr ctx, IntPtr cb);
 
 }

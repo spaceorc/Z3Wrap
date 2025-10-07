@@ -573,7 +573,9 @@ def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
 
     # Check if it's a callback type (from global set populated by find_callbacks_in_headers)
     if cleaned in ALL_CALLBACK_TYPES:
-        return f'{cleaned}?'  # Nullable delegate
+        # Convert callback name to C# style
+        csharp_callback_name = convert_callback_name_to_csharp(cleaned)
+        return f'{csharp_callback_name}?'  # Nullable delegate
 
     # Unknown type - raise error with clear message
     raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map in map_c_type_to_csharp().")
@@ -726,6 +728,26 @@ def convert_enum_value_to_csharp(value_name: str, enum_name: str) -> str:
     - Z3_OP_LE -> Z3_OP_LE
     """
     return value_name
+
+
+def convert_callback_name_to_csharp(callback_name: str) -> str:
+    """
+    Convert Z3 callback name to C# delegate name with Callback suffix.
+    Examples:
+    - Z3_error_handler -> ErrorHandlerCallback
+    - Z3_push_eh -> PushEhCallback
+    - Z3_pop_eh -> PopEhCallback
+    - Z3_fresh_eh -> FreshEhCallback
+    """
+    # Remove Z3_ prefix
+    name = callback_name[3:] if callback_name.startswith('Z3_') else callback_name
+
+    # Split on underscores and capitalize each part
+    parts = name.split('_')
+    pascal_case = ''.join(part.capitalize() for part in parts)
+
+    # Add Callback suffix
+    return f"{pascal_case}Callback"
 
 
 def clean_group_name_for_class(group_name: str) -> str:
@@ -1245,6 +1267,9 @@ def generate_callbacks_file(callbacks: List[CallbackDefinition], output_dir: Pat
 
         # Generate delegate types
         for callback_def in callbacks:
+            # Convert callback name to C# style
+            csharp_callback_name = convert_callback_name_to_csharp(callback_def.name)
+
             # XML documentation
             if callback_def.brief:
                 f.write("    /// <summary>\n")
@@ -1286,9 +1311,9 @@ def generate_callbacks_file(callbacks: List[CallbackDefinition], output_dir: Pat
             # Map return type
             return_type_cs = map_c_type_to_csharp(callback_def.return_type)
 
-            # Delegate declaration
+            # Delegate declaration with C# name
             f.write("    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]\n")
-            f.write(f"    internal delegate {return_type_cs} {callback_def.name}({params_str});\n\n")
+            f.write(f"    internal delegate {return_type_cs} {csharp_callback_name}({params_str});\n\n")
 
         f.write("}\n")
 
@@ -1378,9 +1403,9 @@ def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
 
 def convert_z3_refs_to_csharp(text: str) -> str:
     """
-    Convert <see cref="Z3_xxx"/> references to C# method names.
+    Convert <see cref="Z3_xxx"/> references to C# names.
+    Handles functions, enum values, and callback types.
     Also handles special cases like Z3_xxx() with parentheses.
-    Enum values are kept unchanged using the global ALL_ENUM_VALUES set.
     """
     import re
 
@@ -1393,9 +1418,14 @@ def convert_z3_refs_to_csharp(text: str) -> str:
         if z3_name_clean in ALL_ENUM_VALUES:
             return f'<see cref="{z3_name_clean}"/>'
 
+        # Check if this is a known callback type - convert to C# callback name
+        if z3_name_clean in ALL_CALLBACK_TYPES:
+            csharp_callback_name = convert_callback_name_to_csharp(z3_name_clean)
+            return f'<see cref="{csharp_callback_name}"/>'
+
         # Apply typo fixes
         z3_name_fixed = FUNCTION_NAME_TYPO_FIXES.get(z3_name_clean, z3_name_clean)
-        # Convert to C# name
+        # Convert to C# function name
         csharp_name = generate_csharp_method_name(z3_name_fixed)
         return f'<see cref="{csharp_name}"/>'
 
