@@ -318,11 +318,12 @@ public sealed partial class Z3Library
     /// Precondition: p is a Z3 expression that contains only arithmetic terms and free variables.
     /// Precondition: forall i in [0, n) Z3_algebraic_is_value(c, a[i])
     /// </remarks>
-    public IntPtr AlgebraicRoots(IntPtr c, IntPtr p, uint n, IntPtr[] a)
+    public IntPtr[] AlgebraicRoots(IntPtr c, IntPtr p, uint n, IntPtr[] a)
     {
         var result = nativeLibrary.AlgebraicRoots(c, p, n, a);
         CheckError(c);
-        return CheckHandle(result, nameof(AlgebraicRoots));
+        result = CheckHandle(result, nameof(AlgebraicRoots));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -353,11 +354,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// Precondition: Z3_algebraic_is_value(c, a)
     /// </remarks>
-    public IntPtr AlgebraicGetPoly(IntPtr c, IntPtr a)
+    public IntPtr[] AlgebraicGetPoly(IntPtr c, IntPtr a)
     {
         var result = nativeLibrary.AlgebraicGetPoly(c, a);
         CheckError(c);
-        return CheckHandle(result, nameof(AlgebraicGetPoly));
+        result = CheckHandle(result, nameof(AlgebraicGetPoly));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>

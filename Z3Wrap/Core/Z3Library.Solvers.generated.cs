@@ -350,11 +350,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr SolverGetAssertions(IntPtr c, IntPtr s)
+    public IntPtr[] SolverGetAssertions(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.SolverGetAssertions(c, s);
         CheckError(c);
-        return CheckHandle(result, nameof(SolverGetAssertions));
+        result = CheckHandle(result, nameof(SolverGetAssertions));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -363,11 +364,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr SolverGetUnits(IntPtr c, IntPtr s)
+    public IntPtr[] SolverGetUnits(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.SolverGetUnits(c, s);
         CheckError(c);
-        return CheckHandle(result, nameof(SolverGetUnits));
+        result = CheckHandle(result, nameof(SolverGetUnits));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -376,11 +378,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr SolverGetTrail(IntPtr c, IntPtr s)
+    public IntPtr[] SolverGetTrail(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.SolverGetTrail(c, s);
         CheckError(c);
-        return CheckHandle(result, nameof(SolverGetTrail));
+        result = CheckHandle(result, nameof(SolverGetTrail));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -389,11 +392,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr SolverGetNonUnits(IntPtr c, IntPtr s)
+    public IntPtr[] SolverGetNonUnits(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.SolverGetNonUnits(c, s);
         CheckError(c);
-        return CheckHandle(result, nameof(SolverGetNonUnits));
+        result = CheckHandle(result, nameof(SolverGetNonUnits));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -783,11 +787,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// The third argument is a vector of variables that may be used for cubing. The contents of the vector is only used in the first call. The initial list of variables is used in subsequent calls until it returns the unsatisfiable cube. The vector is modified to contain a set of Autarky variables that occur in clauses that are affected by the (last literal in the) cube. These variables could be used by a different cuber (on a different solver object) for further recursive cubing. The last argument is a backtracking level. It instructs the cube process to backtrack below the indicated level for the next cube.
     /// </remarks>
-    public IntPtr SolverCube(IntPtr c, IntPtr s, IntPtr vars, uint backtrackLevel)
+    public IntPtr[] SolverCube(IntPtr c, IntPtr s, IntPtr vars, uint backtrackLevel)
     {
         var result = nativeLibrary.SolverCube(c, s, vars, backtrackLevel);
         CheckError(c);
-        return CheckHandle(result, nameof(SolverCube));
+        result = CheckHandle(result, nameof(SolverCube));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -831,11 +836,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// By default, the unsat core will not be minimized. Generation of a minimized unsat core can be enabled via the <c>"sat.core.minimize"</c> and <c>"smt.core.minimize"</c> settings for SAT and SMT cores respectively. Generation of minimized unsat cores will be more expensive.
     /// </remarks>
-    public IntPtr SolverGetUnsatCore(IntPtr c, IntPtr s)
+    public IntPtr[] SolverGetUnsatCore(IntPtr c, IntPtr s)
     {
         var result = nativeLibrary.SolverGetUnsatCore(c, s);
         CheckError(c);
-        return CheckHandle(result, nameof(SolverGetUnsatCore));
+        result = CheckHandle(result, nameof(SolverGetUnsatCore));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>

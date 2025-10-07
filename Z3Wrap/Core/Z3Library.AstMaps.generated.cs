@@ -134,11 +134,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="m" ctype="Z3_ast_map">ast_map parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr AstMapKeys(IntPtr c, IntPtr m)
+    public IntPtr[] AstMapKeys(IntPtr c, IntPtr m)
     {
         var result = nativeLibrary.AstMapKeys(c, m);
         CheckError(c);
-        return CheckHandle(result, nameof(AstMapKeys));
+        result = CheckHandle(result, nameof(AstMapKeys));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>

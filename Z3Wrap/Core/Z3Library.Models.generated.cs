@@ -227,11 +227,12 @@ public sealed partial class Z3Library
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
     /// <seealso cref="ModelGetNumSorts"/>
     /// <seealso cref="ModelGetSort"/>
-    public IntPtr ModelGetSortUniverse(IntPtr c, IntPtr m, IntPtr s)
+    public IntPtr[] ModelGetSortUniverse(IntPtr c, IntPtr m, IntPtr s)
     {
         var result = nativeLibrary.ModelGetSortUniverse(c, m, s);
         CheckError(c);
-        return CheckHandle(result, nameof(ModelGetSortUniverse));
+        result = CheckHandle(result, nameof(ModelGetSortUniverse));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>

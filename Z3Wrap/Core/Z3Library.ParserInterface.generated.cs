@@ -28,12 +28,13 @@ public sealed partial class Z3Library
     /// <remarks>
     /// It returns a formula comprising of the conjunction of assertions in the scope (up to push/pop) at the end of the string.
     /// </remarks>
-    public IntPtr ParseSmtlib2String(IntPtr c, string str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
+    public IntPtr[] ParseSmtlib2String(IntPtr c, string str, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
         using var strAnsi = new AnsiStringPtr(str);
         var result = nativeLibrary.ParseSmtlib2String(c, strAnsi, numSorts, sortNames, sorts, numDecls, declNames, decls);
         CheckError(c);
-        return CheckHandle(result, nameof(ParseSmtlib2String));
+        result = CheckHandle(result, nameof(ParseSmtlib2String));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -48,12 +49,13 @@ public sealed partial class Z3Library
     /// <param name="declNames" ctype="Z3_symbol const[]">symbol parameter</param>
     /// <param name="decls" ctype="Z3_func_decl const[]">func_decl parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr ParseSmtlib2File(IntPtr c, string fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
+    public IntPtr[] ParseSmtlib2File(IntPtr c, string fileName, uint numSorts, IntPtr[] sortNames, IntPtr[] sorts, uint numDecls, IntPtr[] declNames, IntPtr[] decls)
     {
         using var fileNameAnsi = new AnsiStringPtr(fileName);
         var result = nativeLibrary.ParseSmtlib2File(c, fileNameAnsi, numSorts, sortNames, sorts, numDecls, declNames, decls);
         CheckError(c);
-        return CheckHandle(result, nameof(ParseSmtlib2File));
+        result = CheckHandle(result, nameof(ParseSmtlib2File));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -137,12 +139,13 @@ public sealed partial class Z3Library
     /// <param name="pc" ctype="Z3_parser_context">parser_context parameter</param>
     /// <param name="s" ctype="Z3_string">string parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr ParserContextFromString(IntPtr c, IntPtr pc, string s)
+    public IntPtr[] ParserContextFromString(IntPtr c, IntPtr pc, string s)
     {
         using var sAnsi = new AnsiStringPtr(s);
         var result = nativeLibrary.ParserContextFromString(c, pc, sAnsi);
         CheckError(c);
-        return CheckHandle(result, nameof(ParserContextFromString));
+        result = CheckHandle(result, nameof(ParserContextFromString));
+        return AstVectorToArray(c, result);
     }
 
 }

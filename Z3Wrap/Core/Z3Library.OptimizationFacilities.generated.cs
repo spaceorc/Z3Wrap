@@ -249,11 +249,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="o" ctype="Z3_optimize">optimize parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr OptimizeGetUnsatCore(IntPtr c, IntPtr o)
+    public IntPtr[] OptimizeGetUnsatCore(IntPtr c, IntPtr o)
     {
         var result = nativeLibrary.OptimizeGetUnsatCore(c, o);
         CheckError(c);
-        return CheckHandle(result, nameof(OptimizeGetUnsatCore));
+        result = CheckHandle(result, nameof(OptimizeGetUnsatCore));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -329,11 +330,12 @@ public sealed partial class Z3Library
     /// <seealso cref="OptimizeGetLower"/>
     /// <seealso cref="OptimizeGetUpper"/>
     /// <seealso cref="OptimizeGetUpperAsVector"/>
-    public IntPtr OptimizeGetLowerAsVector(IntPtr c, IntPtr o, uint idx)
+    public IntPtr[] OptimizeGetLowerAsVector(IntPtr c, IntPtr o, uint idx)
     {
         var result = nativeLibrary.OptimizeGetLowerAsVector(c, o, idx);
         CheckError(c);
-        return CheckHandle(result, nameof(OptimizeGetLowerAsVector));
+        result = CheckHandle(result, nameof(OptimizeGetLowerAsVector));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -346,11 +348,12 @@ public sealed partial class Z3Library
     /// <seealso cref="OptimizeGetLower"/>
     /// <seealso cref="OptimizeGetUpper"/>
     /// <seealso cref="OptimizeGetLowerAsVector"/>
-    public IntPtr OptimizeGetUpperAsVector(IntPtr c, IntPtr o, uint idx)
+    public IntPtr[] OptimizeGetUpperAsVector(IntPtr c, IntPtr o, uint idx)
     {
         var result = nativeLibrary.OptimizeGetUpperAsVector(c, o, idx);
         CheckError(c);
-        return CheckHandle(result, nameof(OptimizeGetUpperAsVector));
+        result = CheckHandle(result, nameof(OptimizeGetUpperAsVector));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -434,11 +437,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="o" ctype="Z3_optimize">optimize parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr OptimizeGetAssertions(IntPtr c, IntPtr o)
+    public IntPtr[] OptimizeGetAssertions(IntPtr c, IntPtr o)
     {
         var result = nativeLibrary.OptimizeGetAssertions(c, o);
         CheckError(c);
-        return CheckHandle(result, nameof(OptimizeGetAssertions));
+        result = CheckHandle(result, nameof(OptimizeGetAssertions));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -447,11 +451,12 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="o" ctype="Z3_optimize">optimize parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr OptimizeGetObjectives(IntPtr c, IntPtr o)
+    public IntPtr[] OptimizeGetObjectives(IntPtr c, IntPtr o)
     {
         var result = nativeLibrary.OptimizeGetObjectives(c, o);
         CheckError(c);
-        return CheckHandle(result, nameof(OptimizeGetObjectives));
+        result = CheckHandle(result, nameof(OptimizeGetObjectives));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>

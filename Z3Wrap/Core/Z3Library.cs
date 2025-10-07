@@ -194,4 +194,19 @@ public sealed partial class Z3Library : IDisposable
         var message = Marshal.PtrToStringAnsi(msgPtr) ?? "Unknown error";
         Debug.WriteLine($"Z3 Error: {errorCode}: {message}");
     }
+
+    private IntPtr[] AstVectorToArray(IntPtr ctx, IntPtr vector)
+    {
+        var size = nativeLibrary.AstVectorSize(ctx, vector);
+        CheckError(ctx);
+
+        var array = new IntPtr[size];
+        for (uint i = 0; i < size; i++)
+        {
+            array[i] = nativeLibrary.AstVectorGet(ctx, vector, i);
+            CheckError(ctx);
+        }
+
+        return array;
+    }
 }

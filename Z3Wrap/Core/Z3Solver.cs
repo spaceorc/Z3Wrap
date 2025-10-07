@@ -157,14 +157,12 @@ public sealed class Z3Solver : IDisposable
         if (lastCheckResult != Z3Status.Unsatisfiable)
             throw new InvalidOperationException($"Cannot get unsat core when solver status is {lastCheckResult}");
 
-        var coreHandle = context.Library.SolverGetUnsatCore(context.Handle, InternalHandle);
-        var coreSize = context.Library.AstVectorSize(context.Handle, coreHandle);
+        var coreHandles = context.Library.SolverGetUnsatCore(context.Handle, InternalHandle);
 
-        var core = new BoolExpr[coreSize];
-        for (uint i = 0; i < coreSize; i++)
+        var core = new BoolExpr[coreHandles.Length];
+        for (var i = 0; i < coreHandles.Length; i++)
         {
-            var astHandle = context.Library.AstVectorGet(context.Handle, coreHandle, i);
-            core[i] = Z3Expr.Create<BoolExpr>(context, astHandle);
+            core[i] = Z3Expr.Create<BoolExpr>(context, coreHandles[i]);
         }
 
         return core;

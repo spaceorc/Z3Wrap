@@ -721,8 +721,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                     public_params.append(f"{public_type} {param.name}")
 
-                # Determine public return type (convert Z3_string to string)
-                public_return_type = 'string' if func.return_c_type == 'Z3_string' else func.return_type
+                # Determine public return type (convert Z3_string to string, Z3_ast_vector to IntPtr[])
+                if func.return_c_type == 'Z3_string':
+                    public_return_type = 'string'
+                elif func.return_c_type == 'Z3_ast_vector':
+                    public_return_type = 'IntPtr[]'
+                else:
+                    public_return_type = func.return_type
 
                 # Method signature
                 params_str = ", ".join(public_params)
@@ -782,6 +787,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                         f.write(f"        CheckError({context_param});\n")
                     f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
                     f.write(f"        return Marshal.PtrToStringAnsi(result) ?? throw new InvalidOperationException(\"Failed to marshal string from native code.\");\n")
+                elif func.return_c_type == 'Z3_ast_vector':
+                    # Z3_ast_vector return type - convert to IntPtr array
+                    f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                    if not skip_error_check:
+                        f.write(f"        CheckError({context_param});\n")
+                    f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
+                    f.write(f"        return AstVectorToArray({context_param}, result);\n")
                 elif func.return_type == 'IntPtr':
                     f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
                     if not skip_error_check:
@@ -824,8 +836,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
 
                 public_params.append(f"{public_type} {param.name}")
 
-            # Determine public return type (convert Z3_string to string)
-            public_return_type = 'string' if func.return_c_type == 'Z3_string' else func.return_type
+            # Determine public return type (convert Z3_string to string, Z3_ast_vector to IntPtr[])
+            if func.return_c_type == 'Z3_string':
+                public_return_type = 'string'
+            elif func.return_c_type == 'Z3_ast_vector':
+                public_return_type = 'IntPtr[]'
+            else:
+                public_return_type = func.return_type
 
             # Method signature - add "Original" suffix if this function has symbols
             method_name = f"{func.name}Original" if has_symbols and not skip_string_overload else func.name
@@ -877,6 +894,13 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                     f.write(f"        CheckError({context_param});\n")
                 f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
                 f.write(f"        return Marshal.PtrToStringAnsi(result) ?? throw new InvalidOperationException(\"Failed to marshal string from native code.\");\n")
+            elif func.return_c_type == 'Z3_ast_vector':
+                # Z3_ast_vector return type - convert to IntPtr array
+                f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
+                if not skip_error_check:
+                    f.write(f"        CheckError({context_param});\n")
+                f.write(f"        result = CheckHandle(result, nameof({func.name}));\n")
+                f.write(f"        return AstVectorToArray({context_param}, result);\n")
             elif func.return_type == 'IntPtr':
                 f.write(f"        var result = nativeLibrary.{func.name}({native_args_str});\n")
                 if not skip_error_check:

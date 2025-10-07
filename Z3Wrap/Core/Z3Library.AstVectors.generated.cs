@@ -21,11 +21,12 @@ public sealed partial class Z3Library
     /// <remarks>
     /// Reference counting must be used to manage AST vectors, even when the Z3_context was created using MkContext instead of <see cref="MkContextRc"/> .
     /// </remarks>
-    public IntPtr MkAstVector(IntPtr c)
+    public IntPtr[] MkAstVector(IntPtr c)
     {
         var result = nativeLibrary.MkAstVector(c);
         CheckError(c);
-        return CheckHandle(result, nameof(MkAstVector));
+        result = CheckHandle(result, nameof(MkAstVector));
+        return AstVectorToArray(c, result);
     }
 
     /// <summary>
@@ -125,11 +126,12 @@ public sealed partial class Z3Library
     /// <param name="v" ctype="Z3_ast_vector">ast_vector parameter</param>
     /// <param name="t" ctype="Z3_context">context parameter</param>
     /// <returns ctype="Z3_ast_vector">ast_vector value</returns>
-    public IntPtr AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)
+    public IntPtr[] AstVectorTranslate(IntPtr s, IntPtr v, IntPtr t)
     {
         var result = nativeLibrary.AstVectorTranslate(s, v, t);
         CheckError(s);
-        return CheckHandle(result, nameof(AstVectorTranslate));
+        result = CheckHandle(result, nameof(AstVectorTranslate));
+        return AstVectorToArray(s, result);
     }
 
     /// <summary>
