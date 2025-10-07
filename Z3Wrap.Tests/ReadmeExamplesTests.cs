@@ -477,6 +477,59 @@ public class ReadmeExamplesTests
         #endregion
     }
 
+    [Test]
+    public void UnsatisfiableCores_ConflictDebugging_WorksCorrectly()
+    {
+        #region Preparation
+
+        using var console = new ConsoleCapture();
+
+        #endregion
+
+        #region Example from README.md - Unsatisfiable Cores (Debugging Conflicts) section
+
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var x = context.IntConst("x");
+
+        // Create boolean trackers for each constraint
+        var t1 = context.BoolConst("t1");
+        var t2 = context.BoolConst("t2");
+        var t3 = context.BoolConst("t3");
+
+        // Link trackers to constraints
+        solver.Assert(t1.Implies(x > 100));
+        solver.Assert(t2.Implies(x < 50));
+        solver.Assert(t3.Implies(x > 0));
+
+        // Check with tracked assumptions
+        if (solver.CheckAssumptions(t1, t2, t3) == Z3Status.Unsatisfiable)
+        {
+            // Get minimal conflicting subset
+            var core = solver.GetUnsatCore();
+            Console.WriteLine("Conflicting constraints:");
+            foreach (var tracker in core)
+            {
+                Console.WriteLine($"  {tracker}");
+            }
+            // Output: t1, t2 (the actual conflict)
+        }
+
+        #endregion
+
+        #region Assertions
+
+        var output = console.Output;
+        Assert.That(output, Does.Contain("Conflicting constraints:"));
+        Assert.That(output, Does.Contain("t1"));
+        Assert.That(output, Does.Contain("t2"));
+        // t3 should not be in the core (it's not part of the conflict)
+
+        #endregion
+    }
+
     private sealed class ConsoleCapture : IDisposable
     {
         private readonly TextWriter originalOut;

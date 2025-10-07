@@ -101,6 +101,7 @@ Z3 library is auto-discovered on Windows/macOS/Linux.
 - **Functions**: Uninterpreted functions with type-safe signatures
 - **Optimization**: Maximize/minimize objectives with soft constraints
 - **Solver**: Push/pop scopes for constraint backtracking
+- **Debugging**: Unsatisfiable cores for conflict identification
 
 ## Advanced Examples
 
@@ -177,6 +178,32 @@ solver.Assert(x < 10);
 if (solver.Check() == Z3Status.Unsatisfiable) {
     solver.Pop();  // Backtrack
     solver.Assert(x >= 10);
+}
+```
+
+### Unsatisfiable Cores (Debugging Conflicts)
+```csharp
+var x = context.IntConst("x");
+
+// Create boolean trackers for each constraint
+var t1 = context.BoolConst("t1");
+var t2 = context.BoolConst("t2");
+var t3 = context.BoolConst("t3");
+
+// Link trackers to constraints
+solver.Assert(t1.Implies(x > 100));
+solver.Assert(t2.Implies(x < 50));
+solver.Assert(t3.Implies(x > 0));
+
+// Check with tracked assumptions
+if (solver.CheckAssumptions(t1, t2, t3) == Z3Status.Unsatisfiable) {
+    // Get minimal conflicting subset
+    var core = solver.GetUnsatCore();
+    Console.WriteLine("Conflicting constraints:");
+    foreach (var tracker in core) {
+        Console.WriteLine($"  {tracker}");
+    }
+    // Output: t1, t2 (the actual conflict)
 }
 ```
 

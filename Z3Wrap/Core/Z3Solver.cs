@@ -107,6 +107,70 @@ public sealed class Z3Solver : IDisposable
     }
 
     /// <summary>
+    /// Checks satisfiability with tracked assumptions for unsatisfiable core extraction.
+    /// </summary>
+    /// <param name="assumptions">Boolean expressions to track as assumptions.</param>
+    /// <returns>Satisfiability status: Satisfiable, Unsatisfiable, or Unknown.</returns>
+    /// <remarks>
+    /// Use this method when you need to identify which specific constraints cause unsatisfiability.
+    /// After an Unsatisfiable result, call <see cref="GetUnsatCore"/> to retrieve the minimal conflicting subset.
+    /// Common patterns: direct constraints (x &gt; 10) or boolean trackers with implications.
+    /// </remarks>
+    public Z3Status CheckAssumptions(params BoolExpr[] assumptions)
+    {
+        ThrowIfDisposed();
+        InvalidateModel(); // Clear any previous model
+
+        var assumptionHandles = assumptions.Select(a => a.Handle).ToArray();
+
+        lastCheckResult = context.Library.SolverCheckAssumptions(
+            context.Handle,
+            InternalHandle,
+            (uint)assumptionHandles.Length,
+            assumptionHandles
+        ) switch
+        {
+            Z3Library.Lbool.Z3_L_FALSE => Z3Status.Unsatisfiable,
+            Z3Library.Lbool.Z3_L_TRUE => Z3Status.Satisfiable,
+            Z3Library.Lbool.Z3_L_UNDEF => Z3Status.Unknown,
+            _ => throw new InvalidOperationException($"Unexpected solver result: {lastCheckResult}"),
+        };
+        return lastCheckResult.Value;
+    }
+
+    /// <summary>
+    /// Gets minimal unsatisfiable subset after CheckAssumptions returns Unsatisfiable.
+    /// </summary>
+    /// <returns>Array of boolean expressions representing the minimal conflicting assumptions.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if CheckAssumptions was not called or result was not Unsatisfiable.</exception>
+    /// <remarks>
+    /// The returned core is a minimal subset of assumptions that together are unsatisfiable.
+    /// Must be called after <see cref="CheckAssumptions"/> returns <see cref="Z3Status.Unsatisfiable"/>.
+    /// </remarks>
+    public BoolExpr[] GetUnsatCore()
+    {
+        ThrowIfDisposed();
+
+        if (lastCheckResult == null)
+            throw new InvalidOperationException("Must call CheckAssumptions() before GetUnsatCore()");
+
+        if (lastCheckResult != Z3Status.Unsatisfiable)
+            throw new InvalidOperationException($"Cannot get unsat core when solver status is {lastCheckResult}");
+
+        var coreHandle = context.Library.SolverGetUnsatCore(context.Handle, InternalHandle);
+        var coreSize = context.Library.AstVectorSize(context.Handle, coreHandle);
+
+        var core = new BoolExpr[coreSize];
+        for (uint i = 0; i < coreSize; i++)
+        {
+            var astHandle = context.Library.AstVectorGet(context.Handle, coreHandle, i);
+            core[i] = Z3Expr.Create<BoolExpr>(context, astHandle);
+        }
+
+        return core;
+    }
+
+    /// <summary>
     /// Gets the reason why the solver returned unknown status.
     /// </summary>
     /// <returns>The reason for unknown status.</returns>

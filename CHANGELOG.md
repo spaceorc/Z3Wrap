@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Unsatisfiable cores for constraint conflict debugging**
+  - `Z3Solver.CheckAssumptions()` to check satisfiability with tracked boolean assumptions
+  - `Z3Solver.GetUnsatCore()` to retrieve minimal conflicting constraint subset
 - **Complete code generation infrastructure for Z3 C API wrapper**
   - Automated generation of all Z3Library methods from Z3 C API using Doxygen XML
   - 34 category-organized generated files (Arrays, BitVectors, Solvers, etc.)
