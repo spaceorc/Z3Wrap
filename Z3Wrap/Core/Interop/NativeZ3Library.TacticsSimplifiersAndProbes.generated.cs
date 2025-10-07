@@ -4,6 +4,8 @@
 // DO NOT EDIT - Changes will be overwritten
 // </auto-generated>
 
+#nullable enable
+
 using System;
 using System.Runtime.InteropServices;
 

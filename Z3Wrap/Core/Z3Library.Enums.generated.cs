@@ -4,6 +4,8 @@
 // DO NOT EDIT - Changes will be overwritten
 // </auto-generated>
 
+#nullable enable
+
 namespace Spaceorc.Z3Wrap.Core;
 
 public sealed partial class Z3Library

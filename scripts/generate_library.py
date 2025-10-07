@@ -99,6 +99,16 @@ class FunctionDefinition:
     doc_comment: XmlNode  # Full parsed XML documentation tree
 
 
+@dataclass
+class CallbackDefinition:
+    """Represents a parsed callback delegate definition."""
+    name: str
+    return_type: str
+    return_c_type: str  # C type of return value (from ctype attribute)
+    parameters: List[ParameterInfo]
+    doc_comment: XmlNode  # Full parsed XML documentation tree
+
+
 def parse_xml_doc_comment(doc_block: str) -> XmlNode:
     """
     Parse XML documentation comment into a tree structure.
@@ -251,81 +261,211 @@ def parse_native_functions_file(file_path: Path) -> List[FunctionDefinition]:
     """
     Parse a NativeZ3Library.*.generated.cs file and extract function definitions.
     Only includes functions where first parameter has ctype="Z3_context".
+    Uses line-by-line parsing to avoid catastrophic backtracking on non-function files.
     """
     with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+        lines = f.readlines()
 
     functions = []
+    i = 0
 
-    # Pattern to match function with documentation
-    # Looks for: XML docs + [Z3Function] + internal ReturnType MethodName(params) { ... }
-    function_pattern = r'((?:[ \t]*///.*?\n)+)[ \t]*\[Z3Function\([^\]]+\)\]\s*internal\s+(\w+)\s+(\w+)\s*\((.*?)\)'
+    while i < len(lines):
+        line = lines[i]
 
-    for match in re.finditer(function_pattern, content, re.MULTILINE | re.DOTALL):
-        doc_block = match.group(1)
-        return_type = match.group(2)
-        method_name = match.group(3)
-        params_str = match.group(4)
+        # Look for [Z3Function] attribute
+        if '[Z3Function(' in line:
+            # Collect preceding doc comments
+            doc_lines = []
+            j = i - 1
+            while j >= 0 and lines[j].strip().startswith('///'):
+                doc_lines.insert(0, lines[j])
+                j -= 1
 
-        # Parse parameters
-        parameters = []
-        if params_str.strip():
-            # Split by comma (simple split, assumes no complex nested types)
-            param_parts = [p.strip() for p in params_str.split(',')]
-            for param_part in param_parts:
-                # Parse: "Type name" or "out Type name"
-                parts = param_part.split()
-                if len(parts) >= 2:
-                    # Check if first part is 'out' modifier
-                    if parts[0] == 'out':
-                        # Format: "out Type name"
-                        if len(parts) >= 3:
-                            param_type = f"out {parts[1]}"
-                            param_name = parts[2]
-                        else:
-                            # Invalid format - skip
-                            continue
-                    else:
-                        # Format: "Type name"
-                        param_type = parts[0]
-                        param_name = parts[1]
+            doc_block = ''.join(doc_lines)
 
-                    # Extract ctype from documentation (for now, still use regex)
-                    ctype_pattern = rf'<param name="{re.escape(param_name)}" ctype="([^"]+)"'
-                    ctype_match = re.search(ctype_pattern, doc_block)
-                    c_type = ctype_match.group(1) if ctype_match else ''
+            # Parse method signature on next line(s)
+            # Look for: internal ReturnType MethodName(params)
+            sig_start = i + 1
+            sig_lines = []
+            paren_depth = 0
+            found_open_paren = False
 
-                    parameters.append(ParameterInfo(
-                        name=param_name,
-                        csharp_type=param_type,
-                        c_type=c_type
-                    ))
+            for k in range(sig_start, min(sig_start + 10, len(lines))):  # Look ahead max 10 lines
+                sig_lines.append(lines[k])
+                for char in lines[k]:
+                    if char == '(':
+                        found_open_paren = True
+                        paren_depth += 1
+                    elif char == ')':
+                        paren_depth -= 1
+                        if found_open_paren and paren_depth == 0:
+                            # Found complete signature
+                            break
+                if found_open_paren and paren_depth == 0:
+                    break
 
-        # Filter: only include if first parameter is Z3_context
-        if not parameters or parameters[0].c_type != 'Z3_context':
-            continue
+            signature = ''.join(sig_lines)
 
-        # Filter: exclude functions in EXCLUDE_FUNCTIONS configuration
-        if method_name in EXCLUDE_FUNCTIONS:
-            continue
+            # Parse signature with simple regex (no catastrophic backtracking risk)
+            sig_pattern = r'internal\s+(\w+)\s+(\w+)\s*\((.*?)\)'
+            sig_match = re.search(sig_pattern, signature, re.DOTALL)
 
-        # Parse documentation into tree structure
-        doc_tree = parse_xml_doc_comment(doc_block)
+            if sig_match:
+                return_type = sig_match.group(1)
+                method_name = sig_match.group(2)
+                params_str = sig_match.group(3)
+                # Parse parameters
+                parameters = []
+                if params_str.strip():
+                    # Split by comma (simple split, assumes no complex nested types)
+                    param_parts = [p.strip() for p in params_str.split(',')]
+                    for param_part in param_parts:
+                        # Parse: "Type name" or "out Type name"
+                        parts = param_part.split()
+                        if len(parts) >= 2:
+                            # Check if first part is 'out' modifier
+                            if parts[0] == 'out':
+                                # Format: "out Type name"
+                                if len(parts) >= 3:
+                                    param_type = f"out {parts[1]}"
+                                    param_name = parts[2]
+                                else:
+                                    # Invalid format - skip
+                                    continue
+                            else:
+                                # Format: "Type name"
+                                param_type = parts[0]
+                                param_name = parts[1]
 
-        # Extract return C type from documentation
-        return_ctype_pattern = r'<returns ctype="([^"]+)"'
-        return_ctype_match = re.search(return_ctype_pattern, doc_block)
-        return_c_type = return_ctype_match.group(1) if return_ctype_match else ''
+                            # Extract ctype from documentation (for now, still use regex)
+                            ctype_pattern = rf'<param name="{re.escape(param_name)}" ctype="([^"]+)"'
+                            ctype_match = re.search(ctype_pattern, doc_block)
+                            c_type = ctype_match.group(1) if ctype_match else ''
 
-        functions.append(FunctionDefinition(
-            name=method_name,
-            return_type=return_type,
-            return_c_type=return_c_type,
-            parameters=parameters,
-            doc_comment=doc_tree
-        ))
+                            parameters.append(ParameterInfo(
+                                name=param_name,
+                                csharp_type=param_type,
+                                c_type=c_type
+                            ))
+
+                # Filter: only include if first parameter is Z3_context
+                if not parameters or parameters[0].c_type != 'Z3_context':
+                    i += 1
+                    continue
+
+                # Filter: exclude functions in EXCLUDE_FUNCTIONS configuration
+                if method_name in EXCLUDE_FUNCTIONS:
+                    i += 1
+                    continue
+
+                # Parse documentation into tree structure
+                doc_tree = parse_xml_doc_comment(doc_block)
+
+                # Extract return C type from documentation
+                return_ctype_pattern = r'<returns ctype="([^"]+)"'
+                return_ctype_match = re.search(return_ctype_pattern, doc_block)
+                return_c_type = return_ctype_match.group(1) if return_ctype_match else ''
+
+                functions.append(FunctionDefinition(
+                    name=method_name,
+                    return_type=return_type,
+                    return_c_type=return_c_type,
+                    parameters=parameters,
+                    doc_comment=doc_tree
+                ))
+
+        i += 1
 
     return functions
+
+
+def parse_native_callbacks_file(file_path: Path) -> List[CallbackDefinition]:
+    """
+    Parse NativeZ3Library.Callbacks.generated.cs and extract callback delegate definitions.
+    Uses line-by-line parsing to avoid catastrophic backtracking.
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    callbacks = []
+    i = 0
+
+    while i < len(lines):
+        line = lines[i]
+
+        # Look for [UnmanagedFunctionPointer] attribute
+        if '[UnmanagedFunctionPointer(' in line:
+            # Collect preceding doc comments
+            doc_lines = []
+            j = i - 1
+            while j >= 0 and lines[j].strip().startswith('///'):
+                doc_lines.insert(0, lines[j])
+                j -= 1
+
+            doc_block = ''.join(doc_lines)
+
+            # Parse delegate signature on next line
+            # Look for: internal delegate ReturnType Name(params);
+            sig_start = i + 1
+            sig_lines = []
+
+            # Collect lines until we find semicolon
+            for k in range(sig_start, min(sig_start + 5, len(lines))):
+                sig_lines.append(lines[k])
+                if ';' in lines[k]:
+                    break
+
+            signature = ''.join(sig_lines)
+
+            # Parse delegate signature with simple regex
+            delegate_pattern = r'internal\s+delegate\s+(\w+)\s+(\w+)\s*\((.*?)\);'
+            delegate_match = re.search(delegate_pattern, signature, re.DOTALL)
+
+            if delegate_match:
+                return_type = delegate_match.group(1)
+                delegate_name = delegate_match.group(2)
+                params_str = delegate_match.group(3)
+
+                # Parse parameters
+                parameters = []
+                if params_str.strip():
+                    param_parts = [p.strip() for p in params_str.split(',')]
+                    for param_part in param_parts:
+                        parts = param_part.split()
+                        if len(parts) >= 2:
+                            param_type = parts[0]
+                            param_name = parts[1]
+
+                            # Extract ctype from documentation
+                            ctype_pattern = rf'<param name="{re.escape(param_name)}" ctype="([^"]+)"'
+                            ctype_match = re.search(ctype_pattern, doc_block)
+                            c_type = ctype_match.group(1) if ctype_match else ''
+
+                            parameters.append(ParameterInfo(
+                                name=param_name,
+                                csharp_type=param_type,
+                                c_type=c_type
+                            ))
+
+                # Parse documentation into tree structure
+                doc_tree = parse_xml_doc_comment(doc_block) if doc_block else XmlNode(tag='doc')
+
+                # Extract return C type from documentation
+                return_ctype_pattern = r'<returns ctype="([^"]+)"'
+                return_ctype_match = re.search(return_ctype_pattern, doc_block)
+                return_c_type = return_ctype_match.group(1) if return_ctype_match else ''
+
+                callbacks.append(CallbackDefinition(
+                    name=delegate_name,
+                    return_type=return_type,
+                    return_c_type=return_c_type,
+                    parameters=parameters,
+                    doc_comment=doc_tree
+                ))
+
+        i += 1
+
+    return callbacks
 
 
 def parse_native_enums_file(file_path: Path) -> List[EnumDefinition]:
@@ -523,10 +663,11 @@ def filter_invalid_cref_references(doc_tree: XmlNode) -> XmlNode:
     return filtered
 
 
-def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition], group_name: str, enum_types: Set[str]):
+def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition], group_name: str, enum_types: Set[str], callback_types: Set[str] = None):
     """
     Generate Z3Library.{GroupName}.generated.cs with public method wrappers.
     """
+    callback_types = callback_types or set()
     file_path = output_dir / f"Z3Library.{group_name}.generated.cs"
 
     with open(file_path, 'w', encoding='utf-8') as f:
@@ -537,6 +678,7 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
         f.write("// DO NOT EDIT - Changes will be overwritten\n")
         f.write("// </auto-generated>\n\n")
 
+        f.write("#nullable enable\n\n")
         f.write("using System.Runtime.InteropServices;\n")
         f.write("using Spaceorc.Z3Wrap.Core.Interop;\n\n")
         f.write("namespace Spaceorc.Z3Wrap.Core;\n\n")
@@ -614,6 +756,9 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                     elif param.csharp_type in enum_types:
                         # Enum parameter - cast to internal enum
                         arg = f"(NativeZ3Library.{param.csharp_type}){param.name}"
+                    elif param.csharp_type.rstrip('?') in callback_types:
+                        # Callback parameter - cast to internal delegate type
+                        arg = f"(NativeZ3Library.{param.csharp_type})(object?){param.name}"
                     else:
                         arg = param_name_only
 
@@ -705,6 +850,9 @@ def generate_functions_file(output_dir: Path, functions: List[FunctionDefinition
                 elif param.csharp_type in enum_types:
                     # Enum parameter - cast to internal enum
                     arg = f"(NativeZ3Library.{param.csharp_type}){param.name}"
+                elif param.csharp_type.rstrip('?') in callback_types:
+                    # Callback parameter - cast to internal delegate type
+                    arg = f"(NativeZ3Library.{param.csharp_type})(object?){param.name}"
                 else:
                     arg = param_name_only
 
@@ -771,6 +919,7 @@ def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
         f.write("// DO NOT EDIT - Changes will be overwritten\n")
         f.write("// </auto-generated>\n\n")
 
+        f.write("#nullable enable\n\n")
         f.write("namespace Spaceorc.Z3Wrap.Core;\n\n")
 
         f.write("public sealed partial class Z3Library\n")
@@ -853,6 +1002,66 @@ def generate_enums_file(output_dir: Path, enums: List[EnumDefinition]):
     return file_path
 
 
+def generate_callbacks_file(output_dir: Path, callbacks: List[CallbackDefinition], enum_types: Set[str]):
+    """
+    Generate Z3Library.Callbacks.generated.cs with public callback delegate definitions.
+    """
+    file_path = output_dir / "Z3Library.Callbacks.generated.cs"
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        # Header
+        f.write("// <auto-generated>\n")
+        f.write("// This file was generated by scripts/generate_library.py\n")
+        f.write("// Source: NativeZ3Library.Callbacks.generated.cs\n")
+        f.write("// DO NOT EDIT - Changes will be overwritten\n")
+        f.write("// </auto-generated>\n\n")
+
+        f.write("#nullable enable\n\n")
+        f.write("using System;\n\n")
+        f.write("namespace Spaceorc.Z3Wrap.Core;\n\n")
+
+        f.write("public sealed partial class Z3Library\n")
+        f.write("{\n")
+
+        # Generate each callback delegate
+        for i, callback in enumerate(callbacks):
+            # Add blank line between callbacks
+            if i > 0:
+                f.write("\n")
+
+            # Clone and filter documentation
+            doc_clone = clone_and_modify_doc(callback.doc_comment, callback.name, callback.parameters)
+            doc_clone = filter_invalid_cref_references(doc_clone)
+
+            # Render documentation
+            doc_output = render_xml_node(doc_clone, "    ")
+            f.write(doc_output + "\n")
+
+            # Build parameter list - convert internal types to public types
+            public_params = []
+            for param in callback.parameters:
+                # Convert ErrorCode enum parameter
+                if param.csharp_type in enum_types:
+                    public_type = param.csharp_type
+                else:
+                    public_type = param.csharp_type
+
+                public_params.append(f"{public_type} {param.name}")
+
+            # Determine public return type
+            public_return_type = callback.return_type
+            if callback.return_type in enum_types:
+                public_return_type = callback.return_type
+
+            # Delegate signature
+            params_str = ", ".join(public_params)
+            f.write(f"    public delegate {public_return_type} {callback.name}({params_str});\n")
+
+        f.write("}\n")
+
+    return file_path
+
+
 def main():
     """Main entry point."""
     import argparse
@@ -902,6 +1111,25 @@ def main():
     print(f"✓ Generated {generated_enums_file.name}")
     print()
 
+    # Parse and generate callbacks
+    native_callbacks_file = interop_dir / "NativeZ3Library.Callbacks.generated.cs"
+    print("Parsing NativeZ3Library callbacks...")
+    callbacks = parse_native_callbacks_file(native_callbacks_file)
+    print(f"✓ Found {len(callbacks)} callback definitions")
+
+    # Extract callback type names for parameter casting
+    callback_types = {callback.name for callback in callbacks}
+
+    for callback_def in callbacks:
+        print(f"  - {callback_def.name}")
+    print()
+
+    # Generate callbacks file
+    print("Generating Z3Library.Callbacks.generated.cs...")
+    generated_callbacks_file = generate_callbacks_file(output_dir, callbacks, enum_types)
+    print(f"✓ Generated {generated_callbacks_file.name}")
+    print()
+
     if args.enums_only:
         print("✅ Enums-only mode: Skipping function generation")
         print(f"ℹ️  Generated 1 file: {generated_enums_file.name}")
@@ -910,8 +1138,6 @@ def main():
     # Parse and generate function files
     print("Parsing NativeZ3Library function files...")
     native_function_files = sorted(interop_dir.glob("NativeZ3Library.*.generated.cs"))
-    # Exclude the enums file
-    native_function_files = [f for f in native_function_files if f.name != "NativeZ3Library.Enums.generated.cs"]
 
     print(f"✓ Found {len(native_function_files)} function files")
     print()
@@ -932,7 +1158,7 @@ def main():
             print(f"  ✓ Found {len(functions)} functions with Z3_context parameter")
 
             # Generate public wrapper file
-            generated_file = generate_functions_file(output_dir, functions, group_name, enum_types)
+            generated_file = generate_functions_file(output_dir, functions, group_name, enum_types, callback_types)
             generated_function_files.append(generated_file.name)
             total_functions += len(functions)
         else:
@@ -940,8 +1166,9 @@ def main():
         print()
 
     print("=" * 80)
-    print(f"✅ Done! Generated {len(generated_function_files) + 1} files:")
+    print(f"✅ Done! Generated {len(generated_function_files) + 2} files:")
     print(f"   - 1 enums file with {len(enums)} enums")
+    print(f"   - 1 callbacks file with {len(callbacks)} delegates")
     print(f"   - {len(generated_function_files)} function files with {total_functions} methods")
     print(f"   Location: {output_dir}")
 

@@ -4,6 +4,8 @@
 // DO NOT EDIT - Changes will be overwritten
 // </auto-generated>
 
+#nullable enable
+
 using System;
 
 namespace Spaceorc.Z3Wrap.Core.Interop;

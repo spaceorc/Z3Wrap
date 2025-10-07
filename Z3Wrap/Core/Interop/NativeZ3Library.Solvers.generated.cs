@@ -4,6 +4,8 @@
 // DO NOT EDIT - Changes will be overwritten
 // </auto-generated>
 
+#nullable enable
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -576,7 +578,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverRegisterOnClauseDelegate(IntPtr c, IntPtr s, IntPtr userContext, IntPtr onClauseEh);
+    private delegate void SolverRegisterOnClauseDelegate(IntPtr c, IntPtr s, IntPtr userContext, Z3_on_clause_eh? onClauseEh);
 
     /// <summary>
     ///  register a callback to that retrieves assumed, inferred and deleted clauses during search. 
@@ -586,7 +588,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="userContext" ctype="void*"> - a context used to maintain state for callbacks. </param>
     /// <param name="onClauseEh" ctype="Z3_on_clause_eh"> - a callback that is invoked by when a clause is  asserted to the CDCL engine (corresponding to an input clause after pre-processing)  inferred by CDCL(T) using either a SAT or theory conflict/propagation  deleted by the CDCL(T) engine   </param>
     [Z3Function("Z3_solver_register_on_clause")]
-    internal void SolverRegisterOnClause(IntPtr c, IntPtr s, IntPtr userContext, IntPtr onClauseEh)
+    internal void SolverRegisterOnClause(IntPtr c, IntPtr s, IntPtr userContext, Z3_on_clause_eh? onClauseEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_register_on_clause");
         var func = Marshal.GetDelegateForFunctionPointer<SolverRegisterOnClauseDelegate>(funcPtr);
@@ -594,7 +596,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateInitDelegate(IntPtr c, IntPtr s, IntPtr userContext, IntPtr pushEh, IntPtr popEh, IntPtr freshEh);
+    private delegate void SolverPropagateInitDelegate(IntPtr c, IntPtr s, IntPtr userContext, Z3_push_eh? pushEh, Z3_pop_eh? popEh, Z3_fresh_eh? freshEh);
 
     /// <summary>
     ///  register a user-propagator with the solver. 
@@ -606,7 +608,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="popEh" ctype="Z3_pop_eh"> - a callback invoked when scopes are popped </param>
     /// <param name="freshEh" ctype="Z3_fresh_eh"> - a solver may spawn new solvers internally. This callback is used to produce a fresh user_context to be associated with fresh solvers. </param>
     [Z3Function("Z3_solver_propagate_init")]
-    internal void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr userContext, IntPtr pushEh, IntPtr popEh, IntPtr freshEh)
+    internal void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr userContext, Z3_push_eh? pushEh, Z3_pop_eh? popEh, Z3_fresh_eh? freshEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_init");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateInitDelegate>(funcPtr);
@@ -614,7 +616,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateFixedDelegate(IntPtr c, IntPtr s, IntPtr fixedEh);
+    private delegate void SolverPropagateFixedDelegate(IntPtr c, IntPtr s, Z3_fixed_eh? fixedEh);
 
     /// <summary>
     ///  register a callback for when an expression is bound to a fixed value. The supported expression types are 
@@ -626,7 +628,7 @@ internal sealed partial class NativeZ3Library
     ///  Booleans  Bit-vectors  
     /// </remarks>
     [Z3Function("Z3_solver_propagate_fixed")]
-    internal void SolverPropagateFixed(IntPtr c, IntPtr s, IntPtr fixedEh)
+    internal void SolverPropagateFixed(IntPtr c, IntPtr s, Z3_fixed_eh? fixedEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_fixed");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateFixedDelegate>(funcPtr);
@@ -634,7 +636,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateFinalDelegate(IntPtr c, IntPtr s, IntPtr finalEh);
+    private delegate void SolverPropagateFinalDelegate(IntPtr c, IntPtr s, Z3_final_eh? finalEh);
 
     /// <summary>
     ///  register a callback on final check. This provides freedom to the propagator to delay actions or implement a branch-and bound solver. The final check is invoked when all decision variables have been assigned by the solver. 
@@ -646,7 +648,7 @@ internal sealed partial class NativeZ3Library
     /// The <c>final_eh</c> callback takes as argument the original user_context that was used when calling <c>Z3_solver_propagate_init</c> , and it takes a callback context with the opaque type <c>Z3_solver_callback</c> . The callback context is passed as argument to invoke the <c>Z3_solver_propagate_consequence</c> function. The callback context can only be accessed (for propagation and for dynamically registering expressions) within a callback. If the callback context gets used for propagation or conflicts, those propagations take effect and may trigger new decision variables to be set.
     /// </remarks>
     [Z3Function("Z3_solver_propagate_final")]
-    internal void SolverPropagateFinal(IntPtr c, IntPtr s, IntPtr finalEh)
+    internal void SolverPropagateFinal(IntPtr c, IntPtr s, Z3_final_eh? finalEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_final");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateFinalDelegate>(funcPtr);
@@ -654,7 +656,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateEqDelegate(IntPtr c, IntPtr s, IntPtr eqEh);
+    private delegate void SolverPropagateEqDelegate(IntPtr c, IntPtr s, Z3_eq_eh? eqEh);
 
     /// <summary>
     ///  register a callback on expression equalities. 
@@ -663,7 +665,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="eqEh" ctype="Z3_eq_eh">eq_eh parameter</param>
     [Z3Function("Z3_solver_propagate_eq")]
-    internal void SolverPropagateEq(IntPtr c, IntPtr s, IntPtr eqEh)
+    internal void SolverPropagateEq(IntPtr c, IntPtr s, Z3_eq_eh? eqEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_eq");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateEqDelegate>(funcPtr);
@@ -671,7 +673,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateDiseqDelegate(IntPtr c, IntPtr s, IntPtr eqEh);
+    private delegate void SolverPropagateDiseqDelegate(IntPtr c, IntPtr s, Z3_eq_eh? eqEh);
 
     /// <summary>
     ///  register a callback on expression dis-equalities. 
@@ -680,7 +682,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="eqEh" ctype="Z3_eq_eh">eq_eh parameter</param>
     [Z3Function("Z3_solver_propagate_diseq")]
-    internal void SolverPropagateDiseq(IntPtr c, IntPtr s, IntPtr eqEh)
+    internal void SolverPropagateDiseq(IntPtr c, IntPtr s, Z3_eq_eh? eqEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_diseq");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDiseqDelegate>(funcPtr);
@@ -688,7 +690,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateCreatedDelegate(IntPtr c, IntPtr s, IntPtr createdEh);
+    private delegate void SolverPropagateCreatedDelegate(IntPtr c, IntPtr s, Z3_created_eh? createdEh);
 
     /// <summary>
     ///  register a callback when a new expression with a registered function is used by the solver The registered function appears at the top level and is created using <see cref="SolverPropagateDeclare"/> . 
@@ -697,7 +699,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="createdEh" ctype="Z3_created_eh">created_eh parameter</param>
     [Z3Function("Z3_solver_propagate_created")]
-    internal void SolverPropagateCreated(IntPtr c, IntPtr s, IntPtr createdEh)
+    internal void SolverPropagateCreated(IntPtr c, IntPtr s, Z3_created_eh? createdEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_created");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateCreatedDelegate>(funcPtr);
@@ -705,7 +707,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateDecideDelegate(IntPtr c, IntPtr s, IntPtr decideEh);
+    private delegate void SolverPropagateDecideDelegate(IntPtr c, IntPtr s, Z3_decide_eh? decideEh);
 
     /// <summary>
     ///  register a callback when the solver decides to split on a registered expression. The callback may change the arguments by providing other values by calling <see cref="SolverNextSplit"/>  
@@ -714,7 +716,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="decideEh" ctype="Z3_decide_eh">decide_eh parameter</param>
     [Z3Function("Z3_solver_propagate_decide")]
-    internal void SolverPropagateDecide(IntPtr c, IntPtr s, IntPtr decideEh)
+    internal void SolverPropagateDecide(IntPtr c, IntPtr s, Z3_decide_eh? decideEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_decide");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateDecideDelegate>(funcPtr);
@@ -722,7 +724,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SolverPropagateOnBindingDelegate(IntPtr c, IntPtr s, IntPtr onBindingEh);
+    private delegate void SolverPropagateOnBindingDelegate(IntPtr c, IntPtr s, Z3_on_binding_eh? onBindingEh);
 
     /// <summary>
     ///  register a callback when the solver instantiates a quantifier. If the callback returns false, the actual instantiation of the quantifier is blocked. This allows the user propagator selectively prioritize instantiations without relying on default or configured weights. 
@@ -731,7 +733,7 @@ internal sealed partial class NativeZ3Library
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="onBindingEh" ctype="Z3_on_binding_eh">on_binding_eh parameter</param>
     [Z3Function("Z3_solver_propagate_on_binding")]
-    internal void SolverPropagateOnBinding(IntPtr c, IntPtr s, IntPtr onBindingEh)
+    internal void SolverPropagateOnBinding(IntPtr c, IntPtr s, Z3_on_binding_eh? onBindingEh)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_on_binding");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateOnBindingDelegate>(funcPtr);

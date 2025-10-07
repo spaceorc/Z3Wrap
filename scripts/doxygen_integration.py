@@ -57,6 +57,16 @@ class EnumDoc:
     see_also: List[str] = field(default_factory=list)  # Z3 function names
 
 
+@dataclass
+class CallbackDoc:
+    """Structured documentation for a callback/delegate from Doxygen XML."""
+    name: str  # Callback type name (e.g., Z3_error_handler)
+    return_type: str  # Return type (e.g., void)
+    params: List[ParamDoc] = field(default_factory=list)
+    brief: str = ""
+    see_also: List[str] = field(default_factory=list)  # Z3 function names
+
+
 # ============================================================================
 # XML Element Extraction
 # ============================================================================
@@ -391,6 +401,81 @@ def parse_enum_doc(xml_path: Path, enum_name: str) -> Optional[EnumDoc]:
                             doc.see_also.append(ref_text)
 
             return doc
+
+    return None
+
+
+def parse_callback_doc(xml_path: Path, callback_name: str) -> Optional[CallbackDoc]:
+    """Parse callback/delegate documentation from Doxygen XML.
+
+    Callbacks are declared using Z3_DECLARE_CLOSURE macro, which Doxygen
+    treats as function calls with pattern: Z3_DECLARE_CLOSURE(name, return_type, (params))
+
+    Args:
+        xml_path: Path to group__capi.xml file
+        callback_name: Callback type name (e.g., Z3_error_handler)
+
+    Returns:
+        CallbackDoc object or None if not found
+    """
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    # Find the memberdef for Z3_DECLARE_CLOSURE with this callback name
+    for memberdef in root.findall(".//memberdef[@kind='function']"):
+        name_elem = memberdef.find("name")
+        if name_elem is not None and name_elem.text == "Z3_DECLARE_CLOSURE":
+            # Check if this is the right callback by examining params
+            params = memberdef.findall("param")
+            if params and len(params) >= 3:
+                # First param should be the callback name
+                first_param = params[0].find("type")
+                if first_param is not None and first_param.text == callback_name:
+                    # Second param is return type
+                    return_type_elem = params[1].find("type")
+                    return_type = return_type_elem.text if return_type_elem is not None else "void"
+
+                    # Third param contains the parameter signature
+                    param_sig_elem = params[2].find("type")
+                    param_sig = param_sig_elem.text if param_sig_elem is not None else ""
+
+                    doc = CallbackDoc(name=callback_name, return_type=return_type)
+
+                    # Parse parameter signature: "(Z3_context c, Z3_error_code e)"
+                    if param_sig:
+                        # Remove outer parentheses and parse
+                        param_sig = param_sig.strip('()')
+                        # Split by comma (simple split - doesn't handle nested parens)
+                        param_parts = [p.strip() for p in param_sig.split(',')]
+                        for param_part in param_parts:
+                            if param_part:
+                                # Split into type and name
+                                parts = param_part.rsplit(None, 1)
+                                if len(parts) == 2:
+                                    param_type, param_name = parts
+                                    doc.params.append(ParamDoc(
+                                        name=param_name,
+                                        ctype=param_type,
+                                        description=""
+                                    ))
+
+                    # Brief description
+                    brief_elem = memberdef.find("briefdescription")
+                    if brief_elem is not None:
+                        doc.brief = extract_text_from_element(brief_elem, convert_refs_to_see_cref=True)
+
+                    # See also from detailed description
+                    detail_elem = memberdef.find("detaileddescription")
+                    if detail_elem is not None:
+                        see_sections = detail_elem.findall(".//simplesect[@kind='see']")
+                        for see_section in see_sections:
+                            refs = see_section.findall(".//ref")
+                            for ref in refs:
+                                ref_text = ref.text if ref.text else ""
+                                if ref_text:
+                                    doc.see_also.append(ref_text)
+
+                    return doc
 
     return None
 
@@ -834,5 +919,61 @@ def generate_enum_value_xml_doc(
     else:
         # Simple one-line documentation with just the name
         lines.append(f"{indent}/// <summary>{value.name}</summary>")
+
+    return lines
+
+
+def generate_callback_xml_doc(
+    doc: CallbackDoc,
+    csharp_name_converter: Optional[callable] = None,
+    indent: str = "    "
+) -> List[str]:
+    """Generate C# XML documentation for a callback/delegate.
+
+    Args:
+        doc: CallbackDoc object with parsed documentation
+        csharp_name_converter: Optional function to convert Z3 names to C# names
+        indent: Indentation prefix for XML comment lines
+
+    Returns:
+        List of XML comment lines for the delegate declaration
+    """
+    lines = []
+
+    # Helper to convert see cref names
+    def convert_see_cref(text: str) -> str:
+        if not csharp_name_converter:
+            return text
+        # Replace Z3 function names in see cref tags
+        def replace_cref(match):
+            z3_name = match.group(1)
+            csharp_name = csharp_name_converter(z3_name)
+            return f'<see cref="{csharp_name}"/>'
+        return re.sub(r'<see cref="(Z3_\w+)"/>', replace_cref, text)
+
+    # Summary
+    lines.append(f"{indent}/// <summary>")
+    if doc.brief:
+        brief_converted = convert_see_cref(doc.brief)
+        for line in format_xml_doc_lines(brief_converted, indent):
+            lines.append(line)
+    else:
+        lines.append(f"{indent}/// {doc.name}")
+    lines.append(f"{indent}/// </summary>")
+
+    # Parameters
+    for param in doc.params:
+        param_desc = param.description if param.description else f"{param.ctype} parameter"
+        param_desc_converted = convert_see_cref(param_desc)
+        lines.append(f'{indent}/// <param name="{param.name}" ctype="{param.ctype}">{param_desc_converted}</param>')
+
+    # Returns (if non-void)
+    if doc.return_type and doc.return_type != "void":
+        lines.append(f'{indent}/// <returns ctype="{doc.return_type}">{doc.return_type} value</returns>')
+
+    # See also references
+    for sa_func in doc.see_also:
+        sa_csharp = csharp_name_converter(sa_func) if csharp_name_converter else sa_func
+        lines.append(f'{indent}/// <seealso cref="{sa_csharp}"/>')
 
     return lines

@@ -4,6 +4,8 @@
 // DO NOT EDIT - Changes will be overwritten
 // </auto-generated>
 
+#nullable enable
+
 using System.Runtime.InteropServices;
 using Spaceorc.Z3Wrap.Core.Interop;
 
@@ -475,9 +477,9 @@ public sealed partial class Z3Library
     /// <param name="s" ctype="Z3_solver"> - solver object. </param>
     /// <param name="userContext" ctype="void*"> - a context used to maintain state for callbacks. </param>
     /// <param name="onClauseEh" ctype="Z3_on_clause_eh"> - a callback that is invoked by when a clause is  asserted to the CDCL engine (corresponding to an input clause after pre-processing)  inferred by CDCL(T) using either a SAT or theory conflict/propagation  deleted by the CDCL(T) engine   </param>
-    public void SolverRegisterOnClause(IntPtr c, IntPtr s, IntPtr userContext, IntPtr onClauseEh)
+    public void SolverRegisterOnClause(IntPtr c, IntPtr s, IntPtr userContext, Z3_on_clause_eh? onClauseEh)
     {
-        nativeLibrary.SolverRegisterOnClause(c, s, userContext, onClauseEh);
+        nativeLibrary.SolverRegisterOnClause(c, s, userContext, (NativeZ3Library.Z3_on_clause_eh?)(object?)onClauseEh);
         CheckError(c);
     }
 
@@ -490,9 +492,9 @@ public sealed partial class Z3Library
     /// <param name="pushEh" ctype="Z3_push_eh"> - a callback invoked when scopes are pushed </param>
     /// <param name="popEh" ctype="Z3_pop_eh"> - a callback invoked when scopes are popped </param>
     /// <param name="freshEh" ctype="Z3_fresh_eh"> - a solver may spawn new solvers internally. This callback is used to produce a fresh user_context to be associated with fresh solvers. </param>
-    public void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr userContext, IntPtr pushEh, IntPtr popEh, IntPtr freshEh)
+    public void SolverPropagateInit(IntPtr c, IntPtr s, IntPtr userContext, Z3_push_eh? pushEh, Z3_pop_eh? popEh, Z3_fresh_eh? freshEh)
     {
-        nativeLibrary.SolverPropagateInit(c, s, userContext, pushEh, popEh, freshEh);
+        nativeLibrary.SolverPropagateInit(c, s, userContext, (NativeZ3Library.Z3_push_eh?)(object?)pushEh, (NativeZ3Library.Z3_pop_eh?)(object?)popEh, (NativeZ3Library.Z3_fresh_eh?)(object?)freshEh);
         CheckError(c);
     }
 
@@ -505,9 +507,9 @@ public sealed partial class Z3Library
     /// <remarks>
     ///  Booleans  Bit-vectors
     /// </remarks>
-    public void SolverPropagateFixed(IntPtr c, IntPtr s, IntPtr fixedEh)
+    public void SolverPropagateFixed(IntPtr c, IntPtr s, Z3_fixed_eh? fixedEh)
     {
-        nativeLibrary.SolverPropagateFixed(c, s, fixedEh);
+        nativeLibrary.SolverPropagateFixed(c, s, (NativeZ3Library.Z3_fixed_eh?)(object?)fixedEh);
         CheckError(c);
     }
 
@@ -520,9 +522,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// The <c>final_eh</c> callback takes as argument the original user_context that was used when calling <c>Z3_solver_propagate_init</c> , and it takes a callback context with the opaque type <c>Z3_solver_callback</c> . The callback context is passed as argument to invoke the <c>Z3_solver_propagate_consequence</c> function. The callback context can only be accessed (for propagation and for dynamically registering expressions) within a callback. If the callback context gets used for propagation or conflicts, those propagations take effect and may trigger new decision variables to be set.
     /// </remarks>
-    public void SolverPropagateFinal(IntPtr c, IntPtr s, IntPtr finalEh)
+    public void SolverPropagateFinal(IntPtr c, IntPtr s, Z3_final_eh? finalEh)
     {
-        nativeLibrary.SolverPropagateFinal(c, s, finalEh);
+        nativeLibrary.SolverPropagateFinal(c, s, (NativeZ3Library.Z3_final_eh?)(object?)finalEh);
         CheckError(c);
     }
 
@@ -532,9 +534,9 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="eqEh" ctype="Z3_eq_eh">eq_eh parameter</param>
-    public void SolverPropagateEq(IntPtr c, IntPtr s, IntPtr eqEh)
+    public void SolverPropagateEq(IntPtr c, IntPtr s, Z3_eq_eh? eqEh)
     {
-        nativeLibrary.SolverPropagateEq(c, s, eqEh);
+        nativeLibrary.SolverPropagateEq(c, s, (NativeZ3Library.Z3_eq_eh?)(object?)eqEh);
         CheckError(c);
     }
 
@@ -544,9 +546,9 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="eqEh" ctype="Z3_eq_eh">eq_eh parameter</param>
-    public void SolverPropagateDiseq(IntPtr c, IntPtr s, IntPtr eqEh)
+    public void SolverPropagateDiseq(IntPtr c, IntPtr s, Z3_eq_eh? eqEh)
     {
-        nativeLibrary.SolverPropagateDiseq(c, s, eqEh);
+        nativeLibrary.SolverPropagateDiseq(c, s, (NativeZ3Library.Z3_eq_eh?)(object?)eqEh);
         CheckError(c);
     }
 
@@ -556,9 +558,9 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="createdEh" ctype="Z3_created_eh">created_eh parameter</param>
-    public void SolverPropagateCreated(IntPtr c, IntPtr s, IntPtr createdEh)
+    public void SolverPropagateCreated(IntPtr c, IntPtr s, Z3_created_eh? createdEh)
     {
-        nativeLibrary.SolverPropagateCreated(c, s, createdEh);
+        nativeLibrary.SolverPropagateCreated(c, s, (NativeZ3Library.Z3_created_eh?)(object?)createdEh);
         CheckError(c);
     }
 
@@ -568,9 +570,9 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="decideEh" ctype="Z3_decide_eh">decide_eh parameter</param>
-    public void SolverPropagateDecide(IntPtr c, IntPtr s, IntPtr decideEh)
+    public void SolverPropagateDecide(IntPtr c, IntPtr s, Z3_decide_eh? decideEh)
     {
-        nativeLibrary.SolverPropagateDecide(c, s, decideEh);
+        nativeLibrary.SolverPropagateDecide(c, s, (NativeZ3Library.Z3_decide_eh?)(object?)decideEh);
         CheckError(c);
     }
 
@@ -580,9 +582,9 @@ public sealed partial class Z3Library
     /// <param name="c" ctype="Z3_context">context parameter</param>
     /// <param name="s" ctype="Z3_solver">solver parameter</param>
     /// <param name="onBindingEh" ctype="Z3_on_binding_eh">on_binding_eh parameter</param>
-    public void SolverPropagateOnBinding(IntPtr c, IntPtr s, IntPtr onBindingEh)
+    public void SolverPropagateOnBinding(IntPtr c, IntPtr s, Z3_on_binding_eh? onBindingEh)
     {
-        nativeLibrary.SolverPropagateOnBinding(c, s, onBindingEh);
+        nativeLibrary.SolverPropagateOnBinding(c, s, (NativeZ3Library.Z3_on_binding_eh?)(object?)onBindingEh);
         CheckError(c);
     }
 

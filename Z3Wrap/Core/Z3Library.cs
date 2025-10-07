@@ -19,17 +19,12 @@ namespace Spaceorc.Z3Wrap.Core;
 [ExcludeFromCodeCoverage]
 public sealed partial class Z3Library : IDisposable
 {
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void ErrorHandler(IntPtr ctx, NativeZ3Library.ErrorCode errorCode);
-
     private readonly NativeZ3Library nativeLibrary;
-    private readonly ErrorHandler errorHandlerDelegate;
     private bool disposed;
 
     private Z3Library(NativeZ3Library nativeLibrary)
     {
-        this.nativeLibrary = nativeLibrary ?? throw new ArgumentNullException(nameof(nativeLibrary));
-        errorHandlerDelegate = OnZ3ErrorSafe;
+        this.nativeLibrary = nativeLibrary;
     }
 
     /// <summary>
@@ -158,8 +153,7 @@ public sealed partial class Z3Library : IDisposable
 
         // No error check for context creation
         // Set up safe error handler (prevents crashes)
-        var errorHandlerPtr = Marshal.GetFunctionPointerForDelegate(errorHandlerDelegate);
-        nativeLibrary.SetErrorHandler(result, errorHandlerPtr);
+        nativeLibrary.SetErrorHandler(result, OnZ3ErrorSafe);
         return result;
     }
 

@@ -17,12 +17,15 @@ from typing import List, Tuple
 from doxygen_integration import (
     parse_function_doc,
     parse_enum_doc,
+    parse_callback_doc,
     generate_function_xml_doc,
     generate_enum_xml_doc,
     generate_enum_value_xml_doc,
+    generate_callback_xml_doc,
     run_doxygen,
     validate_doxygen_xml,
-    ParamDoc
+    ParamDoc,
+    CallbackDoc
 )
 
 
@@ -62,6 +65,21 @@ class EnumDefinition:
     csharp_name: str  # C# name (e.g., ParamKind)
     values: List[Tuple[str, str, str, str]]  # List of (original_name, csharp_name, value, doc) tuples
     brief: str = ""  # Brief description from header comments
+    see_also: List[str] = None  # List of related items
+
+    def __post_init__(self):
+        """Initialize mutable default values."""
+        if self.see_also is None:
+            self.see_also = []
+
+
+@dataclass
+class CallbackDefinition:
+    """Represents a parsed C callback typedef from Z3_DECLARE_CLOSURE."""
+    name: str  # Original C name (e.g., Z3_error_handler)
+    return_type: str  # C return type (e.g., void)
+    parameters: List[Tuple[str, str]]  # List of (type, name) tuples
+    brief: str = ""  # Brief description
     see_also: List[str] = None  # List of related items
 
     def __post_init__(self):
@@ -198,6 +216,15 @@ def extract_functions_from_group(header_path: Path, start_line: int, end_line: i
 
 # Global set of all enum value names (populated by find_enums_in_headers)
 ALL_ENUM_VALUES = set()
+
+# Global set of all callback type names (populated by find_callbacks_in_headers)
+ALL_CALLBACK_TYPES = set()
+
+# Global dict of all enum type mappings: C name -> C# name (populated by find_enums_in_headers)
+ALL_ENUM_TYPES = {}
+
+# Global set of all opaque pointer type names (populated by find_opaque_types_in_headers)
+ALL_OPAQUE_TYPES = set()
 
 
 def clean_documentation_text(text: str, preserve_formatting: bool = False) -> str:
@@ -495,59 +522,9 @@ def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
         'char const *': 'IntPtr',
         'const char *': 'IntPtr',
         'char *': 'IntPtr',
-        # All Z3 types are opaque pointers
-        'Z3_context': 'IntPtr',
-        'Z3_config': 'IntPtr',
-        'Z3_symbol': 'IntPtr',
-        'Z3_ast': 'IntPtr',
-        'Z3_sort': 'IntPtr',
-        'Z3_func_decl': 'IntPtr',
-        'Z3_app': 'IntPtr',
-        'Z3_pattern': 'IntPtr',
-        'Z3_model': 'IntPtr',
-        'Z3_solver': 'IntPtr',
-        'Z3_goal': 'IntPtr',
-        'Z3_tactic': 'IntPtr',
-        'Z3_simplifier': 'IntPtr',
-        'Z3_probe': 'IntPtr',
-        'Z3_params': 'IntPtr',
-        'Z3_param_descrs': 'IntPtr',
-        'Z3_ast_vector': 'IntPtr',
-        'Z3_ast_map': 'IntPtr',
-        'Z3_apply_result': 'IntPtr',
-        'Z3_func_interp': 'IntPtr',
-        'Z3_func_entry': 'IntPtr',
-        'Z3_optimize': 'IntPtr',
-        'Z3_stats': 'IntPtr',
-        'Z3_parser_context': 'IntPtr',
-        'Z3_constructor': 'IntPtr',
-        'Z3_constructor_list': 'IntPtr',
-        # Function pointers/callbacks - all marshaled as IntPtr
-        'Z3_error_handler': 'IntPtr',
-        'Z3_push_eh': 'IntPtr',
-        'Z3_pop_eh': 'IntPtr',
-        'Z3_fresh_eh': 'IntPtr',
-        'Z3_fixed_eh': 'IntPtr',
-        'Z3_eq_eh': 'IntPtr',
-        'Z3_final_eh': 'IntPtr',
-        'Z3_created_eh': 'IntPtr',
-        'Z3_decide_eh': 'IntPtr',
-        'Z3_on_clause_eh': 'IntPtr',
-        'Z3_on_binding_eh': 'IntPtr',
-        'Z3_solver_callback': 'IntPtr',
-        'Z3_model_eh': 'IntPtr',
-        # Enums - map to C# enum types
-        'Z3_lbool': 'Lbool',
+        # Special types that aren't in DEFINE_TYPE
         'Z3_bool': 'int',  # Z3_bool is actually a typedef for int, not an enum
-        'Z3_ast_kind': 'AstKind',
-        'Z3_ast_print_mode': 'AstPrintMode',
-        'Z3_decl_kind': 'DeclKind',
-        'Z3_error_code': 'ErrorCode',
-        'Z3_goal_prec': 'GoalPrec',
-        'Z3_param_kind': 'ParamKind',
-        'Z3_parameter_kind': 'ParameterKind',
-        'Z3_sort_kind': 'SortKind',
-        'Z3_symbol_kind': 'SymbolKind',
+        'Z3_model_eh': 'IntPtr',  # Old-style typedef callback, not using Z3_DECLARE_CLOSURE
     }
 
     # Clean the type (remove const, spaces)
@@ -585,6 +562,18 @@ def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
     # Look up in the type map
     if cleaned in type_map:
         return type_map[cleaned]
+
+    # Check if it's an opaque pointer type (from global set populated by find_opaque_types_in_headers)
+    if cleaned in ALL_OPAQUE_TYPES:
+        return 'IntPtr'
+
+    # Check if it's an enum type (from global dict populated by find_enums_in_headers)
+    if cleaned in ALL_ENUM_TYPES:
+        return ALL_ENUM_TYPES[cleaned]
+
+    # Check if it's a callback type (from global set populated by find_callbacks_in_headers)
+    if cleaned in ALL_CALLBACK_TYPES:
+        return f'{cleaned}?'  # Nullable delegate
 
     # Unknown type - raise error with clear message
     raise ValueError(f"Unknown C type: '{c_type}' (cleaned: '{cleaned}'). Add mapping to type_map in map_c_type_to_csharp().")
@@ -801,18 +790,132 @@ def extract_enum_documentation(content: str, enum_position: int) -> dict:
     return result
 
 
+def find_opaque_types_in_headers(headers_dir: Path) -> set:
+    """
+    Find all opaque pointer type definitions (DEFINE_TYPE) in header files.
+    Returns set of type names.
+    Also populates the global ALL_OPAQUE_TYPES set.
+    """
+    global ALL_OPAQUE_TYPES
+    ALL_OPAQUE_TYPES.clear()
+
+    header_files = sorted(headers_dir.glob('*.h'))
+    opaque_types = set()
+
+    for header_path in header_files:
+        with open(header_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Find DEFINE_TYPE declarations
+        # Pattern: DEFINE_TYPE(Z3_typename);
+        define_type_pattern = r'DEFINE_TYPE\s*\(\s*(Z3_\w+)\s*\)\s*;'
+        matches = re.finditer(define_type_pattern, content)
+
+        for match in matches:
+            type_name = match.group(1)
+            opaque_types.add(type_name)
+            ALL_OPAQUE_TYPES.add(type_name)
+
+    return opaque_types
+
+
+def find_callbacks_in_headers(headers_dir: Path, xml_path: Path) -> List[CallbackDefinition]:
+    """
+    Find all callback definitions (Z3_DECLARE_CLOSURE) in header files.
+    Returns list of CallbackDefinition objects.
+    Also populates the global ALL_CALLBACK_TYPES set.
+    """
+    global ALL_CALLBACK_TYPES
+    ALL_CALLBACK_TYPES.clear()
+
+    header_files = sorted(headers_dir.glob('*.h'))
+    callbacks = []
+    seen_names = set()
+
+    for header_path in header_files:
+        with open(header_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Find Z3_DECLARE_CLOSURE declarations
+        # Pattern: Z3_DECLARE_CLOSURE(callback_name, return_type, (params));
+        # return_type can be: void, void*, bool, etc.
+        closure_pattern = r'Z3_DECLARE_CLOSURE\s*\(\s*(Z3_\w+)\s*,\s*(\w+\*?)\s*,\s*\(([^)]+)\)\s*\)\s*;'
+        matches = re.finditer(closure_pattern, content, re.DOTALL)
+
+        for match in matches:
+            callback_name = match.group(1)
+            return_type = match.group(2)
+            params_str = match.group(3).strip()
+
+            if callback_name in seen_names:
+                continue
+            seen_names.add(callback_name)
+
+            # Add to global set of callback types
+            ALL_CALLBACK_TYPES.add(callback_name)
+
+            # Parse parameters
+            parameters = []
+            if params_str:
+                # Split by comma, handling nested types
+                param_parts = []
+                depth = 0
+                current = []
+                for char in params_str + ',':
+                    if char == '(':
+                        depth += 1
+                    elif char == ')':
+                        depth -= 1
+                    elif char == ',' and depth == 0:
+                        param_parts.append(''.join(current).strip())
+                        current = []
+                        continue
+                    current.append(char)
+
+                for param in param_parts:
+                    if not param:
+                        continue
+                    # Parameter format: "type name"
+                    parts = param.strip().rsplit(None, 1)
+                    if len(parts) == 2:
+                        param_type, param_name = parts
+                        parameters.append((param_type, param_name))
+
+            # Get documentation from Doxygen XML
+            callback_doc = parse_callback_doc(xml_path, callback_name)
+
+            if callback_doc:
+                brief = callback_doc.brief
+                see_also = callback_doc.see_also
+            else:
+                brief = ""
+                see_also = []
+
+            callback_def = CallbackDefinition(
+                name=callback_name,
+                return_type=return_type,
+                parameters=parameters,
+                brief=brief,
+                see_also=see_also
+            )
+            callbacks.append(callback_def)
+
+    return sorted(callbacks, key=lambda c: c.name)
+
+
 def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
     """
     Find all enum definitions in header files.
     Returns list of EnumDefinition objects.
-    Also populates the global ALL_ENUM_VALUES set.
+    Also populates the global ALL_ENUM_VALUES set and ALL_ENUM_TYPES dict.
 
     Uses a two-pass approach:
     1. First pass: Extract all enum values to populate ALL_ENUM_VALUES
     2. Second pass: Process documentation (which may reference enum values)
     """
-    global ALL_ENUM_VALUES
+    global ALL_ENUM_VALUES, ALL_ENUM_TYPES
     ALL_ENUM_VALUES.clear()
+    ALL_ENUM_TYPES.clear()
 
     header_files = sorted(headers_dir.glob('*.h'))
 
@@ -909,6 +1012,9 @@ def find_enums_in_headers(headers_dir: Path) -> List[EnumDefinition]:
         )
         enums.append(enum_def)
 
+        # Add to global enum types mapping
+        ALL_ENUM_TYPES[enum_name] = csharp_name
+
     return sorted(enums, key=lambda e: e.name)
 
 
@@ -988,8 +1094,9 @@ def analyze_headers(headers_dir: Path, xml_path: Path, verbose: bool = False) ->
             all_groups.append(header_group)
 
         if not verbose:
-            # Clear the progress line after finishing the file
-            sys.stdout.write("\r" + " " * 120 + "\r")
+            # Show completion for this header file on its own line
+            sys.stdout.write("\r" + " " * 120 + "\r")  # Clear current line
+            print(f"  ✓ Processed {header_path.name} ({len(valid_groups)} groups, {total_funcs} functions)")
             sys.stdout.flush()
 
     return all_groups
@@ -1108,6 +1215,86 @@ def format_xml_doc_lines(text: str, indent: str = "    ") -> List[str]:
     return [f"{indent}/// {line}" if line else f"{indent}///" for line in lines]
 
 
+def generate_callbacks_file(callbacks: List[CallbackDefinition], output_dir: Path):
+    """
+    Generate NativeZ3Library.Callbacks.generated.cs with delegate definitions.
+    """
+    file_path = output_dir / "NativeZ3Library.Callbacks.generated.cs"
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        # Header comment
+        f.write("// <auto-generated>\n")
+        f.write("// This file was generated by scripts/generate_native_library.py\n")
+        f.write("// Source: All Z3 header files (Z3_DECLARE_CLOSURE declarations)\n")
+        f.write("// DO NOT EDIT - Changes will be overwritten\n")
+        f.write("// </auto-generated>\n\n")
+
+        # Nullable directive
+        f.write("#nullable enable\n\n")
+
+        # Using statements
+        f.write("using System;\n")
+        f.write("using System.Runtime.InteropServices;\n\n")
+
+        # Namespace
+        f.write("namespace Spaceorc.Z3Wrap.Core.Interop;\n\n")
+
+        # Class declaration
+        f.write("internal sealed partial class NativeZ3Library\n")
+        f.write("{\n")
+
+        # Generate delegate types
+        for callback_def in callbacks:
+            # XML documentation
+            if callback_def.brief:
+                f.write("    /// <summary>\n")
+                # Convert Z3 function references to C# names
+                brief_converted = convert_z3_refs_to_csharp(callback_def.brief)
+                for line in format_xml_doc_lines(brief_converted, "    "):
+                    f.write(f"{line}\n")
+                f.write("    /// </summary>\n")
+            else:
+                f.write(f"    /// <summary>{callback_def.name}</summary>\n")
+
+            # Parameters documentation
+            for param_type, param_name in callback_def.parameters:
+                camel_case_name = convert_param_name_to_camel_case(param_name)
+                f.write(f'    /// <param name="{camel_case_name}" ctype="{param_type}">{param_type} parameter</param>\n')
+
+            # Returns documentation (if non-void)
+            if callback_def.return_type and callback_def.return_type != "void":
+                f.write(f'    /// <returns ctype="{callback_def.return_type}">{callback_def.return_type} value</returns>\n')
+
+            # See also references
+            if callback_def.see_also:
+                for sa_item in callback_def.see_also:
+                    # Apply typo fixes if needed
+                    sa_item_fixed = FUNCTION_NAME_TYPO_FIXES.get(sa_item, sa_item)
+                    # Try to convert to C# method name
+                    sa_csharp = generate_csharp_method_name(sa_item_fixed)
+                    f.write(f'    /// <seealso cref="{sa_csharp}"/>\n')
+
+            # Map C types to C# types for parameters
+            params_cs = []
+            for param_type, param_name in callback_def.parameters:
+                param_type_cs = map_c_type_to_csharp(param_type, is_output=False)
+                camel_case_name = convert_param_name_to_camel_case(param_name)
+                params_cs.append(f"{param_type_cs} {camel_case_name}")
+
+            params_str = ", ".join(params_cs) if params_cs else ""
+
+            # Map return type
+            return_type_cs = map_c_type_to_csharp(callback_def.return_type)
+
+            # Delegate declaration
+            f.write("    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]\n")
+            f.write(f"    internal delegate {return_type_cs} {callback_def.name}({params_str});\n\n")
+
+        f.write("}\n")
+
+    return file_path
+
+
 def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
     """
     Generate NativeZ3Library.Enums.generated.cs with actual enum definitions.
@@ -1121,6 +1308,9 @@ def generate_enums_file(enums: List[EnumDefinition], output_dir: Path):
         f.write("// Source: All Z3 header files\n")
         f.write("// DO NOT EDIT - Changes will be overwritten\n")
         f.write("// </auto-generated>\n\n")
+
+        # Nullable directive
+        f.write("#nullable enable\n\n")
 
         # Using statements
         f.write("using System;\n\n")
@@ -1227,6 +1417,9 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
         f.write(f"// Source: {group.header_file} / {group.group_name}\n")
         f.write("// DO NOT EDIT - Changes will be overwritten\n")
         f.write("// </auto-generated>\n\n")
+
+        # Nullable directive
+        f.write("#nullable enable\n\n")
 
         # Using statements
         f.write("using System;\n")
@@ -1434,6 +1627,7 @@ def main():
         parser.add_argument('--branch', '-b', default=Z3_DEFAULT_BRANCH, help=f'Z3 GitHub branch to use (default: {Z3_DEFAULT_BRANCH})')
         parser.add_argument('--force-download', '-f', action='store_true', help='Force re-download headers even if cached')
         parser.add_argument('--enums-only', action='store_true', help='Generate only the enums file (faster)')
+        parser.add_argument('--callbacks-only', action='store_true', help='Generate only the callbacks file (faster)')
         args = parser.parse_args()
 
         # Paths
@@ -1469,8 +1663,8 @@ def main():
             xml_path = validate_doxygen_xml(doxygen_xml_dir)
         print()
 
-        # Clean up old generated files (unless enums-only mode)
-        if not args.enums_only:
+        # Clean up old generated files (unless enums-only or callbacks-only mode)
+        if not args.enums_only and not args.callbacks_only:
             print("Cleaning up old generated files...")
             old_files = list(output_dir.glob("*.generated.cs"))
             for old_file in old_files:
@@ -1478,23 +1672,52 @@ def main():
             print(f"Removed {len(old_files)} old generated files")
             print()
 
+        # PHASE 1: Discover all types (always needed for type mapping)
+        print("Discovering types for type mapping...")
+
+        # Find opaque types
+        opaque_types = find_opaque_types_in_headers(headers_dir)
+        print(f"  ✓ Found {len(opaque_types)} opaque pointer types")
+
         # Find enums
-        print("Finding enum definitions...")
         enums = find_enums_in_headers(headers_dir)
         total_enum_values = sum(len(e.values) for e in enums)
-        print(f"✓ Found {len(enums)} enum definitions with {total_enum_values} total values")
+        print(f"  ✓ Found {len(enums)} enum definitions with {total_enum_values} total values")
+
+        # Find callbacks
+        callbacks = find_callbacks_in_headers(headers_dir, xml_path)
+        print(f"  ✓ Found {len(callbacks)} callback definitions")
         print()
 
-        # Generate enums file
+        # PHASE 2: Generate files based on mode
+        if args.enums_only:
+            print("Generating enums file...")
+            enums_file = generate_enums_file(enums, output_dir)
+            print(f"✓ Generated {enums_file.name} ({len(enums)} enums)")
+            print()
+            print("✅ Enums-only mode: Skipping callback and function generation")
+            print(f"ℹ️  Generated 1 file: {enums_file.name}")
+            return
+
+        if args.callbacks_only:
+            print("Generating callbacks file...")
+            callbacks_file = generate_callbacks_file(callbacks, output_dir)
+            print(f"✓ Generated {callbacks_file.name} ({len(callbacks)} callbacks)")
+            print()
+            print("✅ Callbacks-only mode: Skipping enum and function generation")
+            print(f"ℹ️  Generated 1 file: {callbacks_file.name}")
+            return
+
+        # Full generation mode - generate enums and callbacks
         print("Generating enums file...")
         enums_file = generate_enums_file(enums, output_dir)
         print(f"✓ Generated {enums_file.name} ({len(enums)} enums)")
         print()
 
-        if args.enums_only:
-            print("✅ Enums-only mode: Skipping function generation")
-            print(f"ℹ️  Generated 1 file: {enums_file.name}")
-            return
+        print("Generating callbacks file...")
+        callbacks_file = generate_callbacks_file(callbacks, output_dir)
+        print(f"✓ Generated {callbacks_file.name} ({len(callbacks)} callbacks)")
+        print()
 
         # Analyze headers
         print("Analyzing header files...")

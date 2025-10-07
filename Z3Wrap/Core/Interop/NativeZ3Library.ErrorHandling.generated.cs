@@ -4,6 +4,8 @@
 // DO NOT EDIT - Changes will be overwritten
 // </auto-generated>
 
+#nullable enable
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -32,7 +34,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SetErrorHandlerDelegate(IntPtr c, IntPtr h);
+    private delegate void SetErrorHandlerDelegate(IntPtr c, Z3_error_handler? h);
 
     /// <summary>
     ///  Register a Z3 error handler. 
@@ -45,7 +47,7 @@ internal sealed partial class NativeZ3Library
     /// </remarks>
     /// <seealso cref="GetErrorCode"/>
     [Z3Function("Z3_set_error_handler")]
-    internal void SetErrorHandler(IntPtr c, IntPtr h)
+    internal void SetErrorHandler(IntPtr c, Z3_error_handler? h)
     {
         var funcPtr = GetFunctionPointer("Z3_set_error_handler");
         var func = Marshal.GetDelegateForFunctionPointer<SetErrorHandlerDelegate>(funcPtr);
