@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 
 ## Project Overview
 
-**Z3Wrap** is a complete, production-ready C# wrapper for Microsoft's Z3 theorem prover featuring unlimited precision arithmetic, type-safe API design, and natural mathematical syntax.
+**Z3Wrap** is a production-ready C# wrapper for Microsoft's Z3 theorem prover featuring unlimited precision arithmetic, type-safe API design, and natural mathematical syntax.
 
-**Current Status**: Production-ready .NET 9.0 library with 837 tests achieving 93.3% coverage (exceeds 90% CI requirement).
+**Technology**: .NET 9.0 library with comprehensive test coverage (run `make test` to see current stats).
 
 ## Development Workflow
 
@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 ```bash
 make help         # Show all available commands
 make build        # Build library (includes restore)
-make test         # Run all 837 tests
+make test         # Run all tests (see count in output)
 make coverage     # Generate coverage report and open in browser
 make format       # Format code (CSharpier) - REQUIRED before commits
 make lint         # Check formatting (used in CI)
@@ -32,11 +32,19 @@ make clean        # Clean all build artifacts
 
 **Rule**: Always use `make [command]` instead of `dotnet [command]` to ensure consistent behavior.
 
-## Project Structure
+## Project Structure Discovery
 
+**Don't assume file locations or counts - always verify using tools:**
+- Use `Glob` to find files by pattern (e.g., `**/*.cs`, `**/Z3*.cs`)
+- Use `Grep` to search for code patterns
+- Use `Read` to examine specific files
+- Run `make test` to see current test count
+- Run `make coverage` to see current coverage percentage
+
+**Organization Pattern**:
 ```
 Z3Wrap.sln                    # Solution with library + tests
-├── Z3Wrap/                   # Main library (79 source files)
+├── Z3Wrap/                   # Main library
 │   ├── Values/                  # Bv<TSize>, Real value types
 │   ├── Expressions/             # Expression types organized by category
 │   │   ├── Arrays/              # ArrayExpr<TIndex, TValue>
@@ -45,19 +53,13 @@ Z3Wrap.sln                    # Solution with library + tests
 │   │   ├── Logic/               # BoolExpr
 │   │   ├── Numerics/            # IntExpr, RealExpr
 │   │   └── Quantifiers/         # ForAll, Exists
-│   ├── Core/                    # Z3Context, Z3Solver, Z3Model
+│   ├── Core/                    # Z3Context, Z3Solver, Z3Model, Z3Optimizer
 │   │   ├── Interop/             # P/Invoke bindings, native library loading
 │   │   └── Z3Library.cs         # Complete Z3 C API wrapper
 │   └── *.csproj                 # Project configuration
-├── Z3Wrap.Tests/             # NUnit tests (37 test files, 837 tests)
-│   ├── Core/                    # Context, Solver, Model tests
+├── Z3Wrap.Tests/             # NUnit tests organized by category
+│   ├── Core/                    # Context, Solver, Model, Optimizer tests
 │   ├── Expressions/             # Expression tests organized by type
-│   │   ├── Arrays/              # Array expression tests
-│   │   ├── BitVectors/          # BitVector tests (factory, arithmetic, bitwise, comparison, overflow)
-│   │   ├── Functions/           # Function declaration and application tests
-│   │   ├── Logic/               # Boolean logic tests
-│   │   ├── Numerics/            # Integer and Real tests
-│   │   └── Quantifiers/         # Quantifier tests
 │   ├── Values/                  # Bv and Real value type tests
 │   └── ReadmeExamplesTests.cs   # Validates all README examples
 ├── Makefile                  # Development workflow automation
@@ -71,52 +73,19 @@ Z3Wrap.sln                    # Solution with library + tests
 - **Unlimited Precision**: BigInteger integers, exact rational arithmetic via Real class
 - **Type Safety**: Strongly typed expressions, generic constraints, compile-time checking
 - **Natural Syntax**: Mathematical operators (`x + y == 10`) via scoped context pattern
-- **Complete Z3 Coverage**: Booleans, Integers, Reals, BitVectors, Arrays, Quantifiers, Uninterpreted Functions
+- **Complete Z3 Coverage**: Booleans, Integers, Reals, BitVectors, Arrays, Quantifiers, Uninterpreted Functions, Optimization
 - **Memory Safety**: Reference-counted contexts, automatic cleanup, no resource leaks
 - **Cross-Platform**: Auto-discovery of Z3 native library on Windows, macOS, Linux
 
-## API Usage Examples
-
-### Basic Solving
-```csharp
-using var context = new Z3Context();
-using var scope = context.SetUp(); // Enable natural syntax
-
-var x = context.IntConst("x");
-var y = context.RealConst("y");
-
-using var solver = context.CreateSolver();
-solver.Assert(x + 5 == 10);              // BigInteger arithmetic
-solver.Assert(x.ToReal() + y == 15.5m);  // Type conversions
-solver.Assert(y == new Real(1, 3));      // Exact rationals
-
-if (solver.Check() == Z3Status.Satisfiable)
-{
-    var model = solver.GetModel();
-    Console.WriteLine($"x = {model.GetIntValue(x)}");              // BigInteger
-    Console.WriteLine($"y = {model.GetNumericValueAsString(y)}");  // "1/3"
-}
-```
-
-### Generic Arrays and BitVectors
-```csharp
-// Type-safe generic arrays
-var prices = context.ArrayConst<IntExpr, RealExpr>("prices");
-solver.Assert(prices[0] == 10.5m);
-solver.Assert(prices[1] > prices[0]);
-
-// BitVectors with compile-time sized types
-var bv = context.BvConst<Size32>("bv");
-solver.Assert(bv + 5u == 15u);
-```
-
 ## Testing Guidelines
 
-- **Framework**: NUnit with 837 tests achieving 93.3% coverage
-- **Coverage**: 90%+ requirement enforced in CI pipeline (fails below 90%)
-- **Test Execution**: Always use `make test` (never `dotnet test`)
-- **Naming**: `MethodName_Scenario_ExpectedResult` pattern
-- **Organization**: Hierarchical structure by expression type and functionality (see Project Structure above)
+**Coverage Requirement**: Maintain ≥90% line coverage (enforced by CI - run `make coverage` to verify)
+
+**Test Execution**: Always use `make test` (never `dotnet test`)
+
+**Naming**: `MethodName_Scenario_ExpectedResult` pattern
+
+**Organization**: Hierarchical structure by expression type and functionality (use Glob to discover)
 
 ### Expression Operation Testing Principles
 
@@ -180,7 +149,7 @@ public void And_TwoValues_ComputesCorrectResult(bool aValue, bool bValue, bool e
 }
 ```
 
-**Test Organization by Category**:
+**Test Organization Pattern** (use Glob to discover actual files):
 ```
 Z3Wrap.Tests/Expressions/
 ├── Numerics/
@@ -223,22 +192,22 @@ Z3Wrap.Tests/Expressions/
 ## Common AI Pitfalls to Avoid
 
 ### Project Structure Assumptions
-- **File Counts**: 79 source files, 37 test files - don't assume what exists
-- **Test Organization**: Organized by expression category (see Project Structure) - check first
-- **Coverage Critical**: 90%+ required by CI (currently 93.3%) - new code must include comprehensive tests
+- ❌ Assuming file counts or exact structure
+- ✅ Use Glob/Grep to discover files and verify structure
+- ❌ Assuming test counts or coverage percentages
+- ✅ Run `make test` and `make coverage` to check current state
 
 ### Command Usage Mistakes
 - ❌ Using `dotnet test` instead of `make test`
 - ❌ Using `dotnet format` instead of `make format`
 - ❌ Using `dotnet build` instead of `make build`
-- ❌ Forgetting to run `make format` before code changes
+- ❌ Forgetting to run `make format` before commits
 - ❌ Running git commands without explicit user permission
 
 ### Development Process Errors
 - ❌ Adding new code without corresponding tests
 - ❌ Modifying README examples without updating ReadmeExamplesTests.cs
 - ❌ Committing without explicit user permission
-- ❌ Assuming test counts or file structure without verification
 - ❌ Ignoring coverage requirements (90% minimum)
 
 ## Quick AI Decision Guide
@@ -259,9 +228,9 @@ Z3Wrap.Tests/Expressions/
 → CI will fail → Add more tests → Run `make coverage` → Verify ≥90% before commit
 
 **Unsure about project structure?**
-→ Use `make help` → Use Glob/Grep tools → Don't assume file locations
+→ Use Glob/Grep tools → Don't assume file locations or counts
 
-### README Validation Framework
+## README Validation Framework
 
 **CRITICAL**: All README.md examples are automatically validated in `ReadmeExamplesTests.cs`. This ensures 100% copy-paste reliability for users.
 
@@ -282,7 +251,7 @@ Z3Wrap.Tests/Expressions/
 - **Z3Context**: Reference-counted (`Z3_mk_context_rc`) with automatic cleanup
 - **Z3Expr classes**: Do NOT implement IDisposable - managed by context reference counting
 - **Expressions**: Automatically cleaned up when context disposed
-- **Solvers**: Implement IDisposable, tracked by context for proper cleanup
+- **Solvers/Optimizers**: Implement IDisposable, tracked by context for proper cleanup
 - **Thread Safety**: Context setup uses ThreadLocal for safe scoped operations
 
 ## Coding Standards
@@ -293,7 +262,7 @@ Z3Wrap.Tests/Expressions/
 - **Generics**: Extensive use with constraints for type safety
 - **Operators**: Comprehensive overloading for natural mathematical syntax
 
-### XML Documentation
+## XML Documentation
 
 **CRITICAL**: The project has XML documentation warnings enabled. After any public API changes, run `make build` - it MUST produce ZERO warnings.
 
@@ -368,7 +337,7 @@ public ArrayExpr&lt;TDomain, TRange&gt; ArrayConst&lt;TDomain, TRange&gt;(string
 - **Target**: .NET 9.0 with implicit usings and nullable reference types
 - **Interop**: Dynamic library loading for cross-platform Z3 discovery
 - **P/Invoke**: Complete Z3 C API bindings with proper marshalling
-- **Extensions**: 20+ organized extension files for clean API surface
+- **Extensions**: Organized extension files by category (Logic/, Numerics/, BitVectors/, etc.)
 - **Error Handling**: Proper exception handling and resource disposal patterns
 
 ## Git Workflow
@@ -384,7 +353,7 @@ public ArrayExpr&lt;TDomain, TRange&gt; ArrayConst&lt;TDomain, TRange&gt;(string
 
 **Forbidden**: Automatic commits, running git commands without permission.
 
-### Commit Message Rules
+## Commit Message Rules
 
 **❌ CRITICAL**: NEVER write commit messages based on assumptions or knowledge - ALWAYS examine actual changes first.
 
@@ -432,11 +401,13 @@ make ci           # Verify full CI pipeline works locally
 2. Remove the corresponding line from Z3Wrap.sln's "misc" section
 
 **Examples of Managed Files**:
-- PLAN.md, PLAN_OPT.md (implementation plans)
+- PLAN.md (implementation plans)
 - ANALYSIS.md (code analysis documents)
 - CLAUDE.md, README.md, CHANGELOG.md (core docs)
 - Makefile, LICENSE (project metadata)
 
 This ensures all documentation is visible and navigable in Visual Studio/Rider.
+
+---
 
 This project emphasizes consistent tooling, comprehensive testing, and maintainable code architecture for reliable theorem proving capabilities.

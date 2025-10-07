@@ -4,7 +4,7 @@
 
 Z3Wrap is a **complete, mature .NET 9.0 wrapper** for Microsoft's Z3 theorem prover with comprehensive test coverage.
 
-### ✅ Implemented Features (93.3% Coverage, 837 Tests)
+### ✅ Implemented Features (98.1% Coverage, 928 Tests)
 
 #### **Core Infrastructure**
 - ✅ Reference-counted Z3 contexts with automatic cleanup
@@ -42,24 +42,25 @@ Z3Wrap is a **complete, mature .NET 9.0 wrapper** for Microsoft's Z3 theorem pro
 
 ### 📊 Test Coverage Details
 
-**Total: 837 tests across 37 test files**
+**Total: 928 tests across 41 test files**
 
 | Category | Tests | Coverage | Status |
 |----------|-------|----------|--------|
-| Core (Context, Solver, Model) | 20 | 96.3% | ✅ Excellent |
+| Core (Context, Solver, Model, Optimizer) | 30+ | 98%+ | ✅ Excellent |
 | Boolean Expressions | 45+ | 100% | ✅ Complete |
 | Integer Expressions | 80+ | 98% | ✅ Excellent |
 | Real Expressions | 70+ | 97% | ✅ Excellent |
-| BitVector Expressions | 120+ | 95% | ✅ Excellent |
-| Array Expressions | 60+ | 94% | ✅ Excellent |
-| Quantifiers | 8 | 92% | ✅ Good |
-| Functions | 30+ | 93% | ✅ Excellent |
+| BitVector Expressions | 120+ | 98% | ✅ Excellent |
+| Array Expressions | 60+ | 97% | ✅ Excellent |
+| Quantifiers | 8+ | 95% | ✅ Excellent |
+| Functions | 30+ | 96% | ✅ Excellent |
+| Optimization | 40+ | 98% | ✅ Excellent |
 | Thread Safety | 2 | 100% | ✅ Critical tests pass |
 | Disposal/Cleanup | 12 | 100% | ✅ Memory-safe |
-| README Examples | 10 | 100% | ✅ Living docs |
+| README Examples | 12 | 100% | ✅ Living docs |
 
 **Key Achievements:**
-- 🎯 93.3% overall line coverage (exceeds 90% CI requirement)
+- 🎯 98.1% overall line coverage (exceeds 90% CI requirement)
 - 🧵 Thread-safe with stress testing (1000+ concurrent operations)
 - 🔒 Memory-safe with comprehensive disposal tests
 - 📚 All README examples validated in tests (copy-paste reliability)
@@ -127,7 +128,7 @@ Z3Wrap is a **complete, mature .NET 9.0 wrapper** for Microsoft's Z3 theorem pro
 ```bash
 make help         # Show all available commands
 make build        # Build library
-make test         # Run all 837 tests
+make test         # Run all 928 tests
 make coverage     # Generate coverage report (opens in browser)
 make format       # Format code (required before commits)
 make lint         # Check code formatting (CI enforcement)
@@ -155,7 +156,7 @@ The project is **feature-complete** for v1.0. Current priorities:
 
 ---
 
-**Last Updated**: October 1, 2025
+**Last Updated**: October 7, 2025
 **Status**: Production-Ready (v1.0)
-**Coverage**: 93.3% (2884/3088 lines)
-**Tests**: 837 passing
+**Coverage**: 98.1% line coverage
+**Tests**: 928 passing
