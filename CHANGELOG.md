@@ -8,26 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **Z3Library safe wrapper class**
+- **Complete code generation infrastructure for Z3 C API wrapper**
+  - Automated generation of all Z3Library methods from Z3 C API using Doxygen XML
+  - 34 category-organized generated files (Arrays, BitVectors, Solvers, etc.)
+  - Callback delegates with C# naming conventions and nullable reference type annotations
+  - XML documentation auto-generated from Z3 API comments
+  - Proper handling of out parameters and reference counting methods
+- **Z3Library safe wrapper with cross-platform support**
   - Public API for loading and managing Z3 native library
   - `Load(path)` and `LoadAuto()` methods for manual and automatic library discovery
-  - Safe error checking and handle validation for all Z3 operations
+  - Safe error checking and handle validation for all operations
   - Cross-platform native library discovery (Windows, macOS, Linux)
-- **Compile-time sized BitVectors with generic type parameters**
-  - `BvExpr<TSize>` with `Size8`, `Size16`, `Size32`, `Size64` for type-safe bit-width enforcement
-  - `Bv<TSize>` value type for constant bitvector values with arithmetic and bitwise operations
-- **Value types for exact arithmetic**
-  - `Real` struct with unlimited precision rational arithmetic (fraction representation)
-  - Factory methods, conversions, arithmetic, comparison operations
+- **Type-safe value types for compile-time guarantees**
+  - `BvExpr<TSize>` and `Bv<TSize>` with compile-time sized types (`Size8`, `Size16`, `Size32`, `Size64`)
+  - `Real` struct for unlimited precision rational arithmetic (exact fractions)
+  - Full support for arithmetic, bitwise, and comparison operations
 - **Complete expression type hierarchy**
   - Type-safe expression classes: `BoolExpr`, `IntExpr`, `RealExpr`, `BvExpr<TSize>`, `ArrayExpr<TIndex, TValue>`
-  - Organized by category: Arrays/, BitVectors/, Functions/, Logic/, Numerics/, Quantifiers/
-  - Natural syntax support via extension methods for all operators
-- **Uninterpreted Functions support**
+  - Category-based organization: Arrays/, BitVectors/, Functions/, Logic/, Numerics/, Quantifiers/
+  - Natural mathematical syntax via operator overloading and extension methods
+- **Uninterpreted functions and solver enhancements**
   - `FuncDecl` for function declarations with dynamic builder pattern
-- **Solver parameter convenience extensions**
-  - `SetParam` extension methods for Z3Solver supporting bool, uint, double, and string parameters
-  - `SetTimeout(TimeSpan)` extension method for type-safe timeout configuration
+  - Solver parameter extensions: `SetParam` for bool/uint/double/string and `SetTimeout(TimeSpan)`
 - **Production-ready documentation**
   - Complete XML documentation for all public APIs (zero warnings enforced)
 
