@@ -117,10 +117,10 @@
 - **Result**: Abstract modeling and custom predicates now fully supported
 
 #### **Priority 1C: Advanced Solver Features** ⭐⭐⭐⭐ ⏳ **PARTIAL**
-- **Status**: Basic solver parameter support added
+- **Status**: Solver parameters and optimization implemented
 - **Implemented**:
   - ✅ Solver parameter convenience extensions (`SetParam`, `SetTimeout`)
-  - ⏳ Optimization (not yet implemented)
+  - ✅ Optimization (`Z3Optimize` with typed objectives, maximize/minimize, soft constraints)
   - ⏳ Assumptions and unsat cores (not yet implemented)
   - ⏳ Tactics configuration (not yet implemented)
 

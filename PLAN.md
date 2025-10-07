@@ -38,6 +38,7 @@ Z3Wrap is a **complete, mature .NET 9.0 wrapper** for Microsoft's Z3 theorem pro
 - ✅ Satisfiability checking (SAT/UNSAT/UNKNOWN)
 - ✅ Reason extraction for UNKNOWN results
 - ✅ Parameter configuration
+- ✅ **Optimization** (`Z3Optimize`) - Maximize/minimize objectives, soft constraints, typed objectives
 
 ### 📊 Test Coverage Details
 
@@ -74,7 +75,7 @@ Z3Wrap is a **complete, mature .NET 9.0 wrapper** for Microsoft's Z3 theorem pro
 - Quantifier elimination helpers
 
 #### 2. **Additional Z3 Features**
-- Optimization (`Z3Optimize` API for min/max objectives)
+- ✅ **Optimization** (`Z3Optimize` API for min/max objectives)
 - Tactics (transformation strategies)
 - Proofs and unsatisfiable cores
 - Interpolation support

@@ -27,7 +27,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 10-25)
+        #region Example from README.md - Hero section (Basic Usage)
 
         using var context = new Z3Context();
         using var scope = context.SetUp();
@@ -80,7 +80,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 32-38)
+        #region Example from README.md - Natural Syntax section
 
         // Z3Wrap - readable
         solver.Assert(x + y == 10);
@@ -112,7 +112,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 46-52)
+        #region Example from README.md - Unlimited Precision section
 
         // BigInteger - no integer overflow
         var huge = BigInteger.Parse("999999999999999999999999999999");
@@ -147,7 +147,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 58-63)
+        #region Example from README.md - Type Safety section
 
         // Compile-time type checking
         var prices = context.ArrayConst<IntExpr, RealExpr>("prices");
@@ -174,7 +174,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 69-81)
+        #region Example from README.md - Custom .NET Data Types section
 
         // Real class - exact rational arithmetic (not decimal/double)
         var oneThird = new Real(1, 3);
@@ -224,7 +224,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 109-116)
+        #region Example from README.md - BitVector Operations section
 
         var bv = context.BvConst<Size32>("bv");
 
@@ -259,7 +259,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 121-134)
+        #region Example from README.md - Quantifiers section
 
         var x = context.IntConst("x");
         var y = context.IntConst("y");
@@ -302,7 +302,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 139-147)
+        #region Example from README.md - Uninterpreted Functions section
 
         // Define function signature: Int → Int
         var func = context.Func<IntExpr, IntExpr>("f");
@@ -327,6 +327,56 @@ public class ReadmeExamplesTests
     }
 
     [Test]
+    public void Optimization_MaximizeObjective_WorksCorrectly()
+    {
+        #region Preparation
+
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        #endregion
+
+        #region Example from README.md - Optimization section
+
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.IntConst("x");
+        var y = context.IntConst("y");
+
+        // Constraints
+        optimizer.Assert(x + y <= 100);
+        optimizer.Assert(x >= 0);
+        optimizer.Assert(y >= 0);
+
+        // Objective: maximize 3x + 2y (returns typed handle)
+        var objective = optimizer.Maximize(3 * x + 2 * y);
+
+        if (optimizer.Check() == Z3Status.Satisfiable)
+        {
+            var model = optimizer.GetModel();
+            var optimalValue = optimizer.GetUpper(objective); // Type-safe!
+            Console.WriteLine($"Optimal: x={model.GetIntValue(x)}, y={model.GetIntValue(y)}");
+            Console.WriteLine($"Max value: {model.GetIntValue(optimalValue)}");
+        }
+
+        #endregion
+
+        #region Assertions
+
+        Assert.That(optimizer.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model2 = optimizer.GetModel();
+        var optimalValue2 = optimizer.GetUpper(objective);
+
+        // Verify the optimal solution: x=100, y=0 gives max value of 300
+        Assert.That(model2.GetIntValue(x), Is.EqualTo(new BigInteger(100)));
+        Assert.That(model2.GetIntValue(y), Is.EqualTo(new BigInteger(0)));
+        Assert.That(model2.GetIntValue(optimalValue2), Is.EqualTo(new BigInteger(300)));
+
+        #endregion
+    }
+
+    [Test]
     public void SolverBacktracking_PushPopOperations_WorkCorrectly()
     {
         #region Preparation
@@ -340,7 +390,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md (lines 152-157)
+        #region Example from README.md - Solver Backtracking section
 
         solver.Push();
         solver.Assert(x < 10);
@@ -375,7 +425,7 @@ public class ReadmeExamplesTests
 
         #endregion
 
-        #region Example from README.md Feature Set (lines 96-103)
+        #region Example from README.md - Complete Feature Set section
 
         // Booleans: p & q, p | q, !p, p.Implies(q)
         var p = context.BoolConst("p");

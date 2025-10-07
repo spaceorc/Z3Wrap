@@ -99,6 +99,7 @@ Z3 library is auto-discovered on Windows/macOS/Linux.
 - **Arrays**: Generic `ArrayExpr<TIndex, TValue>` with natural indexing
 - **Quantifiers**: First-order logic with `ForAll` and `Exists`
 - **Functions**: Uninterpreted functions with type-safe signatures
+- **Optimization**: Maximize/minimize objectives with soft constraints
 - **Solver**: Push/pop scopes for constraint backtracking
 
 ## Advanced Examples
@@ -144,6 +145,29 @@ solver.Assert(func.Apply(x) > 0);
 
 // Consistency: same inputs produce same outputs
 solver.Assert(func.Apply(5) == func.Apply(5));
+```
+
+### Optimization
+```csharp
+using var optimizer = context.CreateOptimizer();
+
+var x = context.IntConst("x");
+var y = context.IntConst("y");
+
+// Constraints
+optimizer.Assert(x + y <= 100);
+optimizer.Assert(x >= 0);
+optimizer.Assert(y >= 0);
+
+// Objective: maximize 3x + 2y (returns typed handle)
+var objective = optimizer.Maximize(3 * x + 2 * y);
+
+if (optimizer.Check() == Z3Status.Satisfiable) {
+    var model = optimizer.GetModel();
+    var optimalValue = optimizer.GetUpper(objective);  // Type-safe!
+    Console.WriteLine($"Optimal: x={model.GetIntValue(x)}, y={model.GetIntValue(y)}");
+    Console.WriteLine($"Max value: {model.GetIntValue(optimalValue)}");
+}
 ```
 
 ### Solver Backtracking
