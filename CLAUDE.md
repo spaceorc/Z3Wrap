@@ -356,6 +356,40 @@ public ArrayExpr&lt;TDomain, TRange&gt; ArrayConst&lt;TDomain, TRange&gt;(string
 - Use present tense ("Gets", "Creates", not "Get", "Create")
 - Avoid implementation details - focus on functionality
 
+## Code Generation Pipeline
+
+Z3Wrap uses a two-stage code generation pipeline:
+
+### 1. Native Library Generator (`scripts/generate_native_library.py`)
+**Purpose**: Generate low-level P/Invoke bindings from Z3 C API headers
+
+**Input**:
+- `.cache/z3_headers/*.h` - Downloaded Z3 header files (z3_api.h, z3_ast_containers.h, z3_fpa.h, etc.)
+- `.cache/doxygen/xml/group__capi.xml` - Doxygen XML documentation
+
+**Output**: `Z3Wrap/Core/Interop/NativeZ3Library.*.generated.cs` - Internal P/Invoke partial classes
+
+**Key Patterns**:
+- Opaque types (`DEFINE_TYPE`) → `IntPtr`
+- Enums (`typedef enum`) → C# enums
+- Callbacks (`Z3_DECLARE_CLOSURE`) → Delegates
+- Vectors (`Z3_ast_vector`) → Use `Z3_ast_vector_size`/`Z3_ast_vector_get` to iterate
+
+### 2. Public Library Generator (`scripts/generate_library.py`)
+**Purpose**: Generate public API wrappers with error checking and convenience overloads
+
+**Input**: `Z3Wrap/Core/Interop/NativeZ3Library.*.generated.cs` (from step 1)
+
+**Output**: `Z3Wrap/Core/Z3Library.*.generated.cs` - Public API partial classes
+
+**Features**:
+- Adds automatic error checking after each Z3 call
+- Generates string overloads for `Z3_symbol` parameters
+- Converts `cref` attributes for public API documentation
+- Organized by Z3 functional groups (Solvers, BitVectors, Quantifiers, etc.)
+
+**Finding Info**: Check `.cache/z3_headers/` for Z3 C API, `.cache/doxygen/xml/` for documentation
+
 ## Architecture Notes
 
 - **Target**: .NET 9.0 with implicit usings and nullable reference types

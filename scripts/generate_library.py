@@ -20,7 +20,7 @@ SKIP_SYMBOL_STRING_OVERLOAD = {
 }
 
 # Configuration: Functions that should be excluded from generation entirely
-# These are manually maintained in Z3Library2.cs with custom error handling logic
+# These are manually maintained in Z3Library.cs with custom error handling logic
 EXCLUDE_FUNCTIONS = {
     "DelContext",  # Cannot check error after context deletion
     "GetErrorCode",  # Error handling methods - manually maintained
