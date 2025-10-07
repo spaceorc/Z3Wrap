@@ -181,13 +181,37 @@ Z3Wrap.Tests/Expressions/
 
 **CRITICAL**: Follow this exact workflow to avoid common AI mistakes:
 
+### Feature Development Process
+
+1. **Planning Phase** (ALWAYS FIRST):
+   - Create `PLAN_FEATURENAME.md` with detailed implementation plan
+   - Discuss design decisions with user (naming, API design, edge cases)
+   - Get user approval before implementation
+   - Add plan file to Z3Wrap.sln's "misc" section
+   - **Plan remains until feature is complete** - update status as work progresses
+
+2. **Implementation Phase**:
+   - Use TodoWrite tool to track implementation tasks
+   - Write tests first, then implementation
+   - Use `make test` frequently (not `dotnet test`)
+   - Mark todos as completed immediately after finishing each task
+
+3. **Verification Phase**:
+   - Run `make format` and `make lint` before any commit
+   - Use `make coverage` to verify ≥90% coverage
+   - Run `make ci` to ensure full pipeline passes
+
+4. **Completion Phase**:
+   - Ask "May I commit these changes?" and wait for explicit approval
+   - After successful commit, archive plan (rename to `COMPLETED_FEATURENAME.md` or delete)
+   - Remove plan file from Z3Wrap.sln's "misc" section
+
+### Daily Development Tasks
+
 1. **Before Changes**: Run `make help` to see available commands
-2. **During Development**: Use `make test` frequently (not `dotnet test`)
-3. **Adding Features**: Write tests first, then implementation
-4. **Before Commits**: ALWAYS run `make format` and `make lint`
-5. **Coverage Check**: Use `make coverage` to verify ≥90% coverage
-6. **CI Verification**: Run `make ci` to ensure full pipeline passes
-7. **Commit Process**: Ask "May I commit these changes?" and wait for approval
+2. **During Development**: Use `make test` frequently
+3. **Before Commits**: ALWAYS run `make format` and `make lint`
+4. **Commit Process**: Ask "May I commit these changes?" and wait for approval
 
 ## Common AI Pitfalls to Avoid
 
