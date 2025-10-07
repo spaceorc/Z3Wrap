@@ -331,6 +331,7 @@ public class ReadmeExamplesTests
     {
         #region Preparation
 
+        using var console = new ConsoleCapture();
         using var context = new Z3Context();
         using var scope = context.SetUp();
 
@@ -363,15 +364,16 @@ public class ReadmeExamplesTests
 
         #region Assertions
 
-        Assert.That(optimizer.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        Assert.That(
+            console.Output,
+            Is.EqualTo(
+                """
+                Optimal: x=100, y=0
+                Max value: 300
 
-        var model2 = optimizer.GetModel();
-        var optimalValue2 = optimizer.GetUpper(objective);
-
-        // Verify the optimal solution: x=100, y=0 gives max value of 300
-        Assert.That(model2.GetIntValue(x), Is.EqualTo(new BigInteger(100)));
-        Assert.That(model2.GetIntValue(y), Is.EqualTo(new BigInteger(0)));
-        Assert.That(model2.GetIntValue(optimalValue2), Is.EqualTo(new BigInteger(300)));
+                """
+            )
+        );
 
         #endregion
     }
