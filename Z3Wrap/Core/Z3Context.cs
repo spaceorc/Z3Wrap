@@ -11,6 +11,7 @@ public sealed class Z3Context : IDisposable
 
     private readonly HashSet<IntPtr> trackedHandles = [];
     private readonly HashSet<Z3Solver> trackedSolvers = [];
+    private readonly HashSet<Z3Optimizer> trackedOptimizers = [];
     private readonly Z3Library library;
     private IntPtr contextHandle;
     private bool disposed;
@@ -117,6 +118,17 @@ public sealed class Z3Context : IDisposable
         return solver;
     }
 
+    /// <summary>
+    /// Creates a new optimizer instance for this context.
+    /// </summary>
+    /// <returns>A new optimizer instance.</returns>
+    public Z3Optimizer CreateOptimizer()
+    {
+        var optimizer = new Z3Optimizer(this);
+        TrackOptimizer(optimizer);
+        return optimizer;
+    }
+
     internal void TrackHandle(IntPtr handle)
     {
         ThrowIfDisposed();
@@ -144,6 +156,26 @@ public sealed class Z3Context : IDisposable
         solver.InternalDispose();
     }
 
+    private void TrackOptimizer(Z3Optimizer optimizer)
+    {
+        ThrowIfDisposed();
+        trackedOptimizers.Add(optimizer);
+    }
+
+    private void UntrackOptimizer(Z3Optimizer optimizer)
+    {
+        trackedOptimizers.Remove(optimizer);
+    }
+
+    internal void DisposeOptimizer(Z3Optimizer optimizer)
+    {
+        if (disposed)
+            return;
+
+        UntrackOptimizer(optimizer);
+        optimizer.InternalDispose();
+    }
+
     private void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(disposed, typeof(Z3Context));
 
     private void DisposeCore()
@@ -156,6 +188,12 @@ public sealed class Z3Context : IDisposable
             DisposeSolver(solver);
 
         trackedSolvers.Clear();
+
+        // Dispose all tracked optimizers
+        foreach (var optimizer in trackedOptimizers.ToArray())
+            DisposeOptimizer(optimizer);
+
+        trackedOptimizers.Clear();
 
         // Then clean up all tracked handles
         foreach (var handle in trackedHandles)

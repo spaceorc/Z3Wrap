@@ -11,7 +11,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// Represents an integer expression for arithmetic operations and constraints.
 /// </summary>
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
-public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExpr>
+public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExpr>, IOptimizableExpr
 {
     private IntExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }
