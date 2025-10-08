@@ -242,7 +242,7 @@ public class ReadmeExamplesTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        var bvValue = model.GetBitVec(bv);
+        var bvValue = model.GetBv(bv);
         Assert.That((bvValue.Value & 0xFF), Is.EqualTo(new BigInteger(0x42)));
 
         #endregion

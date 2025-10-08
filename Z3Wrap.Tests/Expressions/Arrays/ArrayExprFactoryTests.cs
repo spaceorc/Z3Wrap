@@ -248,8 +248,8 @@ public class ArrayExprFactoryTests
         var model = solver.GetModel();
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(array[0]).Value, Is.EqualTo(new BigInteger(255)));
-            Assert.That(model.GetBitVec(array[10]).Value, Is.EqualTo(new BigInteger(255)));
+            Assert.That(model.GetBv(array[0]).Value, Is.EqualTo(new BigInteger(255)));
+            Assert.That(model.GetBv(array[10]).Value, Is.EqualTo(new BigInteger(255)));
         });
     }
 }

@@ -158,8 +158,8 @@ public class ArrayExprTypesTests
         var model = solver.GetModel();
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(memory[0]).Value, Is.EqualTo(new BigInteger(0xDEADBEEFu)));
-            Assert.That(model.GetBitVec(memory[1]).Value, Is.EqualTo(new BigInteger(0xCAFEBABEu)));
+            Assert.That(model.GetBv(memory[0]).Value, Is.EqualTo(new BigInteger(0xDEADBEEFu)));
+            Assert.That(model.GetBv(memory[1]).Value, Is.EqualTo(new BigInteger(0xCAFEBABEu)));
         });
     }
 
@@ -180,8 +180,8 @@ public class ArrayExprTypesTests
         var model = solver.GetModel();
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(lookup[0xFFu]).Value, Is.EqualTo(new BigInteger(0xDEADBEEFu)));
-            Assert.That(model.GetBitVec(lookup[0x00u]).Value, Is.EqualTo(new BigInteger(0xCAFEBABEu)));
+            Assert.That(model.GetBv(lookup[0xFFu]).Value, Is.EqualTo(new BigInteger(0xDEADBEEFu)));
+            Assert.That(model.GetBv(lookup[0x00u]).Value, Is.EqualTo(new BigInteger(0xCAFEBABEu)));
         });
     }
 
@@ -226,8 +226,8 @@ public class ArrayExprTypesTests
         var model = solver.GetModel();
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(registers[0]).Value, Is.EqualTo(new BigInteger(10)));
-            Assert.That(model.GetBitVec(registers[1]).Value, Is.EqualTo(new BigInteger(20)));
+            Assert.That(model.GetBv(registers[0]).Value, Is.EqualTo(new BigInteger(10)));
+            Assert.That(model.GetBv(registers[1]).Value, Is.EqualTo(new BigInteger(20)));
         });
     }
 }

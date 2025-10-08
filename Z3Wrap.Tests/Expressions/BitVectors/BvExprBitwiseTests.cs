@@ -34,14 +34,14 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(0b100010); // 0b101010 & 0b110011 = 0b100010
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(result).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(result).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
 
@@ -71,14 +71,14 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(0b111011); // 0b101010 | 0b110011 = 0b111011
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(result).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(result).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
 
@@ -108,14 +108,14 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(0b011001); // 0b101010 ^ 0b110011 = 0b011001
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(result).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(result).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
 
@@ -139,9 +139,9 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(~0b101010u); // Bitwise NOT
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(result).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(result).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
         });
     }
 
@@ -171,13 +171,13 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(40); // 5 << 3 = 40
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(result).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(result).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
 
@@ -207,13 +207,13 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(5); // 40 >> 3 = 5
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(result).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(result).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
 
@@ -243,11 +243,11 @@ public class BvExprBitwiseTests
         var expected = new BigInteger(unchecked((uint)(-40 >> 3)));
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(resultViaContext).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintLeft).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaContextUintRight).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFunc).Value, Is.EqualTo(expected));
-            Assert.That(model.GetBitVec(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
 }

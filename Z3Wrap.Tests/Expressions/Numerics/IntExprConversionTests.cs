@@ -49,8 +49,8 @@ public class IntExprConversionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(bvValue).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(bvValueViaContext).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(bvValue).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(bvValueViaContext).Value, Is.EqualTo(new BigInteger(42)));
         });
     }
 
@@ -97,7 +97,7 @@ public class IntExprConversionTests
         Assert.Multiple(() =>
         {
             Assert.That(model.GetIntValue(x), Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(bvX).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(bvX).Value, Is.EqualTo(new BigInteger(42)));
         });
     }
 }

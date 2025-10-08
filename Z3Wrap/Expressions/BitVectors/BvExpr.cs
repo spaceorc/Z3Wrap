@@ -3,6 +3,7 @@ using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
+using Spaceorc.Z3Wrap.Expressions.Strings;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
@@ -83,6 +84,12 @@ public sealed class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize
     /// <param name="signed">True for signed conversion; false for unsigned.</param>
     /// <returns>Integer expression representing this bit-vector value.</returns>
     public IntExpr ToInt(bool signed = false) => Context.ToInt(this, signed);
+
+    /// <summary>
+    /// Converts this bit-vector to a character expression.
+    /// </summary>
+    /// <returns>Character expression representing this bit-vector value.</returns>
+    public CharExpr ToChar() => Context.ToChar(this);
 
     /// <summary>
     /// Extracts a sub-bit-vector starting from the specified bit position.

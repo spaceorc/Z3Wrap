@@ -6,7 +6,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Common;
 /// <summary>
 /// Provides equality comparison methods for Z3Context.
 /// </summary>
-public static class EqualityContextExtensions
+public static class CommonContextExtensions
 {
     /// <summary>
     /// Creates equality expression for any expressions.
@@ -37,5 +37,19 @@ public static class EqualityContextExtensions
         var eqHandle = context.Library.MkEq(context.Handle, left.Handle, right.Handle);
         var resultHandle = context.Library.MkNot(context.Handle, eqHandle);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
+    }
+
+    /// <summary>
+    /// Simplifies an expression using Z3's simplification rules.
+    /// </summary>
+    /// <typeparam name="T">Expression type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The expression to simplify.</param>
+    /// <returns>Simplified expression.</returns>
+    public static T Simplify<T>(this Z3Context context, T expr)
+        where T : Z3Expr, IExprType<T>
+    {
+        var resultHandle = context.Library.Simplify(context.Handle, expr.Handle);
+        return Z3Expr.Create<T>(context, resultHandle);
     }
 }

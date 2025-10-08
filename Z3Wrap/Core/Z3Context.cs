@@ -13,7 +13,7 @@ public sealed class Z3Context : IDisposable
     private readonly HashSet<Z3Solver> trackedSolvers = [];
     private readonly HashSet<Z3Optimizer> trackedOptimizers = [];
     private readonly Z3Library library;
-    private IntPtr contextHandle;
+    private readonly IntPtr contextHandle;
     private bool disposed;
 
     /// <summary>

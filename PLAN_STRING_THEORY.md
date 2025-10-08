@@ -583,6 +583,149 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{...}"
 
 ---
 
+### Character Encoding and Bit-Vector Width Issue ❌ **CRITICAL**
+
+**Discovery Date**: 2025-10-08
+
+**Problem**: `Z3_mk_char_to_bv(ctx, ch)` does NOT take a size parameter. The returned bit-vector width depends on the **global `encoding` parameter**:
+
+**Validated from Z3 Headers** (z3_api.h:1556):
+```
+encoding - the string encoding used internally (must be either "unicode" - 18 bit, "bmp" - 16 bit or "ascii" - 8 bit)
+```
+
+**Actual Behavior**:
+- `encoding = "ascii"` → **8-bit bitvector**
+- `encoding = "bmp"` → **16-bit bitvector**
+- `encoding = "unicode"` → **18-bit bitvector** (default, NOT 21 bits)
+
+**Current Implementation Issues**:
+1. ❌ `CharExpr.ToBv()` returns `BvExpr<Size18>` - assumes 18-bit encoding
+2. ❌ `CharExpr.ToBv<TSize>()` validates `TSize.Size == 18` - wrong assumption
+3. ❌ `BvExprCharExtensions.ToChar()` requires `BvExpr<Size18>` - wrong assumption
+4. ❌ Tests assume 18-bit width without checking encoding setting
+5. ❌ No validation that bit-vector size matches encoding setting
+
+**Root Cause**: The bit-vector width is **dynamic** based on context configuration, not fixed at compile-time.
+
+**Required Changes**:
+1. **Remove type-safe generic ToBv() methods** - Cannot guarantee size at compile-time
+2. **Add runtime size checking** - Query actual encoding and validate
+3. **Update API design**:
+   ```csharp
+   // Option 1: Return untyped BvExpr (unsafe but flexible)
+   public BvExpr ToBv() // Returns BvExpr with runtime size
+
+   // Option 2: Return typed expr with runtime validation
+   public BvExpr<TSize> ToBv<TSize>() where TSize : IBvSize, new()
+   {
+       // Query context encoding setting
+       // Validate TSize.Size matches actual encoding bit width
+       // Throw if mismatch
+   }
+
+   // Option 3: Add encoding parameter
+   public BvExpr<Size8> ToBv(Encoding.Ascii encoding)
+   public BvExpr<Size16> ToBv(Encoding.Bmp encoding)
+   public BvExpr<Size18> ToBv(Encoding.Unicode encoding)
+   ```
+
+**Related Discovery - Sort Validation Missing**:
+This issue reveals a broader problem: **No sort validation in expression constructors**.
+
+**Critical Risk**: Could pass `BvExpr<Size8>` handle to `BvExpr<Size16>` constructor and nobody would notice until runtime failure.
+
+**Required Infrastructure**:
+1. Add `Z3_get_sort(context, ast)` calls in all expression constructors
+2. Validate actual sort matches expected sort for the expression type
+3. Throw descriptive exceptions on mismatch:
+   ```csharp
+   internal BvExpr(Z3Context context, IntPtr handle) : base(context, handle)
+   {
+       var actualSort = context.Library.GetSort(context.Handle, handle);
+       var sortKind = context.Library.GetSortKind(context.Handle, actualSort);
+
+       if (sortKind != Z3_sort_kind.Z3_BV_SORT)
+           throw new ArgumentException($"Expected bitvector sort, got {sortKind}");
+
+       var actualSize = context.Library.GetBvSortSize(context.Handle, actualSort);
+       if (actualSize != TSize.Size)
+           throw new ArgumentException($"Expected {TSize.Size}-bit bitvector, got {actualSize}-bit");
+   }
+   ```
+
+**Action Items**:
+1. [ ] Research how to query current encoding setting from Z3 context
+2. [ ] Design new API for char↔bitvector conversions with encoding awareness
+3. [ ] Add sort validation to ALL expression class constructors
+4. [ ] Update all char/bitvector conversion tests
+5. [ ] Document encoding configuration requirements
+
+**Priority**: **CRITICAL** - Must fix before string theory can be considered complete. Sort validation affects entire codebase safety.
+
+---
+
+### Model Evaluation Issue with char.to_bv ⚠️ **DESIGN CONSIDERATION**
+
+**Discovery Date**: 2025-10-08
+
+**Problem**: `char.to_bv` expressions don't simplify in Z3 model evaluation, causing potential issues with `GetBitVec()` method.
+
+**Current Implementation** (Z3Model.cs ~line 110):
+```csharp
+public Bv<TSize> GetBitVec<TSize>(BvExpr<TSize> expr) where TSize : IBvSize, new()
+{
+    // Evaluates the bitvector expression directly
+    var evaluatedHandle = Library.ModelEval(Handle, expr.Handle, true);
+    // ... extracts bits from evaluated bitvector
+}
+```
+
+**Issue**: When evaluating `char.to_bv(ch)`, Z3 may not simplify it to a concrete bitvector value, making direct bit extraction unreliable.
+
+**Proposed Alternative**: Convert to integer first, then extract value:
+```csharp
+public Bv<TSize> GetBitVec<TSize>(BvExpr<TSize> expr) where TSize : IBvSize, new()
+{
+    // Option 1: Convert BV to Int, evaluate, then extract
+    var asInt = expr.ToInt(); // or bv2int()
+    var evaluatedIntHandle = Library.ModelEval(Handle, asInt.Handle, true);
+    var value = // extract BigInteger from evaluated int
+    return new Bv<TSize>(value);
+
+    // Option 2: Keep current approach but add fallback
+    var evaluatedHandle = Library.ModelEval(Handle, expr.Handle, true);
+    if (!IsFullySimplified(evaluatedHandle)) {
+        // Fallback to int conversion
+    }
+    // ... extract from bitvector
+}
+```
+
+**Questions to Research**:
+1. Does Z3 model evaluation simplify `char.to_bv` expressions?
+2. Is there a Z3 API to check if expression is fully evaluated/simplified?
+3. Do other bitvector operations have similar evaluation issues?
+4. Should we always use int conversion for bitvector evaluation?
+
+**Testing Strategy**:
+- Create test with `char.to_bv` and verify `GetBitVec()` returns correct value
+- Compare direct evaluation vs. int conversion approach
+- Check if issue affects other conversion operations (str.to_int, bv.to_int, etc.)
+
+**Action Items**:
+1. [ ] Test current `GetBitVec()` with `char.to_bv` expressions
+2. [ ] Research Z3 model evaluation behavior for conversion operations
+3. [ ] Implement more robust evaluation strategy if needed
+4. [ ] Document evaluation behavior for different expression types
+
+**Priority**: Medium - Need to verify if this is an actual problem before implementing fix.
+
+**Related**: This may affect other conversion operations (ToInt, ToBv, FromBv) across different expression types.
+
+---
+
 **Created**: 2025-10-07
 **Reviewed**: 2025-10-08
 **Status**: Awaiting fixes before proceeding to comprehensive testing
+**Next Session**: Address encoding/sort validation issues (2025-10-09)

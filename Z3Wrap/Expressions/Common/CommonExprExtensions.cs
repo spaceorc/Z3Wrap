@@ -6,7 +6,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Common;
 /// <summary>
 /// Provides equality operations for expressions.
 /// </summary>
-public static class EqualityExprExtensions
+public static class CommonExprExtensions
 {
     /// <summary>
     /// Creates equality comparison for this expression.
@@ -27,4 +27,13 @@ public static class EqualityExprExtensions
     /// <returns>Boolean expression representing the inequality comparison.</returns>
     public static BoolExpr Neq<T>(this T left, T right)
         where T : Z3Expr, IExprType<T> => left.Context.Neq(left, right);
+
+    /// <summary>
+    /// Simplifies this expression using Z3's simplification rules.
+    /// </summary>
+    /// <typeparam name="T">The expression type.</typeparam>
+    /// <param name="expr">The expression to simplify.</param>
+    /// <returns>Simplified expression.</returns>
+    public static T Simplify<T>(this T expr)
+        where T : Z3Expr, IExprType<T> => expr.Context.Simplify(expr);
 }

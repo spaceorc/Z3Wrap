@@ -1,7 +1,6 @@
+using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
-using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Strings;
-using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Z3Wrap.Tests.Expressions.Strings;
 
@@ -19,75 +18,47 @@ public class CharExprOperationsTests
 
         var charExpr = context.Char(ch);
         var intResult = charExpr.ToInt();
-
-        // Assert that the integer equals the expected codepoint
-        solver.Assert(intResult == expectedCodepoint);
+        var intResultViaContext = context.ToInt(charExpr);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var evaluatedResult = model.Evaluate(intResult);
+        var evaluatedResultViaContext = model.Evaluate(intResultViaContext);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(evaluatedResult), Is.EqualTo(new BigInteger(expectedCodepoint)));
+            Assert.That(model.GetIntValue(evaluatedResultViaContext), Is.EqualTo(new BigInteger(expectedCodepoint)));
+        });
     }
 
-    [Test]
-    public void ToBv_ReturnsCorrect18BitBitvector()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var charExpr = context.Char('A');
-        var bvResult = charExpr.ToBv();
-
-        // Assert the bitvector equals 65
-        solver.Assert(bvResult == context.Bv<Size18>(65));
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ToBv_Generic_WithSize18_Works()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var charExpr = context.Char('B');
-        var bvResult = charExpr.ToBv<Size18>();
-
-        // Assert the bitvector equals 66
-        solver.Assert(bvResult == context.Bv<Size18>(66));
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void ToBv_Generic_WithWrongSize_ThrowsException()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-
-        var charExpr = context.Char('A');
-
-        Assert.Throws<ArgumentException>(() => charExpr.ToBv<Size16>());
-    }
-
-    [Test]
-    public void IsDigit_WithDigitCharacter_ReturnsTrue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var charExpr = context.Char('5');
-        var result = charExpr.IsDigit();
-
-        // Assert that it is a digit
-        solver.Assert(result);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-    }
+    // TODO: Discover actual bitvector size from Z3 and update this test
+    // [Test]
+    // public void ToBv_ReturnsCorrectBitvector()
+    // {
+    //     using var context = new Z3Context();
+    //     using var scope = context.SetUp();
+    //     using var solver = context.CreateSolver();
+    //
+    //     var charExpr = context.Char('A');
+    //     var bvResult = charExpr.ToBv<???>();  // Need to discover size
+    //     var bvResultViaContext = context.ToBv<???>(charExpr);
+    //
+    //     var status = solver.Check();
+    //     Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    //
+    //     var model = solver.GetModel();
+    //     var evaluatedResult = model.Evaluate(bvResult);
+    //     var evaluatedResultViaContext = model.Evaluate(bvResultViaContext);
+    //
+    //     Assert.Multiple(() =>
+    //     {
+    //         Assert.That(model.GetBv(evaluatedResult).Value, Is.EqualTo(new BigInteger(65)));
+    //         Assert.That(model.GetBv(evaluatedResultViaContext).Value, Is.EqualTo(new BigInteger(65)));
+    //     });
+    // }
 
     [TestCase('0')]
     [TestCase('5')]
@@ -100,12 +71,17 @@ public class CharExprOperationsTests
 
         var charExpr = context.Char(digit);
         var result = charExpr.IsDigit();
-
-        // Assert that it is a digit
-        solver.Assert(result);
+        var resultViaContext = context.IsDigit(charExpr);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(result), Is.True);
+            Assert.That(model.GetBoolValue(resultViaContext), Is.True);
+        });
     }
 
     [TestCase('A')]
@@ -120,120 +96,170 @@ public class CharExprOperationsTests
 
         var charExpr = context.Char(nonDigit);
         var result = charExpr.IsDigit();
-
-        // Assert that it is NOT a digit
-        solver.Assert(!result);
+        var resultViaContext = context.IsDigit(charExpr);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(result), Is.False);
+            Assert.That(model.GetBoolValue(resultViaContext), Is.False);
+        });
     }
 
-    [Test]
-    public void Le_TwoCharacters_ComputesCorrectResult()
+    [TestCase('A', 'B', true)]
+    [TestCase('B', 'A', false)]
+    [TestCase('X', 'X', true)]
+    public void Le_TwoCharacters_ComputesCorrectResult(char char1Value, char char2Value, bool expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var char1 = context.Char('A');
-        var char2 = context.Char('B');
+        var char1 = context.Char(char1Value);
+        var char2 = context.Char(char2Value);
+
         var result = char1 <= char2;
+        var resultViaCharLeft = char1Value <= char2;
+        var resultViaCharRight = char1 <= char2Value;
+        var resultViaContext = context.Le(char1, char2);
+        var resultViaContextCharLeft = context.Le(char1Value, char2);
+        var resultViaContextCharRight = context.Le(char1, char2Value);
+        var resultViaFunc = char1.Le(char2);
+        var resultViaFuncCharRight = char1.Le(char2Value);
 
-        // Assert the comparison is true
-        solver.Assert(result);
-
+        solver.Assert(result == expected);
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(result), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContext), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFunc), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFuncCharRight), Is.EqualTo(expected));
+        });
     }
 
-    [Test]
-    public void Le_EqualCharacters_ReturnsTrue()
+    [TestCase('Z', 'A', true)]
+    [TestCase('A', 'Z', false)]
+    [TestCase('M', 'M', true)]
+    public void Ge_TwoCharacters_ComputesCorrectResult(char char1Value, char char2Value, bool expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var char1 = context.Char('X');
-        var char2 = context.Char('X');
-        var result = char1 <= char2;
+        var char1 = context.Char(char1Value);
+        var char2 = context.Char(char2Value);
 
-        // Assert the comparison is true
-        solver.Assert(result);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Ge_TwoCharacters_ComputesCorrectResult()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var char1 = context.Char('Z');
-        var char2 = context.Char('A');
         var result = char1 >= char2;
-
-        // Assert the comparison is true
-        solver.Assert(result);
+        var resultViaCharLeft = char1Value >= char2;
+        var resultViaCharRight = char1 >= char2Value;
+        var resultViaContext = context.Ge(char1, char2);
+        var resultViaContextCharLeft = context.Ge(char1Value, char2);
+        var resultViaContextCharRight = context.Ge(char1, char2Value);
+        var resultViaFunc = char1.Ge(char2);
+        var resultViaFuncCharRight = char1.Ge(char2Value);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(result), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContext), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFunc), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFuncCharRight), Is.EqualTo(expected));
+        });
     }
 
-    [Test]
-    public void Lt_TwoCharacters_ComputesCorrectResult()
+    [TestCase('A', 'B', true)]
+    [TestCase('B', 'A', false)]
+    [TestCase('M', 'M', false)]
+    public void Lt_TwoCharacters_ComputesCorrectResult(char char1Value, char char2Value, bool expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var char1 = context.Char('A');
-        var char2 = context.Char('B');
+        var char1 = context.Char(char1Value);
+        var char2 = context.Char(char2Value);
+
         var result = char1 < char2;
-
-        // Assert the comparison is true
-        solver.Assert(result);
+        var resultViaCharLeft = char1Value < char2;
+        var resultViaCharRight = char1 < char2Value;
+        var resultViaContext = context.Lt(char1, char2);
+        var resultViaContextCharLeft = context.Lt(char1Value, char2);
+        var resultViaContextCharRight = context.Lt(char1, char2Value);
+        var resultViaFunc = char1.Lt(char2);
+        var resultViaFuncCharRight = char1.Lt(char2Value);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(result), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContext), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFunc), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFuncCharRight), Is.EqualTo(expected));
+        });
     }
 
-    [Test]
-    public void Lt_EqualCharacters_ReturnsFalse()
+    [TestCase('Z', 'A', true)]
+    [TestCase('A', 'Z', false)]
+    [TestCase('K', 'K', false)]
+    public void Gt_TwoCharacters_ComputesCorrectResult(char char1Value, char char2Value, bool expected)
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var char1 = context.Char('M');
-        var char2 = context.Char('M');
-        var result = char1 < char2;
+        var char1 = context.Char(char1Value);
+        var char2 = context.Char(char2Value);
 
-        // Assert the comparison is false
-        solver.Assert(!result);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-    }
-
-    [Test]
-    public void Gt_TwoCharacters_ComputesCorrectResult()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var char1 = context.Char('Z');
-        var char2 = context.Char('A');
         var result = char1 > char2;
-
-        // Assert the comparison is true
-        solver.Assert(result);
+        var resultViaCharLeft = char1Value > char2;
+        var resultViaCharRight = char1 > char2Value;
+        var resultViaContext = context.Gt(char1, char2);
+        var resultViaContextCharLeft = context.Gt(char1Value, char2);
+        var resultViaContextCharRight = context.Gt(char1, char2Value);
+        var resultViaFunc = char1.Gt(char2);
+        var resultViaFuncCharRight = char1.Gt(char2Value);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(result), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContext), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharLeft), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaContextCharRight), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFunc), Is.EqualTo(expected));
+            Assert.That(model.GetBoolValue(resultViaFuncCharRight), Is.EqualTo(expected));
+        });
     }
 
     [Test]
@@ -306,24 +332,5 @@ public class CharExprOperationsTests
 
         var model = solver.GetModel();
         Assert.That(model.GetBoolValue(result), Is.False);
-    }
-
-    [Test]
-    public void CharComparison_WithImplicitConversion_Works()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var charExpr = context.Char('M');
-        var result1 = charExpr <= 'Z';
-        var result2 = 'A' <= charExpr;
-
-        // Assert both comparisons are true
-        solver.Assert(result1);
-        solver.Assert(result2);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
     }
 }

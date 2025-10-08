@@ -88,7 +88,7 @@ public class BvExprConversionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(x).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(x).Value, Is.EqualTo(new BigInteger(42)));
             Assert.That(model.GetIntValue(intX), Is.EqualTo(new BigInteger(42)));
         });
     }
@@ -113,8 +113,8 @@ public class BvExprConversionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(resizedValue).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(resizedValueViaContext).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(resizedValue).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(resizedValueViaContext).Value, Is.EqualTo(new BigInteger(42)));
         });
     }
 
@@ -133,7 +133,7 @@ public class BvExprConversionTests
         var model = solver.GetModel();
 
         // Should sign-extend to 32-bit: -42
-        Assert.That(model.GetBitVec(resizedValue).Value, Is.EqualTo(new BigInteger(unchecked((uint)-42))));
+        Assert.That(model.GetBv(resizedValue).Value, Is.EqualTo(new BigInteger(unchecked((uint)-42))));
     }
 
     [Test]
@@ -151,7 +151,7 @@ public class BvExprConversionTests
         var model = solver.GetModel();
 
         // Should zero-extend to 32-bit: 214
-        Assert.That(model.GetBitVec(resizedValue).Value, Is.EqualTo(new BigInteger(214)));
+        Assert.That(model.GetBv(resizedValue).Value, Is.EqualTo(new BigInteger(214)));
     }
 
     [TestCase(TypeArgs = [typeof(Size32), typeof(Size16)])]
@@ -174,7 +174,7 @@ public class BvExprConversionTests
         var outputBits = TOutputSize.Size;
         var mask = (BigInteger.One << (int)outputBits) - 1;
         var expected = new BigInteger(0x12345678u) & mask;
-        Assert.That(model.GetBitVec(truncatedValue).Value, Is.EqualTo(expected));
+        Assert.That(model.GetBv(truncatedValue).Value, Is.EqualTo(expected));
     }
 
     [TestCase(TypeArgs = [typeof(Size8)])]
@@ -197,8 +197,8 @@ public class BvExprConversionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(resizedValue).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(resizedValueViaContext).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(resizedValue).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(resizedValueViaContext).Value, Is.EqualTo(new BigInteger(42)));
         });
     }
 
@@ -221,8 +221,8 @@ public class BvExprConversionTests
         var expectedValue = (0xABCDu >> (int)startBit) & 0xFFu;
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(extractedValue).Value, Is.EqualTo(new BigInteger(expectedValue)));
-            Assert.That(model.GetBitVec(extractedValueViaContext).Value, Is.EqualTo(new BigInteger(expectedValue)));
+            Assert.That(model.GetBv(extractedValue).Value, Is.EqualTo(new BigInteger(expectedValue)));
+            Assert.That(model.GetBv(extractedValueViaContext).Value, Is.EqualTo(new BigInteger(expectedValue)));
         });
     }
 
@@ -263,7 +263,7 @@ public class BvExprConversionTests
         var model = solver.GetModel();
 
         // Should extract bits [15:8] = 0xAB
-        Assert.That(model.GetBitVec(extractedValue).Value, Is.EqualTo(new BigInteger(0xABu)));
+        Assert.That(model.GetBv(extractedValue).Value, Is.EqualTo(new BigInteger(0xABu)));
     }
 
     [Test]
@@ -283,8 +283,8 @@ public class BvExprConversionTests
         // Should be 0xABAB
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(repeatedValue).Value, Is.EqualTo(new BigInteger(0xABABu)));
-            Assert.That(model.GetBitVec(repeatedValueViaContext).Value, Is.EqualTo(new BigInteger(0xABABu)));
+            Assert.That(model.GetBv(repeatedValue).Value, Is.EqualTo(new BigInteger(0xABABu)));
+            Assert.That(model.GetBv(repeatedValueViaContext).Value, Is.EqualTo(new BigInteger(0xABABu)));
         });
     }
 
@@ -302,7 +302,7 @@ public class BvExprConversionTests
         var model = solver.GetModel();
 
         // Should be 0x12121212
-        Assert.That(model.GetBitVec(repeatedValue).Value, Is.EqualTo(new BigInteger(0x12121212u)));
+        Assert.That(model.GetBv(repeatedValue).Value, Is.EqualTo(new BigInteger(0x12121212u)));
     }
 
     [Test]
@@ -346,9 +346,9 @@ public class BvExprConversionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(originalBv).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(originalBv).Value, Is.EqualTo(new BigInteger(42)));
             Assert.That(model.GetIntValue(intValue), Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(convertedBackBv).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(convertedBackBv).Value, Is.EqualTo(new BigInteger(42)));
         });
     }
 
@@ -370,8 +370,8 @@ public class BvExprConversionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(x).Value, Is.EqualTo(new BigInteger(42)));
-            Assert.That(model.GetBitVec(resizedX).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(x).Value, Is.EqualTo(new BigInteger(42)));
+            Assert.That(model.GetBv(resizedX).Value, Is.EqualTo(new BigInteger(42)));
         });
     }
 }

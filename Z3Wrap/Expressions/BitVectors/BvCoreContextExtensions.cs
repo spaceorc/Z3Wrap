@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
+using Spaceorc.Z3Wrap.Expressions.Strings;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
@@ -54,6 +55,20 @@ public static class BvCoreContextExtensions
     {
         var handle = context.Library.MkBv2int(context.Handle, expr.Handle, signed);
         return Z3Expr.Create<IntExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates character expression from bit-vector expression.
+    /// </summary>
+    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The bit-vector expression.</param>
+    /// <returns>Character expression converted from bit-vector.</returns>
+    public static CharExpr ToChar<TSize>(this Z3Context context, BvExpr<TSize> expr)
+        where TSize : ISize
+    {
+        var handle = context.Library.MkCharFromBv(context.Handle, expr.Handle);
+        return Z3Expr.Create<CharExpr>(context, handle);
     }
 
     /// <summary>

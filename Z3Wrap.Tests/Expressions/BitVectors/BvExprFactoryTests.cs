@@ -21,7 +21,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(bvExpr).Value, Is.EqualTo(new BigInteger(value)));
+        Assert.That(model.GetBv(bvExpr).Value, Is.EqualTo(new BigInteger(value)));
     }
 
     [TestCase(42)]
@@ -37,7 +37,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(bvExpr).Value, Is.EqualTo(new BigInteger(unchecked((uint)value))));
+        Assert.That(model.GetBv(bvExpr).Value, Is.EqualTo(new BigInteger(unchecked((uint)value))));
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(bvExpr).Value, Is.EqualTo(new BigInteger(9876543210UL)));
+        Assert.That(model.GetBv(bvExpr).Value, Is.EqualTo(new BigInteger(9876543210UL)));
     }
 
     [Test]
@@ -65,7 +65,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(bvExpr).Value, Is.EqualTo(new BigInteger(unchecked((ulong)-42L))));
+        Assert.That(model.GetBv(bvExpr).Value, Is.EqualTo(new BigInteger(unchecked((ulong)-42L))));
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class BvExprFactoryTests
         var model = solver.GetModel();
         // BigInteger will be masked to 64 bits
         var expected = bigValue & ((BigInteger.One << 64) - 1);
-        Assert.That(model.GetBitVec(bvExpr).Value, Is.EqualTo(expected));
+        Assert.That(model.GetBv(bvExpr).Value, Is.EqualTo(expected));
     }
 
     [Test]
@@ -97,7 +97,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(bvExpr).Value, Is.EqualTo(new BigInteger(42)));
+        Assert.That(model.GetBv(bvExpr).Value, Is.EqualTo(new BigInteger(42)));
     }
 
     [Test]
@@ -112,7 +112,7 @@ public class BvExprFactoryTests
         solver.Assert(bvConst == 42u);
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(bvConst).Value, Is.EqualTo(new BigInteger(42)));
+        Assert.That(model.GetBv(bvConst).Value, Is.EqualTo(new BigInteger(42)));
         Assert.That(bvConst.ToString(), Does.Contain("variableName"));
     }
 
@@ -129,7 +129,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(implicitExpr).Value, Is.EqualTo(new BigInteger(value)));
+        Assert.That(model.GetBv(implicitExpr).Value, Is.EqualTo(new BigInteger(value)));
     }
 
     [TestCase(42)]
@@ -145,7 +145,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(implicitExpr).Value, Is.EqualTo(new BigInteger(unchecked((uint)value))));
+        Assert.That(model.GetBv(implicitExpr).Value, Is.EqualTo(new BigInteger(unchecked((uint)value))));
     }
 
     [Test]
@@ -159,7 +159,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(implicitExpr).Value, Is.EqualTo(new BigInteger(9876543210UL)));
+        Assert.That(model.GetBv(implicitExpr).Value, Is.EqualTo(new BigInteger(9876543210UL)));
     }
 
     [Test]
@@ -173,7 +173,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(implicitExpr).Value, Is.EqualTo(new BigInteger(unchecked((ulong)-42L))));
+        Assert.That(model.GetBv(implicitExpr).Value, Is.EqualTo(new BigInteger(unchecked((ulong)-42L))));
     }
 
     [Test]
@@ -189,7 +189,7 @@ public class BvExprFactoryTests
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         var expected = bigValue & ((BigInteger.One << 64) - 1);
-        Assert.That(model.GetBitVec(implicitExpr).Value, Is.EqualTo(expected));
+        Assert.That(model.GetBv(implicitExpr).Value, Is.EqualTo(expected));
     }
 
     [Test]
@@ -204,7 +204,7 @@ public class BvExprFactoryTests
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
-        Assert.That(model.GetBitVec(implicitExpr).Value, Is.EqualTo(new BigInteger(42)));
+        Assert.That(model.GetBv(implicitExpr).Value, Is.EqualTo(new BigInteger(42)));
     }
 
     [Test]
@@ -226,9 +226,9 @@ public class BvExprFactoryTests
         var model = solver.GetModel();
         Assert.Multiple(() =>
         {
-            Assert.That(model.GetBitVec(bv1).Value, Is.EqualTo(new BigInteger(10)));
-            Assert.That(model.GetBitVec(bv2).Value, Is.EqualTo(new BigInteger(20)));
-            Assert.That(model.GetBitVec(bv3).Value, Is.EqualTo(new BigInteger(30)));
+            Assert.That(model.GetBv(bv1).Value, Is.EqualTo(new BigInteger(10)));
+            Assert.That(model.GetBv(bv2).Value, Is.EqualTo(new BigInteger(20)));
+            Assert.That(model.GetBv(bv3).Value, Is.EqualTo(new BigInteger(30)));
         });
     }
 

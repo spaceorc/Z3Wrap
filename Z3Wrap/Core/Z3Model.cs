@@ -44,8 +44,9 @@ public sealed partial class Z3Model
     /// <typeparam name="T">The expression type.</typeparam>
     /// <param name="expr">The expression to evaluate.</param>
     /// <param name="modelCompletion">Whether to use model completion for undefined values.</param>
+    /// <param name="simplify">Whether to simplify the evaluated expression.</param>
     /// <returns>The evaluated expression.</returns>
-    public T Evaluate<T>(T expr, bool modelCompletion = true)
+    public T Evaluate<T>(T expr, bool modelCompletion = true, bool simplify = true)
         where T : Z3Expr, IExprType<T>
     {
         ThrowIfInvalidated();
@@ -53,7 +54,8 @@ public sealed partial class Z3Model
         if (!context.Library.ModelEval(context.Handle, modelHandle, expr.Handle, modelCompletion, out var result))
             throw new InvalidOperationException("Failed to evaluate expression in model");
 
-        return Z3Expr.Create<T>(context, result);
+        var evaluated = Z3Expr.Create<T>(context, result);
+        return simplify ? context.Simplify(evaluated) : evaluated;
     }
 
     /// <summary>
@@ -107,11 +109,19 @@ public sealed partial class Z3Model
     /// <typeparam name="TSize">The bit-vector size type.</typeparam>
     /// <param name="expr">The bit-vector expression.</param>
     /// <returns>The bit-vector value.</returns>
-    public Bv<TSize> GetBitVec<TSize>(BvExpr<TSize> expr)
+    public Bv<TSize> GetBv<TSize>(BvExpr<TSize> expr)
         where TSize : ISize
     {
-        var valueStr = GetNumericValueAsString(expr);
+        var evaluated = Evaluate(expr);
 
+        if (!context.Library.IsNumeralAst(context.Handle, evaluated.Handle))
+        {
+            var intExpr = evaluated.ToInt();
+            var intValue = GetIntValue(intExpr);
+            return new Bv<TSize>(intValue);
+        }
+
+        var valueStr = context.Library.GetNumeralString(context.Handle, evaluated.Handle);
         if (!BigInteger.TryParse(valueStr, out var value))
             throw new InvalidOperationException($"Failed to parse bitvector value '{valueStr}' from expression {expr}");
 

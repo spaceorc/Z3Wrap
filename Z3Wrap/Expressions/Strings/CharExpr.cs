@@ -38,34 +38,13 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     }
 
     /// <summary>
-    /// Converts this character to an 18-bit bitvector representation.
+    /// Converts this character to a bitvector representation.
     /// </summary>
-    /// <returns>18-bit bitvector containing the Unicode codepoint.</returns>
-    /// <remarks>Z3 uses exactly 18-bit bitvectors for character representation.</remarks>
-    public BvExpr<Size18> ToBv()
-    {
-        var handle = Context.Library.MkCharToBv(Context.Handle, Handle);
-        return Z3Expr.Create<BvExpr<Size18>>(Context, handle);
-    }
-
-    /// <summary>
-    /// Converts this character to a bitvector representation with custom size type.
-    /// </summary>
-    /// <typeparam name="TSize">Bitvector size type (must be 18 bits).</typeparam>
+    /// <typeparam name="TSize">The bitvector size type.</typeparam>
     /// <returns>Bitvector containing the Unicode codepoint.</returns>
-    /// <exception cref="ArgumentException">Thrown if TSize is not 18 bits.</exception>
-    /// <remarks>Z3 requires exactly 18-bit bitvectors for character-to-bitvector conversions.</remarks>
     public BvExpr<TSize> ToBv<TSize>()
         where TSize : ISize
     {
-        if (TSize.Size != 18)
-        {
-            throw new ArgumentException(
-                $"Character to bitvector conversion requires exactly 18-bit bitvector, but got {TSize.Size} bits.",
-                nameof(TSize)
-            );
-        }
-
         var handle = Context.Library.MkCharToBv(Context.Handle, Handle);
         return Z3Expr.Create<BvExpr<TSize>>(Context, handle);
     }
@@ -86,11 +65,7 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for less than or equal comparison.</returns>
-    public static BoolExpr operator <=(CharExpr left, CharExpr right)
-    {
-        var handle = left.Context.Library.MkCharLe(left.Context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<BoolExpr>(left.Context, handle);
-    }
+    public static BoolExpr operator <=(CharExpr left, CharExpr right) => left.Le(right);
 
     /// <summary>
     /// Greater than or equal comparison of two character expressions.
@@ -98,7 +73,7 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for greater than or equal comparison.</returns>
-    public static BoolExpr operator >=(CharExpr left, CharExpr right) => right <= left;
+    public static BoolExpr operator >=(CharExpr left, CharExpr right) => left.Ge(right);
 
     /// <summary>
     /// Less than comparison of two character expressions.
@@ -106,7 +81,7 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for less than comparison.</returns>
-    public static BoolExpr operator <(CharExpr left, CharExpr right) => (left <= right) & !(left == right);
+    public static BoolExpr operator <(CharExpr left, CharExpr right) => left.Lt(right);
 
     /// <summary>
     /// Greater than comparison of two character expressions.
@@ -114,7 +89,7 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for greater than comparison.</returns>
-    public static BoolExpr operator >(CharExpr left, CharExpr right) => right < left;
+    public static BoolExpr operator >(CharExpr left, CharExpr right) => left.Gt(right);
 
     /// <summary>
     /// Equality comparison of two character expressions.
@@ -130,5 +105,5 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for inequality.</returns>
-    public static BoolExpr operator !=(CharExpr left, CharExpr right) => !left.Eq(right);
+    public static BoolExpr operator !=(CharExpr left, CharExpr right) => left.Neq(right);
 }

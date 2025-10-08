@@ -290,7 +290,9 @@ Z3Wrap.Tests/Expressions/
 
 **CRITICAL**: The project has XML documentation warnings enabled. After any public API changes, run `make build` - it MUST produce ZERO warnings.
 
-**Principles**: Document ONLY `public` members. Be **concise, precise, and short**. DO NOT write XML comments for `private`, `internal`, or `protected` members.
+**Scope Rule**: Document ONLY `public` members. NEVER write XML comments for `internal`, `private`, or `protected` members.
+
+**Style**: Be **concise, precise, and short**.
 
 **Standard Patterns**:
 ```csharp

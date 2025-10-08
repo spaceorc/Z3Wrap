@@ -17,7 +17,7 @@ public class CharExprFactoryTests
         using var solver = context.CreateSolver();
 
         var charExpr = context.Char(value);
-        
+
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
         var model = solver.GetModel();
         Assert.That(model.GetCharValue(charExpr), Is.EqualTo(value));
