@@ -1,5 +1,6 @@
 using Spaceorc.Z3Wrap.Core;
-using Spaceorc.Z3Wrap.Expressions.Common;
+using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
 
 namespace Spaceorc.Z3Wrap.Expressions.Strings;
 
@@ -39,16 +40,81 @@ public static class StringContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="strings">The strings to concatenate.</param>
     /// <returns>Concatenated string expression.</returns>
-    public static StringExpr Concat(this Z3Context context, params StringExpr[] strings)
+    public static StringExpr Concat(this Z3Context context, params ReadOnlySpan<StringExpr> strings)
     {
         if (strings.Length == 0)
-            throw new ArgumentException("At least one string is required for concatenation", nameof(strings));
+            throw new ArgumentException("Concat requires at least one operand.", nameof(strings));
 
-        if (strings.Length == 1)
-            return strings[0];
+        var args = new IntPtr[strings.Length];
+        for (int i = 0; i < strings.Length; i++)
+            args[i] = strings[i].Handle;
 
-        var handles = strings.Select(s => s.Handle).ToArray();
-        var handle = context.Library.MkSeqConcat(context.Handle, (uint)handles.Length, handles);
-        return Z3Expr.Create<StringExpr>(context, handle);
+        var resultHandle = context.Library.MkSeqConcat(context.Handle, (uint)args.Length, args);
+        return Z3Expr.Create<StringExpr>(context, resultHandle);
+    }
+
+    /// <summary>
+    /// Converts string expression to integer expression.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The string expression to convert.</param>
+    /// <returns>Integer expression representing the parsed string.</returns>
+    /// <remarks>Result is unspecified if the string does not represent a valid integer.</remarks>
+    public static IntExpr StrToInt(this Z3Context context, StringExpr expr)
+    {
+        var handle = context.Library.MkStrToInt(context.Handle, expr.Handle);
+        return Z3Expr.Create<IntExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates less-than comparison for string expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>Boolean expression for lexicographic less-than comparison.</returns>
+    public static BoolExpr Lt(this Z3Context context, StringExpr left, StringExpr right)
+    {
+        var handle = context.Library.MkStrLt(context.Handle, left.Handle, right.Handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates less-than-or-equal comparison for string expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>Boolean expression for lexicographic less-than-or-equal comparison.</returns>
+    public static BoolExpr Le(this Z3Context context, StringExpr left, StringExpr right)
+    {
+        var handle = context.Library.MkStrLe(context.Handle, left.Handle, right.Handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates greater-than comparison for string expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>Boolean expression for lexicographic greater-than comparison.</returns>
+    public static BoolExpr Gt(this Z3Context context, StringExpr left, StringExpr right)
+    {
+        var handle = context.Library.MkStrLt(context.Handle, right.Handle, left.Handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates greater-than-or-equal comparison for string expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>Boolean expression for lexicographic greater-than-or-equal comparison.</returns>
+    public static BoolExpr Ge(this Z3Context context, StringExpr left, StringExpr right)
+    {
+        var handle = context.Library.MkStrLe(context.Handle, right.Handle, left.Handle);
+        return Z3Expr.Create<BoolExpr>(context, handle);
     }
 }

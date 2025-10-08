@@ -25,11 +25,21 @@ public sealed partial class Z3Model
     }
 
     /// <summary>
-    /// Gets the character value (Unicode codepoint) of a character expression in this model.
+    /// Gets the character value of a character expression in this model.
+    /// </summary>
+    /// <param name="expr">The character expression.</param>
+    /// <returns>The character as a C# char.</returns>
+    public char GetCharValue(CharExpr expr)
+    {
+        return (char)GetUnicodeCodepointValue(expr);
+    }
+
+    /// <summary>
+    /// Gets the Unicode codepoint of a character expression in this model.
     /// </summary>
     /// <param name="expr">The character expression.</param>
     /// <returns>The Unicode codepoint as an unsigned integer.</returns>
-    public uint GetCharValue(CharExpr expr)
+    public uint GetUnicodeCodepointValue(CharExpr expr)
     {
         ThrowIfInvalidated();
 

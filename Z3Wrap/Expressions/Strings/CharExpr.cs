@@ -21,6 +21,13 @@ public sealed class CharExpr : Z3Expr, IExprType<CharExpr>
     static IntPtr IExprType<CharExpr>.Sort(Z3Context context) => context.Library.MkCharSort(context.Handle);
 
     /// <summary>
+    /// Implicit conversion from C# char to character expression.
+    /// </summary>
+    /// <param name="value">The character value.</param>
+    /// <returns>Character expression representing the value.</returns>
+    public static implicit operator CharExpr(char value) => Z3Context.Current.Char(value);
+
+    /// <summary>
     /// Converts this character to its Unicode codepoint as an integer.
     /// </summary>
     /// <returns>Integer expression representing the Unicode codepoint.</returns>

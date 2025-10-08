@@ -1,6 +1,7 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
+using Spaceorc.Z3Wrap.Expressions.Strings;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
@@ -139,4 +140,16 @@ public static class IntContextExtensions
     /// <param name="right">The integer literal divisor.</param>
     /// <returns>Integer expression representing left rem right.</returns>
     public static IntExpr Rem(this Z3Context context, IntExpr left, int right) => context.Rem(left, context.Int(right));
+
+    /// <summary>
+    /// Converts integer expression to string expression.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The integer expression to convert.</param>
+    /// <returns>String expression representing the integer.</returns>
+    public static StringExpr ToStr(this Z3Context context, IntExpr expr)
+    {
+        var handle = context.Library.MkIntToStr(context.Handle, expr.Handle);
+        return Z3Expr.Create<StringExpr>(context, handle);
+    }
 }

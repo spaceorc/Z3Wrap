@@ -3,6 +3,7 @@ using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Strings;
 using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Expressions.Numerics;
@@ -56,6 +57,12 @@ public sealed class IntExpr : Z3Expr, IArithmeticExpr<IntExpr>, IExprType<IntExp
     /// <returns>Bit-vector expression representing this integer.</returns>
     public BvExpr<TSize> ToBv<TSize>()
         where TSize : ISize => Context.ToBv<TSize>(this);
+
+    /// <summary>
+    /// Converts this integer expression to a string expression.
+    /// </summary>
+    /// <returns>String expression representing this integer.</returns>
+    public StringExpr ToStr() => Context.ToStr(this);
 
     /// <summary>
     /// Addition of two integer expressions.

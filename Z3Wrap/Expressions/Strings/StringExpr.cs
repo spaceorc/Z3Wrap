@@ -148,27 +148,11 @@ public sealed class StringExpr : Z3Expr, IExprType<StringExpr>
     }
 
     /// <summary>
-    /// Concatenates this string with another string.
-    /// </summary>
-    /// <param name="other">The string to append.</param>
-    /// <returns>Concatenated string expression.</returns>
-    public StringExpr Concat(StringExpr other)
-    {
-        var args = new[] { Handle, other.Handle };
-        var handle = Context.Library.MkSeqConcat(Context.Handle, 2, args);
-        return Z3Expr.Create<StringExpr>(Context, handle);
-    }
-
-    /// <summary>
     /// Converts this string to an integer.
     /// </summary>
     /// <returns>Integer expression representing the parsed string value.</returns>
     /// <remarks>Result is unspecified if the string does not represent a valid integer.</remarks>
-    public IntExpr ToInt()
-    {
-        var handle = Context.Library.MkStrToInt(Context.Handle, Handle);
-        return Z3Expr.Create<IntExpr>(Context, handle);
-    }
+    public IntExpr ToInt() => Context.StrToInt(this);
 
     /// <summary>
     /// Concatenation of two string expressions.
@@ -184,11 +168,7 @@ public sealed class StringExpr : Z3Expr, IExprType<StringExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for less than comparison.</returns>
-    public static BoolExpr operator <(StringExpr left, StringExpr right)
-    {
-        var handle = left.Context.Library.MkStrLt(left.Context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<BoolExpr>(left.Context, handle);
-    }
+    public static BoolExpr operator <(StringExpr left, StringExpr right) => left.Lt(right);
 
     /// <summary>
     /// Lexicographic less than or equal comparison.
@@ -196,11 +176,7 @@ public sealed class StringExpr : Z3Expr, IExprType<StringExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for less than or equal comparison.</returns>
-    public static BoolExpr operator <=(StringExpr left, StringExpr right)
-    {
-        var handle = left.Context.Library.MkStrLe(left.Context.Handle, left.Handle, right.Handle);
-        return Z3Expr.Create<BoolExpr>(left.Context, handle);
-    }
+    public static BoolExpr operator <=(StringExpr left, StringExpr right) => left.Le(right);
 
     /// <summary>
     /// Lexicographic greater than comparison.
@@ -208,7 +184,7 @@ public sealed class StringExpr : Z3Expr, IExprType<StringExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for greater than comparison.</returns>
-    public static BoolExpr operator >(StringExpr left, StringExpr right) => right < left;
+    public static BoolExpr operator >(StringExpr left, StringExpr right) => left.Gt(right);
 
     /// <summary>
     /// Lexicographic greater than or equal comparison.
@@ -216,7 +192,7 @@ public sealed class StringExpr : Z3Expr, IExprType<StringExpr>
     /// <param name="left">Left operand.</param>
     /// <param name="right">Right operand.</param>
     /// <returns>Boolean expression for greater than or equal comparison.</returns>
-    public static BoolExpr operator >=(StringExpr left, StringExpr right) => right <= left;
+    public static BoolExpr operator >=(StringExpr left, StringExpr right) => left.Ge(right);
 
     /// <summary>
     /// Equality comparison of two string expressions.
