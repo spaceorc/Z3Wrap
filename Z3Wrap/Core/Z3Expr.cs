@@ -10,11 +10,12 @@ public abstract class Z3Expr(Z3Context context, IntPtr handle) : Z3Handle(contex
     internal static T Create<T>(Z3Context context, IntPtr handle)
         where T : Z3Expr, IExprType<T>
     {
+        var result = T.Create(context, handle);
+
         var actualSort = context.Library.GetSort(context.Handle, handle);
         var expectedSort = T.Sort(context);
-
         if (actualSort == expectedSort)
-            return T.Create(context, handle);
+            return result;
 
         var actualSortStr = context.Library.SortToString(context.Handle, actualSort);
         var expectedSortStr = context.Library.SortToString(context.Handle, expectedSort);
