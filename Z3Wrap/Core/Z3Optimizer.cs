@@ -1,5 +1,8 @@
+using Spaceorc.Z3Wrap.Expressions.BitVectors;
 using Spaceorc.Z3Wrap.Expressions.Common;
 using Spaceorc.Z3Wrap.Expressions.Logic;
+using Spaceorc.Z3Wrap.Expressions.Numerics;
+using Spaceorc.Z3Wrap.Values.BitVectors;
 
 namespace Spaceorc.Z3Wrap.Core;
 
@@ -143,45 +146,99 @@ public sealed class Z3Optimizer : IDisposable
     }
 
     /// <summary>
-    /// Adds a maximization objective for the given expression.
+    /// Adds a maximization objective for an integer expression.
     /// </summary>
-    /// <typeparam name="TExpr">The expression type.</typeparam>
-    /// <param name="expr">The expression to maximize.</param>
-    /// <returns>A typed objective handle for retrieving optimal values.</returns>
-    public OptimizeObjective<TExpr> Maximize<TExpr>(TExpr expr)
-        where TExpr : Z3Expr, IOptimizableExpr
+    /// <param name="expr">The integer expression to maximize.</param>
+    /// <returns>An objective handle for retrieving optimal values.</returns>
+    public IntObjective Maximize(IntExpr expr)
     {
         ThrowIfDisposed();
-        InvalidateModel(); // Model no longer valid after adding objective
+        InvalidateModel();
 
         var objectiveId = context.Library.OptimizeMaximize(context.Handle, InternalHandle, expr.Handle);
-        return new OptimizeObjective<TExpr>(objectiveId);
+        return new IntObjective(objectiveId);
     }
 
     /// <summary>
-    /// Adds a minimization objective for the given expression.
+    /// Adds a maximization objective for a bitvector expression.
     /// </summary>
-    /// <typeparam name="TExpr">The expression type.</typeparam>
-    /// <param name="expr">The expression to minimize.</param>
-    /// <returns>A typed objective handle for retrieving optimal values.</returns>
-    public OptimizeObjective<TExpr> Minimize<TExpr>(TExpr expr)
-        where TExpr : Z3Expr, IOptimizableExpr
+    /// <typeparam name="TSize">The bitvector size type.</typeparam>
+    /// <param name="expr">The bitvector expression to maximize.</param>
+    /// <returns>An objective handle for retrieving optimal values.</returns>
+    public IntObjective Maximize<TSize>(BvExpr<TSize> expr)
+        where TSize : ISize
     {
         ThrowIfDisposed();
-        InvalidateModel(); // Model no longer valid after adding objective
+        InvalidateModel();
 
-        var objectiveId = context.Library.OptimizeMinimize(context.Handle, InternalHandle, expr.Handle);
-        return new OptimizeObjective<TExpr>(objectiveId);
+        var objectiveId = context.Library.OptimizeMaximize(context.Handle, InternalHandle, expr.Handle);
+        return new IntObjective(objectiveId);
     }
 
     /// <summary>
-    /// Gets the upper bound (optimal value) for a maximization objective.
+    /// Adds a maximization objective for a real number expression.
     /// </summary>
-    /// <typeparam name="TExpr">The expression type.</typeparam>
-    /// <param name="objective">The objective handle returned by Maximize.</param>
-    /// <returns>The upper bound expression.</returns>
-    public TExpr GetUpper<TExpr>(OptimizeObjective<TExpr> objective)
-        where TExpr : Z3Expr, IOptimizableExpr, IExprType<TExpr>
+    /// <param name="expr">The real expression to maximize.</param>
+    /// <returns>An objective handle for retrieving optimal values.</returns>
+    public RealObjective Maximize(RealExpr expr)
+    {
+        ThrowIfDisposed();
+        InvalidateModel();
+
+        var objectiveId = context.Library.OptimizeMaximize(context.Handle, InternalHandle, expr.Handle);
+        return new RealObjective(objectiveId);
+    }
+
+    /// <summary>
+    /// Adds a minimization objective for an integer expression.
+    /// </summary>
+    /// <param name="expr">The integer expression to minimize.</param>
+    /// <returns>An objective handle for retrieving optimal values.</returns>
+    public IntObjective Minimize(IntExpr expr)
+    {
+        ThrowIfDisposed();
+        InvalidateModel();
+
+        var objectiveId = context.Library.OptimizeMinimize(context.Handle, InternalHandle, expr.Handle);
+        return new IntObjective(objectiveId);
+    }
+
+    /// <summary>
+    /// Adds a minimization objective for a bitvector expression.
+    /// </summary>
+    /// <typeparam name="TSize">The bitvector size type.</typeparam>
+    /// <param name="expr">The bitvector expression to minimize.</param>
+    /// <returns>An objective handle for retrieving optimal values.</returns>
+    public IntObjective Minimize<TSize>(BvExpr<TSize> expr)
+        where TSize : ISize
+    {
+        ThrowIfDisposed();
+        InvalidateModel();
+
+        var objectiveId = context.Library.OptimizeMinimize(context.Handle, InternalHandle, expr.Handle);
+        return new IntObjective(objectiveId);
+    }
+
+    /// <summary>
+    /// Adds a minimization objective for a real number expression.
+    /// </summary>
+    /// <param name="expr">The real expression to minimize.</param>
+    /// <returns>An objective handle for retrieving optimal values.</returns>
+    public RealObjective Minimize(RealExpr expr)
+    {
+        ThrowIfDisposed();
+        InvalidateModel();
+
+        var objectiveId = context.Library.OptimizeMinimize(context.Handle, InternalHandle, expr.Handle);
+        return new RealObjective(objectiveId);
+    }
+
+    /// <summary>
+    /// Gets the upper bound for an integer optimization objective.
+    /// </summary>
+    /// <param name="objective">The objective handle returned by Maximize or Minimize.</param>
+    /// <returns>The upper bound as an integer expression.</returns>
+    public IntExpr GetUpper(IntObjective objective)
     {
         ThrowIfDisposed();
 
@@ -191,17 +248,15 @@ public sealed class Z3Optimizer : IDisposable
             );
 
         var astHandle = context.Library.OptimizeGetUpper(context.Handle, InternalHandle, objective.ObjectiveId);
-        return Z3Expr.Create<TExpr>(context, astHandle);
+        return Z3Expr.Create<IntExpr>(context, astHandle);
     }
 
     /// <summary>
-    /// Gets the lower bound (optimal value) for a minimization objective.
+    /// Gets the lower bound for an integer optimization objective.
     /// </summary>
-    /// <typeparam name="TExpr">The expression type.</typeparam>
-    /// <param name="objective">The objective handle returned by Minimize.</param>
-    /// <returns>The lower bound expression.</returns>
-    public TExpr GetLower<TExpr>(OptimizeObjective<TExpr> objective)
-        where TExpr : Z3Expr, IOptimizableExpr, IExprType<TExpr>
+    /// <param name="objective">The objective handle returned by Maximize or Minimize.</param>
+    /// <returns>The lower bound as an integer expression.</returns>
+    public IntExpr GetLower(IntObjective objective)
     {
         ThrowIfDisposed();
 
@@ -211,7 +266,45 @@ public sealed class Z3Optimizer : IDisposable
             );
 
         var astHandle = context.Library.OptimizeGetLower(context.Handle, InternalHandle, objective.ObjectiveId);
-        return Z3Expr.Create<TExpr>(context, astHandle);
+        return Z3Expr.Create<IntExpr>(context, astHandle);
+    }
+
+    /// <summary>
+    /// Gets the upper bound for a real optimization objective.
+    /// Returns either IntExpr or RealExpr depending on the actual optimal value.
+    /// </summary>
+    /// <param name="objective">The objective handle returned by Maximize or Minimize.</param>
+    /// <returns>The upper bound as an arithmetic expression (IntExpr or RealExpr).</returns>
+    public ArithmeticExpr GetUpper(RealObjective objective)
+    {
+        ThrowIfDisposed();
+
+        if (lastCheckResult != Z3Status.Satisfiable)
+            throw new InvalidOperationException(
+                $"Cannot get objective value when optimizer status is {lastCheckResult}"
+            );
+
+        var astHandle = context.Library.OptimizeGetUpper(context.Handle, InternalHandle, objective.ObjectiveId);
+        return ArithmeticExpr.CreateDynamic(context, astHandle);
+    }
+
+    /// <summary>
+    /// Gets the lower bound for a real optimization objective.
+    /// Returns either IntExpr or RealExpr depending on the actual optimal value.
+    /// </summary>
+    /// <param name="objective">The objective handle returned by Maximize or Minimize.</param>
+    /// <returns>The lower bound as an arithmetic expression (IntExpr or RealExpr).</returns>
+    public ArithmeticExpr GetLower(RealObjective objective)
+    {
+        ThrowIfDisposed();
+
+        if (lastCheckResult != Z3Status.Satisfiable)
+            throw new InvalidOperationException(
+                $"Cannot get objective value when optimizer status is {lastCheckResult}"
+            );
+
+        var astHandle = context.Library.OptimizeGetLower(context.Handle, InternalHandle, objective.ObjectiveId);
+        return ArithmeticExpr.CreateDynamic(context, astHandle);
     }
 
     /// <summary>

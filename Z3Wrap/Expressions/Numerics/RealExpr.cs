@@ -10,7 +10,7 @@ namespace Spaceorc.Z3Wrap.Expressions.Numerics;
 /// Represents a real number expression for arithmetic operations with exact rational precision.
 /// </summary>
 #pragma warning disable CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals/GetHashCode (handled by base class)
-public sealed class RealExpr : Z3Expr, IArithmeticExpr<RealExpr>, IExprType<RealExpr>, IOptimizableExpr
+public sealed class RealExpr : ArithmeticExpr, IArithmeticExpr<RealExpr>, IExprType<RealExpr>
 {
     private RealExpr(Z3Context context, IntPtr handle)
         : base(context, handle) { }

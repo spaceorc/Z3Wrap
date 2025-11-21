@@ -341,23 +341,43 @@ public class ReadmeExamplesTests
 
         using var optimizer = context.CreateOptimizer();
 
+        // Integer optimization - returns IntObjective
         var x = context.IntConst("x");
         var y = context.IntConst("y");
 
-        // Constraints
         optimizer.Assert(x + y <= 100);
         optimizer.Assert(x >= 0);
         optimizer.Assert(y >= 0);
 
-        // Objective: maximize 3x + 2y (returns typed handle)
-        var objective = optimizer.Maximize(3 * x + 2 * y);
+        var intObjective = optimizer.Maximize(3 * x + 2 * y);
 
         if (optimizer.Check() == Z3Status.Satisfiable)
         {
             var model = optimizer.GetModel();
-            var optimalValue = optimizer.GetUpper(objective); // Type-safe!
-            Console.WriteLine($"Optimal: x={model.GetIntValue(x)}, y={model.GetIntValue(y)}");
-            Console.WriteLine($"Max value: {model.GetIntValue(optimalValue)}");
+            var optimalValue = optimizer.GetUpper(intObjective); // Returns IntExpr
+            Console.WriteLine($"Max: {model.GetIntValue(optimalValue)}");
+        }
+
+        // Real optimization - returns RealObjective
+        var r = context.RealConst("r");
+        optimizer.Assert(r >= 0);
+        optimizer.Assert(r <= 10.5m);
+
+        var realObjective = optimizer.Maximize(r);
+        if (optimizer.Check() == Z3Status.Satisfiable)
+        {
+            var model2 = optimizer.GetModel();
+            var optimalValue = optimizer.GetUpper(realObjective); // Returns ArithmeticExpr
+
+            // Check if result is integer or real
+            if (optimalValue.IsIntExpr())
+            {
+                Console.WriteLine($"Integer result: {model2.GetIntValue(optimalValue.AsIntExpr())}");
+            }
+            else
+            {
+                Console.WriteLine($"Real result: {model2.GetRealValue(optimalValue.AsRealExpr())}");
+            }
         }
 
         #endregion
@@ -368,8 +388,8 @@ public class ReadmeExamplesTests
             console.Output,
             Is.EqualTo(
                 """
-                Optimal: x=100, y=0
-                Max value: 300
+                Max: 300
+                Real result: 21/2
 
                 """
             )

@@ -14,7 +14,7 @@ namespace Spaceorc.Z3Wrap.Expressions.BitVectors;
 /// Represents bit-vector expression with fixed bit width for Z3 solving.
 /// </summary>
 /// <typeparam name="TSize">The bit-vector size type.</typeparam>
-public sealed class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize>>, IOptimizableExpr
+public sealed class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize>>
     where TSize : ISize
 {
     /// <summary>

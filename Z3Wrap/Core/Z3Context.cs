@@ -132,8 +132,8 @@ public sealed class Z3Context : IDisposable
     internal void TrackHandle(IntPtr handle)
     {
         ThrowIfDisposed();
-        library.IncRef(contextHandle, handle);
-        trackedHandles.Add(handle);
+        if (trackedHandles.Add(handle))
+            library.IncRef(contextHandle, handle);
     }
 
     private void TrackSolver(Z3Solver solver)

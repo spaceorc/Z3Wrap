@@ -370,8 +370,9 @@ public class Z3OptimizerTests
         var model = optimizer.GetModel();
         var optimalValue = optimizer.GetUpper(objective);
 
-        // The optimal value should be 10
-        var result = model.GetNumericValueAsString(optimalValue);
+        // The optimal value should be 10 (returned as IntExpr due to integer bounds)
+        Assert.That(optimalValue.IsIntExpr(), Is.True);
+        var result = model.GetNumericValueAsString(optimalValue.AsIntExpr());
         Assert.That(result, Is.EqualTo("10"));
     }
 
@@ -405,6 +406,158 @@ public class Z3OptimizerTests
         Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
 
         Assert.Throws<InvalidOperationException>(() => optimizer.GetUpper(objective));
+    }
+
+    [Test]
+    public void Minimize_RealExpr_GetLower_ReturnsOptimalValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.RealConst("x");
+
+        optimizer.Assert(x >= 5);
+        optimizer.Assert(x <= 20);
+
+        var objective = optimizer.Minimize(x);
+
+        var status = optimizer.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = optimizer.GetModel();
+        var optimalValue = optimizer.GetLower(objective);
+
+        // The optimal value should be 5 (returned as IntExpr due to integer bounds)
+        Assert.That(optimalValue.IsIntExpr(), Is.True);
+        var result = model.GetNumericValueAsString(optimalValue.AsIntExpr());
+        Assert.That(result, Is.EqualTo("5"));
+    }
+
+    [Test]
+    public void Minimize_BvExpr_GetLower_ReturnsOptimalValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.BvConst<Size8>("x");
+
+        optimizer.Assert(x >= 10);
+        optimizer.Assert(x <= 100);
+
+        var objective = optimizer.Minimize(x);
+
+        var status = optimizer.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = optimizer.GetModel();
+        var optimalValue = optimizer.GetLower(objective);
+
+        // The optimal value should be 10
+        var result = model.GetIntValue(optimalValue);
+        Assert.That(result, Is.EqualTo(new BigInteger(10)));
+    }
+
+    [Test]
+    public void Maximize_RealExpr_NonIntegerBounds_ReturnsRealExpr()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.RealConst("x");
+
+        optimizer.Assert(x >= 0);
+        optimizer.Assert(x <= 10.5m);
+
+        var objective = optimizer.Maximize(x);
+
+        var status = optimizer.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = optimizer.GetModel();
+        var optimalValue = optimizer.GetUpper(objective);
+
+        // With non-integer bound, Z3 returns RealExpr
+        Assert.That(optimalValue.IsRealExpr(), Is.True);
+        var result = model.GetNumericValueAsString(optimalValue.AsRealExpr());
+        Assert.That(result, Is.EqualTo("21/2"));
+    }
+
+    [Test]
+    public void ArithmeticExprExtensions_AsRealExpr_OnIntExpr_ConvertsToReal()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.RealConst("x");
+
+        optimizer.Assert(x >= 0);
+        optimizer.Assert(x <= 10);
+
+        var objective = optimizer.Maximize(x);
+        optimizer.Check();
+
+        var optimalValue = optimizer.GetUpper(objective);
+
+        // Z3 returns IntExpr for integer bounds
+        Assert.That(optimalValue.IsIntExpr(), Is.True);
+
+        // AsRealExpr() should convert it
+        var asReal = optimalValue.AsRealExpr();
+        Assert.That(asReal, Is.InstanceOf<RealExpr>());
+    }
+
+    [Test]
+    public void ArithmeticExprExtensions_AsRealExpr_OnRealExpr_ReturnsSelf()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.RealConst("x");
+
+        optimizer.Assert(x >= 0);
+        optimizer.Assert(x <= 10.5m);
+
+        var objective = optimizer.Maximize(x);
+        optimizer.Check();
+
+        var optimalValue = optimizer.GetUpper(objective);
+
+        // Z3 returns RealExpr for non-integer bounds
+        Assert.That(optimalValue.IsRealExpr(), Is.True);
+
+        // AsRealExpr() should return self
+        var asReal = optimalValue.AsRealExpr();
+        Assert.That(asReal, Is.SameAs(optimalValue));
+    }
+
+    [Test]
+    public void ArithmeticExprExtensions_AsIntExpr_OnRealExpr_ThrowsException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var optimizer = context.CreateOptimizer();
+
+        var x = context.RealConst("x");
+
+        optimizer.Assert(x >= 0);
+        optimizer.Assert(x <= 10.5m);
+
+        var objective = optimizer.Maximize(x);
+        optimizer.Check();
+
+        var optimalValue = optimizer.GetUpper(objective);
+
+        // Z3 returns RealExpr for non-integer bounds
+        Assert.That(optimalValue.IsRealExpr(), Is.True);
+
+        // AsIntExpr() should throw
+        var ex = Assert.Throws<InvalidOperationException>(() => optimalValue.AsIntExpr());
+        Assert.That(ex!.Message, Does.Contain("Optimal value is RealExpr, cannot convert to IntExpr"));
     }
 
     [Test]
