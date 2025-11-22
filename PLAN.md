@@ -19,6 +19,7 @@ Z3Wrap is a mature .NET 9.0 wrapper for Microsoft's Z3 theorem prover with natur
 - **BitVectors** - Compile-time sized types with overflow detection
 - **Arrays** - Type-safe generic indexed structures
 - **Strings** - Unicode string constraints with characters and conversions
+- **Regular Expressions** - Pattern matching with operators (+, |, ~, &, -)
 - **Quantifiers** - Universal (∀) and existential (∃) quantification
 - **Uninterpreted Functions** - Custom function symbols with type safety
 
@@ -33,7 +34,6 @@ Z3Wrap is a mature .NET 9.0 wrapper for Microsoft's Z3 theorem prover with natur
 
 ### **Missing Z3 Theories** (see ANALYSIS.md for details)
 - **Sequences** - Generic sequence operations (extends string theory)
-- **Regular Expressions** - Pattern matching for strings
 - **Algebraic Data Types** - Recursive data structures
 - **Floating-Point** - IEEE 754 arithmetic
 - **Set Theory** - Set operations and membership
