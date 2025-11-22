@@ -58,20 +58,6 @@ public static class BvCoreContextExtensions
     }
 
     /// <summary>
-    /// Creates character expression from bit-vector expression.
-    /// </summary>
-    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="expr">The bit-vector expression.</param>
-    /// <returns>Character expression converted from bit-vector.</returns>
-    public static CharExpr ToChar<TSize>(this Z3Context context, BvExpr<TSize> expr)
-        where TSize : ISize
-    {
-        var handle = context.Library.MkCharFromBv(context.Handle, expr.Handle);
-        return Z3Expr.Create<CharExpr>(context, handle);
-    }
-
-    /// <summary>
     /// Creates bit-vector expression resized to target size.
     /// </summary>
     /// <typeparam name="TInputSize">Input bit-vector size type.</typeparam>

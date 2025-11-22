@@ -34,32 +34,6 @@ public class CharExprOperationsTests
         });
     }
 
-    // TODO: Discover actual bitvector size from Z3 and update this test
-    // [Test]
-    // public void ToBv_ReturnsCorrectBitvector()
-    // {
-    //     using var context = new Z3Context();
-    //     using var scope = context.SetUp();
-    //     using var solver = context.CreateSolver();
-    //
-    //     var charExpr = context.Char('A');
-    //     var bvResult = charExpr.ToBv<???>();  // Need to discover size
-    //     var bvResultViaContext = context.ToBv<???>(charExpr);
-    //
-    //     var status = solver.Check();
-    //     Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-    //
-    //     var model = solver.GetModel();
-    //     var evaluatedResult = model.Evaluate(bvResult);
-    //     var evaluatedResultViaContext = model.Evaluate(bvResultViaContext);
-    //
-    //     Assert.Multiple(() =>
-    //     {
-    //         Assert.That(model.GetBv(evaluatedResult).Value, Is.EqualTo(new BigInteger(65)));
-    //         Assert.That(model.GetBv(evaluatedResultViaContext).Value, Is.EqualTo(new BigInteger(65)));
-    //     });
-    // }
-
     [TestCase('0')]
     [TestCase('5')]
     [TestCase('9')]

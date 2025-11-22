@@ -86,12 +86,6 @@ public sealed class BvExpr<TSize> : Z3Expr, INumericExpr, IExprType<BvExpr<TSize
     public IntExpr ToInt(bool signed = false) => Context.ToInt(this, signed);
 
     /// <summary>
-    /// Converts this bit-vector to a character expression.
-    /// </summary>
-    /// <returns>Character expression representing this bit-vector value.</returns>
-    public CharExpr ToChar() => Context.ToChar(this);
-
-    /// <summary>
     /// Extracts a sub-bit-vector starting from the specified bit position.
     /// </summary>
     /// <typeparam name="TOutputSize">The output bit-vector size type.</typeparam>
