@@ -231,7 +231,6 @@ public class QuantifiersTests
     }
 
     [Test]
-    [Ignore("This test is more complex and may require deeper reasoning capabilities from Z3.")]
     public void ForAll_Exists_EveryIntegerHasSuccessor()
     {
         using var context = new Z3Context();
