@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - String theory support (`StringExpr`, `CharExpr`)
 - Regular expression support (`RegexExpr`) with factory methods, operations (Star, Plus, Option, Complement, Union, Concat, Intersect, Diff, Loop, Power), and operators (+, |, ~, &, -)
 - Sequence theory support (`SeqExpr<T>`) with generic sequences for any element type
+- Sequence higher-order functions (`Map`, `Mapi`, `Foldl`, `Foldli`) for functional programming over sequences
+- Lambda expressions (`LambdaExpr<T1, TResult>`, `LambdaExpr<T1, T2, TResult>`, `LambdaExpr<T1, T2, T3, TResult>`) for anonymous functions in Z3
 - Quantifiers (`ForAll`, `Exists`)
 - Uninterpreted functions (`FuncDecl`)
 - Optimization solver (`Z3Optimize`)

@@ -198,7 +198,7 @@ public class QuantifiersTests
         var x = context.IntConst("x");
 
         var trigger = func.Apply(x);
-        solver.Assert(context.Exists(1, new[] { x }, new[] { trigger }, func.Apply(x) == 42));
+        solver.Assert(context.Exists(1, [x], [trigger], func.Apply(x) == 42));
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 

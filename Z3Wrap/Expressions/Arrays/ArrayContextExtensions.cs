@@ -180,7 +180,7 @@ public static class ArrayContextExtensions
         where TIndex2 : Z3Expr, IExprType<TIndex2>
         where TValue : Z3Expr, IExprType<TValue>
     {
-        var handle = context.Library.MkSelectN(context.Handle, array.Handle, 2, new[] { index1.Handle, index2.Handle });
+        var handle = context.Library.MkSelectN(context.Handle, array.Handle, 2, [index1.Handle, index2.Handle]);
         return Z3Expr.Create<TValue>(context, handle);
     }
 
@@ -213,7 +213,7 @@ public static class ArrayContextExtensions
             context.Handle,
             array.Handle,
             3,
-            new[] { index1.Handle, index2.Handle, index3.Handle }
+            [index1.Handle, index2.Handle, index3.Handle]
         );
         return Z3Expr.Create<TValue>(context, handle);
     }
@@ -245,7 +245,7 @@ public static class ArrayContextExtensions
             context.Handle,
             array.Handle,
             2,
-            new[] { index1.Handle, index2.Handle },
+            [index1.Handle, index2.Handle],
             value.Handle
         );
         return Z3Expr.Create<ArrayExpr<TIndex1, TIndex2, TValue>>(context, handle);
@@ -282,7 +282,7 @@ public static class ArrayContextExtensions
             context.Handle,
             array.Handle,
             3,
-            new[] { index1.Handle, index2.Handle, index3.Handle },
+            [index1.Handle, index2.Handle, index3.Handle],
             value.Handle
         );
         return Z3Expr.Create<ArrayExpr<TIndex1, TIndex2, TIndex3, TValue>>(context, handle);
