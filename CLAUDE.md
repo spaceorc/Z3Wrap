@@ -52,6 +52,7 @@ Z3Wrap.sln                    # Solution with library + tests
 │   │   ├── Functions/           # FuncDecl for uninterpreted functions
 │   │   ├── Logic/               # BoolExpr
 │   │   ├── Numerics/            # IntExpr, RealExpr
+│   │   ├── Strings/             # StringExpr, CharExpr
 │   │   └── Quantifiers/         # ForAll, Exists
 │   ├── Core/                    # Z3Context, Z3Solver, Z3Model, Z3Optimizer
 │   │   ├── Interop/             # P/Invoke bindings, native library loading
@@ -62,6 +63,9 @@ Z3Wrap.sln                    # Solution with library + tests
 │   ├── Expressions/             # Expression tests organized by type
 │   ├── Values/                  # Bv and Real value type tests
 │   └── ReadmeExamplesTests.cs   # Validates all README examples
+├── docs/                     # Extended documentation
+│   └── examples/                # Real-world use case examples
+│       └── StringTheory.md      # String constraint solving examples
 ├── Makefile                  # Development workflow automation
 ├── CLAUDE.md                 # AI assistant guidance (this file)
 ├── PLAN.md                   # Project roadmap and status
@@ -461,10 +465,15 @@ make ci           # Verify full CI pipeline works locally
 2. Remove the corresponding line from Z3Wrap.sln's "misc" section
 
 **Examples of Managed Files**:
-- PLAN.md (implementation plans)
-- ANALYSIS.md (code analysis documents)
-- CLAUDE.md, README.md, CHANGELOG.md (core docs)
-- Makefile, LICENSE (project metadata)
+- **Root-level docs**: CLAUDE.md, README.md, CHANGELOG.md, PLAN.md, ANALYSIS.md
+- **Extended documentation**: docs/examples/*.md (detailed use case examples)
+- **Project metadata**: Makefile, LICENSE
+
+**Documentation Organization**:
+- `README.md` - Quick start and basic usage (keep concise)
+- `docs/examples/` - Real-world use case examples with detailed explanations
+  - `StringTheory.md` - String constraint solving examples
+  - Add more example files as needed (BitVectors.md, Optimization.md, etc.)
 
 This ensures all documentation is visible and navigable in Visual Studio/Rider.
 

@@ -223,8 +223,6 @@ for (int i = 0; i < 10; i++)
 {
     var json = context.StringConst($"json{i}");
 
-    solver.Push();  // Save state
-
     // JSON object format: {"key":"value"}
     solver.Assert(json.StartsWith(context.String("{")));
     solver.Assert(json.EndsWith(context.String("}")));
@@ -241,8 +239,6 @@ for (int i = 0; i < 10; i++)
         // Exclude this solution for next iteration
         solver.Assert(json != context.String(testCase));
     }
-
-    solver.Pop();  // Restore state
 }
 ```
 
