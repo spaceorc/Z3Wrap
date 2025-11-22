@@ -223,20 +223,9 @@ if (solver.CheckAssumptions(t1, t2, t3) == Z3Status.Unsatisfiable) {
 }
 ```
 
-## Architecture
+## Requirements
 
-Reference-counted contexts with automatic memory management. No manual disposal needed for expressions.
-
-```
-Z3Expr (abstract)
-├── BoolExpr       - Boolean logic
-├── ArithmeticExpr - Base for numeric types
-│   ├── IntExpr    - BigInteger arithmetic
-│   └── RealExpr   - Exact rational arithmetic
-├── BvExpr<TSize>  - Compile-time sized bitvectors
-└── ArrayExpr<TIndex, TValue> - Generic type-safe arrays
-```
-
-**Requirements**: .NET 9.0+, Z3 library (auto-discovered)
+- .NET 9.0+
+- Z3 library (auto-discovered on Windows/macOS/Linux)
 
 **License**: MIT
