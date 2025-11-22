@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   publish_release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
@@ -71,8 +71,21 @@ jobs:
 
       - name: Install Z3
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libz3-4
+          # Remove any existing system Z3 packages
+          sudo apt-get remove -y libz3-4 libz3-dev z3 || true
+
+          # Install Z3 4.15.4 from official release
+          wget https://github.com/Z3Prover/z3/releases/download/z3-4.15.4/z3-4.15.4-x64-glibc-2.39.zip
+          unzip z3-4.15.4-x64-glibc-2.39.zip
+          sudo cp z3-4.15.4-x64-glibc-2.39/bin/libz3.so /usr/local/lib/
+          sudo cp z3-4.15.4-x64-glibc-2.39/bin/z3 /usr/local/bin/
+          sudo ldconfig
+
+          # Verify installation
+          echo "=== Z3 Version ==="
+          z3 --version
+          echo "=== Z3 Library Location ==="
+          ldconfig -p | grep libz3
 
       - name: Setup development tools
         run: make dev-setup
