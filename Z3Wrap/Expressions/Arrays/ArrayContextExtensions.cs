@@ -42,6 +42,52 @@ public static class ArrayContextExtensions
     }
 
     /// <summary>
+    /// Creates 2D array constant with specified index and value types.
+    /// </summary>
+    /// <typeparam name="TIndex1">First array index type.</typeparam>
+    /// <typeparam name="TIndex2">Second array index type.</typeparam>
+    /// <typeparam name="TValue">Array element type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="name">The constant name.</param>
+    /// <returns>2D array expression.</returns>
+    public static ArrayExpr<TIndex1, TIndex2, TValue> ArrayConst<TIndex1, TIndex2, TValue>(
+        this Z3Context context,
+        string name
+    )
+        where TIndex1 : Z3Expr, IExprType<TIndex1>
+        where TIndex2 : Z3Expr, IExprType<TIndex2>
+        where TValue : Z3Expr, IExprType<TValue>
+    {
+        var arraySort = context.GetSortForType<ArrayExpr<TIndex1, TIndex2, TValue>>();
+        var handle = context.Library.MkConst(context.Handle, name, arraySort);
+        return Z3Expr.Create<ArrayExpr<TIndex1, TIndex2, TValue>>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates 3D array constant with specified index and value types.
+    /// </summary>
+    /// <typeparam name="TIndex1">First array index type.</typeparam>
+    /// <typeparam name="TIndex2">Second array index type.</typeparam>
+    /// <typeparam name="TIndex3">Third array index type.</typeparam>
+    /// <typeparam name="TValue">Array element type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="name">The constant name.</param>
+    /// <returns>3D array expression.</returns>
+    public static ArrayExpr<TIndex1, TIndex2, TIndex3, TValue> ArrayConst<TIndex1, TIndex2, TIndex3, TValue>(
+        this Z3Context context,
+        string name
+    )
+        where TIndex1 : Z3Expr, IExprType<TIndex1>
+        where TIndex2 : Z3Expr, IExprType<TIndex2>
+        where TIndex3 : Z3Expr, IExprType<TIndex3>
+        where TValue : Z3Expr, IExprType<TValue>
+    {
+        var arraySort = context.GetSortForType<ArrayExpr<TIndex1, TIndex2, TIndex3, TValue>>();
+        var handle = context.Library.MkConst(context.Handle, name, arraySort);
+        return Z3Expr.Create<ArrayExpr<TIndex1, TIndex2, TIndex3, TValue>>(context, handle);
+    }
+
+    /// <summary>
     /// Creates constant array with default value for all indices.
     /// </summary>
     /// <typeparam name="TIndex">Array index type.</typeparam>
@@ -111,5 +157,134 @@ public static class ArrayContextExtensions
     {
         var handle = context.Library.MkSelect(context.Handle, array.Handle, index.Handle);
         return Z3Expr.Create<TValue>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates expression selecting value at specified 2D array indices.
+    /// </summary>
+    /// <typeparam name="TIndex1">First array index type.</typeparam>
+    /// <typeparam name="TIndex2">Second array index type.</typeparam>
+    /// <typeparam name="TValue">Array element type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="array">The array expression.</param>
+    /// <param name="index1">The first index.</param>
+    /// <param name="index2">The second index.</param>
+    /// <returns>Expression for value at the specified indices.</returns>
+    public static TValue Select<TIndex1, TIndex2, TValue>(
+        this Z3Context context,
+        ArrayExpr<TIndex1, TIndex2, TValue> array,
+        TIndex1 index1,
+        TIndex2 index2
+    )
+        where TIndex1 : Z3Expr, IExprType<TIndex1>
+        where TIndex2 : Z3Expr, IExprType<TIndex2>
+        where TValue : Z3Expr, IExprType<TValue>
+    {
+        var handle = context.Library.MkSelectN(context.Handle, array.Handle, 2, new[] { index1.Handle, index2.Handle });
+        return Z3Expr.Create<TValue>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates expression selecting value at specified 3D array indices.
+    /// </summary>
+    /// <typeparam name="TIndex1">First array index type.</typeparam>
+    /// <typeparam name="TIndex2">Second array index type.</typeparam>
+    /// <typeparam name="TIndex3">Third array index type.</typeparam>
+    /// <typeparam name="TValue">Array element type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="array">The array expression.</param>
+    /// <param name="index1">The first index.</param>
+    /// <param name="index2">The second index.</param>
+    /// <param name="index3">The third index.</param>
+    /// <returns>Expression for value at the specified indices.</returns>
+    public static TValue Select<TIndex1, TIndex2, TIndex3, TValue>(
+        this Z3Context context,
+        ArrayExpr<TIndex1, TIndex2, TIndex3, TValue> array,
+        TIndex1 index1,
+        TIndex2 index2,
+        TIndex3 index3
+    )
+        where TIndex1 : Z3Expr, IExprType<TIndex1>
+        where TIndex2 : Z3Expr, IExprType<TIndex2>
+        where TIndex3 : Z3Expr, IExprType<TIndex3>
+        where TValue : Z3Expr, IExprType<TValue>
+    {
+        var handle = context.Library.MkSelectN(
+            context.Handle,
+            array.Handle,
+            3,
+            new[] { index1.Handle, index2.Handle, index3.Handle }
+        );
+        return Z3Expr.Create<TValue>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates 2D array with value stored at specified indices.
+    /// </summary>
+    /// <typeparam name="TIndex1">First array index type.</typeparam>
+    /// <typeparam name="TIndex2">Second array index type.</typeparam>
+    /// <typeparam name="TValue">Array element type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="array">The array expression.</param>
+    /// <param name="index1">The first index to store at.</param>
+    /// <param name="index2">The second index to store at.</param>
+    /// <param name="value">The value to store.</param>
+    /// <returns>Array expression with value stored at indices.</returns>
+    public static ArrayExpr<TIndex1, TIndex2, TValue> Store<TIndex1, TIndex2, TValue>(
+        this Z3Context context,
+        ArrayExpr<TIndex1, TIndex2, TValue> array,
+        TIndex1 index1,
+        TIndex2 index2,
+        TValue value
+    )
+        where TIndex1 : Z3Expr, IExprType<TIndex1>
+        where TIndex2 : Z3Expr, IExprType<TIndex2>
+        where TValue : Z3Expr, IExprType<TValue>
+    {
+        var handle = context.Library.MkStoreN(
+            context.Handle,
+            array.Handle,
+            2,
+            new[] { index1.Handle, index2.Handle },
+            value.Handle
+        );
+        return Z3Expr.Create<ArrayExpr<TIndex1, TIndex2, TValue>>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates 3D array with value stored at specified indices.
+    /// </summary>
+    /// <typeparam name="TIndex1">First array index type.</typeparam>
+    /// <typeparam name="TIndex2">Second array index type.</typeparam>
+    /// <typeparam name="TIndex3">Third array index type.</typeparam>
+    /// <typeparam name="TValue">Array element type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="array">The array expression.</param>
+    /// <param name="index1">The first index to store at.</param>
+    /// <param name="index2">The second index to store at.</param>
+    /// <param name="index3">The third index to store at.</param>
+    /// <param name="value">The value to store.</param>
+    /// <returns>Array expression with value stored at indices.</returns>
+    public static ArrayExpr<TIndex1, TIndex2, TIndex3, TValue> Store<TIndex1, TIndex2, TIndex3, TValue>(
+        this Z3Context context,
+        ArrayExpr<TIndex1, TIndex2, TIndex3, TValue> array,
+        TIndex1 index1,
+        TIndex2 index2,
+        TIndex3 index3,
+        TValue value
+    )
+        where TIndex1 : Z3Expr, IExprType<TIndex1>
+        where TIndex2 : Z3Expr, IExprType<TIndex2>
+        where TIndex3 : Z3Expr, IExprType<TIndex3>
+        where TValue : Z3Expr, IExprType<TValue>
+    {
+        var handle = context.Library.MkStoreN(
+            context.Handle,
+            array.Handle,
+            3,
+            new[] { index1.Handle, index2.Handle, index3.Handle },
+            value.Handle
+        );
+        return Z3Expr.Create<ArrayExpr<TIndex1, TIndex2, TIndex3, TValue>>(context, handle);
     }
 }

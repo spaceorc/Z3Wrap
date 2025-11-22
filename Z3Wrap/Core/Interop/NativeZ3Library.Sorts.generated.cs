@@ -178,7 +178,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr MkArraySortNDelegate(IntPtr c, uint n, out IntPtr domain, IntPtr range);
+    private delegate IntPtr MkArraySortNDelegate(IntPtr c, uint n, IntPtr[] domain, IntPtr range);
 
     /// <summary>
     ///  Create an array type with N arguments. 
@@ -191,11 +191,11 @@ internal sealed partial class NativeZ3Library
     /// <seealso cref="MkSelectN"/>
     /// <seealso cref="MkStoreN"/>
     [Z3Function("Z3_mk_array_sort_n")]
-    internal IntPtr MkArraySortN(IntPtr c, uint n, out IntPtr domain, IntPtr range)
+    internal IntPtr MkArraySortN(IntPtr c, uint n, IntPtr[] domain, IntPtr range)
     {
         var funcPtr = GetFunctionPointer("Z3_mk_array_sort_n");
         var func = Marshal.GetDelegateForFunctionPointer<MkArraySortNDelegate>(funcPtr);
-        return func(c, n, out domain, range);
+        return func(c, n, domain, range);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

@@ -472,14 +472,46 @@ def clean_documentation_text(text: str, preserve_formatting: bool = False) -> st
         return text
 
 
-def is_output_pointer_param(c_type: str) -> bool:
+def is_input_array_param(c_type: str, all_params: List[Tuple[str, str]] = None, param_index: int = -1) -> bool:
+    """
+    Determine if a C type represents an input array parameter.
+    Returns True for const pointer types with a preceding unsigned count parameter.
+
+    Args:
+        c_type: The C type to check
+        all_params: Optional list of all parameters (type, name) tuples
+        param_index: Optional index of current parameter in all_params
+    """
+    # Must be a pointer type
+    if '*' not in c_type:
+        return False
+
+    # Check if this is an input array pattern: const TYPE* with preceding unsigned count
+    # This is the pattern Z3 uses: unsigned n, const TYPE* array
+    if 'const' in c_type and all_params is not None and param_index > 0:
+        # Check if previous parameter is an unsigned integer (array count)
+        prev_type, _ = all_params[param_index - 1]
+        prev_type_normalized = prev_type.strip().replace(' ', '')
+
+        # Look for unsigned integer types that typically indicate array size
+        if prev_type_normalized in ('unsigned', 'unsignedint', 'uint', 'uint32_t', 'size_t'):
+            # This is an INPUT array pattern (const TYPE* with count parameter)
+            return True
+
+    return False
+
+
+def is_output_pointer_param(c_type: str, all_params: List[Tuple[str, str]] = None, param_index: int = -1) -> bool:
     """
     Determine if a C type represents an output pointer parameter.
     Returns True for pointer types that should be marshaled as 'out' parameters.
+
+    Args:
+        c_type: The C type to check
+        all_params: Optional list of all parameters (type, name) tuples
+        param_index: Optional index of current parameter in all_params
     """
     cleaned = c_type.strip()
-    # Remove 'const' qualifier
-    cleaned = cleaned.replace('const ', '').replace(' const', '').strip()
 
     # Check if it's a pointer (contains *)
     if '*' not in cleaned:
@@ -493,20 +525,25 @@ def is_output_pointer_param(c_type: str) -> bool:
     if 'void' in cleaned.lower():
         return False
 
+    # Input arrays are NOT output parameters
+    if is_input_array_param(c_type, all_params, param_index):
+        return False
+
     # All other pointer types are output parameters
     return True
 
 
-def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
+def map_c_type_to_csharp(c_type: str, is_output: bool = False, is_input_array: bool = False) -> str:
     """
     Map C type to C# type for P/Invoke.
 
     Args:
         c_type: The C type to map
         is_output: Whether this is an output pointer parameter
+        is_input_array: Whether this is an input array parameter
     """
-    type_map = {
-        'void': 'void',
+    # Primitive types that can appear in arrays
+    primitive_types = {
         'bool': 'bool',
         'int': 'int',
         'signed': 'int',
@@ -516,6 +553,10 @@ def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
         'uint64_t': 'ulong',
         'double': 'double',
         'float': 'float',
+    }
+
+    type_map = {
+        'void': 'void',
         'Z3_string': 'IntPtr',  # char* - marshaled as IntPtr
         'Z3_string_ptr': 'IntPtr',  # Z3_string* - pointer to string pointer
         'Z3_char_ptr': 'IntPtr',  # char const* - marshaled as IntPtr
@@ -526,6 +567,9 @@ def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
         'Z3_bool': 'int',  # Z3_bool is actually a typedef for int, not an enum
         'Z3_model_eh': 'IntPtr',  # Old-style typedef callback, not using Z3_DECLARE_CLOSURE
     }
+
+    # Merge primitive types into type_map
+    type_map.update(primitive_types)
 
     # Clean the type (remove const, spaces)
     cleaned = c_type.strip()
@@ -545,6 +589,16 @@ def map_c_type_to_csharp(c_type: str, is_output: bool = False) -> str:
         # Check if it's a string type
         if 'char' in cleaned:
             return 'IntPtr'
+
+        # For input arrays, determine array element type
+        if is_input_array:
+            # Remove pointer and const to get base type
+            base_type = cleaned.rstrip('*').strip()
+            # Check if it's a primitive type (bool, int, uint, etc.)
+            if base_type in primitive_types:
+                return f'{primitive_types[base_type]}[]'
+            # Otherwise it's a Z3 handle type - use IntPtr[]
+            return 'IntPtr[]'
 
         # For output parameters, strip the pointer and map the base type
         if is_output:
@@ -1475,10 +1529,11 @@ def generate_partial_class(group: HeaderGroup, output_dir: Path):
             params_cs_with_out = []  # For method signature with 'out' modifiers
             param_names_with_out = []  # For method call with 'out' keywords
 
-            for param_type_c, param_name in sig.parameters:
-                # Check if this is an output pointer parameter
-                is_output = is_output_pointer_param(param_type_c)
-                param_type_cs = map_c_type_to_csharp(param_type_c, is_output=is_output)
+            for param_idx, (param_type_c, param_name) in enumerate(sig.parameters):
+                # Check if this is an input array or output pointer parameter
+                is_input_array = is_input_array_param(param_type_c, sig.parameters, param_idx)
+                is_output = is_output_pointer_param(param_type_c, sig.parameters, param_idx)
+                param_type_cs = map_c_type_to_csharp(param_type_c, is_output=is_output, is_input_array=is_input_array)
 
                 # Convert snake_case to camelCase
                 camel_case_name = convert_param_name_to_camel_case(param_name)

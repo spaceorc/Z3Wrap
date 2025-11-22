@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Uninterpreted functions (`FuncDecl`)
 - Optimization solver (`Z3Optimize`)
 - Unsatisfiable cores (`CheckAssumptions`, `GetUnsatCore`)
+- Multi-dimensional arrays (`ArrayExpr<T1,T2,TValue>`, `ArrayExpr<T1,T2,T3,TValue>`) for 2D and 3D arrays
 - Example documentation (docs/examples/)
 
 ### Changed
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Type validation error messages now report correct expected vs actual sorts
+- Code generation script now correctly detects input array parameters vs output parameters
 
 ## [0.0.4] - 2025-09-17
 

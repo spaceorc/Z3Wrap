@@ -214,9 +214,9 @@ public sealed partial class Z3Library
     /// <returns ctype="Z3_sort">sort value</returns>
     /// <seealso cref="MkSelectN"/>
     /// <seealso cref="MkStoreN"/>
-    public IntPtr MkArraySortN(IntPtr c, uint n, out IntPtr domain, IntPtr range)
+    public IntPtr MkArraySortN(IntPtr c, uint n, IntPtr[] domain, IntPtr range)
     {
-        var result = nativeLibrary.MkArraySortN(c, n, out domain, range);
+        var result = nativeLibrary.MkArraySortN(c, n, domain, range);
         CheckError(c);
         return CheckHandle(result, nameof(MkArraySortN));
     }

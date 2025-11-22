@@ -815,7 +815,7 @@ internal sealed partial class NativeZ3Library
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool SolverPropagateConsequenceDelegate(IntPtr c, IntPtr cb, uint numFixed, out IntPtr @fixed, uint numEqs, out IntPtr eqLhs, out IntPtr eqRhs, IntPtr conseq);
+    private delegate bool SolverPropagateConsequenceDelegate(IntPtr c, IntPtr cb, uint numFixed, IntPtr[] @fixed, uint numEqs, IntPtr[] eqLhs, out IntPtr eqRhs, IntPtr conseq);
 
     /// <summary>
     ///  propagate a consequence based on fixed values and equalities. A client may invoke it during the <c>propagate_fixed</c> , <c>propagate_eq</c> , <c>propagate_diseq</c> , and <c>propagate_final</c> callbacks. The callback adds a propagation consequence based on the fixed values passed <c>ids</c> and equalities <c>eqs</c> based on parameters <c>lhs</c> , <c>rhs</c> . 
@@ -833,11 +833,11 @@ internal sealed partial class NativeZ3Library
     /// The solver might discard the propagation in case it is true in the current state. The function returns false in this case; otw. the function returns true. At least one propagation in the final callback has to return true in order to prevent the solver from finishing.
     /// </remarks>
     [Z3Function("Z3_solver_propagate_consequence")]
-    internal bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, out IntPtr @fixed, uint numEqs, out IntPtr eqLhs, out IntPtr eqRhs, IntPtr conseq)
+    internal bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr[] @fixed, uint numEqs, IntPtr[] eqLhs, out IntPtr eqRhs, IntPtr conseq)
     {
         var funcPtr = GetFunctionPointer("Z3_solver_propagate_consequence");
         var func = Marshal.GetDelegateForFunctionPointer<SolverPropagateConsequenceDelegate>(funcPtr);
-        return func(c, cb, numFixed, out @fixed, numEqs, out eqLhs, out eqRhs, conseq);
+        return func(c, cb, numFixed, @fixed, numEqs, eqLhs, out eqRhs, conseq);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

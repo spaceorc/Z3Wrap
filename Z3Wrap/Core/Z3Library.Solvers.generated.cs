@@ -685,9 +685,9 @@ public sealed partial class Z3Library
     /// <remarks>
     /// The solver might discard the propagation in case it is true in the current state. The function returns false in this case; otw. the function returns true. At least one propagation in the final callback has to return true in order to prevent the solver from finishing.
     /// </remarks>
-    public bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, out IntPtr @fixed, uint numEqs, out IntPtr eqLhs, out IntPtr eqRhs, IntPtr conseq)
+    public bool SolverPropagateConsequence(IntPtr c, IntPtr cb, uint numFixed, IntPtr[] @fixed, uint numEqs, IntPtr[] eqLhs, out IntPtr eqRhs, IntPtr conseq)
     {
-        var result = nativeLibrary.SolverPropagateConsequence(c, cb, numFixed, out @fixed, numEqs, out eqLhs, out eqRhs, conseq);
+        var result = nativeLibrary.SolverPropagateConsequence(c, cb, numFixed, @fixed, numEqs, eqLhs, out eqRhs, conseq);
         CheckError(c);
         return result;
     }
