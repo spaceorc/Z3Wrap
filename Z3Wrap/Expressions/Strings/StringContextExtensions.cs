@@ -46,7 +46,7 @@ public static class StringContextExtensions
             throw new ArgumentException("Concat requires at least one operand.", nameof(strings));
 
         var args = new IntPtr[strings.Length];
-        for (int i = 0; i < strings.Length; i++)
+        for (var i = 0; i < strings.Length; i++)
             args[i] = strings[i].Handle;
 
         var resultHandle = context.Library.MkSeqConcat(context.Handle, (uint)args.Length, args);

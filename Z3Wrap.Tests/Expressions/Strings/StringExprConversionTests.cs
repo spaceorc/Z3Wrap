@@ -225,4 +225,82 @@ public class StringExprConversionTests
         var model = solver.GetModel();
         Assert.That(model.GetStringValue(strResult), Is.EqualTo("890"));
     }
+
+    [Test]
+    public void ToRegex_ExtensionMethod_CreatesMatchingPattern()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var str = context.String("test");
+        var regexViaExtension = str.ToRegex();
+
+        var testStr = context.String("test");
+        solver.Assert(testStr.Matches(regexViaExtension));
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToRegex_ContextMethod_CreatesMatchingPattern()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var str = context.String("hello");
+        var regexViaContext = context.Regex(str);
+
+        var testStr = context.String("hello");
+        solver.Assert(testStr.Matches(regexViaContext));
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void ToRegex_WithVariable_SolvesCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var strVar = context.StringConst("s");
+        var regex = strVar.ToRegex();
+
+        var testStr = context.String("pattern");
+        solver.Assert(testStr.Matches(regex));
+        solver.Assert(strVar.Length() == 7);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetStringValue(strVar), Is.EqualTo("pattern"));
+    }
+
+    [Test]
+    public void ToRegex_BothMethods_ProduceEquivalentResults()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var str = context.String("abc");
+        var regexViaExtension = str.ToRegex();
+        var regexViaContext = context.Regex(str);
+
+        var testStr1 = context.String("abc");
+        var testStr2 = context.String("xyz");
+
+        solver.Assert(testStr1.Matches(regexViaExtension));
+        solver.Assert(testStr1.Matches(regexViaContext));
+        solver.Assert(!testStr2.Matches(regexViaExtension));
+        solver.Assert(!testStr2.Matches(regexViaContext));
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
 }

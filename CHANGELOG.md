@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - String theory support (`StringExpr`, `CharExpr`)
+- Regular expression support (`RegexExpr`) with factory methods, operations (Star, Plus, Option, Complement, Union, Concat, Intersect, Diff, Loop, Power), and operators (+, |, ~, &, -)
 - Quantifiers (`ForAll`, `Exists`)
 - Uninterpreted functions (`FuncDecl`)
 - Optimization solver (`Z3Optimize`)

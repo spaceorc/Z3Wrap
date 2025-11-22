@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{DC
 		docs\examples\RealWorld.md = docs\examples\RealWorld.md
 		docs\examples\BitVectors.md = docs\examples\BitVectors.md
 		docs\examples\Optimization.md = docs\examples\Optimization.md
+		docs\examples\RegularExpressions.md = docs\examples\RegularExpressions.md
 	EndProjectSection
 EndProject
 Global
