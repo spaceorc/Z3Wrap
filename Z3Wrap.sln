@@ -8,7 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5
 	ProjectSection(SolutionItems) = preProject
 		CLAUDE.md = CLAUDE.md
 		PLAN.md = PLAN.md
-		PLAN_STRING_THEORY.md = PLAN_STRING_THEORY.md
 		README.md = README.md
 		CHANGELOG.md = CHANGELOG.md
 		LICENSE = LICENSE
