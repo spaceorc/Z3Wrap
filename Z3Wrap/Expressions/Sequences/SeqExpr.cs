@@ -138,8 +138,9 @@ public sealed class SeqExpr<T> : Z3Expr, IExprType<SeqExpr<T>>
     public IntExpr LastIndexOf(SeqExpr<T> subsequence)
     {
         throw new NotSupportedException(
-            "Z3's seq.last_indexof has unstable behavior and is not supported in Z3Wrap. " +
-            "Use IndexOf with manual iteration if you need to find the last occurrence.");
+            "Z3's seq.last_indexof has unstable behavior and is not supported in Z3Wrap. "
+                + "Use IndexOf with manual iteration if you need to find the last occurrence."
+        );
     }
 
     /// <summary>
