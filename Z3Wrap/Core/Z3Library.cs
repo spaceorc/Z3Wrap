@@ -22,9 +22,14 @@ public sealed partial class Z3Library : IDisposable
     private readonly NativeZ3Library nativeLibrary;
     private bool disposed;
 
+    // Keep a reference to the error handler delegate to prevent garbage collection
+    private readonly NativeZ3Library.ErrorHandlerCallback errorHandlerDelegate;
+
     private Z3Library(NativeZ3Library nativeLibrary)
     {
         this.nativeLibrary = nativeLibrary;
+        // Create and store the error handler delegate once to prevent GC
+        this.errorHandlerDelegate = OnZ3ErrorSafe;
     }
 
     /// <summary>
@@ -153,7 +158,8 @@ public sealed partial class Z3Library : IDisposable
 
         // No error check for context creation
         // Set up safe error handler (prevents crashes)
-        nativeLibrary.SetErrorHandler(result, OnZ3ErrorSafe);
+        // Use the stored delegate to prevent garbage collection
+        nativeLibrary.SetErrorHandler(result, errorHandlerDelegate);
         return result;
     }
 
