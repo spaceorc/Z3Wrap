@@ -23,20 +23,6 @@ public readonly struct Size16 : ISize
 }
 
 /// <summary>
-/// Represents an 18-bit bitvector size.
-/// </summary>
-/// <remarks>
-/// Used for character-to-bitvector conversions in Z3 string theory.
-/// </remarks>
-public readonly struct Size18 : ISize
-{
-    /// <summary>
-    /// Gets the bit width (18 bits).
-    /// </summary>
-    public static uint Size => 18;
-}
-
-/// <summary>
 /// Represents a 32-bit bitvector size.
 /// </summary>
 public readonly struct Size32 : ISize
