@@ -3,6 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!-- Assembly and namespace naming -->
     <AssemblyName>Spaceorc.Z3Wrap</AssemblyName>
     <RootNamespace>Spaceorc.Z3Wrap</RootNamespace>

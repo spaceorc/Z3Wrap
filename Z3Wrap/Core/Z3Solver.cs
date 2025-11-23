@@ -234,8 +234,8 @@ public sealed class Z3Solver : IDisposable
     /// <returns>Proof in S-expression format showing why the constraints are unsatisfiable.</returns>
     /// <exception cref="InvalidOperationException">Thrown if Check was not called or result was not Unsatisfiable.</exception>
     /// <remarks>
-    /// Proof generation must be enabled before checking by setting the 'proof' parameter to true.
-    /// Use <see cref="Z3Params.SetProof"/> to enable proof generation, then call <see cref="SetParams"/>.
+    /// Proof generation must be enabled at context creation by setting the 'proof' parameter to true.
+    /// Pass parameters to <see cref="Z3Context"/> constructor: new Z3Context(new Dictionary&lt;string, string&gt; { { "proof", "true" } }).
     /// The returned proof is a tree of inference steps in S-expression (LISP-like) format.
     /// Must be called after <see cref="Check"/> or <see cref="CheckAssumptions"/> returns <see cref="Z3Status.Unsatisfiable"/>.
     /// </remarks>

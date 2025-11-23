@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.5] - 2025-11-23
-
 ### Added
 - Proof generation (`Z3Solver.GetProof()`) for retrieving S-expression proofs of unsatisfiability
 - String theory support (`StringExpr`, `CharExpr`)
