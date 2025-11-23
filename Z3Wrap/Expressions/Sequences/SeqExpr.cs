@@ -134,10 +134,12 @@ public sealed class SeqExpr<T> : Z3Expr, IExprType<SeqExpr<T>>
     /// </summary>
     /// <param name="subsequence">The subsequence to find.</param>
     /// <returns>Integer expression representing the last index, or -1 if not found.</returns>
+    [Obsolete("LastIndexOf is not supported in Z3 (unstable behavior). This method will throw NotSupportedException.")]
     public IntExpr LastIndexOf(SeqExpr<T> subsequence)
     {
-        var handle = Context.Library.MkSeqLastIndex(Context.Handle, Handle, subsequence.Handle);
-        return Z3Expr.Create<IntExpr>(Context, handle);
+        throw new NotSupportedException(
+            "Z3's seq.last_indexof has unstable behavior and is not supported in Z3Wrap. " +
+            "Use IndexOf with manual iteration if you need to find the last occurrence.");
     }
 
     /// <summary>

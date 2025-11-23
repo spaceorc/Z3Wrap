@@ -277,41 +277,20 @@ public class SeqExprOperationsTests
     }
 
     [Test]
-    [Ignore("LastIndexOf does not evaluate to numeric constant in Z3 - may require additional constraints")]
-    public void LastIndexOf_FindsLastOccurrence()
+    public void LastIndexOf_ThrowsNotSupportedException()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
 
         var seq = context.Seq<IntExpr>(1, 2, 3, 2);
         var subseq = context.Seq<IntExpr>(2);
-        var index = seq.LastIndexOf(subseq);
 
-        var status = solver.Check();
+#pragma warning disable CS0618 // Type or member is obsolete
+        var ex = Assert.Throws<NotSupportedException>(() => seq.LastIndexOf(subseq));
+#pragma warning restore CS0618 // Type or member is obsolete
 
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-        var model = solver.GetModel();
-        Assert.That(model.GetIntValue(index), Is.EqualTo(new BigInteger(3)));
-    }
-
-    [Test]
-    [Ignore("LastIndexOf does not evaluate to numeric constant in Z3 - may require additional constraints")]
-    public void LastIndexOf_ReturnsMinusOneWhenNotFound()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var seq = context.Seq<IntExpr>(1, 2, 3);
-        var subseq = context.Seq<IntExpr>(9);
-        var index = seq.LastIndexOf(subseq);
-
-        var status = solver.Check();
-
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-        var model = solver.GetModel();
-        Assert.That(model.GetIntValue(index), Is.EqualTo(new BigInteger(-1)));
+        Assert.That(ex.Message, Does.Contain("seq.last_indexof"));
+        Assert.That(ex.Message, Does.Contain("unstable"));
     }
 
     [Test]
