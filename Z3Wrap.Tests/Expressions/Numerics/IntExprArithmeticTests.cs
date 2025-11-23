@@ -525,13 +525,18 @@ public class IntExprArithmeticTests
         var a = context.Int(aValue);
         var b = context.Int(bValue);
 
-        var minValue = context.Min(a, b);
+        var minViaContext = context.Min(a, b);
+        var minViaFunc = a.Min(b);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(minValue), Is.EqualTo(new BigInteger(expected)));
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(minViaContext), Is.EqualTo(new BigInteger(expected)));
+            Assert.That(model.GetIntValue(minViaFunc), Is.EqualTo(new BigInteger(expected)));
+        });
     }
 
     [Test]
@@ -567,13 +572,18 @@ public class IntExprArithmeticTests
         var a = context.Int(aValue);
         var b = context.Int(bValue);
 
-        var maxValue = context.Max(a, b);
+        var maxViaContext = context.Max(a, b);
+        var maxViaFunc = a.Max(b);
 
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
 
         var model = solver.GetModel();
-        Assert.That(model.GetIntValue(maxValue), Is.EqualTo(new BigInteger(expected)));
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetIntValue(maxViaContext), Is.EqualTo(new BigInteger(expected)));
+            Assert.That(model.GetIntValue(maxViaFunc), Is.EqualTo(new BigInteger(expected)));
+        });
     }
 
     [Test]
@@ -595,5 +605,83 @@ public class IntExprArithmeticTests
 
         var model = solver.GetModel();
         Assert.That(model.GetIntValue(y), Is.EqualTo(new BigInteger(20)));
+    }
+
+    [Test]
+    public void Divides_WhenDivisorDividesDividend_ReturnsTrue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var divisor = context.Int(5);
+        var dividend = context.Int(20);
+
+        var resultViaContext = context.Divides(divisor, dividend);
+        var resultViaIntLeft = context.Divides(5, dividend);
+        var resultViaIntRight = context.Divides(divisor, 20);
+        var resultViaFunc = divisor.Divides(dividend);
+        var resultViaFuncIntRight = divisor.Divides(20);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultViaContext), Is.True);
+            Assert.That(model.GetBoolValue(resultViaIntLeft), Is.True);
+            Assert.That(model.GetBoolValue(resultViaIntRight), Is.True);
+            Assert.That(model.GetBoolValue(resultViaFunc), Is.True);
+            Assert.That(model.GetBoolValue(resultViaFuncIntRight), Is.True);
+        });
+    }
+
+    [Test]
+    public void Divides_WhenDivisorDoesNotDivideDividend_ReturnsFalse()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var divisor = context.Int(7);
+        var dividend = context.Int(20);
+
+        var resultViaContext = context.Divides(divisor, dividend);
+        var resultViaFunc = divisor.Divides(dividend);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBoolValue(resultViaContext), Is.False);
+            Assert.That(model.GetBoolValue(resultViaFunc), Is.False);
+        });
+    }
+
+    [Test]
+    public void Divides_WithVariables_CanSolveForDividend()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var divisor = context.Int(3);
+        var x = context.IntConst("x");
+
+        // 3 divides x, and x is between 10 and 15
+        solver.Assert(divisor.Divides(x));
+        solver.Assert(x > 10);
+        solver.Assert(x < 15);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var xValue = model.GetIntValue(x);
+        // Only valid values are 12 (3*4)
+        Assert.That(xValue, Is.EqualTo(new BigInteger(12)));
     }
 }

@@ -16,8 +16,11 @@ public static class ArithmeticFunctionsContextExtensions
     /// <param name="operand">The operand.</param>
     /// <returns>Expression representing |operand|.</returns>
     public static T Abs<T>(this Z3Context context, T operand)
-        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T> =>
-        context.Ite(context.Ge(operand, T.Zero(context)), operand, context.UnaryMinus(operand));
+        where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
+    {
+        var handle = context.Library.MkAbs(context.Handle, operand.Handle);
+        return Z3Expr.Create<T>(context, handle);
+    }
 
     /// <summary>
     /// Creates minimum expression for arithmetic expressions.

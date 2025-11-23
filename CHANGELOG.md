@@ -19,16 +19,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unsatisfiable cores (`CheckAssumptions`, `GetUnsatCore`)
 - Multi-dimensional arrays (`ArrayExpr<T1,T2,TValue>`, `ArrayExpr<T1,T2,T3,TValue>`) for 2D and 3D arrays
 - Example documentation (docs/examples/)
+- Arithmetic functions: `Power` (exponentiation), `Divides` (divisibility check), `IsInt` (check if real is integer)
+- Generic arithmetic function extensions for `Abs`, `Min`, `Max` in `ArithmeticFunctionsExprExtensions`
 
 ### Changed
 - CI/CD upgraded to Z3 4.15.4 on Ubuntu 24.04
 - **BREAKING**: Expression type renames: `Z3BoolExpr` → `BoolExpr`, `Z3IntExpr` → `IntExpr`, `Z3RealExpr` → `RealExpr`, `Z3ArrayExpr` → `ArrayExpr`
 - **BREAKING**: Runtime-sized `Z3BitVecExpr` → compile-time `BvExpr<TSize>`
 - **BREAKING**: Namespace reorganization to category-based structure
+- `Abs` now uses native `Z3_mk_abs` instead of composite expression for better performance
+- `Power` always returns `RealExpr` (Z3's design - power operation returns Real sort even for integer inputs)
+
+### Deprecated
+- `SeqExpr<T>.LastIndexOf` marked as obsolete due to unstable behavior in Z3
 
 ### Fixed
 - Type validation error messages now report correct expected vs actual sorts
 - Code generation script now correctly detects input array parameters vs output parameters
+- Error handler delegate now stored to prevent garbage collection crashes
 
 ## [0.0.4] - 2025-09-17
 

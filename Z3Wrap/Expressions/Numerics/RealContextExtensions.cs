@@ -45,4 +45,35 @@ public static class RealContextExtensions
         var handle = context.Library.MkReal2int(context.Handle, expr.Handle);
         return Z3Expr.Create<IntExpr>(context, handle);
     }
+
+    /// <summary>
+    /// Creates boolean expression checking if real expression represents an integer.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="expr">The real expression to check.</param>
+    /// <returns>Boolean expression that is true when expr is an integer value.</returns>
+    public static Logic.BoolExpr IsInt(this Z3Context context, RealExpr expr)
+    {
+        var handle = context.Library.MkIsInt(context.Handle, expr.Handle);
+        return Z3Expr.Create<Logic.BoolExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates power expression for arithmetic expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="base">The base operand (int or real).</param>
+    /// <param name="exponent">The exponent operand (int or real).</param>
+    /// <returns>Real expression representing base^exponent.</returns>
+    /// <remarks>
+    /// Z3's power operation always returns Real sort, even for integer inputs.
+    /// Z3 support for exponentiation is limited: works best with constant exponents,
+    /// may return unknown for variable exponents or complex nonlinear real arithmetic.
+    /// Nonlinear arithmetic is incomplete in Z3.
+    /// </remarks>
+    public static RealExpr Power(this Z3Context context, ArithmeticExpr @base, ArithmeticExpr exponent)
+    {
+        var handle = context.Library.MkPower(context.Handle, @base.Handle, exponent.Handle);
+        return Z3Expr.Create<RealExpr>(context, handle);
+    }
 }

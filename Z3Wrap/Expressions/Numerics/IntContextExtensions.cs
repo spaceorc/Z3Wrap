@@ -152,4 +152,37 @@ public static class IntContextExtensions
         var handle = context.Library.MkIntToStr(context.Handle, expr.Handle);
         return Z3Expr.Create<StringExpr>(context, handle);
     }
+
+    /// <summary>
+    /// Creates divisibility check for integer expressions.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="divisor">The divisor.</param>
+    /// <param name="dividend">The dividend.</param>
+    /// <returns>Boolean expression that is true when divisor divides dividend.</returns>
+    public static Logic.BoolExpr Divides(this Z3Context context, IntExpr divisor, IntExpr dividend)
+    {
+        var handle = context.Library.MkDivides(context.Handle, divisor.Handle, dividend.Handle);
+        return Z3Expr.Create<Logic.BoolExpr>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates divisibility check with integer literal as divisor.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="divisor">The integer literal divisor.</param>
+    /// <param name="dividend">The dividend.</param>
+    /// <returns>Boolean expression that is true when divisor divides dividend.</returns>
+    public static Logic.BoolExpr Divides(this Z3Context context, int divisor, IntExpr dividend) =>
+        context.Divides(context.Int(divisor), dividend);
+
+    /// <summary>
+    /// Creates divisibility check with integer literal as dividend.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="divisor">The divisor.</param>
+    /// <param name="dividend">The integer literal dividend.</param>
+    /// <returns>Boolean expression that is true when divisor divides dividend.</returns>
+    public static Logic.BoolExpr Divides(this Z3Context context, IntExpr divisor, int dividend) =>
+        context.Divides(divisor, context.Int(dividend));
 }
