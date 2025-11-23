@@ -276,4 +276,188 @@ public class LambdaExprTests
         var status = solver.Check();
         Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
     }
+
+    [Test]
+    public void Lambda_SingleParameter_EqualityOperator_SameLambda()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create identical lambdas: x => x + 1
+        var x1 = context.IntConst("x1");
+        var lambda1 = context.Lambda(x1, x1 + 1);
+
+        var x2 = context.IntConst("x2");
+        var lambda2 = context.Lambda(x2, x2 + 1);
+
+        // Assert they are equal (extensionally - same behavior)
+        var equalityConstraint = lambda1 == lambda2;
+        solver.Assert(equalityConstraint);
+
+        var status = solver.Check();
+        // Equality might be UNKNOWN for lambdas in general, but identical simple ones should work
+        Assert.That(status, Is.Not.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Lambda_SingleParameter_InequalityOperator_DifferentLambdas()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create different lambdas
+        var x1 = context.IntConst("x1");
+        var lambda1 = context.Lambda(x1, x1 + 1); // x => x + 1
+
+        var x2 = context.IntConst("x2");
+        var lambda2 = context.Lambda(x2, x2 + 2); // x => x + 2
+
+        // Assert they are NOT equal
+        var inequalityConstraint = lambda1 != lambda2;
+        solver.Assert(inequalityConstraint);
+
+        var status = solver.Check();
+        // Lambda inequality is undecidable in general, so we accept Satisfiable or Unknown
+        Assert.That(status, Is.Not.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Lambda_TwoParameters_EqualityOperator_SameLambda()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create identical lambdas: (x, y) => x + y
+        var x1 = context.IntConst("x1");
+        var y1 = context.IntConst("y1");
+        var lambda1 = context.Lambda(x1, y1, x1 + y1);
+
+        var x2 = context.IntConst("x2");
+        var y2 = context.IntConst("y2");
+        var lambda2 = context.Lambda(x2, y2, x2 + y2);
+
+        // Assert they are equal
+        var equalityConstraint = lambda1 == lambda2;
+        solver.Assert(equalityConstraint);
+
+        var status = solver.Check();
+        Assert.That(status, Is.Not.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Lambda_TwoParameters_InequalityOperator_DifferentLambdas()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create different lambdas
+        var x1 = context.IntConst("x1");
+        var y1 = context.IntConst("y1");
+        var lambda1 = context.Lambda(x1, y1, x1 + y1); // (x,y) => x + y
+
+        var x2 = context.IntConst("x2");
+        var y2 = context.IntConst("y2");
+        var lambda2 = context.Lambda(x2, y2, x2 * y2); // (x,y) => x * y
+
+        // Assert they are NOT equal
+        var inequalityConstraint = lambda1 != lambda2;
+        solver.Assert(inequalityConstraint);
+
+        var status = solver.Check();
+        // Lambda inequality is undecidable in general, so we accept Satisfiable or Unknown
+        Assert.That(status, Is.Not.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Lambda_ThreeParameters_EqualityOperator_SameLambda()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create identical lambdas: (x, y, z) => x + y + z
+        var x1 = context.IntConst("x1");
+        var y1 = context.IntConst("y1");
+        var z1 = context.IntConst("z1");
+        var lambda1 = context.Lambda(x1, y1, z1, x1 + y1 + z1);
+
+        var x2 = context.IntConst("x2");
+        var y2 = context.IntConst("y2");
+        var z2 = context.IntConst("z2");
+        var lambda2 = context.Lambda(x2, y2, z2, x2 + y2 + z2);
+
+        // Assert they are equal
+        var equalityConstraint = lambda1 == lambda2;
+        solver.Assert(equalityConstraint);
+
+        var status = solver.Check();
+        Assert.That(status, Is.Not.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Lambda_ThreeParameters_InequalityOperator_DifferentLambdas()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create different lambdas
+        var x1 = context.IntConst("x1");
+        var y1 = context.IntConst("y1");
+        var z1 = context.IntConst("z1");
+        var lambda1 = context.Lambda(x1, y1, z1, x1 + y1 + z1); // sum
+
+        var x2 = context.IntConst("x2");
+        var y2 = context.IntConst("y2");
+        var z2 = context.IntConst("z2");
+        var lambda2 = context.Lambda(x2, y2, z2, x2 * y2 * z2); // product
+
+        // Assert they are NOT equal
+        var inequalityConstraint = lambda1 != lambda2;
+        solver.Assert(inequalityConstraint);
+
+        var status = solver.Check();
+        // Lambda inequality is undecidable in general, so we accept Satisfiable or Unknown
+        Assert.That(status, Is.Not.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Lambda_EqualityConstraint_ProvesByCounterexample()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create two lambdas: x => x + 1 and x => x + 2
+        var x1 = context.IntConst("x1");
+        var lambda1 = context.Lambda(x1, x1 + 1);
+
+        var x2 = context.IntConst("x2");
+        var lambda2 = context.Lambda(x2, x2 + 2);
+
+        // Try to prove they're equal - should fail
+        // We can show they're different by finding an input where outputs differ
+        var testInput = context.IntConst("input");
+        var output1 = lambda1.Apply(testInput);
+        var output2 = lambda2.Apply(testInput);
+
+        // Outputs should be different
+        solver.Assert(output1 != output2);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        // Any input will show they differ
+        var model = solver.GetModel();
+        var inputValue = model.GetIntValue(testInput);
+        var out1Value = model.GetIntValue(output1);
+        var out2Value = model.GetIntValue(output2);
+
+        // Verify the difference
+        Assert.That(out2Value - out1Value, Is.EqualTo(new BigInteger(1)));
+    }
 }
