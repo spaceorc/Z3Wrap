@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Proof generation (`Z3Solver.GetProof()`) for retrieving S-expression proofs of unsatisfiability
 - String theory support (`StringExpr`, `CharExpr`)
 - Regular expression support (`RegexExpr`) with factory methods, operations (Star, Plus, Option, Complement, Union, Concat, Intersect, Diff, Loop, Power), and operators (+, |, ~, &, -)
 - Sequence theory support (`SeqExpr<T>`) with generic sequences for any element type
