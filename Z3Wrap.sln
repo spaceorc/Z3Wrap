@@ -47,11 +47,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{AF31908E-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{DC9C360B-5C57-49CF-9091-9F321BE0A89A}"
 	ProjectSection(SolutionItems) = preProject
-		docs\examples\StringTheory.md = docs\examples\StringTheory.md
-		docs\examples\RealWorld.md = docs\examples\RealWorld.md
+		docs\examples\LogicAndArithmetic.md = docs\examples\LogicAndArithmetic.md
+		docs\examples\Arrays.md = docs\examples\Arrays.md
 		docs\examples\BitVectors.md = docs\examples\BitVectors.md
-		docs\examples\Optimization.md = docs\examples\Optimization.md
+		docs\examples\StringTheory.md = docs\examples\StringTheory.md
 		docs\examples\RegularExpressions.md = docs\examples\RegularExpressions.md
+		docs\examples\Quantifiers.md = docs\examples\Quantifiers.md
+		docs\examples\UninterpretedFunctions.md = docs\examples\UninterpretedFunctions.md
+		docs\examples\LambdasAndHigherOrder.md = docs\examples\LambdasAndHigherOrder.md
+		docs\examples\Optimization.md = docs\examples\Optimization.md
+		docs\examples\RealWorld.md = docs\examples\RealWorld.md
 	EndProjectSection
 EndProject
 Global
