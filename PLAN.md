@@ -29,6 +29,7 @@ Z3Wrap is a mature .NET 9.0 wrapper for Microsoft's Z3 theorem prover with natur
 - **Optimization** - Maximize/minimize objectives with soft constraints
 - **Unsatisfiable Cores** - Debug conflicting constraints
 - **Proofs** - Proof generation for UNSAT results (S-expression format)
+- **Pseudo-Boolean Constraints** - Cardinality (AtMost, AtLeast, Exactly) and weighted constraints (PbLe, PbGe, PbEq)
 - **Push/Pop** - Backtracking and incremental solving
 - **Model Extraction** - Extract satisfying assignments
 - **Parameter Configuration** - Fine-tune solver behavior
