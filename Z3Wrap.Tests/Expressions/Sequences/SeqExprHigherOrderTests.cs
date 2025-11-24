@@ -1,4 +1,3 @@
-using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Functions;
 using Spaceorc.Z3Wrap.Expressions.Numerics;

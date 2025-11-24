@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Pseudo-Boolean constraints (`AtMost`, `AtLeast`, `Exactly`, `PbLe`, `PbGe`, `PbEq`) for cardinality and weighted constraints
+
 ## [0.0.5] - 2025-11-23
 
 ### Added
