@@ -506,4 +506,32 @@ public class FpExprCreationTests
         Assert.That(rm, Is.Not.Null);
         Assert.That(rm.Context, Is.SameAs(context));
     }
+
+    [Test]
+    public void GetFpComponents_ExtractsCorrectComponents()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var expr = context.Fp(3.14f);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var (sign, exponent, significand) = model.GetFpComponents(expr);
+
+        // Verify components match IEEE 754 representation of 3.14f
+        var bits = BitConverter.SingleToUInt32Bits(3.14f);
+        var expectedSign = (bits & 0x80000000) != 0;
+        var expectedExp = (ulong)((bits >> 23) & 0xFF);
+        var expectedSig = (ulong)(bits & 0x7FFFFF);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(sign, Is.EqualTo(expectedSign));
+            Assert.That(exponent, Is.EqualTo(expectedExp));
+            Assert.That(significand, Is.EqualTo(expectedSig));
+        });
+    }
 }

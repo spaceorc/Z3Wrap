@@ -609,6 +609,109 @@ Z3Wrap.Tests/Expressions/FloatingPoint/
 - Z3's floating-point representation uses IEEE bit format directly
 - MkFpaNumeralFloat/Double are preferred over MkFpaNumeralInt for value creation
 
+### Component-Based API
+
+**Implemented**: `GetFpComponents<TFormat>()` for extracting raw IEEE 754 components
+
+```csharp
+var model = solver.GetModel();
+var (sign, exponent, significand) = model.GetFpComponents(fpExpr);
+```
+
+This allows users working with custom precision formats to extract the raw bit-level representation as:
+- `Sign`: bool (true = negative, false = positive)
+- `Exponent`: ulong (biased exponent value)
+- `Significand`: ulong (without implicit leading bit)
+
+**Not Implemented**: `FpFromComponents<TFormat>()` for creating FpExpr from raw components
+
+Attempted to implement using `Z3_mk_fpa_fp` (constructs FP from bit-vector components), but encountered issues with Z3 API:
+- `MkNumeral` with BV sort produces AST that Z3_mk_fpa_fp doesn't recognize as bit-vector
+- Error: "sort mismatch, expected three bit-vectors, the first one of size 1"
+- Multiple approaches tried: MkBvNumeral, MkUnsignedInt64, string formats (#b, decimal)
+- All failed with same error despite following existing BV patterns in codebase
+
+**Future Work**: Investigate proper Z3 API usage for bit-vector construction or consider alternative approaches:
+- Use Z3_mk_numeral with binary string for bit-vectors (may need different format)
+- Look at Z3 Python bindings implementation
+- Consider if this feature is actually needed (users can use standard constructors for common cases)
+
+## Future Enhancements
+
+### 1. Fp<TFormat> Value Type (Similar to Real and Bv<TSize>)
+
+**Intention**: Create a C#-native value type for floating-point values that can be used independently of Z3 contexts.
+
+**Proposed Design**:
+```csharp
+public readonly struct Fp<TFormat> : IComparable<Fp<TFormat>>
+    where TFormat : IFloatFormat
+{
+    // Storage: IEEE 754 components
+    private readonly bool sign;
+    private readonly ulong exponent;
+    private readonly ulong significand;
+
+    // Factory methods for special values
+    public static Fp<TFormat> Zero { get; }
+    public static Fp<TFormat> NegativeZero { get; }
+    public static Fp<TFormat> PositiveInfinity { get; }
+    public static Fp<TFormat> NegativeInfinity { get; }
+    public static Fp<TFormat> NaN { get; }
+
+    // Conversions to/from C# types (for standard formats only)
+    public static explicit operator Fp<Float16>(Half value);
+    public static explicit operator Fp<Float32>(float value);
+    public static explicit operator Fp<Float64>(double value);
+
+    // Arithmetic operators (delegate to C# types for standard formats)
+    public static Fp<TFormat> operator +(Fp<TFormat> left, Fp<TFormat> right);
+    // ... other operators
+
+    // ToString with format support
+    public string ToString(string? format = null);
+}
+
+// Model extraction
+public static Fp<TFormat> GetFpValue<TFormat>(this Z3Model model, FpExpr<TFormat> expr)
+    where TFormat : IFloatFormat;
+
+// Z3 expression creation from value
+public static FpExpr<TFormat> Fp<TFormat>(this Z3Context context, Fp<TFormat> value)
+    where TFormat : IFloatFormat;
+```
+
+**Benefits**:
+- Consistent with existing `Real` and `Bv<TSize>` value types
+- Allows working with FP values outside of Z3 context
+- Type-safe representation of IEEE 754 values
+- Enables custom precision formats not supported by C# natively
+
+**Challenges**:
+- Arithmetic operations tricky for custom formats (no native C# implementation)
+- May need to delegate to Z3 for custom format operations
+- Or implement IEEE 754 arithmetic in C# (significant complexity)
+
+**Decision**: Defer until there's clear user demand for custom precision formats beyond Float16/32/64.
+
+### 2. Additional Conversions
+
+Currently supports:
+- FpExpr to/from RealExpr
+
+Future additions:
+- FpExpr to/from IntExpr (with rounding modes)
+- FpExpr to/from BvExpr (bit-level representation)
+- Support for unsigned int conversions
+
+### 3. Additional Operations
+
+Could add:
+- Remainder (fmod)
+- Power functions
+- Trigonometric functions (if Z3 supports them)
+- Logarithmic functions
+
 ## References
 
 - IEEE 754-2008 Standard for Floating-Point Arithmetic

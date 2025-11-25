@@ -146,6 +146,77 @@ public sealed partial class Z3Model
         return context.Library.AstToString(context.Handle, evaluated.Handle);
     }
 
+    /// <summary>
+    /// Gets the IEEE 754 components (sign, exponent, significand) of a floating-point expression in this model.
+    /// Use this for custom precision formats or when you need raw bit-level access.
+    /// </summary>
+    /// <typeparam name="TFormat">The floating-point format.</typeparam>
+    /// <param name="expr">The floating-point expression.</param>
+    /// <returns>Named tuple with Sign (bool), Exponent (ulong), and Significand (ulong) components.</returns>
+    public (bool Sign, ulong Exponent, ulong Significand) GetFpComponents<TFormat>(FpExpr<TFormat> expr)
+        where TFormat : IFloatFormat
+    {
+        var str = GetFpStringValue(expr);
+
+        // Handle IEEE bit representation: (fp #bS #bEEEEE #bSSSSSSSSS)
+        if (str.StartsWith("(fp "))
+        {
+            var parts = str.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 4)
+            {
+                var sign = ParseFpComponent(parts[1]) != 0;
+                var exp = ParseFpComponent(parts[2]);
+                var sig = ParseFpComponent(parts[3].TrimEnd(')'));
+
+                return (sign, exp, sig);
+            }
+        }
+
+        // Handle special values
+        var maxExp = (1UL << (int)TFormat.ExponentBits) - 1;
+
+        if (str.Contains("NaN") || str.Contains("nan"))
+            return (false, maxExp, 1);
+        if (str.Contains("+oo") || str.Contains("+infinity") || str == "oo")
+            return (false, maxExp, 0);
+        if (str.Contains("-oo") || str.Contains("-infinity"))
+            return (true, maxExp, 0);
+        if (str.Contains("+zero"))
+            return (false, 0, 0);
+        if (str.Contains("-zero"))
+            return (true, 0, 0);
+
+        // Try to parse as numeric value for standard formats and extract components
+        if (typeof(TFormat) == typeof(Float16))
+        {
+            if (Half.TryParse(str, out var half))
+            {
+                var bits = BitConverter.HalfToUInt16Bits(half);
+                return ((bits & 0x8000) != 0, (ulong)((bits >> 10) & 0x1F), (ulong)(bits & 0x3FF));
+            }
+        }
+        else if (typeof(TFormat) == typeof(Float32))
+        {
+            if (float.TryParse(str, out var single))
+            {
+                var bits = BitConverter.SingleToUInt32Bits(single);
+                return ((bits & 0x80000000) != 0, (ulong)((bits >> 23) & 0xFF), (ulong)(bits & 0x7FFFFF));
+            }
+        }
+        else if (typeof(TFormat) == typeof(Float64))
+        {
+            if (double.TryParse(str, out var dbl))
+            {
+                var bits = BitConverter.DoubleToUInt64Bits(dbl);
+                return ((bits & 0x8000000000000000) != 0, (bits >> 52) & 0x7FF, bits & 0xFFFFFFFFFFFFF);
+            }
+        }
+
+        throw new InvalidOperationException(
+            $"Failed to parse {typeof(TFormat).Name} value '{str}' from expression {expr}"
+        );
+    }
+
     private static ulong ParseFpComponent(string component)
     {
         if (component.StartsWith("#b"))
