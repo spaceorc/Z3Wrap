@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Pseudo-Boolean constraints (`AtMost`, `AtLeast`, `Exactly`, `PbLe`, `PbGe`, `PbEq`) for cardinality and weighted constraints
+- IEEE 754 floating-point arithmetic (`FpExpr<TFormat>`) with Half, Single, and Double precision formats, rounding modes, and special values
 
 ## [0.0.5] - 2025-11-23
 

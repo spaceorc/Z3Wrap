@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5
 		LICENSE = LICENSE
 		Makefile = Makefile
 		ANALYSIS.md = ANALYSIS.md
+		PLAN_FP.md = PLAN_FP.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{57C34814-857F-4D49-9E65-43A2B80B1DB5}"
@@ -57,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{DC
 		docs\examples\LambdasAndHigherOrder.md = docs\examples\LambdasAndHigherOrder.md
 		docs\examples\Optimization.md = docs\examples\Optimization.md
 		docs\examples\RealWorld.md = docs\examples\RealWorld.md
+		docs\examples\FloatingPoint.md = docs\examples\FloatingPoint.md
 	EndProjectSection
 EndProject
 Global
