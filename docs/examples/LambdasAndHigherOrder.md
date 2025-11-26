@@ -62,7 +62,7 @@ using var scope = context.SetUp();
 using var solver = context.CreateSolver();
 
 // Create sequence [1, 2, 3, 4, 5]
-var numbers = context.Seq<IntExpr>(1, 2, 3, 4, 5);
+var numbers = context.Seq(context.Int(1), context.Int(2), context.Int(3), context.Int(4), context.Int(5));
 
 // Double each element
 var x = context.IntConst("x");
@@ -70,7 +70,7 @@ var doubler = context.Lambda(x, x * 2);
 var doubled = numbers.Map(doubler);
 
 // Verify: [2, 4, 6, 8, 10]
-var expected = context.Seq<IntExpr>(2, 4, 6, 8, 10);
+var expected = context.Seq(context.Int(2), context.Int(4), context.Int(6), context.Int(8), context.Int(10));
 
 solver.Assert(doubled == expected);
 Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
@@ -141,7 +141,7 @@ using var scope = context.SetUp();
 using var solver = context.CreateSolver();
 
 // Create sequence [1, 2, 3, 4, 5]
-var numbers = context.Seq<IntExpr>(1, 2, 3, 4, 5);
+var numbers = context.Seq(context.Int(1), context.Int(2), context.Int(3), context.Int(4), context.Int(5));
 
 // Sum: (accumulator, element) => accumulator + element
 var acc = context.IntConst("acc");

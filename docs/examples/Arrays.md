@@ -91,7 +91,7 @@ else
 var data = context.ArrayConst<IntExpr, IntExpr>("data");
 
 // Initialize all elements to default value 0
-var defaultArray = context.ConstArray<IntExpr, IntExpr>(0);
+var defaultArray = context.Array<IntExpr, IntExpr>(0);
 
 // Set specific values
 var arr1 = defaultArray.Store(5, 100);
@@ -224,7 +224,7 @@ var table1 = context.ArrayConst<IntExpr, IntExpr>("table1");
 var table2 = context.ArrayConst<IntExpr, IntExpr>("table2");
 
 // Implementation 1: explicit stores
-var impl1 = context.ConstArray<IntExpr, IntExpr>(0)
+var impl1 = context.Array<IntExpr, IntExpr>(0)
     .Store(1, 10)
     .Store(2, 20)
     .Store(3, 30);
@@ -288,7 +288,7 @@ if (solver.Check() == Z3Status.Satisfiable)
 **Problem**: Find which index satisfies a property
 
 ```csharp
-var arr = context.ConstArray<IntExpr, IntExpr>(0)
+var arr = context.Array<IntExpr, IntExpr>(0)
     .Store(0, 5)
     .Store(1, 10)
     .Store(2, 15)
@@ -361,7 +361,7 @@ else
 
 **Operations:**
 - `ArrayConst<TIndex, TValue>(name)` - Create symbolic array
-- `ConstArray<TIndex, TValue>(defaultValue)` - All elements have same value
+- `Array<TIndex, TValue>(defaultValue)` - All elements have same value
 - `array[index]` - Read (Select)
 - `array.Store(index, value)` - Write (returns new array)
 - Multi-dimensional: `array[i, j]`, `array.Store(i, j, val)`
@@ -392,7 +392,7 @@ else
 ## Performance Tips
 
 1. **Avoid unnecessary stores**: Chain stores efficiently
-2. **Use ConstArray for defaults**: More efficient than many stores
+2. **Use Array for defaults**: More efficient than many stores
 3. **Minimize array equalities**: Expensive for solver
 4. **Bounded indices**: Add range constraints when possible
 5. **Multi-dimensional alternatives**: Sometimes nested structures are clearer

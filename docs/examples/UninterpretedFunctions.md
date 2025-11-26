@@ -529,11 +529,11 @@ For runtime-defined signatures:
 ```csharp
 // Build function with dynamic arity
 var builder = context.FuncDeclBuilder("myFunc");
-builder.AddDomain<IntExpr>();
-builder.AddDomain<BoolExpr>();
-builder.SetRange<IntExpr>();
+builder.WithArg<IntExpr>();
+builder.WithArg<BoolExpr>();
+builder.WithRange<IntExpr>();
 
-var func = builder.Build();
+var func = builder.Create();
 
 // Apply dynamically
 var result = func.Apply(context.Int(5), context.Bool(true));
