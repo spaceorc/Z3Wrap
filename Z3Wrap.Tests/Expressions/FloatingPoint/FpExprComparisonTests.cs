@@ -16,8 +16,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(aValue);
-        var b = context.Fp(bValue);
+        var a = context.Fp<Float32>(aValue);
+        var b = context.Fp<Float32>(bValue);
 
         var result = a < b;
 
@@ -37,8 +37,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(aValue);
-        var b = context.Fp(bValue);
+        var a = context.Fp<Float32>(aValue);
+        var b = context.Fp<Float32>(bValue);
 
         var result = a <= b;
 
@@ -58,8 +58,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(aValue);
-        var b = context.Fp(bValue);
+        var a = context.Fp<Float32>(aValue);
+        var b = context.Fp<Float32>(bValue);
 
         var result = a > b;
 
@@ -79,8 +79,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(aValue);
-        var b = context.Fp(bValue);
+        var a = context.Fp<Float32>(aValue);
+        var b = context.Fp<Float32>(bValue);
 
         var result = a >= b;
 
@@ -100,8 +100,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(aValue);
-        var b = context.Fp(bValue);
+        var a = context.Fp<Float32>(aValue);
+        var b = context.Fp<Float32>(bValue);
 
         var result = a == b;
 
@@ -121,8 +121,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(aValue);
-        var b = context.Fp(bValue);
+        var a = context.Fp<Float32>(aValue);
+        var b = context.Fp<Float32>(bValue);
 
         var result = a != b;
 
@@ -140,8 +140,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(2.5);
-        var b = context.Fp(5.0);
+        var a = context.Fp<Float64>(2.5);
+        var b = context.Fp<Float64>(5.0);
 
         var result = a < b;
 
@@ -159,8 +159,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(3.14159);
-        var b = context.Fp(3.14159);
+        var a = context.Fp<Float64>(3.14159);
+        var b = context.Fp<Float64>(3.14159);
 
         var result = a == b;
 
@@ -178,8 +178,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp((Half)2.5f);
-        var b = context.Fp((Half)5.0f);
+        var a = context.Fp<Float16>((double)(Half)2.5f);
+        var b = context.Fp<Float16>((double)(Half)5.0f);
 
         var result = a < b;
 
@@ -197,8 +197,8 @@ public class FpExprComparisonTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp((Half)3.14f);
-        var b = context.Fp((Half)3.14f);
+        var a = context.Fp<Float16>((double)(Half)3.14f);
+        var b = context.Fp<Float16>((double)(Half)3.14f);
 
         var result = a == b;
 

@@ -23,46 +23,6 @@ public static class FpContextExtensions
     }
 
     /// <summary>
-    /// Creates floating-point value from Half.
-    /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="value">The Half value.</param>
-    /// <returns>Floating-point expression representing the value.</returns>
-    public static FpExpr<Float16> Fp(this Z3Context context, Half value)
-    {
-        var sort = context.Library.MkFpaSort(context.Handle, Float16.ExponentBits, Float16.SignificandBits);
-        // Convert Half to float since Z3 doesn't have native Half support
-        var handle = context.Library.MkFpaNumeralFloat(context.Handle, (float)value, sort);
-        return new FpExpr<Float16>(context, handle);
-    }
-
-    /// <summary>
-    /// Creates floating-point value from float.
-    /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="value">The float value.</param>
-    /// <returns>Floating-point expression representing the value.</returns>
-    public static FpExpr<Float32> Fp(this Z3Context context, float value)
-    {
-        var sort = context.Library.MkFpaSort(context.Handle, Float32.ExponentBits, Float32.SignificandBits);
-        var handle = context.Library.MkFpaNumeralFloat(context.Handle, value, sort);
-        return new FpExpr<Float32>(context, handle);
-    }
-
-    /// <summary>
-    /// Creates floating-point value from double.
-    /// </summary>
-    /// <param name="context">The Z3 context.</param>
-    /// <param name="value">The double value.</param>
-    /// <returns>Floating-point expression representing the value.</returns>
-    public static FpExpr<Float64> Fp(this Z3Context context, double value)
-    {
-        var sort = context.Library.MkFpaSort(context.Handle, Float64.ExponentBits, Float64.SignificandBits);
-        var handle = context.Library.MkFpaNumeralDouble(context.Handle, value, sort);
-        return new FpExpr<Float64>(context, handle);
-    }
-
-    /// <summary>
     /// Creates floating-point value from double with explicit format.
     /// </summary>
     /// <typeparam name="TFormat">The floating-point format.</typeparam>

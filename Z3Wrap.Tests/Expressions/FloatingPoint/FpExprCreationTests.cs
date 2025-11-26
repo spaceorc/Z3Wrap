@@ -43,63 +43,6 @@ public class FpExprCreationTests
     }
 
     [Test]
-    public void Fp_FromHalf_CreatesValue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var value = (Half)3.14f;
-        var expr = context.Fp(value);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var result = model.GetHalfValue(expr);
-
-        Assert.That(result, Is.EqualTo(value));
-    }
-
-    [Test]
-    public void Fp_FromFloat_CreatesValue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var value = 3.14f;
-        var expr = context.Fp(value);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var result = model.GetFloatValue(expr);
-
-        Assert.That(result, Is.EqualTo(value));
-    }
-
-    [Test]
-    public void Fp_FromDouble_CreatesValue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var value = 3.14159265358979;
-        var expr = context.Fp(value);
-
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        var result = model.GetDoubleValue(expr);
-
-        Assert.That(result, Is.EqualTo(value));
-    }
-
-    [Test]
     public void Fp_WithExplicitFormat_Float16_CreatesValue()
     {
         using var context = new Z3Context();
@@ -514,7 +457,7 @@ public class FpExprCreationTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var expr = context.Fp(3.14f);
+        var expr = context.Fp<Float32>(3.14f);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 
@@ -638,7 +581,7 @@ public class FpExprCreationTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var original = context.Fp(6.28f);
+        var original = context.Fp<Float32>(6.28f);
 
         Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
 

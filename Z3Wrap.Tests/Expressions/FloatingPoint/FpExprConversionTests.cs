@@ -17,7 +17,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14159);
+        var value = context.Fp<Float64>(3.14159);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = value.ToFloat32(rm);
@@ -36,7 +36,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = value.ToFloat64(rm);
@@ -55,7 +55,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = value.ToFloat16(rm);
@@ -74,7 +74,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(2.5f);
+        var value = context.Fp<Float32>(2.5f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = value.ToFormat<Float32, Float64>(rm);
@@ -93,7 +93,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.5f);
+        var value = context.Fp<Float32>(3.5f);
 
         var result = value.ToReal();
 
@@ -154,7 +154,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14159);
+        var value = context.Fp<Float64>(3.14159);
         var rm = context.RoundingMode(RoundingMode.TowardZero);
 
         var result = value.ToFloat32(rm);
@@ -173,7 +173,7 @@ public class FpExprConversionTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(2.5f);
+        var value = context.Fp<Float32>(2.5f);
         var rm = context.RoundingMode(RoundingMode.TowardPositive);
 
         var result = value.ToFloat64(rm);

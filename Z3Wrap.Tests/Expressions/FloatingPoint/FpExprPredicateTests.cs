@@ -32,7 +32,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsNaN();
 
@@ -86,7 +86,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsInfinite();
 
@@ -140,7 +140,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsZero();
 
@@ -158,7 +158,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsNormal();
 
@@ -176,7 +176,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(-3.14f);
+        var value = context.Fp<Float32>(-3.14f);
 
         var result = value.IsNegative();
 
@@ -194,7 +194,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsNegative();
 
@@ -212,7 +212,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsPositive();
 
@@ -230,7 +230,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(-3.14f);
+        var value = context.Fp<Float32>(-3.14f);
 
         var result = value.IsPositive();
 
@@ -305,7 +305,7 @@ public class FpExprPredicateTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var value = context.Fp(3.14f);
+        var value = context.Fp<Float32>(3.14f);
 
         var result = value.IsSubnormal();
 

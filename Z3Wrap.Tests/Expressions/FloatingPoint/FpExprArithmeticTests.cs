@@ -14,8 +14,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(2.5f);
-        var b = context.Fp(3.75f);
+        var a = context.Fp<Float32>(2.5f);
+        var b = context.Fp<Float32>(3.75f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = a + b;
@@ -34,8 +34,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(2.5f);
-        var b = context.Fp(3.75f);
+        var a = context.Fp<Float32>(2.5f);
+        var b = context.Fp<Float32>(3.75f);
         var rm = context.RoundingMode(RoundingMode.TowardZero);
 
         var result = a.Add(b, rm);
@@ -54,8 +54,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(10.5f);
-        var b = context.Fp(3.25f);
+        var a = context.Fp<Float32>(10.5f);
+        var b = context.Fp<Float32>(3.25f);
 
         var result = a - b;
 
@@ -73,8 +73,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(10.5f);
-        var b = context.Fp(3.25f);
+        var a = context.Fp<Float32>(10.5f);
+        var b = context.Fp<Float32>(3.25f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = a.Sub(b, rm);
@@ -93,8 +93,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(4.0f);
-        var b = context.Fp(2.5f);
+        var a = context.Fp<Float32>(4.0f);
+        var b = context.Fp<Float32>(2.5f);
 
         var result = a * b;
 
@@ -112,8 +112,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(4.0f);
-        var b = context.Fp(2.5f);
+        var a = context.Fp<Float32>(4.0f);
+        var b = context.Fp<Float32>(2.5f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = a.Mul(b, rm);
@@ -132,8 +132,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(10.0f);
-        var b = context.Fp(4.0f);
+        var a = context.Fp<Float32>(10.0f);
+        var b = context.Fp<Float32>(4.0f);
 
         var result = a / b;
 
@@ -151,8 +151,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(10.0f);
-        var b = context.Fp(4.0f);
+        var a = context.Fp<Float32>(10.0f);
+        var b = context.Fp<Float32>(4.0f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = a.Div(b, rm);
@@ -171,8 +171,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
-        var b = context.Fp(2.0f);
+        var a = context.Fp<Float32>(5.5f);
+        var b = context.Fp<Float32>(2.0f);
 
         var result = a % b;
 
@@ -191,8 +191,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
-        var b = context.Fp(2.0f);
+        var a = context.Fp<Float32>(5.5f);
+        var b = context.Fp<Float32>(2.0f);
 
         var result = a.Rem(b);
 
@@ -211,7 +211,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
+        var a = context.Fp<Float32>(5.5f);
 
         var result = -a;
 
@@ -229,7 +229,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
+        var a = context.Fp<Float32>(5.5f);
 
         var result = a.Neg();
 
@@ -247,7 +247,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
+        var a = context.Fp<Float32>(5.5f);
 
         var result = a.Abs();
 
@@ -265,7 +265,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(-5.5f);
+        var a = context.Fp<Float32>(-5.5f);
 
         var result = a.Abs();
 
@@ -283,7 +283,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(16.0f);
+        var a = context.Fp<Float32>(16.0f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = a.Sqrt(rm);
@@ -302,7 +302,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.7f);
+        var a = context.Fp<Float32>(5.7f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         var result = a.RoundToIntegral(rm);
@@ -321,7 +321,7 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.7f);
+        var a = context.Fp<Float32>(5.7f);
         var rm = context.RoundingMode(RoundingMode.TowardZero);
 
         var result = a.RoundToIntegral(rm);
@@ -340,9 +340,9 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var x = context.Fp(2.0f);
-        var y = context.Fp(3.0f);
-        var z = context.Fp(4.0f);
+        var x = context.Fp<Float32>(2.0f);
+        var y = context.Fp<Float32>(3.0f);
+        var z = context.Fp<Float32>(4.0f);
         var rm = context.RoundingMode(RoundingMode.NearestTiesToEven);
 
         // x * y + z = 2 * 3 + 4 = 10
@@ -362,8 +362,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
-        var b = context.Fp(3.2f);
+        var a = context.Fp<Float32>(5.5f);
+        var b = context.Fp<Float32>(3.2f);
 
         var result = a.Min(b);
 
@@ -381,8 +381,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(5.5f);
-        var b = context.Fp(3.2f);
+        var a = context.Fp<Float32>(5.5f);
+        var b = context.Fp<Float32>(3.2f);
 
         var result = a.Max(b);
 
@@ -400,8 +400,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(2.5);
-        var b = context.Fp(3.75);
+        var a = context.Fp<Float64>(2.5);
+        var b = context.Fp<Float64>(3.75);
 
         var result = a + b;
 
@@ -419,8 +419,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp(4.0);
-        var b = context.Fp(2.5);
+        var a = context.Fp<Float64>(4.0);
+        var b = context.Fp<Float64>(2.5);
 
         var result = a * b;
 
@@ -438,8 +438,8 @@ public class FpExprArithmeticTests
         using var scope = context.SetUp();
         using var solver = context.CreateSolver();
 
-        var a = context.Fp((Half)2.5f);
-        var b = context.Fp((Half)3.5f);
+        var a = context.Fp<Float16>((double)(Half)2.5f);
+        var b = context.Fp<Float16>((double)(Half)3.5f);
 
         var result = a + b;
 
