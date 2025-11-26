@@ -756,4 +756,62 @@ public class FpExprCreationTests
 
         Assert.That(float.IsNaN(result), Is.True);
     }
+
+    [Test]
+    public void ImplicitConversion_FromDoubleToFloat64_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float64> implicitExpr = 3.14159;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetDoubleValue(implicitExpr), Is.EqualTo(3.14159));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromDoubleToFloat32_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float32> implicitExpr = 2.5;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetFloatValue(implicitExpr), Is.EqualTo(2.5f));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromDoubleToFloat16_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float16> implicitExpr = 1.5;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That((double)model.GetHalfValue(implicitExpr), Is.EqualTo(1.5).Within(0.01));
+    }
+
+    [TestCase(3.14)]
+    [TestCase(0.0)]
+    [TestCase(-2.5)]
+    public void ImplicitConversion_DifferentDoubleValues_Works(double value)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float64> implicitExpr = value;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetDoubleValue(implicitExpr), Is.EqualTo(value));
+    }
 }
