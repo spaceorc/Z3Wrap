@@ -163,23 +163,5 @@ public sealed class FpExpr<TFormat> : Z3Expr, IExprType<FpExpr<TFormat>>
     {
         return operand.Neg();
     }
-
-    /// <summary>
-    /// Required override for equality comparison.
-    /// </summary>
-    /// <param name="obj">The object to compare with.</param>
-    /// <returns>True if equal, false otherwise.</returns>
-    public override bool Equals(object? obj)
-    {
-        throw new NotSupportedException("Use operator == for Z3 expression comparison, not Equals()");
-    }
-
-    /// <summary>
-    /// Required override for hash code.
-    /// </summary>
-    /// <returns>Hash code.</returns>
-    public override int GetHashCode()
-    {
-        throw new NotSupportedException("GetHashCode not supported for Z3 expressions");
-    }
 }
+#pragma warning restore CS0660, CS0661

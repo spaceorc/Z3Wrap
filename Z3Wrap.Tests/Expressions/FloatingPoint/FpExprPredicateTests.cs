@@ -276,4 +276,80 @@ public class FpExprPredicateTests
         var model = solver.GetModel();
         Assert.That(model.GetBoolValue(result), Is.True);
     }
+
+    [Test]
+    public void IsSubnormal_SubnormalValue_ReturnsTrue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Create a subnormal Float32: smallest possible value > 0
+        // Subnormal: exponent = 0, significand != 0
+        // Use FpFromComponents to create: sign=false, exp=0, sig=1
+        var subnormal = context.FpFromComponents<Float32>(sign: false, exponent: 0, significand: 1);
+
+        var result = subnormal.IsSubnormal();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBoolValue(result), Is.True);
+    }
+
+    [Test]
+    public void IsSubnormal_NormalValue_ReturnsFalse()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var value = context.Fp(3.14f);
+
+        var result = value.IsSubnormal();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBoolValue(result), Is.False);
+    }
+
+    [Test]
+    public void IsSubnormal_Zero_ReturnsFalse()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var zero = context.FpZero<Float32>(negative: false);
+
+        var result = zero.IsSubnormal();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBoolValue(result), Is.False);
+    }
+
+    [Test]
+    public void IsSubnormal_Float64Subnormal_ReturnsTrue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Smallest subnormal Float64
+        var subnormal = context.FpFromComponents<Float64>(sign: false, exponent: 0, significand: 1);
+
+        var result = subnormal.IsSubnormal();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBoolValue(result), Is.True);
+    }
 }
