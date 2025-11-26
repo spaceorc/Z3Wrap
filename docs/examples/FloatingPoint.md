@@ -331,6 +331,5 @@ if (solver.Check() == Z3Status.Satisfiable)
 
 ## See Also
 
-- **Real Expressions**: For exact arithmetic without floating-point errors
+- **Real Expressions**: For exact arithmetic without floating-point errors (can also be used with optimizer for finding max/min values)
 - **BitVectors**: For low-level bit manipulation
-- **Optimization**: For finding maximum/minimum floating-point values
