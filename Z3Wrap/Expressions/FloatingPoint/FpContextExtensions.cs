@@ -124,4 +124,54 @@ public static class FpContextExtensions
             : context.Library.MkFpaZero(context.Handle, sort, false);
         return new FpExpr<TFormat>(context, handle);
     }
+
+    /// <summary>
+    /// Creates floating-point value from IEEE 754 bit components.
+    /// </summary>
+    /// <typeparam name="TFormat">The floating-point format.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="sign">Sign bit (true for negative, false for positive).</param>
+    /// <param name="exponent">Biased exponent value.</param>
+    /// <param name="significand">Significand bits (without implicit leading 1).</param>
+    /// <returns>Floating-point expression constructed from components.</returns>
+    public static FpExpr<TFormat> FpFromComponents<TFormat>(
+        this Z3Context context,
+        bool sign,
+        ulong exponent,
+        ulong significand
+    )
+        where TFormat : IFloatFormat
+    {
+        using var signBv = new LocalZ3Handle(
+            context,
+            context.Library.MkUnsignedInt64(
+                context.Handle,
+                sign ? 1UL : 0UL,
+                context.Library.MkBvSort(context.Handle, 1)
+            )
+        );
+
+        using var expBv = new LocalZ3Handle(
+            context,
+            context.Library.MkUnsignedInt64(
+                context.Handle,
+                exponent,
+                context.Library.MkBvSort(context.Handle, TFormat.ExponentBits)
+            )
+        );
+
+        var sigBits = TFormat.SignificandBits - 1;
+        using var sigBv = new LocalZ3Handle(
+            context,
+            context.Library.MkUnsignedInt64(
+                context.Handle,
+                significand,
+                context.Library.MkBvSort(context.Handle, sigBits)
+            )
+        );
+
+        var fpAst = context.Library.MkFpaFp(context.Handle, signBv.Handle, expBv.Handle, sigBv.Handle);
+
+        return new FpExpr<TFormat>(context, fpAst);
+    }
 }

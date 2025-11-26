@@ -534,4 +534,226 @@ public class FpExprCreationTests
             Assert.That(significand, Is.EqualTo(expectedSig));
         });
     }
+
+    [Test]
+    public void FpFromComponents_Float32_PositiveValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for 3.14f
+        var value = 3.14f;
+        var bits = BitConverter.SingleToUInt32Bits(value);
+        var sign = (bits & 0x80000000) != 0;
+        var exp = (ulong)((bits >> 23) & 0xFF);
+        var sig = (ulong)(bits & 0x7FFFFF);
+
+        var expr = context.FpFromComponents<Float32>(sign, exp, sig);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.That(result, Is.EqualTo(value));
+    }
+
+    [Test]
+    public void FpFromComponents_Float32_NegativeValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for -3.14f
+        var value = -3.14f;
+        var bits = BitConverter.SingleToUInt32Bits(value);
+        var sign = (bits & 0x80000000) != 0;
+        var exp = (ulong)((bits >> 23) & 0xFF);
+        var sig = (ulong)(bits & 0x7FFFFF);
+
+        var expr = context.FpFromComponents<Float32>(sign, exp, sig);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.That(result, Is.EqualTo(value));
+    }
+
+    [Test]
+    public void FpFromComponents_Float64_PositiveValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for 3.14159
+        var value = 3.14159;
+        var bits = BitConverter.DoubleToUInt64Bits(value);
+        var sign = (bits & 0x8000000000000000) != 0;
+        var exp = (bits >> 52) & 0x7FF;
+        var sig = bits & 0xFFFFFFFFFFFFF;
+
+        var expr = context.FpFromComponents<Float64>(sign, exp, sig);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetDoubleValue(expr);
+
+        Assert.That(result, Is.EqualTo(value));
+    }
+
+    [Test]
+    public void FpFromComponents_Float16_PositiveValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for (Half)2.5
+        var value = (Half)2.5;
+        var bits = BitConverter.HalfToUInt16Bits(value);
+        var sign = (bits & 0x8000) != 0;
+        var exp = (ulong)((bits >> 10) & 0x1F);
+        var sig = (ulong)(bits & 0x3FF);
+
+        var expr = context.FpFromComponents<Float16>(sign, exp, sig);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetHalfValue(expr);
+
+        Assert.That(result, Is.EqualTo(value));
+    }
+
+    [Test]
+    public void FpFromComponents_RoundTrip_Float32()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var original = context.Fp(6.28f);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var (sign, exp, sig) = model.GetFpComponents(original);
+
+        // Reconstruct from components
+        var reconstructed = context.FpFromComponents<Float32>(sign, exp, sig);
+
+        // Create new solver for reconstructed value
+        using var solver2 = context.CreateSolver();
+        Assert.That(solver2.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model2 = solver2.GetModel();
+        var originalValue = model.GetFloatValue(original);
+        var reconstructedValue = model2.GetFloatValue(reconstructed);
+
+        Assert.That(reconstructedValue, Is.EqualTo(originalValue));
+    }
+
+    [Test]
+    public void FpFromComponents_Zero_Positive()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for +0.0
+        var expr = context.FpFromComponents<Float32>(sign: false, exponent: 0, significand: 0);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.EqualTo(0.0f));
+            Assert.That(float.IsNegative(result), Is.False);
+        });
+    }
+
+    [Test]
+    public void FpFromComponents_Zero_Negative()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for -0.0
+        var expr = context.FpFromComponents<Float32>(sign: true, exponent: 0, significand: 0);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.EqualTo(0.0f));
+            Assert.That(float.IsNegative(result), Is.True);
+        });
+    }
+
+    [Test]
+    public void FpFromComponents_Infinity_Positive()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for +∞ (exponent = all 1s, significand = 0)
+        var expr = context.FpFromComponents<Float32>(sign: false, exponent: 0xFF, significand: 0);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.That(float.IsPositiveInfinity(result), Is.True);
+    }
+
+    [Test]
+    public void FpFromComponents_Infinity_Negative()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for -∞ (exponent = all 1s, significand = 0)
+        var expr = context.FpFromComponents<Float32>(sign: true, exponent: 0xFF, significand: 0);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.That(float.IsNegativeInfinity(result), Is.True);
+    }
+
+    [Test]
+    public void FpFromComponents_NaN()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Components for NaN (exponent = all 1s, significand ≠ 0)
+        var expr = context.FpFromComponents<Float32>(sign: false, exponent: 0xFF, significand: 1);
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var result = model.GetFloatValue(expr);
+
+        Assert.That(float.IsNaN(result), Is.True);
+    }
 }

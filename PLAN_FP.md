@@ -611,30 +611,49 @@ Z3Wrap.Tests/Expressions/FloatingPoint/
 
 ### Component-Based API
 
-**Implemented**: `GetFpComponents<TFormat>()` for extracting raw IEEE 754 components
+**✅ FULLY IMPLEMENTED** (November 26, 2025)
+
+#### `GetFpComponents<TFormat>()` - Extract IEEE 754 components
 
 ```csharp
 var model = solver.GetModel();
 var (sign, exponent, significand) = model.GetFpComponents(fpExpr);
 ```
 
-This allows users working with custom precision formats to extract the raw bit-level representation as:
+Returns raw bit-level representation:
 - `Sign`: bool (true = negative, false = positive)
 - `Exponent`: ulong (biased exponent value)
 - `Significand`: ulong (without implicit leading bit)
 
-**Not Implemented**: `FpFromComponents<TFormat>()` for creating FpExpr from raw components
+#### `FpFromComponents<TFormat>()` - Construct from IEEE 754 components
 
-Attempted to implement using `Z3_mk_fpa_fp` (constructs FP from bit-vector components), but encountered issues with Z3 API:
-- `MkNumeral` with BV sort produces AST that Z3_mk_fpa_fp doesn't recognize as bit-vector
-- Error: "sort mismatch, expected three bit-vectors, the first one of size 1"
-- Multiple approaches tried: MkBvNumeral, MkUnsignedInt64, string formats (#b, decimal)
-- All failed with same error despite following existing BV patterns in codebase
+```csharp
+var fpExpr = context.FpFromComponents<Float32>(sign, exponent, significand);
+```
 
-**Future Work**: Investigate proper Z3 API usage for bit-vector construction or consider alternative approaches:
-- Use Z3_mk_numeral with binary string for bit-vectors (may need different format)
-- Look at Z3 Python bindings implementation
-- Consider if this feature is actually needed (users can use standard constructors for common cases)
+**Implementation Details**:
+- Uses `Z3_mk_fpa_fp` API to construct FP from bit-vector components
+- Solved the Z3 API issue by introducing `LocalZ3Handle` utility class
+- `LocalZ3Handle` manages temporary Z3 AST handles with automatic IncRef/DecRef
+- Creates temporary bit-vectors using `MkUnsignedInt64`, passes them to `MkFpaFp`, then cleans up
+
+**LocalZ3Handle Utility** (`Z3Wrap/Core/LocalZ3Handle.cs`):
+- Public sealed class for managing temporary Z3 AST handles
+- Implements IDisposable for automatic cleanup
+- Uses Z3's reference counting (IncRef/DecRef) properly
+- Can be used by library users for low-level Z3 operations
+
+**Test Coverage**: 11 comprehensive tests covering:
+- Float16, Float32, Float64 formats
+- Positive and negative values
+- Special values (±0, ±∞, NaN)
+- Round-trip (extract → reconstruct → verify)
+
+**Use Cases**:
+- Hardware FPU verification (test specific bit patterns)
+- Custom precision formats
+- Edge case construction (denormals, specific NaN patterns)
+- Bit-level floating-point manipulation
 
 ## Future Enhancements
 
