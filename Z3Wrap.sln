@@ -6,6 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z3Wrap.Tests", "Z3Wrap.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{F82658D3-5722-43CA-BCBB-D1B9E28011A5}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		CLAUDE.md = CLAUDE.md
 		PLAN.md = PLAN.md
 		README.md = README.md
