@@ -28,7 +28,6 @@ NuGet.config
 *~
 
 # Generated files
-RELEASE_NOTES.md
-RELEASE_NOTES_ESCAPED.txt
+RELEASE_NOTES*.*
 artifacts/
 .cache/
