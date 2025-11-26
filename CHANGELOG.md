@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Pseudo-Boolean constraints (`AtMost`, `AtLeast`, `Exactly`, `PbLe`, `PbGe`, `PbEq`) for cardinality and weighted constraints
-- IEEE 754 floating-point arithmetic (`FpExpr<TFormat>`) with Half, Single, and Double precision formats, rounding modes, and special values
-- Floating-point component API (`FpFromComponents`, `GetFpComponents`) for constructing and deconstructing FP values from raw IEEE 754 bit components
+- IEEE 754 floating-point arithmetic (`FpExpr<TFormat>`) with Half, Single, and Double precision formats, rounding modes, special values, and component API (`FpFromComponents`, `GetFpComponents`) for constructing/deconstructing from raw bit components
 - `LocalZ3Handle` utility class for managing temporary Z3 AST handles with automatic reference counting
 
 ## [0.0.5] - 2025-11-23
