@@ -21,6 +21,20 @@ public sealed class FpExpr<TFormat> : Z3Expr, IExprType<FpExpr<TFormat>>
         context.Library.MkFpaSort(context.Handle, TFormat.ExponentBits, TFormat.SignificandBits);
 
     /// <summary>
+    /// Implicit conversion from Half to floating-point expression.
+    /// </summary>
+    /// <param name="value">The Half value.</param>
+    /// <returns>Floating-point expression representing the value.</returns>
+    public static implicit operator FpExpr<TFormat>(Half value) => Z3Context.Current.Fp<TFormat>((double)value);
+
+    /// <summary>
+    /// Implicit conversion from float to floating-point expression.
+    /// </summary>
+    /// <param name="value">The float value.</param>
+    /// <returns>Floating-point expression representing the value.</returns>
+    public static implicit operator FpExpr<TFormat>(float value) => Z3Context.Current.Fp<TFormat>(value);
+
+    /// <summary>
     /// Implicit conversion from double to floating-point expression.
     /// </summary>
     /// <param name="value">The double value.</param>

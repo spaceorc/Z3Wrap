@@ -814,4 +814,76 @@ public class FpExprCreationTests
         var model = solver.GetModel();
         Assert.That(model.GetDoubleValue(implicitExpr), Is.EqualTo(value));
     }
+
+    [Test]
+    public void ImplicitConversion_FromFloatToFloat32_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float32> implicitExpr = 3.14f;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetFloatValue(implicitExpr), Is.EqualTo(3.14f));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromFloatToFloat64_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float64> implicitExpr = 2.5f;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetDoubleValue(implicitExpr), Is.EqualTo(2.5));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromHalfToFloat16_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float16> implicitExpr = (Half)3.5f;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That((float)model.GetHalfValue(implicitExpr), Is.EqualTo(3.5f));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromHalfToFloat32_Works()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float32> implicitExpr = (Half)1.5f;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetFloatValue(implicitExpr), Is.EqualTo(1.5f));
+    }
+
+    [TestCase(1.5f)]
+    [TestCase(0.0f)]
+    [TestCase(-2.5f)]
+    public void ImplicitConversion_DifferentFloatValues_Works(float value)
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        FpExpr<Float32> implicitExpr = value;
+
+        Assert.That(solver.Check(), Is.EqualTo(Z3Status.Satisfiable));
+        var model = solver.GetModel();
+        Assert.That(model.GetFloatValue(implicitExpr), Is.EqualTo(value));
+    }
 }
