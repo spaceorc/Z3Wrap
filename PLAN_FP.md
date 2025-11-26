@@ -725,11 +725,7 @@ Future additions:
 
 ### 3. Additional Operations
 
-Could add:
-- Remainder (fmod)
-- Power functions
-- Trigonometric functions (if Z3 supports them)
-- Logarithmic functions
+Z3's floating-point theory provides only IEEE 754 operations. Transcendental functions (power, exp, log, sin, cos, tan) are NOT supported by Z3's FPA theory. The implemented operations are complete per the IEEE 754 standard and Z3's API.
 
 ## References
 
