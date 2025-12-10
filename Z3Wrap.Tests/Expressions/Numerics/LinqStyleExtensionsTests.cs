@@ -1,13 +1,13 @@
 using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Common;
-using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
+using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Numerics;
 
 /// <summary>
-/// Tests for LINQ-style extension methods (Sum, Product, All, Any).
+/// Tests for LINQ-style arithmetic aggregation methods (Sum, Product).
 /// </summary>
 [TestFixture]
 public class LinqStyleExtensionsTests
@@ -153,104 +153,5 @@ public class LinqStyleExtensionsTests
 
         var model = solver.GetModel();
         Assert.That(model.GetIntValue(result), Is.EqualTo(new BigInteger(42)));
-    }
-
-    [Test]
-    public void All_WithPredicate_AllTrue_ReturnsTrue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var values = new[] { 2, 4, 6, 8 };
-        var result = values.All(x => context.Int(x) > 0);
-
-        solver.Assert(result);
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        Assert.That(model.GetBoolValue(result), Is.True);
-    }
-
-    [Test]
-    public void All_WithPredicate_OneFalse_ReturnsFalse()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var values = new[] { 2, 4, -1, 8 };
-        var result = values.All(x => context.Int(x) > 0);
-
-        solver.Assert(result);
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
-    }
-
-    [Test]
-    public void All_EmptySequence_ReturnsTrue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var values = Array.Empty<int>();
-        var result = values.All(x => context.Int(x) > 0);
-
-        solver.Assert(result);
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        Assert.That(model.GetBoolValue(result), Is.True);
-    }
-
-    [Test]
-    public void Any_WithPredicate_OneTrue_ReturnsTrue()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var values = new[] { -2, -4, 1, -8 };
-        var result = values.Any(x => context.Int(x) > 0);
-
-        solver.Assert(result);
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
-
-        var model = solver.GetModel();
-        Assert.That(model.GetBoolValue(result), Is.True);
-    }
-
-    [Test]
-    public void Any_WithPredicate_AllFalse_ReturnsFalse()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var values = new[] { -2, -4, -1, -8 };
-        var result = values.Any(x => context.Int(x) > 0);
-
-        solver.Assert(result);
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
-    }
-
-    [Test]
-    public void Any_EmptySequence_ReturnsFalse()
-    {
-        using var context = new Z3Context();
-        using var scope = context.SetUp();
-        using var solver = context.CreateSolver();
-
-        var values = Array.Empty<int>();
-        var result = values.Any(x => context.Int(x) > 0);
-
-        solver.Assert(result);
-        var status = solver.Check();
-        Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
     }
 }
