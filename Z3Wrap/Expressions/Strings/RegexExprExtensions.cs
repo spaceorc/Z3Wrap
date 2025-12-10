@@ -39,7 +39,7 @@ public static class RegexExprExtensions
     /// <param name="left">The left regex pattern.</param>
     /// <param name="others">Additional regex patterns to unite.</param>
     /// <returns>Regular expression matching any of the patterns.</returns>
-    public static RegexExpr Union(this RegexExpr left, params ReadOnlySpan<RegexExpr> others) =>
+    public static RegexExpr Union(this RegexExpr left, params IEnumerable<RegexExpr> others) =>
         left.Context.RegexUnion([left, .. others]);
 
     /// <summary>
@@ -48,7 +48,7 @@ public static class RegexExprExtensions
     /// <param name="left">The left regex.</param>
     /// <param name="others">Additional regexes to concatenate.</param>
     /// <returns>Regular expression matching concatenated patterns.</returns>
-    public static RegexExpr Concat(this RegexExpr left, params ReadOnlySpan<RegexExpr> others) =>
+    public static RegexExpr Concat(this RegexExpr left, params IEnumerable<RegexExpr> others) =>
         left.Context.RegexConcat([left, .. others]);
 
     /// <summary>
@@ -57,7 +57,7 @@ public static class RegexExprExtensions
     /// <param name="left">The left regex.</param>
     /// <param name="others">Additional regexes to intersect.</param>
     /// <returns>Regular expression matching all patterns.</returns>
-    public static RegexExpr Intersect(this RegexExpr left, params ReadOnlySpan<RegexExpr> others) =>
+    public static RegexExpr Intersect(this RegexExpr left, params IEnumerable<RegexExpr> others) =>
         left.Context.RegexIntersect([left, .. others]);
 
     /// <summary>

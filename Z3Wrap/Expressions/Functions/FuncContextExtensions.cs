@@ -144,21 +144,18 @@ public static class FuncContextExtensions
     public static TResult Apply<TResult>(
         this Z3Context context,
         Z3FuncDecl<TResult> funcDecl,
-        params ReadOnlySpan<Z3Expr> args
+        params IEnumerable<Z3Expr> args
     )
         where TResult : Z3Expr, IExprType<TResult>
     {
-        if (args.Length != funcDecl.Arity)
+        var argHandles = args.Select(a => a.Handle).ToArray();
+        if (argHandles.Length != funcDecl.Arity)
             throw new ArgumentException(
-                $"Function has arity {funcDecl.Arity}, but {args.Length} arguments provided",
+                $"Function has arity {funcDecl.Arity}, but {argHandles.Length} arguments provided",
                 nameof(args)
             );
 
-        var argHandles = new IntPtr[args.Length];
-        for (int i = 0; i < args.Length; i++)
-            argHandles[i] = args[i].Handle;
-
-        var appHandle = context.Library.MkApp(context.Handle, funcDecl.Handle, (uint)args.Length, argHandles);
+        var appHandle = context.Library.MkApp(context.Handle, funcDecl.Handle, (uint)argHandles.Length, argHandles);
 
         return Z3Expr.Create<TResult>(context, appHandle);
     }

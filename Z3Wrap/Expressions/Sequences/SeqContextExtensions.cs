@@ -60,15 +60,12 @@ public static class SeqContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="elements">The elements to create sequence from.</param>
     /// <returns>Sequence expression containing the elements.</returns>
-    public static SeqExpr<T> Seq<T>(this Z3Context context, params ReadOnlySpan<T> elements)
+    public static SeqExpr<T> Seq<T>(this Z3Context context, params IEnumerable<T> elements)
         where T : Z3Expr, IExprType<T>
     {
-        if (elements.Length == 0)
+        var units = elements.Select(context.SeqUnit).ToArray();
+        if (units.Length == 0)
             return context.SeqEmpty<T>();
-
-        var units = new SeqExpr<T>[elements.Length];
-        for (var i = 0; i < elements.Length; i++)
-            units[i] = context.SeqUnit(elements[i]);
 
         return context.SeqConcat<T>(units);
     }
@@ -80,15 +77,12 @@ public static class SeqContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="sequences">The sequences to concatenate.</param>
     /// <returns>Concatenated sequence expression.</returns>
-    public static SeqExpr<T> SeqConcat<T>(this Z3Context context, params ReadOnlySpan<SeqExpr<T>> sequences)
+    public static SeqExpr<T> SeqConcat<T>(this Z3Context context, params IEnumerable<SeqExpr<T>> sequences)
         where T : Z3Expr, IExprType<T>
     {
-        if (sequences.Length == 0)
+        var args = sequences.Select(s => s.Handle).ToArray();
+        if (args.Length == 0)
             throw new ArgumentException("SeqConcat requires at least one operand.", nameof(sequences));
-
-        var args = new IntPtr[sequences.Length];
-        for (var i = 0; i < sequences.Length; i++)
-            args[i] = sequences[i].Handle;
 
         var handle = context.Library.MkSeqConcat(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<SeqExpr<T>>(context, handle);

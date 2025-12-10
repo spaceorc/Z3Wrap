@@ -14,7 +14,7 @@ public static class BoolExprExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="others">Additional operands to combine with AND.</param>
     /// <returns>Boolean expression representing the logical AND.</returns>
-    public static BoolExpr And(this BoolExpr left, params ReadOnlySpan<BoolExpr> others) =>
+    public static BoolExpr And(this BoolExpr left, params IEnumerable<BoolExpr> others) =>
         left.Context.And([left, .. others]);
 
     /// <summary>
@@ -23,7 +23,7 @@ public static class BoolExprExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="others">Additional operands to combine with OR.</param>
     /// <returns>Boolean expression representing the logical OR.</returns>
-    public static BoolExpr Or(this BoolExpr left, params ReadOnlySpan<BoolExpr> others) =>
+    public static BoolExpr Or(this BoolExpr left, params IEnumerable<BoolExpr> others) =>
         left.Context.Or([left, .. others]);
 
     /// <summary>

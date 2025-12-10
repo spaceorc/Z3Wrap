@@ -120,14 +120,11 @@ public static class RegexContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="regexes">The regex patterns to unite.</param>
     /// <returns>Regular expression matching any of the patterns.</returns>
-    public static RegexExpr RegexUnion(this Z3Context context, params ReadOnlySpan<RegexExpr> regexes)
+    public static RegexExpr RegexUnion(this Z3Context context, params IEnumerable<RegexExpr> regexes)
     {
-        if (regexes.Length == 0)
+        var args = regexes.Select(r => r.Handle).ToArray();
+        if (args.Length == 0)
             throw new ArgumentException("RegexUnion requires at least one operand.", nameof(regexes));
-
-        var args = new IntPtr[regexes.Length];
-        for (var i = 0; i < regexes.Length; i++)
-            args[i] = regexes[i].Handle;
 
         var handle = context.Library.MkReUnion(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<RegexExpr>(context, handle);
@@ -139,14 +136,11 @@ public static class RegexContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="regexes">The regex patterns to concatenate.</param>
     /// <returns>Regular expression matching concatenated patterns.</returns>
-    public static RegexExpr RegexConcat(this Z3Context context, params ReadOnlySpan<RegexExpr> regexes)
+    public static RegexExpr RegexConcat(this Z3Context context, params IEnumerable<RegexExpr> regexes)
     {
-        if (regexes.Length == 0)
+        var args = regexes.Select(r => r.Handle).ToArray();
+        if (args.Length == 0)
             throw new ArgumentException("RegexConcat requires at least one operand.", nameof(regexes));
-
-        var args = new IntPtr[regexes.Length];
-        for (var i = 0; i < regexes.Length; i++)
-            args[i] = regexes[i].Handle;
 
         var handle = context.Library.MkReConcat(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<RegexExpr>(context, handle);
@@ -158,14 +152,11 @@ public static class RegexContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="regexes">The regex patterns to intersect.</param>
     /// <returns>Regular expression matching all patterns.</returns>
-    public static RegexExpr RegexIntersect(this Z3Context context, params ReadOnlySpan<RegexExpr> regexes)
+    public static RegexExpr RegexIntersect(this Z3Context context, params IEnumerable<RegexExpr> regexes)
     {
-        if (regexes.Length == 0)
+        var args = regexes.Select(r => r.Handle).ToArray();
+        if (args.Length == 0)
             throw new ArgumentException("RegexIntersect requires at least one operand.", nameof(regexes));
-
-        var args = new IntPtr[regexes.Length];
-        for (var i = 0; i < regexes.Length; i++)
-            args[i] = regexes[i].Handle;
 
         var handle = context.Library.MkReIntersect(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<RegexExpr>(context, handle);

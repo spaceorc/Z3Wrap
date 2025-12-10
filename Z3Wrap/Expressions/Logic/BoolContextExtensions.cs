@@ -61,12 +61,9 @@ public static class BoolContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to combine with AND.</param>
     /// <returns>Boolean expression representing conjunction of operands.</returns>
-    public static BoolExpr And(this Z3Context context, params ReadOnlySpan<BoolExpr> operands)
+    public static BoolExpr And(this Z3Context context, params IEnumerable<BoolExpr> operands)
     {
-        var args = new IntPtr[operands.Length];
-        for (int i = 0; i < operands.Length; i++)
-            args[i] = operands[i].Handle;
-
+        var args = operands.Select(o => o.Handle).ToArray();
         var resultHandle = context.Library.MkAnd(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
@@ -77,12 +74,9 @@ public static class BoolContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to combine with OR.</param>
     /// <returns>Boolean expression representing disjunction of operands.</returns>
-    public static BoolExpr Or(this Z3Context context, params ReadOnlySpan<BoolExpr> operands)
+    public static BoolExpr Or(this Z3Context context, params IEnumerable<BoolExpr> operands)
     {
-        var args = new IntPtr[operands.Length];
-        for (int i = 0; i < operands.Length; i++)
-            args[i] = operands[i].Handle;
-
+        var args = operands.Select(o => o.Handle).ToArray();
         var resultHandle = context.Library.MkOr(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }

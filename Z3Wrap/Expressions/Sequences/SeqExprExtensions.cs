@@ -17,7 +17,7 @@ public static class SeqExprExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="others">Additional sequences to concatenate.</param>
     /// <returns>Concatenated sequence expression.</returns>
-    public static SeqExpr<T> Concat<T>(this SeqExpr<T> left, params ReadOnlySpan<SeqExpr<T>> others)
+    public static SeqExpr<T> Concat<T>(this SeqExpr<T> left, params IEnumerable<SeqExpr<T>> others)
         where T : Z3Expr, IExprType<T>
     {
         return left.Context.SeqConcat([left, .. others]);

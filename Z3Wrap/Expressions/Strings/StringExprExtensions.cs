@@ -45,7 +45,7 @@ public static class StringExprExtensions
     /// <param name="left">The left operand.</param>
     /// <param name="others">Additional operands to concatenate.</param>
     /// <returns>Expression representing the concatenation.</returns>
-    public static StringExpr Concat(this StringExpr left, params ReadOnlySpan<StringExpr> others) =>
+    public static StringExpr Concat(this StringExpr left, params IEnumerable<StringExpr> others) =>
         left.Context.Concat([left, .. others]);
 
     /// <summary>

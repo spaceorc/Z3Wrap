@@ -14,17 +14,14 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to add.</param>
     /// <returns>Expression representing sum of operands.</returns>
-    public static T Add<T>(this Z3Context context, params ReadOnlySpan<T> operands)
+    public static T Add<T>(this Z3Context context, params IEnumerable<T> operands)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        if (operands.Length == 0)
+        var args = operands.Select(o => o.Handle).ToArray();
+        if (args.Length == 0)
             throw new InvalidOperationException(
                 "Add requires at least one operand. Z3 does not support empty addition."
             );
-
-        var args = new IntPtr[operands.Length];
-        for (int i = 0; i < operands.Length; i++)
-            args[i] = operands[i].Handle;
 
         var resultHandle = context.Library.MkAdd(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);
@@ -37,17 +34,14 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to subtract.</param>
     /// <returns>Expression representing sequential subtraction of operands.</returns>
-    public static T Sub<T>(this Z3Context context, params ReadOnlySpan<T> operands)
+    public static T Sub<T>(this Z3Context context, params IEnumerable<T> operands)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        if (operands.Length == 0)
+        var args = operands.Select(o => o.Handle).ToArray();
+        if (args.Length == 0)
             throw new InvalidOperationException(
                 "Sub requires at least one operand. Z3 does not support empty subtraction."
             );
-
-        var args = new IntPtr[operands.Length];
-        for (int i = 0; i < operands.Length; i++)
-            args[i] = operands[i].Handle;
 
         var resultHandle = context.Library.MkSub(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);
@@ -60,17 +54,14 @@ public static class ArithmeticOperationsContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="operands">The operands to multiply.</param>
     /// <returns>Expression representing product of operands.</returns>
-    public static T Mul<T>(this Z3Context context, params ReadOnlySpan<T> operands)
+    public static T Mul<T>(this Z3Context context, params IEnumerable<T> operands)
         where T : Z3Expr, IArithmeticExpr<T>, IExprType<T>
     {
-        if (operands.Length == 0)
+        var args = operands.Select(o => o.Handle).ToArray();
+        if (args.Length == 0)
             throw new InvalidOperationException(
                 "Mul requires at least one operand. Z3 does not support empty multiplication."
             );
-
-        var args = new IntPtr[operands.Length];
-        for (int i = 0; i < operands.Length; i++)
-            args[i] = operands[i].Handle;
 
         var resultHandle = context.Library.MkMul(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);

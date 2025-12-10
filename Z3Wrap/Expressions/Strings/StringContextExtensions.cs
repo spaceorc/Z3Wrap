@@ -40,14 +40,11 @@ public static class StringContextExtensions
     /// <param name="context">The Z3 context.</param>
     /// <param name="strings">The strings to concatenate.</param>
     /// <returns>Concatenated string expression.</returns>
-    public static StringExpr Concat(this Z3Context context, params ReadOnlySpan<StringExpr> strings)
+    public static StringExpr Concat(this Z3Context context, params IEnumerable<StringExpr> strings)
     {
-        if (strings.Length == 0)
+        var args = strings.Select(s => s.Handle).ToArray();
+        if (args.Length == 0)
             throw new ArgumentException("Concat requires at least one operand.", nameof(strings));
-
-        var args = new IntPtr[strings.Length];
-        for (var i = 0; i < strings.Length; i++)
-            args[i] = strings[i].Handle;
 
         var resultHandle = context.Library.MkSeqConcat(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<StringExpr>(context, resultHandle);

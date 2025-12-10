@@ -19,11 +19,8 @@ public sealed class FuncDeclDynamic<TResult> : Z3FuncDecl<TResult>
     /// <param name="args">Arguments to apply to the function.</param>
     /// <returns>Function application expression.</returns>
     /// <exception cref="ArgumentException">Thrown when argument count doesn't match function arity.</exception>
-    public TResult Apply(params ReadOnlySpan<Z3Expr> args)
+    public TResult Apply(params IEnumerable<Z3Expr> args)
     {
-        if (args.Length != Arity)
-            throw new ArgumentException($"Expected {Arity} arguments, but got {args.Length}.");
-
         return Context.Apply(this, args);
     }
 }
