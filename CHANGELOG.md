@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.6] - 2025-12-10
+
 ### Changed
 - Multi-operand methods (`Add`, `Sub`, `Mul`, `And`, `Or`, `Concat`, etc.) now accept `IEnumerable<T>` via C# 13 params collections
 
