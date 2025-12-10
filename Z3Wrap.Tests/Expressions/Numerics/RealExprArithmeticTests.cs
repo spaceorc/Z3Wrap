@@ -315,12 +315,19 @@ public class RealExprArithmeticTests
     }
 
     [Test]
-    public void Add_ZeroArguments_ThrowsException()
+    public void Add_ZeroArguments_ReturnsZero()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
 
-        Assert.Throws<InvalidOperationException>(() => context.Add<RealExpr>());
+        var result = context.Add<RealExpr>();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(Real.Zero));
     }
 
     [Test]
@@ -333,12 +340,19 @@ public class RealExprArithmeticTests
     }
 
     [Test]
-    public void Multiply_ZeroArguments_ThrowsException()
+    public void Multiply_ZeroArguments_ReturnsOne()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
 
-        Assert.Throws<InvalidOperationException>(() => context.Mul<RealExpr>());
+        var result = context.Mul<RealExpr>();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetRealValue(result), Is.EqualTo(Real.One));
     }
 
     [Test]

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- LINQ-style aggregation methods: `Sum()`, `Product()` for arithmetic expressions with selector overloads
+- LINQ-style boolean methods: `All(predicate)`, `Any(predicate)` for Z3 constraint generation
+
+### Changed
+- Empty sequence handling: `Add()`/`Mul()` return identity elements (zero/one) instead of throwing, `And()`/`Or()` return true/false
+
 ## [0.0.6] - 2025-12-10
 
 ### Changed

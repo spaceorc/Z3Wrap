@@ -23,6 +23,8 @@ public sealed class IntExpr : ArithmeticExpr, IArithmeticExpr<IntExpr>, IExprTyp
 
     static IntExpr IArithmeticExpr<IntExpr>.Zero(Z3Context context) => context.Int(0);
 
+    static IntExpr IArithmeticExpr<IntExpr>.One(Z3Context context) => context.Int(1);
+
     /// <summary>
     /// Implicit conversion from 32-bit integer to integer expression.
     /// </summary>

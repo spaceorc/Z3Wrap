@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Common;
 
@@ -67,4 +68,28 @@ public static class BoolExprExtensions
     /// <returns>Expression representing the conditional selection.</returns>
     public static T Ite<T>(this BoolExpr condition, T thenExpr, T elseExpr)
         where T : Z3Expr, IExprType<T> => condition.Context.Ite(condition, thenExpr, elseExpr);
+
+    /// <summary>
+    /// Determines whether all elements satisfy a condition, like LINQ's All(predicate).
+    /// </summary>
+    /// <typeparam name="TSource">The source element type.</typeparam>
+    /// <param name="source">The source sequence.</param>
+    /// <param name="predicate">A function to test each element for a condition.</param>
+    /// <returns>Boolean expression representing the conjunction of predicates.</returns>
+    public static BoolExpr All<TSource>(this IEnumerable<TSource> source, Func<TSource, BoolExpr> predicate)
+    {
+        return Z3Context.Current.And(source.Select(predicate));
+    }
+
+    /// <summary>
+    /// Determines whether any element satisfies a condition, like LINQ's Any(predicate).
+    /// </summary>
+    /// <typeparam name="TSource">The source element type.</typeparam>
+    /// <param name="source">The source sequence.</param>
+    /// <param name="predicate">A function to test each element for a condition.</param>
+    /// <returns>Boolean expression representing the disjunction of predicates.</returns>
+    public static BoolExpr Any<TSource>(this IEnumerable<TSource> source, Func<TSource, BoolExpr> predicate)
+    {
+        return Z3Context.Current.Or(source.Select(predicate));
+    }
 }

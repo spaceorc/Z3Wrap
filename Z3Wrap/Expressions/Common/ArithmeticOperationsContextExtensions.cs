@@ -19,9 +19,7 @@ public static class ArithmeticOperationsContextExtensions
     {
         var args = operands.Select(o => o.Handle).ToArray();
         if (args.Length == 0)
-            throw new InvalidOperationException(
-                "Add requires at least one operand. Z3 does not support empty addition."
-            );
+            return T.Zero(context);
 
         var resultHandle = context.Library.MkAdd(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);
@@ -59,9 +57,7 @@ public static class ArithmeticOperationsContextExtensions
     {
         var args = operands.Select(o => o.Handle).ToArray();
         if (args.Length == 0)
-            throw new InvalidOperationException(
-                "Mul requires at least one operand. Z3 does not support empty multiplication."
-            );
+            return T.One(context);
 
         var resultHandle = context.Library.MkMul(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<T>(context, resultHandle);

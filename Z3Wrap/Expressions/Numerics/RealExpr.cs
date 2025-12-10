@@ -21,6 +21,8 @@ public sealed class RealExpr : ArithmeticExpr, IArithmeticExpr<RealExpr>, IExprT
 
     static RealExpr IArithmeticExpr<RealExpr>.Zero(Z3Context context) => context.Real(0);
 
+    static RealExpr IArithmeticExpr<RealExpr>.One(Z3Context context) => context.Real(1);
+
     /// <summary>
     /// Implicit conversion from 32-bit integer to real expression.
     /// </summary>

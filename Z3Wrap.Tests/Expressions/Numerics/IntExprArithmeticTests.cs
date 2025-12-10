@@ -315,12 +315,19 @@ public class IntExprArithmeticTests
     }
 
     [Test]
-    public void Add_ZeroArguments_ThrowsException()
+    public void Add_ZeroArguments_ReturnsZero()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
 
-        Assert.Throws<InvalidOperationException>(() => context.Add<IntExpr>());
+        var result = context.Add<IntExpr>();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(result), Is.EqualTo(BigInteger.Zero));
     }
 
     [Test]
@@ -333,12 +340,19 @@ public class IntExprArithmeticTests
     }
 
     [Test]
-    public void Multiply_ZeroArguments_ThrowsException()
+    public void Multiply_ZeroArguments_ReturnsOne()
     {
         using var context = new Z3Context();
         using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
 
-        Assert.Throws<InvalidOperationException>(() => context.Mul<IntExpr>());
+        var result = context.Mul<IntExpr>();
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetIntValue(result), Is.EqualTo(BigInteger.One));
     }
 
     [Test]

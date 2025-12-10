@@ -64,6 +64,8 @@ public static class BoolContextExtensions
     public static BoolExpr And(this Z3Context context, params IEnumerable<BoolExpr> operands)
     {
         var args = operands.Select(o => o.Handle).ToArray();
+        if (args.Length == 0)
+            return context.True();
         var resultHandle = context.Library.MkAnd(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }
@@ -77,6 +79,8 @@ public static class BoolContextExtensions
     public static BoolExpr Or(this Z3Context context, params IEnumerable<BoolExpr> operands)
     {
         var args = operands.Select(o => o.Handle).ToArray();
+        if (args.Length == 0)
+            return context.False();
         var resultHandle = context.Library.MkOr(context.Handle, (uint)args.Length, args);
         return Z3Expr.Create<BoolExpr>(context, resultHandle);
     }

@@ -15,4 +15,11 @@ public interface IArithmeticExpr<out T> : INumericExpr
     /// <param name="context">The Z3 context.</param>
     /// <returns>A zero constant expression.</returns>
     internal static abstract T Zero(Z3Context context);
+
+    /// <summary>
+    /// Creates a one constant of this arithmetic type.
+    /// </summary>
+    /// <param name="context">The Z3 context.</param>
+    /// <returns>A one constant expression.</returns>
+    internal static abstract T One(Z3Context context);
 }
