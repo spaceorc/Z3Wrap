@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.7] - 2025-12-10
+
 ### Added
 - LINQ-style aggregation methods: `Sum()`, `Product()` for arithmetic expressions with selector overloads
 - LINQ-style boolean methods: `All(predicate)`, `Any(predicate)` for Z3 constraint generation
