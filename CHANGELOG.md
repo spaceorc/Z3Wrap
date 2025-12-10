@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Multi-operand methods (`Add`, `Sub`, `Mul`, `And`, `Or`, `Concat`, etc.) now accept `IEnumerable<T>` via C# 13 params collections
+
 ### Added
 - Pseudo-Boolean constraints (`AtMost`, `AtLeast`, `Exactly`, `PbLe`, `PbGe`, `PbEq`) for cardinality and weighted constraints
 - IEEE 754 floating-point arithmetic (`FpExpr<TFormat>`) with Half, Single, and Double precision formats, rounding modes, special values, and component API (`FpFromComponents`, `GetFpComponents`) for constructing/deconstructing from raw bit components
