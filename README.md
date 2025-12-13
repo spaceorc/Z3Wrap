@@ -1,6 +1,6 @@
 # Z3Wrap
 
-Write `x + y == 10` instead of verbose Z3 API calls. Natural C# syntax for Microsoft's Z3 theorem prover with unlimited precision arithmetic.
+Write `x + y == 10` instead of verbose Z3 API calls. Natural C# syntax for Microsoft's [Z3 theorem prover](https://github.com/Z3Prover/z3) with unlimited precision arithmetic.
 
 [![NuGet](https://img.shields.io/nuget/v/Spaceorc.Z3Wrap.svg)](https://www.nuget.org/packages/Spaceorc.Z3Wrap/)
 [![Tests](https://img.shields.io/endpoint?url=https://spaceorc.github.io/Z3Wrap/badges/tests.json)](https://github.com/spaceorc/Z3Wrap/actions)
