@@ -219,16 +219,17 @@ Z3Wrap implements the most commonly used Z3 capabilities (~80% coverage):
 - Boolean logic, integers, reals, bit-vectors
 - Arrays (1D, 2D, 3D)
 - Strings, regular expressions, sequences
+- Floating-point arithmetic (IEEE 754: Half, Single, Double)
 - Quantifiers, uninterpreted functions, lambdas
 - Standard solver, optimization solver
 - Unsatisfiable cores, incremental solving
+- Proof generation
+- Pseudo-Boolean constraints
 
 **Not Yet Implemented**:
 - Algebraic Data Types
-- Floating-point arithmetic
 - Set theory
 - Tactics and custom strategies
-- Proof generation
 - Interpolation
 
 **Design Focus**: Type-safe API, natural C# syntax, comprehensive test coverage (>90%)
