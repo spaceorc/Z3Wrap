@@ -151,4 +151,21 @@ public static class BoolContextExtensions
         var resultHandle = context.Library.MkIte(context.Handle, condition.Handle, thenExpr.Handle, elseExpr.Handle);
         return Z3Expr.Create<T>(context, resultHandle);
     }
+
+    /// <summary>
+    /// Creates constraint that all expressions are pairwise distinct.
+    /// </summary>
+    /// <typeparam name="T">Expression type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="exprs">Expressions that must all be distinct.</param>
+    /// <returns>Boolean expression representing distinctness constraint.</returns>
+    public static BoolExpr Distinct<T>(this Z3Context context, params IEnumerable<T> exprs)
+        where T : Z3Expr
+    {
+        var args = exprs.Select(e => e.Handle).ToArray();
+        if (args.Length < 2)
+            throw new ArgumentException("Distinct requires at least 2 arguments", nameof(exprs));
+        var resultHandle = context.Library.MkDistinct(context.Handle, (uint)args.Length, args);
+        return Z3Expr.Create<BoolExpr>(context, resultHandle);
+    }
 }

@@ -2,6 +2,7 @@ using System.Numerics;
 using Spaceorc.Z3Wrap.Core;
 using Spaceorc.Z3Wrap.Expressions.Logic;
 using Spaceorc.Z3Wrap.Expressions.Numerics;
+using Spaceorc.Z3Wrap.Values.Numerics;
 
 namespace Z3Wrap.Tests.Expressions.Logic;
 
@@ -378,5 +379,209 @@ public class BoolExprLogicTests
             Assert.That(model.GetIntValue(resultViaContext), Is.EqualTo(new BigInteger(expected)));
             Assert.That(model.GetIntValue(resultViaFunc), Is.EqualTo(new BigInteger(expected)));
         });
+    }
+
+    [Test]
+    public void Distinct_TwoDistinctValues_Satisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(1);
+        var b = context.Int(2);
+
+        var result = context.Distinct(a, b);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Distinct_TwoSameValues_Unsatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(42);
+        var b = context.Int(42);
+
+        var result = context.Distinct(a, b);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Distinct_ThreeDistinctValues_Satisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(1);
+        var b = context.Int(2);
+        var c = context.Int(3);
+
+        var result = context.Distinct(a, b, c);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Distinct_ThreeValuesWithDuplicate_Unsatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Int(1);
+        var b = context.Int(2);
+        var c = context.Int(1);
+
+        var result = context.Distinct(a, b, c);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
+    }
+
+    [Test]
+    public void Distinct_WithVariables_FindsDistinctValues()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.IntConst("a");
+        var b = context.IntConst("b");
+        var c = context.IntConst("c");
+
+        solver.Assert(context.Distinct(a, b, c));
+        solver.Assert(a >= 1 & a <= 3);
+        solver.Assert(b >= 1 & b <= 3);
+        solver.Assert(c >= 1 & c <= 3);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        var aVal = model.GetIntValue(a);
+        var bVal = model.GetIntValue(b);
+        var cVal = model.GetIntValue(c);
+
+        Assert.That(aVal, Is.Not.EqualTo(bVal));
+        Assert.That(bVal, Is.Not.EqualTo(cVal));
+        Assert.That(aVal, Is.Not.EqualTo(cVal));
+    }
+
+    [Test]
+    public void Distinct_WithArray_WorksCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var values = new[] { context.Int(1), context.Int(2), context.Int(3), context.Int(4) };
+
+        var result = context.Distinct(values);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Distinct_WithList_WorksCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var values = new List<IntExpr> { context.Int(1), context.Int(2), context.Int(3) };
+
+        var result = context.Distinct(values);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Distinct_LessThanTwoArgs_ThrowsArgumentException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        var a = context.Int(1);
+
+        Assert.Throws<ArgumentException>(() => context.Distinct(a));
+    }
+
+    [Test]
+    public void Distinct_EmptyCollection_ThrowsArgumentException()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+
+        Assert.Throws<ArgumentException>(() => context.Distinct(Array.Empty<IntExpr>()));
+    }
+
+    [Test]
+    public void Distinct_WithRealExpr_WorksCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Real(new Real(1, 2));
+        var b = context.Real(new Real(1, 3));
+        var c = context.Real(new Real(1, 4));
+
+        var result = context.Distinct(a, b, c);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Distinct_WithBoolExpr_WorksCorrectly()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bool(true);
+        var b = context.Bool(false);
+
+        var result = context.Distinct(a, b);
+
+        solver.Assert(result);
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+    }
+
+    [Test]
+    public void Distinct_ThreeBooleans_Unsatisfiable()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Only two possible boolean values, so 3 distinct is impossible
+        var a = context.BoolConst("a");
+        var b = context.BoolConst("b");
+        var c = context.BoolConst("c");
+
+        solver.Assert(context.Distinct(a, b, c));
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Unsatisfiable));
     }
 }
