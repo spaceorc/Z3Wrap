@@ -224,4 +224,34 @@ public static class BvOperationsContextExtensions
             : context.Library.MkBvlshr(context.Handle, left.Handle, right.Handle);
         return Z3Expr.Create<BvExpr<TSize>>(context, handle);
     }
+
+    /// <summary>
+    /// Creates bit-vector rotate left expression.
+    /// </summary>
+    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The value to rotate.</param>
+    /// <param name="right">The rotation amount.</param>
+    /// <returns>Bit-vector expression representing left rotation.</returns>
+    public static BvExpr<TSize> RotateLeft<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
+        where TSize : ISize
+    {
+        var handle = context.Library.MkExtRotateLeft(context.Handle, left.Handle, right.Handle);
+        return Z3Expr.Create<BvExpr<TSize>>(context, handle);
+    }
+
+    /// <summary>
+    /// Creates bit-vector rotate right expression.
+    /// </summary>
+    /// <typeparam name="TSize">Bit-vector size type.</typeparam>
+    /// <param name="context">The Z3 context.</param>
+    /// <param name="left">The value to rotate.</param>
+    /// <param name="right">The rotation amount.</param>
+    /// <returns>Bit-vector expression representing right rotation.</returns>
+    public static BvExpr<TSize> RotateRight<TSize>(this Z3Context context, BvExpr<TSize> left, BvExpr<TSize> right)
+        where TSize : ISize
+    {
+        var handle = context.Library.MkExtRotateRight(context.Handle, left.Handle, right.Handle);
+        return Z3Expr.Create<BvExpr<TSize>>(context, handle);
+    }
 }

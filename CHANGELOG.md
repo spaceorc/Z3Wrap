@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - `Distinct<T>()` constraint for asserting pairwise distinctness of expressions
+- `RotateLeft()` and `RotateRight()` operations for bit-vectors
 
 ## [0.0.7] - 2025-12-10
 

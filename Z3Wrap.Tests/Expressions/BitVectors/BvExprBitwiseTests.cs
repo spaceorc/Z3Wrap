@@ -250,4 +250,147 @@ public class BvExprBitwiseTests
             Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
         });
     }
+
+    [Test]
+    public void RotateLeft_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bv<Size8>(0b00001010u); // 10
+        var b = context.Bv<Size8>(2u);
+
+        // 5 variants (no operator for rotate)
+        var resultViaContext = context.RotateLeft(a, b);
+        var resultViaContextUintLeft = context.RotateLeft(0b00001010u, b);
+        var resultViaContextUintRight = context.RotateLeft(a, 2u);
+        var resultViaFunc = a.RotateLeft(b);
+        var resultViaFuncUintRight = a.RotateLeft(2u);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        // 0b00001010 rotated left by 2 = 0b00101000 = 40
+        var expected = new BigInteger(0b00101000);
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+        });
+    }
+
+    [Test]
+    public void RotateRight_TwoValues_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bv<Size8>(0b00101000u); // 40
+        var b = context.Bv<Size8>(2u);
+
+        // 5 variants (no operator for rotate)
+        var resultViaContext = context.RotateRight(a, b);
+        var resultViaContextUintLeft = context.RotateRight(0b00101000u, b);
+        var resultViaContextUintRight = context.RotateRight(a, 2u);
+        var resultViaFunc = a.RotateRight(b);
+        var resultViaFuncUintRight = a.RotateRight(2u);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        // 0b00101000 rotated right by 2 = 0b00001010 = 10
+        var expected = new BigInteger(0b00001010);
+        Assert.Multiple(() =>
+        {
+            Assert.That(model.GetBv(resultViaContext).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintLeft).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaContextUintRight).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFunc).Value, Is.EqualTo(expected));
+            Assert.That(model.GetBv(resultViaFuncUintRight).Value, Is.EqualTo(expected));
+        });
+    }
+
+    [Test]
+    public void RotateLeft_ByZero_ReturnsOriginalValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bv<Size8>(0b10101010u);
+
+        var result = a.RotateLeft(0u);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBv(result).Value, Is.EqualTo(new BigInteger(0b10101010)));
+    }
+
+    [Test]
+    public void RotateLeft_ByFullWidth_ReturnsOriginalValue()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        var a = context.Bv<Size8>(0b10101010u);
+
+        // Rotation by 8 on Size8 should return original value
+        var result = a.RotateLeft(8u);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        Assert.That(model.GetBv(result).Value, Is.EqualTo(new BigInteger(0b10101010)));
+    }
+
+    [Test]
+    public void RotateLeft_WithWrapAround_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // High bits should wrap to low bits
+        var a = context.Bv<Size8>(0b10000001u);
+
+        var result = a.RotateLeft(1u);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        // 0b10000001 rotated left by 1 = 0b00000011
+        Assert.That(model.GetBv(result).Value, Is.EqualTo(new BigInteger(0b00000011)));
+    }
+
+    [Test]
+    public void RotateRight_WithWrapAround_ComputesCorrectResult()
+    {
+        using var context = new Z3Context();
+        using var scope = context.SetUp();
+        using var solver = context.CreateSolver();
+
+        // Low bits should wrap to high bits
+        var a = context.Bv<Size8>(0b00000011u);
+
+        var result = a.RotateRight(1u);
+
+        var status = solver.Check();
+        Assert.That(status, Is.EqualTo(Z3Status.Satisfiable));
+
+        var model = solver.GetModel();
+        // 0b00000011 rotated right by 1 = 0b10000001
+        Assert.That(model.GetBv(result).Value, Is.EqualTo(new BigInteger(0b10000001)));
+    }
 }

@@ -137,4 +137,24 @@ public static class BvOperationsExprExtensions
     /// <returns>Bit-vector expression representing the right shift.</returns>
     public static BvExpr<TSize> Shr<TSize>(this BvExpr<TSize> left, BvExpr<TSize> amount, bool signed = false)
         where TSize : ISize => left.Context.Shr(left, amount, signed);
+
+    /// <summary>
+    /// Creates rotate left operation for this bit-vector expression.
+    /// </summary>
+    /// <typeparam name="TSize">The bit-vector size.</typeparam>
+    /// <param name="left">The expression to rotate.</param>
+    /// <param name="amount">The rotation amount.</param>
+    /// <returns>Bit-vector expression representing the left rotation.</returns>
+    public static BvExpr<TSize> RotateLeft<TSize>(this BvExpr<TSize> left, BvExpr<TSize> amount)
+        where TSize : ISize => left.Context.RotateLeft(left, amount);
+
+    /// <summary>
+    /// Creates rotate right operation for this bit-vector expression.
+    /// </summary>
+    /// <typeparam name="TSize">The bit-vector size.</typeparam>
+    /// <param name="left">The expression to rotate.</param>
+    /// <param name="amount">The rotation amount.</param>
+    /// <returns>Bit-vector expression representing the right rotation.</returns>
+    public static BvExpr<TSize> RotateRight<TSize>(this BvExpr<TSize> left, BvExpr<TSize> amount)
+        where TSize : ISize => left.Context.RotateRight(left, amount);
 }
